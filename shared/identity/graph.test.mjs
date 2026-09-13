@@ -102,3 +102,25 @@ test('issue #10: a distinct second meeting on the same card is repeat_pairing_id
   const unclear = evaluateCandidate({ ...second, bout_external_id: null, bout_order: null }, cand({ display_name: 'Sofia Viretti', hometowns: ['Argentina'], bouts: [{ ...firstMeeting, source_bout_ids: [] }] }));
   assert.equal(unclear.continuity, 'same_fight_already_on_record');
 });
+
+test('threshold lock: Tier A/B conditions are unchanged by the repeat-pairing wording fix', async () => {
+  const { TIER_B_RULES } = await import('./graph.mjs');
+  assert.deepEqual({ ...TIER_B_RULES, weight_support_lb: undefined, weight_conflict_lb: undefined }, {
+    mandatory_families: ['hometown', 'weight'], one_of_families: ['jurisdiction', 'venue', 'opponent_graph'], min_families: 3,
+    weight_window_days: 400, simultaneous_days: 2, close_days: 13, weight_support_lb: undefined, weight_conflict_lb: undefined });
+  assert.deepEqual([140, 250].map(TIER_B_RULES.weight_support_lb), [8, 12.5]);
+  assert.deepEqual([140, 250].map(TIER_B_RULES.weight_conflict_lb), [20, 30]);
+  const card = { event_id: 'ev-tbl', date: '2026-05-01', commission: 'fl-athletic-commission', venue_id: 'venue-ftl' };
+  const first = { bout_id: 'b1', event_id: 'ev-tbl', date: '2026-05-01', status: 'complete', commission: 'fl-athletic-commission', venue_id: 'venue-ftl', opponent_id: 'opp', weight_lb: 146,
+    bout_order: 12, source_bout_ids: [{ namespace: 'fl-athletic-commission.bout', external_id: 'pair', repeat_index: 1 }] };
+  const second = (over = {}) => app({ display_name: 'Sofia Viretti', hometown: 'Argentina', weight_lb: 146, event: card, opponent: { display_name: 'Opp', fighter_id: 'opp' },
+    namespace: 'fl-athletic-commission.fighter', bout_external_id: 'pair|2', bout_order: 20, ...over });
+  const c = (over = {}) => cand({ display_name: 'Sofia Viretti', hometowns: ['Argentina'], bouts: [first], ...over });
+  // still requires: strong name, no soft contradiction, sole plausible candidate
+  assert.equal(resolveAppearance(second(), [c()]).tier, 'A');
+  assert.notEqual(resolveAppearance(second({ display_name: 'S. Viretti' }), [c()]).tier, 'A', 'a weak name never reaches Tier A through a repeat pairing');
+  assert.equal(resolveAppearance(second({ weight_lb: 200 }), [c({ bouts: [first, { ...first, bout_id: 'b0', event_id: 'ev-old', date: '2026-03-01', weight_lb: 146, source_bout_ids: [], opponent_id: 'x' }] })]).decision, 'review',
+    'a soft contradiction still blocks Tier A');
+  assert.equal(resolveAppearance(second(), [c(), c({ id: 'f-2' })]).decision, 'review', 'two plausible candidates still go to review');
+  assert.equal(resolveAppearance(second({ opponent: { display_name: 'Opp', fighter_id: null } }), [c()]).tier, 'C', 'without a resolved opponent there is no continuity evidence');
+});

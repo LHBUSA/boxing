@@ -264,6 +264,9 @@ export function pgStore(client) {
     async fighterNameIndex() {
       return (await one(client, 'select public.boxing_fighter_name_index() as r')).r;
     },
+    async possibleDuplicateBouts(limit = 100) {
+      return (await one(client, 'select public.boxing_possible_duplicate_bouts($1) as r', [limit])).r;
+    },
     async identityTierSummary() {
       return (await one(client, 'select public.boxing_identity_tier_summary() as r')).r;
     },

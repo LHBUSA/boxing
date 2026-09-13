@@ -11,7 +11,7 @@ import { COMMISSION_NAMESPACES } from '../commissions/apply.mjs';
 import { loadGraphCandidates } from './appearance.mjs';
 import { resolveAppearance } from './graph.mjs';
 import { normalizedAlias } from './normalize.mjs';
-import { classifyCandidateBouts } from './bout-history.mjs';
+import { classifyCandidateBouts, historyLine } from './bout-history.mjs';
 
 async function storedBoutIndex(store, sourceKey) {
   const index = new Map();
@@ -98,7 +98,8 @@ export function reportMarkdown(report) {
       const c = a.context;
       lines.push(c ? `- ${c.event_date} ${c.event ?? ''} vs ${c.opponent}; ${c.weight_lb ?? '?'} lb; hometown ${c.stated_hometown ?? '?'}${c.debut ? '; DEBUT' : ''}: **${a.proposal.tier ?? '-'} ${a.proposal.decision}** (${a.proposal.reason})` : `- ${a.bout}|${a.side}: no stored context`);
       for (const k of a.candidates ?? []) {
-        lines.push(`  - candidate ${k.display_name} [${k.tier ?? '-'}, ${k.confidence ?? '-'}] bouts: ${k.prior_opponents.map((p) => `${p.date} vs ${p.opponent}`).join('; ') || 'none'}; weights: ${k.weights_lb.map((w) => w.weight_lb).join(', ') || '-'}; hometowns: ${k.hometowns.join(' / ') || '-'}`);
+        lines.push(`  - candidate ${k.display_name} [${k.tier ?? '-'}, ${k.confidence ?? '-'}] weights: ${k.weights_lb.map((w) => w.weight_lb).join(', ') || '-'}; hometowns: ${k.hometowns.join(' / ') || '-'}`);
+        for (const h of k.bout_history ?? []) lines.push(`    - bout: ${historyLine(h)}`);
         lines.push(`    - for: ${k.reasons_for.join(', ') || '-'}`);
         lines.push(`    - against: ${k.reasons_against.join(', ') || '-'}`);
       }

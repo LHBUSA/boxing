@@ -264,6 +264,12 @@ export async function applyApprovedBatch(store, batch, { reviewer, reviewedAt = 
     if (!e.reviewer_note || e.reviewer_note.trim().length < 20) throw new Error(`${e.entry_id}: reviewer_note (20+ characters) is required`);
     if (e.reviewer_decision === 'approve_match' && !e.proposed_boxer?.fighter_id) throw new Error(`${e.entry_id}: no proposed boxer to match`);
     const decision = { approve_match: 'matched', approve_distinct: 'created', hold: 'review', reject_candidate: 'review' }[e.reviewer_decision];
+    // the reviewed evidence described a BLOCKED bout; if that bout became canonical since, the evidence is stale
+    if (decision !== 'review') {
+      const boutNs = e.appearance.namespace.replace(/\.fighter$/, '.bout');
+      const existing = (await store.boutsForProviderEvents(boutNs, [e.appearance.bout_external_id]))[e.appearance.bout_external_id];
+      if (existing) { results.push({ entry_id: e.entry_id, status: 'refused_bout_already_canonical', bout_id: existing }); continue; }
+    }
     const evidence = { shown_to_reviewer: e.evidence, danger: e.danger, workbench_recommendation: { recommendation: e.recommendation, why: e.recommendation_why },
       reviewer_decision: e.reviewer_decision, rejected_candidate: e.reviewer_decision === 'reject_candidate' ? e.proposed_boxer : null, workbench_version: batch.workbench_version };
     const r = await store.recordAppearanceDecision({

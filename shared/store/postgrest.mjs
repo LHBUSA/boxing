@@ -140,6 +140,7 @@ export function postgrestStore({ url, serviceKey, fetchImpl = fetch }) {
     eventOwner: (eventId) => rpc('boxing_event_owner', { p_event: eventId }),
     appearanceLatest: (namespace, keys) => rpc('boxing_appearance_latest', { p_namespace: namespace, p_keys: keys }),
     fighterNameIndex: () => rpc('boxing_fighter_name_index', {}),
+    possibleDuplicateBouts: (limit = 100) => rpc('boxing_possible_duplicate_bouts', { p_limit: limit }),
     identityTierSummary: () => rpc('boxing_identity_tier_summary', {}),
     // --- read-only gateway
     gatewayBout: (id) => rpc('boxing_gateway_bout', { p_bout: id }),

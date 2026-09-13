@@ -68,7 +68,8 @@ export function classifyCandidateBouts(bouts = []) {
 export function historyLine(h) {
   const repeat = h.repeat_index > 1 ? ` |${h.repeat_index}` : '';
   const pairing = h.pairing === 'single' ? '' : ` [${h.pairing}: ${h.pairing_detail}]`;
-  const current = h.current_result ? ` current: ${h.current_result.result}${h.current_result.revision ? ` (rev${h.current_result.revision}${h.current_result.change_reason ? `, ${h.current_result.change_reason}` : ''})` : ''}` : '';
+  const current = h.current_result?.result == null ? ' current: no official result recorded'
+    : ` current: ${h.current_result.result}${h.current_result.revision ? ` (rev${h.current_result.revision}${h.current_result.change_reason ? `, ${h.current_result.change_reason}` : ''})` : ''}`;
   const preserved = h.preserved_history?.length ? `; preserved: ${h.preserved_history.map((p) => `rev${p.revision} ${p.result} (${p.kind}${p.corrected_by_revision ? ` by rev${p.corrected_by_revision}` : ''})`).join(', ')}` : '';
   return `${h.date} vs ${h.opponent}, order ${h.bout_order ?? '?'}${repeat}${pairing};${current}${preserved}`;
 }

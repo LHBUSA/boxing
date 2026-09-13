@@ -12,7 +12,7 @@ import { applyCommissionParsed } from '../../shared/commissions/apply.mjs';
 import { reapplyStoredDocuments } from '../../shared/commissions/run.mjs';
 import { FLORIDA, parseFloridaResults, parseResultsListing } from '../../shared/adapters/commissions/florida.mjs';
 import { classifyCandidateBouts, historyLine } from '../../shared/identity/bout-history.mjs';
-import { batchFromDryRun, dangerFlags, simulateResolverOnBlockedBouts } from '../../shared/identity/human-review.mjs';
+import { applyApprovedBatch, batchFromDryRun, dangerFlags, simulateResolverOnBlockedBouts } from '../../shared/identity/human-review.mjs';
 import { contentHash } from '../../shared/canonical.mjs';
 import { manualProvenance } from '../../shared/provenance.mjs';
 import { floridaPages } from '../fixtures/commissions/synthetic.mjs';
@@ -89,6 +89,7 @@ test('June 26 repeat pairings stay distinct bouts with |2 ids and sheet orders; 
     [[1, 'loss', 'superseded_by_parser_correction'], [2, 'win', 'superseded_by_parser_correction']], 'the false revision stays, labelled');
   const [yusmel] = await store.identityGraphContext([await idOf(db, 'Yusmel Alejandro Ruiz')]);
   assert.ok(classifyCandidateBouts(yusmel.bouts).every((h) => h.current_result.result === 'win'), 'Ruiz won both meetings');
+  assert.deepEqual(await store.possibleDuplicateBouts(), [], 'legitimate repeat pairings are never reported as duplicates');
 });
 
 test('a true duplicate canonical bout remains distinguishable from a legitimate repeat pairing', async () => {
@@ -111,6 +112,11 @@ test('a true duplicate canonical bout remains distinguishable from a legitimate 
   const flags = dangerFlags({ observedName: 'Sofia Viretti', observedHometown: null,
     candidate: { fighter_id: sofiaId, display_name: 'Sofia Viretti', name_level: 'exact', hometowns: [], bout_history: history }, nameIndex: [] });
   assert.ok(flags.some((f) => f.kind === 'candidate_record_has_possible_duplicate_bout'), 'duplicate surfaced as danger evidence');
+  const dups = await store.possibleDuplicateBouts();
+  assert.equal(dups.length, 2, 'the duplicate row pairs with each legitimate meeting');
+  assert.ok(dups.every((d) => d.reason === 'same_pair_different_event_rows_within_a_day'));
+  const repeatIds = history.filter((h) => h.source_bout_ids.length).map((h) => h.bout_id);
+  assert.ok(!dups.some((d) => repeatIds.includes(d.bout_a) && repeatIds.includes(d.bout_b)), 'the two legitimate meetings are not a duplicate of each other');
   // the repeat pairing alone (without the duplicate row) is not a danger: asserted in the previous test
 });
 
@@ -176,4 +182,18 @@ test('May 1 second meetings: resolver proposes Tier A repeat_pairing_identity_co
   assert.ok(batch.batch.every((e) => e.reviewer_decision === null && e.reviewer_note === null), 'no reviewer consent is manufactured');
   assert.ok(batch.batch.every((e) => e.evidence.resolver_reason === 'repeat_pairing_identity_continuity' && e.evidence.appearance_bout.repeat_index === 2));
   assert.equal(await count(`boxing_bouts b join public.boxing_events e on e.id = b.event_id where e.event_date = '2026-05-01'`), 2, 'still two bouts: nothing applied');
+
+  // a named human approves ONE entry: it materializes; re-submitting it once its bout exists is refused as stale
+  const sofia = batch.batch.find((e) => e.appearance.display_name === 'Sofia Viretti');
+  const approved = { ...batch, batch: [{ ...sofia, reviewer_decision: 'approve_match', reviewer_note: 'fixture approval of the second meeting (repeat pairing)' }] };
+  const first = await applyApprovedBatch(store, approved, { reviewer: 'Test Reviewer' });
+  assert.equal(first[0].status, 'recorded');
+  await reapplyStoredDocuments(store, { adapterKey: 'florida', provenance: prov, graphResolve: false, docKeys: [mayDoc.ref.doc_key] });
+  assert.equal(await count(`boxing_bouts b join public.boxing_events e on e.id = b.event_id where e.event_date = '2026-05-01'`), 3, 'exactly the approved second meeting added');
+  const human = (await db.client.query(`select seq, evidence #>> '{shown_to_reviewer,resolver_reason}' reason from public.boxing_identity_appearance_decisions where appearance_key = $1 order by seq desc limit 1`, [`${sofia.appearance.bout_external_id}|b`])).rows[0];
+  assert.equal(human.reason, 'repeat_pairing_identity_continuity', 'the repeat-pairing evidence is preserved on the human row');
+  const rowsBefore = await count('boxing_identity_appearance_decisions');
+  const again = await applyApprovedBatch(store, { ...approved, batch: [{ ...approved.batch[0], appearance: { ...approved.batch[0].appearance, latest_decision_seq: Number(human.seq) } }] }, { reviewer: 'Test Reviewer' });
+  assert.equal(again[0].status, 'refused_bout_already_canonical');
+  assert.equal(await count('boxing_identity_appearance_decisions'), rowsBefore, 'nothing written for a stale approval');
 });

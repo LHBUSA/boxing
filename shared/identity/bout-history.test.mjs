@@ -35,3 +35,10 @@ test('repeat pairing vs possible duplicate canonical bout', () => {
   const sameRowSameOrder = classifyCandidateBouts([{ ...base, bout_id: 'x1', bout_order: 5, source_bout_ids: [] }, { ...base, bout_id: 'x2', bout_order: 5, source_bout_ids: [] }]);
   assert.ok(sameRowSameOrder.every((h) => h.pairing === 'possible_duplicate_canonical_bout'));
 });
+
+test('a bout with no official result says so', () => {
+  const [h] = classifyCandidateBouts([{ event_id: 'e', date: '2026-05-01', bout_id: 'b', bout_order: 29, opponent_id: 'o', opponent_name: 'Doctress Robinson',
+    source_bout_ids: [{ namespace: 'fl-athletic-commission.bout', external_id: 'p|2', repeat_index: 2 }], result_revisions: [] }]);
+  assert.equal(h.current_result, null);
+  assert.match(historyLine(h), /current: no official result recorded/);
+});

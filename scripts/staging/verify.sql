@@ -277,6 +277,9 @@ begin
     where ne.state in ('new','needs_review') and ne.event_type not in ('RESULT_CORRECTED','RESULT_OVERTURNED','MARKET_MOVED')
       and e.event_date < (ne.detected_at at time zone 'UTC')::date - 45;
   results := results || jsonb_build_object('check', 'no_newsworthy_news_about_old_events', 'ok', n = 0, 'detail', n || ' open news events more than 45 days after their event');
+  select jsonb_array_length(public.boxing_possible_duplicate_bouts(1000)) into n;
+  results := results || jsonb_build_object('check', 'no_possible_duplicate_canonical_bouts', 'ok', n = 0,
+    'detail', n || ' same-pair bouts within a day that are not a distinct repeat pairing on one card');
 
   select count(*) into n from public.boxing_fighters;
   results := results || jsonb_build_object('check', 'verification_left_no_residue', 'ok', n = n_fighters_before and not exists (select 1 from public.boxing_sources where source_key = 'staging_verify_probe'),
