@@ -33,6 +33,10 @@ create table if not exists public.boxing_video_channels (
   constraint boxing_video_channel_enable_requires_review check (not enabled or (identity_state = 'verified' and rights_state = 'approved' and reviewed_by is not null and reviewed_at is not null))
 );
 
+drop trigger if exists boxing_video_channels_touch on public.boxing_video_channels;
+create trigger boxing_video_channels_touch before update on public.boxing_video_channels
+  for each row execute function public.boxing_touch_updated_at();
+
 create table if not exists public.boxing_videos (
   id uuid primary key default gen_random_uuid(),
   provider text not null default 'youtube' check (provider = 'youtube'),
