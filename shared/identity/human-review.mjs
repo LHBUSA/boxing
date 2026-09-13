@@ -79,6 +79,13 @@ export function placeConsistency(observed, candidateHometowns = []) {
 }
 
 const surnameOf = (name) => parseName(name).last;
+export function similarNamed(name, excludeId, nameIndex) {
+  const o = parseName(name);
+  return nameIndex.filter((f) => f.id !== excludeId && normalizedAlias(f.display_name) !== normalizedAlias(name)).filter((f) => {
+    const c = parseName(f.display_name);
+    return c.given && c.given === o.given && c.core.slice(1).some((t) => o.core.slice(1).includes(t));
+  }).map((f) => `${f.display_name}${(f.hometowns ?? []).length ? ` (${f.hometowns.join(' / ')})` : ''}`).slice(0, 6);
+}
 const givenOf = (name) => parseName(name).given;
 
 export function dangerFlags({ observedName, observedHometown, candidate, nameIndex }) {
@@ -175,6 +182,9 @@ export async function proposeReviewBatch(store, report, { batchId, size = 10, no
           relationship: (top?.reasons_for ?? []).filter((r) => /rematch|same_fight|same_venue|same_commission/.test(r)),
           candidate_record: top?.prior_opponents ?? [],
           contradictions: top?.reasons_against ?? [],
+          // other canonical boxers sharing the given name and at least one more name token (double surnames,
+          // cousins, namesakes): shown to the reviewer, never used to decide
+          similar_named_other_boxers: similarNamed(stored?.bout?.[`fighter_${a.side}`]?.display_name ?? item.raw_name, top?.fighter_id, nameIndex),
           competing_candidates: (a.candidates ?? []).filter((c) => c.fighter_id !== top?.fighter_id && c.tier)
             .map((c) => ({ fighter_id: c.fighter_id, display_name: c.display_name, tier: c.tier, confidence: c.confidence, against: c.reasons_against })),
           confidence: top?.confidence ?? null,
@@ -223,6 +233,7 @@ export function batchMarkdown(p) {
       `| Relationship evidence | ${ev.relationship.join(', ') || '-'} |`,
       `| Candidate record | ${ev.candidate_record.map((r) => `${r.date} vs ${r.opponent}${r.result ? ` (${r.result})` : ''}`).join('; ') || '-'} |`,
       `| Contradictions | ${ev.contradictions.join(', ') || 'none'} |`,
+      `| Similar-named other boxers | ${ev.similar_named_other_boxers.join('; ') || 'none'} |`,
       `| Competing candidates | ${ev.competing_candidates.map((c) => `${c.display_name} [${c.tier}, ${c.confidence}]`).join('; ') || 'none'} |`,
       `| Confidence | ${ev.confidence ?? '-'} |`,
       `| Why the resolver stopped | ${ev.resolver_stop_reason} |`,

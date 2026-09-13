@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { dangerFlags, placeConsistency, recommend } from './human-review.mjs';
+import { dangerFlags, placeConsistency, recommend, similarNamed } from './human-review.mjs';
 
 test('stated places of different granularity: consistent vs mismatch', () => {
   assert.equal(placeConsistency('Puebla, MX', ['Mexico']).status, 'consistent');
@@ -37,4 +37,9 @@ test('recommendations are advice: any danger flag or contradiction holds; a matc
   assert.equal(recommend({ top: { ...top, reasons_against: ['hometown_different_city:x vs y'] }, plausible: [top], flags: [] }).recommendation, 'hold');
   assert.equal(recommend({ top, plausible: [top, { ...top, fighter_id: 'g' }], flags: [] }).recommendation, 'hold');
   assert.equal(recommend({ top: { ...top, tier: 'D', reasons_against: ['fought_2026-06-20_at_other_event'] }, plausible: [], flags: [] }).recommendation, 'distinct');
+});
+
+test('similar-named other boxers are surfaced (double surnames, namesakes)', () => {
+  const idx = [{ id: 'a', display_name: 'Jose A Valenzuela Gastelum', hometowns: ['Renton, WA'] }, { id: 'b', display_name: 'Jose Valenzuela Alvarado', hometowns: ['Mexico'] }, { id: 'c', display_name: 'Maria Valenzuela', hometowns: [] }];
+  assert.deepEqual(similarNamed('Jose Valenzuela Alvarado', 'b', idx), ['Jose A Valenzuela Gastelum (Renton, WA)']);
 });

@@ -243,3 +243,19 @@ Each gets its own source row, adapter, attribution rule and PII stripping before
   - PBC lists Isaac Cruz vs **Nestor Bravo** (the sportsbook market says Sergio Rio Jimenez).
   - PBC lists **Jermall** Charlo vs Koen Mazoudier (the market says **Jermell**).
   - These disagreements are why the odds matcher never matches a different given name.
+
+### G.1 Permission requests (2026-09-13): drafted, NOT sent
+
+- **Drafts:** PBC, Matchroom Boxing and Ohashi (English + Japanese) are in [permission-requests/](permission-requests/README.md). They await owner review; nothing has been sent and no permission exists.
+- **Top Rank, Queensberry, BOXXER:** stay `blocked` (explicit anti-scraping terms).
+- **Golden Boy, Riyadh Season:** stay `review_required` and disabled.
+- **Most Valuable Promotions:** stays `reference_only`.
+
+### G.2 Source-policy concerns noted 2026-09-13
+
+- **Wasserman Boxing was not reviewed.** UK cards in the stored markets may be theirs; review it before assuming no source exists.
+- **Research fetches:** the terms review used a web-fetch tool, not the PropBetEdge crawler. It read robots.txt, terms pages and one schedule page per site. Most Valuable Promotions' robots.txt disallows AI crawlers and its terms page returned 403, which was recorded and not bypassed. Future reviews of that site should stay human-only.
+- **Card mismatches:** PBC's published card disagrees with the stored sportsbook markets twice (Isaac Cruz's opponent; Jermall vs Jermell Charlo). Sportsbook participant names are not reliable identity evidence; the matcher's given-name guard is the mitigation.
+- **Personal data in review files:** identity-review evidence contains boxers' stated hometowns (city level, from public commission sheets). Batch files stay in the private repository and staging. They are never published or exposed through the gateway or newsroom.
+- **Reviewer names are stored** with human decisions (staff attribution). Keep them to a name or handle; no contact details.
+- **Ohashi:** no official contact channel was identified during the review. Do not guess an address.
