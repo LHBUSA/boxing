@@ -26,7 +26,8 @@ export function describeResultHistory(revisions = []) {
   });
   return {
     current: current ? { revision: current.revision, result: current.result, method: current.method ?? null, change_reason: current.change_reason ?? null,
-      is_parser_correction: /^reparsed_with_/.test(current.change_reason ?? '') } : null,
+      // a correction needs something to correct: the first recorded result is never a correction, whatever run wrote it
+      is_parser_correction: sorted.length > 1 && /^reparsed_with_/.test(current.change_reason ?? '') } : null,
     preserved_history: preserved,
   };
 }

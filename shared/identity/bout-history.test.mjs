@@ -14,6 +14,8 @@ test('preserved parser correction is separated from the current canonical result
   assert.deepEqual(h.preserved_history.map((p) => [p.revision, p.result, p.kind, p.corrected_by_revision]),
     [[1, 'loss', 'superseded_by_parser_correction', 3], [2, 'win', 'superseded_by_parser_correction', 3]]);
   assert.equal(describeResultHistory([{ revision: 1, result: 'win' }, { revision: 2, result: 'loss', change_reason: null }]).preserved_history[0].kind, 'superseded_by_later_official_revision');
+  assert.equal(describeResultHistory([{ revision: 1, result: 'win', change_reason: 'reparsed_with_florida-athletic-commission@1.0.2' }]).current.is_parser_correction, false,
+    'the first result recorded by a re-parse run corrects nothing');
 });
 
 test('repeat pairing vs possible duplicate canonical bout', () => {
