@@ -1,0 +1,25 @@
+{
+  "name": "propbetedge-boxing-web",
+  "version": "0.1.0",
+  "private": true,
+  "description": "PropBetEdge Boxing frontend. Reads only through boxing-gateway (server-side).",
+  "scripts": {
+    "dev": "next dev -p 3400",
+    "build": "next build",
+    "start": "next start -p 3400",
+    "typecheck": "tsc --noEmit",
+    "test": "node --experimental-strip-types --no-warnings --test \"lib/**/*.test.ts\""
+  },
+  "dependencies": {
+    "next": "15.5.25",
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
+    "server-only": "0.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "typescript": "^5.7"
+  }
+}

@@ -180,3 +180,12 @@ test('site bout strips the internal bout id and attaches only the summarized one
   assert.ok(body.data.market && Array.isArray(body.data.market.consensus) && body.data.market.rights);
   assert.equal(body.data.market.bout_id, undefined);
 });
+
+test('site title maps and ranking snapshots keep public ids only', async () => {
+  const { stripInternalIds } = await import('./routes.mjs');
+  const out = stripInternalIds({ organizations: [{ organization_slug: 'wbc', belts: [{ title_id: ID, public_id: 'pbe_boxtitle_x', holder: { fighter_id: ID, public_id: 'pbe_boxer_y', display_name: 'A' } }] }],
+    entries: [{ rank: 1, fighter_id: ID, public_id: 'pbe_boxer_z' }], snapshot_id: ID, id: ID });
+  assert.ok(!JSON.stringify(out).includes(ID));
+  assert.equal(out.organizations[0].belts[0].holder.public_id, 'pbe_boxer_y');
+  assert.equal(out.entries[0].public_id, 'pbe_boxer_z');
+});

@@ -86,6 +86,16 @@ export function summarizeOdds(summary) {
 export const SITE_FORBIDDEN_KEYS = Object.freeze(['dob', 'hometown', 'evidence', 'reviewer', 'reviewed_by', 'decided_by', 'review_batch', 'raw_dob',
   'federal_id', 'license_number', 'medical', 'suspensions', 'source_record', 'payload', 'external_id', 'provider_event_id', 'internal_bout_id', 'candidates']);
 
+// Title maps and ranking snapshots are shared with the internal routes, which
+// carry canonical uuids; site payloads keep only public ids.
+export function stripInternalIds(value) {
+  if (Array.isArray(value)) return value.map(stripInternalIds);
+  if (!value || typeof value !== 'object') return value;
+  return Object.fromEntries(Object.entries(value)
+    .filter(([k]) => k === 'public_id' || !(k === 'id' || k.endsWith('_id')))
+    .map(([k, v]) => [k, stripInternalIds(v)]));
+}
+
 async function siteBout(s, ref) {
   const data = await s.siteBout(ref);
   if (!data) return null;
@@ -145,7 +155,7 @@ const SITE_ROUTES = [
       const wc = q.get('weight_class');
       need(wc == null || SLUG.test(wc), 'bad weight_class');
       const board = await s.siteTitleBoard();
-      return { board, map: wc ? buildTitleMap(await s.titleMapFacts(wc, gender(q), asOf(q))) : null };
+      return { board, map: wc ? stripInternalIds(buildTitleMap(await s.titleMapFacts(wc, gender(q), asOf(q)))) : null };
     },
   },
   {
@@ -156,7 +166,7 @@ const SITE_ROUTES = [
       const wc = q.get('weight_class');
       need((org == null || SLUG.test(org)) && (wc == null || SLUG.test(wc)), 'bad organization or weight_class');
       const board = await s.siteRankingBoard();
-      const snapshot = org && wc ? await s.rankingSnapshotAsOf(org, wc, gender(q), asOf(q)) : null;
+      const snapshot = org && wc ? stripInternalIds(await s.rankingSnapshotAsOf(org, wc, gender(q), asOf(q))) : null;
       return { board, snapshot };
     },
   },
