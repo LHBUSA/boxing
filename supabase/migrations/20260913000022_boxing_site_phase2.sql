@@ -58,7 +58,7 @@ create index if not exists boxing_videos_channel_idx on public.boxing_videos (ch
 
 create table if not exists public.boxing_video_links (
   id uuid primary key default gen_random_uuid(),
-  video_id uuid not null references public.boxing_videos(id) on delete cascade,
+  video_id uuid not null references public.boxing_videos(id) on delete restrict,
   entity_type text not null check (entity_type in ('promoter','event','bout','fighter')),
   event_id uuid references public.boxing_events(id) on delete restrict,
   bout_id uuid references public.boxing_bouts(id) on delete restrict,
