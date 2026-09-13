@@ -2,9 +2,11 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://propbetedge.ai/contracts/boxing-news-event.schema.json",
   "title": "PropBetEdge Boxing News Event",
+  "description": "Structured change event emitted by boxing-core/odds/rankings workers and consumed by boxing-news. Version 1.1.0 aligns event types with public.boxing_news_events (migration 20260912000003).",
   "type": "object",
   "additionalProperties": false,
   "required": [
+    "contract_version",
     "event_type",
     "dedupe_key",
     "detected_at",
@@ -13,28 +15,44 @@
     "sources"
   ],
   "properties": {
+    "contract_version": {
+      "type": "string",
+      "const": "1.1.0"
+    },
     "event_type": {
       "type": "string",
       "enum": [
         "FIGHT_ANNOUNCED",
         "OPPONENT_REPLACED",
-        "BOUT_CANCELLED",
+        "FIGHT_CANCELLED",
+        "FIGHT_POSTPONED",
+        "EVENT_CANCELLED",
         "EVENT_POSTPONED",
+        "VENUE_CHANGED",
+        "TITLE_WON",
+        "TITLE_VACATED",
+        "TITLE_STRIPPED",
         "TITLE_STATUS_CHANGED",
         "RANKING_CHANGED",
-        "OFFICIALS_ASSIGNED",
-        "WEIGH_IN_RECORDED",
+        "WEIGH_IN_RESULT",
         "WEIGHT_MISSED",
-        "MARKET_MOVED",
+        "OFFICIALS_ASSIGNED",
         "RESULT_OFFICIAL",
+        "RESULT_OVERTURNED",
         "SCORECARD_POSTED",
-        "SUSPENSION_STATUS_CHANGED",
+        "SUSPENSION_POSTED",
+        "MARKET_MOVED",
         "OTHER"
       ]
     },
     "dedupe_key": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "description": "Deterministic key over the underlying state change. The same upstream change observed twice must produce the same key."
+    },
+    "supersedes_dedupe_key": {
+      "type": ["string", "null"],
+      "description": "Set when this event corrects an earlier event (e.g. a corrected scorecard)."
     },
     "occurred_at": {
       "type": ["string", "null"],
@@ -65,7 +83,17 @@
           "items": { "type": "string" },
           "uniqueItems": true
         },
-        "commission_id": { "type": ["string", "null"] }
+        "title_ids": {
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true
+        },
+        "commission_id": { "type": ["string", "null"] },
+        "official_ids": {
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true
+        }
       }
     },
     "facts": {

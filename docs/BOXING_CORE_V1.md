@@ -67,21 +67,13 @@ No model output is allowed to overwrite source facts.
 
 ### boxing-news
 
-Consumes structured changes, not scraped prose. Event types include:
+Consumes structured changes, not scraped prose. The authoritative event type list is `contracts/boxing-news-event.schema.json` (v1.1.0), which a test keeps identical to the database CHECK. It includes:
 
-- FIGHT_ANNOUNCED
-- OPPONENT_REPLACED
-- BOUT_CANCELLED
-- EVENT_POSTPONED
-- TITLE_STATUS_CHANGED
-- RANKING_CHANGED
-- OFFICIALS_ASSIGNED
-- WEIGH_IN_RECORDED
-- WEIGHT_MISSED
+- FIGHT_ANNOUNCED, OPPONENT_REPLACED, FIGHT_CANCELLED, FIGHT_POSTPONED, EVENT_CANCELLED, EVENT_POSTPONED, VENUE_CHANGED
+- TITLE_WON, TITLE_VACATED, TITLE_STRIPPED, TITLE_STATUS_CHANGED, RANKING_CHANGED
+- WEIGH_IN_RESULT, WEIGHT_MISSED, OFFICIALS_ASSIGNED
+- RESULT_OFFICIAL, RESULT_OVERTURNED, SCORECARD_POSTED, SUSPENSION_POSTED
 - MARKET_MOVED
-- RESULT_OFFICIAL
-- SCORECARD_POSTED
-- SUSPENSION_STATUS_CHANGED
 
 Each generated story stores the fact block used to write it, source citations, model/version metadata and whether human review is required.
 
