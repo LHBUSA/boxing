@@ -103,6 +103,23 @@ export function postgrestStore({ url, serviceKey, fetchImpl = fetch }) {
     setNewsEventState: (id, state) => rpc("boxing_set_news_event_state", { p_id: id, p_state: state }),
     reviewArticle: (id, decision, actor, note) => rpc("boxing_review_article", { p_article: id, p_decision: decision, p_actor: actor, p_note: note }),
     publishArticle: (id) => rpc("boxing_publish_article", { p_article: id }),
+    // --- intelligence
+    registerMetricDefinition: (p) => rpc("boxing_register_metric_definition", { p: p }),
+    writeMetricSnapshots: (p) => rpc("boxing_write_metric_snapshots", { p: p }),
+    writeMatchupSnapshot: (p) => rpc("boxing_write_matchup_snapshot", { p: p }),
+    matchupInputs: (p) => rpc("boxing_matchup_inputs", { p_bout: p }),
+    fighterDnaLatest: (p) => rpc("boxing_fighter_dna_latest", { p_fighter: p }),
+    officialDnaLatest: (p) => rpc("boxing_official_dna_latest", { p_official: p }),
+    fighterHistoryAsOf: (id, cutoff) => rpc("boxing_fighter_history_as_of", { p_fighter: id, p_cutoff: cutoff }),
+    officialHistoryAsOf: (id, cutoff) => rpc("boxing_official_history_as_of", { p_official: id, p_cutoff: cutoff }),
+    startIntelRun: (kind, engine, cutoff) => rpc("boxing_start_intel_run", { p_kind: kind, p_engine: engine, p_cutoff: cutoff }),
+    finishIntelRun: (id, status, subjects, written, metrics) => rpc("boxing_finish_intel_run", { p_run: id, p_status: status, p_subjects: subjects, p_written: written, p_metrics: metrics }),
+    // --- read-only gateway
+    gatewayBout: (id) => rpc('boxing_gateway_bout', { p_bout: id }),
+    gatewayOfficial: (id) => rpc('boxing_gateway_official', { p_official: id }),
+    gatewayMatchup: (id, limit) => rpc('boxing_gateway_matchup', { p_bout: id, p_limit: limit }),
+    gatewayModels: () => rpc('boxing_gateway_models', {}),
+    gatewayOddsSummary: (id) => rpc('boxing_gateway_odds_summary', { p_bout: id }),
     async source(sourceKey) {
       const rows = await call(
         `boxing_sources?select=id,source_key,enabled,access_mode,rights_state,persistence_allowed&source_key=eq.${encodeURIComponent(sourceKey)}`,

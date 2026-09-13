@@ -1,0 +1,12 @@
+# boxing-gateway — read-only internal API over Boxing Core. NOT DEPLOYED.
+# GET only, bearer-token protected, no cron, no collection, no public routes.
+# Secrets at deploy: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, BOXING_INTERNAL_TOKEN.
+
+name = "boxing-gateway"
+main = "src/index.mjs"
+compatibility_date = "2026-09-01"
+workers_dev = false
+
+[observability]
+enabled = true
+head_sampling_rate = 1

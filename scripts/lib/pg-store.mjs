@@ -156,6 +156,53 @@ export function pgStore(client) {
     async publishArticle(id) {
       return (await one(client, "select public.boxing_publish_article($1) as r", [id])).r;
     },
+    // --- intelligence
+    async registerMetricDefinition(p) {
+      return (await one(client, "select public.boxing_register_metric_definition($1) as r", [p])).r;
+    },
+    async writeMetricSnapshots(p) {
+      return (await one(client, "select public.boxing_write_metric_snapshots($1) as r", [p])).r;
+    },
+    async writeMatchupSnapshot(p) {
+      return (await one(client, "select public.boxing_write_matchup_snapshot($1) as r", [p])).r;
+    },
+    async matchupInputs(p) {
+      return (await one(client, "select public.boxing_matchup_inputs($1) as r", [p])).r;
+    },
+    async fighterDnaLatest(p) {
+      return (await one(client, "select public.boxing_fighter_dna_latest($1) as r", [p])).r;
+    },
+    async officialDnaLatest(p) {
+      return (await one(client, "select public.boxing_official_dna_latest($1) as r", [p])).r;
+    },
+    async fighterHistoryAsOf(id, cutoff) {
+      return (await one(client, "select public.boxing_fighter_history_as_of($1, $2) as r", [id, cutoff])).r;
+    },
+    async officialHistoryAsOf(id, cutoff) {
+      return (await one(client, "select public.boxing_official_history_as_of($1, $2) as r", [id, cutoff])).r;
+    },
+    async startIntelRun(kind, engine, cutoff) {
+      return (await one(client, "select public.boxing_start_intel_run($1, $2, $3) as r", [kind, engine, cutoff])).r;
+    },
+    async finishIntelRun(id, status, subjects, written, metrics) {
+      await client.query("select public.boxing_finish_intel_run($1, $2, $3, $4, $5)", [id, status, subjects, written, metrics]);
+    },
+    // --- read-only gateway
+    async gatewayBout(id) {
+      return (await one(client, 'select public.boxing_gateway_bout($1) as r', [id])).r;
+    },
+    async gatewayOfficial(id) {
+      return (await one(client, 'select public.boxing_gateway_official($1) as r', [id])).r;
+    },
+    async gatewayMatchup(id, limit) {
+      return (await one(client, 'select public.boxing_gateway_matchup($1, $2) as r', [id, limit])).r;
+    },
+    async gatewayModels() {
+      return (await one(client, 'select public.boxing_gateway_models() as r')).r;
+    },
+    async gatewayOddsSummary(id) {
+      return (await one(client, 'select public.boxing_gateway_odds_summary($1) as r', [id])).r;
+    },
     async source(sourceKey) {
       return one(client, 'select id, source_key, enabled, access_mode, rights_state, persistence_allowed from public.boxing_sources where source_key = $1', [sourceKey]);
     },

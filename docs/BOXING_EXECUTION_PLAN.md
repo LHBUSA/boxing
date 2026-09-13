@@ -112,6 +112,7 @@ Versioned derived analytics only.
 
 - **Writes:** `boxing_metric_definitions` (frozen per version), `boxing_fighter_metric_snapshots`, `boxing_matchup_snapshots`, `boxing_official_metric_snapshots` (sample size required). It never writes a canonical fact table, and the schema has no FK path that would let it.
 - **Schedule:** a rebuild after new official results, plus a nightly deterministic rebuild. The same input watermark must produce the same output.
+- **Status (#6):** schema, engine and tests built (`docs/FIGHT_DNA.md`); no scheduler yet.
 
 ### boxing-gateway
 Read API for first-party products.
@@ -119,7 +120,7 @@ Read API for first-party products.
 - **Routes:** `/v1/boxing/{fighters,events,bouts,rankings,titles,odds,intelligence,news}`.
 - **Reads** through service bindings or Supabase with a read-scoped role. It never exposes raw observations or rights-restricted fields, and it filters on `display_allowed` / `redistribution_allowed`.
 - Stale market data is labelled with its age and never presented as live.
-- **Status:** not built in this phase (no frontend yet).
+- **Status:** built as an internal, read-only, bearer-token Worker (`workers/boxing-gateway`, contract `contracts/boxing-gateway.v1.json`); NOT DEPLOYED. The public `/v1/boxing/*` shape and `display_allowed` filtering come with the consumer API.
 
 ## UFC concepts reused vs. intentionally different
 

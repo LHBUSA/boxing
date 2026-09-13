@@ -1,0 +1,157 @@
+{
+  "api_version": "boxing-gateway@1",
+  "auth": "Authorization: Bearer <BOXING_INTERNAL_TOKEN> (>= 32 chars) on every /internal route",
+  "methods": [
+    "GET"
+  ],
+  "envelope": {
+    "api_version": "string",
+    "generated_at": "ISO-8601 timestamp",
+    "data": "route payload"
+  },
+  "errors": {
+    "400": "bad_request",
+    "401": "unauthorized",
+    "404": "not_found",
+    "405": "method_not_allowed (read-only)",
+    "500": "internal_error",
+    "503": "store_not_configured"
+  },
+  "guarantees": [
+    "read-only: the Worker can reach only the store methods listed in read_methods",
+    "fighter and official ids in payloads are canonical (merged records resolve to the survivor)",
+    "derived values are labelled PropBetEdge-derived, carry metric versions and sample sizes, and are null unless status is available",
+    "matchup snapshots are immutable and never contain information from after their input_cutoff",
+    "fair prices appear only from a trained or validated registered model"
+  ],
+  "read_methods": [
+    "getFighter",
+    "fighterDnaLatest",
+    "cardState",
+    "gatewayBout",
+    "gatewayMatchup",
+    "gatewayOddsSummary",
+    "gatewayModels",
+    "titleSummary",
+    "titleReigns",
+    "titleMapFacts",
+    "rankingSnapshotAsOf",
+    "gatewayOfficial",
+    "officialDnaLatest"
+  ],
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/internal/v1/fighters/:ref",
+      "summary": "Canonical fighter: profile, identities, aliases, attribute claims.",
+      "params": {
+        "ref": "uuid | pbe_boxer_* public id | namespace:external_id"
+      },
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/fighters/:ref/dna",
+      "summary": "Latest Fight DNA snapshot per metric key and version (canonical fighter).",
+      "params": {
+        "ref": "uuid | pbe_boxer_* public id | namespace:external_id"
+      },
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/events/:id",
+      "summary": "Event with its card: bouts, participants, titles and officials.",
+      "params": {
+        "id": "uuid"
+      },
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/bouts/:id",
+      "summary": "Bout: event, corners (canonical ids), titles, current result, current scorecards, officials, weigh-ins.",
+      "params": {
+        "id": "uuid"
+      },
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/bouts/:id/matchup",
+      "summary": "Immutable point-in-time matchup snapshots (newest cutoff first) and any registered model outputs.",
+      "params": {
+        "id": "uuid"
+      },
+      "query": {
+        "limit": "1..50, default 5"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/bouts/:id/odds-summary",
+      "summary": "Stored market consensus, per-book selection prices with freshness, and fair prices from trained models (empty while untrained).",
+      "params": {
+        "id": "uuid"
+      },
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/titles/:id",
+      "summary": "Title and its derived reign history.",
+      "params": {
+        "id": "uuid"
+      },
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/title-map",
+      "summary": "Division title map as of a date (holders, undisputed status, rankings).",
+      "params": {},
+      "query": {
+        "weight_class": "class key (required)",
+        "gender": "male | female",
+        "as_of": "YYYY-MM-DD"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/rankings",
+      "summary": "Ranking entries of the snapshot in force on a date.",
+      "params": {},
+      "query": {
+        "organization": "slug (required)",
+        "weight_class": "class key (required)",
+        "gender": "male | female",
+        "as_of": "YYYY-MM-DD"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/officials/:id",
+      "summary": "Official (canonical): profile, assignment counts, recent assignments.",
+      "params": {
+        "id": "uuid"
+      },
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/officials/:id/dna",
+      "summary": "Judge DNA and Referee DNA: descriptive, with sample sizes; small samples are null.",
+      "params": {
+        "id": "uuid"
+      },
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/models",
+      "summary": "Model registry: versions, feature versions, training cutoffs, status (untrained models publish nothing).",
+      "params": {},
+      "query": {}
+    }
+  ]
+}

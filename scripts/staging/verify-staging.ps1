@@ -58,6 +58,12 @@ $r = Try-Rest DELETE '/boxing_market_ticks?id=gt.0' $anon
 $http += [pscustomobject]@{ check = 'http_anon_cannot_delete_ticks'; ok = (& $denied $r); detail = "HTTP $($r.status)" }
 $r = Try-Rest POST '/rpc/boxing_get_fighter' $anon @{ p_ref = 'x' }
 $http += [pscustomobject]@{ check = 'http_anon_cannot_call_rpc'; ok = (& $denied $r); detail = "HTTP $($r.status)" }
+$r = Try-Rest GET '/boxing_fighter_metric_snapshots?select=id&limit=1' $anon
+$http += [pscustomobject]@{ check = 'http_anon_cannot_read_fight_dna'; ok = (& $denied $r); detail = "HTTP $($r.status)" }
+$r = Try-Rest POST '/rpc/boxing_gateway_models' $anon @{}
+$http += [pscustomobject]@{ check = 'http_anon_cannot_call_gateway_rpc'; ok = (& $denied $r); detail = "HTTP $($r.status)" }
+$r = Try-Rest POST '/rpc/boxing_gateway_models' $service @{}
+$http += [pscustomobject]@{ check = 'http_service_role_gateway_rpc_works'; ok = ($r.status -eq 200 -and $r.body -match 'pbe_bout_winner' -and $r.body -match 'untrained'); detail = "HTTP $($r.status)" }
 $r = Try-Rest POST '/rpc/boxing_identity_coverage' $service @{}
 $http += [pscustomobject]@{ check = 'http_service_role_rpc_works'; ok = ($r.status -eq 200); detail = "HTTP $($r.status)" }
 $r = Try-Rest GET '/boxing_sources?select=source_key&source_key=eq.the_odds_api' $service

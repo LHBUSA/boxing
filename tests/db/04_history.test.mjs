@@ -127,7 +127,9 @@ test('10. derived intelligence is versioned independently of source facts', asyn
     where contype = 'f' and confrelid in ('public.boxing_fighter_metric_snapshots'::regclass,
       'public.boxing_matchup_snapshots'::regclass, 'public.boxing_official_metric_snapshots'::regclass,
       'public.boxing_metric_definitions'::regclass)
-      and conrelid not in ('public.boxing_fighter_metric_snapshots'::regclass, 'public.boxing_official_metric_snapshots'::regclass)`);
+      -- derived tables may reference each other (model outputs -> matchup snapshots)
+      and conrelid not in ('public.boxing_fighter_metric_snapshots'::regclass, 'public.boxing_official_metric_snapshots'::regclass,
+        'public.boxing_model_outputs'::regclass)`);
   assert.deepEqual(back, []);
 
   // an official tendency without a sample size is refused

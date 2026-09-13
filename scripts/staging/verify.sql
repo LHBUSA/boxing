@@ -162,6 +162,43 @@ begin
     exception when sqlstate 'BX001' then v_ok := true; end;
     results := results || jsonb_build_object('check', 'news_fact_blocks_immutable', 'ok', v_ok, 'detail', null);
 
+    -- Fight DNA (issue #6): metric values only when available; snapshots immutable; definitions frozen per version
+    perform public.boxing_register_metric_definition(jsonb_build_object('metric_key', 'verify.probe_rate', 'version', '1.0.0', 'subject_kind', 'fighter',
+      'category', 'results', 'name', 'probe', 'description', 'probe', 'formula_text', 'a / b', 'value_kind', 'rate', 'minimum_sample', '{"bouts": 5}'::jsonb,
+      'required_inputs', '["result.outcome"]'::jsonb));
+    v_ok := false;
+    begin
+      insert into public.boxing_fighter_metric_snapshots (fighter_id, metric_key, metric_version, as_of, value_number, sample_size, status)
+        values (v_a, 'verify.probe_rate', '1.0.0', now(), 0.5, 2, 'insufficient_sample');
+    exception when check_violation then v_ok := true; end;
+    insert into public.boxing_fighter_metric_snapshots (fighter_id, metric_key, metric_version, as_of, value_number, sample_size, status, inputs_hash)
+      values (v_a, 'verify.probe_rate', '1.0.0', now(), null, 2, 'insufficient_sample', 'verify') returning id into v_card;
+    begin update public.boxing_fighter_metric_snapshots set value_number = 1 where id = v_card; v_ok := false;
+    exception when sqlstate 'BX001' then v_ok := v_ok and true; end;
+    v_detail := null;
+    begin perform public.boxing_register_metric_definition(jsonb_build_object('metric_key', 'verify.probe_rate', 'version', '1.0.0', 'subject_kind', 'fighter',
+      'category', 'results', 'name', 'probe', 'description', 'probe', 'formula_text', 'CHANGED', 'value_kind', 'rate', 'minimum_sample', '{"bouts": 5}'::jsonb,
+      'required_inputs', '["result.outcome"]'::jsonb)); v_ok := false;
+    exception when sqlstate 'BX100' then v_detail := 'BX100'; end;
+    results := results || jsonb_build_object('check', 'fight_dna_null_unless_available_immutable_versioned', 'ok', v_ok and v_detail is not distinct from 'BX100', 'detail', null);
+
+    -- matchup snapshots cannot look past the bout start; an untrained model publishes nothing
+    v_ok := false;
+    begin
+      insert into public.boxing_matchup_snapshots (bout_id, model_key, model_version, as_of, input_cutoff, fighter_a_id, fighter_b_id, features)
+        values (v_bout, 'pbe_matchup_dna', '1.0.0', public.boxing_bout_starts_at(v_bout) + interval '1 day', public.boxing_bout_starts_at(v_bout) + interval '1 day', v_a, v_b, '{}');
+    exception when sqlstate 'BX120' then v_ok := true; end;
+    insert into public.boxing_matchup_snapshots (bout_id, model_key, model_version, as_of, input_cutoff, fighter_a_id, fighter_b_id, features, inputs_hash)
+      values (v_bout, 'pbe_matchup_dna', '1.0.0', public.boxing_bout_starts_at(v_bout) - interval '1 day', public.boxing_bout_starts_at(v_bout) - interval '1 day', v_a, v_b, '{}', 'verify')
+      returning id into v_fb;
+    begin
+      insert into public.boxing_model_outputs (model_key, model_version, bout_id, matchup_snapshot_id, feature_model_version, input_cutoff, selection_key, probability, fair_decimal, fair_american)
+        values ('pbe_bout_winner', '0.1.0', v_bout, v_fb, '1.0.0', public.boxing_bout_starts_at(v_bout) - interval '1 day', 'fighter_a', 0.6, 1.666667, -150);
+      v_ok := false;
+    exception when sqlstate 'BX111' then v_ok := v_ok and true; end;
+    results := results || jsonb_build_object('check', 'matchup_cutoff_guard_and_untrained_model_refused', 'ok', v_ok,
+      'detail', (select status from public.boxing_models where model_key = 'pbe_bout_winner' and version = '0.1.0'));
+
     raise exception using errcode = 'BXTST', message = 'rollback';
   exception when sqlstate 'BXTST' then null;
   end;
