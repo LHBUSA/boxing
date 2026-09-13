@@ -1,0 +1,422 @@
+{
+  "_policy": "A channel publishes only when identity_state=verified AND rights_state=approved with a named human reviewer (DB CHECK boxing_video_channel_enable_requires_review). Handles are evidence, never keys. Nothing here is enabled: no owner rights review has been recorded.",
+  "researched_at": "2026-09-13",
+  "channels": [
+    {
+      "channel_id": "UC7LReVje9aPB4B6XAsXX8WQ",
+      "name": "Matchroom Boxing",
+      "handle": "@MatchroomBoxing",
+      "source_class": "promoter_official",
+      "identity_state": "verified",
+      "rights_state": "review_required",
+      "enabled": false,
+      "recommendation": "permission_request_pending",
+      "rights_note": "Matchroom permission request drafted (docs/permission-requests/matchroom.md), not sent.",
+      "verification": {
+        "method": "channel page externalId + canonical link; RSS feed title; organization website link or verified badge",
+        "rss_title": "Matchroom Boxing",
+        "ownership_evidence_url": "https://www.matchroomboxing.com/",
+        "ownership_evidence": "matchroomboxing.com homepage links youtube.com/user/MatchroomBoxing, which resolves to this ID; channel carries YouTube verified badge.",
+        "rights_observations": "Posts full fights (e.g. 'Ryan Garcia vs Rolando Romero | Full Fight' 2026-09-12). Live events are DAZN-exclusive; YouTube carries replays/highlights/press. oEmbed probe on the 15 newest RSS videos (2026-09-13): 15/15 returned 200, 0 returned 401 (embedding disabled). oEmbed 200 does not rule out per-video region locks or age gates.",
+        "checked_at": "2026-09-13"
+      }
+    },
+    {
+      "channel_id": "UCbzRzJNHx7ZLlJML9BjZQVQ",
+      "name": "Top Rank Boxing",
+      "handle": "@toprank",
+      "source_class": "promoter_official",
+      "identity_state": "verified",
+      "rights_state": "review_required",
+      "enabled": false,
+      "recommendation": "blocked_by_promoter_source_policy",
+      "rights_note": "Top Rank automated ingestion is disabled by the 2026-09-13 promoter source review.",
+      "verification": {
+        "method": "channel page externalId + canonical link; RSS feed title; organization website link or verified badge",
+        "rss_title": "Top Rank Boxing",
+        "ownership_evidence_url": "https://toprank.com/",
+        "ownership_evidence": "toprank.com homepage links youtube.com/@toprank and youtube.com/trboxing, both resolve to this ID; verified badge.",
+        "rights_observations": "Archive/rivalry compilations and highlights. Homepage also links a fighter's personal channel (@keyshawndavis1773) - not a Top Rank channel. oEmbed probe on the 15 newest RSS videos (2026-09-13): 15/15 returned 200, 0 returned 401 (embedding disabled). oEmbed 200 does not rule out per-video region locks or age gates.",
+        "checked_at": "2026-09-13"
+      }
+    },
+    {
+      "channel_id": "UC518BHmSjZ2R1UanxO9nHmg",
+      "name": "Golden Boy Boxing (Golden Boy Promotions)",
+      "handle": "@GoldenBoyBoxing",
+      "source_class": "promoter_official",
+      "identity_state": "verified",
+      "rights_state": "review_required",
+      "enabled": false,
+      "recommendation": "blocked_by_promoter_source_policy",
+      "rights_note": "Golden Boy automated ingestion is disabled by the 2026-09-13 promoter source review.",
+      "verification": {
+        "method": "channel page externalId + canonical link; RSS feed title; organization website link or verified badge",
+        "rss_title": "Golden Boy Boxing",
+        "ownership_evidence_url": "https://www.goldenboy.com/",
+        "ownership_evidence": "goldenboy.com homepage links youtube.com/user/goldenboypromo, which resolves to this ID (title 'Golden Boy Boxing'); verified badge.",
+        "rights_observations": "Mostly Shorts/clips recently. No separate 'Golden Boy Fight Night' channel found (@goldenboyfightnight 404). Decoy: @GoldenBoy (UCrksRhaZF407bOtofnBzSaw, 20 subs) is unrelated. oEmbed probe on the 15 newest RSS videos (2026-09-13): 15/15 returned 200, 0 returned 401 (embedding disabled). oEmbed 200 does not rule out per-video region locks or age gates.",
+        "checked_at": "2026-09-13"
+      }
+    },
+    {
+      "channel_id": "UCWXYAGB9SadlL6p5Bb66wWw",
+      "name": "Premier Boxing Champions",
+      "handle": "@PremierBoxingChampions",
+      "source_class": "promoter_official",
+      "identity_state": "verified",
+      "rights_state": "review_required",
+      "enabled": false,
+      "recommendation": "permission_request_pending",
+      "rights_note": "PBC permission request drafted (docs/permission-requests/pbc.md), not sent.",
+      "verification": {
+        "method": "channel page externalId + canonical link; RSS feed title; organization website link or verified badge",
+        "rss_title": "Premier Boxing Champions",
+        "ownership_evidence_url": "https://www.premierboxingchampions.com/",
+        "ownership_evidence": "premierboxingchampions.com links youtube.com/c/premierboxingchampions, which resolves to this ID; verified badge.",
+        "rights_observations": "Highlights/clips. PBC live events are on Prime Video (paid); no separate 'PBC on Prime Video' YouTube channel found (@PBConPrime 404). oEmbed probe on the 15 newest RSS videos (2026-09-13): 15/15 returned 200, 0 returned 401 (embedding disabled). oEmbed 200 does not rule out per-video region locks or age gates.",
+        "checked_at": "2026-09-13"
+      }
+    },
+    {
+      "channel_id": "UCP3MOjimNiqqkhBcuXzO0RA",
+      "name": "Queensberry Promotions (Frank Warren's Queensberry Promotions)",
+      "handle": "@QueensberryPromotions",
+      "source_class": "promoter_official",
+      "identity_state": "verified",
+      "rights_state": "review_required",
+      "enabled": false,
+      "recommendation": "blocked_by_promoter_source_policy",
+      "rights_note": "Queensberry automated ingestion is disabled by the 2026-09-13 promoter source review.",
+      "verification": {
+        "method": "channel page externalId + canonical link; RSS feed title; organization website link or verified badge",
+        "rss_title": "Frank Warren's Queensberry Promotions",
+        "ownership_evidence_url": "https://queensberry.co.uk/",
+        "ownership_evidence": "queensberry.co.uk links youtube.com/channel/UCP3MOjimNiqqkhBcuXzO0RA directly (exact ID match). No verified badge detected in page data.",
+        "rights_observations": "Interviews, throwbacks, highlights. Decoy: @Queensberry (UCZbbe-nY-SQWXck1KYpE2Wg, 2.96K subs) is not the promoter. oEmbed probe on the 15 newest RSS videos (2026-09-13): 15/15 returned 200, 0 returned 401 (embedding disabled). oEmbed 200 does not rule out per-video region locks or age gates.",
+        "checked_at": "2026-09-13"
+      }
+    },
+    {
+      "channel_id": "UC-DvM-fdpkuy7Cupga3LOOQ",
+      "name": "BOXXER",
+      "handle": "@BOXXERofficial",
+      "source_class": "promoter_official",
+      "identity_state": "verified",
+      "rights_state": "review_required",
+      "enabled": false,
+      "recommendation": "blocked_by_promoter_source_policy",
+      "rights_note": "BOXXER automated ingestion is disabled by the 2026-09-13 promoter source review.",
+      "verification": {
+        "method": "channel page externalId + canonical link; RSS feed title; organization website link or verified badge",
+        "rss_title": "BOXXER",
+        "ownership_evidence_url": "https://www.boxxer.com/",
+        "ownership_evidence": "boxxer.com links youtube.com/channel/UC-DvM-fdpkuy7Cupga3LOOQ directly (exact ID match); verified badge.",
+        "rights_observations": "Low recent cadence (newest uploads 2026-09-02, 'On This Day' full fights). @BOXXER and @BOXXERBoxing return 404; @BOXXERTV is an unrelated gaming channel. oEmbed probe on the 15 newest RSS videos (2026-09-13): 15/15 returned 200, 0 returned 401 (embedding disabled). oEmbed 200 does not rule out per-video region locks or age gates.",
+        "checked_at": "2026-09-13"
+      }
+    },
+    {
+      "channel_id": "UCGJlZUB-7b5s1wFynzpYU7Q",
+      "name": "Most Valuable Promotions (MVP)",
+      "handle": "@Most_Valuable_Promotions",
+      "source_class": "promoter_official",
+      "identity_state": "verified",
+      "rights_state": "review_required",
+      "enabled": false,
+      "recommendation": "reference_only_policy",
+      "rights_note": "MVP is reference-only under the promoter source review; channel is personality/vlog heavy.",
+      "verification": {
+        "method": "channel page externalId + canonical link; RSS feed title; organization website link or verified badge",
+        "rss_title": "MVP - Most Valuable Promotions",
+        "ownership_evidence_url": "https://www.mostvaluablepromotions.com/",
+        "ownership_evidence": "mostvaluablepromotions.com homepage links youtube.com/@Most_Valuable_Promotions, which resolves to this ID. No verified badge detected.",
+        "rights_observations": "Personality/vlog-style content around Jake Paul, not only fight footage. DECOYS: @MostValuablePromotions (UCE3KFskIJw-oMKDhI-6gdEg, 133 subs) and @mvppromotions (UCS4_cEcREHQpInjCTI25wbw) are NOT the site-linked channel. oEmbed probe on the 15 newest RSS videos (2026-09-13): 15/15 returned 200, 0 returned 401 (embedding disabled). oEmbed 200 does not rule out per-video region locks or age gates.",
+        "checked_at": "2026-09-13"
+      }
+    },
+    {
+      "channel_id": "UCgKoiUinex5G_p7s8kTrU1Q",
+      "name": "Salita Promotions",
+      "handle": "@SalitaPromotions",
+      "source_class": "promoter_official",
+      "identity_state": "verified",
+      "rights_state": "review_required",
+      "enabled": false,
+      "recommendation": "candidate_for_owner_rights_review",
+      "rights_note": "Identity verified; eligible for an owner rights review (YouTube embed-only, metadata, no rehosting).",
+      "verification": {
+        "method": "channel page externalId + canonical link; RSS feed title; organization website link or verified badge",
+        "rss_title": "Salita Promotions",
+        "ownership_evidence_url": "https://www.salitapromotions.com/",
+        "ownership_evidence": "salitapromotions.com homepage links youtube.com/@SalitaPromotions, which resolves to this ID. No verified badge detected.",
+        "rights_observations": "Uploads full fights (e.g. 'BRANDON MOORE VS BRYANT JENNINGS FULL FIGHT' 2026-09-13). oEmbed probe on the 15 newest RSS videos (2026-09-13): 15/15 returned 200, 0 returned 401 (embedding disabled). oEmbed 200 does not rule out per-video region locks or age gates.",
+        "checked_at": "2026-09-13"
+      }
+    },
+    {
+      "channel_id": "UC8ybHJltwhtpk0cFKU4G8kQ",
+      "name": "Ring Magazine",
+      "handle": "@ringmagazine",
+      "source_class": "promoter_official",
+      "identity_state": "verified",
+      "rights_state": "review_required",
+      "enabled": false,
+      "recommendation": "candidate_for_owner_rights_review",
+      "rights_note": "Identity verified; eligible for an owner rights review (YouTube embed-only, metadata, no rehosting).",
+      "verification": {
+        "method": "channel page externalId + canonical link; RSS feed title; organization website link or verified badge",
+        "rss_title": "Ring Magazine",
+        "ownership_evidence_url": "https://www.ringmagazine.com/",
+        "ownership_evidence": "ringmagazine.com links youtube.com/@ringmagazine, which resolves to this ID; verified badge.",
+        "rights_observations": "Media brand (Saudi-owned, tied to Riyadh Season events) rather than a classic promoter; fight highlights and interviews. oEmbed probe on the 15 newest RSS videos (2026-09-13): 15/15 returned 200, 0 returned 401 (embedding disabled). oEmbed 200 does not rule out per-video region locks or age gates.",
+        "checked_at": "2026-09-13"
+      }
+    },
+    {
+      "channel_id": "UC2IV4srmjG3d3FAEE88n4_A",
+      "name": "Riyadh Season",
+      "handle": "@RiyadhSeason",
+      "source_class": "promoter_official",
+      "identity_state": "verified",
+      "rights_state": "review_required",
+      "enabled": false,
+      "recommendation": "blocked_by_promoter_source_policy",
+      "rights_note": "Riyadh Season is disabled by the 2026-09-13 promoter source review; identity rests on the verified badge only.",
+      "verification": {
+        "method": "channel page externalId + canonical link; RSS feed title; organization website link or verified badge",
+        "rss_title": "موسم الرياض | Riyadh Season",
+        "ownership_evidence_url": null,
+        "ownership_evidence": "YouTube verified badge on channel ('موسم الرياض | Riyadh Season, Verified'). riyadhseason.com static HTML had no YouTube link, so no website corroboration.",
+        "rights_observations": "Not boxing-specific (general entertainment season). Has hosted full event live streams (e.g. 'Live stream of the Joshua vs. Prenga' 2026-06). Arabic/English mixed titles; sparse boxing cadence. oEmbed probe on the 15 newest RSS videos (2026-09-13): 15/15 returned 200, 0 returned 401 (embedding disabled). oEmbed 200 does not rule out per-video region locks or age gates.",
+        "checked_at": "2026-09-13"
+      }
+    },
+    {
+      "channel_id": "UCurvRE5fGcdUgCYWgh-BDsg",
+      "name": "DAZN Boxing",
+      "handle": "@DAZNBoxing",
+      "source_class": "broadcaster_official",
+      "identity_state": "verified",
+      "rights_state": "review_required",
+      "enabled": false,
+      "recommendation": "candidate_for_owner_rights_review",
+      "rights_note": "Identity verified; eligible for an owner rights review (YouTube embed-only, metadata, no rehosting).",
+      "verification": {
+        "method": "channel page externalId + canonical link; RSS feed title; organization website link or verified badge",
+        "rss_title": "DAZN Boxing",
+        "ownership_evidence_url": "https://www.dazn.com/en-GB/news/boxing/usyk-vs-verhoeven-fight-card-prelim-fights-watch-free-on-dazn/fewjbmdsse781jrx0bdq1coj4",
+        "ownership_evidence": "dazn.com article directs viewers to the 'DAZN YouTube channel' and links watch?v=e0MGk4MtHg0 ('USYK VS. VERHOEVEN PRELIMS LIVESTREAM'), whose channelId is this ID; verified badge.",
+        "rights_observations": "Free prelim live streams and highlights; main events are DAZN subscription/PPV, so many clips are teasers pointing to the paid service. oEmbed probe on the 15 newest RSS videos (2026-09-13): 15/15 returned 200, 0 returned 401 (embedding disabled). oEmbed 200 does not rule out per-video region locks or age gates.",
+        "checked_at": "2026-09-13"
+      }
+    },
+    {
+      "channel_id": "UC_JQGBtA7P0RwkRxd7xpJcA",
+      "name": "Sky Sports Boxing",
+      "handle": "@SkySportsBoxing",
+      "source_class": "broadcaster_official",
+      "identity_state": "verified",
+      "rights_state": "review_required",
+      "enabled": false,
+      "recommendation": "candidate_for_owner_rights_review",
+      "rights_note": "Identity verified; eligible for an owner rights review (YouTube embed-only, metadata, no rehosting).",
+      "verification": {
+        "method": "channel page externalId + canonical link; RSS feed title; organization website link or verified badge",
+        "rss_title": "Sky Sports Boxing",
+        "ownership_evidence_url": "https://www.skysports.com/boxing/news/12040/13188821/free-stream-watch-the-zak-chelli-vs-callum-simpson-and-caroline-dubois-vs-maira-moneo-public-workouts",
+        "ownership_evidence": "skysports.com 'FREE STREAM' article embeds youtube video lM5nXXNq290, whose channelId is this ID (oEmbed author 'Sky Sports Boxing'); verified badge. skysports.com footer links the parent @SkySports (UCTU_wC79Dgi9rh4e9-baTqA), not this channel.",
+        "rights_observations": "UK broadcaster; free weigh-in/workout streams and clips. Sky is UK/IE broadcaster for Zuffa Boxing (TKO press release). oEmbed probe on the 15 newest RSS videos (2026-09-13): 15/15 returned 200, 0 returned 401 (embedding disabled). oEmbed 200 does not rule out per-video region locks or age gates.",
+        "checked_at": "2026-09-13"
+      }
+    },
+    {
+      "channel_id": "UC-hWvVvE-crFl5vg5G8QbqA",
+      "name": "TNT Fight Sports (formerly TNT Sports Boxing)",
+      "handle": "@TNTFightSports",
+      "source_class": "broadcaster_official",
+      "identity_state": "verified",
+      "rights_state": "review_required",
+      "enabled": false,
+      "recommendation": "not_recommended",
+      "rights_note": "Currently mostly UFC content; identity rests on the verified badge only.",
+      "verification": {
+        "method": "channel page externalId + canonical link; RSS feed title; organization website link or verified badge",
+        "rss_title": "TNT Fight Sports",
+        "ownership_evidence_url": null,
+        "ownership_evidence": "YouTube verified badge ('TNT Fight Sports, Verified'); channel description identifies TNT Sports UK/ROI (HBO Max streaming home). Search indexes still show its old name 'TNT Sports Boxing'. tntsports.co.uk returned 403 to fetches and its fetched pages had no YouTube link, so no website corroboration.",
+        "rights_observations": "UK/IE broadcaster. Now combined fight-sports channel and currently UFC-heavy (newest two uploads are UFC Noche highlights) - boxing items need title filtering. @TNTSportsBoxing is 404; @tntsports (UClhp9g6TPiqCTOlcw0ROfNg) is the general TNT Sports channel. oEmbed probe on the 15 newest RSS videos (2026-09-13): 15/15 returned 200, 0 returned 401 (embedding disabled). oEmbed 200 does not rule out per-video region locks or age gates.",
+        "checked_at": "2026-09-13"
+      }
+    },
+    {
+      "channel_id": "UCwNqHDsnBCKT-olwJwIFyfg",
+      "name": "FOX Sports",
+      "handle": "@FOXSports",
+      "source_class": "broadcaster_official",
+      "identity_state": "verified",
+      "rights_state": "review_required",
+      "enabled": false,
+      "recommendation": "not_recommended",
+      "rights_note": "No current boxing programming on the channel.",
+      "verification": {
+        "method": "channel page externalId + canonical link; RSS feed title; organization website link or verified badge",
+        "rss_title": "FOX Sports",
+        "ownership_evidence_url": "https://www.foxsports.com/",
+        "ownership_evidence": "foxsports.com links youtube.com/foxsports, which resolves to this ID; verified badge.",
+        "rights_observations": "General sports channel; no boxing in the newest 15 uploads (MLB-heavy). PBC's former FOX package has moved to Prime Video; no boxing-specific FOX channel found (@FOXSportsBoxing 404). Low value for a boxing desk. oEmbed probe on the 15 newest RSS videos (2026-09-13): 15/15 returned 200, 0 returned 401 (embedding disabled). oEmbed 200 does not rule out per-video region locks or age gates.",
+        "checked_at": "2026-09-13"
+      }
+    },
+    {
+      "channel_id": "UCOogiDvTQ8G7Zb5AOim9Olw",
+      "name": "World Boxing Council (WBC)",
+      "handle": "@WBCBoxingvid",
+      "source_class": "sanctioning_body_official",
+      "identity_state": "verified",
+      "rights_state": "review_required",
+      "enabled": false,
+      "recommendation": "candidate_for_owner_rights_review",
+      "rights_note": "Identity verified; eligible for an owner rights review (YouTube embed-only, metadata, no rehosting).",
+      "verification": {
+        "method": "channel page externalId + canonical link; RSS feed title; organization website link or verified badge",
+        "rss_title": "World Boxing Council",
+        "ownership_evidence_url": "https://www.wbcboxing.com/",
+        "ownership_evidence": "wbcboxing.com links youtube.com/user/WBCBoxingvid, which resolves to this ID; channel description: 'Official YouTube account of the World Boxing Council (WBC)'. No verified badge detected.",
+        "rights_observations": "History/on-this-day clips. DECOY: @WBCBoxing (UC1T8OE4cuUzjPJhCfDlIYIA, 3 subs) is NOT official. oEmbed probe on the 15 newest RSS videos (2026-09-13): 15/15 returned 200, 0 returned 401 (embedding disabled). oEmbed 200 does not rule out per-video region locks or age gates.",
+        "checked_at": "2026-09-13"
+      }
+    },
+    {
+      "channel_id": "UCFLh18_umMvBkz9YCLo4vkA",
+      "name": "World Boxing Association (WBA)",
+      "handle": "@WorldBoxingAssociationOfficial",
+      "source_class": "sanctioning_body_official",
+      "identity_state": "verified",
+      "rights_state": "review_required",
+      "enabled": false,
+      "recommendation": "candidate_for_owner_rights_review",
+      "rights_note": "Identity verified; eligible for an owner rights review (YouTube embed-only, metadata, no rehosting).",
+      "verification": {
+        "method": "channel page externalId + canonical link; RSS feed title; organization website link or verified badge",
+        "rss_title": "World Boxing Association",
+        "ownership_evidence_url": "https://www.wbaboxing.com/boxing-news/canelito-and-carbajal-set-to-headline-wba-future",
+        "ownership_evidence": "wbaboxing.com news posts (2025-03-25 and 2025-06-18 'WBA Future Champions Returns to Venezuela...') link youtube.com/@WorldBoxingAssociationOfficial, which resolves to this ID (also /user/wbaboxingofficial). WBA homepage has no YouTube link. No verified badge detected.",
+        "rights_observations": "Streams full WBA Future Champions (Venezuela) cards live - full-length amateur/prospect events. DECOYS: @WBABoxing (UCPNVCJZXuh-LPQWX0qyaU5g), @WorldBoxingAssociation (UCuGXN5KqQmcZ_PlrdeYEcKA), @WBAofficial (UCv3rByLJS1XPTiPlvJG3Jvg), @WorldBoxingAssociationWBA (UCtR4iuWsGLF20rcRKVau32Q) are not the site-linked channel. YouTube TV lists a different 'World Boxing Association' topic ID (UCsGegT2HMIjy7ZHLMSvTRSA) - auto topic, not the org channel. oEmbed probe on the 15 newest RSS videos (2026-09-13): 15/15 returned 200, 0 returned 401 (embedding disabled). oEmbed 200 does not rule out per-video region locks or age gates.",
+        "checked_at": "2026-09-13"
+      }
+    },
+    {
+      "channel_id": "UCj9SVchp1P7nXAOcaWGMCiA",
+      "name": "World Boxing Organization (WBO)",
+      "handle": "@WorldBoxingOrg",
+      "source_class": "sanctioning_body_official",
+      "identity_state": "verified",
+      "rights_state": "review_required",
+      "enabled": false,
+      "recommendation": "candidate_for_owner_rights_review",
+      "rights_note": "Identity verified; eligible for an owner rights review (YouTube embed-only, metadata, no rehosting).",
+      "verification": {
+        "method": "channel page externalId + canonical link; RSS feed title; organization website link or verified badge",
+        "rss_title": "World Boxing Organization",
+        "ownership_evidence_url": "https://wboboxing.com/",
+        "ownership_evidence": "wboboxing.com links youtube.com/@WorldBoxingOrg, which resolves to this ID; channel description: 'official YouTube of the World Boxing Organization (WBO)'. No verified badge detected.",
+        "rights_observations": "Low cadence, institutional content (conventions, purse bids). @WBOOfficial (UCxEO1hEHLRNNEfXPfDe6Uxg) is not the site-linked channel. oEmbed probe on the 15 newest RSS videos (2026-09-13): 15/15 returned 200, 0 returned 401 (embedding disabled). oEmbed 200 does not rule out per-video region locks or age gates.",
+        "checked_at": "2026-09-13"
+      }
+    },
+    {
+      "channel_id": "UC1yoLnmPP-tQElJsL1kYL0g",
+      "name": "New Jersey OAG (parent of NJ State Athletic Control Board)",
+      "handle": "@NewJerseyOAG",
+      "source_class": "commission_official",
+      "identity_state": "verified",
+      "rights_state": "review_required",
+      "enabled": false,
+      "recommendation": "not_recommended",
+      "rights_note": "Channel belongs to the parent agency (NJ Office of the Attorney General) and carries almost no boxing.",
+      "verification": {
+        "method": "channel page externalId + canonical link; RSS feed title; organization website link or verified badge",
+        "rss_title": "New Jersey OAG",
+        "ownership_evidence_url": "https://www.njoag.gov/about/divisions-and-offices/state-athletic-control-board-home/",
+        "ownership_evidence": "No SACB-specific channel. The official SACB page on njoag.gov links youtube.com/NewJerseyOAG (resolves to this ID) and embeds video WhIKn4ImMrs from it. Identity verified as the NJ Attorney General's office, not the board itself.",
+        "rights_observations": "General AG-office content; boxing/SACB items are rare. Not a fight-footage source. oEmbed probe on the 15 newest RSS videos (2026-09-13): 15/15 returned 200, 0 returned 401 (embedding disabled). oEmbed 200 does not rule out per-video region locks or age gates.",
+        "checked_at": "2026-09-13"
+      }
+    },
+    {
+      "channel_id": "UCoUph3knwfclNRB2yxEDIRQ",
+      "name": "Florida DBPR (parent of Florida State Boxing/Athletic Commission)",
+      "handle": "@FloridaDBPR",
+      "source_class": "commission_official",
+      "identity_state": "verified",
+      "rights_state": "review_required",
+      "enabled": false,
+      "recommendation": "not_recommended",
+      "rights_note": "Channel belongs to the parent department (Florida DBPR) and carries almost no boxing.",
+      "verification": {
+        "method": "channel page externalId + canonical link; RSS feed title; organization website link or verified badge",
+        "rss_title": "Florida DBPR",
+        "ownership_evidence_url": "https://www2.myfloridalicense.com/athletic-commission/",
+        "ownership_evidence": "No commission-specific channel. The Florida Athletic Commission page links youtube.com/user/FloridaDBPR ('Connect On YouTube'), which resolves to this ID. Identity verified as the parent department, not the commission itself.",
+        "rights_observations": "General licensing-agency content; not a fight-footage source. oEmbed probe on the 15 newest RSS videos (2026-09-13): 15/15 returned 200, 0 returned 401 (embedding disabled). oEmbed 200 does not rule out per-video region locks or age gates.",
+        "checked_at": "2026-09-13"
+      }
+    },
+    {
+      "channel_id": "UCDncyGaGt5KumYowsnYUXKg",
+      "name": "Zuffa Boxing",
+      "handle": "@zuffaboxing",
+      "source_class": "promoter_official",
+      "identity_state": "identity_unconfirmed",
+      "rights_state": "review_required",
+      "enabled": false,
+      "recommendation": "identity_unconfirmed",
+      "rights_note": "No official website link and no verified badge.",
+      "verification": {
+        "method": "channel page externalId + canonical link; RSS feed title; organization website link or verified badge",
+        "rss_title": "Zuffa Boxing",
+        "ownership_evidence_url": null,
+        "ownership_evidence": "Channel title/description match and content is Zuffa event coverage, but no verified badge detected, zuffaboxing.com and ufc.com Zuffa pages (static HTML) do not link it, and ufc.com's how-to-watch page says 'On YouTube' without a link. Ownership not independently proven.",
+        "rights_observations": "TKO/Sela promotion (added candidate). Events are Paramount+ exclusive in US; pre-shows/weigh-ins on YouTube. Re-check for a site link or badge before use. oEmbed probe on the 15 newest RSS videos (2026-09-13): 15/15 returned 200, 0 returned 401 (embedding disabled). oEmbed 200 does not rule out per-video region locks or age gates.",
+        "checked_at": "2026-09-13"
+      }
+    },
+    {
+      "channel_id": "UCT7Mm-aRWBZ1Zd2bIXIEsyg",
+      "name": "ProBox TV",
+      "handle": "@ProBoxTV",
+      "source_class": "broadcaster_official",
+      "identity_state": "verified",
+      "rights_state": "review_required",
+      "enabled": false,
+      "recommendation": "candidate_for_owner_rights_review",
+      "rights_note": "Identity verified; eligible for an owner rights review (YouTube embed-only, metadata, no rehosting).",
+      "verification": {
+        "method": "channel page externalId + canonical link; RSS feed title; organization website link or verified badge",
+        "rss_title": "ProBox TV",
+        "ownership_evidence_url": "https://proboxtv.com/",
+        "ownership_evidence": "proboxtv.com links youtube.com/channel/UCT7Mm-aRWBZ1Zd2bIXIEsyg directly (exact ID match) and youtube.com/c/ProBoxTV; verified badge.",
+        "rights_observations": "Boxing network/promoter (added candidate); heavy on talk/analysis shows (e.g. Paulie Malignaggi) plus fight content. Separate Spanish channel linked (c/ProBoxTVEspañol) - not verified here. oEmbed probe on the 15 newest RSS videos (2026-09-13): 15/15 returned 200, 0 returned 401 (embedding disabled). oEmbed 200 does not rule out per-video region locks or age gates.",
+        "checked_at": "2026-09-13"
+      }
+    }
+  ],
+  "_not_found": [
+    {
+      "name": "ESPN Ringside / ESPN boxing",
+      "source_class": "broadcaster_official",
+      "finding": "No official ESPN Ringside or ESPN boxing YouTube channel found. ESPN Ringside exists on X/Instagram/Facebook only. @ESPNRingside (UCTiGMUMMz1kCY8Ql0x6kNpA, 4 subs) and @ESPNBoxing/@espnboxing (UCCwk1aBmpQNEYyDe1RHQBww, 4 subs) are unverified, near-empty channels - do NOT use. Boxing clips appear only within the general @ESPN channel (UCiWLfSweyRNmLpgEHekhoAg, verified), not separately verified here."
+    },
+    {
+      "name": "International Boxing Federation (IBF)",
+      "source_class": "sanctioning_body_official",
+      "finding": "ibf-usba-boxing.com has no YouTube link. Channels using the IBF name are unofficial: @internationalboxingfederat1251 (UCz2ymS9PTzjrFmUNwwcCj7A, described as a fan channel), @IBFBoxing (UCLoGrsDuRdhJDOqFodB_NDw, 5 subs), @IBFOfficial (UCPbIWHU47t7xlw1Bp_x4IHw). Do NOT use."
+    },
+    {
+      "name": "Nevada State Athletic Commission",
+      "source_class": "commission_official",
+      "finding": "boxing.nv.gov has no YouTube link; no official NSAC channel found by search (hearing videos on YouTube are third-party uploads)."
+    }
+  ]
+}
