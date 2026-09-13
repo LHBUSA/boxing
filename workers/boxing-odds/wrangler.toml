@@ -1,0 +1,64 @@
+# boxing-odds — scheduled boxing market capture.
+#
+# Top-level (default) environment: NOT DEPLOYED and capture OFF. There is no
+# boxing production Supabase project; the write-target allow-list in
+# shared/store/target-guard.mjs contains staging only.
+#
+# [env.staging] -> Worker "boxing-odds-staging", writes ONLY to Supabase
+# wpaxofilvbsjyrxrwjhg (propbetedge-boxing-staging). No routes, no workers.dev.
+#   secrets (wrangler secret put ... --env staging):
+#     SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, ODDS_API_KEY, BOXING_INTERNAL_TOKEN
+#
+# Capture gates (all must pass): ODDS_CAPTURE_ENABLED="true", verified write
+# target, the_odds_api source row approved with a rights review (migration
+# 0010), key present, plan cost <= ODDS_MAX_RUN_COST, adaptive cadence due,
+# daily budget not exhausted, unmetered preflight >= ODDS_MIN_REMAINING.
+#
+# Cost: one call per region; credits = markets per region. Plan below = 6
+# credits per capture. Cadence and quota math: docs/ODDS_CAPTURE.md.
+# Never add a user-driven refresh.
+
+name = "boxing-odds"
+main = "src/index.mjs"
+compatibility_date = "2026-09-01"
+workers_dev = false
+
+[triggers]
+crons = []
+
+[vars]
+ODDS_CAPTURE_ENABLED = "false"
+ODDS_REGION_PLAN = "us=h2h,totals;us2=h2h;uk=h2h;eu=h2h;au=h2h"
+ODDS_MIN_REMAINING = "20000"
+ODDS_MAX_RUN_COST = "8"
+ODDS_MONTHLY_BUDGET = "8000"
+ODDS_DAILY_BUDGET = "600"
+
+[observability]
+enabled = true
+head_sampling_rate = 1
+
+[env.staging]
+name = "boxing-odds-staging"
+workers_dev = false
+
+[env.staging.triggers]
+crons = ["*/15 * * * *"]
+
+[env.staging.version_metadata]
+binding = "CF_VERSION_METADATA"
+
+[env.staging.vars]
+BOXING_WORKER_NAME = "boxing-odds-staging"
+BOXING_ENVIRONMENT = "staging"
+BOXING_SUPABASE_REF = "wpaxofilvbsjyrxrwjhg"
+ODDS_CAPTURE_ENABLED = "true"
+ODDS_REGION_PLAN = "us=h2h,totals;us2=h2h;uk=h2h;eu=h2h;au=h2h"
+ODDS_MIN_REMAINING = "20000"
+ODDS_MAX_RUN_COST = "8"
+ODDS_MONTHLY_BUDGET = "8000"
+ODDS_DAILY_BUDGET = "600"
+
+[env.staging.observability]
+enabled = true
+head_sampling_rate = 1

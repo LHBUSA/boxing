@@ -1,0 +1,286 @@
+{
+ "workbench_version": "boxing-identity-review-workbench@1.0.0",
+ "batch_id": "002",
+ "generated_at": "2026-09-13T19:34:18.564Z",
+ "source": "resolver dry run 002 (2026-09-13T19:33:42.127Z)",
+ "summary": {
+  "entries": 2,
+  "bouts_that_would_be_created": 2,
+  "danger_cases": 0
+ },
+ "batch": [
+  {
+   "entry_id": "002:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|ariele-davis|sofia-viretti|2|b",
+   "review_item_id": null,
+   "source_key": "florida_athletic_commission",
+   "state": "FL",
+   "appearance": {
+    "namespace": "fl-athletic-commission.fighter",
+    "bout_external_id": "2026-05-01|fort-lauderdale|team-boxing-league|ariele-davis|sofia-viretti|2",
+    "side": "b",
+    "printed_name": "Sofia Viretti",
+    "display_name": "Sofia Viretti",
+    "document": "fl-results:05-01-2026-Team_Boxing_League-results_without_med",
+    "latest_decision_seq": 114
+   },
+   "unlocks_bout_now": true,
+   "evidence": {
+    "normalized_name": {
+     "observed": "sofia viretti",
+     "candidate": "sofia viretti",
+     "name_level": "exact"
+    },
+    "city_hometown": {
+     "observed": "Argentina",
+     "observed_city_level": null,
+     "candidate": [],
+     "candidate_city_level": []
+    },
+    "weight": {
+     "official_lb": 145.8,
+     "contracted_lb": null,
+     "division_printed": null,
+     "candidate_weights": []
+    },
+    "commission": "fl-athletic-commission",
+    "venue": "War Memorial Auditorium, Fort Lauderdale",
+    "event": "Team Boxing League at War Memorial Auditorium",
+    "event_date": "2026-05-01",
+    "opponent": "Ariele Davis",
+    "opponent_resolved_via": "same_card_name_and_hometown",
+    "appearance_bout": {
+     "source_bout_id": "2026-05-01|fort-lauderdale|team-boxing-league|ariele-davis|sofia-viretti|2",
+     "repeat_index": 2,
+     "bout_order": 18
+    },
+    "relationship": [
+     "repeat_pairing_identity_continuity",
+     "same_commission:fl-athletic-commission"
+    ],
+    "candidate_record": [
+     {
+      "date": "2026-05-01",
+      "event_id": "744e9da0-06df-40ff-823b-05e66f7f7469",
+      "bout_id": "92dacc8b-733e-4042-90bf-a71dd76c716f",
+      "bout_order": 12,
+      "opponent": "Ariele Davis",
+      "opponent_id": "62e0f8dc-5a27-46ce-9166-e95ee62d7208",
+      "source_bout_ids": [
+       "2026-05-01|fort-lauderdale|team-boxing-league|ariele-davis|sofia-viretti"
+      ],
+      "repeat_index": 1,
+      "pairing": "single",
+      "pairing_detail": null,
+      "weight_lb": 147.4,
+      "current_result": {
+       "revision": 1,
+       "result": "loss",
+       "method": "DECISION",
+       "change_reason": "identity_graph_reapply",
+       "is_parser_correction": false
+      },
+      "preserved_history": []
+     },
+     {
+      "date": "2026-06-26",
+      "event_id": "ee1249f2-a60e-413f-b993-830c560b52a4",
+      "bout_id": "25b079c2-ebb2-4e1c-9ba1-5948cd674669",
+      "bout_order": 11,
+      "opponent": "Suzana Rodriguez Griffin",
+      "opponent_id": "897771ab-4c95-46a5-add0-a87a6de25733",
+      "source_bout_ids": [
+       "2026-06-26|fort-lauderdale|team-boxing-league|suzana-rodriguez-griffin|sofia-viretti"
+      ],
+      "repeat_index": 1,
+      "pairing": "repeat_pairing",
+      "pairing_detail": "meeting 1 of 2 on the same card",
+      "weight_lb": 146,
+      "current_result": {
+       "revision": 3,
+       "result": "loss",
+       "method": "DECISION",
+       "change_reason": "reparsed_with_florida-athletic-commission@1.0.1",
+       "is_parser_correction": true
+      },
+      "preserved_history": [
+       {
+        "revision": 1,
+        "result": "loss",
+        "method": "DECISION",
+        "change_reason": null,
+        "kind": "superseded_by_parser_correction",
+        "corrected_by_revision": 3,
+        "corrected_by_reason": "reparsed_with_florida-athletic-commission@1.0.1"
+       },
+       {
+        "revision": 2,
+        "result": "win",
+        "method": "DECISION",
+        "change_reason": null,
+        "kind": "superseded_by_parser_correction",
+        "corrected_by_revision": 3,
+        "corrected_by_reason": "reparsed_with_florida-athletic-commission@1.0.1"
+       }
+      ]
+     },
+     {
+      "date": "2026-06-26",
+      "event_id": "ee1249f2-a60e-413f-b993-830c560b52a4",
+      "bout_id": "735674c6-33a9-4e26-849d-f94f60d561c9",
+      "bout_order": 20,
+      "opponent": "Suzana Rodriguez Griffin",
+      "opponent_id": "897771ab-4c95-46a5-add0-a87a6de25733",
+      "source_bout_ids": [
+       "2026-06-26|fort-lauderdale|team-boxing-league|suzana-rodriguez-griffin|sofia-viretti|2"
+      ],
+      "repeat_index": 2,
+      "pairing": "repeat_pairing",
+      "pairing_detail": "meeting 2 of 2 on the same card",
+      "weight_lb": 146,
+      "current_result": {
+       "revision": 1,
+       "result": "win",
+       "method": "DECISION",
+       "change_reason": "reparsed_with_florida-athletic-commission@1.0.2",
+       "is_parser_correction": false
+      },
+      "preserved_history": []
+     }
+    ],
+    "contradictions": [],
+    "competing_candidates": [],
+    "similar_named_other_boxers": [],
+    "confidence": 98,
+    "resolver_tier": "A",
+    "resolver_reason": "repeat_pairing_identity_continuity",
+    "resolver_stop_reason": null
+   },
+   "proposed_boxer": {
+    "fighter_id": "dc05fc46-e9fd-4e19-a8ae-f198f97a615b",
+    "display_name": "Sofia Viretti",
+    "tier_by_resolver": "A"
+   },
+   "danger": [],
+   "recommendation": "match",
+   "recommendation_why": "resolver A repeat_pairing_identity_continuity; no competing candidate or contradiction",
+   "reviewer_decision": "approve_match",
+   "reviewer_note": "approve_match (Justin Erickson): Sofia Viretti, 2026-05-01 second meeting vs Ariele Davis (...|2, sheet order 18) to canonical fighter dc05fc46-e9fd-4e19-a8ae-f198f97a615b. Evidence: Tier A repeat_pairing_identity_continuity, confidence 98, no competing candidate, no contradiction."
+  },
+  {
+   "entry_id": "002:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|doctress-robinson|esteuri-suero|2|b",
+   "review_item_id": null,
+   "source_key": "florida_athletic_commission",
+   "state": "FL",
+   "appearance": {
+    "namespace": "fl-athletic-commission.fighter",
+    "bout_external_id": "2026-05-01|fort-lauderdale|team-boxing-league|doctress-robinson|esteuri-suero|2",
+    "side": "b",
+    "printed_name": "Esteuri Suero",
+    "display_name": "Esteuri Suero",
+    "document": "fl-results:05-01-2026-Team_Boxing_League-results_without_med",
+    "latest_decision_seq": 123
+   },
+   "unlocks_bout_now": true,
+   "evidence": {
+    "normalized_name": {
+     "observed": "esteuri suero",
+     "candidate": "esteuri suero",
+     "name_level": "exact"
+    },
+    "city_hometown": {
+     "observed": "Dominican Republic",
+     "observed_city_level": null,
+     "candidate": [],
+     "candidate_city_level": []
+    },
+    "weight": {
+     "official_lb": 151.6,
+     "contracted_lb": null,
+     "division_printed": null,
+     "candidate_weights": []
+    },
+    "commission": "fl-athletic-commission",
+    "venue": "War Memorial Auditorium, Fort Lauderdale",
+    "event": "Team Boxing League at War Memorial Auditorium",
+    "event_date": "2026-05-01",
+    "opponent": "Doctress Robinson",
+    "opponent_resolved_via": "same_card_name_and_hometown",
+    "appearance_bout": {
+     "source_bout_id": "2026-05-01|fort-lauderdale|team-boxing-league|doctress-robinson|esteuri-suero|2",
+     "repeat_index": 2,
+     "bout_order": 29
+    },
+    "relationship": [
+     "repeat_pairing_identity_continuity",
+     "same_commission:fl-athletic-commission"
+    ],
+    "candidate_record": [
+     {
+      "date": "2026-05-01",
+      "event_id": "744e9da0-06df-40ff-823b-05e66f7f7469",
+      "bout_id": "40923163-8343-450e-9d94-e57030d753d7",
+      "bout_order": 4,
+      "opponent": "Doctress Robinson",
+      "opponent_id": "f1b9fc89-b795-471e-bd2e-7beb62e5d5f5",
+      "source_bout_ids": [
+       "2026-05-01|fort-lauderdale|team-boxing-league|doctress-robinson|esteuri-suero"
+      ],
+      "repeat_index": 1,
+      "pairing": "single",
+      "pairing_detail": null,
+      "weight_lb": 151.6,
+      "current_result": {
+       "revision": 1,
+       "result": "win",
+       "method": "DECISION",
+       "change_reason": "identity_graph_reapply",
+       "is_parser_correction": false
+      },
+      "preserved_history": []
+     },
+     {
+      "date": "2026-06-26",
+      "event_id": "ee1249f2-a60e-413f-b993-830c560b52a4",
+      "bout_id": "c4eece81-740e-4df2-a98e-b481a1b0d1df",
+      "bout_order": 5,
+      "opponent": "Jasir Riley",
+      "opponent_id": "ace39675-5b97-4b09-8001-c30743e88ce3",
+      "source_bout_ids": [
+       "2026-06-26|fort-lauderdale|team-boxing-league|jasir-riley|esteuri-suero"
+      ],
+      "repeat_index": 1,
+      "pairing": "single",
+      "pairing_detail": null,
+      "weight_lb": 151,
+      "current_result": {
+       "revision": 1,
+       "result": "win",
+       "method": "DECISION",
+       "change_reason": null,
+       "is_parser_correction": false
+      },
+      "preserved_history": []
+     }
+    ],
+    "contradictions": [],
+    "competing_candidates": [],
+    "similar_named_other_boxers": [],
+    "confidence": 98,
+    "resolver_tier": "A",
+    "resolver_reason": "repeat_pairing_identity_continuity",
+    "resolver_stop_reason": null
+   },
+   "proposed_boxer": {
+    "fighter_id": "3b7a4532-c39d-4879-b0dd-fce7c3a06ec1",
+    "display_name": "Esteuri Suero",
+    "tier_by_resolver": "A"
+   },
+   "danger": [],
+   "recommendation": "match",
+   "recommendation_why": "resolver A repeat_pairing_identity_continuity; no competing candidate or contradiction",
+   "reviewer_decision": "approve_match",
+   "reviewer_note": "approve_match (Justin Erickson): Esteuri Suero, 2026-05-01 second meeting vs Doctress Robinson (...|2, sheet order 29) to canonical fighter 3b7a4532-c39d-4879-b0dd-fce7c3a06ec1. Evidence: Tier A repeat_pairing_identity_continuity, confidence 98, no competing candidate, no contradiction."
+  }
+ ],
+ "remaining": []
+}

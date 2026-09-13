@@ -1,0 +1,373 @@
+{
+  "api_version": "boxing-gateway@1",
+  "auth": "Authorization: Bearer <BOXING_INTERNAL_TOKEN> (>= 32 chars) on every /internal route",
+  "methods": [
+    "GET"
+  ],
+  "envelope": {
+    "api_version": "string",
+    "generated_at": "ISO-8601 timestamp",
+    "data": "route payload"
+  },
+  "errors": {
+    "400": "bad_request",
+    "401": "unauthorized",
+    "404": "not_found",
+    "405": "method_not_allowed (read-only)",
+    "500": "internal_error",
+    "503": "store_not_configured"
+  },
+  "guarantees": [
+    "read-only: the Worker can reach only the store methods listed in read_methods",
+    "fighter and official ids in payloads are canonical (merged records resolve to the survivor)",
+    "derived values are labelled PropBetEdge-derived, carry metric versions and sample sizes, and are null unless status is available",
+    "matchup snapshots are immutable and never contain information from after their input_cutoff",
+    "fair prices appear only from a trained or validated registered model",
+    "market data: summarized, one bout per request, whitelisted fields; no tick history, raw payloads, provider ids, bulk lists or downloads (The Odds API prohibits raw redistribution)",
+    "site routes are fixed-field projections: no DOB, stated hometowns, identity evidence, reviewer names, provider ids or prices outside the one-bout market summary"
+  ],
+  "site_forbidden_keys": [
+    "dob",
+    "hometown",
+    "evidence",
+    "reviewer",
+    "reviewed_by",
+    "decided_by",
+    "review_batch",
+    "raw_dob",
+    "federal_id",
+    "license_number",
+    "medical",
+    "suspensions",
+    "source_record",
+    "payload",
+    "external_id",
+    "provider_event_id",
+    "internal_bout_id",
+    "candidates"
+  ],
+  "market_data_rights": {
+    "sources": [
+      "the_odds_api"
+    ],
+    "permitted": "first-party summarized display and PropBetEdge-derived values, one bout per request",
+    "prohibited": "raw redistribution: bulk/list endpoints, tick history, raw payloads, downloadable files, passthrough of provider feeds"
+  },
+  "read_methods": [
+    "getFighter",
+    "fighterDnaLatest",
+    "cardState",
+    "gatewayBout",
+    "gatewayMatchup",
+    "gatewayOddsSummary",
+    "gatewayModels",
+    "titleSummary",
+    "titleReigns",
+    "titleMapFacts",
+    "rankingSnapshotAsOf",
+    "gatewayOfficial",
+    "officialDnaLatest",
+    "siteHome",
+    "siteEvents",
+    "siteEvent",
+    "siteBout",
+    "siteFighters",
+    "siteFighter",
+    "siteTitleBoard",
+    "siteRankingBoard",
+    "siteCoverage",
+    "siteScorecards",
+    "siteScorecard",
+    "siteOfficials",
+    "siteOfficial",
+    "siteMarketIndex",
+    "siteVideos",
+    "sitePromoters",
+    "sitePromoter"
+  ],
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/internal/v1/fighters/:ref",
+      "summary": "Canonical fighter: profile, identities, aliases, attribute claims.",
+      "params": {
+        "ref": "uuid | pbe_boxer_* public id | namespace:external_id"
+      },
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/fighters/:ref/dna",
+      "summary": "Latest Fight DNA snapshot per metric key and version (canonical fighter).",
+      "params": {
+        "ref": "uuid | pbe_boxer_* public id | namespace:external_id"
+      },
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/events/:id",
+      "summary": "Event with its card: bouts, participants, titles and officials.",
+      "params": {
+        "id": "uuid"
+      },
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/bouts/:id",
+      "summary": "Bout: event, corners (canonical ids), titles, current result, current scorecards, officials, weigh-ins.",
+      "params": {
+        "id": "uuid"
+      },
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/bouts/:id/matchup",
+      "summary": "Immutable point-in-time matchup snapshots (newest cutoff first) and any registered model outputs.",
+      "params": {
+        "id": "uuid"
+      },
+      "query": {
+        "limit": "1..50, default 5"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/bouts/:id/odds-summary",
+      "summary": "One bout: summarized current prices per book with freshness, best price, opening/current comparison, consensus/dispersion, and fair prices from trained models (empty while untrained). Never raw provider ticks or payloads.",
+      "params": {
+        "id": "uuid"
+      },
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/titles/:id",
+      "summary": "Title and its derived reign history.",
+      "params": {
+        "id": "uuid"
+      },
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/title-map",
+      "summary": "Division title map as of a date (holders, undisputed status, rankings).",
+      "params": {},
+      "query": {
+        "weight_class": "class key (required)",
+        "gender": "male | female",
+        "as_of": "YYYY-MM-DD"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/rankings",
+      "summary": "Ranking entries of the snapshot in force on a date.",
+      "params": {},
+      "query": {
+        "organization": "slug (required)",
+        "weight_class": "class key (required)",
+        "gender": "male | female",
+        "as_of": "YYYY-MM-DD"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/officials/:id",
+      "summary": "Official (canonical): profile, assignment counts, recent assignments.",
+      "params": {
+        "id": "uuid"
+      },
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/officials/:id/dna",
+      "summary": "Judge DNA and Referee DNA: descriptive, with sample sizes; small samples are null.",
+      "params": {
+        "id": "uuid"
+      },
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/models",
+      "summary": "Model registry: versions, feature versions, training cutoffs, status (untrained models publish nothing).",
+      "params": {},
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/home",
+      "summary": "Site home: upcoming and recent cards, latest results, scorecard watch, one Fight DNA feature, coverage.",
+      "params": {},
+      "query": {
+        "today": "YYYY-MM-DD (default today, UTC)"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/events",
+      "summary": "Site event directory page (upcoming | results | all), optional commission filter.",
+      "params": {},
+      "query": {
+        "scope": "upcoming | results | all",
+        "commission": "commission slug",
+        "limit": "1..100, default 40",
+        "offset": "0..10000",
+        "today": "YYYY-MM-DD"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/events/:ref",
+      "summary": "Site event: summary, card in official sheet order, card-change counts, same-weekend cards.",
+      "params": {
+        "ref": "hex suffix of the event public id (12..32)"
+      },
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/bouts/:ref",
+      "summary": "Site bout: corners with verified record entering and current Fight DNA, result revisions, scorecards, card, and the one-bout market summary when matched.",
+      "params": {
+        "ref": "hex suffix of the bout public id (12..32)"
+      },
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/fighters",
+      "summary": "Site fighter directory page with verified records; optional name search.",
+      "params": {},
+      "query": {
+        "q": "name search (2..60 chars)",
+        "limit": "1..100, default 50",
+        "offset": "0..10000"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/fighters/:ref",
+      "summary": "Site fighter dossier: verified record, verified bouts, current Fight DNA (or a redirect for merged records).",
+      "params": {
+        "ref": "hex suffix of the fighter public id (12..32)"
+      },
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/titles",
+      "summary": "Site Title Map: divisions, sanctioning bodies with source review state, and the division title map when requested.",
+      "params": {},
+      "query": {
+        "weight_class": "class key (optional)",
+        "gender": "male | female",
+        "as_of": "YYYY-MM-DD"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/rankings",
+      "summary": "Site rankings: sanctioning bodies with source review state, stored snapshot index, and one snapshot when requested.",
+      "params": {},
+      "query": {
+        "organization": "slug (optional)",
+        "weight_class": "class key (optional)",
+        "gender": "male | female",
+        "as_of": "YYYY-MM-DD"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/scorecards",
+      "summary": "Scorecard Center: decisions with official judges' cards, filterable by decision type and commission, sortable by card spread.",
+      "params": {},
+      "query": {
+        "decision": "unanimous | split | majority | draw",
+        "commission": "commission slug",
+        "sort": "recent | spread",
+        "limit": "1..100, default 40",
+        "offset": "0..10000"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/scorecards/:ref",
+      "summary": "One decision: judges' cards (and round cards when published), spread, deductions, result revisions, card provenance, judges' sample context.",
+      "params": {
+        "ref": "hex suffix of the bout public id (12..32)"
+      },
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/officials",
+      "summary": "Judge or referee directory with assignments, cards and headline descriptive metrics (with samples).",
+      "params": {},
+      "query": {
+        "role": "judge | referee (required)",
+        "q": "name search (2..60 chars)",
+        "limit": "1..120, default 60",
+        "offset": "0..10000"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/officials/:ref",
+      "summary": "Official profile: roles, jurisdictions, Judge/Referee DNA with samples, assignments with the full panel and results.",
+      "params": {
+        "ref": "hex suffix of the official public id (12..32)"
+      },
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/market-index",
+      "summary": "Odds Terminal index: capture coverage counts and the canonical bouts that have a verified market match. No prices; prices come from the one-bout summary.",
+      "params": {},
+      "query": {
+        "today": "YYYY-MM-DD"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/videos",
+      "summary": "Official Video Desk: channel registry states and published videos from enabled, verified, rights-approved channels.",
+      "params": {},
+      "query": {
+        "type": "video type",
+        "limit": "1..60, default 24"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/promoters",
+      "summary": "Promoters exactly as listed on official commission sheets (not canonical entities; no inferred affiliation).",
+      "params": {},
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/promoters/:key",
+      "summary": "One listed promoter: its sheet cards, co-listed promoters, venues and fighters appearing on those cards.",
+      "params": {
+        "key": "normalized promoter listing key"
+      },
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/coverage",
+      "summary": "Site coverage counts: what is on verified record and what is still pending.",
+      "params": {},
+      "query": {
+        "today": "YYYY-MM-DD"
+      }
+    }
+  ]
+}

@@ -1,0 +1,126 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { cityLevelHometown, evaluateCandidate, resolveAppearance } from './graph.mjs';
+
+const EV = { event_id: 'ev-new', date: '2026-06-20', commission: 'fl-athletic-commission', venue_id: 'venue-miami' };
+const app = (over = {}) => ({ display_name: 'Luis Ortiz', hometown: 'Miami, FL', weight_lb: 140.2, debut: false, event: EV, opponent: { display_name: 'Nate Other', fighter_id: 'opp-1' }, ...over });
+const bout = (over = {}) => ({ bout_id: 'b1', event_id: 'ev-old', date: '2026-03-14', status: 'complete', commission: 'fl-athletic-commission', venue_id: 'venue-tampa', opponent_id: 'opp-9', weight_lb: 139.6, ...over });
+const cand = (over = {}) => ({ id: 'f-1', display_name: 'Luis Ortiz', aliases: [], identities: [], hometowns: ['Miami, FL'], bouts: [bout()], ...over });
+
+test('city-level hometown only: a country or state is never decisive', () => {
+  assert.equal(cityLevelHometown('Miami, FL'), 'miami, fl');
+  assert.equal(cityLevelHometown('Cuba'), null);
+  assert.equal(cityLevelHometown('Pennsylvania'), null);
+});
+
+test('Tier B: exact name + same city + compatible weight + same commission, sole candidate, no contradiction', () => {
+  const r = resolveAppearance(app(), [cand()]);
+  assert.equal(r.decision, 'matched');
+  assert.equal(r.tier, 'B');
+  assert.equal(r.fighter_id, 'f-1');
+  assert.deepEqual(r.candidates[0].families, ['hometown', 'jurisdiction', 'weight']);
+});
+
+test('same-name fighters never auto-merge: two plausible candidates stay in review', () => {
+  const r = resolveAppearance(app(), [cand(), cand({ id: 'f-2', hometowns: ['Miami, FL'] })]);
+  assert.equal(r.decision, 'review');
+  assert.equal(r.tier, 'C');
+  assert.equal(r.reason, 'more_than_one_plausible_candidate');
+});
+
+test('one weak clue cannot auto-resolve: exact name + same city alone is review', () => {
+  const r = resolveAppearance(app({ weight_lb: null }), [cand()]);
+  assert.equal(r.decision, 'review');
+  assert.match(r.reason, /insufficient_graph_evidence/);
+  const regionOnly = resolveAppearance(app({ hometown: 'Cuba' }), [cand({ hometowns: ['Cuba'] })]);
+  assert.equal(regionOnly.decision, 'review', 'a country-level hometown is not a support family');
+});
+
+test('impossible dates reject the merge (Tier D); the only candidate excluded -> a distinct boxer when the source may create', () => {
+  const elsewhere = cand({ bouts: [bout({ event_id: 'ev-vegas', date: '2026-06-20', commission: 'nsac', venue_id: 'venue-vegas' })] });
+  const e = evaluateCandidate(app(), elsewhere);
+  assert.equal(e.tier, 'D');
+  assert.ok(e.hard.includes('simultaneous_event_elsewhere'));
+  assert.equal(resolveAppearance(app(), [elsewhere], { allowCreate: true }).decision, 'created');
+  assert.equal(resolveAppearance(app(), [elsewhere], { allowCreate: false }).decision, 'review');
+  // same date at the same place on another event row is a possible duplicate event: review, never a conflict
+  const dup = evaluateCandidate(app(), cand({ bouts: [bout({ event_id: 'ev-dup', date: '2026-06-20', venue_id: 'venue-miami' })] }));
+  assert.equal(dup.tier, 'C');
+  assert.ok(dup.soft.includes('possible_duplicate_event'));
+});
+
+test('contradictions block auto-resolution: weight incompatible, fought 10 days earlier, different city, given name differs', () => {
+  assert.equal(resolveAppearance(app({ weight_lb: 200 }), [cand()]).decision, 'review');
+  assert.equal(resolveAppearance(app(), [cand({ bouts: [bout(), bout({ bout_id: 'b2', event_id: 'ev-x', date: '2026-06-10' })] })]).decision, 'review');
+  assert.equal(resolveAppearance(app({ hometown: 'Orlando, FL' }), [cand()]).decision, 'review');
+  const variant = resolveAppearance(app({ display_name: 'Luiz Ortiz' }), [cand()]);
+  assert.notEqual(variant.decision, 'matched');
+});
+
+test('a commission debut after a recorded bout, or the candidate being the opponent, is a hard conflict', () => {
+  assert.ok(evaluateCandidate(app({ debut: true }), cand()).hard.includes('debut_after_recorded_bout'));
+  assert.ok(evaluateCandidate(app({ opponent: { display_name: 'Luis Ortiz', fighter_id: 'f-1' } }), cand()).hard.includes('candidate_is_the_opponent'));
+});
+
+test('Tier A: the same fight is already on the candidate record (another official document)', () => {
+  const r = resolveAppearance(app({ hometown: null, weight_lb: null }), [cand({ bouts: [bout({ event_id: 'ev-other-doc', date: '2026-06-20', opponent_id: 'opp-1', venue_id: 'venue-miami' })] })]);
+  assert.equal(r.decision, 'matched');
+  assert.equal(r.tier, 'A');
+});
+
+test('no name-similar candidate: not the graph resolver decision', () => {
+  assert.equal(resolveAppearance(app(), [cand({ display_name: 'Someone Else' })]).decision, 'none');
+});
+
+test('graph evidence safely resolves an alias form (joined name) but never a different given name', () => {
+  const alias = resolveAppearance(app({ display_name: 'DeVon Williams', hometown: 'Fort Lauderdale, FL', weight_lb: 144.8 }),
+    [cand({ display_name: 'De Von Williams', hometowns: ['Fort Lauderdale, FL.'], bouts: [bout({ weight_lb: 147 })] })]);
+  assert.equal(alias.decision, 'matched');
+  assert.equal(alias.tier, 'B');
+  assert.equal(alias.candidates[0].name_level, 'joined');
+  const brothers = resolveAppearance(app({ display_name: 'Ari Bonilla', hometown: 'El Paso, TX', weight_lb: 116 }),
+    [cand({ display_name: 'Andrey Bonilla', hometowns: ['El Paso, TX'], bouts: [bout({ weight_lb: 119.2 })] })]);
+  assert.notEqual(brothers.decision, 'matched', 'same surname, city and weight class is not the same boxer');
+});
+
+test('issue #10: a distinct second meeting on the same card is repeat_pairing_identity_continuity, not the same fight', () => {
+  const card = { event_id: 'ev-tbl', date: '2026-05-01', commission: 'fl-athletic-commission', venue_id: 'venue-ftl' };
+  const firstMeeting = { bout_id: 'bout-1', event_id: 'ev-tbl', date: '2026-05-01', status: 'complete', commission: 'fl-athletic-commission', venue_id: 'venue-ftl',
+    opponent_id: 'ariele', weight_lb: 145.8, bout_order: 12, source_bout_ids: [{ namespace: 'fl-athletic-commission.bout', external_id: '2026-05-01|tbl|ariele-davis|sofia-viretti', repeat_index: 1 }] };
+  const second = app({ display_name: 'Sofia Viretti', hometown: 'Argentina', weight_lb: 146, event: card, opponent: { display_name: 'Ariele Davis', fighter_id: 'ariele' },
+    namespace: 'fl-athletic-commission.fighter', bout_external_id: '2026-05-01|tbl|ariele-davis|sofia-viretti|2', bout_order: 20 });
+  const r = resolveAppearance(second, [cand({ display_name: 'Sofia Viretti', hometowns: ['Argentina'], bouts: [firstMeeting] })]);
+  assert.equal(r.decision, 'matched');
+  assert.equal(r.tier, 'A', 'threshold unchanged: the same Tier A conditions');
+  assert.equal(r.confidence, 98);
+  assert.equal(r.reason, 'repeat_pairing_identity_continuity');
+  assert.ok(!r.candidates[0].support.includes('same_fight_already_on_record'));
+  // the same fight recorded on ANOTHER event row within a day is still labelled as the same fight (possible duplicate record)
+  const dup = resolveAppearance(second, [cand({ display_name: 'Sofia Viretti', hometowns: ['Argentina'], bouts: [{ ...firstMeeting, event_id: 'ev-other-row', source_bout_ids: [] }] })]);
+  assert.equal(dup.reason, 'same_fight_already_on_record');
+  // no distinguishing source id or order on the same event: not asserted as a repeat pairing
+  const unclear = evaluateCandidate({ ...second, bout_external_id: null, bout_order: null }, cand({ display_name: 'Sofia Viretti', hometowns: ['Argentina'], bouts: [{ ...firstMeeting, source_bout_ids: [] }] }));
+  assert.equal(unclear.continuity, 'same_fight_already_on_record');
+});
+
+test('threshold lock: Tier A/B conditions are unchanged by the repeat-pairing wording fix', async () => {
+  const { TIER_B_RULES } = await import('./graph.mjs');
+  assert.deepEqual({ ...TIER_B_RULES, weight_support_lb: undefined, weight_conflict_lb: undefined }, {
+    mandatory_families: ['hometown', 'weight'], one_of_families: ['jurisdiction', 'venue', 'opponent_graph'], min_families: 3,
+    weight_window_days: 400, simultaneous_days: 2, close_days: 13, weight_support_lb: undefined, weight_conflict_lb: undefined });
+  assert.deepEqual([140, 250].map(TIER_B_RULES.weight_support_lb), [8, 12.5]);
+  assert.deepEqual([140, 250].map(TIER_B_RULES.weight_conflict_lb), [20, 30]);
+  const card = { event_id: 'ev-tbl', date: '2026-05-01', commission: 'fl-athletic-commission', venue_id: 'venue-ftl' };
+  const first = { bout_id: 'b1', event_id: 'ev-tbl', date: '2026-05-01', status: 'complete', commission: 'fl-athletic-commission', venue_id: 'venue-ftl', opponent_id: 'opp', weight_lb: 146,
+    bout_order: 12, source_bout_ids: [{ namespace: 'fl-athletic-commission.bout', external_id: 'pair', repeat_index: 1 }] };
+  const second = (over = {}) => app({ display_name: 'Sofia Viretti', hometown: 'Argentina', weight_lb: 146, event: card, opponent: { display_name: 'Opp', fighter_id: 'opp' },
+    namespace: 'fl-athletic-commission.fighter', bout_external_id: 'pair|2', bout_order: 20, ...over });
+  const c = (over = {}) => cand({ display_name: 'Sofia Viretti', hometowns: ['Argentina'], bouts: [first], ...over });
+  // still requires: strong name, no soft contradiction, sole plausible candidate
+  assert.equal(resolveAppearance(second(), [c()]).tier, 'A');
+  assert.notEqual(resolveAppearance(second({ display_name: 'S. Viretti' }), [c()]).tier, 'A', 'a weak name never reaches Tier A through a repeat pairing');
+  assert.equal(resolveAppearance(second({ weight_lb: 200 }), [c({ bouts: [first, { ...first, bout_id: 'b0', event_id: 'ev-old', date: '2026-03-01', weight_lb: 146, source_bout_ids: [], opponent_id: 'x' }] })]).decision, 'review',
+    'a soft contradiction still blocks Tier A');
+  assert.equal(resolveAppearance(second(), [c(), c({ id: 'f-2' })]).decision, 'review', 'two plausible candidates still go to review');
+  assert.equal(resolveAppearance(second({ opponent: { display_name: 'Opp', fighter_id: null } }), [c()]).tier, 'C', 'without a resolved opponent there is no continuity evidence');
+});

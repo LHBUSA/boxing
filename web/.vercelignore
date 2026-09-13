@@ -1,0 +1,6 @@
+.env*.local
+.env
+qa/
+.next/
+node_modules/
+scripts/qa-shot.mjs

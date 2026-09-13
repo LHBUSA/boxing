@@ -1,0 +1,28 @@
+{
+  "name": "propbetedge-boxing",
+  "version": "0.1.0",
+  "private": true,
+  "description": "PropBetEdge Boxing data plane: canonical graph, market history, derived intelligence and fact-driven news.",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LHBUSA/boxing.git"
+  },
+  "license": "UNLICENSED",
+  "scripts": {
+    "test": "npm run test:unit && npm run test:db",
+    "test:unit": "node --test --test-timeout=60000 \"shared/**/*.test.mjs\" \"workers/**/*.test.mjs\"",
+    "test:db": "node --test --test-concurrency=4 --test-timeout=120000 \"tests/db/*.test.mjs\"",
+    "check:secrets": "node scripts/check-secrets.mjs",
+    "db:apply-local": "node scripts/db/apply-local.mjs"
+  },
+  "devDependencies": {
+    "pg": "^8.23.0"
+  },
+  "dependencies": {
+    "unpdf": "^1.8.1"
+  }
+}
