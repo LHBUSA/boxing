@@ -20,7 +20,7 @@ import { scrubText } from './minimize.mjs';
 export const NEVADA = Object.freeze({
   key: 'nevada',
   sourceKey: 'nsac_nevada',
-  version: 'nsac-nevada@1.0.1',
+  version: 'nsac-nevada@1.0.2',
   jurisdiction: { code: 'US-NV', name: 'Nevada' },
   commission: { slug: 'nsac', name: 'Nevada State Athletic Commission', jurisdiction: 'Nevada', country_code: 'US' },
   base: 'https://boxing.nv.gov',
@@ -116,6 +116,15 @@ export function promotersFromDescription(desc) {
   return m[1].split(/\s+(?:and|&)\s+(?=[A-Z])/).map((s) => s.trim()).filter(Boolean);
 }
 
+// Results-sheet "Promoters:" line. Promoters are separated by "I", "|" or "/", but a
+// "d/b/a" (doing business as) belongs to one promoter and is never a separator.
+export function splitPromoters(raw) {
+  const DBA = '~dba~';
+  return String(raw ?? '').replace(/\bd\s*\/\s*b\s*\/\s*a\b\.?/gi, DBA)
+    .split(/\s+[I|]\s+|\s*\/\s*/)
+    .map((x) => x.replaceAll(DBA, 'd/b/a').replace(/[|\s]+$/, '').trim()).filter(Boolean);
+}
+
 export function venueKey(name) {
   const stop = new Set(['the', 'at', 'of', 'las', 'vegas', 'reno', 'hotel', 'casino', 'resort', 'arena', 'center', 'centre', 'events', 'event', 'a', 'caesars', 'rewards', 'destination', 'collection', 'by', 'curio', 'hilton']);
   return slug(name).split('-').filter((t) => t && !stop.has(t));
@@ -169,7 +178,7 @@ function headerFields(page) {
     for (let j = i + 1; j < text.length && !/^[A-Z][A-Za-z ]+:/.test(text[j]); j++) v += ` ${text[j]}`;
     return v.split(/\s+[I|]\s+[A-Z][A-Za-z ]+:/)[0].replace(/\s*\|\s*$/, '').split(',').map((x) => x.trim().replace(/[,.]$/, '')).filter(Boolean);
   };
-  const promoters = (all.match(/Promoters?:\s*([^\n]+?)(?:\s+Matchmakers?:.*)?(?:\n|$)/)?.[1] ?? '').split(/\s+[I|]\s+|\s*\/\s*/).map((x) => x.replace(/[|\s]+$/, '').trim()).filter(Boolean);
+  const promoters = splitPromoters(all.match(/Promoters?:\s*([^\n]+?)(?:\s+Matchmakers?:.*)?(?:\n|$)/)?.[1]);
   const month = dm ? MONTHS[dm[1].toLowerCase()] : null;
   return {
     title,

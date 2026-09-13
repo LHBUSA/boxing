@@ -83,7 +83,7 @@ test('Nevada boxing is ingested; MMA and PowerSlap never enter Boxing Core', asy
   const ded = await one(`select points, round from public.boxing_point_deductions`);
   assert.deepEqual([Number(ded.points), ded.round], [1, 4]);
   const run = await one(`select trigger_type, worker, source_version from public.boxing_ingest_runs where id = $1`, [r.runId]);
-  assert.deepEqual(run, { trigger_type: 'manual', worker: 'boxing-commissions', source_version: 'nsac-nevada@1.0.1' });
+  assert.deepEqual(run, { trigger_type: 'manual', worker: 'boxing-commissions', source_version: 'nsac-nevada@1.0.2' });
 });
 
 test('Florida boxing is ingested; MMA, bare-knuckle documents and bouts do not enter pro boxing', async () => {

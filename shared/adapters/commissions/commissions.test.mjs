@@ -2,11 +2,11 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { SPORT, classifySportLabel } from './contract.mjs';
 import { assertMinimized, findSensitive, scrubText } from './minimize.mjs';
-import { parseCalendar, parseNevadaResults, parseResultsIndex } from './nevada.mjs';
+import { parseCalendar, parseNevadaResults, parseResultsIndex, splitPromoters } from './nevada.mjs';
 import { parseFloridaResults, parseResultsListing, parseUpcoming } from './florida.mjs';
-import { isOfficialNjUrl, parseNjResults, parseNjSchedule } from './new-jersey.mjs';
+import { isOfficialNjUrl, judgesOf, parseNjResults, parseNjSchedule } from './new-jersey.mjs';
 import { TEXAS, classifyTexasRow, discoverTexas } from './texas.mjs';
-import { cardDocumentFor, divisionFacts } from '../../commissions/apply.mjs';
+import { cardDocumentFor, divisionFacts, eventName } from '../../commissions/apply.mjs';
 import { NEVADA } from './nevada.mjs';
 import {
   FLORIDA_BOUTS, FLORIDA_RESULTS_HTML, FLORIDA_UPCOMING_HTML, NEVADA_BOUTS, NEVADA_INDEX_HTML, NJ_BOUTS, NJ_SCHEDULE_HTML, floridaPages, nevadaCalendarIcs, nevadaPages, njResultPages,
@@ -15,6 +15,20 @@ import {
 const nvRef = (file, hint) => ({ doc_key: `nv-results:2026:${file}`, url: `https://boxing.nv.gov/uploadedFiles/boxingnvgov/content/results/2026_Results/${file}.pdf`, title: file, sport_hint: hint });
 const flRef = (file) => ({ doc_key: `fl-results:${file}`, url: `https://www2.myfloridalicense.com/pro/sbc/documents/${file}.pdf` });
 const FED = /\b[A-Z]{2}-?\d{5,8}\b/;
+
+test('Nevada promoters: "d/b/a" stays inside one promoter; I, | and / still separate', () => {
+  assert.deepEqual(splitPromoters('TKO Productions LLC d/b/a Zuffa Boxing'), ['TKO Productions LLC d/b/a Zuffa Boxing']);
+  assert.deepEqual(splitPromoters('A Promotions LLC D / B / A Alpha Boxing I Beta Promotions / Gamma | Delta'), ['A Promotions LLC d/b/a Alpha Boxing', 'Beta Promotions', 'Gamma', 'Delta']);
+  assert.deepEqual(splitPromoters(null), []);
+  assert.equal(eventName({ promoters: ['TKO Productions LLC d/b/a Zuffa Boxing'], venue: { name: 'The Cosmopolitan' } }, NEVADA), 'TKO Productions LLC dba Zuffa Boxing at The Cosmopolitan');
+});
+
+test('New Jersey judges: "&" separates judges, suffixes stay with their name, totals stay with their judge', () => {
+  const rows = (t) => judgesOf(t).map((j) => [j.name, j.a_total, j.b_total]);
+  assert.deepEqual(rows('Judges: Ann Alpha (60-54), Bob Bravo (59-55) & Cy Charlie (58-56)'), [['Ann Alpha', 60, 54], ['Bob Bravo', 59, 55], ['Cy Charlie', 58, 56]]);
+  assert.deepEqual(rows('Judges: Ann Alpha, Bob Bravo, & Cy Charlie'), [['Ann Alpha', null, null], ['Bob Bravo', null, null], ['Cy Charlie', null, null]]);
+  assert.deepEqual(rows('Judges: Dan Delta, Jr. (57-57), Eve Echo (58-56), Flo Fox (56-58)'), [['Dan Delta, Jr.', 57, 57], ['Eve Echo', 58, 56], ['Flo Fox', 56, 58]]);
+});
 
 test('sport labels: bare knuckle, slap, kickboxing and MMA are never boxing', () => {
   for (const [label, sport] of [['Boxing', SPORT.BOXING], ['PRO Boxing Event', SPORT.BOXING], ['Bare -Knuckle Boxing', SPORT.BARE_KNUCKLE], ['pro boxing bare knuckle', SPORT.BARE_KNUCKLE],

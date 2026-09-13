@@ -16,7 +16,7 @@ const addDays = (date, n) => new Date(Date.parse(`${date}T00:00:00Z`) + n * 86_4
 // Plain-text event name (newsroom entity names allow letters, spaces, . ' ’ -).
 // The date is a separate field; digits and symbols from venue/promoter names
 // are spelled out or dropped from the DISPLAY name only.
-const nameSafe = (s) => String(s ?? '').replace(/&/g, ' and ').replace(/\//g, ' and ').replace(/[‘`]/g, '’')
+const nameSafe = (s) => String(s ?? '').replace(/\bd\s*\/\s*b\s*\/\s*a\b\.?/gi, ' dba ').replace(/&/g, ' and ').replace(/\//g, ' and ').replace(/[‘`]/g, '’')
   .replace(/[^\p{L}\p{M}'’. -]+/gu, ' ').replace(/\s+/g, ' ').trim();
 export function eventName(ev, adapter) {
   const where = nameSafe(ev.venue?.name ?? ev.venue?.city ?? adapter.jurisdiction.name);

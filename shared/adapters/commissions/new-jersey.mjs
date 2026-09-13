@@ -34,7 +34,7 @@ import { normalizedAlias } from '../../identity/normalize.mjs';
 export const NEW_JERSEY = Object.freeze({
   key: 'new_jersey',
   sourceKey: 'nj_sacb',
-  version: 'nj-sacb@1.1.0',
+  version: 'nj-sacb@1.1.1',
   jurisdiction: { code: 'US-NJ', name: 'New Jersey' },
   commission: { slug: 'nj-sacb', name: 'New Jersey State Athletic Control Board', jurisdiction: 'New Jersey', country_code: 'US' },
   scheduleUrl: 'https://www.njoag.gov/about/divisions-and-offices/state-athletic-control-board-home/event-schedule/',
@@ -117,10 +117,11 @@ export function parseNjMethod(raw) {
   return null;
 }
 
-function judgesOf(text) {
+export function judgesOf(text) {
   const body = clean(text).replace(/^judges?:\s*/i, '');
-  const parts = body.split(',').map((x) => x.trim()).filter(Boolean)
-    .reduce((acc, part) => { if (/^(jr|sr|ii|iii|iv)\.?$/i.test(part) && acc.length) acc[acc.length - 1] += `, ${part}`; else acc.push(part); return acc; }, []);
+  // "A (60-53), B (59-54) & C (60-53)" and "A, B, & C": "&" separates judges too.
+  const parts = body.split(/\s*,\s*(?:&|and\s)?\s*|\s+&\s+/i).map((x) => x.trim()).filter(Boolean)
+    .reduce((acc, part) => { if (/^(jr|sr|ii|iii|iv)\.?(\s*\(\d{1,3}\s*-\s*\d{1,3}\))?$/i.test(part) && acc.length) acc[acc.length - 1] += `, ${part}`; else acc.push(part); return acc; }, []);
   return parts.map((p, i) => {
     const m = p.match(/^(.*?)\s*\((\d{1,3})\s*-\s*(\d{1,3})\)\s*$/);
     const name = (m ? m[1] : p).trim();

@@ -216,12 +216,12 @@ main { flex: 1; position: relative; z-index: 1; }
 
 /* Matchup cards (A vs B, visual) */
 .mgrid { display: grid; gap: 14px; }
-.mcard { position: relative; display: grid; border-radius: var(--r-3); overflow: hidden; border: 1px solid var(--line); background: #120f0c; }
+.mcard { position: relative; display: grid; grid-template-rows: auto 1fr; border-radius: var(--r-3); overflow: hidden; border: 1px solid var(--line); background: #120f0c; }
 .mcard:hover { border-color: rgba(212, 175, 55, 0.4); transform: translateY(-2px); }
 .mcard__art { position: relative; display: grid; grid-template-columns: 1fr 1fr; }
 .mcard__art .fart { border-radius: 0; border: 0; box-shadow: none; aspect-ratio: 1 / 1.08; }
 .mcard__vs { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 5; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: #0d0a08; border: 1px solid rgba(212, 175, 55, 0.5); font: 900 italic 18px/1 var(--f-display); color: var(--gold); }
-.mcard__body { padding: 14px 16px 16px; display: grid; gap: 8px; }
+.mcard__body { padding: 14px 16px 16px; display: grid; gap: 8px; align-content: start; }
 .mcard__names { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; align-items: start; }
 .mcard__n { font: 800 18px/1.1 var(--f-display); color: var(--paper); overflow-wrap: anywhere; }
 .mcard__n--b { text-align: right; }
@@ -390,6 +390,11 @@ main { flex: 1; position: relative; z-index: 1; }
 .orow__m b { display: block; font: 700 17px/1 var(--f-data); color: var(--paper); }
 .orow__m b.is-na { color: var(--subtle); font-size: 13px; font-weight: 500; }
 .orow__m span { font: 600 9.5px/1.3 var(--f-data); letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); }
+.ogrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.ogrid__i { display: flex; flex-direction: column; gap: 2px; padding: 10px 12px; background: var(--ink); }
+.ogrid__i:hover { background: var(--ink-2); }
+.ogrid__i span { font: 600 14px/1.3 var(--f-ui); color: var(--paper); }
+.ogrid__i small { font: 500 11px/1.3 var(--f-data); color: var(--faint); }
 .pv { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 2fr); gap: 14px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line); }
 .pv__who { min-width: 0; font-size: 13.5px; }
 .pv__who a { color: var(--paper); font-weight: 600; }

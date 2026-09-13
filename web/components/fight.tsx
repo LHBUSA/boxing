@@ -152,7 +152,7 @@ export function MatchupCard({ bout, event }: { bout: BoutCompact; event?: { publ
         </div>
         {bout.result ? (
           <div className="mcard__res"><span className="tag tag--gold">Final</span>{verdictLine(bout)}</div>
-        ) : <div className="mcard__res dim">Scheduled</div>}
+        ) : <div className="mcard__res dim">{ev && ev.date < new Date().toISOString().slice(0, 10) ? "Result not recorded" : "Scheduled"}</div>}
         {bout.scorecards.some((c) => c.a_total != null) ? <CardChips cards={bout.scorecards} /> : null}
         <PhotoCredits corners={[a, b]} />
       </div>
