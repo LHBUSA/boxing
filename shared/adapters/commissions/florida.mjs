@@ -22,7 +22,8 @@ import { scrubText } from './minimize.mjs';
 export const FLORIDA = Object.freeze({
   key: 'florida',
   sourceKey: 'florida_athletic_commission',
-  version: 'florida-athletic-commission@1.0.1',
+  // 1.0.1: repeat pairings get distinct bout ids; 1.0.2: re-apply attaches ids to orphan legacy bouts
+  version: 'florida-athletic-commission@1.0.2',
   jurisdiction: { code: 'US-FL', name: 'Florida' },
   commission: { slug: 'fl-athletic-commission', name: 'Florida Athletic Commission', jurisdiction: 'Florida', country_code: 'US' },
   base: 'https://www2.myfloridalicense.com',
