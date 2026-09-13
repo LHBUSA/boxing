@@ -18,7 +18,7 @@ import { sourceApprovalFor } from './gates.mjs';
 import { applyCommissionParsed } from './apply.mjs';
 import { NEVADA, parseCalendar, parseNevadaResults, parseResultsIndex, resultsIndexUrl } from '../adapters/commissions/nevada.mjs';
 import { FLORIDA, parseFloridaResults, parseResultsListing, parseUpcoming } from '../adapters/commissions/florida.mjs';
-import { NEW_JERSEY, parseNjSchedule } from '../adapters/commissions/new-jersey.mjs';
+import { NEW_JERSEY, isOfficialNjUrl, parseNjResults, parseNjSchedule } from '../adapters/commissions/new-jersey.mjs';
 import { TEXAS } from '../adapters/commissions/texas.mjs';
 import { SPORT } from '../adapters/commissions/contract.mjs';
 import { extractPositionedText, sha256Bytes } from '../adapters/commissions/pdf.mjs';
@@ -182,11 +182,11 @@ export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = 
       const events = parsed.events.filter((e) => (mode === 'backfill' ? (years ?? [new Date(now).getUTCFullYear()]).includes(Number(e.event_date.slice(0, 4))) : Date.parse(`${e.event_date}T00:00:00Z`) >= nowMs - 60 * DAY));
       metrics.events_observed += events.length;
       if (rev.changed || mode === 'backfill') merge(await applyCommissionParsed(store, NEW_JERSEY, { events, bouts: [] }, { now }));
+      // official SACB result documents only (third-party links were rejected by the schedule parser)
       for (const d of parsed.documents.filter((x) => events.some((e) => e.source_event_id === x.source_event_id))) {
         metrics.documents_listed += 1;
-        const st = (await store.documentState(NEW_JERSEY.sourceKey, [d.doc_key]))[d.doc_key];
-        if (!st) { await store.recordDocumentFetch({ source_key: NEW_JERSEY.sourceKey, doc_key: d.doc_key, url: d.url, kind: 'results', sport_hint: d.sport_hint, status: 'parser_pending', fetched_at: now }); }
-        metrics.documents_parser_pending += 1;
+        if (!isOfficialNjUrl(d.url)) { metrics.documents_skipped += 1; reject(['third_party_document_ignored']); continue; }
+        await processDocument(d, (r, pages, o) => parseNjResults(r, pages, { capturedAt: now, scheduleEvents: events, ...o }));
       }
     }
   } catch (err) {

@@ -49,18 +49,28 @@ export function diffCard(state, doc) {
   const add = (change_type, boutRef, before_state, after_state, extra = {}) => changes.push({ change_type, bout_ref: boutRef, before_state, after_state, ...extra });
 
   // ---- event
+  // a first-party card attached to an event a commission owns never rewrites the
+  // commission's event-level facts: disagreements are surfaced, not collapsed
+  const disagreements = [];
+  if (state.defer_event_fields) {
+    if (doc.event_date && !same(doc.event_date, state.event_date)) disagreements.push({ field: 'event_date', owner: state.event_date, source: doc.event_date });
+    if (doc.status && doc.status !== state.status) disagreements.push({ field: 'status', owner: state.status, source: doc.status });
+    if (doc.venue_id && state.venue_id && doc.venue_id !== state.venue_id) disagreements.push({ field: 'venue_id', owner: state.venue_id, source: doc.venue_id });
+    if (doc.commission_id && state.commission_id && doc.commission_id !== state.commission_id) disagreements.push({ field: 'commission_id', owner: state.commission_id, source: doc.commission_id });
+  }
+  const eventFields = !state.defer_event_fields;
   if (!state.existed) add('event_announced', null, null, { name: doc.name, event_date: doc.event_date, start_at: doc.start_at ?? null });
-  if (state.existed && doc.event_date && (!same(doc.event_date, state.event_date) || (doc.start_at && !same(new Date(doc.start_at).toISOString(), state.start_at && new Date(state.start_at).toISOString())))) {
+  if (eventFields && state.existed && doc.event_date && (!same(doc.event_date, state.event_date) || (doc.start_at && !same(new Date(doc.start_at).toISOString(), state.start_at && new Date(state.start_at).toISOString())))) {
     const later = Date.parse(doc.start_at ?? doc.event_date) > Date.parse(state.start_at ?? state.event_date);
     add(later ? 'event_postponed' : 'event_date_changed', null,
       { event_date: state.event_date, start_at: state.start_at },
       { event_date: doc.event_date, start_at: doc.start_at ?? null, status: doc.status ?? state.status });
   }
-  if (state.existed && doc.status && doc.status !== state.status) {
+  if (eventFields && state.existed && doc.status && doc.status !== state.status) {
     add(doc.status === 'cancelled' ? 'event_cancelled' : 'event_status_changed', null, { status: state.status }, { status: doc.status });
   }
-  if (doc.venue_id && doc.venue_id !== state.venue_id) add('venue_changed', null, { venue_id: state.venue_id }, { venue_id: doc.venue_id });
-  if (doc.commission_id && doc.commission_id !== state.commission_id) {
+  if (eventFields && doc.venue_id && doc.venue_id !== state.venue_id) add('venue_changed', null, { venue_id: state.venue_id }, { venue_id: doc.venue_id });
+  if (eventFields && doc.commission_id && doc.commission_id !== state.commission_id) {
     add('commission_changed', null, { commission_id: state.commission_id, commission_slug: state.commission_slug }, { commission_id: doc.commission_id, commission_slug: doc.commission?.slug });
   }
   const stateRoles = new Set((state.organizations ?? []).map((o) => `${o.organization_id}|${o.role}`));
@@ -75,7 +85,7 @@ export function diffCard(state, doc) {
   }
 
   // ---- bouts
-  const review = [];
+  const review = disagreements.map((d) => ({ reason: 'event_field_disagreement', ...d }));
   const claimed = new Set();
   const matches = [];
   for (const b of doc.bouts) {
@@ -195,10 +205,32 @@ export async function applyCardDocument(store, doc, { now = new Date().toISOStri
     payload: doc, content_hash: await contentHash(doc), source_url: doc.source_url ?? null,
   });
 
+  // a first-party card for an event another source already holds: attach only on the
+  // same date in the same venue city with exactly one candidate; otherwise a separate event
+  let crossSource = null;
+  if (doc.cross_source_events === true && doc.event_date && doc.venue?.city && store.eventCrossSourceCandidates) {
+    const known = await store.sourceEventIds(`${doc.namespace}.event`, [doc.external_id]);
+    if (!known[doc.external_id]) {
+      const cands = await store.eventCrossSourceCandidates({ event_date: doc.event_date, city: doc.venue.city, namespace: `${doc.namespace}.event` });
+      const sameDay = cands.filter((c) => Number(c.date_gap_days) === 0);
+      if (cands.length === 1 && sameDay.length === 1) {
+        const r = await store.attachEventIdentity({ event_id: sameDay[0].event_id, namespace: `${doc.namespace}.event`, external_id: doc.external_id,
+          source_key: doc.source_key, confidence: 80, evidence: { method: 'same_date_same_venue_city_single_candidate', candidate: sameDay[0], venue: doc.venue } });
+        crossSource = { status: r.status, event_id: r.event_id, owner_source_key: sameDay[0].owner_source_key };
+      } else if (cands.length) {
+        crossSource = { status: 'not_attached', reason: sameDay.length > 1 ? 'more_than_one_same_day_event' : cands.length > 1 ? 'more_than_one_candidate' : 'date_disagreement',
+          candidates: cands.map((c) => ({ event_id: c.event_id, event_date: c.event_date, owner_source_key: c.owner_source_key })) };
+      }
+    }
+  }
   const ev = await store.upsertEvent({ source_key: doc.source_key, namespace: `${doc.namespace}.event`, external_id: doc.external_id,
     name: doc.name, event_date: doc.event_date ?? null, start_at: doc.start_at ?? null, status: doc.status ?? 'scheduled', source_url: doc.source_url ?? null });
   const eventId = ev.event_id;
   const state = { ...(await store.cardState(eventId)), existed: !ev.created };
+  if (doc.cross_source_events === true && !ev.created && store.eventOwner) {
+    const owner = await store.eventOwner(eventId);
+    state.defer_event_fields = Boolean(owner && owner.source_key !== doc.source_key && owner.source_kind === 'commission');
+  }
   if (ev.created) {
     // freshly created rows already hold the announced values: diff against them, not against nothing
     Object.assign(state, { event_date: doc.event_date ?? null, start_at: doc.start_at ?? null, status: doc.status ?? 'scheduled' });
@@ -350,5 +382,7 @@ export async function applyCardDocument(store, doc, { now = new Date().toISOStri
 
   // source bout ids for this card: added bouts, and bouts matched by id or by exact pairing
   const bout_links = [...matches, ...[...boutIds].filter(([ref]) => String(ref).startsWith('ext:')).map(([ref, bout_id]) => ({ external_id: String(ref).slice(4), bout_id, matched_by: 'added' }))];
-  return { status: 'applied', event_id: eventId, event_created: ev.created, changes: applied, news, unresolved, review, bout_links, identity_graph: identityGraph, observation_id: observation.id };
+  if (crossSource?.status === 'not_attached') review.push({ reason: `cross_source_event_${crossSource.reason}`, candidates: crossSource.candidates });
+  return { status: 'applied', event_id: eventId, event_created: ev.created, changes: applied, news, unresolved, review, bout_links, identity_graph: identityGraph,
+    cross_source: crossSource, event_fields_deferred: Boolean(state.defer_event_fields), observation_id: observation.id };
 }

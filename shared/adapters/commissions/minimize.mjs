@@ -9,10 +9,12 @@
 
 export const SENSITIVE_PATTERNS = Object.freeze([
   { kind: 'federal_id', re: /\b[A-Z]{2}-?\d{5,8}\b/ },
+  // New Jersey prints "ID# PA 869206": anything after "ID#", or a spaced state + long number
+  { kind: 'federal_id', re: /ID\s*#\s*[A-Z]{2}\s*\d{4,9}|\b[A-Z]{2}\s\d{6,8}\b/ },
   { kind: 'ssn', re: /\b\d{3}-\d{2}-\d{4}\b/ },
   { kind: 'phone', re: /\(\d{3}\)\s*\d{3}[-.\s]\d{4}|\b\d{3}[-.]\d{3}[-.]\d{4}\b/ },
   { kind: 'date_of_birth', re: /\b(?:DOB|D\.O\.B\.|date of birth)\b/i },
-  { kind: 'medical', re: /\b(?:ringside physicians?|ringside doctors?|physicians?|medical|concussion|cat ?scan|mri|eye exam|ophthalm|hiv|hepatitis|blood test)\b/i },
+  { kind: 'medical', re: /\b(?:ringside physicians?|ringside doctors?|physicians?|medical|concussion|cat ?scan|mri|eye exam|ophthalm|hiv|hepatitis|blood test|hospital\w*|trauma|no contact|(?:neck|head|hand|eye|shoulder|back|knee|rib)\s+(?:pain|injur\w*)|injur(?:y|ies|ed)\s+(?:experienced|sustained|suffered|to))\b/i },
 ]);
 
 // Scrubs a free-text line: removes identifier-shaped tokens and phone numbers.

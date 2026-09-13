@@ -126,3 +126,44 @@ export const NJ_SCHEDULE_HTML = `<h3>2026</h3>
 
 export const encodePages = (pages) => new TextEncoder().encode(JSON.stringify(pages));
 export const decodePages = async (bytes) => JSON.parse(new TextDecoder().decode(bytes));
+
+// ---------------------------------------------------------------- New Jersey
+// Line layout of an SACB "Show Results - Pro Boxing" document. Every name and
+// ID is FAKE; the NOTE paragraph and the officials page (physicians) exist to
+// prove they are dropped.
+// bouts: [{ n, rds, division, title?, a: { name, id, home, weight }, b: {...}, result: [lines], referee, judges }]
+export function njResultPages({ title = 'Show Results - Pro Boxing', date = 'September 4, 2026', venueLine = 'Synthetic Center, Newark, NJ',
+  promoter = 'Synthetic Garden Promotions', bouts = [], note = null, officials = true } = {}) {
+  const page = [];
+  let y = 707;
+  const line = (s) => { page.push(it(s, 71, y)); y -= 15; };
+  line(title); line(date); line(venueLine); line(`Promoter – ${promoter}`);
+  for (const b of bouts) {
+    y -= 10;
+    line(`Bout #${b.n} – ${b.rds} Rounds – ${b.division}${b.title ? ` *${b.title}` : ''}`);
+    line(`${b.a.name} – ID# ${b.a.id}`); line(`${b.a.home} – ${b.a.weight} lbs.`); line('VS');
+    line(`${b.b.name} - ID# ${b.b.id} –`); line(`${b.b.home} – ${b.b.weight} lbs.`);
+    for (const r of b.result) line(r);
+    line(`Referee: ${b.referee}   Timekeeper: Time Keeper`);
+    line(`Judges: ${b.judges}`);
+    if (b.note) { line(`NOTE: ${b.note}`); line('transported to the hospital for further evaluation.'); }
+  }
+  const pages = [{ page: 1, items: page }];
+  if (officials) {
+    const p2 = [];
+    let y2 = 645;
+    for (const s of ['Officials', 'Judges: Jud Geone, Jud Getwo', 'Referees: Ref Eree', 'Physicians: Dr. Synthetic Medic', 'Inspectors: In Spector']) { p2.push(it(s, 71, y2)); y2 -= 15; }
+    pages.push({ page: 2, items: p2 });
+  }
+  return pages;
+}
+
+export const NJ_BOUTS = [
+  { n: 1, rds: 6, division: 'Welterweight (147 lbs.)', a: { name: 'Nolan Jersey', id: 'PA 999001', home: 'Pottstown, PA', weight: 146.8 }, b: { name: 'Owen Shore', id: 'NJ 999002', home: 'Dover, DE', weight: 146.6 },
+    result: ['Nolan Jersey – Winner Split Decision'], referee: 'Referee Jerseyone', judges: 'Judge Ajersey (58-56), Judge Bjersey (55-59), Judge Cjersey (60-54)' },
+  { n: 2, rds: 4, division: 'Middleweight (158 lbs.)', title: 'Synthetic Regional Championship Title', a: { name: 'Pete Garden', id: 'NJ 999003', home: 'Middlesex, NJ', weight: 157.3 }, b: { name: 'Quinn Harbor', id: 'MO 999004', home: 'Branson, MO', weight: 157.1 },
+    result: ['Pete Garden – Winner TKO-3 0:48', 'Quinn Harbor – Suspension – 30 Days (30 Days No Contact) Excessive Head Trauma'], referee: 'Referee Jerseytwo', judges: 'Judge Ajersey, Judge Bjersey, Judge Cjersey',
+    note: 'Quinn Harbor unable to continue with neck pain injury after a fall to canvas.' },
+  { n: 3, rds: 6, division: 'Lightweight (135 lbs.)', a: { name: 'Rae Typo', id: 'PA 999005', home: 'Camden, NJ', weight: 134 }, b: { name: 'Sid Other', id: 'PA 999006', home: 'Trenton, NJ', weight: 134.5 },
+    result: ['Ray Typoe – Winner Unanimous Decision'], referee: 'Referee Jerseyone', judges: 'Judge Ajersey (60-54), Judge Bjersey (60-54), Judge Cjersey (59-55)' },
+];

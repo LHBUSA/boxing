@@ -193,3 +193,24 @@ test('market movement: thresholded over the same books, no causal claim', async 
   const lastEvent = { detected_at: '2026-10-09T09:00:00Z', payload: { facts: { new_consensus_implied: ev.facts.new_consensus_implied - 0.01 } } };
   assert.equal(evaluateMarketMove({ boutId: 'B', marketKey: 'm', selectionKey: 'fighter_a', ticks, now: NOW, lastEvent }).reason, 'cooldown');
 });
+
+test('matcher 1.1.0: a different given name never matches in bout scope (Jermall vs Jermell)', () => {
+  const byId = new Map([...candidatesById, ['jermall', cand('jermall', 'Jermall Charlo')], ['koen', cand('koen', 'Koen Mazoudier')]]);
+  const bouts = [bout('b-charlo', '2026-10-17T03:00:00Z', 'jermall', 'koen')];
+  const r = matchEvent({ commence_time: '2026-10-17T04:00:00Z', home_team: 'Jermell Charlo', away_team: 'Koen Mazoudier' }, { bouts, candidatesById: byId });
+  assert.equal(r.matched, false);
+  const ok = matchEvent({ commence_time: '2026-10-17T04:00:00Z', home_team: 'Jermall Charlo', away_team: 'Koen Mazoudier' }, { bouts, candidatesById: byId });
+  assert.equal(ok.matched, true);
+});
+
+test('a verified provider identity confirms its own boxer and refuses any other corner', () => {
+  const bouts = [bout('b1', '2026-10-10T02:00:00Z', 'berg', 'volkov')];
+  // the provider's "D. Volkov" was verified as Daniel Volkov (dan) on an earlier authoritative match
+  const providerIdentities = new Map([['d volkov', ['dan']]]);
+  const refused = matchEvent({ commence_time: '2026-10-10T03:00:00Z', home_team: 'D. Volkov', away_team: 'Berg' }, { bouts, candidatesById, providerIdentities });
+  assert.equal(refused.matched, false, 'name similarity to Dmitri cannot override a verified identity pointing elsewhere');
+  const confirmed = matchEvent({ commence_time: '2026-10-10T03:00:00Z', home_team: 'D. Volkov', away_team: 'Berg' },
+    { bouts: [bout('b2', '2026-10-10T02:00:00Z', 'berg', 'dan')], candidatesById, providerIdentities });
+  assert.equal(confirmed.matched, true);
+  assert.equal(confirmed.evidence.home.level, 'provider_identity_verified');
+});

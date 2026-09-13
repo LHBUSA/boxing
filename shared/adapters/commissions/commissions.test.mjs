@@ -4,12 +4,12 @@ import { SPORT, classifySportLabel } from './contract.mjs';
 import { assertMinimized, findSensitive, scrubText } from './minimize.mjs';
 import { parseCalendar, parseNevadaResults, parseResultsIndex } from './nevada.mjs';
 import { parseFloridaResults, parseResultsListing, parseUpcoming } from './florida.mjs';
-import { parseNjSchedule } from './new-jersey.mjs';
+import { isOfficialNjUrl, parseNjResults, parseNjSchedule } from './new-jersey.mjs';
 import { TEXAS, classifyTexasRow, discoverTexas } from './texas.mjs';
 import { cardDocumentFor } from '../../commissions/apply.mjs';
 import { NEVADA } from './nevada.mjs';
 import {
-  FLORIDA_BOUTS, FLORIDA_RESULTS_HTML, FLORIDA_UPCOMING_HTML, NEVADA_BOUTS, NEVADA_INDEX_HTML, NJ_SCHEDULE_HTML, floridaPages, nevadaCalendarIcs, nevadaPages,
+  FLORIDA_BOUTS, FLORIDA_RESULTS_HTML, FLORIDA_UPCOMING_HTML, NEVADA_BOUTS, NEVADA_INDEX_HTML, NJ_BOUTS, NJ_SCHEDULE_HTML, floridaPages, nevadaCalendarIcs, nevadaPages, njResultPages,
 } from '../../../tests/fixtures/commissions/synthetic.mjs';
 
 const nvRef = (file, hint) => ({ doc_key: `nv-results:2026:${file}`, url: `https://boxing.nv.gov/uploadedFiles/boxingnvgov/content/results/2026_Results/${file}.pdf`, title: file, sport_hint: hint });
@@ -144,3 +144,37 @@ test('card documents built from commission observations carry no sensitive data 
 });
 
 const pick = (x) => ({ outcome: x.outcome, winner_side: x.winner_side, method: x.method, decision_type: x.decision_type, round: x.round });
+
+test('New Jersey result document: facts only; federal IDs, injury notes, no-contact periods, reasons and the officials page are dropped', () => {
+  const ref = { doc_key: 'nj-results:2026-0904_Synthetic', url: 'https://nj.gov/oag/sacb/results/2026-0904_Synthetic_Pro_Boxing.pdf', source_event_id: '2026-09-04|synthetic-center|newark' };
+  const r = parseNjResults(ref, njResultPages({ bouts: NJ_BOUTS }), { capturedAt: '2026-09-13T12:00:00Z' });
+  assert.equal(r.classification.accepted, true);
+  assert.deepEqual(r.problems, []);
+  assert.deepEqual(r.events[0].venue, { name: 'Synthetic Center', city: 'Newark', region: 'NJ', country_code: 'US' });
+  const [b1, b2, b3] = r.bouts;
+  assert.deepEqual([b1.fighter_a.display_name, b1.fighter_a.hometown, b1.fighter_a.weight_lb, b1.scheduled_rounds], ['Nolan Jersey', 'Pottstown, PA', 146.8, 6]);
+  assert.deepEqual([b1.result.outcome, b1.result.winner_side, b1.result.decision_type], ['win', 'a', 'split']);
+  assert.deepEqual(b1.judges.map((j) => [j.name, j.a_total, j.b_total]), [['Judge Ajersey', 58, 56], ['Judge Bjersey', 55, 59], ['Judge Cjersey', 60, 54]], 'cards agree with the decision: order kept');
+  assert.deepEqual([b2.result.method, b2.result.round, b2.result.time_sec], ['TKO', 3, 48]);
+  assert.deepEqual(b2.suspensions, [{ side: 'b', duration_days: 30, indefinite: false, raw: '30 Days' }], 'duration only');
+  assert.deepEqual(b2.title_remarks, ['Synthetic Regional Championship Title']);
+  assert.equal(b3.result.resolved, false, 'a winner name that is not exactly one corner is never guessed');
+  assert.equal(b3.judges.every((j) => j.a_total == null), true, 'score order unverifiable without a resolved winner');
+  const text = JSON.stringify(r);
+  assert.doesNotMatch(text, /999\d{3}|ID#|hospital|injur|neck pain|no contact|trauma|physician|Synthetic Medic|Inspector/i);
+  assert.deepEqual(findSensitive(r), []);
+});
+
+test('New Jersey: non-boxing result documents are rejected; only official SACB URLs are documents', () => {
+  const mma = parseNjResults({ doc_key: 'nj-results:x', url: 'https://nj.gov/oag/sacb/results/x.pdf' }, njResultPages({ title: 'Show Results - Pro MMA', bouts: NJ_BOUTS }));
+  assert.equal(mma.classification.accepted, false);
+  assert.equal(mma.bouts.length, 0);
+  const knuckle = parseNjResults({ doc_key: 'nj-results:y', url: 'https://nj.gov/oag/sacb/results/y.pdf' }, njResultPages({ title: 'Show Results - Pro Boxing Bare Knuckle', bouts: NJ_BOUTS }));
+  assert.equal(knuckle.classification.accepted, false);
+  assert.equal(isOfficialNjUrl('https://boxrec.com/en/event/1'), false);
+  assert.equal(isOfficialNjUrl('https://nj.gov/oag/secure-pdf/x.pdf'), false, 'robots-disallowed path');
+  assert.equal(isOfficialNjUrl('https://nj.gov/oag/sacb/results/x.pdf'), true);
+  // spaced federal-ID form is caught by the second line of defence
+  assert.throws(() => assertMinimized({ note: 'Name ID# PA 123456' }));
+  assert.throws(() => assertMinimized({ note: 'transported to the hospital' }));
+});

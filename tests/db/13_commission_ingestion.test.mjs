@@ -15,8 +15,8 @@ import { processPending } from '../../shared/news/pipeline.mjs';
 import { manualProvenance } from '../../shared/provenance.mjs';
 import { testSource } from '../helpers/fixtures.mjs';
 import {
-  FLORIDA_BOUTS, FLORIDA_RESULTS_HTML, FLORIDA_UPCOMING_HTML, NEVADA_BOUTS, NEVADA_INDEX_HTML, NJ_SCHEDULE_HTML,
-  decodePages, encodePages, floridaPages, nevadaCalendarIcs, nevadaPages,
+  FLORIDA_BOUTS, FLORIDA_RESULTS_HTML, FLORIDA_UPCOMING_HTML, NEVADA_BOUTS, NEVADA_INDEX_HTML, NJ_BOUTS, NJ_SCHEDULE_HTML,
+  decodePages, encodePages, floridaPages, nevadaCalendarIcs, nevadaPages, njResultPages,
 } from '../fixtures/commissions/synthetic.mjs';
 
 let db;
@@ -56,6 +56,7 @@ before(async () => {
   site.set('https://www2.myfloridalicense.com/pro/sbc/documents/09-06-2026-Synthetic_MMA-Results_without_med.pdf', encodePages(floridaPages({ eventType: 'MMA Mixed Martial Arts', bouts: FLORIDA_BOUTS })));
   site.set('https://www2.myfloridalicense.com/pro/sbc/documents/09-07-2026-Synthetic_Knuckle-results_without_med.pdf', encodePages(floridaPages({ eventType: 'Bare -Knuckle Boxing', bouts: FLORIDA_BOUTS })));
   site.set('https://www.njoag.gov/about/divisions-and-offices/state-athletic-control-board-home/event-schedule/', NJ_SCHEDULE_HTML);
+  site.set('https://nj.gov/oag/sacb/results/2026-0904_Synthetic_Pro_Boxing.pdf', encodePages(njResultPages({ venueLine: 'Synthetic Center, Newark, NJ', bouts: NJ_BOUTS })));
 });
 after(async () => { await db?.close(); });
 
@@ -112,7 +113,13 @@ test('New Jersey: official schedule only; third-party linked sites never become 
   assert.equal(r.status, 'ok');
   assert.deepEqual(await q(`select source_key, enabled from public.boxing_sources order by 1`), sourcesBefore, 'no source added or enabled');
   assert.equal(await count(`boxing_source_documents where url like '%boxrec%'`), 0);
-  assert.equal(await count(`boxing_source_documents d join public.boxing_sources s on s.id = d.source_id where s.source_key = 'nj_sacb' and d.status = 'parser_pending'`), 1);
+  assert.equal(await count(`boxing_source_documents d join public.boxing_sources s on s.id = d.source_id where s.source_key = 'nj_sacb' and d.kind = 'results' and d.status = 'parsed'`), 1, 'official SACB result document parsed');
+  assert.ok(!requested.some((u) => u.includes('boxrec')), 'third-party result link never fetched');
+  const njBouts = await q(`select b.id from public.boxing_bouts b join public.boxing_sources s on s.id = b.source_id where s.source_key = 'nj_sacb'`);
+  assert.equal(njBouts.length, 3);
+  const njResults = await q(`select r.outcome, r.method from public.boxing_bout_results_current r join public.boxing_sources s on s.id = r.source_id where s.source_key = 'nj_sacb' order by r.method`);
+  assert.deepEqual(njResults.map((x) => [x.outcome, x.method]), [['win', 'DECISION'], ['win', 'TKO']], 'the typo-winner bout records no result');
+  assert.equal(await count(`boxing_regulatory_actions x join public.boxing_sources s on s.id = x.source_id where s.source_key = 'nj_sacb'`), 1);
   const ev = await q(`select e.event_date::text, e.status from public.boxing_events e join public.boxing_sources s on s.id = e.source_id where s.source_key = 'nj_sacb' order by 1`);
   assert.deepEqual(ev.map((e) => [e.event_date, e.status]), [['2026-09-04', 'complete'], ['2026-09-12', 'scheduled'], ['2026-11-07', 'cancelled']]);
   assert.equal(await count(`boxing_events where name ilike '%knuckle%' or name ilike '%cage%'`), 0);
@@ -138,7 +145,7 @@ test('federal boxer IDs, DOBs and medical data appear nowhere: tables, gateway o
       assert.doesNotMatch(await res.text(), new RegExp(FED), path);
     }
   }
-  assert.ok(await count(`boxing_fact_blocks`) > 0, `commission news produced fact blocks ${JSON.stringify(outcomes)}`);
+  assert.ok(await count(`boxing_fact_blocks`) > 0, `commission news produced fact blocks ${JSON.stringify(outcomes)} ${JSON.stringify(processed.find((p) => p.detail)?.detail ?? '')}`);
   assert.ok(!Object.keys(outcomes).some((k) => k.includes('sensitive_source_field')), 'no commission fact was refused as sensitive');
 });
 
