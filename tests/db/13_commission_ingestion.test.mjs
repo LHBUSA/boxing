@@ -120,6 +120,12 @@ test('New Jersey: official schedule only; third-party linked sites never become 
   const njResults = await q(`select r.outcome, r.method from public.boxing_bout_results_current r join public.boxing_sources s on s.id = r.source_id where s.source_key = 'nj_sacb' order by r.method`);
   assert.deepEqual(njResults.map((x) => [x.outcome, x.method]), [['win', 'DECISION'], ['win', 'TKO']], 'the typo-winner bout records no result');
   assert.equal(await count(`boxing_regulatory_actions x join public.boxing_sources s on s.id = x.source_id where s.source_key = 'nj_sacb'`), 1);
+  // "Middleweight (165 lbs.)": the number is the contract; nobody missed the 160 lb class limit
+  const weighIns = await q(`select w.status, w.contracted_weight_lb from public.boxing_weigh_ins w join public.boxing_sources s on s.id = w.source_id where s.source_key = 'nj_sacb' order by w.official_weight_lb`);
+  assert.ok(weighIns.every((w) => w.status === 'made_weight'), JSON.stringify(weighIns));
+  assert.equal(await count(`boxing_news_events where event_type = 'WEIGHT_MISSED'`), 0);
+  const contradicted = await one(`select b.contracted_weight_lb, b.weight_class_id from public.boxing_bouts b where b.contracted_weight_lb = 165`);
+  assert.deepEqual([Number(contradicted.contracted_weight_lb), contradicted.weight_class_id], [165, null], 'a contradictory label yields no class');
   const ev = await q(`select e.event_date::text, e.status from public.boxing_events e join public.boxing_sources s on s.id = e.source_id where s.source_key = 'nj_sacb' order by 1`);
   assert.deepEqual(ev.map((e) => [e.event_date, e.status]), [['2026-09-04', 'complete'], ['2026-09-12', 'scheduled'], ['2026-11-07', 'cancelled']]);
   assert.equal(await count(`boxing_events where name ilike '%knuckle%' or name ilike '%cage%'`), 0);

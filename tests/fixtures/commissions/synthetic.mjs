@@ -164,6 +164,7 @@ export const NJ_BOUTS = [
   { n: 2, rds: 4, division: 'Middleweight (158 lbs.)', title: 'Synthetic Regional Championship Title', a: { name: 'Pete Garden', id: 'NJ 999003', home: 'Middlesex, NJ', weight: 157.3 }, b: { name: 'Quinn Harbor', id: 'MO 999004', home: 'Branson, MO', weight: 157.1 },
     result: ['Pete Garden – Winner TKO-3 0:48', 'Quinn Harbor – Suspension – 30 Days (30 Days No Contact) Excessive Head Trauma'], referee: 'Referee Jerseytwo', judges: 'Judge Ajersey, Judge Bjersey, Judge Cjersey',
     note: 'Quinn Harbor unable to continue with neck pain injury after a fall to canvas.' },
-  { n: 3, rds: 6, division: 'Lightweight (135 lbs.)', a: { name: 'Rae Typo', id: 'PA 999005', home: 'Camden, NJ', weight: 134 }, b: { name: 'Sid Other', id: 'PA 999006', home: 'Trenton, NJ', weight: 134.5 },
+  // the printed division word contradicts the contracted 165 lb: a catchweight, never a missed middleweight limit
+  { n: 3, rds: 6, division: 'Middleweight (165 lbs.)', a: { name: 'Rae Typo', id: 'PA 999005', home: 'Camden, NJ', weight: 165 }, b: { name: 'Sid Other', id: 'PA 999006', home: 'Trenton, NJ', weight: 164.5 },
     result: ['Ray Typoe – Winner Unanimous Decision'], referee: 'Referee Jerseyone', judges: 'Judge Ajersey (60-54), Judge Bjersey (60-54), Judge Cjersey (59-55)' },
 ];

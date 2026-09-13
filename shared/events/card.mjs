@@ -144,6 +144,8 @@ export function diffCard(state, doc) {
         { contracted_weight_lb: b.contracted_weight_lb, is_catchweight: b.is_catchweight ?? null });
     }
     if (b.weight_class_key && b.weight_class_key !== sb.weight_class_key) add('weight_class_changed', boutRef, { weight_class_key: sb.weight_class_key }, { weight_class_key: b.weight_class_key });
+    // a source that explicitly contradicts its own class label clears a class set from that label earlier
+    else if (b.weight_class_contradicted === true && sb.weight_class_key) add('weight_class_changed', boutRef, { weight_class_key: sb.weight_class_key }, { weight_class_key: null, reason: 'label_contradicts_contracted_weight' });
 
     if (Array.isArray(b.resolvedTitles)) {
       const atStake = new Map(sb.titles.filter((t) => t.at_stake).map((t) => [t.title_id, t]));

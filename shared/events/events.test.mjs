@@ -81,3 +81,15 @@ test('card diff: absence is not cancellation; replacement needs an external id',
   assert.deepEqual(swapped.changes, [], 'listing the corners in the other order is not a change');
   assert.ok(validateCardDocument({ source_key: 's', namespace: 'n', external_id: 'e', name: 'x', bouts: [{ fighter_a: { display_name: 'A' } }] }).length > 0);
 });
+
+test('card diff: only an explicit contradiction clears a weight class; an omitted class never does', () => {
+  const state = {
+    existed: true, event_date: '2026-11-07', start_at: null, status: 'scheduled', venue_id: 'v1', commission_id: 'c1', organizations: [],
+    bouts: [{ bout_id: 'B1', external_ids: ['sheet.bout:b1'], status: 'complete', weight_class_key: 'middleweight', contracted_weight_lb: null,
+      participants: [{ fighter_id: 'x', side: 'a', status: 'scheduled' }, { fighter_id: 'y', side: 'b', status: 'scheduled' }], titles: [], officials: [] }],
+  };
+  const bout = (extra) => ({ namespace: 'sheet', event_date: '2026-11-07', bouts: [{ external_id: 'b1', resolved: { a: 'x', b: 'y' }, ...extra }] });
+  assert.deepEqual(diffCard(state, bout({})).changes, [], 'no class in the document: nothing removed');
+  const fixed = diffCard(state, bout({ contracted_weight_lb: 165, weight_class_contradicted: true })).changes;
+  assert.deepEqual(fixed.map((c) => [c.change_type, c.change_type === 'weight_class_changed' ? c.after_state.weight_class_key : c.after_state.contracted_weight_lb]), [['contracted_weight_changed', 165], ['weight_class_changed', null]]);
+});

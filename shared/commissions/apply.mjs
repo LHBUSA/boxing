@@ -39,6 +39,31 @@ export function divisionKey(raw) {
   return DIVISION_KEYS.has(key) ? key : null;
 }
 
+// Class limits (lb) for reading a printed "Division (NNN lbs.)" label.
+const CLASS_LIMITS = [['minimumweight', 105], ['light_flyweight', 108], ['flyweight', 112], ['super_flyweight', 115], ['bantamweight', 118],
+  ['super_bantamweight', 122], ['featherweight', 126], ['super_featherweight', 130], ['lightweight', 135], ['super_lightweight', 140],
+  ['welterweight', 147], ['super_welterweight', 154], ['middleweight', 160], ['super_middleweight', 168], ['light_heavyweight', 175],
+  ['cruiserweight', 200], ['heavyweight', null]];
+
+// "Middleweight (158 lbs.)": the number is the CONTRACTED weight. The class is kept only
+// when the contract falls inside that class's band; a contradictory label
+// ("Heavyweight (147 lbs.)", "Middleweight (165 lbs.)") yields no class and says so.
+export function divisionFacts(raw) {
+  if (!raw) return {};
+  const num = String(raw).match(/\((\d{2,3}(?:\.\d+)?)\s*lbs?\.?\s*\)/i);
+  const contracted = num ? Number(num[1]) : null;
+  const key = divisionKey(raw);
+  if (!key) return contracted != null ? { contracted_weight_lb: contracted } : {};
+  if (contracted == null) return { weight_class_key: key };
+  const i = CLASS_LIMITS.findIndex(([k]) => k === key);
+  const limit = CLASS_LIMITS[i][1];
+  const lower = i > 0 ? CLASS_LIMITS[i - 1][1] : 0;
+  if (contracted > lower && (limit == null || contracted <= limit)) {
+    return { weight_class_key: key, contracted_weight_lb: contracted, is_catchweight: limit != null && contracted !== limit };
+  }
+  return { contracted_weight_lb: contracted, weight_class_contradicted: true };
+}
+
 export function cardDocumentFor(adapter, ev, bouts) {
   const namespace = COMMISSION_NAMESPACES[adapter.sourceKey];
   const doc = {
@@ -52,7 +77,7 @@ export function cardDocumentFor(adapter, ev, bouts) {
     ...(ev.venue?.name ? { venue: { name: ev.venue.name, city: ev.venue.city ?? null, region: ev.venue.region ?? null, country_code: ev.venue.country_code ?? 'US' } } : {}),
     bouts: bouts.map((b) => ({
       external_id: b.source_bout_id, bout_order: b.bout_order ?? null, scheduled_rounds: b.scheduled_rounds ?? null,
-      ...(divisionKey(b.division_raw) ? { weight_class_key: divisionKey(b.division_raw) } : {}),
+      ...divisionFacts(b.division_raw),
       status: b.result?.resolved ? 'complete' : ev.status === 'cancelled' ? 'cancelled' : 'scheduled',
       fighter_a: { display_name: b.fighter_a.display_name, hometown: b.fighter_a.hometown ?? null },
       fighter_b: { display_name: b.fighter_b.display_name, hometown: b.fighter_b.hometown ?? null },

@@ -6,7 +6,7 @@ import { parseCalendar, parseNevadaResults, parseResultsIndex } from './nevada.m
 import { parseFloridaResults, parseResultsListing, parseUpcoming } from './florida.mjs';
 import { isOfficialNjUrl, parseNjResults, parseNjSchedule } from './new-jersey.mjs';
 import { TEXAS, classifyTexasRow, discoverTexas } from './texas.mjs';
-import { cardDocumentFor } from '../../commissions/apply.mjs';
+import { cardDocumentFor, divisionFacts } from '../../commissions/apply.mjs';
 import { NEVADA } from './nevada.mjs';
 import {
   FLORIDA_BOUTS, FLORIDA_RESULTS_HTML, FLORIDA_UPCOMING_HTML, NEVADA_BOUTS, NEVADA_INDEX_HTML, NJ_BOUTS, NJ_SCHEDULE_HTML, floridaPages, nevadaCalendarIcs, nevadaPages, njResultPages,
@@ -177,4 +177,13 @@ test('New Jersey: non-boxing result documents are rejected; only official SACB U
   // spaced federal-ID form is caught by the second line of defence
   assert.throws(() => assertMinimized({ note: 'Name ID# PA 123456' }));
   assert.throws(() => assertMinimized({ note: 'transported to the hospital' }));
+});
+
+test('printed division labels: the number is the contract; a contradictory label yields no class', () => {
+  assert.deepEqual(divisionFacts('Middleweight (158 lbs.)'), { weight_class_key: 'middleweight', contracted_weight_lb: 158, is_catchweight: true });
+  assert.deepEqual(divisionFacts('Welterweight (147 lbs)'), { weight_class_key: 'welterweight', contracted_weight_lb: 147, is_catchweight: false });
+  assert.deepEqual(divisionFacts('Middleweight (165 lbs.)'), { contracted_weight_lb: 165, weight_class_contradicted: true });
+  assert.deepEqual(divisionFacts('Heavyweight (147 lbs.)'), { contracted_weight_lb: 147, weight_class_contradicted: true });
+  assert.deepEqual(divisionFacts('Heavyweight - (201+ lbs.)'), { weight_class_key: 'heavyweight' });
+  assert.deepEqual(divisionFacts('Catchweight'), {});
 });
