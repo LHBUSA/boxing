@@ -56,11 +56,36 @@ is shown in context on fight pages and Fight Week.
   verified *and* a named person approves its rights review, and none is enabled.
   The classifier and resolver are in `shared/videos/`.
 
-## Deploy
+## Deployment topology
+
+- **Git:** one repository, `LHBUSA/boxing`. The frontend is `web/`; data,
+  workers, migrations and backend stay in the same repository.
+- **Vercel:** one project, `boxing` (`prj_E9VN82i77FdGzL5fB8lWuTX0y7Jw`, team
+  `justins-projects-ad4f4bb7`). Git integration is `LHBUSA/boxing`, Root
+  Directory is `web`, framework is Next.js.
+  - Production branch is `main`. Pushes to other branches, such as
+    `boxing-core-v1`, deploy previews.
+  - Local `web/.vercel/project.json` points at this project.
+- **Env** (Preview + Production, sensitive): `BOXING_GATEWAY_URL` and
+  `BOXING_GATEWAY_TOKEN`, pointing at the staging gateway.
+- **Protection:** Vercel Authentication covers `all_except_custom_domains`. No
+  custom domain is attached, so every deployment, production included, requires
+  a team login. Attaching `boxing.propbetedge.ai` would make it public and needs
+  owner approval.
+- **Retired 2026-09-13:** the redundant projects `web`
+  (`prj_PATkAWtTsh3vmsvODl8E1fMnfH99`, a second Git link to this repository) and
+  `propbetedge-boxing-web` (`prj_AjuV6BIv4vr888KFlwoZwy5AUlkQ`, CLI-only).
+  - Carried over: their Root Directory and the gateway env.
+  - Neither had a custom domain.
+  - `web`'s sensitive `BOXING_TEST_DATABASE_URL` was not carried over: its
+    value cannot be read, and the site does not use it (DB tests run in CI
+    against a disposable Postgres).
+
+Manual CLI fallback:
 
 ```
 cd web
-npm run deploy:protected   # production target on propbetedge-boxing-web.vercel.app (Vercel Authentication)
+npm run deploy:protected   # production target of `boxing`, with post-checks
 npm run deploy:preview     # preview of the current commit
 ```
 

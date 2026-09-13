@@ -2,7 +2,10 @@
 // Guarded Vercel deploy for the Boxing site.
 //
 //   node scripts/deploy.mjs preview      # a preview deployment of the current commit
-//   node scripts/deploy.mjs protected    # the project's production target (propbetedge-boxing-web.vercel.app)
+//   node scripts/deploy.mjs protected    # the production target of Vercel project `boxing` (Vercel Authentication)
+//
+// Normal path: Git integration. A push to main deploys production, and any other
+// branch deploys a preview. This script is the manual CLI fallback only.
 //
 // Rules enforced before anything is uploaded:
 //  - the working tree is clean and HEAD equals origin/main (GitHub is the source of truth)
@@ -25,7 +28,7 @@ const sh = (cmd, args) => execFileSync(cmd, args, { encoding: "utf8", stdio: ["i
 const fail = (msg) => { console.error(`\n  DEPLOY REFUSED: ${msg}\n`); process.exit(1); };
 
 const project = JSON.parse(readFileSync(new URL("../.vercel/project.json", import.meta.url), "utf8"));
-if (project.projectName !== "propbetedge-boxing-web") fail(`linked project is ${project.projectName}, expected propbetedge-boxing-web`);
+if (project.projectId !== "prj_E9VN82i77FdGzL5fB8lWuTX0y7Jw") fail(`linked project is ${project.projectName} (${project.projectId}), expected boxing (prj_E9VN82i77FdGzL5fB8lWuTX0y7Jw)`);
 if (sh("git", ["status", "--porcelain"])) fail("working tree has uncommitted changes");
 sh("git", ["fetch", "-q", "origin", "main"]);
 const head = sh("git", ["rev-parse", "HEAD"]);
@@ -36,7 +39,7 @@ const args = ["deploy", "--yes", "--scope", SCOPE, ...(mode === "protected" ? ["
 console.log(`deploying ${head.slice(0, 7)} (${mode})…`);
 const run = spawnSync("npx", [...CLI, ...args], { encoding: "utf8", shell: true, stdio: ["ignore", "pipe", "pipe"] });
 const out = `${run.stdout}\n${run.stderr}`;
-const url = (out.match(/https:\/\/propbetedge-boxing-[a-z0-9-]+\.vercel\.app/g) ?? [])[0];
+const url = (out.match(/https:\/\/boxing-[a-z0-9-]+\.vercel\.app/g) ?? [])[0];
 if (run.status !== 0 || !url) { console.error(out.slice(-2000)); fail("vercel deploy failed"); }
 
 const inspect = spawnSync("npx", [...CLI, "inspect", url, "--scope", SCOPE], { encoding: "utf8", shell: true, stdio: ["ignore", "pipe", "pipe"] });
