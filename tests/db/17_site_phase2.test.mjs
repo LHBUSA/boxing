@@ -149,3 +149,22 @@ test('video registry: a channel cannot be enabled without verified identity and 
   assert.ok(t.results.official >= 1);
   assert.ok(desk.body.data.channels.every((c) => !('channel_id' in c) && !('reviewed_by' in c)));
 });
+
+test('fighter media: only an approved, credited, identity-evidenced portrait surfaces; review rows stay hidden', async () => {
+  const f = await one(`select f.id, f.public_id from public.boxing_fighters f join public.boxing_bout_participants p on p.fighter_id = f.id limit 1`);
+  await expectPgError(() => q(`insert into public.boxing_fighter_media (fighter_id, asset_url, source_kind, source_url, license, author, credit, identity_method, identity_evidence, review_state)
+    values ($1, '/media/boxers/x.jpg', 'wikimedia_commons', 'https://commons.wikimedia.org/wiki/File:X.jpg', 'CC BY 3.0', 'A', 'A', 'wikidata_p18', 'short', 'approved')`, [f.id]), { code: '23514' });
+  await q(`insert into public.boxing_fighter_media (fighter_id, asset_url, source_kind, source_url, license, author, credit, identity_method, identity_evidence, review_state)
+    values ($1, '/media/boxers/x.jpg', 'wikimedia_commons', 'https://commons.wikimedia.org/wiki/File:X.jpg', 'CC BY 3.0', 'Author', 'Author', 'wikidata_p18', 'held for review', 'review')`, [f.id]);
+  let r = await get(`/internal/v1/site/fighters/${ref(f.public_id)}`);
+  assert.equal(r.body.data.fighter.portrait, null);
+  await q(`update public.boxing_fighter_media set review_state = 'approved', review_rule = 'test_rule@1', identity_evidence = 'Wikidata P18 of the matched boxer item; article records this bout' where fighter_id = $1`, [f.id]);
+  r = await get(`/internal/v1/site/fighters/${ref(f.public_id)}`);
+  assertPrivate(r, 'fighter with portrait');
+  assert.equal(r.body.data.fighter.portrait.src, '/media/boxers/x.jpg');
+  assert.equal(r.body.data.fighter.portrait.license, 'CC BY 3.0');
+  const bout = r.body.data.bouts[0];
+  const b = await get(`/internal/v1/site/bouts/${ref(bout.public_id)}`);
+  const corner = [b.body.data.bout.a, b.body.data.bout.b].find((c) => c.public_id === f.public_id);
+  assert.equal(corner.portrait.credit, 'Author');
+});
