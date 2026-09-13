@@ -103,8 +103,8 @@
    "danger": [],
    "recommendation": "match",
    "recommendation_why": "exact-form name, compatible official weight and commission/venue continuity; only a city-level hometown is missing on one side (no contradiction)",
-   "reviewer_decision": null,
-   "reviewer_note": null
+   "reviewer_decision": "approve_match",
+   "reviewer_note": "MATCH. Exact full-name identity, compatible weight, Florida commission continuity and consistent Mexico identity. Jose A Valenzuela Gastelum is a materially different full name and is not a competing candidate."
   },
   {
    "entry_id": "001:florida_athletic_commission:2026-02-21|miami|m-r-boxing|jose-rodriguez-montemayor|aniel-viamontes|a",
@@ -179,8 +179,8 @@
    "danger": [],
    "recommendation": "match",
    "recommendation_why": "exact-form name, compatible official weight and commission/venue continuity; only a city-level hometown is missing on one side (no contradiction)",
-   "reviewer_decision": null,
-   "reviewer_note": null
+   "reviewer_decision": "approve_match",
+   "reviewer_note": "MATCH. Exact full-name identity, compatible weight and consistent Mexico identity. The similarly named Rodriguez boxers are materially different full names and are not competing candidates."
   },
   {
    "entry_id": "001:florida_athletic_commission:2026-02-21|miami|m-r-boxing|shaquille-rushing|manuel-enrique-arrieta-sangroni|b",
@@ -252,8 +252,8 @@
    "danger": [],
    "recommendation": "match",
    "recommendation_why": "exact-form name, compatible official weight and commission/venue continuity; only a city-level hometown is missing on one side (no contradiction)",
-   "reviewer_decision": null,
-   "reviewer_note": null
+   "reviewer_decision": "approve_match",
+   "reviewer_note": "MATCH. Exact distinctive full name, compatible weight, Venezuela consistent, same commission, no competing candidate."
   },
   {
    "entry_id": "001:florida_athletic_commission:2026-03-07|alamonte-springs|mike-sawyer-promotions|cody-jenkins|tristan-gallichan|b",
@@ -325,8 +325,8 @@
    "danger": [],
    "recommendation": "match",
    "recommendation_why": "exact-form name, compatible official weight and commission/venue continuity; only a city-level hometown is missing on one side (no contradiction)",
-   "reviewer_decision": null,
-   "reviewer_note": null
+   "reviewer_decision": "approve_match",
+   "reviewer_note": "MATCH. Exact distinctive name, Florida consistent, compatible weight, same commission, no competing candidate."
   },
   {
    "entry_id": "001:florida_athletic_commission:2026-03-07|alamonte-springs|mike-sawyer-promotions|ethan-trout|yusmel-alejandro-ruiz|b",
@@ -408,8 +408,8 @@
    "danger": [],
    "recommendation": "match",
    "recommendation_why": "exact-form name, compatible official weight and commission/venue continuity; only a city-level hometown is missing on one side (no contradiction)",
-   "reviewer_decision": null,
-   "reviewer_note": null
+   "reviewer_decision": "approve_match",
+   "reviewer_note": "MATCH. Exact distinctive full name, Cuba consistent, compatible weight, same commission, no competing candidate."
   },
   {
    "entry_id": "001:florida_athletic_commission:2026-03-07|alamonte-springs|mike-sawyer-promotions|phillip-penson|gustavo-trujillo|b",
@@ -481,8 +481,8 @@
    "danger": [],
    "recommendation": "match",
    "recommendation_why": "exact-form name, compatible official weight and commission/venue continuity; only a city-level hometown is missing on one side (no contradiction)",
-   "reviewer_decision": null,
-   "reviewer_note": null
+   "reviewer_decision": "approve_match",
+   "reviewer_note": "MATCH. Exact name, Cuba consistent, 244.4 vs 245 lb continuity, same commission, no competing candidate."
   },
   {
    "entry_id": "001:florida_athletic_commission:2026-03-28|palm-bay|boxlite-promotions|wilner-soto|alex-vallecillo|b",
@@ -554,8 +554,8 @@
    "danger": [],
    "recommendation": "match",
    "recommendation_why": "exact-form name, compatible official weight and commission/venue continuity; only a city-level hometown is missing on one side (no contradiction)",
-   "reviewer_decision": null,
-   "reviewer_note": null
+   "reviewer_decision": "approve_match",
+   "reviewer_note": "MATCH. Exact name, Nicaragua consistent, exact 124 lb weight continuity, same commission, no competing candidate."
   },
   {
    "entry_id": "001:florida_athletic_commission:2026-04-12|hollywood|heavyweight-factory|harrison-melendez|jose-cortes|b",
@@ -627,8 +627,8 @@
    "danger": [],
    "recommendation": "match",
    "recommendation_why": "exact-form name, compatible official weight and commission/venue continuity; only a city-level hometown is missing on one side (no contradiction)",
-   "reviewer_decision": null,
-   "reviewer_note": null
+   "reviewer_decision": "approve_match",
+   "reviewer_note": "MATCH. Exact name, Colombia consistent, 179.2 vs 179 lb continuity, same Florida commission and no competing candidate. Keep the separate West Palm Beach appearance unresolved; this decision applies ONLY to the Colombia appearance in batch 001."
   },
   {
    "entry_id": "001:florida_athletic_commission:2026-04-12|hollywood|heavyweight-factory|ramon-de-la-cruz-sena|aaron-aponte|a",
@@ -700,8 +700,8 @@
    "danger": [],
    "recommendation": "match",
    "recommendation_why": "exact-form name, compatible official weight and commission/venue continuity; only a city-level hometown is missing on one side (no contradiction)",
-   "reviewer_decision": null,
-   "reviewer_note": null
+   "reviewer_decision": "approve_match",
+   "reviewer_note": "MATCH. Exact normalized identity, Argentina consistent, compatible weight, same commission, no competing candidate."
   },
   {
    "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|ariele-davis|sofia-viretti|b",
@@ -783,8 +783,8 @@
    "danger": [],
    "recommendation": "match",
    "recommendation_why": "exact-form name, compatible official weight and commission/venue continuity; only a city-level hometown is missing on one side (no contradiction)",
-   "reviewer_decision": null,
-   "reviewer_note": null
+   "reviewer_decision": "approve_match",
+   "reviewer_note": "MATCH. Exact distinctive name, Argentina consistent, compatible weight, same commission, no competing candidate."
   },
   {
    "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|doctress-robinson|esteuri-suero|b",
@@ -856,8 +856,8 @@
    "danger": [],
    "recommendation": "match",
    "recommendation_why": "exact-form name, compatible official weight and commission/venue continuity; only a city-level hometown is missing on one side (no contradiction)",
-   "reviewer_decision": null,
-   "reviewer_note": null
+   "reviewer_decision": "approve_match",
+   "reviewer_note": "MATCH. Exact distinctive name, Dominican Republic consistent, near-identical weight, same commission, no competing candidate."
   },
   {
    "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|kaylee-ann-justus-knight|samantha-ginithan|b",
@@ -941,8 +941,8 @@
    "danger": [],
    "recommendation": "match",
    "recommendation_why": "exact-form name, compatible official weight and commission/venue continuity; only a city-level hometown is missing on one side (no contradiction)",
-   "reviewer_decision": null,
-   "reviewer_note": null
+   "reviewer_decision": "approve_match",
+   "reviewer_note": "MATCH. Exact distinctive name, New Mexico / Las Cruces geography is consistent, near-identical weight, same commission, no competing candidate."
   }
  ],
  "remaining": [
