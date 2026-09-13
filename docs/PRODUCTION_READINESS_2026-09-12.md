@@ -20,9 +20,9 @@ The whole suite runs on disposable PostgreSQL 17, locally and in CI (`postgres:1
 
 1. **A boxing PRODUCTION Supabase project.** STAGING exists and is verified (see `staging/boxing-staging.json`, `scripts/staging/`). Production still needs owner approval, then the same proof → apply → verify sequence.
 2. ~~The Odds API rights review~~ **Done 2026-09-13** (`docs/SOURCE_POLICY.md`, `docs/BOXING_SOURCE_ACQUISITION.md`): approved with a raw-redistribution restriction; staging capture running.
-3. **An approved event and result source.** Without one, cards and bouts never exist, and odds events have nothing to match; every provider event lands in the unmatched queue by design. Options: a commission-by-commission source rows plus terms review, a promoter feed agreement, or a licensed data provider.
+3. **An approved event and result source.** Without one, cards and bouts never exist, and odds events have nothing to match; every provider event lands in the unmatched queue by design. Options with no new cost: commission-by-commission source rows plus terms review, and official promoter/event pages where permitted. No paid data provider is planned (owner policy 2026-09-13).
 4. **Sanctioning-body terms** (WBC, WBA, IBF, WBO) before any ranking or title automation.
-5. **BoxRec licence** (RED, registry `blocked`), or another licensed record source (Boxing Data API is YELLOW pending a written licence), to establish an *active* universe. Wikidata cannot.
+5. **An active universe built from owned data:** commission result/licensing documents, promoter cards and our normalized graph. There is no BoxRec licence or paid record API (zero-new-paid-source policy; BoxRec stays blocked). Wikidata alone cannot establish activity.
 6. **Deploy secrets per Worker:** `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `BOXING_INTERNAL_TOKEN`, plus `ODDS_API_KEY` for boxing-odds. Service bindings between Workers are also still to be configured.
 
 ## Deploy order once unblocked

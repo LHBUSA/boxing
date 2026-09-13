@@ -141,7 +141,7 @@ The regulating commission/jurisdiction is distinct from the promoter and sanctio
 6. Capture weigh-ins, officials and scorecards for live/current cards.
 7. Emit structured change events into boxing-news.
 8. Backfill career history after the forward-capture system is stable.
-9. Add licensed punch-stat feeds and derived Fight DNA.
+9. Derived Fight DNA from owned data. Punch stats only from a no-cost, permissible source; otherwise they stay unavailable (no paid feeds, 2026-09-13 policy).
 10. Expand historical title/ranking/officials graph backward.
 
 ## First consumer surfaces

@@ -104,6 +104,18 @@ The newsroom may not invent or infer as fact:
 
 Derived PropBetEdge analytics must include a model/metric version and must be labeled as derived.
 
+## No new paid data sources (owner policy, 2026-09-13)
+
+Boxing does not purchase or subscribe to new data APIs, licences, trials or credits without explicit owner approval. Sources are prioritized in this order:
+1. official athletic commissions
+2. official event and promoter records where permitted
+3. public government data
+4. Wikidata and open-licensed identity data
+5. sanctioning-body public pages after an access and terms review
+6. existing PropBetEdge infrastructure that adds no cost
+
+The Odds API is used only within the existing PropBetEdge subscription. Any action that could create a charge needs approval first. See `docs/BOXING_SOURCE_ACQUISITION.md`.
+
 ## Rights reviews are data
 
 Every approval, restriction or block is an append-only row in `boxing_source_rights_reviews` with:
@@ -122,7 +134,7 @@ Every approval, restriction or block is an append-only row in `boxing_source_rig
 | Terms URL | https://the-odds-api.com/terms-and-conditions.html |
 | Terms last updated | 2026-08-31 (page sha256 `f4d79e40…f660` at review) |
 | Review date | 2026-09-13; next review due 2026-12-13 |
-| Account agreement | None found. Self-serve subscription under the public terms (100,000 credits/month, shared with NFL/UFC) |
+| Account agreement | None found. Existing paid PropBetEdge subscription, 100K tier (publicly listed at $59/month; 100,000 credits reset monthly; shared with NFL/UFC) under the public terms. Boxing adds no incremental charge within included credits |
 | Decision | **Approved with restriction** |
 | Permitted | ingestion; storing data and retaining it indefinitely; display in first-party websites/apps/dashboards, including commercial use; research and analytical dashboards; calculating and displaying derived values; training statistical and ML models |
 | Prohibited | reselling, repackaging or redistributing the data as a standalone data product; offering it through our own API, data feed, downloadable files or any format intended as a raw data source for others; any product where the provider data is the primary product sold |

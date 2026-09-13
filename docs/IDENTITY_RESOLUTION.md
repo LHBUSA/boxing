@@ -94,12 +94,12 @@ Manual review (`boxing_resolve_identity_review`) needs an actor and a note. It r
 | Source | State | Notes |
 |---|---|---|
 | `wikidata` | enabled (CC0, `approved_ingest` since seed 0001) | Identity/reference only. **Cannot establish active status**; absence proves nothing. BoxRec ids Wikidata carries stay in the raw payload and are not written as boxrec identities |
-| `boxrec` | disabled, `review_required` | Adapter throws. Needs a licence or API agreement recorded on the source row |
+| `boxrec` | disabled, `blocked` | Adapter throws. No licence is being pursued (zero-new-paid-source policy) |
 | `commission_official`, `promotion_official` | disabled placeholders | Each concrete commission or promoter needs its own reviewed source row |
 
 ## "Active universe"
 
-No approved source currently establishes **active** status. Wikidata identifies professional boxers (occupation boxer + BoxRec id, born ≥ 1975, no date of death) but does not record activity. `career_status` therefore stays `unknown` and is not inferred. An active universe needs an approved record source (licensed BoxRec/API, commission licensing data, or sanctioning-body rankings once rights are reviewed under #2).
+No approved source currently establishes **active** status. Wikidata identifies professional boxers (occupation boxer + BoxRec id, born ≥ 1975, no date of death) but does not record activity. `career_status` therefore stays `unknown` and is not inferred. An active universe needs an approved no-cost record source: commission result/licensing data, official promoter cards, or sanctioning-body rankings once rights are reviewed under #2. Paid record APIs and a BoxRec licence are not planned.
 
 ## Local real-data check (2026-09-12)
 

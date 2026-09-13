@@ -14,25 +14,47 @@ Only **The Odds API** is enabled for collection. Every other external source sta
 - `wikidata` has been enabled since issue #1, for identity only, and its seed worker is not deployed.
 - The internal rows are PropBetEdge's own data.
 
+## Owner policy: zero new paid data sources (2026-09-13)
+
+**PropBetEdge does not purchase or subscribe to any new data API for Boxing** unless the owner explicitly approves the spend.
+- **Not pursued:** Boxing Data API, BoxRec, CompuBox, Sportradar, SportsDataIO and any other commercial provider. That covers subscriptions, trials, credit purchases, upgrades and paid licences.
+- **The goal is to build and own a normalized boxing dataset,** not to assemble a product that depends on new paid APIs. PropBetEdge is creating the API, not buying one.
+- **The Odds API stays enabled in staging only because** it is the existing PropBetEdge subscription (the 100K plan, also used by NFL/UFC), Boxing adds no incremental charge within the included credits, and its terms permit the use.
+- **Anything that could create a charge needs explicit owner approval first.** That includes an upgrade forced by quota pressure and public-records requests that carry copy fees.
+
+### Source build order (no new cost)
+
+1. **Official athletic commissions:** result sheets, scorecards, officials, suspensions and weigh-ins from free public pages.
+   - Nevada, New Jersey and Florida PDFs; Texas TDLR under its copy conditions.
+   - Each needs a terms/legal review, attribution rules and PII stripping (never DOB or Federal ID).
+   - Public-records requests (CPRA, FOIL, OPRA) are made only where there is no fee, or after the owner approves a fee.
+2. **Official event and promoter sources:** public cards, bout orders, weigh-in announcements and results where the site terms permit. Each promoter gets its own source row and review.
+3. **Public and open government data**, with provenance recorded.
+4. **Wikidata and open-licensed identity data:** already enabled for identity (CC0).
+5. **Sanctioning-body public pages** (WBC/WBA/IBF/WBO rankings and titles): only after an access and terms review. Until then, facts-only references with attribution.
+6. **Existing PropBetEdge infrastructure** that adds no cost: The Odds API within the existing plan; internal editorial and manual review (`pbe_manual_review`).
+
+Paid or licensed options (BoxRec licence, CompuBox feed, Boxing Data API plans) are recorded below **for reference only**. They are not in the execution plan.
+
 ## Summary
 
 | Source | Class | Registry state | Key evidence | Next action |
 |---|---|---|---|---|
 | **A. The Odds API** | **GREEN (raw redistribution prohibited)** | `approved_ingest` / `approved`, **enabled**, `redistribution_allowed=false` | [Terms](https://the-odds-api.com/terms-and-conditions.html), last updated 2026-08-31 | Staging capture live; re-review 2026-12-13 |
-| **B. BoxRec** | **RED** | `blocked` / `prohibited` | [Terms (Wayback 2025-12-29)](http://web.archive.org/web/20251229101505/https://boxrec.com/en/policies/terms_conditions/public) | Business licensing outreach (help@boxrec.com). No scraping |
-| **C. Boxing Data API** (boxing-data.com via RapidAPI) | **YELLOW** | `review_required`, disabled | [RapidAPI pricing](https://rapidapi.com/bengroves1993/api/boxing-data-api/pricing) (`termsOfService: null`); [RapidAPI terms](https://rapidapi.com/page/terms) (2026-05-13) | Written licence + provenance/IP warranty from hello@boxing-data.com before any plan |
-| **D. WBC** | YELLOW | `review_required` | [Ratings](https://wbcboxing.com/campeones-y-ratings/varonil/completo/); privacy policy only | Written permission; legal review |
-| **D. WBA** | YELLOW | `review_required` | [Rankings](https://www.wbaboxing.com/wba-ranking); [legal disclaimer](https://www.wbaboxing.com/important-legal-information) | Written permission; legal review |
-| **D. IBF** | YELLOW | `review_required` | [Ratings](https://www.ibf-usba-boxing.com/ratings/); privacy policy only | Written permission; legal review |
-| **D. WBO** | YELLOW | `review_required` | Rankings PDF on [wboboxing.com](https://wboboxing.com/); no terms page | Written permission; legal review |
-| **E. CompuBox** | **RED** | `blocked` / `prohibited` | [Terms](https://app2.compuboxdata.com/terms-and-conditions) | Data-feed licensing inquiry |
+| **B. BoxRec** | **RED** | `blocked` / `prohibited` | [Terms (Wayback 2025-12-29)](http://web.archive.org/web/20251229101505/https://boxrec.com/en/policies/terms_conditions/public) | **Not pursued** (paid licence). No scraping, no automated use |
+| **C. Boxing Data API** (boxing-data.com via RapidAPI) | **YELLOW** | `review_required`, disabled | [RapidAPI pricing](https://rapidapi.com/bengroves1993/api/boxing-data-api/pricing) (`termsOfService: null`); [RapidAPI terms](https://rapidapi.com/page/terms) (2026-05-13) | **Not pursued** (paid subscription). No subscription, trial or ingestion |
+| **D. WBC** | YELLOW | `review_required` | [Ratings](https://wbcboxing.com/campeones-y-ratings/varonil/completo/); privacy policy only | Terms/access review before any automation (no cost) |
+| **D. WBA** | YELLOW | `review_required` | [Rankings](https://www.wbaboxing.com/wba-ranking); [legal disclaimer](https://www.wbaboxing.com/important-legal-information) | Terms/access review before any automation (no cost) |
+| **D. IBF** | YELLOW | `review_required` | [Ratings](https://www.ibf-usba-boxing.com/ratings/); privacy policy only | Terms/access review before any automation (no cost) |
+| **D. WBO** | YELLOW | `review_required` | Rankings PDF on [wboboxing.com](https://wboboxing.com/); no terms page | Terms/access review before any automation (no cost) |
+| **E. CompuBox** | **RED** | `blocked` / `prohibited` | [Terms](https://app2.compuboxdata.com/terms-and-conditions) | **Not pursued** (paid feed). Punch metrics stay unavailable |
 | **F. Nevada (NSAC)** | YELLOW, strong | `nsac_nevada`, `review_required` | [Results 2026](https://boxing.nv.gov/results/2026_Results/) | Legal review; strip Federal IDs |
-| **F. California (CSAC)** | GREEN for own content; results → BoxRec (RED) | `csac_california`, `review_required` | [Events](https://www.dca.ca.gov/csac/events/index.html); [ca.gov conditions](https://www.ca.gov/legal/conditions-of-use/) | CPRA request for result sheets |
-| **F. New York (NYSAC)** | YELLOW | `nysac_new_york`, `review_required` | [Athletic commission](https://dos.ny.gov/athletic-commission) (403 to automated fetch) | FOIL request |
-| **F. New Jersey (SACB)** | YELLOW, strong | `nj_sacb`, `review_required` | [Schedule & results](https://www.njoag.gov/about/divisions-and-offices/state-athletic-control-board-home/event-schedule/) | Legal review; OPRA backfill; strip IDs |
+| **F. California (CSAC)** | GREEN for own content; results → BoxRec (RED) | `csac_california`, `review_required` | [Events](https://www.dca.ca.gov/csac/events/index.html); [ca.gov conditions](https://www.ca.gov/legal/conditions-of-use/) | CPRA request for result sheets (no-fee only; any fee needs owner approval) |
+| **F. New York (NYSAC)** | YELLOW | `nysac_new_york`, `review_required` | [Athletic commission](https://dos.ny.gov/athletic-commission) (403 to automated fetch) | FOIL request (no-fee only; any fee needs owner approval) |
+| **F. New Jersey (SACB)** | YELLOW, strong | `nj_sacb`, `review_required` | [Schedule & results](https://www.njoag.gov/about/divisions-and-offices/state-athletic-control-board-home/event-schedule/) | Legal review; OPRA backfill (no-fee only); strip IDs |
 | **F. Texas (TDLR)** | GREEN with conditions | `tdlr_texas`, `review_required` | [Disclaimer/copyright](https://www.tdlr.texas.gov/disclaimer.htm); [results](https://www.tdlr.texas.gov/sports/events/results/) | Verify result format; attribution + non-endorsement; no logos |
 | **F. Florida (DBPR)** | YELLOW, strong | `florida_athletic_commission`, `review_required` | [Pro results](https://www2.myfloridalicense.com/athletic-commission/commission-event-results-professional/) | Legal review; never store DOB/Federal ID |
-| **F. BBBofC (UK)** | RED for results (BoxRec-provided); YELLOW for Board lists | `bbbofc_uk`, `review_required` | [Results](https://www.bbbofc.com/results) ("Provided by boxrec.com") | Outreach for champion lists / official returns |
+| **F. BBBofC (UK)** | RED for results (BoxRec-provided); YELLOW for Board lists | `bbbofc_uk`, `review_required` | [Results](https://www.bbbofc.com/results) ("Provided by boxrec.com") | Free written permission request for Board lists only; results not used |
 | **F. ABC record keeper / National Suspension List** | YELLOW (conflicting evidence) | none | [Boxer's Bill of Rights](https://www.abcboxing.com/boxers-bill-of-rights/) (Fight Fax) vs [ABC home](https://www.abcboxing.com/) sidebar (BoxRec) | Ask ABC which registry is certified |
 
 ---
@@ -62,7 +84,8 @@ Only **The Odds API** is enabled for collection. Every other external source sta
 - Responsible-gambling messaging is encouraged wherever bookmakers are promoted.
 
 **Account:**
-- Self-serve subscription: 100,000 credits/month, 95,065 remaining after the first staging capture, shared with PropBetEdge NFL and UFC.
+- Existing paid PropBetEdge subscription on the **100K tier**: 100,000 credits/month, reset on the 1st; publicly listed at $59/month; upgraded from 20K by the owner in September 2026 for NFL. It is shared with PropBetEdge NFL and UFC, and 95,065 credits remained after the first staging capture.
+- Boxing uses included credits only. Plans are fixed monthly quotas with no published overage pricing; the September 2026 NFL exhaustion stopped requests rather than billing more.
 - **No account-specific agreement, contract or enterprise terms** were found in PropBetEdge repositories, secrets or records.
 - The public terms therefore govern, and there is no conflict.
 
@@ -90,7 +113,7 @@ Only **The Odds API** is enabled for collection. Every other external source sta
 - Wikidata-carried BoxRec ids stay provenance-only in raw payloads, as since #1.
 - Commissions and bodies that display BoxRec data (CSAC, NJ suspensions, BBBofC results, the WBO footer) do not pass BoxRec rights to us.
 
-**Next:** business licensing outreach to BoxRec Limited (help@boxrec.com; boxrec@gmail.com is also listed). Ask for business terms and a written licence covering storage, display, derived analytics and ML.
+**Plan:** not pursued, because a licence is a paid acquisition under the zero-new-paid-source policy. BoxRec remains blocked. Records and the active universe are built from commission documents, promoter results, Wikidata and our own normalized graph.
 
 ## C. Boxing Data API (RapidAPI) — YELLOW
 
@@ -123,7 +146,7 @@ Only **The Odds API** is enabled for collection. Every other external source sta
 
 **PropBetEdge plan:** no RapidAPI subscription found.
 
-**Decision:** YELLOW. Documentation is not approval. Do not subscribe for ingestion or persist any data until there is a written licence covering storage and retention after cancellation, commercial display, derived analytics and ML, plus a source-by-source provenance statement and IP warranty. Then legal review.
+**Decision:** YELLOW on rights, and **not pursued** under the zero-new-paid-source policy. No subscription (including the free Basic tier), trial or ingestion. Documentation is not approval, and the upstream provenance is doubtful anyway.
 
 ## D. Sanctioning bodies — YELLOW (all four)
 
@@ -151,7 +174,7 @@ Only **The Odds API** is enabled for collection. Every other external source sta
 - Punch metrics in Fight DNA stay `source_unavailable`.
 - Audit any third-party punch stats (including Boxing Data API) for CompuBox derivation.
 
-**Next:** licensing inquiry.
+**Plan:** not pursued (paid feed). Punch and knockdown metrics stay `source_unavailable` unless a no-cost, permissible official source appears.
 
 ## F. Athletic commissions
 
