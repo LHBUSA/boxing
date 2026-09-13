@@ -1,6 +1,6 @@
 # Boxing source acquisition matrix
 
-Review date: **2026-09-13**. Next review is due 2026-12-13, or earlier if any terms-change notice arrives. Registry: `boxing_sources` + `boxing_source_rights_reviews` (migrations 0010, 0012).
+Review date: **2026-09-13**. Next review is due 2026-12-13, or earlier if any terms-change notice arrives. Registry: `boxing_sources` + `boxing_source_rights_reviews` (migrations 0010, 0012, 0014).
 
 **Method.** Public official pages were read directly. There were no sign-ups, no logins, no data-API calls (except The Odds API, which we already subscribe to) and no bulk scraping. One sample document was opened per commission result format. Quotes are verbatim from the official page or a dated archive of it, and archives are named where used. **This is not legal advice.** Public-records and database-rights questions are flagged for legal review.
 
@@ -10,7 +10,7 @@ Review date: **2026-09-13**. Next review is due 2026-12-13, or earlier if any te
 | **YELLOW** | Possibly permissible, but no express grant. Needs a plan/contract, outreach or legal review first |
 | **RED** | Prohibited, or blocked without a licence |
 
-Only **The Odds API** is enabled for collection. Every other external source stays disabled.
+**Enabled for collection (staging only):** The Odds API; Nevada NSAC, Florida Athletic Commission and New Jersey SACB official commission pages (enabled 2026-09-13, see [COMMISSION_INGESTION.md](COMMISSION_INGESTION.md)). Every other external source stays disabled.
 - `wikidata` has been enabled since issue #1, for identity only, and its seed worker is not deployed.
 - The internal rows are PropBetEdge's own data.
 
@@ -48,12 +48,12 @@ Paid or licensed options (BoxRec licence, CompuBox feed, Boxing Data API plans) 
 | **D. IBF** | YELLOW | `review_required` | [Ratings](https://www.ibf-usba-boxing.com/ratings/); privacy policy only | Terms/access review before any automation (no cost) |
 | **D. WBO** | YELLOW | `review_required` | Rankings PDF on [wboboxing.com](https://wboboxing.com/); no terms page | Terms/access review before any automation (no cost) |
 | **E. CompuBox** | **RED** | `blocked` / `prohibited` | [Terms](https://app2.compuboxdata.com/terms-and-conditions) | **Not pursued** (paid feed). Punch metrics stay unavailable |
-| **F. Nevada (NSAC)** | YELLOW, strong | `nsac_nevada`, `review_required` | [Results 2026](https://boxing.nv.gov/results/2026_Results/) | Legal review; strip Federal IDs |
+| **F. Nevada (NSAC)** | GREEN for facts (public records) | `nsac_nevada`: **`approved_ingest`**, enabled (staging) | [Results 2026](https://boxing.nv.gov/results/2026_Results/); robots disallows only `/workarea/`, `/widgets/`; public pro calendar feed; NRS 239 | Ingesting boxing results only (MMA/PowerSlap never fetched); Federal ID column and physician/medical header lines dropped in the parser |
 | **F. California (CSAC)** | GREEN for own content; results → BoxRec (RED) | `csac_california`, `review_required` | [Events](https://www.dca.ca.gov/csac/events/index.html); [ca.gov conditions](https://www.ca.gov/legal/conditions-of-use/) | CPRA request for result sheets (no-fee only; any fee needs owner approval) |
 | **F. New York (NYSAC)** | YELLOW | `nysac_new_york`, `review_required` | [Athletic commission](https://dos.ny.gov/athletic-commission) (403 to automated fetch) | FOIL request (no-fee only; any fee needs owner approval) |
-| **F. New Jersey (SACB)** | YELLOW, strong | `nj_sacb`, `review_required` | [Schedule & results](https://www.njoag.gov/about/divisions-and-offices/state-athletic-control-board-home/event-schedule/) | Legal review; OPRA backfill (no-fee only); strip IDs |
-| **F. Texas (TDLR)** | GREEN with conditions | `tdlr_texas`, `review_required` | [Disclaimer/copyright](https://www.tdlr.texas.gov/disclaimer.htm); [results](https://www.tdlr.texas.gov/sports/events/results/) | Verify result format; attribution + non-endorsement; no logos |
-| **F. Florida (DBPR)** | YELLOW, strong | `florida_athletic_commission`, `review_required` | [Pro results](https://www2.myfloridalicense.com/athletic-commission/commission-event-results-professional/) | Legal review; never store DOB/Federal ID |
+| **F. New Jersey (SACB)** | GREEN for facts (public records) | `nj_sacb`: **`approved_ingest`**, enabled (staging) | [Schedule & results](https://www.njoag.gov/about/divisions-and-offices/state-athletic-control-board-home/event-schedule/); robots disallows only `/wp-admin/`; OPRA | Schedule ingested (pro boxing only); result-PDF parser **not built** (documents registered `parser_pending`); linked third-party record keepers are never followed |
+| **F. Texas (TDLR)** | GREEN with conditions for human reference; automation blocked by robots | `tdlr_texas`: **`reference_only`**, disabled | [Disclaimer/copyright](https://www.tdlr.texas.gov/disclaimer.htm); [results](https://www.tdlr.texas.gov/sports/events/results/) load from `/sports/_events-list.csv`, and robots.txt says `Disallow: /*.csv` | No automated fetch. Adapter classifies rows (boxing only; state titles = `tdlr-texas` tier `state`) but is disabled; human reference with attribution + non-endorsement |
+| **F. Florida (DBPR)** | GREEN for facts (public records) | `florida_athletic_commission`: **`approved_ingest`**, enabled (staging) | [Pro results](https://www2.myfloridalicense.com/athletic-commission/commission-event-results-professional/); robots disallows only WordPress paths; Ch. 119 | Ingesting pro boxing only (Event Type + per-bout Sport; BKFC/bare knuckle/kickboxing/MMA rejected); DOB and Federal ID columns dropped in the parser |
 | **F. BBBofC (UK)** | RED for results (BoxRec-provided); YELLOW for Board lists | `bbbofc_uk`, `review_required` | [Results](https://www.bbbofc.com/results) ("Provided by boxrec.com") | Free written permission request for Board lists only; results not used |
 | **F. ABC record keeper / National Suspension List** | YELLOW (conflicting evidence) | none | [Boxer's Bill of Rights](https://www.abcboxing.com/boxers-bill-of-rights/) (Fight Fax) vs [ABC home](https://www.abcboxing.com/) sidebar (BoxRec) | Ask ABC which registry is certified |
 
@@ -200,4 +200,15 @@ These must never be stored in public tables; internal identity matching would ne
 2. Texas, whose conditions are explicit.
 3. Public-records requests: California (CPRA), New York (FOIL), New Jersey (OPRA) for backfill.
 
-Each gets its own source row, adapter, attribution rule and PII stripping before enabling. The rows exist now, disabled.
+Each gets its own source row, adapter, attribution rule and PII stripping before enabling.
+
+### Decision 2026-09-13 (migration 0014; engineering review, not counsel)
+
+| Jurisdiction | Classification | Why | Conditions |
+|---|---|---|---|
+| Nevada NSAC | `approved_ingest` | Official public-records results index; robots permits the paths used; facts (who fought, result, officials, scores, weights) are not copyrightable. The "All Rights Reserved" footer is honoured by **not redistributing documents**. | Boxing PDFs only; facts with attribution; Federal ID and physician/medical header lines dropped at parse time; forward runs once a day, ≤12 PDFs, 1.5 s apart |
+| Florida FAC | `approved_ingest` | Same basis (Ch. 119 public records, robots permits). Copyright footer honoured the same way. | Pro boxing only; DOB and Federal ID columns dropped; suspension **period** only, never a reason |
+| New Jersey SACB | `approved_ingest` | Official SACB page on njoag.gov; robots permits. | Only njoag.gov / nj.gov URLs; linked BoxRec or other record keepers are never followed or approved; result-PDF parser pending |
+| Texas TDLR | `reference_only` | Copy conditions are explicit, but the results table loads from `/sports/_events-list.csv` and robots.txt disallows `/*.csv`. Public does not mean automation is welcome. | No automated access; human reference with agency, URL, copy date and non-endorsement |
+
+**Still open for legal review:** the database-rights and commercial-display questions for public-records compilations. Any adverse finding flips the row to `blocked`, and the gates stop ingestion without a deploy.

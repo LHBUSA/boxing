@@ -66,6 +66,17 @@ export async function applyCommissionParsed(store, adapter, parsed, { now = new 
     if (!bouts.length) continue;
 
     const ids = await store.boutsForProviderEvents(`${namespace}.bout`, bouts.map((b) => b.source_bout_id));
+    // a bout matched only by its exact pairing on this official card (same event, both
+    // corners resolved to the same canonical fighters, no id from this source yet) gets the
+    // source bout id attached; the mapping fails closed if the id already points elsewhere
+    for (const l of card.bout_links ?? []) {
+      if (l.matched_by !== 'pair' || ids[l.external_id]) continue;
+      const m = await store.mapProviderEvent({ bout_id: l.bout_id, namespace: `${namespace}.bout`, provider_event_id: l.external_id, source_key: adapter.sourceKey,
+        verification_state: 'verified', confidence: 100, resolver_version: adapter.version,
+        evidence: { matched_by: 'exact_pairing_on_official_card', event_id: card.event_id } });
+      if (m?.status === 'mapped') { ids[l.external_id] = l.bout_id; summary.bout_ids_attached = (summary.bout_ids_attached ?? 0) + 1; }
+      else summary.skipped.push({ bout: l.external_id, reason: 'bout_id_conflict' });
+    }
     const officialsByBout = new Map(((await store.cardState(card.event_id)).bouts ?? []).map((b) => [b.bout_id, b.officials ?? []]));
     for (const b of bouts) {
       const boutId = ids[b.source_bout_id];

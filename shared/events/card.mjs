@@ -76,6 +76,7 @@ export function diffCard(state, doc) {
   // ---- bouts
   const review = [];
   const claimed = new Set();
+  const matches = [];
   for (const b of doc.bouts) {
     if (!b.resolved) continue;
     const { a: fa, b: fb } = b.resolved;
@@ -90,6 +91,7 @@ export function diffCard(state, doc) {
     });
     const sb = byExternal ?? byPair;
     if (sb) claimed.add(sb.bout_id);
+    if (sb && b.external_id) matches.push({ external_id: b.external_id, bout_id: sb.bout_id, matched_by: byExternal ? 'external_id' : 'pair' });
     const ref = b.external_id ? `ext:${b.external_id}` : `pair:${[fa, fb].sort().join('|')}`;
 
     if (!sb) {
@@ -163,7 +165,7 @@ export function diffCard(state, doc) {
       }
     }
   }
-  return { changes, review };
+  return { changes, review, matches };
 }
 
 const NEWS = {
@@ -261,7 +263,7 @@ export async function applyCardDocument(store, doc, { now = new Date().toISOStri
     resolved.bouts.push(rb);
   }
 
-  const { changes, review } = diffCard(state, resolved);
+  const { changes, review, matches } = diffCard(state, resolved);
   const boutIds = new Map();
   const applied = [];
   const news = [];
@@ -299,5 +301,7 @@ export async function applyCardDocument(store, doc, { now = new Date().toISOStri
     news.push({ ...event, id: emitted.id, inserted: emitted.inserted });
   }
 
-  return { status: 'applied', event_id: eventId, event_created: ev.created, changes: applied, news, unresolved, review, observation_id: observation.id };
+  // source bout ids for this card: added bouts, and bouts matched by id or by exact pairing
+  const bout_links = [...matches, ...[...boutIds].filter(([ref]) => String(ref).startsWith('ext:')).map(([ref, bout_id]) => ({ external_id: String(ref).slice(4), bout_id, matched_by: 'added' }))];
+  return { status: 'applied', event_id: eventId, event_created: ev.created, changes: applied, news, unresolved, review, bout_links, observation_id: observation.id };
 }

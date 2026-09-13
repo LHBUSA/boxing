@@ -6,7 +6,10 @@
   "region": "us-east-2",
   "created": "2026-09-13",
   "secrets": "DB password in D:\\Workers\\secrets\\boxing-staging-db.env (outside git). API keys are fetched at use time, never stored in the repo. boxing-odds-staging internal token: D:\\Workers\\secrets\\boxing-odds-staging-internal-token.",
-  "never_target": ["tkmlnhmylqnttmnsnief (PROPBETEDGE: NFL + UFC production)", "rlfyavnhbngwbldebrid (MLB + PropTech)"],
+  "never_target": [
+    "tkmlnhmylqnttmnsnief (PROPBETEDGE: NFL + UFC production)",
+    "rlfyavnhbngwbldebrid (MLB + PropTech)"
+  ],
   "workers": {
     "boxing-odds-staging": {
       "source": "workers/boxing-odds (wrangler --env staging)",
@@ -15,6 +18,15 @@
       "routes": "none (workers_dev=false); cron */15 * * * *",
       "writes_to": "wpaxofilvbsjyrxrwjhg only (shared/store/target-guard.mjs allow-list)",
       "external_feed": "The Odds API boxing_boxing (rights review 2026-09-13)"
+    },
+    "boxing-commissions-staging": {
+      "source": "workers/boxing-commissions (wrangler --env staging)",
+      "cloudflare_account": "fd3a233edadd0a60916413c1199f71ee",
+      "first_deployed": "2026-09-13",
+      "routes": "none (workers_dev=false); cron 40 11 * * *",
+      "writes_to": "wpaxofilvbsjyrxrwjhg only (shared/store/target-guard.mjs allow-list)",
+      "external_feed": "Official commission pages: Nevada NSAC, Florida Athletic Commission, New Jersey SACB (rights review 2026-09-13, migration 0014). Texas TDLR reference-only, never fetched.",
+      "internal_token": "D:\\Workers\\secrets\\boxing-commissions-staging-internal-token"
     }
   }
 }

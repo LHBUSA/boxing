@@ -6,6 +6,8 @@ import assert from 'node:assert/strict';
 import { freshDatabase } from '../helpers/db.mjs';
 import { pgStore } from '../../scripts/lib/pg-store.mjs';
 import { runCommissionIngest } from '../../shared/commissions/run.mjs';
+import { applyCommissionParsed } from '../../shared/commissions/apply.mjs';
+import { FLORIDA, parseFloridaResults, parseResultsListing } from '../../shared/adapters/commissions/florida.mjs';
 import { runCapture } from '../../shared/odds/capture.mjs';
 import { reprocessStoredOdds } from '../../shared/odds/replay.mjs';
 import { ingestIdentity } from '../../shared/identity/pipeline.mjs';
@@ -236,4 +238,36 @@ test('repeat pairings on one card stay separate bouts; a parser upgrade re-parse
   assert.equal(await count(`boxing_news_events where event_type in ('RESULT_OVERTURNED','RESULT_CORRECTED') and payload #>> '{facts,change_reason}' is null and detected_at >= '2026-09-17'`), 0);
   const again = await ingest('florida', { now: '2026-09-18T12:00:00Z' });
   assert.equal(again.metrics.documents_changed, 0, 'same parser version and content: not re-parsed');
+});
+
+test('legacy collapsed repeat pairing (parser 1.0.0) is repaired: the orphan second meeting gets its own id and result', async () => {
+  const twice = [
+    { n: 1, sport: ['Boxing'], rds: 3, decision: ['Unanimous', 'Decision'], officials: ['Judges: Juan Uno, Jo Dos, Jay Tres;', 'Referee: Ref Floridian'],
+      a: { name: 'Olga Legacy', home: 'Orlando, FL', weight: 120, result: 'Win' }, b: { name: 'Pia Legacy', home: 'Ocala, FL', weight: 120, result: null } },
+    { n: 2, sport: ['Boxing'], rds: 3, decision: ['Majority', 'Decision'], officials: ['Judges: Juan Uno, Jo Dos, Jay Tres;', 'Referee: Ref Floridian'],
+      a: { name: 'Olga Legacy', home: 'Orlando, FL', weight: 120, result: null }, b: { name: 'Pia Legacy', home: 'Ocala, FL', weight: 120, result: 'Win' } },
+  ];
+  const url = 'https://www2.myfloridalicense.com/pro/sbc/documents/09-10-2026-Legacy_League-Results_without_med.pdf';
+  const listing = `${FLORIDA_RESULTS_HTML}<a href="${url}">September 10, 2026 – Legacy League – Miami</a>`;
+  const pages = floridaPages({ date: '09/10/2026', promoter: 'Legacy League', venue: 'Miami, FL / Synthetic Dome', bouts: twice });
+  // reproduce what parser 1.0.0 wrote: both meetings under ONE source bout id
+  const ref = parseResultsListing(listing).find((r) => r.url === url);
+  const legacy = parseFloridaResults(ref, pages, { capturedAt: '2026-09-19T12:00:00Z' });
+  legacy.bouts[1].source_bout_id = legacy.bouts[0].source_bout_id;
+  await applyCommissionParsed(store, FLORIDA, legacy, { now: '2026-09-19T12:00:00Z' });
+  const bouts = `boxing_bouts b join public.boxing_events e on e.id = b.event_id where e.event_date = '2026-09-10'`;
+  assert.equal(await count(bouts), 2, 'legacy run: two bouts');
+  assert.equal(await count(`${bouts} and not exists (select 1 from public.boxing_bout_identities i where i.bout_id = b.id)`), 1, 'legacy run: orphan without source id');
+
+  // the fixed parser re-reads the official document
+  site.set('https://www2.myfloridalicense.com/athletic-commission/commission-event-results-professional/', listing);
+  site.set(url, encodePages(pages));
+  const run = await ingest('florida', { now: '2026-09-20T12:00:00Z' });
+  assert.equal(run.metrics.apply.bout_ids_attached, 1);
+  assert.equal(await count(bouts), 2, 'no third bout');
+  const ids = await q(`select i.external_id, b.bout_order from public.${bouts.replace('where', 'join public.boxing_bout_identities i on i.bout_id = b.id where')} order by b.bout_order`);
+  assert.deepEqual(ids.map((r) => r.external_id.endsWith('|2')), [false, true]);
+  const latest = await q(`select b.bout_order, fw.display_name winner from public.${bouts.replace('where', `join lateral (select * from public.boxing_bout_results r where r.bout_id = b.id order by r.revision desc limit 1) r on true
+    left join public.boxing_fighters fw on fw.id = r.winner_id where`)} order by b.bout_order`);
+  assert.deepEqual(latest.map((r) => r.winner), ['Olga Legacy', 'Pia Legacy'], 'each meeting carries its own official winner');
 });

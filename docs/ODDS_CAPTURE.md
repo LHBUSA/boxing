@@ -50,7 +50,9 @@ No approved canonical events/records source exists yet, so provider events usual
 - every provider event id, commence time and verbatim participant name
 - every bookmaker/market/outcome price change, including markets the canonical layer does not normalize (`h2h_lay`, 3-way)
 
-Each quote carries the observation, capture time, provider timestamp, commence time and run. When events/identities are later resolved, the history can be attached by replaying observations or reading the ledger.
+Each quote carries the observation, capture time, provider timestamp, commence time and run. When events/identities are later resolved, the history is attached by replaying stored observations (`shared/odds/replay.mjs`, `commissions-ingest.ps1 -ReplayOdds`). No provider request is made. Ticks keep their original `captured_at` and provider timestamps (`recorded_at` shows when a replayed tick was written), and new mappings record `resolved_at`, `resolver_version` and `resolution_run_id`, so a late resolution never looks original.
+
+**Run provenance (migration 0013).** Every capture run records `trigger_type` (manual | scheduled | retry | backfill | test), worker name and version, invocation id, `scheduled_for`, runtime and config hash, write-once. Every cron firing, including `not_due` ones, is appended to `boxing_worker_invocations`. Scheduler proof comes only from `select public.boxing_scheduler_evidence('boxing-odds', now() - interval '1 day')`, never from a manual run.
 
 **Names never create canonical fighters.**
 - Provider participant resolution is only through `boxing_fighter_identities` (namespace `the_odds_api.participant`), and the view is `boxing_provider_participant_resolution`.

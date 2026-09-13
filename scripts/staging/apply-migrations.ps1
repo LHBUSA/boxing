@@ -1,13 +1,15 @@
 # Applies supabase/migrations to the Boxing STAGING project only.
 #
-#   pwsh scripts/staging/apply-migrations.ps1 -Mode proof   # whole chain in BEGIN ... ROLLBACK
+#   pwsh scripts/staging/apply-migrations.ps1 -Mode proof   # pending migrations in BEGIN ... ROLLBACK
+#   pwsh scripts/staging/apply-migrations.ps1 -Mode proof -FullChain   # whole chain (only valid while no
+#        later data depends on a later constraint; early migrations re-create older checks)
 #   pwsh scripts/staging/apply-migrations.ps1 -Mode apply   # each pending migration in its own transaction
 #
 # The target ref comes from staging/boxing-staging.json and is re-verified by
 # name before every request (BoxingSupabase.psm1). Applied versions are
 # recorded in supabase_migrations.schema_migrations so the Supabase CLI agrees.
 
-param([ValidateSet('proof', 'apply')][string]$Mode = 'proof')
+param([ValidateSet('proof', 'apply')][string]$Mode = 'proof', [switch]$FullChain)
 $ErrorActionPreference = 'Stop'
 $root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 Import-Module (Join-Path $PSScriptRoot 'BoxingSupabase.psm1') -Force
@@ -26,9 +28,11 @@ create table if not exists supabase_migrations.schema_migrations (version text p
 $applied = @((Invoke-BoxingStagingSql -Ref $ref -Sql 'select version from supabase_migrations.schema_migrations') | ForEach-Object { $_.version })
 
 if ($Mode -eq 'proof') {
-  $body = ($files | ForEach-Object { & $strip (Get-Content $_.FullName -Raw -Encoding UTF8) }) -join "`n`n"
+  $proofFiles = if ($FullChain) { $files } else { @($files | Where-Object { $applied -notcontains $_.Name.Substring(0, 14) }) }
+  if (-not $proofFiles.Count) { Write-Host 'PROOF OK: nothing pending'; exit 0 }
+  $body = ($proofFiles | ForEach-Object { & $strip (Get-Content $_.FullName -Raw -Encoding UTF8) }) -join "`n`n"
   $null = Invoke-BoxingStagingSql -Ref $ref -Sql "begin;`n$body`nrollback;"
-  Write-Host "PROOF OK: $($files.Count) migrations applied and rolled back in one transaction"
+  Write-Host "PROOF OK: $($proofFiles.Count) migration(s) [$(($proofFiles | ForEach-Object Name) -join ', ')] applied and rolled back in one transaction"
   exit 0
 }
 

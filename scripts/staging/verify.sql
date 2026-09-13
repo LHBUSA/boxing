@@ -15,7 +15,9 @@ declare
   v_snap jsonb; v_rev jsonb; v_prov uuid; v_book uuid; v_mkt uuid; v_sel uuid; v_tick bigint; v_obs uuid; v_ne uuid; v_fb uuid;
   v_missing text[]; v_extra text[];
   n int;
+  n_fighters_before int;
 begin
+  select count(*) into n_fighters_before from public.boxing_fighters;
   -- ---- 1. schema shape
   select array_agg(t order by t) into v_missing from unnest(p_expected_tables) t
     where not exists (select 1 from pg_tables where schemaname = 'public' and tablename = t);
@@ -259,8 +261,8 @@ begin
   end;
 
   select count(*) into n from public.boxing_fighters;
-  results := results || jsonb_build_object('check', 'verification_left_no_residue', 'ok', n = 0 and not exists (select 1 from public.boxing_sources where source_key = 'staging_verify_probe'),
-    'detail', n || ' fighters present after checks');
+  results := results || jsonb_build_object('check', 'verification_left_no_residue', 'ok', n = n_fighters_before and not exists (select 1 from public.boxing_sources where source_key = 'staging_verify_probe'),
+    'detail', n || ' fighters after checks, ' || n_fighters_before || ' before');
   return results;
 end $fn$;
 
