@@ -81,7 +81,14 @@ Nothing writes canonical tables directly.
 - Names are never merged on their own.
 - A bout is created only when **both** corners resolve.
 
-Nevada 2026 produced 26 review items, mostly repeat appearances.
+Within one card document, the same name with the same stated hometown is one boxer (a repeat pairing), and the cache never crosses documents.
+
+**Repeat pairings.** The same two boxers can meet twice on one card (team-league formats): the first meeting keeps `<event>|<a>|<b>` and later ones get `|2`, `|3`. Parser 1.0.0 collapsed them, which put the second result onto the first bout as a false revision. Florida 1.0.2 re-applies the documents: the orphan second bout matched by exact pairing on the official card gets its own id through the fail-closed mapping, then its official result. The false revisions stay in history with `change_reason`, and their news events are `skipped`.
+
+**Staging after the 2026 backfill (2026-09-13).**
+- 759 canonical fighters, all created from commission sheets.
+- 79 events: NV 18, FL 41, NJ 20 (schedule only). 323 bouts: NV 109, FL 214.
+- 147 identity review items pending: FL 121, NV 26. They are mostly `insufficient_evidence` for repeat names across cards, which leaves about 177 Florida sheet bouts not created. They stay that way until reviewed; thresholds were not loosened.
 
 **Officials:** a repeat official matches only when the observation is the commission's **own** result sheet, the name is exact, the official has worked for that commission before and there is no country conflict. Within one document, one name is one official.
 
