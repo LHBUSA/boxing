@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { dangerFlags, placeConsistency, recommend, resolverDryRun, similarNamed } from './human-review.mjs';
+import { dangerFlags, placeConsistency, recommend, similarNamed, summarizeDryRun } from './human-review.mjs';
 
 test('stated places of different granularity: consistent vs mismatch', () => {
   assert.equal(placeConsistency('Puebla, MX', ['Mexico']).status, 'consistent');
@@ -44,18 +44,19 @@ test('similar-named other boxers are surfaced (double surnames, namesakes)', () 
   assert.deepEqual(similarNamed('Jose Valenzuela Alvarado', 'b', idx), ['Jose A Valenzuela Gastelum (Renton, WA)']);
 });
 
-test('resolver dry run lists would-be bindings and bout impact without deciding', () => {
-  const ctx = (opp) => ({ event_date: '2026-06-01', event: 'E', venue: 'V', commission: 'fl', opponent: 'X', opponent_fighter_id: opp, stated_hometown: 'Cuba', weight_lb: 150, document: 'd' });
-  const report = { items: [
-    { review_item_id: 'i1', source_key: 'florida_athletic_commission', raw_name: 'Ana One', appearances: [
-      { bout: 'b1', side: 'a', context: ctx('opp'), candidates: [{ fighter_id: 'f1', display_name: 'Ana One', tier: 'B', reasons_for: ['name_exact'], reasons_against: [] }], proposal: { decision: 'matched', tier: 'B', confidence: 90, reason: 'graph', fighter_id: 'f1' } },
-      { bout: 'b2', side: 'a', context: ctx(null), candidates: [], proposal: { decision: 'review', tier: 'C', reason: 'x' } }] },
-    { review_item_id: 'i2', source_key: 'florida_athletic_commission', raw_name: 'Bea Two', appearances: [
-      { bout: 'b3', side: 'b', context: ctx(null), candidates: [{ fighter_id: 'f2', display_name: 'Bea Two', tier: 'B', reasons_for: [], reasons_against: [] }], proposal: { decision: 'matched', tier: 'B', confidence: 88, reason: 'graph', fighter_id: 'f2' } }] },
-  ] };
-  const d = resolverDryRun(report, { batchId: 't' });
+test('dry-run bout impact: a blocked bout is created only when both corners are resolved or proposed', () => {
+  const corner = (id) => ({ fighter_id: id, via: id ? 'recorded' : null, name: 'x' });
+  const blockedBouts = [
+    { source_key: 'florida_athletic_commission', bout_external_id: 'b1', corner: { a: corner('f-opp'), b: corner(null) } },
+    { source_key: 'florida_athletic_commission', bout_external_id: 'b2', corner: { a: corner(null), b: corner(null) } },
+    { source_key: 'florida_athletic_commission', bout_external_id: 'b3', corner: { a: corner(null), b: corner(null) } },
+  ];
+  const prop = (bout, side, tier = 'B') => ({ source_key: 'florida_athletic_commission', state: 'FL', appearance_key: `${bout}|${side}`, bout_external_id: bout, side,
+    event_date: '2026-06-01', would: { decision: 'matched', tier }, evidence_for: [], evidence_against: [], competing: [], candidate_record: [] });
+  const d = summarizeDryRun({ batchId: 't', now: 'n', blockedBouts, proposals: [prop('b1', 'b'), prop('b2', 'a'), prop('b2', 'b', 'A'), prop('b3', 'a')] });
   assert.equal(d.applied, false);
-  assert.equal(d.summary.appearances_that_would_bind, 2);
-  assert.equal(d.summary.bouts_that_would_be_created, 1, 'b3 needs its opponent too');
-  assert.equal(d.proposals.find((p) => p.bout_external_id === 'b3').unlock_depends_on, 'opponent unresolved');
+  assert.equal(d.summary.appearances_that_would_bind, 4);
+  assert.equal(d.summary.bouts_that_would_be_created, 2, 'b1 (opponent resolved) and b2 (both proposed); b3 still needs a corner');
+  assert.equal(d.proposals.find((p) => p.appearance_key === 'b2|a').depends_on_other_proposal, 'b2|b');
+  assert.equal(d.proposals.find((p) => p.appearance_key === 'b3|a').bout_would_be_created, false);
 });

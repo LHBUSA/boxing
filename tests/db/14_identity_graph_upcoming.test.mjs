@@ -14,7 +14,7 @@ import { runCapture } from '../../shared/odds/capture.mjs';
 import { reprocessStoredOdds } from '../../shared/odds/replay.mjs';
 import { GRAPH_RESOLVER_VERSION } from '../../shared/identity/graph.mjs';
 import { buildIdentityReviewReport } from '../../shared/identity/review-assist.mjs';
-import { applyApprovedBatch, proposeReviewBatch } from '../../shared/identity/human-review.mjs';
+import { applyApprovedBatch, proposeReviewBatch, simulateResolverOnBlockedBouts } from '../../shared/identity/human-review.mjs';
 import { manualProvenance } from '../../shared/provenance.mjs';
 import { decodePages, encodePages, floridaPages } from '../fixtures/commissions/synthetic.mjs';
 
@@ -179,6 +179,13 @@ test('a human decision unlocks a blocked bout on re-apply: no refetch, no bogus 
   assert.deepEqual(r.passes[0].graph_decisions, {}, 'the graph resolver made no decision');
   assert.equal(await count(`boxing_identity_appearance_decisions where seq > $1`, [seqBefore]), 0, 'no automatic binding or review row written');
   assert.equal(await count(`boxing_identity_resolutions`), resolutionsBefore, 'no new automatic name-resolver decision');
+  // the resolver's next proposals are a read-only simulation over still-blocked bouts
+  const decisionsBefore = await count(`boxing_identity_appearance_decisions`);
+  const sim = await simulateResolverOnBlockedBouts(store, { batchId: 'test-002' });
+  assert.equal(sim.applied, false);
+  assert.equal(await count(`boxing_identity_appearance_decisions`), decisionsBefore, 'dry run records nothing');
+  const existing = new Set((await q(`select external_id from public.boxing_bout_identities where namespace = 'fl-athletic-commission.bout'`)).map((x) => x.external_id));
+  assert.ok(sim.proposals.every((pp) => !existing.has(pp.bout_external_id)), 'bouts that already exist are never proposed');
   assert.equal(requested.length, fetchesBefore, 're-apply reads stored observations only');
   assert.equal(await boutsOn('2026-06-20'), blocked + 1);
   const bout = await one(`select b.id from public.boxing_bouts b join public.boxing_bout_participants p on p.bout_id = b.id join public.boxing_fighters f on f.id = p.fighter_id

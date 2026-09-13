@@ -14,7 +14,7 @@ import { execSync } from 'node:child_process';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { reapplyStoredDocuments } from '../../shared/commissions/run.mjs';
-import { applyApprovedBatch, batchMarkdown, blockedBoutsByState, dryRunMarkdown, proposeReviewBatch, resolverDryRun } from '../../shared/identity/human-review.mjs';
+import { applyApprovedBatch, batchMarkdown, blockedBoutsByState, dryRunMarkdown, proposeReviewBatch, simulateResolverOnBlockedBouts } from '../../shared/identity/human-review.mjs';
 import { buildIdentityReviewReport } from '../../shared/identity/review-assist.mjs';
 import { reprocessStoredOdds } from '../../shared/odds/replay.mjs';
 import { manualProvenance } from '../../shared/provenance.mjs';
@@ -71,7 +71,7 @@ if (command === 'propose') {
 } else if (command === 'dryrun') {
   const batchId = arg('batch') ?? 'dry-run';
   const out = arg('out');
-  const dry = resolverDryRun(await buildIdentityReviewReport(store), { batchId });
+  const dry = await simulateResolverOnBlockedBouts(store, { batchId });
   console.log(JSON.stringify(dry.summary, null, 1));
   if (out) {
     mkdirSync(out, { recursive: true });

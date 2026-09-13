@@ -17,7 +17,8 @@ import { contentHash } from '../canonical.mjs';
 import { assignBoutIds } from '../adapters/commissions/contract.mjs';
 import { assertMinimized } from '../adapters/commissions/minimize.mjs';
 import { COMMISSION_NAMESPACES, divisionFacts } from '../commissions/apply.mjs';
-import { cityLevelHometown } from './graph.mjs';
+import { cityLevelHometown, resolveAppearance } from './graph.mjs';
+import { loadGraphCandidates } from './appearance.mjs';
 import { normalizedAlias, parseName } from './normalize.mjs';
 import { buildIndex, toIdentity } from './pipeline.mjs';
 
@@ -273,59 +274,129 @@ export async function applyApprovedBatch(store, batch, { reviewer, reviewedAt = 
   return results;
 }
 
-// What the automatic graph resolver WOULD decide now (Tier A/B/D), for review as the next
-// batch. Read-only: built from buildIdentityReviewReport's projection, nothing is recorded.
-export function resolverDryRun(report, { batchId, now = new Date().toISOString() } = {}) {
+// What the automatic graph resolver WOULD do now, simulated over the BLOCKED official bouts
+// (stored sheet bouts with no canonical bout). Read-only; nothing is recorded.
+//   * a bout that already exists is not blocked and is never listed
+//   * a corner counts as resolved exactly as card application resolves it: a recorded
+//     appearance binding, the name resolver's automatic outcome, or the same name + stated
+//     hometown already resolved on the same card document (repeat pairings)
+//   * only still-unresolved corners go to the unchanged graph resolver
+export async function simulateResolverOnBlockedBouts(store, { batchId, now = new Date().toISOString() } = {}) {
   const proposals = [];
-  for (const item of report.items) {
-    for (const a of item.appearances) {
-      if (!a.context || !['matched', 'created'].includes(a.proposal?.decision)) continue;
-      const top = (a.candidates ?? []).find((c) => c.fighter_id === a.proposal.fighter_id) ?? null;
-      proposals.push({
-        source_key: item.source_key, state: STATE_OF[item.source_key], review_item_id: item.review_item_id,
-        appearance_key: `${a.bout}|${a.side}`, bout_external_id: a.bout, side: a.side, name: item.raw_name,
-        event_date: a.context.event_date, event: a.context.event, venue: a.context.venue, commission: a.context.commission,
-        opponent: a.context.opponent, opponent_resolved: Boolean(a.context.opponent_fighter_id),
-        stated_hometown: a.context.stated_hometown, weight_lb: a.context.weight_lb,
-        would: { decision: a.proposal.decision, tier: a.proposal.tier, confidence: a.proposal.confidence, reason: a.proposal.reason,
-          fighter_id: a.proposal.fighter_id ?? null, display_name: top?.display_name ?? null },
-        evidence_for: top?.reasons_for ?? [], evidence_against: top?.reasons_against ?? [],
-        competing: (a.candidates ?? []).filter((c) => c.fighter_id !== a.proposal.fighter_id && c.tier).map((c) => `${c.display_name} [${c.tier}]`),
-      });
+  const blockedBouts = [];
+  for (const sourceKey of COMMISSION_SOURCES) {
+    const ns = COMMISSION_NAMESPACES[sourceKey];
+    const stored = await storedBouts(store, sourceKey);
+    const ids = stored.map((x) => x.bout.source_bout_id);
+    const mapped = ids.length ? await store.boutsForProviderEvents(`${ns}.bout`, ids) : {};
+    const blocked = stored.filter((x) => !mapped[x.bout.source_bout_id]);
+    if (!blocked.length) continue;
+    const byDoc = new Map();
+    for (const x of stored) byDoc.set(x.doc_key, [...(byDoc.get(x.doc_key) ?? []), x]);
+    const docKeysNeeded = [...new Set(blocked.map((x) => x.doc_key))];
+    const cornerFighters = {};
+    for (const docKey of docKeysNeeded) {
+      const bouts = byDoc.get(docKey).map((x) => x.bout.source_bout_id);
+      Object.assign(cornerFighters, await store.sourceCornerFighters(sourceKey, `${ns}.fighter`, bouts));
+      // canonical bouts on the same card resolve their corners too (used for the same-card name cache)
+    }
+    const eventIds = await store.sourceEventIds(`${ns}.event`, [...new Set(blocked.map((x) => x.bout.source_event_id))]);
+    for (const x of blocked) {
+      const b = x.bout;
+      const card = byDoc.get(x.doc_key);
+      const sameCardResolved = (f) => {
+        if (!f?.hometown) return null;
+        const key = `${normalizedAlias(f.display_name)}|${normalizedAlias(f.hometown)}`;
+        for (const y of card) {
+          for (const s of ['a', 'b']) {
+            const g = y.bout[`fighter_${s}`];
+            const id = cornerFighters[`${y.bout.source_bout_id}|${s}`];
+            if (id && g?.hometown && `${normalizedAlias(g.display_name)}|${normalizedAlias(g.hometown)}` === key) return id;
+          }
+        }
+        return null;
+      };
+      const corner = {};
+      for (const s of ['a', 'b']) {
+        const f = b[`fighter_${s}`];
+        const direct = cornerFighters[`${b.source_bout_id}|${s}`] ?? null;
+        const cached = direct ? null : sameCardResolved(f);
+        corner[s] = { fighter_id: direct ?? cached, via: direct ? 'recorded' : cached ? 'same_card_name_and_hometown' : null, name: f.display_name };
+      }
+      const ev = eventIds[b.source_event_id] ?? null;
+      const sides = [];
+      for (const s of ['a', 'b']) {
+        if (corner[s].fighter_id) continue;
+        const other = s === 'a' ? 'b' : 'a';
+        const f = b[`fighter_${s}`];
+        const app = { display_name: f.display_name, hometown: f.hometown ?? null, weight_lb: f.weight_lb ?? null, debut: b.debut?.[s] ?? null,
+          event: { event_id: ev?.event_id ?? null, date: x.event?.event_date ?? null, commission: ev?.commission ?? null, venue_id: ev?.venue_id ?? null },
+          opponent: { display_name: b[`fighter_${other}`].display_name, fighter_id: corner[other].fighter_id } };
+        const candidates = await loadGraphCandidates(store, f.display_name, `${ns}.fighter`);
+        const r = resolveAppearance(app, candidates, { allowCreate: true });
+        const top = r.candidates?.find((c) => c.fighter_id === r.fighter_id) ?? r.candidates?.[0] ?? null;
+        sides.push({ side: s, would: r.decision, tier: r.tier ?? null });
+        if (['matched', 'created'].includes(r.decision)) {
+          proposals.push({
+            source_key: sourceKey, state: STATE_OF[sourceKey], document: x.doc_key, appearance_key: `${b.source_bout_id}|${s}`, bout_external_id: b.source_bout_id, side: s,
+            name: f.display_name, event_date: app.event.date, event: ev?.name ?? null, venue: ev?.venue ?? null, commission: app.event.commission,
+            opponent: app.opponent.display_name, opponent_resolved_via: corner[other].via,
+            stated_hometown: app.hometown, weight_lb: app.weight_lb,
+            would: { decision: r.decision, tier: r.tier, confidence: r.confidence, reason: r.reason, fighter_id: r.fighter_id ?? null, display_name: r.decision === 'created' ? null : top?.display_name ?? null },
+            evidence_for: top?.support ?? [], evidence_against: top?.against ?? [], families: top?.families ?? [],
+            competing: (r.candidates ?? []).filter((c) => c.fighter_id !== r.fighter_id && c.tier).map((c) => `${c.display_name} [${c.tier}]`),
+            candidate_record: (candidates.find((c) => c.id === r.fighter_id)?.bouts ?? []).map((cb) => `${cb.date} vs ${cb.opponent_name}${cb.weight_lb != null ? ` (${cb.weight_lb} lb)` : ''}`),
+          });
+        }
+      }
+      blockedBouts.push({ source_key: sourceKey, bout_external_id: b.source_bout_id, corner, sides });
     }
   }
-  // a bout unlocks when both corners would be bound (opponent already resolved, or also proposed here)
-  const unique = new Map(proposals.map((p) => [p.appearance_key, p]));
-  for (const p of unique.values()) {
-    const otherKey = `${p.bout_external_id}|${p.side === 'a' ? 'b' : 'a'}`;
-    p.bout_would_unlock = p.opponent_resolved || unique.has(otherKey);
-    p.unlock_depends_on = p.opponent_resolved ? null : unique.has(otherKey) ? otherKey : 'opponent unresolved';
+  return summarizeDryRun({ batchId, now, proposals, blockedBouts });
+}
+
+// Pure: which blocked bouts would become canonical if every proposal were applied.
+export function summarizeDryRun({ batchId, now, proposals, blockedBouts }) {
+  const proposed = new Set(proposals.map((p) => p.appearance_key));
+  const wouldCreate = [];
+  for (const bb of blockedBouts) {
+    const ok = ['a', 'b'].every((s) => bb.corner[s].fighter_id || proposed.has(`${bb.bout_external_id}|${s}`));
+    if (ok) wouldCreate.push(`${bb.source_key}:${bb.bout_external_id}`);
   }
-  const list = [...unique.values()].sort((x, y) => String(x.event_date).localeCompare(String(y.event_date)) || x.appearance_key.localeCompare(y.appearance_key));
-  const bouts = new Set(list.filter((p) => p.bout_would_unlock).map((p) => `${p.source_key}:${p.bout_external_id}`));
-  const count = (f) => list.reduce((m, p) => ({ ...m, [f(p)]: (m[f(p)] ?? 0) + 1 }), {});
+  const creates = new Set(wouldCreate);
+  for (const p of proposals) {
+    p.bout_would_be_created = creates.has(`${p.source_key}:${p.bout_external_id}`);
+    const otherKey = `${p.bout_external_id}|${p.side === 'a' ? 'b' : 'a'}`;
+    p.depends_on_other_proposal = proposed.has(otherKey) ? otherKey : null;
+  }
+  const count = (list, f) => list.reduce((m, x) => ({ ...m, [f(x)]: (m[f(x)] ?? 0) + 1 }), {});
   return assertMinimized({
-    dry_run: true, batch_id: batchId, generated_at: now, applied: false,
-    summary: { appearances_that_would_bind: list.length, by_tier: count((p) => `${p.would.tier}:${p.would.decision}`),
-      bouts_that_would_be_created: bouts.size, by_state: count((p) => p.state) },
-    proposals: list,
+    dry_run: true, applied: false, batch_id: batchId, generated_at: now,
+    summary: {
+      blocked_bouts_examined: blockedBouts.length,
+      appearances_that_would_bind: proposals.length, by_tier: count(proposals, (p) => `${p.would.tier}:${p.would.decision}`), by_state: count(proposals, (p) => p.state),
+      bouts_that_would_be_created: creates.size, bouts_by_state: count([...creates], (k) => STATE_OF[k.split(':')[0]]),
+    },
+    proposals: proposals.sort((x, y) => String(x.event_date).localeCompare(String(y.event_date)) || x.appearance_key.localeCompare(y.appearance_key)),
   });
 }
 
 export function dryRunMarkdown(d) {
   const L = [`# Resolver dry run ${d.batch_id} (NOT applied)`, '',
-    `Generated ${d.generated_at}. Decisions the unchanged Tier A/B/D graph resolver WOULD make now. Nothing was recorded; review them as a batch.`, '',
+    `Generated ${d.generated_at}. Decisions the unchanged Tier A/B/D graph resolver WOULD make now on blocked official bouts. Nothing was recorded; review them as a batch.`, '',
     '```', JSON.stringify(d.summary, null, 1), '```', ''];
   for (const p of d.proposals) {
     L.push(`## ${p.name}: ${p.state} ${p.event_date} vs ${p.opponent}`, '', '| | |', '|---|---|',
-      `| Appearance | \`${p.appearance_key}\` (${p.event ?? ''}; ${p.venue ?? '-'}) |`,
+      `| Appearance | \`${p.appearance_key}\` (${p.event ?? ''}; ${p.venue ?? '-'}); document \`${p.document}\` |`,
       `| Would | **Tier ${p.would.tier} ${p.would.decision}** -> ${p.would.display_name ?? 'new boxer'} (\`${p.would.fighter_id ?? '-'}\`), confidence ${p.would.confidence} |`,
-      `| Reason | ${p.would.reason} |`,
-      `| Stated hometown / weight | ${p.stated_hometown ?? '-'} / ${p.weight_lb ?? '-'} lb |`,
+      `| Resolver reason | ${p.would.reason} |`,
+      `| Stated hometown / official weight | ${p.stated_hometown ?? '-'} / ${p.weight_lb ?? '-'} lb |`,
       `| Evidence for | ${p.evidence_for.join(', ') || '-'} |`,
       `| Evidence against | ${p.evidence_against.join(', ') || 'none'} |`,
+      `| Candidate record | ${p.candidate_record.join('; ') || '-'} |`,
       `| Competing candidates | ${p.competing.join('; ') || 'none'} |`,
-      `| Bout impact | ${p.bout_would_unlock ? `unlocks the bout${p.unlock_depends_on ? ` (together with ${p.unlock_depends_on})` : ''}` : 'no bout yet (opponent unresolved)'} |`, '');
+      `| Opponent | ${p.opponent} (${p.opponent_resolved_via ? `resolved: ${p.opponent_resolved_via}` : p.depends_on_other_proposal ? 'also proposed in this dry run' : 'unresolved'}) |`,
+      `| Bout impact | ${p.bout_would_be_created ? 'the official bout would be created' : 'no bout (the other corner stays unresolved)'} |`, '');
   }
   return L.join('\n');
 }
