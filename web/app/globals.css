@@ -220,6 +220,16 @@ main { flex: 1; position: relative; z-index: 1; }
 .mcard:hover { border-color: rgba(212, 175, 55, 0.4); transform: translateY(-2px); }
 .mcard__art { position: relative; display: grid; grid-template-columns: 1fr 1fr; }
 .mcard__art .fart { border-radius: 0; border: 0; box-shadow: none; aspect-ratio: 1 / 1.08; }
+.mcard__art--type { aspect-ratio: 2 / 0.86; border-bottom: 1px solid var(--line); }
+.mcard__half { --glow: var(--red-glow); --bar: var(--red); position: relative; overflow: hidden; container-type: inline-size; display: flex; flex-direction: column; justify-content: flex-end; gap: 5px; padding: 14px 16px; min-width: 0;
+  background: radial-gradient(120% 90% at 0% 100%, var(--glow), transparent 62%), repeating-linear-gradient(0deg, transparent 0 22px, rgba(255, 245, 220, 0.035) 22px 23px), #14100d; }
+.mcard__half.is-blue { --glow: var(--blue-glow); --bar: var(--blue); }
+.mcard__half--b { align-items: flex-end; text-align: right; background: radial-gradient(120% 90% at 100% 100%, var(--glow), transparent 62%), repeating-linear-gradient(0deg, transparent 0 22px, rgba(255, 245, 220, 0.035) 22px 23px), #14100d; }
+.mcard__half::before { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 3px; background: var(--bar); }
+.mcard__half--b::before { left: auto; right: 0; }
+.mcard__sur { display: block; max-width: 100%; white-space: nowrap; font: 900 min(30px, calc(100cqi * 1.3 / var(--len, 8)))/0.95 var(--f-display); letter-spacing: -0.01em; text-transform: uppercase; color: var(--paper); }
+.mcard__half small { font: 600 9.5px/1.2 var(--f-data); letter-spacing: 0.14em; text-transform: uppercase; color: var(--faint); }
+.mcard__half.is-lose .mcard__sur { color: var(--dim); }
 .mcard__vs { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 5; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: #0d0a08; border: 1px solid rgba(212, 175, 55, 0.5); font: 900 italic 18px/1 var(--f-display); color: var(--gold); }
 .mcard__body { padding: 14px 16px 16px; display: grid; gap: 8px; align-content: start; }
 .mcard__names { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; align-items: start; }

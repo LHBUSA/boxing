@@ -82,7 +82,13 @@ export function FormStrip({ results }: { results: (string | null)[] }) {
   return <span className="form" aria-label="Recent verified results, newest first">{results.map((r, i) => <RChip key={i} r={r} />)}</span>;
 }
 
-export const surname = (name: string) => name.replace(/[“"][^”"]*[”"]/g, "").trim().split(/\s+/).filter((t) => !/^(jr\.?|sr\.?|ii|iii|iv|v)$/i.test(t)).pop() ?? name;
+// Last name for headings; a lowercase-style particle stays with it ("Del Verso", "De La Hoya").
+export const surname = (name: string) => {
+  const t = name.replace(/[“"][^”"]*[”"]/g, "").trim().split(/\s+/).filter((w) => !/^(jr\.?|sr\.?|ii|iii|iv|v)$/i.test(w));
+  let i = t.length - 1;
+  while (i > 1 && /^(de|del|della|la|las|los|da|das|do|dos|di|van|von|der|den|le|st\.?)$/i.test(t[i - 1])) i--;
+  return t.slice(i).join(" ") || name;
+};
 
 /* ------------------------------------------------------------------ poster (hero) */
 
@@ -136,11 +142,24 @@ export function MatchupCard({ bout, event }: { bout: BoutCompact; event?: { publ
   const ev = event ?? bout.event;
   return (
     <Link href={boutPath(bout)} className="mcard">
-      <div className="mcard__art">
-        <FighterArt name={a?.name ?? "A"} id={a?.public_id ?? "a"} corner={a?.corner ?? "red"} portrait={a?.portrait} side="a" credit={false} />
-        <FighterArt name={b?.name ?? "B"} id={b?.public_id ?? "b"} corner={b?.corner ?? "blue"} portrait={b?.portrait} side="b" credit={false} />
-        <span className="mcard__vs">vs</span>
-      </div>
+      {a?.portrait || b?.portrait ? (
+        <div className="mcard__art">
+          <FighterArt name={a?.name ?? "A"} id={a?.public_id ?? "a"} corner={a?.corner ?? "red"} portrait={a?.portrait} side="a" credit={false} />
+          <FighterArt name={b?.name ?? "B"} id={b?.public_id ?? "b"} corner={b?.corner ?? "blue"} portrait={b?.portrait} side="b" credit={false} />
+          <span className="mcard__vs">vs</span>
+        </div>
+      ) : (
+        // No licensed photo for either boxer: a typographic poster, never an invented face.
+        <div className="mcard__art mcard__art--type" aria-hidden="true">
+          {[a, b].map((c, i) => (
+            <div key={i} className={`mcard__half mcard__half--${i ? "b" : "a"} is-${c?.corner ?? (i ? "blue" : "red")}${win && win !== (i ? "b" : "a") ? " is-lose" : ""}`}>
+              <span className="mcard__sur" style={{ "--len": Math.max(6, (c ? surname(c.name) : "TBA").length) } as React.CSSProperties}>{c ? surname(c.name) : "TBA"}</span>
+              <small>{c?.corner ? `${c.corner} corner` : " "}</small>
+            </div>
+          ))}
+          <span className="mcard__vs">vs</span>
+        </div>
+      )}
       <div className="mcard__body">
         <div className="mcard__names">
           <span className={`mcard__n${win === "b" ? " is-lose" : ""}`}>{a?.name}</span>
