@@ -1,0 +1,10 @@
+{
+  "purpose": "PropBetEdge Boxing STAGING data plane. Not production. Holds no customer data.",
+  "project_name": "propbetedge-boxing-staging",
+  "project_ref": "wpaxofilvbsjyrxrwjhg",
+  "organization_id": "hckxwtehexilsrxpglqw",
+  "region": "us-east-2",
+  "created": "2026-09-13",
+  "secrets": "DB password in D:\\Workers\\secrets\\boxing-staging-db.env (outside git). API keys are fetched at use time, never stored in the repo.",
+  "never_target": ["tkmlnhmylqnttmnsnief (PROPBETEDGE: NFL + UFC production)", "rlfyavnhbngwbldebrid (MLB + PropTech)"]
+}
