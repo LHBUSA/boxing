@@ -52,6 +52,18 @@ export function postgrestStore({ url, serviceKey, fetchImpl = fetch }) {
     listUnresolved: ({ limit = 100, sourceKey = null } = {}) =>
       rpc('boxing_list_unresolved_identities', { p_limit: limit, p_source_key: sourceKey }),
     coverage: () => rpc('boxing_identity_coverage', {}),
+    // --- odds / news
+    recordObservation: (p) => rpc('boxing_record_observation', { p }),
+    boutsInWindow: (from, to) => rpc('boxing_market_bouts_in_window', { p_from: from, p_to: to }),
+    boutsForProviderEvents: (namespace, ids) => rpc('boxing_bouts_for_provider_events', { p_namespace: namespace, p_event_ids: ids }),
+    mapProviderEvent: (p) => rpc('boxing_map_provider_event', { p }),
+    recordMarketUnmatched: (p) => rpc('boxing_record_market_unmatched', { p }),
+    ingestMarketSnapshot: (p) => rpc('boxing_ingest_market_snapshot', { p }),
+    tickHistory: (boutId, marketKey, since) => rpc('boxing_market_tick_history', { p_bout: boutId, p_market_key: marketKey, p_since: since }),
+    emitNewsEvent: (p) => rpc('boxing_emit_news_event', { p }),
+    recentNewsEvents: (eventType, boutId, since) => rpc('boxing_recent_news_events', { p_event_type: eventType, p_bout: boutId, p_since: since }),
+    selectionPrices: (boutId) => call(`boxing_market_selection_prices?bout_id=eq.${boutId}&order=market_key,bookmaker,selection_key`, { method: 'GET' }),
+    consensus: (boutId) => call(`boxing_market_consensus?bout_id=eq.${boutId}&order=market_key,selection_key`, { method: 'GET' }),
     async source(sourceKey) {
       const rows = await call(
         `boxing_sources?select=id,source_key,enabled,access_mode,rights_state,persistence_allowed&source_key=eq.${encodeURIComponent(sourceKey)}`,
