@@ -272,3 +272,60 @@ export async function applyApprovedBatch(store, batch, { reviewer, reviewedAt = 
   }
   return results;
 }
+
+// What the automatic graph resolver WOULD decide now (Tier A/B/D), for review as the next
+// batch. Read-only: built from buildIdentityReviewReport's projection, nothing is recorded.
+export function resolverDryRun(report, { batchId, now = new Date().toISOString() } = {}) {
+  const proposals = [];
+  for (const item of report.items) {
+    for (const a of item.appearances) {
+      if (!a.context || !['matched', 'created'].includes(a.proposal?.decision)) continue;
+      const top = (a.candidates ?? []).find((c) => c.fighter_id === a.proposal.fighter_id) ?? null;
+      proposals.push({
+        source_key: item.source_key, state: STATE_OF[item.source_key], review_item_id: item.review_item_id,
+        appearance_key: `${a.bout}|${a.side}`, bout_external_id: a.bout, side: a.side, name: item.raw_name,
+        event_date: a.context.event_date, event: a.context.event, venue: a.context.venue, commission: a.context.commission,
+        opponent: a.context.opponent, opponent_resolved: Boolean(a.context.opponent_fighter_id),
+        stated_hometown: a.context.stated_hometown, weight_lb: a.context.weight_lb,
+        would: { decision: a.proposal.decision, tier: a.proposal.tier, confidence: a.proposal.confidence, reason: a.proposal.reason,
+          fighter_id: a.proposal.fighter_id ?? null, display_name: top?.display_name ?? null },
+        evidence_for: top?.reasons_for ?? [], evidence_against: top?.reasons_against ?? [],
+        competing: (a.candidates ?? []).filter((c) => c.fighter_id !== a.proposal.fighter_id && c.tier).map((c) => `${c.display_name} [${c.tier}]`),
+      });
+    }
+  }
+  // a bout unlocks when both corners would be bound (opponent already resolved, or also proposed here)
+  const unique = new Map(proposals.map((p) => [p.appearance_key, p]));
+  for (const p of unique.values()) {
+    const otherKey = `${p.bout_external_id}|${p.side === 'a' ? 'b' : 'a'}`;
+    p.bout_would_unlock = p.opponent_resolved || unique.has(otherKey);
+    p.unlock_depends_on = p.opponent_resolved ? null : unique.has(otherKey) ? otherKey : 'opponent unresolved';
+  }
+  const list = [...unique.values()].sort((x, y) => String(x.event_date).localeCompare(String(y.event_date)) || x.appearance_key.localeCompare(y.appearance_key));
+  const bouts = new Set(list.filter((p) => p.bout_would_unlock).map((p) => `${p.source_key}:${p.bout_external_id}`));
+  const count = (f) => list.reduce((m, p) => ({ ...m, [f(p)]: (m[f(p)] ?? 0) + 1 }), {});
+  return assertMinimized({
+    dry_run: true, batch_id: batchId, generated_at: now, applied: false,
+    summary: { appearances_that_would_bind: list.length, by_tier: count((p) => `${p.would.tier}:${p.would.decision}`),
+      bouts_that_would_be_created: bouts.size, by_state: count((p) => p.state) },
+    proposals: list,
+  });
+}
+
+export function dryRunMarkdown(d) {
+  const L = [`# Resolver dry run ${d.batch_id} (NOT applied)`, '',
+    `Generated ${d.generated_at}. Decisions the unchanged Tier A/B/D graph resolver WOULD make now. Nothing was recorded; review them as a batch.`, '',
+    '```', JSON.stringify(d.summary, null, 1), '```', ''];
+  for (const p of d.proposals) {
+    L.push(`## ${p.name}: ${p.state} ${p.event_date} vs ${p.opponent}`, '', '| | |', '|---|---|',
+      `| Appearance | \`${p.appearance_key}\` (${p.event ?? ''}; ${p.venue ?? '-'}) |`,
+      `| Would | **Tier ${p.would.tier} ${p.would.decision}** -> ${p.would.display_name ?? 'new boxer'} (\`${p.would.fighter_id ?? '-'}\`), confidence ${p.would.confidence} |`,
+      `| Reason | ${p.would.reason} |`,
+      `| Stated hometown / weight | ${p.stated_hometown ?? '-'} / ${p.weight_lb ?? '-'} lb |`,
+      `| Evidence for | ${p.evidence_for.join(', ') || '-'} |`,
+      `| Evidence against | ${p.evidence_against.join(', ') || 'none'} |`,
+      `| Competing candidates | ${p.competing.join('; ') || 'none'} |`,
+      `| Bout impact | ${p.bout_would_unlock ? `unlocks the bout${p.unlock_depends_on ? ` (together with ${p.unlock_depends_on})` : ''}` : 'no bout yet (opponent unresolved)'} |`, '');
+  }
+  return L.join('\n');
+}

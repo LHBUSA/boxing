@@ -2,12 +2,13 @@
 #
 #   pwsh scripts/staging/identity-review.ps1 -Propose -Batch 001 -Size 10 -OutDir <dir>   # read-only
 #   pwsh scripts/staging/identity-review.ps1 -Apply <batch.json> -Reviewer "<human name>" # records approved entries, re-applies, reports
+#   pwsh scripts/staging/identity-review.ps1 -DryRun -Batch 002 -OutDir <dir>             # read-only: what the resolver WOULD bind now
 #   pwsh scripts/staging/identity-review.ps1 -Metrics                                     # queue, blocked bouts, counts, DNA coverage, stored-odds replay
 #
 # Verifies the project is propbetedge-boxing-staging; the service-role key lives in
 # THIS process only. No external source is contacted (stored observations only).
 
-param([switch]$Propose, [string]$Batch = '001', [int]$Size = 10, [string]$OutDir = '', [string]$Apply = '', [string]$Reviewer = '', [switch]$Metrics)
+param([switch]$DryRun, [switch]$Propose, [string]$Batch = '001', [int]$Size = 10, [string]$OutDir = '', [string]$Apply = '', [string]$Reviewer = '', [switch]$Metrics)
 $ErrorActionPreference = 'Stop'
 $root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 Import-Module (Join-Path $PSScriptRoot 'BoxingSupabase.psm1') -Force
@@ -31,6 +32,11 @@ try {
     node @nodeArgs
   }
   if ($Apply) { node $script apply "--file=$Apply" "--reviewer=$Reviewer" }
+  if ($DryRun) {
+    $nodeArgs = @($script, 'dryrun', "--batch=$Batch")
+    if ($OutDir) { $nodeArgs += "--out=$OutDir" }
+    node @nodeArgs
+  }
   if ($Metrics) { node $script metrics }
   if ($LASTEXITCODE -ne 0) { throw "review-once exited $LASTEXITCODE" }
 } finally {

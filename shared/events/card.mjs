@@ -196,7 +196,9 @@ const NEWS = {
   title_eligibility_changed: 'TITLE_STATUS_CHANGED',
 };
 
-export async function applyCardDocument(store, doc, { now = new Date().toISOString() } = {}) {
+// graphResolve: false reuses recorded appearance bindings (human or resolver) but lets the graph
+// resolver make no new decision; used to apply a human review batch with no side effects.
+export async function applyCardDocument(store, doc, { now = new Date().toISOString(), graphResolve = true } = {}) {
   const problems = validateCardDocument(doc);
   if (problems.length) return { status: 'rejected', problems };
   const src = await store.source(doc.source_key);
@@ -282,7 +284,7 @@ export async function applyCardDocument(store, doc, { now = new Date().toISOStri
       if (['matched', 'created'].includes(result.outcome)) corners[side] = result.fighter_id;
       else pending.push({ side, f, result });
     }
-    if (graphEnabled && b.external_id && pending.length) {
+    if (graphEnabled && graphResolve && b.external_id && pending.length) {
       // second round only when the first round resolved the opponent (new graph evidence)
       for (let round = 0, progress = true; round < 2 && progress; round++) {
         progress = false;

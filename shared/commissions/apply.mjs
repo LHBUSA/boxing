@@ -93,7 +93,7 @@ export function cardDocumentFor(adapter, ev, bouts) {
 }
 
 // parsed: ParsedDocument (contract.mjs). Returns counts + review items.
-export async function applyCommissionParsed(store, adapter, parsed, { now = new Date().toISOString(), changeReason = null } = {}) {
+export async function applyCommissionParsed(store, adapter, parsed, { now = new Date().toISOString(), changeReason = null, graphResolve = true } = {}) {
   const summary = { events: 0, events_created: 0, bouts_in_documents: parsed.bouts.length, bouts_linked: 0, results_created: 0, results_revised: 0, results_duplicate: 0,
     scorecards_written: 0, weigh_ins: 0, suspensions: 0, identity_unresolved: 0, review_items: [], news: {}, skipped: [] };
   const countNews = (n) => { if (n?.inserted) summary.news[n.event_type] = (summary.news[n.event_type] ?? 0) + 1; };
@@ -101,7 +101,7 @@ export async function applyCommissionParsed(store, adapter, parsed, { now = new 
 
   for (const ev of parsed.events) {
     const bouts = parsed.bouts.filter((b) => b.source_event_id === ev.source_event_id);
-    const card = await applyCardDocument(store, cardDocumentFor(adapter, ev, bouts), { now });
+    const card = await applyCardDocument(store, cardDocumentFor(adapter, ev, bouts), { now, graphResolve });
     if (card.status !== 'applied') { summary.skipped.push({ event: ev.source_event_id, reason: 'card_rejected', problems: card.problems }); continue; }
     summary.events += 1;
     if (card.event_created) summary.events_created += 1;

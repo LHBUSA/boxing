@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { dangerFlags, placeConsistency, recommend, similarNamed } from './human-review.mjs';
+import { dangerFlags, placeConsistency, recommend, resolverDryRun, similarNamed } from './human-review.mjs';
 
 test('stated places of different granularity: consistent vs mismatch', () => {
   assert.equal(placeConsistency('Puebla, MX', ['Mexico']).status, 'consistent');
@@ -42,4 +42,20 @@ test('recommendations are advice: any danger flag or contradiction holds; a matc
 test('similar-named other boxers are surfaced (double surnames, namesakes)', () => {
   const idx = [{ id: 'a', display_name: 'Jose A Valenzuela Gastelum', hometowns: ['Renton, WA'] }, { id: 'b', display_name: 'Jose Valenzuela Alvarado', hometowns: ['Mexico'] }, { id: 'c', display_name: 'Maria Valenzuela', hometowns: [] }];
   assert.deepEqual(similarNamed('Jose Valenzuela Alvarado', 'b', idx), ['Jose A Valenzuela Gastelum (Renton, WA)']);
+});
+
+test('resolver dry run lists would-be bindings and bout impact without deciding', () => {
+  const ctx = (opp) => ({ event_date: '2026-06-01', event: 'E', venue: 'V', commission: 'fl', opponent: 'X', opponent_fighter_id: opp, stated_hometown: 'Cuba', weight_lb: 150, document: 'd' });
+  const report = { items: [
+    { review_item_id: 'i1', source_key: 'florida_athletic_commission', raw_name: 'Ana One', appearances: [
+      { bout: 'b1', side: 'a', context: ctx('opp'), candidates: [{ fighter_id: 'f1', display_name: 'Ana One', tier: 'B', reasons_for: ['name_exact'], reasons_against: [] }], proposal: { decision: 'matched', tier: 'B', confidence: 90, reason: 'graph', fighter_id: 'f1' } },
+      { bout: 'b2', side: 'a', context: ctx(null), candidates: [], proposal: { decision: 'review', tier: 'C', reason: 'x' } }] },
+    { review_item_id: 'i2', source_key: 'florida_athletic_commission', raw_name: 'Bea Two', appearances: [
+      { bout: 'b3', side: 'b', context: ctx(null), candidates: [{ fighter_id: 'f2', display_name: 'Bea Two', tier: 'B', reasons_for: [], reasons_against: [] }], proposal: { decision: 'matched', tier: 'B', confidence: 88, reason: 'graph', fighter_id: 'f2' } }] },
+  ] };
+  const d = resolverDryRun(report, { batchId: 't' });
+  assert.equal(d.applied, false);
+  assert.equal(d.summary.appearances_that_would_bind, 2);
+  assert.equal(d.summary.bouts_that_would_be_created, 1, 'b3 needs its opponent too');
+  assert.equal(d.proposals.find((p) => p.bout_external_id === 'b3').unlock_depends_on, 'opponent unresolved');
 });

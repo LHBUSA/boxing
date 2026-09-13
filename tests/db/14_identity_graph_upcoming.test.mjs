@@ -169,8 +169,16 @@ test('a human decision unlocks a blocked bout on re-apply: no refetch, no bogus 
     { reviewer: 'Test Reviewer' }), /stale_review/, 'a second decision on the same stale evidence is refused');
 
   const fetchesBefore = requested.length;
-  const r = await reapplyStoredDocuments(store, { adapterKey: 'florida', now: '2026-09-14T12:00:00Z', provenance: prov() });
+  // apply exactly the reviewed binding: only its document, no new automatic identity decision
+  const seqBefore = Number((await one(`select max(seq) m from public.boxing_identity_appearance_decisions`)).m);
+  const resolutionsBefore = await count(`boxing_identity_resolutions`);
+  const r = await reapplyStoredDocuments(store, { adapterKey: 'florida', now: '2026-09-14T12:00:00Z', provenance: prov(), graphResolve: false, docKeys: [entry.appearance.document] });
   assert.equal(r.status, 'ok', JSON.stringify(r.passes));
+  assert.equal(r.documents, 1, 'only the reviewed document is re-applied');
+  assert.equal(r.passes.length, 1);
+  assert.deepEqual(r.passes[0].graph_decisions, {}, 'the graph resolver made no decision');
+  assert.equal(await count(`boxing_identity_appearance_decisions where seq > $1`, [seqBefore]), 0, 'no automatic binding or review row written');
+  assert.equal(await count(`boxing_identity_resolutions`), resolutionsBefore, 'no new automatic name-resolver decision');
   assert.equal(requested.length, fetchesBefore, 're-apply reads stored observations only');
   assert.equal(await boutsOn('2026-06-20'), blocked + 1);
   const bout = await one(`select b.id from public.boxing_bouts b join public.boxing_bout_participants p on p.bout_id = b.id join public.boxing_fighters f on f.id = p.fighter_id

@@ -207,17 +207,19 @@ export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = 
 // Re-applies the latest STORED parse of every accepted official result document
 // (no refetch), e.g. after identity resolution improved. Passes repeat while new
 // appearance bindings keep unlocking bouts. News from a re-apply is history.
-export async function reapplyStoredDocuments(store, { adapterKey, now = new Date().toISOString(), provenance = null, maxPasses = 4, pageSize = 8 } = {}) {
+// graphResolve: false + docKeys applies recorded (e.g. human-reviewed) bindings to exactly those documents,
+// with no new automatic identity decision and one pass.
+export async function reapplyStoredDocuments(store, { adapterKey, now = new Date().toISOString(), provenance = null, maxPasses = 4, pageSize = 8, graphResolve = true, docKeys = null } = {}) {
   const adapter = COMMISSION_ADAPTERS[adapterKey];
   if (!adapter) throw new Error(`unknown commission adapter ${adapterKey}`);
   if (!store?.writeTarget?.verified) return { status: 'blocked', assertions: { write_target: 'store has no verified boxing write target' } };
   const writer = withTemporalMode(store, 'reapply');
-  const prov = provenance ? { ...provenance, source_version: adapter.version, config_hash: await configHash({ adapter: adapter.version, mode: 'reapply', maxPasses }) } : null;
+  const prov = provenance ? { ...provenance, source_version: adapter.version, config_hash: await configHash({ adapter: adapter.version, mode: 'reapply', maxPasses, graphResolve, docKeys }) } : null;
   const runId = await store.startRun({ worker: 'boxing-commissions', sourceKey: adapter.sourceKey, adapterVersion: adapter.version, provenance: prov });
   const docs = [];
   for (let offset = 0; ; offset += pageSize) {
     const page = await store.commissionParsedDocuments(adapter.sourceKey, offset, pageSize);
-    docs.push(...page);
+    docs.push(...(docKeys ? page.filter((d) => docKeys.includes(d.doc_key)) : page));
     if (page.length < pageSize) break;
   }
   // chronological: earlier cards build the career graph later cards are resolved against
@@ -226,12 +228,12 @@ export async function reapplyStoredDocuments(store, { adapterKey, now = new Date
   const passes = [];
   let status = 'ok';
   try {
-    for (let pass = 1; pass <= maxPasses; pass++) {
+    for (let pass = 1; pass <= (graphResolve ? maxPasses : 1); pass++) {
       const m = { pass, documents: 0, bouts_linked: 0, bout_ids_attached: 0, results_created: 0, graph_decisions: {}, graph_bindings_used: 0, identity_unresolved: 0, skipped_reasons: {} };
       for (const d of docs) {
         // stored parses from older parser versions predate distinct repeat-pairing ids
         const bouts = assignBoutIds((d.bouts ?? []).map((b) => ({ ...b })));
-        const s = await applyCommissionParsed(writer, adapter, { events: d.events ?? [], bouts, rejected: [] }, { now, changeReason: 'identity_graph_reapply' });
+        const s = await applyCommissionParsed(writer, adapter, { events: d.events ?? [], bouts, rejected: [] }, { now, changeReason: 'identity_graph_reapply', graphResolve });
         m.documents += 1;
         for (const k of ['bouts_linked', 'bout_ids_attached', 'results_created', 'graph_bindings_used', 'identity_unresolved']) m[k] += s[k] ?? 0;
         for (const [k, n] of Object.entries(s.graph_decisions ?? {})) m.graph_decisions[k] = (m.graph_decisions[k] ?? 0) + n;
@@ -246,7 +248,7 @@ export async function reapplyStoredDocuments(store, { adapterKey, now = new Date
     passes.push({ error: String(err?.message ?? err).slice(0, 300) });
   }
   const last = passes.filter((p) => !p.error).at(-1) ?? {};
-  await store.finishRun(runId, { status, metrics: { adapter: adapterKey, mode: 'reapply', documents: docs.length, passes }, observed: 0,
+  await store.finishRun(runId, { status, metrics: { adapter: adapterKey, mode: 'reapply', graph_resolve: graphResolve, doc_keys: docKeys, documents: docs.length, passes }, observed: 0,
     canonicalWrites: passes.reduce((a, p) => a + (p.results_created ?? 0), 0), error: passes.find((p) => p.error)?.error ?? null });
   if (prov?.invocation_id && store.recordWorkerInvocation) {
     await store.recordWorkerInvocation({ worker: 'boxing-commissions', worker_name: prov.worker_name, worker_version: prov.worker_version, deployment_id: prov.deployment_id,
