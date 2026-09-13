@@ -17,6 +17,7 @@
 
 import { guardedPostgrestStore } from '../../../shared/store/target-guard.mjs';
 import { runCapture } from '../../../shared/odds/capture.mjs';
+import { manualProvenance, scheduledProvenance } from '../../../shared/provenance.mjs';
 
 const json = (body, status = 200) => new Response(JSON.stringify(body), {
   status, headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' },
@@ -55,7 +56,8 @@ export function createWorker({ makeStore = (env) => guardedPostgrestStore(env), 
           return json({ bout_id: m[1], generated_at: new Date().toISOString(), rows });
         }
         if (url.pathname === '/internal/v1/odds/capture' && request.method === 'POST') {
-          const out = await runCapture(store, env, { fetchImpl: fetchImpl ?? fetch, force: url.searchParams.get('force') === 'true' });
+          const out = await runCapture(store, env, { fetchImpl: fetchImpl ?? fetch, force: url.searchParams.get('force') === 'true',
+            provenance: { ...manualProvenance({ workerName: env.BOXING_WORKER_NAME ?? 'boxing-odds', runtime: 'cloudflare-workers' }), worker_version: env.CF_VERSION_METADATA?.id ?? null } });
           return json(out, ['disabled', 'blocked'].includes(out.status) ? 409 : 200);
         }
         return json({ error: 'not_found' }, 404);
@@ -66,7 +68,7 @@ export function createWorker({ makeStore = (env) => guardedPostgrestStore(env), 
     async scheduled(controller, env, ctx) {
       let store;
       try { store = makeStore(env); } catch (err) { console.log(`boxing-odds: capture skipped (${err?.code ?? 'store_not_configured'})`); return; }
-      ctx.waitUntil(runCapture(store, env, { fetchImpl: fetchImpl ?? fetch })
+      ctx.waitUntil(runCapture(store, env, { fetchImpl: fetchImpl ?? fetch, provenance: scheduledProvenance(controller, env, { workerName: 'boxing-odds' }) })
         .then((r) => console.log(JSON.stringify({ capture: r.status, run: r.runId ?? null, tier: r.decision?.tier ?? r.metrics?.decision?.tier ?? null, credits: r.metrics?.credits_spent ?? 0 })))
         .catch((err) => console.log(JSON.stringify({ capture: 'error', error: String(err?.message ?? err).replace(/apiKey=[^&\s]+/g, 'apiKey=<redacted>').slice(0, 200) }))));
     },

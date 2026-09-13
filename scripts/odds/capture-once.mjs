@@ -13,6 +13,8 @@
 // Prints metrics only; never prints credentials.
 
 import { readFileSync } from 'node:fs';
+import { execSync } from 'node:child_process';
+import { manualProvenance } from '../../shared/provenance.mjs';
 import { runCapture } from '../../shared/odds/capture.mjs';
 import { guardedPostgrestStore } from '../../shared/store/target-guard.mjs';
 
@@ -25,7 +27,10 @@ const store = guardedPostgrestStore(env);
 console.log(`target: ${store.writeTarget.projectName} (${store.writeTarget.ref}, ${store.writeTarget.environment})`);
 
 if (!args.has('--coverage-only')) {
-  const r = await runCapture(store, env, { force: args.has('--force') });
+  let sha = null;
+  try { sha = execSync('git rev-parse HEAD', { cwd: new URL('../..', import.meta.url) }).toString().trim(); } catch { /* not a checkout */ }
+  const provenance = manualProvenance({ workerName: 'scripts/staging/capture-odds.ps1', workerVersion: sha ? `git:${sha}` : null, runtime: `node ${process.version}` });
+  const r = await runCapture(store, env, { force: args.has('--force'), provenance });
   const key = env.ODDS_API_KEY;
   const out = JSON.stringify({ status: r.status, runId: r.runId ?? null, decision: r.decision ?? r.metrics?.decision ?? null, assertions: r.assertions ?? null, metrics: r.metrics ?? null }, null, 1);
   console.log(key ? out.replaceAll(key, '<redacted>') : out);

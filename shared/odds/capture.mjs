@@ -19,6 +19,7 @@
 // route and the guarded operator script.
 
 import { contentHash } from '../canonical.mjs';
+import { configHash } from '../provenance.mjs';
 import {
   ADAPTER_VERSION, PROVIDER_SLUG, SOURCE_KEY, SPORT_KEY, fetchOdds, preflight, providerQuoteEvents,
 } from '../adapters/odds/the-odds-api.mjs';
@@ -42,29 +43,48 @@ export function sourceApproval(src) {
   return problems.length ? `the_odds_api not approved (${problems.join(', ')})` : null;
 }
 
-export async function runCapture(store, env, { fetchImpl = fetch, now = new Date().toISOString(), force = false } = {}) {
-  if (env.ODDS_CAPTURE_ENABLED !== 'true') return { status: 'disabled', reason: 'ODDS_CAPTURE_ENABLED is not "true"' };
+// provenance: { trigger_type, worker_name, worker_version, deployment_id,
+// invocation_id, scheduled_for, cron, runtime } (shared/provenance.mjs).
+// Without it the run is recorded as trigger 'unknown'.
+export async function runCapture(store, env, { fetchImpl = fetch, now = new Date().toISOString(), force = false, provenance = null } = {}) {
   if (!store?.writeTarget?.verified) return { status: 'blocked', assertions: { write_target: 'store has no verified boxing write target' } };
 
   const plan = parseRegionPlan(env);
   const cost = planCost(plan);
   const maxCost = Number(env.ODDS_MAX_RUN_COST ?? env.ODDS_MAX_CALL_COST ?? 8);
   const minRemaining = Number(env.ODDS_MIN_REMAINING ?? 20000);
+  const cfgHash = await configHash({ adapter: ADAPTER_VERSION, enabled: env.ODDS_CAPTURE_ENABLED ?? null, plan, maxCost, minRemaining,
+    monthly: env.ODDS_MONTHLY_BUDGET ?? null, daily: env.ODDS_DAILY_BUDGET ?? null, target: store.writeTarget.ref ?? store.writeTarget.kind });
+  const prov = provenance ? { ...provenance, source_version: ADAPTER_VERSION, config_hash: cfgHash } : null;
+  const startedAt = new Date().toISOString();
+  const done = async (result) => {
+    if (prov?.invocation_id && typeof store.recordWorkerInvocation === 'function') {
+      const outcome = { not_due: 'not_due', disabled: 'disabled', blocked: 'blocked', failed: 'failed' }[result.status] ?? 'ran';
+      await store.recordWorkerInvocation({ worker: 'boxing-odds', worker_name: prov.worker_name, worker_version: prov.worker_version,
+        deployment_id: prov.deployment_id, invocation_id: prov.invocation_id, trigger_type: prov.trigger_type, cron: prov.cron ?? null,
+        scheduled_for: prov.scheduled_for, runtime: prov.runtime, started_at: startedAt, outcome, ingest_run_id: result.runId ?? null,
+        config_hash: cfgHash, detail: { status: result.status, tier: result.decision?.tier ?? result.metrics?.decision?.tier ?? null,
+          reason: result.decision?.reason ?? result.reason ?? null, credits: result.metrics?.credits_spent ?? 0 } })
+        .catch((err) => { result.invocation_record_error = String(err?.message ?? err).slice(0, 200); });
+    }
+    return result;
+  };
+  if (env.ODDS_CAPTURE_ENABLED !== 'true') return done({ status: 'disabled', reason: 'ODDS_CAPTURE_ENABLED is not "true"' });
 
   const src = await store.source(SOURCE_KEY);
   const refusal = sourceApproval(src);
-  if (refusal) return recordBlocked(store, { source_policy: refusal });
-  if (!env.ODDS_API_KEY) return recordBlocked(store, { credential: 'ODDS_API_KEY not configured' });
-  if (!plan.length || cost > maxCost) return recordBlocked(store, { cost: `region plan costs ${cost} credits, exceeds ODDS_MAX_RUN_COST ${maxCost}` });
+  if (refusal) return done(await recordBlocked(store, { source_policy: refusal }, {}, prov));
+  if (!env.ODDS_API_KEY) return done(await recordBlocked(store, { credential: 'ODDS_API_KEY not configured' }, {}, prov));
+  if (!plan.length || cost > maxCost) return done(await recordBlocked(store, { cost: `region plan costs ${cost} credits, exceeds ODDS_MAX_RUN_COST ${maxCost}` }, {}, prov));
 
   const config = cadenceConfig(env);
   const decision = decideCadence({ now, state: await store.oddsScheduleState(now), runCost: cost, config });
   if (!force && !decision.due) {
-    if (decision.reason === 'daily_budget_reached') return recordBlocked(store, { budget: `daily budget ${config.dailyBudget} reached` }, { decision });
-    return { status: 'not_due', decision };
+    if (decision.reason === 'daily_budget_reached') return done(await recordBlocked(store, { budget: `daily budget ${config.dailyBudget} reached` }, { decision }, prov));
+    return done({ status: 'not_due', decision });
   }
 
-  const runId = await store.startRun({ worker: 'boxing-odds', sourceKey: SOURCE_KEY, adapterVersion: ADAPTER_VERSION });
+  const runId = await store.startRun({ worker: 'boxing-odds', sourceKey: SOURCE_KEY, adapterVersion: ADAPTER_VERSION, provenance: prov });
   const metrics = {
     target: store.writeTarget.kind === 'supabase' ? store.writeTarget.ref : store.writeTarget.kind,
     decision, forced: force, plan, planned_cost: cost, credits_spent: 0, quota: null, calls: [],
@@ -75,7 +95,7 @@ export async function runCapture(store, env, { fetchImpl = fetch, now = new Date
   const finish = async (status, assertions = {}) => {
     await store.finishRun(runId, { status, metrics, observed: metrics.provider_events, canonicalWrites: metrics.ticks_inserted,
       reviewItems: metrics.events_unmatched, errors: status === 'failed' ? 1 : metrics.calls.filter((c) => c.error).length, assertions });
-    return { runId, status, metrics, assertions };
+    return done({ runId, status, metrics, assertions });
   };
 
   const pre = await preflight({ apiKey: env.ODDS_API_KEY, fetchImpl, minRemaining })
@@ -136,8 +156,8 @@ export async function runCapture(store, env, { fetchImpl = fetch, now = new Date
   return finish(failedCalls || metrics.events_unmatched ? 'partial' : 'ok');
 }
 
-async function recordBlocked(store, assertions, extra = {}) {
-  const runId = await store.startRun({ worker: 'boxing-odds', sourceKey: SOURCE_KEY, adapterVersion: ADAPTER_VERSION });
+async function recordBlocked(store, assertions, extra = {}, provenance = null) {
+  const runId = await store.startRun({ worker: 'boxing-odds', sourceKey: SOURCE_KEY, adapterVersion: ADAPTER_VERSION, provenance });
   await store.finishRun(runId, { status: 'blocked', metrics: extra, observed: 0, canonicalWrites: 0, reviewItems: 0, errors: 0, assertions });
   return { runId, status: 'blocked', assertions, ...extra };
 }

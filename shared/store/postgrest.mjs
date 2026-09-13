@@ -131,10 +131,18 @@ export function postgrestStore({ url, serviceKey, fetchImpl = fetch }) {
         { method: 'GET' });
       return rows?.[0] ?? null;
     },
-    async startRun({ worker, sourceKey, adapterVersion }) {
+    recordWorkerInvocation: (p) => rpc('boxing_record_worker_invocation', { p }),
+    schedulerEvidence: (worker, since) => rpc('boxing_scheduler_evidence', { p_worker: worker, p_since: since }),
+    async startRun({ worker, sourceKey, adapterVersion, provenance = null }) {
       const src = await this.source(sourceKey);
+      const p = provenance ?? {};
       const rows = await call('boxing_ingest_runs', {
-        body: { worker, adapter_version: adapterVersion, source_id: src?.id ?? null },
+        body: {
+          worker, adapter_version: adapterVersion, source_id: src?.id ?? null, trigger_type: p.trigger_type ?? 'unknown',
+          worker_name: p.worker_name ?? null, worker_version: p.worker_version ?? null, deployment_id: p.deployment_id ?? null,
+          invocation_id: p.invocation_id ?? null, scheduled_for: p.scheduled_for ?? null, runtime: p.runtime ?? null,
+          source_version: p.source_version ?? adapterVersion ?? null, config_hash: p.config_hash ?? null,
+        },
         prefer: 'return=representation',
       });
       return rows[0].id;

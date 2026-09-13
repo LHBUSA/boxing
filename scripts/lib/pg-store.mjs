@@ -224,11 +224,20 @@ export function pgStore(client) {
     async source(sourceKey) {
       return one(client, 'select id, source_key, enabled, access_mode, rights_state, persistence_allowed, derivative_allowed, display_allowed, redistribution_allowed, latest_rights_review_id from public.boxing_sources where source_key = $1', [sourceKey]);
     },
-    async startRun({ worker, sourceKey, adapterVersion }) {
+    async startRun({ worker, sourceKey, adapterVersion, provenance = null }) {
+      const p = provenance ?? {};
       return (await one(client,
-        `insert into public.boxing_ingest_runs (worker, adapter_version, source_id)
-         values ($1, $2, (select id from public.boxing_sources where source_key = $3)) returning id`,
-        [worker, adapterVersion, sourceKey])).id;
+        `insert into public.boxing_ingest_runs (worker, adapter_version, source_id, trigger_type, worker_name, worker_version, deployment_id,
+           invocation_id, scheduled_for, runtime, source_version, config_hash)
+         values ($1, $2, (select id from public.boxing_sources where source_key = $3), coalesce($4, 'unknown'), $5, $6, $7, $8, $9, $10, $11, $12) returning id`,
+        [worker, adapterVersion, sourceKey, p.trigger_type ?? null, p.worker_name ?? null, p.worker_version ?? null, p.deployment_id ?? null,
+          p.invocation_id ?? null, p.scheduled_for ?? null, p.runtime ?? null, p.source_version ?? adapterVersion ?? null, p.config_hash ?? null])).id;
+    },
+    async recordWorkerInvocation(p) {
+      return (await one(client, 'select public.boxing_record_worker_invocation($1) as r', [p])).r;
+    },
+    async schedulerEvidence(worker, since) {
+      return (await one(client, 'select public.boxing_scheduler_evidence($1, $2) as r', [worker, since])).r;
     },
     async finishRun(id, { status, metrics, observed = 0, canonicalWrites = 0, reviewItems = 0, errors = 0, assertions = {} }) {
       await client.query(
