@@ -70,10 +70,6 @@ export async function freshDatabase(label, { migrate = true } = {}) {
   const url = new URL(admin.toString());
   url.pathname = `/${name}`;
   const client = new pg.Client({ connectionString: url.toString() });
-  await client.connect();
-  client.on('notice', () => {});
-  await client.query(readFileSync(ROLES_SQL, 'utf8'));
-  if (migrate) await applyMigrations(client);
 
   async function close() {
     await client.end().catch(() => {});
@@ -81,6 +77,18 @@ export async function freshDatabase(label, { migrate = true } = {}) {
     await c.connect();
     await c.query(`drop database if exists ${name} with (force)`);
     await c.end();
+  }
+
+  // Any setup failure must close the connection, or the open socket keeps the
+  // test process alive and `node --test` waits forever.
+  try {
+    await client.connect();
+    client.on('notice', () => {});
+    await client.query(readFileSync(ROLES_SQL, 'utf8'));
+    if (migrate) await applyMigrations(client);
+  } catch (err) {
+    await close().catch(() => {});
+    throw err;
   }
   return { client, name, url, close };
 }

@@ -14,8 +14,8 @@
   "license": "UNLICENSED",
   "scripts": {
     "test": "npm run test:unit && npm run test:db",
-    "test:unit": "node --test \"shared/**/*.test.mjs\" \"workers/**/*.test.mjs\"",
-    "test:db": "node --test --test-concurrency=4 \"tests/db/*.test.mjs\"",
+    "test:unit": "node --test --test-timeout=60000 \"shared/**/*.test.mjs\" \"workers/**/*.test.mjs\"",
+    "test:db": "node --test --test-concurrency=4 --test-timeout=120000 \"tests/db/*.test.mjs\"",
     "check:secrets": "node scripts/check-secrets.mjs",
     "db:apply-local": "node scripts/db/apply-local.mjs"
   },
