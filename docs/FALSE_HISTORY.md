@@ -51,3 +51,19 @@ Boxing Core is append-only for official facts: results, scorecards, card changes
 - **Fix:** the observation hash now includes the parser version, so a new parser writes a new observation.
 - **Re-apply:** it reads the latest observation per document and re-runs the deterministic bout-id assignment, so older stored parses are normalized without refetching.
 - **Nothing deleted:** the older observations remain.
+
+## 5. New Jersey weigh-ins judged against class limits instead of printed contracts (2026-09-13)
+
+- **Caused by:** the first New Jersey result run with division-label mapping (commit `4313423`). "Middleweight (165 lbs.)" was stored as the middleweight class (160 lb limit) with no contracted weight, so a 165 lb boxer was classified `missed_weight`. The printed number is the contracted weight.
+- **Fixed by:** commit `00ac958`. The number becomes `contracted_weight_lb`, and the class is kept only when the contract falls inside the labelled class band. A contradictory label ("Heavyweight (147 lbs.)", "Middleweight (165 lbs.)") yields no class and clears the one set earlier (3 bouts).
+- **Repair:** the stored parses were re-applied with no refetch. Weigh-ins were revised append-only:
+
+| Previous status | Revised status | Rows | What it means |
+|---|---|---|---|
+| missed | made | 4 | false misses |
+| made | missed | 12 | real misses against a catchweight contract that the class limit had hidden |
+| made | made | 30 | contract refined |
+| recorded | made | 2 | |
+
+- **Kept:** every superseded weigh-in row (`supersedes_id`). No false miss reached an article: the news was written by a backfill, so it was already skipped history.
+- **Locked by:** `shared/adapters/commissions/commissions.test.mjs` (printed division labels), `shared/events/events.test.mjs` (only an explicit contradiction clears a class) and `tests/db/13` (a 165 lb contract is made, not missed).

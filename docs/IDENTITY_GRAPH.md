@@ -88,6 +88,31 @@ pwsh scripts/staging/identity-graph.ps1 -Summary
 
 Afterwards (matcher `boxing-odds-event-matcher@1.1.0`), a verified provider identity confirms its own boxer and refuses any other corner. A provider name never creates, establishes or merges a boxer. In bout scope, a different given name (Jermall/Jermell) never matches.
 
+## Staging run (2026-09-13)
+
+**Dry run** (read-only report over the 147 pending items, 242 appearances): 1 Tier A, 62 Tier B, 179 review. Every proposed match was audited:
+- same city-level hometown, weights within a few pounds, same commission, no contradiction
+- the only non-exact name was "DeVon Williams" → "De Von Williams" (joined forms)
+- brothers "Andrey Bonilla" and "Ari Bonilla" (both El Paso, TX) bound to different boxers
+
+**Re-apply** of stored Florida (34 documents) and Nevada (17 documents) parses, then the New Jersey result backfill:
+
+| | Before | After |
+|---|---|---|
+| Pending review items | 147 (Florida 121, Nevada 26) | 130 (Florida 94, Nevada 19, New Jersey 17 new); 40 closed by the resolver |
+| Appearance bindings | — | 4 Tier A and 58 Tier B, linking 45 distinct existing boxers; 0 Tier D, 0 boxers created by the graph |
+| Florida bouts | 214 | 257: 43 of the 177 blocked unlocked with their official results; 134 still blocked |
+| Nevada bouts | 109 | 115: 6 of 25 unlocked; 19 blocked |
+| Canonical fighters | 759 | 880: +121 first sightings in New Jersey documents, by the name resolver |
+
+**Why most items stay in review:**
+- 61 appearances have weight and commission continuity but no city-level hometown on one side (country or state only)
+- 28 have a different city
+- 20 fought within 13 days (Team Boxing League)
+- a few have missing suffixes or incompatible weights
+
+These need a human or a new independent source; thresholds were not loosened.
+
 ## Tests
 
 - `shared/identity/graph.test.mjs`: tiers, weak clues, same names, impossible dates, debut conflicts, same fight on record.
