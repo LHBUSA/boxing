@@ -116,6 +116,7 @@ test('New Jersey: official schedule only; third-party linked sites never become 
   const ev = await q(`select e.event_date::text, e.status from public.boxing_events e join public.boxing_sources s on s.id = e.source_id where s.source_key = 'nj_sacb' order by 1`);
   assert.deepEqual(ev.map((e) => [e.event_date, e.status]), [['2026-09-04', 'complete'], ['2026-09-12', 'scheduled'], ['2026-11-07', 'cancelled']]);
   assert.equal(await count(`boxing_events where name ilike '%knuckle%' or name ilike '%cage%'`), 0);
+  assert.equal(await count(`boxing_news_events n join public.boxing_sources s on s.id = n.source_id where s.source_key = 'nj_sacb' and n.event_type = 'VENUE_CHANGED'`), 0, 'the venue of a new event is not a change');
 });
 
 test('federal boxer IDs, DOBs and medical data appear nowhere: tables, gateway output, fact blocks', async () => {

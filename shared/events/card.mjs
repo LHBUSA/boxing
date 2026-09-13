@@ -283,6 +283,8 @@ export async function applyCardDocument(store, doc, { now = new Date().toISOStri
     applied.push({ ...c, bout_id: boutId, change_id: r.change_id });
 
     const newsType = NEWS[c.change_type] ?? (['official_assigned', 'official_replaced'].includes(c.change_type) ? 'OFFICIALS_ASSIGNED' : null);
+    // a new event's first venue is part of EVENT_ADDED, not a change
+    if (c.change_type === 'venue_changed' && !state.existed) continue;
     if (!newsType || (newsType === 'OFFICIALS_ASSIGNED' && news.some((n) => n.event_type === 'OFFICIALS_ASSIGNED' && n.bout_id === boutId))) continue;
     const fighters = c.change_type === 'bout_added' ? [c.after_state.fighter_a_id, c.after_state.fighter_b_id]
       : c.change_type === 'opponent_replaced' ? [c.before_state.fighter_id, c.after_state.fighter_id] : [];
