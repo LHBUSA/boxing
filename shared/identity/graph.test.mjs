@@ -71,3 +71,14 @@ test('Tier A: the same fight is already on the candidate record (another officia
 test('no name-similar candidate: not the graph resolver decision', () => {
   assert.equal(resolveAppearance(app(), [cand({ display_name: 'Someone Else' })]).decision, 'none');
 });
+
+test('graph evidence safely resolves an alias form (joined name) but never a different given name', () => {
+  const alias = resolveAppearance(app({ display_name: 'DeVon Williams', hometown: 'Fort Lauderdale, FL', weight_lb: 144.8 }),
+    [cand({ display_name: 'De Von Williams', hometowns: ['Fort Lauderdale, FL.'], bouts: [bout({ weight_lb: 147 })] })]);
+  assert.equal(alias.decision, 'matched');
+  assert.equal(alias.tier, 'B');
+  assert.equal(alias.candidates[0].name_level, 'joined');
+  const brothers = resolveAppearance(app({ display_name: 'Ari Bonilla', hometown: 'El Paso, TX', weight_lb: 116 }),
+    [cand({ display_name: 'Andrey Bonilla', hometowns: ['El Paso, TX'], bouts: [bout({ weight_lb: 119.2 })] })]);
+  assert.notEqual(brothers.decision, 'matched', 'same surname, city and weight class is not the same boxer');
+});
