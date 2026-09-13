@@ -208,7 +208,38 @@ Each gets its own source row, adapter, attribution rule and PII stripping before
 |---|---|---|---|
 | Nevada NSAC | `approved_ingest` | Official public-records results index; robots permits the paths used; facts (who fought, result, officials, scores, weights) are not copyrightable. The "All Rights Reserved" footer is honoured by **not redistributing documents**. | Boxing PDFs only; facts with attribution; Federal ID and physician/medical header lines dropped at parse time; forward runs once a day, ≤12 PDFs, 1.5 s apart |
 | Florida FAC | `approved_ingest` | Same basis (Ch. 119 public records, robots permits). Copyright footer honoured the same way. | Pro boxing only; DOB and Federal ID columns dropped; suspension **period** only, never a reason |
-| New Jersey SACB | `approved_ingest` | Official SACB page on njoag.gov; robots permits. | Only njoag.gov / nj.gov URLs; linked BoxRec or other record keepers are never followed or approved; result-PDF parser pending |
+| New Jersey SACB | `approved_ingest` | Official SACB page on njoag.gov; robots permits. | Only njoag.gov / nj.gov URLs (nj.gov `/oag/secure-pdf/` is robots-disallowed and never fetched); linked BoxRec or other record keepers are never followed or approved; result PDFs parsed since 2026-09-13 (`nj-sacb@1.1.0`) with federal IDs, injury notes, no-contact periods and the officials page dropped |
 | Texas TDLR | `reference_only` | Copy conditions are explicit, but the results table loads from `/sports/_events-list.csv` and robots.txt disallows `/*.csv`. Public does not mean automation is welcome. | No automated access; human reference with agency, URL, copy date and non-endorsement |
 
 **Still open for legal review:** the database-rights and commercial-display questions for public-records compilations. Any adverse finding flips the row to `blocked`, and the gates stop ingestion without a deploy.
+
+---
+
+## G. First-party promoter / event sources for upcoming cards (review 2026-09-13, migration 0016)
+
+**Why these were reviewed.** Commission schedules give event facts (date, venue, promoter) but no pairings, and the 42 stored sportsbook events are upcoming fights. The only free first-party source of "A vs B" before fight week is the promoter.
+
+**Method.**
+- For each site: read the terms, robots.txt and one schedule page.
+- No sign-ups, logins, contact or crawling.
+- The fetch tool returns processed pages, so a person should confirm the quotes on the live page before relying on them legally.
+
+| Source | Registry | Evidence | Upcoming cards published |
+|---|---|---|---|
+| Top Rank | `promoter_top_rank`: **blocked** | [Terms](https://www.toprank.com/terms-of-use): "you will not monitor, gather, copy, or distribute the Content … by using any robot, rover, "bot", spider, scraper, crawler …"; no commercial use | Headline only |
+| Queensberry | `promoter_queensberry`: **blocked** | [Terms](https://queensberry.co.uk/policies/terms-of-service): prohibited "to spam, phish, pharm, pretext, spider, crawl, or scrape" | Headline only |
+| BOXXER | `promoter_boxxer`: **blocked** | [Terms](https://www.boxxer.com/terms-conditions/): same "spider, crawl, or scrape" prohibition | None listed |
+| Matchroom Boxing | `promoter_matchroom`: review_required | Only ticket/venue T&Cs found; no website-use grant; robots allows | Headline surnames |
+| Golden Boy | `promoter_golden_boy`: review_required | [Disclaimer](https://www.goldenboy.com/disclaimer/): "Copying, disseminating and any other use … not permitted without the written permission"; the referenced terms of use return 404 | Headline only |
+| Premier Boxing Champions | `promoter_pbc`: review_required | [Terms](https://www.premierboxingchampions.com/terms-of-use): one-copy licence, no distribution; robots `Crawl-delay: 10` | Full names + co-features |
+| Ohashi / Phoenix Promotion | `promoter_ohashi`: review_required | No terms or robots.txt; "All rights reserved" | Full cards |
+| Riyadh Season | `promoter_riyadh_season`: review_required | Terms page script-rendered, unreadable | Not checked |
+| Most Valuable Promotions | `promoter_mvp`: **reference_only** | robots `Content-Signal: search=yes,ai-train=no,use=reference` (EU DSM Art. 4 reservation); terms page 403 | Not checked |
+
+**Result: no promoter source is approved, and all are disabled.**
+- **Engineering is ready:** the upcoming-card contract (`shared/adapters/promoters/contract.mjs`) and cross-source event attachment are built and tested with synthetic sources, so an adapter can be added once a source is approved.
+- **Path forward:** a written permission request, which is free and needs owner approval to send, to the least-restrictive candidates (PBC, Matchroom, Ohashi).
+- **Human reference noted during review, not used as identity evidence:**
+  - PBC lists Isaac Cruz vs **Nestor Bravo** (the sportsbook market says Sergio Rio Jimenez).
+  - PBC lists **Jermall** Charlo vs Koen Mazoudier (the market says **Jermell**).
+  - These disagreements are why the odds matcher never matches a different given name.

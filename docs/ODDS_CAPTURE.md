@@ -237,3 +237,11 @@ A provider event attaches to a bout only if **both** provider names resolve, thr
   - `no_other_external_feed_enabled`
   - `provider_ledger_requires_raw_observation_dedupes_and_is_immutable`
   - plus the existing security checks
+
+
+## Matcher 1.1.0 and provider identities (2026-09-13)
+
+- **Given names:** a different given name never matches in bout scope (Jermall vs Jermell Charlo; twins share surname, division and often DOB).
+- **Learning identities:** once a provider event's two names resolve to the two corners of exactly one canonical bout built from approved sources, each name is recorded as a verified provider participant identity (`boxing_provider_participant_identities`). The record carries the bout, the provider event, the matcher version and evidence.
+- **Using them:** a verified identity confirms its own boxer in later markets and refuses any other corner.
+- **Limits:** provider names never create or establish boxers, and a mapping is refused unless the boxer is an active corner of the mapped bout.

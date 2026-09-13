@@ -1,7 +1,7 @@
 # Official athletic-commission ingestion
 
 **Status (2026-09-13): STAGING only.**
-- **Sources:** Nevada (NSAC), Florida (Florida Athletic Commission) and the New Jersey SACB schedule are approved for ingestion. Texas (TDLR) is reference-only.
+- **Sources:** Nevada (NSAC), Florida (Florida Athletic Commission) and New Jersey SACB (schedule and result PDFs) are approved for ingestion. Texas (TDLR) is reference-only.
 - **Runtime:** Worker `boxing-commissions-staging` (daily cron `40 11 * * *`, no routes) and the guarded operator script. Both write only to `wpaxofilvbsjyrxrwjhg`.
 - **Cost:** no paid source, no subscription, no credits.
 
@@ -13,7 +13,7 @@ Goal: authoritative canonical events, bouts and results built from official publ
 |---|---|---|---|
 | Nevada (NSAC) | `nsac_nevada`: `approved_ingest` | Public results index + PDFs (`boxing.nv.gov`, robots disallows only `/workarea/`, `/widgets/`); public professional calendar feed embedded on the commission site; Nevada public records (NRS 239) | Enabled |
 | Florida (DBPR / FAC) | `florida_athletic_commission`: `approved_ingest` | Public upcoming-events and event-results pages + match-result PDFs (robots disallows only WordPress admin/includes/content); Florida public records (Ch. 119) | Enabled |
-| New Jersey (SACB) | `nj_sacb`: `approved_ingest` | Public Event Schedule & Results page (robots disallows only `/wp-admin/`); NJ public records (OPRA) | Schedule enabled; result PDF parsing **not built** (documents registered `parser_pending`) |
+| New Jersey (SACB) | `nj_sacb`: `approved_ingest` | Public Event Schedule & Results page (robots disallows only `/wp-admin/`); result PDFs on njoag.gov uploads and nj.gov `/oag/sacb/results/` (nj.gov robots disallows only `/oag/secure-pdf/` among SACB paths); NJ public records (OPRA) | Schedule and result PDFs enabled (`nj-sacb@1.1.0`) |
 | Texas (TDLR) | `tdlr_texas`: `reference_only` | Results table is loaded from `/sports/_events-list.csv`; robots.txt **`Disallow: /*.csv`** | **Disabled**; human reference only, with agency/URL/copy date and a non-endorsement statement |
 
 **Approval covers facts, with attribution to the commission.**
@@ -26,6 +26,24 @@ Each decision is an append-only `boxing_source_rights_reviews` row (migration 00
 ## Adapter contract (`shared/adapters/commissions/`)
 
 One module per jurisdiction: `nevada.mjs`, `florida.mjs`, `new-jersey.mjs`, `texas.mjs`. There is no cross-jurisdiction branching.
+
+**New Jersey result documents** are line-based. The parser keeps only lines matching known patterns:
+- title, date, venue, promoter
+- bout header (rounds, printed division, title remark)
+- corner name (text before `ID#` only), hometown and weight
+- winner line (method, round, time), draw and no-decision lines
+- suspension duration
+- referee, judges with totals
+
+It drops, by construction:
+- federal IDs
+- `NOTE:` paragraphs (injury and hospital narratives)
+- no-contact periods and suspension reasons
+- the officials page (physicians, inspectors)
+
+Two further guards:
+- **Winner:** recorded only when the winner line names exactly one corner. A typo such as "Brooke Miller" for "Brooke Mullen" is not guessed.
+- **Judges' totals:** kept as fighter A–B only when the cards agree with the official decision.
 
 The shared pieces are:
 - `contract.mjs`: sport classification, event/bout observation validation, display names.
@@ -118,6 +136,14 @@ Within one card document, the same name with the same stated hometown is one box
 - **Documents:** a known result document is re-fetched only when its event is within 45 days and it was not checked in the last 7 days, to catch official revisions.
 - **Limits:** at most `COMMISSION_MAX_DOCUMENTS` (12) PDFs per adapter per run, `COMMISSION_FETCH_DELAY_MS` (1.5 s) apart, with an identifying User-Agent.
 - **Backfills** are explicit operator runs (`trigger_type = backfill`), 2 s apart.
+
+## Identity graph, re-apply and news time
+
+- **Unresolved corners:** corners on official sheets that the name resolver cannot decide go to the career-graph resolver ([IDENTITY_GRAPH.md](IDENTITY_GRAPH.md)). Card documents carry per-corner weight and debut context for it; identity observations stay unchanged.
+- **Re-apply:** `reapplyStoredDocuments` re-applies stored parses with no refetch.
+- **New parser:** a new parser version stores a new document observation (the hash includes the parser version).
+- **News time:** facts written by a backfill or re-apply about PAST events are history, not news. `payload.temporal` is recorded and the state is `skipped`. Forward runs treat anything more than 45 days after its event the same way.
+- **Known mistakes:** parser mistakes and their corrections are kept, not deleted ([FALSE_HISTORY.md](FALSE_HISTORY.md)).
 
 ## Provenance
 

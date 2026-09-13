@@ -24,6 +24,21 @@ export function eventName(ev, adapter) {
   return `${who || 'Professional boxing'} at ${where || nameSafe(adapter.jurisdiction.name)}`.slice(0, 80).trim();
 }
 
+// A division label printed by the commission (New Jersey sheets) -> weight class key.
+// Only exact, known labels; anything else stays null (never inferred from weights).
+const DIVISION_SYNONYMS = { 'junior welterweight': 'super_lightweight', 'light welterweight': 'super_lightweight', 'junior middleweight': 'super_welterweight',
+  'light middleweight': 'super_welterweight', 'junior lightweight': 'super_featherweight', 'junior featherweight': 'super_bantamweight',
+  'junior bantamweight': 'super_flyweight', 'junior flyweight': 'light_flyweight', 'strawweight': 'minimumweight', 'mini flyweight': 'minimumweight' };
+const DIVISION_KEYS = new Set(['minimumweight', 'light_flyweight', 'flyweight', 'super_flyweight', 'bantamweight', 'super_bantamweight', 'featherweight',
+  'super_featherweight', 'lightweight', 'super_lightweight', 'welterweight', 'super_welterweight', 'middleweight', 'super_middleweight',
+  'light_heavyweight', 'cruiserweight', 'bridgerweight', 'heavyweight']);
+export function divisionKey(raw) {
+  const label = String(raw ?? '').split('(')[0].replace(/[^a-z .]/gi, ' ').replace(/\s+/g, ' ').trim().toLowerCase().replace(/^jr\.? /, 'junior ');
+  if (!label) return null;
+  const key = DIVISION_SYNONYMS[label] ?? label.replace(/ /g, '_');
+  return DIVISION_KEYS.has(key) ? key : null;
+}
+
 export function cardDocumentFor(adapter, ev, bouts) {
   const namespace = COMMISSION_NAMESPACES[adapter.sourceKey];
   const doc = {
@@ -37,6 +52,7 @@ export function cardDocumentFor(adapter, ev, bouts) {
     ...(ev.venue?.name ? { venue: { name: ev.venue.name, city: ev.venue.city ?? null, region: ev.venue.region ?? null, country_code: ev.venue.country_code ?? 'US' } } : {}),
     bouts: bouts.map((b) => ({
       external_id: b.source_bout_id, bout_order: b.bout_order ?? null, scheduled_rounds: b.scheduled_rounds ?? null,
+      ...(divisionKey(b.division_raw) ? { weight_class_key: divisionKey(b.division_raw) } : {}),
       status: b.result?.resolved ? 'complete' : ev.status === 'cancelled' ? 'cancelled' : 'scheduled',
       fighter_a: { display_name: b.fighter_a.display_name, hometown: b.fighter_a.hometown ?? null },
       fighter_b: { display_name: b.fighter_b.display_name, hometown: b.fighter_b.hometown ?? null },

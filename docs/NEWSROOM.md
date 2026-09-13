@@ -112,3 +112,19 @@ UFC's validators were probed with adversarial input (UFC repo review 2026-09-12)
   - unresolved identity and a source without display rights
   - malicious name blocked
   - storage completeness
+
+
+## Temporal gate and as-of context (migration 0016)
+
+- **News is about now.** `boxing_emit_news_event` stamps `payload.temporal` (`rule boxing-news-temporal@1.0.0`, `mode`, `event_date`, `detected_at`, `days_after_event`, `newsworthy`).
+- **What becomes `skipped` history:**
+  - facts about a past event written by a backfill or a re-apply (for example a bout unlocked months later by identity resolution)
+  - any fact more than 45 days after its event
+- **Always news:** corrections (`RESULT_CORRECTED`, `RESULT_OVERTURNED`) and `MARKET_MOVED`. An upcoming event found by a backfill is also still news.
+- **Skipped events never reach the article generator.**
+- **Fact context is as of the news event:**
+  - `market` comes from `boxing_market_consensus_as_of(bout, detected_at)`: only ticks captured AND recorded by then, each at most 48 h old.
+  - Odds resolved later by replay (`recorded_at` after detection) are never presented as known at the original time.
+  - Fight DNA snapshots are limited to those created by then.
+- **Existing rows:** the 2026-09-13 backfill rows were set to `skipped` by the same rule (1,796 on staging; see [FALSE_HISTORY.md](FALSE_HISTORY.md)).
+- **Nothing is published automatically.**
