@@ -9,7 +9,7 @@ import {
 } from '../adapters/odds/the-odds-api.mjs';
 import { DEFAULT_MOVE_CONFIG, buildMarketMovedEvent, evaluateMarketMove } from './movement.mjs';
 
-export async function ingestOddsPayload(store, { payload, capturedAt = new Date().toISOString(), runId = null, region = 'us', quota = null }) {
+export async function ingestOddsPayload(store, { payload, capturedAt = new Date().toISOString(), runId = null, region = 'us', quota = null, observation = null }) {
   validatePayload(payload);
   const metrics = {
     provider_events: payload.length,
@@ -25,7 +25,8 @@ export async function ingestOddsPayload(store, { payload, capturedAt = new Date(
     quota,
   };
 
-  const obs = await store.recordObservation({
+  // the capture pipeline records the raw observation first and passes it in
+  const obs = observation ?? await store.recordObservation({
     source_key: SOURCE_KEY,
     ingest_run_id: runId,
     entity_type: 'odds_snapshot',

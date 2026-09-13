@@ -114,6 +114,11 @@ export function postgrestStore({ url, serviceKey, fetchImpl = fetch }) {
     officialHistoryAsOf: (id, cutoff) => rpc("boxing_official_history_as_of", { p_official: id, p_cutoff: cutoff }),
     startIntelRun: (kind, engine, cutoff) => rpc("boxing_start_intel_run", { p_kind: kind, p_engine: engine, p_cutoff: cutoff }),
     finishIntelRun: (id, status, subjects, written, metrics) => rpc("boxing_finish_intel_run", { p_run: id, p_status: status, p_subjects: subjects, p_written: written, p_metrics: metrics }),
+    // --- provider market ledger
+    ingestProviderQuotes: (p) => rpc('boxing_ingest_provider_quotes', { p }),
+    recordProviderCapture: (p) => rpc('boxing_record_provider_capture', { p }),
+    oddsScheduleState: (now) => rpc('boxing_odds_schedule_state', { p_now: now }),
+    providerCoverage: () => rpc('boxing_provider_coverage', {}),
     // --- read-only gateway
     gatewayBout: (id) => rpc('boxing_gateway_bout', { p_bout: id }),
     gatewayOfficial: (id) => rpc('boxing_gateway_official', { p_official: id }),
@@ -122,7 +127,7 @@ export function postgrestStore({ url, serviceKey, fetchImpl = fetch }) {
     gatewayOddsSummary: (id) => rpc('boxing_gateway_odds_summary', { p_bout: id }),
     async source(sourceKey) {
       const rows = await call(
-        `boxing_sources?select=id,source_key,enabled,access_mode,rights_state,persistence_allowed&source_key=eq.${encodeURIComponent(sourceKey)}`,
+        `boxing_sources?select=id,source_key,enabled,access_mode,rights_state,persistence_allowed,derivative_allowed,display_allowed,redistribution_allowed,latest_rights_review_id&source_key=eq.${encodeURIComponent(sourceKey)}`,
         { method: 'GET' });
       return rows?.[0] ?? null;
     },

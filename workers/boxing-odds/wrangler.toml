@@ -1,14 +1,22 @@
-# boxing-odds — scheduled boxing market capture. NOT DEPLOYED.
+# boxing-odds — scheduled boxing market capture.
 #
-# Capture stays OFF until ALL of:
-#   1. the_odds_api row in boxing_sources is reviewed (terms, plan, persistence,
-#      display, derivative rights) and enabled — a database change, not config
-#   2. ODDS_CAPTURE_ENABLED = "true" below
-#   3. secrets: wrangler secret put SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY /
-#      ODDS_API_KEY / BOXING_INTERNAL_TOKEN
+# Top-level (default) environment: NOT DEPLOYED and capture OFF. There is no
+# boxing production Supabase project; the write-target allow-list in
+# shared/store/target-guard.mjs contains staging only.
 #
-# Cost: one bulk call per run = regions x markets credits (us x h2h = 1).
-# 12 runs/day = ~360 credits/month. Never add a user-driven refresh.
+# [env.staging] -> Worker "boxing-odds-staging", writes ONLY to Supabase
+# wpaxofilvbsjyrxrwjhg (propbetedge-boxing-staging). No routes, no workers.dev.
+#   secrets (wrangler secret put ... --env staging):
+#     SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, ODDS_API_KEY, BOXING_INTERNAL_TOKEN
+#
+# Capture gates (all must pass): ODDS_CAPTURE_ENABLED="true", verified write
+# target, the_odds_api source row approved with a rights review (migration
+# 0010), key present, plan cost <= ODDS_MAX_RUN_COST, adaptive cadence due,
+# daily budget not exhausted, unmetered preflight >= ODDS_MIN_REMAINING.
+#
+# Cost: one call per region; credits = markets per region. Plan below = 6
+# credits per capture. Cadence and quota math: docs/ODDS_CAPTURE.md.
+# Never add a user-driven refresh.
 
 name = "boxing-odds"
 main = "src/index.mjs"
@@ -16,15 +24,37 @@ compatibility_date = "2026-09-01"
 workers_dev = false
 
 [triggers]
-crons = ["15 */2 * * *"]
+crons = []
 
 [vars]
 ODDS_CAPTURE_ENABLED = "false"
-ODDS_REGIONS = "us"
-ODDS_MARKETS = "h2h"
-ODDS_MIN_REMAINING = "5000"
-ODDS_MAX_CALL_COST = "4"
+ODDS_REGION_PLAN = "us=h2h,totals;us2=h2h;uk=h2h;eu=h2h;au=h2h"
+ODDS_MIN_REMAINING = "20000"
+ODDS_MAX_RUN_COST = "8"
+ODDS_MONTHLY_BUDGET = "8000"
+ODDS_DAILY_BUDGET = "600"
 
 [observability]
+enabled = true
+head_sampling_rate = 1
+
+[env.staging]
+name = "boxing-odds-staging"
+workers_dev = false
+
+[env.staging.triggers]
+crons = ["*/15 * * * *"]
+
+[env.staging.vars]
+BOXING_ENVIRONMENT = "staging"
+BOXING_SUPABASE_REF = "wpaxofilvbsjyrxrwjhg"
+ODDS_CAPTURE_ENABLED = "true"
+ODDS_REGION_PLAN = "us=h2h,totals;us2=h2h;uk=h2h;eu=h2h;au=h2h"
+ODDS_MIN_REMAINING = "20000"
+ODDS_MAX_RUN_COST = "8"
+ODDS_MONTHLY_BUDGET = "8000"
+ODDS_DAILY_BUDGET = "600"
+
+[env.staging.observability]
 enabled = true
 head_sampling_rate = 1

@@ -109,3 +109,47 @@ test('store errors do not leak details', async () => {
   assert.equal(res.status, 500);
   assert.doesNotMatch(await res.text(), /key=abc/);
 });
+
+// ---------------------------------------------------------------------------
+// Market data rights: The Odds API data may be displayed and summarized
+// first-party but never redistributed as a raw feed.
+// ---------------------------------------------------------------------------
+
+test('rights: no route can serve bulk, raw, historical or downloadable market data', async () => {
+  const { FORBIDDEN_ROUTE_TERMS, RAW_MARKET_STORE_METHODS, MARKET_DATA_RIGHTS } = await import('./routes.mjs');
+  for (const r of ROUTES) {
+    for (const term of FORBIDDEN_ROUTE_TERMS) assert.ok(!r.path.toLowerCase().includes(term), `${r.path} contains "${term}"`);
+  }
+  for (const m of RAW_MARKET_STORE_METHODS) assert.ok(!READ_METHODS.includes(m), `gateway must not reach ${m}`);
+  const oddsRoutes = ROUTES.filter((r) => /odds|market|price/i.test(r.path + r.summary));
+  assert.deepEqual(oddsRoutes.map((r) => r.path), ['/internal/v1/bouts/:id/odds-summary'], 'market data is only served per bout');
+  assert.ok(Object.keys(oddsRoutes[0].query ?? {}).length === 0, 'no paging/limit/range parameters on market data');
+  assert.deepEqual(contractDocument().market_data_rights, MARKET_DATA_RIGHTS);
+});
+
+test('rights: odds-summary whitelists summarized fields even if storage returns raw ones', async () => {
+  const store = {
+    gatewayOddsSummary: async (id) => ({
+      bout_id: id,
+      raw_payload: [{ bookmakers: [] }],
+      ticks: [{ id: 1, american_odds: -150 }],
+      consensus: [{ market_key: 'moneyline|fight|-|pre', selection_key: 'fighter_a', consensus_implied: 0.6, bookmaker_count: 3, raw_price: { price: -150 }, observation_id: 'obs' }],
+      selections: [
+        { market_key: 'moneyline|fight|-|pre', bookmaker: 'book1', selection_key: 'fighter_a', current_american: -150, opening_american: -130, freshness: 'fresh',
+          latest_at: '2026-09-13T10:00:00Z', provider: 'the_odds_api', provider_event_id: 'evt-secret', raw_price: { price: -150 }, tick_count: 40, observation_id: 'obs-1' },
+        { market_key: 'moneyline|fight|-|pre', bookmaker: 'book2', selection_key: 'fighter_a', current_american: -140, freshness: 'fresh', latest_at: '2026-09-13T10:01:00Z' },
+        { market_key: 'moneyline|fight|-|pre', bookmaker: 'book3', selection_key: 'fighter_a', current_american: null, freshness: 'stale' },
+      ],
+      fair_prices: [],
+    }),
+  };
+  const w = createWorker({ makeStore: () => store });
+  const body = await (await w.fetch(req(`/internal/v1/bouts/${ID}/odds-summary`), env)).json();
+  const text = JSON.stringify(body);
+  for (const leaked of ['raw_payload', 'ticks', 'raw_price', 'observation', 'provider_event_id', 'evt-secret', 'tick_count', '"provider"']) {
+    assert.ok(!text.includes(leaked), `leaked ${leaked}`);
+  }
+  assert.deepEqual(body.data.best_prices, [{ market_key: 'moneyline|fight|-|pre', selection_key: 'fighter_a', best_american: -140, bookmaker: 'book2', latest_at: '2026-09-13T10:01:00Z' }]);
+  assert.equal(body.data.selections[0].opening_american, -130);
+  assert.match(body.data.rights.prohibited, /raw redistribution/);
+});

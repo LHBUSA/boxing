@@ -68,14 +68,48 @@ begin
     end;
     begin
       insert into public.boxing_source_observations (source_id, entity_type, external_key, payload, content_hash)
-      values ((select id from public.boxing_sources where source_key = 'the_odds_api'), 'odds_snapshot', 'x', '{}', 'h');
+      values ((select id from public.boxing_sources where source_key = 'compubox'), 'punch_stats', 'x', '{}', 'h');
       v_ok := false;
     exception when sqlstate 'BX010' then v_ok := v_ok and true;
     end;
     raise exception using errcode = 'BXTST', message = v_ok::text;
   exception when sqlstate 'BXTST' then
     results := results || jsonb_build_object('check', 'source_policy_gates_enforced', 'ok', sqlerrm = 'true',
-      'detail', 'boxrec cannot be enabled; the_odds_api observations refused');
+      'detail', 'boxrec cannot be enabled; unapproved compubox observations refused');
+  end;
+
+  -- ---- 4b. The Odds API rights decision (migration 0010) and provider ledger guards
+  select count(*) into n from public.boxing_sources s join public.boxing_source_rights_reviews r on r.id = s.latest_rights_review_id
+    where s.source_key = 'the_odds_api' and s.enabled and s.access_mode = 'approved_ingest' and s.rights_state = 'approved'
+      and s.persistence_allowed and s.derivative_allowed and s.display_allowed and not s.redistribution_allowed
+      and r.decision = 'approved_with_restrictions' and r.terms_url = 'https://the-odds-api.com/terms-and-conditions.html' and not r.account_agreement_found;
+  results := results || jsonb_build_object('check', 'the_odds_api_approved_without_raw_redistribution', 'ok', n = 1, 'detail', n || ' matching source/review');
+  select count(*) into n from public.boxing_sources where enabled and source_key in ('boxrec','compubox','wbc_official','wba_official','ibf_official','wbo_official','commission_official','promotion_official','odds_provider');
+  results := results || jsonb_build_object('check', 'no_other_external_feed_enabled', 'ok', n = 0, 'detail', n || ' unapproved candidate sources enabled');
+  begin
+    v_ok := false;
+    begin
+      perform public.boxing_ingest_provider_quotes(jsonb_build_object('provider_slug', 'the_odds_api', 'observation_id', gen_random_uuid(), 'events', '[]'::jsonb));
+    exception when sqlstate 'BX052' then v_ok := true;
+    end;
+    insert into public.boxing_source_observations (source_id, entity_type, external_key, payload, content_hash)
+      values ((select id from public.boxing_sources where source_key = 'the_odds_api'), 'odds_snapshot', 'verify|probe', '[]', 'verify-probe') returning id into v_obs;
+    v_rev := public.boxing_ingest_provider_quotes(jsonb_build_object('provider_slug', 'the_odds_api', 'observation_id', v_obs, 'region', 'us',
+      'events', jsonb_build_array(jsonb_build_object('provider_event_id', 'verify-probe-evt', 'sport_key', 'boxing_boxing', 'commence_time', now() + interval '5 days',
+        'home_name', 'Verify Probe Home', 'away_name', 'Verify Probe Away', 'quotes', jsonb_build_array(
+          jsonb_build_object('bookmaker_key', 'verify_book', 'market_key', 'h2h', 'outcome_name', 'Verify Probe Home', 'american', -150, 'decimal', 1.666667, 'implied', 0.6, 'is_live', false),
+          jsonb_build_object('bookmaker_key', 'verify_book', 'market_key', 'h2h', 'outcome_name', 'Verify Probe Home', 'american', -150, 'decimal', 1.666667, 'implied', 0.6, 'is_live', false))))));
+    begin
+      update public.boxing_provider_quotes set price_american = 100 where observation_id = v_obs;
+      v_ok := false;
+    exception when sqlstate 'BX001' then v_ok := v_ok and true;
+    end;
+    v_ok := v_ok and (v_rev ->> 'quotes_inserted')::int = 1 and (v_rev ->> 'quotes_unchanged')::int = 1
+      and not exists (select 1 from public.boxing_fighters where display_name like 'Verify Probe%');
+    raise exception using errcode = 'BXTST', message = v_ok::text;
+  exception when sqlstate 'BXTST' then
+    results := results || jsonb_build_object('check', 'provider_ledger_requires_raw_observation_dedupes_and_is_immutable', 'ok', sqlerrm = 'true',
+      'detail', 'BX052 without observation; unchanged price not re-inserted; quotes append-only; no fighters created');
   end;
 
   -- shared fixture builder used by the history checks (always rolled back)

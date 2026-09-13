@@ -25,6 +25,50 @@ const asOf = (q) => { const d = q.get('as_of') ?? today(); need(DATE.test(d), 'a
 const DERIVED = 'PropBetEdge-derived';
 const OFFICIAL_NOTE = 'Descriptive statistics computed from stored official records, each with its sample size. They describe past assignments only.';
 
+// ---------------------------------------------------------------------------
+// Market data rights boundary. The Odds API permits first-party display and
+// derived values but prohibits redistributing its data as a raw feed/API. The
+// gateway therefore serves ONE bout at a time, whitelists summarized fields,
+// and never exposes tick history, raw prices, provider payloads or provider
+// event ids. Enforced by workers/boxing-gateway/src/index.test.mjs.
+// ---------------------------------------------------------------------------
+export const MARKET_DATA_RIGHTS = Object.freeze({
+  sources: ['the_odds_api'],
+  permitted: 'first-party summarized display and PropBetEdge-derived values, one bout per request',
+  prohibited: 'raw redistribution: bulk/list endpoints, tick history, raw payloads, downloadable files, passthrough of provider feeds',
+});
+export const FORBIDDEN_ROUTE_TERMS = Object.freeze(['tick', 'raw', 'export', 'download', 'dump', 'bulk', 'feed', 'quotes', 'observation', 'history', 'provider', 'passthrough', 'csv']);
+export const RAW_MARKET_STORE_METHODS = Object.freeze(['tickHistory', 'selectionPrices', 'consensus', 'recordObservation', 'ingestProviderQuotes',
+  'recordProviderCapture', 'providerCoverage', 'oddsScheduleState', 'ingestMarketSnapshot']);
+
+const pick = (row, keys) => Object.fromEntries(keys.filter((k) => k in (row ?? {})).map((k) => [k, row[k]]));
+const SELECTION_FIELDS = ['market_key', 'market_type', 'line', 'is_live', 'bookmaker', 'selection_key', 'fighter_id', 'opening_american', 'opening_at',
+  'current_american', 'current_implied', 'latest_at', 'closing_american', 'closing_at', 'freshness'];
+const CONSENSUS_FIELDS = ['market_type', 'market_key', 'selection_key', 'bookmaker_count', 'stale_bookmaker_count', 'min_american', 'max_american',
+  'min_implied', 'max_implied', 'implied_dispersion', 'consensus_implied', 'newest_price_at'];
+const FAIR_FIELDS = ['model_key', 'model_version', 'selection_key', 'probability', 'fair_decimal', 'fair_american', 'input_cutoff', 'generated_at'];
+
+export function summarizeOdds(summary) {
+  if (!summary) return null;
+  const selections = (summary.selections ?? []).map((r) => pick(r, SELECTION_FIELDS));
+  const best = new Map();
+  for (const r of selections) {
+    if (r.current_american == null) continue;
+    const k = `${r.market_key}|${r.selection_key}`;
+    if (!best.has(k) || r.current_american > best.get(k).best_american) {
+      best.set(k, { market_key: r.market_key, selection_key: r.selection_key, best_american: r.current_american, bookmaker: r.bookmaker, latest_at: r.latest_at });
+    }
+  }
+  return {
+    bout_id: summary.bout_id,
+    rights: { ...MARKET_DATA_RIGHTS, attribution: 'Prices: bookmaker odds via The Odds API (attribution not required by provider terms).' },
+    consensus: (summary.consensus ?? []).map((r) => pick(r, CONSENSUS_FIELDS)),
+    best_prices: [...best.values()],
+    selections,
+    fair_prices: (summary.fair_prices ?? []).map((r) => pick(r, FAIR_FIELDS)),
+  };
+}
+
 export const ROUTES = [
   {
     path: '/internal/v1/fighters/:ref', summary: 'Canonical fighter: profile, identities, aliases, attribute claims.',
@@ -63,9 +107,9 @@ export const ROUTES = [
     },
   },
   {
-    path: '/internal/v1/bouts/:id/odds-summary', summary: 'Stored market consensus, per-book selection prices with freshness, and fair prices from trained models (empty while untrained).',
+    path: '/internal/v1/bouts/:id/odds-summary', summary: 'One bout: summarized current prices per book with freshness, best price, opening/current comparison, consensus/dispersion, and fair prices from trained models (empty while untrained). Never raw provider ticks or payloads.',
     params: { id: 'uuid' },
-    handler: async (s, { id }) => { need(UUID.test(id), 'bad bout id'); return s.gatewayOddsSummary(id); },
+    handler: async (s, { id }) => { need(UUID.test(id), 'bad bout id'); return summarizeOdds(await s.gatewayOddsSummary(id)); },
   },
   {
     path: '/internal/v1/titles/:id', summary: 'Title and its derived reign history.',
@@ -151,7 +195,9 @@ export const contractDocument = () => ({
     'derived values are labelled PropBetEdge-derived, carry metric versions and sample sizes, and are null unless status is available',
     'matchup snapshots are immutable and never contain information from after their input_cutoff',
     'fair prices appear only from a trained or validated registered model',
+    'market data: summarized, one bout per request, whitelisted fields; no tick history, raw payloads, provider ids, bulk lists or downloads (The Odds API prohibits raw redistribution)',
   ],
+  market_data_rights: MARKET_DATA_RIGHTS,
   read_methods: [...READ_METHODS],
   routes: ROUTES.map(({ path, summary, params = {}, query = {} }) => ({ method: 'GET', path, summary, params, query })),
 });

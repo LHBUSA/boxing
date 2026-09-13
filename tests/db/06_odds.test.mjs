@@ -59,13 +59,14 @@ before(async () => {
 after(async () => { await db?.close(); });
 
 test('collection is blocked in the database while the provider source is not approved', async () => {
-  const src = (await db.client.query(`select enabled, access_mode, rights_state from public.boxing_sources where source_key = 'the_odds_api'`)).rows[0];
-  assert.deepEqual(src, { enabled: false, access_mode: 'review_required', rights_state: 'unknown' });
+  // migration 0010 records the 2026-09-13 rights review: approved, raw redistribution prohibited
+  const src = (await db.client.query(`select enabled, access_mode, rights_state, redistribution_allowed, latest_rights_review_id is not null as reviewed
+    from public.boxing_sources where source_key = 'the_odds_api'`)).rows[0];
+  assert.deepEqual(src, { enabled: true, access_mode: 'approved_ingest', rights_state: 'approved', redistribution_allowed: false, reviewed: true });
+  // revoking the approval (disposable db) closes the database gate
+  await db.client.query(`update public.boxing_sources set enabled = false, access_mode = 'review_required' where source_key = 'the_odds_api'`);
   await expectPgError(() => ingestOddsPayload(store, { payload: [] }), { code: 'BX010', match: /source_not_ingestable: the_odds_api/ });
-  // approve ONLY inside this disposable test database
-  await db.client.query(`update public.boxing_sources set access_mode = 'approved_ingest', rights_state = 'approved',
-    persistence_allowed = true, reviewed_at = now(), reviewed_by = 'test harness (disposable db)', enabled = true
-    where source_key = 'the_odds_api'`);
+  await db.client.query(`update public.boxing_sources set enabled = true, access_mode = 'approved_ingest' where source_key = 'the_odds_api'`);
 });
 
 const T0 = hoursFromNow(-20);

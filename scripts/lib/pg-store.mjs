@@ -3,8 +3,13 @@
 
 const one = async (client, sql, params) => (await client.query(sql, params)).rows[0];
 
+const LOOPBACK = new Set(['localhost', '127.0.0.1', '::1', '[::1]']);
+
 export function pgStore(client) {
+  const host = client?.connectionParameters?.host ?? client?.host ?? null;
   return {
+    // local disposable databases only; hosted targets go through target-guard.mjs
+    writeTarget: Object.freeze({ verified: LOOPBACK.has(host), kind: 'local_postgres', host }),
     async candidates({ keys = [], searchName = null, dob = null, namespace = null, externalId = null, scope = null, limit = 40 }) {
       return (await one(client, 'select public.boxing_identity_candidates($1, $2, $3, $4, $5, $6, $7) as r',
         [keys, searchName, dob, namespace, externalId, scope, limit])).r;
@@ -187,6 +192,19 @@ export function pgStore(client) {
     async finishIntelRun(id, status, subjects, written, metrics) {
       await client.query("select public.boxing_finish_intel_run($1, $2, $3, $4, $5)", [id, status, subjects, written, metrics]);
     },
+    // --- provider market ledger
+    async ingestProviderQuotes(p) {
+      return (await one(client, 'select public.boxing_ingest_provider_quotes($1) as r', [p])).r;
+    },
+    async recordProviderCapture(p) {
+      return (await one(client, 'select public.boxing_record_provider_capture($1) as r', [p])).r;
+    },
+    async oddsScheduleState(now) {
+      return (await one(client, 'select public.boxing_odds_schedule_state($1) as r', [now])).r;
+    },
+    async providerCoverage() {
+      return (await one(client, 'select public.boxing_provider_coverage() as r')).r;
+    },
     // --- read-only gateway
     async gatewayBout(id) {
       return (await one(client, 'select public.boxing_gateway_bout($1) as r', [id])).r;
@@ -204,7 +222,7 @@ export function pgStore(client) {
       return (await one(client, 'select public.boxing_gateway_odds_summary($1) as r', [id])).r;
     },
     async source(sourceKey) {
-      return one(client, 'select id, source_key, enabled, access_mode, rights_state, persistence_allowed from public.boxing_sources where source_key = $1', [sourceKey]);
+      return one(client, 'select id, source_key, enabled, access_mode, rights_state, persistence_allowed, derivative_allowed, display_allowed, redistribution_allowed, latest_rights_review_id from public.boxing_sources where source_key = $1', [sourceKey]);
     },
     async startRun({ worker, sourceKey, adapterVersion }) {
       return (await one(client,

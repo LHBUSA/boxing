@@ -22,8 +22,16 @@
     "fighter and official ids in payloads are canonical (merged records resolve to the survivor)",
     "derived values are labelled PropBetEdge-derived, carry metric versions and sample sizes, and are null unless status is available",
     "matchup snapshots are immutable and never contain information from after their input_cutoff",
-    "fair prices appear only from a trained or validated registered model"
+    "fair prices appear only from a trained or validated registered model",
+    "market data: summarized, one bout per request, whitelisted fields; no tick history, raw payloads, provider ids, bulk lists or downloads (The Odds API prohibits raw redistribution)"
   ],
+  "market_data_rights": {
+    "sources": [
+      "the_odds_api"
+    ],
+    "permitted": "first-party summarized display and PropBetEdge-derived values, one bout per request",
+    "prohibited": "raw redistribution: bulk/list endpoints, tick history, raw payloads, downloadable files, passthrough of provider feeds"
+  },
   "read_methods": [
     "getFighter",
     "fighterDnaLatest",
@@ -90,7 +98,7 @@
     {
       "method": "GET",
       "path": "/internal/v1/bouts/:id/odds-summary",
-      "summary": "Stored market consensus, per-book selection prices with freshness, and fair prices from trained models (empty while untrained).",
+      "summary": "One bout: summarized current prices per book with freshness, best price, opening/current comparison, consensus/dispersion, and fair prices from trained models (empty while untrained). Never raw provider ticks or payloads.",
       "params": {
         "id": "uuid"
       },

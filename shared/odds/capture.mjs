@@ -1,53 +1,143 @@
-// One scheduled odds capture. Every gate fails closed and is recorded.
+// One scheduled odds capture. Every gate fails closed.
 //
 //   1. ODDS_CAPTURE_ENABLED must be "true"
-//   2. source row the_odds_api must be enabled + approved + persistence_allowed
-//   3. ODDS_API_KEY must be present (never logged)
-//   4. unmetered preflight: sport listed + active, remaining credits >= floor
-//   5. ONE bulk call (cost = regions x markets), ingest, MARKET_MOVED detection
+//   2. the store must carry a verified write target (boxing allow-list only)
+//   3. source row the_odds_api must be enabled + approved + persistence_allowed
+//      with a recorded rights review
+//   4. ODDS_API_KEY must be present (never logged)
+//   5. cost of the region plan <= ODDS_MAX_RUN_COST
+//   6. adaptive cadence (shared/odds/cadence.mjs) says a capture is due and the
+//      daily budget is not exhausted (skipped when options.force)
+//   7. unmetered preflight: sport listed + active, remaining credits >= floor
+//   8. one call per region (cost = markets), each:
+//        raw observation -> provider ledger (all events, names, quotes)
+//        -> canonical resolution attempt -> ticks OR unmatched queue
+//        -> capture log row (credits, status, observation reference)
+//   9. MARKET_MOVED detection for matched bouts
 //
-// Never user-driven: callers are the cron trigger and an authenticated
-// operator route. There is no per-request refresh path.
+// Never user-driven: callers are the cron trigger, an authenticated operator
+// route and the guarded operator script.
 
-import { fetchOdds, preflight, SOURCE_KEY, ADAPTER_VERSION } from '../adapters/odds/the-odds-api.mjs';
+import { contentHash } from '../canonical.mjs';
+import {
+  ADAPTER_VERSION, PROVIDER_SLUG, SOURCE_KEY, SPORT_KEY, fetchOdds, preflight, providerQuoteEvents,
+} from '../adapters/odds/the-odds-api.mjs';
+import { cadenceConfig, decideCadence, parseRegionPlan, planCost } from './cadence.mjs';
 import { detectAndEmitMoves, ingestOddsPayload } from './ingest.mjs';
 
-export async function runCapture(store, env, { fetchImpl = fetch, now = new Date().toISOString() } = {}) {
-  const regions = (env.ODDS_REGIONS ?? 'us').split(',').map((r) => r.trim()).filter(Boolean);
-  const markets = (env.ODDS_MARKETS ?? 'h2h').split(',').map((m) => m.trim()).filter(Boolean);
-  const minRemaining = Number(env.ODDS_MIN_REMAINING ?? 5000);
-  const maxCost = Number(env.ODDS_MAX_CALL_COST ?? 4);
+const redact = (value, key) => {
+  let s = String(value ?? '');
+  if (key) s = s.replaceAll(key, '<redacted>').replaceAll(encodeURIComponent(key), '<redacted>');
+  return s.replace(/apiKey=[^&\s"']+/g, 'apiKey=<redacted>').slice(0, 300);
+};
 
+export function sourceApproval(src) {
+  if (!src) return 'the_odds_api is not registered';
+  const problems = [];
+  if (!src.enabled) problems.push('enabled=false');
+  if (src.access_mode !== 'approved_ingest') problems.push(`access_mode=${src.access_mode}`);
+  if (!['approved', 'internal'].includes(src.rights_state)) problems.push(`rights_state=${src.rights_state}`);
+  if (!src.persistence_allowed) problems.push('persistence_allowed=false');
+  if (!src.latest_rights_review_id) problems.push('no rights review recorded');
+  return problems.length ? `the_odds_api not approved (${problems.join(', ')})` : null;
+}
+
+export async function runCapture(store, env, { fetchImpl = fetch, now = new Date().toISOString(), force = false } = {}) {
   if (env.ODDS_CAPTURE_ENABLED !== 'true') return { status: 'disabled', reason: 'ODDS_CAPTURE_ENABLED is not "true"' };
+  if (!store?.writeTarget?.verified) return { status: 'blocked', assertions: { write_target: 'store has no verified boxing write target' } };
+
+  const plan = parseRegionPlan(env);
+  const cost = planCost(plan);
+  const maxCost = Number(env.ODDS_MAX_RUN_COST ?? env.ODDS_MAX_CALL_COST ?? 8);
+  const minRemaining = Number(env.ODDS_MIN_REMAINING ?? 20000);
+
+  const src = await store.source(SOURCE_KEY);
+  const refusal = sourceApproval(src);
+  if (refusal) return recordBlocked(store, { source_policy: refusal });
+  if (!env.ODDS_API_KEY) return recordBlocked(store, { credential: 'ODDS_API_KEY not configured' });
+  if (!plan.length || cost > maxCost) return recordBlocked(store, { cost: `region plan costs ${cost} credits, exceeds ODDS_MAX_RUN_COST ${maxCost}` });
+
+  const config = cadenceConfig(env);
+  const decision = decideCadence({ now, state: await store.oddsScheduleState(now), runCost: cost, config });
+  if (!force && !decision.due) {
+    if (decision.reason === 'daily_budget_reached') return recordBlocked(store, { budget: `daily budget ${config.dailyBudget} reached` }, { decision });
+    return { status: 'not_due', decision };
+  }
 
   const runId = await store.startRun({ worker: 'boxing-odds', sourceKey: SOURCE_KEY, adapterVersion: ADAPTER_VERSION });
-  const finish = async (status, metrics, assertions = {}) => {
-    await store.finishRun(runId, { status, metrics, observed: metrics?.provider_events ?? 0, canonicalWrites: metrics?.ticks_inserted ?? 0,
-      reviewItems: metrics?.events_unmatched ?? 0, errors: status === 'failed' ? 1 : 0, assertions });
+  const metrics = {
+    target: store.writeTarget.kind === 'supabase' ? store.writeTarget.ref : store.writeTarget.kind,
+    decision, forced: force, plan, planned_cost: cost, credits_spent: 0, quota: null, calls: [],
+    provider_events: 0, provider_events_new: 0, participants_new: 0, quotes_inserted: 0, quotes_unchanged: 0, quotes_rejected: 0,
+    events_matched: 0, events_unmatched: 0, unmatched_reasons: {}, ticks_inserted: 0, ticks_unchanged: 0,
+    unsupported_markets: 0, rejected_markets: 0, market_moved_emitted: 0, market_moved_suppressed: {},
+  };
+  const finish = async (status, assertions = {}) => {
+    await store.finishRun(runId, { status, metrics, observed: metrics.provider_events, canonicalWrites: metrics.ticks_inserted,
+      reviewItems: metrics.events_unmatched, errors: status === 'failed' ? 1 : metrics.calls.filter((c) => c.error).length, assertions });
     return { runId, status, metrics, assertions };
   };
 
-  const src = await store.source(SOURCE_KEY);
-  if (!src?.enabled || !src.persistence_allowed || src.access_mode !== 'approved_ingest') {
-    return finish('blocked', {}, { source_policy: `the_odds_api not approved (enabled=${src?.enabled}, access_mode=${src?.access_mode})` });
-  }
-  if (!env.ODDS_API_KEY) return finish('blocked', {}, { credential: 'ODDS_API_KEY not configured' });
-  if (regions.length * markets.length > maxCost) {
-    return finish('blocked', {}, { cost: `regions x markets = ${regions.length * markets.length} exceeds ODDS_MAX_CALL_COST ${maxCost}` });
+  const pre = await preflight({ apiKey: env.ODDS_API_KEY, fetchImpl, minRemaining })
+    .catch((err) => ({ ok: false, reason: redact(err?.message, env.ODDS_API_KEY), quota: null }));
+  await store.recordProviderCapture({ provider_slug: PROVIDER_SLUG, ingest_run_id: runId, endpoint: 'sports', requested_at: now,
+    http_status: pre.ok ? 200 : 0, credits_cost: 0, credits_used: pre.quota?.used ?? null, credits_remaining: pre.quota?.remaining ?? null,
+    error: pre.ok ? null : pre.reason });
+  metrics.quota = pre.quota ?? null;
+  if (!pre.ok) return finish('blocked', { preflight: pre.reason });
+
+  const matchedAll = [];
+  for (const { region, markets } of plan) {
+    const requestedAt = new Date().toISOString();
+    const call = { region, markets };
+    try {
+      const { payload, quota, httpStatus } = await fetchOdds({ apiKey: env.ODDS_API_KEY, fetchImpl, regions: [region], markets });
+      call.credits = quota.last_cost;
+      metrics.credits_spent += Number(quota.last_cost ?? 0);
+      metrics.quota = quota;
+      const obs = await store.recordObservation({
+        source_key: SOURCE_KEY, ingest_run_id: runId, entity_type: 'odds_snapshot', external_key: `${SPORT_KEY}|${region}|${markets.join(',')}`,
+        payload, content_hash: await contentHash(payload), parser_version: ADAPTER_VERSION, source_published_at: now,
+      });
+      const ledgerRows = providerQuoteEvents(payload);
+      const ledger = await store.ingestProviderQuotes({ provider_slug: PROVIDER_SLUG, observation_id: obs.id, ingest_run_id: runId,
+        captured_at: now, region, events: ledgerRows.events });
+      metrics.provider_events += ledger.events;
+      metrics.provider_events_new += ledger.events_new;
+      metrics.participants_new += ledger.participants_new;
+      metrics.quotes_inserted += ledger.quotes_inserted;
+      metrics.quotes_unchanged += ledger.quotes_unchanged;
+      metrics.quotes_rejected += ledgerRows.rejected;
+
+      const canon = await ingestOddsPayload(store, { payload, capturedAt: now, runId, region, quota, observation: obs });
+      for (const k of ['events_matched', 'events_unmatched', 'ticks_inserted', 'ticks_unchanged', 'unsupported_markets', 'rejected_markets']) metrics[k] += canon.metrics[k];
+      for (const [k, v] of Object.entries(canon.metrics.unmatched_reasons)) metrics.unmatched_reasons[k] = (metrics.unmatched_reasons[k] ?? 0) + v;
+      for (const m of canon.matched) if (!matchedAll.some((x) => x.bout_id === m.bout_id)) matchedAll.push(m);
+
+      Object.assign(call, { http_status: httpStatus, events: payload.length, observation_id: obs.id, observation_duplicate: obs.duplicate, quotes_inserted: ledger.quotes_inserted });
+      await store.recordProviderCapture({ provider_slug: PROVIDER_SLUG, ingest_run_id: runId, endpoint: 'odds', region, markets, requested_at: requestedAt,
+        http_status: httpStatus, credits_cost: quota.last_cost, credits_used: quota.used, credits_remaining: quota.remaining, events_returned: payload.length,
+        observation_id: obs.id, observation_duplicate: obs.duplicate, quotes_inserted: ledger.quotes_inserted, quotes_unchanged: ledger.quotes_unchanged });
+    } catch (err) {
+      call.error = redact(err?.message ?? err, env.ODDS_API_KEY);
+      if (err?.quota?.last_cost) metrics.credits_spent += Number(err.quota.last_cost);
+      await store.recordProviderCapture({ provider_slug: PROVIDER_SLUG, ingest_run_id: runId, endpoint: 'odds', region, markets, requested_at: requestedAt,
+        http_status: err?.httpStatus ?? 0, credits_cost: err?.quota?.last_cost ?? null, credits_used: err?.quota?.used ?? null,
+        credits_remaining: err?.quota?.remaining ?? null, error: call.error }).catch(() => {});
+    }
+    metrics.calls.push(call);
   }
 
-  const pre = await preflight({ apiKey: env.ODDS_API_KEY, fetchImpl, minRemaining });
-  if (!pre.ok) return finish('blocked', { quota: pre.quota }, { preflight: pre.reason });
+  const moves = await detectAndEmitMoves(store, { matched: matchedAll, now });
+  metrics.market_moved_emitted = moves.emitted.length;
+  metrics.market_moved_suppressed = moves.suppressed;
+  const failedCalls = metrics.calls.filter((c) => c.error).length;
+  if (failedCalls === plan.length) return finish('failed', { error: metrics.calls.map((c) => c.error).join(' | ').slice(0, 300) });
+  return finish(failedCalls || metrics.events_unmatched ? 'partial' : 'ok');
+}
 
-  try {
-    const { payload, quota } = await fetchOdds({ apiKey: env.ODDS_API_KEY, fetchImpl, regions, markets });
-    const { metrics, matched } = await ingestOddsPayload(store, { payload, capturedAt: now, runId, region: regions.join(','), quota });
-    const moves = await detectAndEmitMoves(store, { matched, now });
-    metrics.market_moved_emitted = moves.emitted.length;
-    metrics.market_moved_suppressed = moves.suppressed;
-    return finish(metrics.events_unmatched ? 'partial' : 'ok', metrics);
-  } catch (err) {
-    const message = String(err?.message ?? err).replaceAll(env.ODDS_API_KEY, '<redacted>').slice(0, 300);
-    return finish('failed', { quota: err?.quota ?? null }, { error: message });
-  }
+async function recordBlocked(store, assertions, extra = {}) {
+  const runId = await store.startRun({ worker: 'boxing-odds', sourceKey: SOURCE_KEY, adapterVersion: ADAPTER_VERSION });
+  await store.finishRun(runId, { status: 'blocked', metrics: extra, observed: 0, canonicalWrites: 0, reviewItems: 0, errors: 0, assertions });
+  return { runId, status: 'blocked', assertions, ...extra };
 }
