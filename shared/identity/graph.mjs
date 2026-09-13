@@ -32,7 +32,9 @@
 import { STRONG_NAME, WEAK_NAME, scoreCandidate } from './evidence.mjs';
 import { normalizedAlias, parseName } from './normalize.mjs';
 
-export const GRAPH_RESOLVER_VERSION = 'boxing-identity-graph@1.0.0';
+// 1.1.0 (issue #10): a distinct second meeting against the same opponent on the same official card is
+// labelled repeat_pairing_identity_continuity, not same_fight_already_on_record. Tier conditions unchanged.
+export const GRAPH_RESOLVER_VERSION = 'boxing-identity-graph@1.1.0';
 
 const DAY = 86_400_000;
 const EXACT_FORMS = new Set(['exact', 'reordered', 'joined']);
@@ -84,11 +86,22 @@ export function evaluateCandidate(app, cand) {
   const date = app.event?.date;
   // the same fight recorded under another event row (another official document) is not a separate bout
   const sameFightBout = (b) => Boolean(app.opponent?.fighter_id) && b.opponent_id === app.opponent.fighter_id && date && days(b.date, date) <= 1;
+  // the same two boxers on the same card as a DIFFERENT official bout (different source bout id
+  // such as <pair> vs <pair>|2, or a different sheet order) is a repeat pairing, not the same fight
+  const boutNamespace = app.namespace ? String(app.namespace).replace(/\.fighter$/, '.bout') : null;
+  const isRepeatPairing = (b) => {
+    if (!sameFightBout(b) || !app.event?.event_id || b.event_id !== app.event.event_id) return false;
+    const own = (b.source_bout_ids ?? []).filter((x) => !boutNamespace || x.namespace === boutNamespace).map((x) => x.external_id);
+    if (app.bout_external_id && own.length && !own.includes(app.bout_external_id)) return true;
+    return app.bout_order != null && b.bout_order != null && Number(app.bout_order) !== Number(b.bout_order);
+  };
   const otherEvents = bouts.filter((b) => b.event_id !== app.event?.event_id && !sameFightBout(b));
 
   if (app.opponent?.fighter_id && cand.id === app.opponent.fighter_id) { hard.push('candidate_is_the_opponent'); against.push('candidate_is_the_opponent'); }
 
-  const sameFight = bouts.some(sameFightBout);
+  const repeatPairing = bouts.some(isRepeatPairing);
+  const sameFight = bouts.some((b) => sameFightBout(b) && !isRepeatPairing(b));
+  if (repeatPairing) support.push('repeat_pairing_identity_continuity');
   if (sameFight) support.push('same_fight_already_on_record');
 
   if (date) {
@@ -125,7 +138,7 @@ export function evaluateCandidate(app, cand) {
 
   let tier = 'C';
   if (hard.length) tier = 'D';
-  else if (sameFight && nameStrong && !soft.length) tier = 'A';
+  else if ((sameFight || repeatPairing) && nameStrong && !soft.length) tier = 'A';
   else if (nameExactForm && !soft.length
     && TIER_B_RULES.mandatory_families.every((f) => families.has(f))
     && TIER_B_RULES.one_of_families.some((f) => families.has(f))
@@ -136,6 +149,7 @@ export function evaluateCandidate(app, cand) {
   return {
     fighter_id: cand.id, display_name: cand.display_name, name_level: s.nameLevel, name_similar: s.nameLevel !== 'none',
     tier, confidence: Math.max(0, confidence), families: [...families].sort(), support, against, hard, soft,
+    continuity: repeatPairing ? 'repeat_pairing_identity_continuity' : sameFight ? 'same_fight_already_on_record' : null,
     career: { bouts: bouts.length, commissions: [...new Set(bouts.map((b) => b.commission).filter(Boolean))].sort(),
       first_bout: bouts[0]?.date ?? null, last_bout: bouts.at(-1)?.date ?? null,
       weights_lb: bouts.map((b) => b.weight_lb).filter((w) => w != null) },
@@ -165,7 +179,7 @@ export function resolveAppearance(app, candidates, { allowCreate = false } = {})
   const [only] = live;
   if (only.tier === 'A' || only.tier === 'B') {
     return { ...base, decision: 'matched', tier: only.tier, fighter_id: only.fighter_id, confidence: only.confidence,
-      reason: only.tier === 'A' ? 'same_fight_already_on_record' : `graph:${only.families.join('+')}`, candidates: similar };
+      reason: only.tier === 'A' ? only.continuity : `graph:${only.families.join('+')}`, candidates: similar };
   }
   return { ...base, decision: 'review', tier: 'C', confidence: only.confidence,
     reason: only.soft.length ? `contradiction:${only.soft.join('+')}` : `insufficient_graph_evidence:${only.families.join('+') || 'none'}`, candidates: similar };

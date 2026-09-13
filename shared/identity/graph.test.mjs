@@ -82,3 +82,23 @@ test('graph evidence safely resolves an alias form (joined name) but never a dif
     [cand({ display_name: 'Andrey Bonilla', hometowns: ['El Paso, TX'], bouts: [bout({ weight_lb: 119.2 })] })]);
   assert.notEqual(brothers.decision, 'matched', 'same surname, city and weight class is not the same boxer');
 });
+
+test('issue #10: a distinct second meeting on the same card is repeat_pairing_identity_continuity, not the same fight', () => {
+  const card = { event_id: 'ev-tbl', date: '2026-05-01', commission: 'fl-athletic-commission', venue_id: 'venue-ftl' };
+  const firstMeeting = { bout_id: 'bout-1', event_id: 'ev-tbl', date: '2026-05-01', status: 'complete', commission: 'fl-athletic-commission', venue_id: 'venue-ftl',
+    opponent_id: 'ariele', weight_lb: 145.8, bout_order: 12, source_bout_ids: [{ namespace: 'fl-athletic-commission.bout', external_id: '2026-05-01|tbl|ariele-davis|sofia-viretti', repeat_index: 1 }] };
+  const second = app({ display_name: 'Sofia Viretti', hometown: 'Argentina', weight_lb: 146, event: card, opponent: { display_name: 'Ariele Davis', fighter_id: 'ariele' },
+    namespace: 'fl-athletic-commission.fighter', bout_external_id: '2026-05-01|tbl|ariele-davis|sofia-viretti|2', bout_order: 20 });
+  const r = resolveAppearance(second, [cand({ display_name: 'Sofia Viretti', hometowns: ['Argentina'], bouts: [firstMeeting] })]);
+  assert.equal(r.decision, 'matched');
+  assert.equal(r.tier, 'A', 'threshold unchanged: the same Tier A conditions');
+  assert.equal(r.confidence, 98);
+  assert.equal(r.reason, 'repeat_pairing_identity_continuity');
+  assert.ok(!r.candidates[0].support.includes('same_fight_already_on_record'));
+  // the same fight recorded on ANOTHER event row within a day is still labelled as the same fight (possible duplicate record)
+  const dup = resolveAppearance(second, [cand({ display_name: 'Sofia Viretti', hometowns: ['Argentina'], bouts: [{ ...firstMeeting, event_id: 'ev-other-row', source_bout_ids: [] }] })]);
+  assert.equal(dup.reason, 'same_fight_already_on_record');
+  // no distinguishing source id or order on the same event: not asserted as a repeat pairing
+  const unclear = evaluateCandidate({ ...second, bout_external_id: null, bout_order: null }, cand({ display_name: 'Sofia Viretti', hometowns: ['Argentina'], bouts: [{ ...firstMeeting, source_bout_ids: [] }] }));
+  assert.equal(unclear.continuity, 'same_fight_already_on_record');
+});

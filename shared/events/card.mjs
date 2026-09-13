@@ -294,7 +294,7 @@ export async function applyCardDocument(store, doc, { now = new Date().toISOStri
           if (round === 1 && !corners[other]) continue;
           const ctx = b.corner_context?.[p.side] ?? {};
           const d = await resolveAndRecordAppearance(store, {
-            source_key: doc.source_key, namespace: fighterNamespace, bout_external_id: b.external_id, side: p.side,
+            source_key: doc.source_key, namespace: fighterNamespace, bout_external_id: b.external_id, bout_order: b.bout_order ?? null, side: p.side,
             display_name: p.f.display_name, hometown: p.f.hometown ?? null, weight_lb: ctx.weight_lb ?? null, debut: ctx.debut ?? null,
             event: { event_id: eventId, date: doc.event_date ?? null, commission: doc.commission?.slug ?? null, venue_id: resolved.venue_id ?? null },
             opponent: { display_name: b[`fighter_${other}`].display_name, fighter_id: corners[other] ?? null },

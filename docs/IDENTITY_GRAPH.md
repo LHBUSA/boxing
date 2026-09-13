@@ -26,7 +26,7 @@ The latest row per appearance wins. A human decision is a new row (`decided_by`,
 
 | Tier | Decision | Requirements |
 |---|---|---|
-| **A**: deterministic | match | The same fight is already on the candidate's record (same resolved opponent within one day, e.g. from another official document). Strong name form, no contradiction, no other plausible candidate. A recorded binding (resolver or human) is also deterministic. |
+| **A**: deterministic | match | The candidate already has a bout against the same resolved opponent within one day, with a strong name form, no contradiction and no other plausible candidate. Since `boxing-identity-graph@1.1.0` (issue #10) the evidence is labelled precisely. **`repeat_pairing_identity_continuity`**: that bout is a DIFFERENT official bout on the same card (different source bout id such as `<pair>` vs `<pair>\|2`, or a different sheet order). **`same_fight_already_on_record`**: the same fight recorded again (another event row, or no distinguishing id or order), i.e. a possible duplicate record. The tier conditions did not change. A recorded binding (resolver or human) is also deterministic. |
 | **B**: high-confidence graph | match | See the list below. |
 | **C**: ambiguous | review | Anything else with a plausible candidate. |
 | **D**: conflict | reject the candidate | A hard contradiction (list below). When every name-similar candidate is rejected and the source is `approved_ingest`, a distinct boxer is created. |
@@ -122,3 +122,15 @@ These need a human or a new independent source; thresholds were not loosened.
   - a human decision followed by re-apply, with no refetch and no bogus news
   - provider identities after an authoritative match
 - `shared/odds/odds.test.mjs`: given-name guard and provider identity refusal.
+
+## Review evidence for repeat pairings and corrections (issue #10)
+
+Candidate history (`shared/identity/bout-history.mjs`, graph context from migration 0018) shows for every candidate bout:
+- the source/canonical bout identity
+- the repeat index (`|2`) and official sheet order
+- the **current canonical result** (revision, change reason, whether it is a parser correction)
+- **preserved history**: earlier revisions, labelled `superseded_by_parser_correction` or `superseded_by_later_official_revision`
+
+Bouts against the same opponent within a day are classified:
+- **`repeat_pairing`** ("meeting N of M on the same card"): the same event with distinct source ids or distinct sheet orders
+- **`possible_duplicate_canonical_bout`**: anything else. This also raises the review danger flag `candidate_record_has_possible_duplicate_bout`.

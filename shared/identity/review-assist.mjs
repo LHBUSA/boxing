@@ -11,6 +11,7 @@ import { COMMISSION_NAMESPACES } from '../commissions/apply.mjs';
 import { loadGraphCandidates } from './appearance.mjs';
 import { resolveAppearance } from './graph.mjs';
 import { normalizedAlias } from './normalize.mjs';
+import { classifyCandidateBouts } from './bout-history.mjs';
 
 async function storedBoutIndex(store, sourceKey) {
   const index = new Map();
@@ -46,6 +47,7 @@ export async function buildIdentityReviewReport(store, { sourceKeys = ['nsac_nev
       const ev = ctx.event ? events[ctx.event.source_event_id] ?? null : null;
       const fighter = ctx.bout[`fighter_${a.side}`];
       const app = {
+        namespace: `${namespace}.fighter`, bout_external_id: a.bout, bout_order: ctx.bout.bout_order ?? null,
         display_name: fighter.display_name, hometown: fighter.hometown ?? null, weight_lb: fighter.weight_lb ?? null, debut: ctx.bout.debut?.[a.side] ?? null,
         event: { event_id: ev?.event_id ?? null, date: ctx.event?.event_date ?? null, commission: ev?.commission ?? null, venue_id: ev?.venue_id ?? null },
         opponent: { display_name: ctx.bout[`fighter_${other}`].display_name, fighter_id: corners[`${a.bout}|${other}`] ?? null },
@@ -58,7 +60,8 @@ export async function buildIdentityReviewReport(store, { sourceKeys = ['nsac_nev
         bout: a.bout, side: a.side, bound_fighter_id: corners[`${a.bout}|${a.side}`] ?? null,
         context: { event_date: app.event.date, event: ev?.name ?? null, venue: ev?.venue ?? ctx.event?.venue?.name ?? null, commission: app.event.commission,
           jurisdiction: ctx.event?.jurisdiction?.name ?? ctx.event?.jurisdiction ?? null, opponent: app.opponent.display_name, opponent_fighter_id: app.opponent.fighter_id,
-          weight_lb: app.weight_lb, stated_hometown: app.hometown, debut: app.debut, document: ctx.doc_key },
+          weight_lb: app.weight_lb, stated_hometown: app.hometown, debut: app.debut, document: ctx.doc_key,
+          bout_order: ctx.bout.bout_order ?? null, repeat_index: Number((String(a.bout).match(/\|(\d+)$/) ?? [])[1] ?? 1) },
         candidates: candidates.map((c) => {
           const e = proposal.candidates?.find((x) => x.fighter_id === c.id);
           return {
@@ -67,6 +70,8 @@ export async function buildIdentityReviewReport(store, { sourceKeys = ['nsac_nev
             approved_source_identities: (c.identities ?? []).map((i) => `${i.source_key}:${i.namespace}`),
             hometowns: c.hometowns ?? [],
             prior_opponents: (c.bouts ?? []).map((b) => ({ date: b.date, opponent: b.opponent_name, result: b.result ?? null })),
+            // issue #10: source/canonical bout identity, repeat index, sheet order, current result, preserved revisions
+            bout_history: classifyCandidateBouts(c.bouts ?? []),
             weights_lb: (c.bouts ?? []).filter((b) => b.weight_lb != null).map((b) => ({ date: b.date, weight_lb: b.weight_lb, class: b.weight_class ?? null })),
             jurisdictions: [...new Set((c.bouts ?? []).map((b) => b.commission).filter(Boolean))],
             tier: e?.tier ?? null, confidence: e?.confidence ?? null, name_level: e?.name_level ?? null, reasons_for: e?.support ?? [], reasons_against: e?.against ?? [],

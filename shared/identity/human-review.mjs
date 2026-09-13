@@ -21,6 +21,7 @@ import { cityLevelHometown, resolveAppearance } from './graph.mjs';
 import { loadGraphCandidates } from './appearance.mjs';
 import { normalizedAlias, parseName } from './normalize.mjs';
 import { buildIndex, toIdentity } from './pipeline.mjs';
+import { classifyCandidateBouts, historyLine } from './bout-history.mjs';
 
 export const REVIEW_WORKBENCH_VERSION = 'boxing-identity-review-workbench@1.0.0';
 export const COMMISSION_SOURCES = ['nsac_nevada', 'florida_athletic_commission', 'nj_sacb'];
@@ -108,6 +109,8 @@ export function dangerFlags({ observedName, observedHometown, candidate, nameInd
   }
   if (candidate && !EXACT_FORMS.has(candidate.name_level)) flags.push({ kind: 'name_not_exact_form', detail: `${observedName} ~ ${candidate.display_name} (${candidate.name_level})` });
   if (candidate?.reasons_against?.includes('given_name_differs')) flags.push({ kind: 'given_name_differs', detail: `${observedName} vs ${candidate.display_name}` });
+  const duplicates = (candidate?.bout_history ?? []).filter((h) => h.pairing === 'possible_duplicate_canonical_bout');
+  if (duplicates.length) flags.push({ kind: 'candidate_record_has_possible_duplicate_bout', detail: duplicates.map((h) => `${h.date} vs ${h.opponent}: ${h.pairing_detail}`).join('; ') });
   if (surname) {
     const sharing = nameIndex.filter((f) => surnameOf(f.display_name) === surname).length;
     if (sharing >= 5) flags.push({ kind: 'common_surname', detail: `${sharing} canonical boxers share the surname "${surname}"` });
@@ -181,7 +184,8 @@ export async function proposeReviewBatch(store, report, { batchId, size = 10, no
             candidate_weights: top?.weights_lb ?? [] },
           commission: ctx.commission, venue: ctx.venue, event: ctx.event, event_date: ctx.event_date, opponent: ctx.opponent,
           relationship: (top?.reasons_for ?? []).filter((r) => /rematch|same_fight|same_venue|same_commission/.test(r)),
-          candidate_record: top?.prior_opponents ?? [],
+          candidate_record: top?.bout_history ?? [],
+          appearance_bout: { source_bout_id: a.bout, repeat_index: ctx.repeat_index ?? 1, bout_order: ctx.bout_order ?? null },
           contradictions: top?.reasons_against ?? [],
           // other canonical boxers sharing the given name and at least one more name token (double surnames,
           // cousins, namesakes): shown to the reviewer, never used to decide
@@ -232,7 +236,8 @@ export function batchMarkdown(p) {
       `| Commission / venue | ${ev.commission ?? '-'} / ${ev.venue ?? '-'} |`,
       `| Opponent | ${ev.opponent}${e.unlocks_bout_now ? ' (already resolved: approving unlocks this bout)' : ' (unresolved: the bout needs both corners)'} |`,
       `| Relationship evidence | ${ev.relationship.join(', ') || '-'} |`,
-      `| Candidate record | ${ev.candidate_record.map((r) => `${r.date} vs ${r.opponent}${r.result ? ` (${r.result})` : ''}`).join('; ') || '-'} |`,
+      `| This appearance | source bout \`${ev.appearance_bout?.source_bout_id ?? '-'}\`, repeat index ${ev.appearance_bout?.repeat_index ?? 1}, sheet order ${ev.appearance_bout?.bout_order ?? '?'} |`,
+      `| Candidate record | ${ev.candidate_record.map(historyLine).join('<br>') || '-'} |`,
       `| Contradictions | ${ev.contradictions.join(', ') || 'none'} |`,
       `| Similar-named other boxers | ${ev.similar_named_other_boxers.join('; ') || 'none'} |`,
       `| Competing candidates | ${ev.competing_candidates.map((c) => `${c.display_name} [${c.tier}, ${c.confidence}]`).join('; ') || 'none'} |`,
@@ -337,7 +342,7 @@ export async function simulateResolverOnBlockedBouts(store, { batchId, now = new
         if (corner[s].fighter_id) continue;
         const other = s === 'a' ? 'b' : 'a';
         const f = b[`fighter_${s}`];
-        const app = { display_name: f.display_name, hometown: f.hometown ?? null, weight_lb: f.weight_lb ?? null, debut: b.debut?.[s] ?? null,
+        const app = { namespace: `${ns}.fighter`, bout_external_id: b.source_bout_id, bout_order: b.bout_order ?? null, display_name: f.display_name, hometown: f.hometown ?? null, weight_lb: f.weight_lb ?? null, debut: b.debut?.[s] ?? null,
           event: { event_id: ev?.event_id ?? null, date: x.event?.event_date ?? null, commission: ev?.commission ?? null, venue_id: ev?.venue_id ?? null },
           opponent: { display_name: b[`fighter_${other}`].display_name, fighter_id: corner[other].fighter_id } };
         const candidates = await loadGraphCandidates(store, f.display_name, `${ns}.fighter`);
@@ -353,7 +358,8 @@ export async function simulateResolverOnBlockedBouts(store, { batchId, now = new
             would: { decision: r.decision, tier: r.tier, confidence: r.confidence, reason: r.reason, fighter_id: r.fighter_id ?? null, display_name: r.decision === 'created' ? null : top?.display_name ?? null },
             evidence_for: top?.support ?? [], evidence_against: top?.against ?? [], families: top?.families ?? [],
             competing: (r.candidates ?? []).filter((c) => c.fighter_id !== r.fighter_id && c.tier).map((c) => `${c.display_name} [${c.tier}]`),
-            candidate_record: (candidates.find((c) => c.id === r.fighter_id)?.bouts ?? []).map((cb) => `${cb.date} vs ${cb.opponent_name}${cb.weight_lb != null ? ` (${cb.weight_lb} lb)` : ''}`),
+            appearance_bout: { source_bout_id: b.source_bout_id, repeat_index: Number((String(b.source_bout_id).match(/\|(\d+)$/) ?? [])[1] ?? 1), bout_order: b.bout_order ?? null },
+            candidate_record: classifyCandidateBouts(candidates.find((c) => c.id === r.fighter_id)?.bouts ?? []),
           });
         }
       }
@@ -405,10 +411,52 @@ export function dryRunMarkdown(d) {
       `| Stated hometown / official weight | ${p.stated_hometown ?? '-'} / ${p.weight_lb ?? '-'} lb |`,
       `| Evidence for | ${p.evidence_for.join(', ') || '-'} |`,
       `| Evidence against | ${p.evidence_against.join(', ') || 'none'} |`,
-      `| Candidate record | ${p.candidate_record.join('; ') || '-'} |`,
+      `| This appearance | source bout \`${p.appearance_bout.source_bout_id}\`, repeat index ${p.appearance_bout.repeat_index}, sheet order ${p.appearance_bout.bout_order ?? '?'} |`,
+      `| Candidate record | ${p.candidate_record.map(historyLine).join('<br>') || '-'} |`,
       `| Competing candidates | ${p.competing.join('; ') || 'none'} |`,
       `| Opponent | ${p.opponent} (${p.opponent_resolved_via ? `resolved: ${p.opponent_resolved_via}` : p.depends_on_other_proposal ? 'also proposed in this dry run' : 'unresolved'}) |`,
       `| Bout impact | ${p.bout_would_be_created ? 'the official bout would be created' : 'no bout (the other corner stays unresolved)'} |`, '');
   }
   return L.join('\n');
+}
+
+// Turns resolver dry-run proposals into a human review batch (same entry shape as
+// proposeReviewBatch, so applyApprovedBatch records it). Nothing is decided: every
+// entry starts with reviewer_decision null.
+export async function batchFromDryRun(store, dry, { batchId, now = new Date().toISOString() } = {}) {
+  const nameIndex = await store.fighterNameIndex();
+  const entries = [];
+  for (const p of dry.proposals) {
+    if (p.would.decision !== 'matched') continue;
+    const ns = `${COMMISSION_NAMESPACES[p.source_key]}.fighter`;
+    const latest = (await store.appearanceLatest(ns, [p.appearance_key]))[p.appearance_key] ?? null;
+    const candidate = { fighter_id: p.would.fighter_id, display_name: p.would.display_name, name_level: p.evidence_for.find((x) => x.startsWith('name_'))?.slice(5) ?? null,
+      hometowns: [], reasons_against: p.evidence_against, bout_history: p.candidate_record };
+    const flags = dangerFlags({ observedName: p.name, observedHometown: p.stated_hometown, candidate, nameIndex })
+      .filter((f) => f.kind !== 'stated_place_mismatch' || p.evidence_for.some((x) => x.startsWith('hometown_')));
+    entries.push({
+      entry_id: `${batchId}:${p.source_key}:${p.appearance_key}`, review_item_id: null, source_key: p.source_key, state: p.state,
+      appearance: { namespace: ns, bout_external_id: p.bout_external_id, side: p.side, printed_name: p.name, display_name: p.name, document: p.document,
+        latest_decision_seq: latest?.seq ?? null },
+      unlocks_bout_now: p.bout_would_be_created,
+      evidence: {
+        normalized_name: { observed: normalizedAlias(p.name), candidate: p.would.display_name ? normalizedAlias(p.would.display_name) : null, name_level: candidate.name_level },
+        city_hometown: { observed: p.stated_hometown, observed_city_level: cityLevelHometown(p.stated_hometown), candidate: [], candidate_city_level: [] },
+        weight: { official_lb: p.weight_lb, contracted_lb: null, division_printed: null, candidate_weights: [] },
+        commission: p.commission, venue: p.venue, event: p.event, event_date: p.event_date, opponent: p.opponent,
+        opponent_resolved_via: p.opponent_resolved_via, appearance_bout: p.appearance_bout,
+        relationship: p.evidence_for.filter((r) => /repeat_pairing|same_fight|rematch|same_venue|same_commission/.test(r)),
+        candidate_record: p.candidate_record, contradictions: p.evidence_against, competing_candidates: p.competing,
+        similar_named_other_boxers: similarNamed(p.name, p.would.fighter_id, nameIndex),
+        confidence: p.would.confidence, resolver_tier: p.would.tier, resolver_reason: p.would.reason, resolver_stop_reason: null,
+      },
+      proposed_boxer: { fighter_id: p.would.fighter_id, display_name: p.would.display_name, tier_by_resolver: p.would.tier },
+      danger: flags,
+      recommendation: flags.length ? 'hold' : 'match', recommendation_why: flags.length ? `danger case: ${flags.map((f) => f.kind).join(', ')}` : `resolver ${p.would.tier} ${p.would.reason}; no competing candidate or contradiction`,
+      reviewer_decision: null, reviewer_note: null,
+    });
+  }
+  return assertMinimized({ workbench_version: REVIEW_WORKBENCH_VERSION, batch_id: batchId, generated_at: now, source: `resolver dry run ${dry.batch_id} (${dry.generated_at})`,
+    summary: { entries: entries.length, bouts_that_would_be_created: dry.summary.bouts_that_would_be_created, danger_cases: entries.filter((e) => e.danger.length).length },
+    batch: entries, remaining: [] });
 }

@@ -14,7 +14,7 @@ import { execSync } from 'node:child_process';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { reapplyStoredDocuments } from '../../shared/commissions/run.mjs';
-import { applyApprovedBatch, batchMarkdown, blockedBoutsByState, dryRunMarkdown, proposeReviewBatch, simulateResolverOnBlockedBouts } from '../../shared/identity/human-review.mjs';
+import { applyApprovedBatch, batchFromDryRun, batchMarkdown, blockedBoutsByState, dryRunMarkdown, proposeReviewBatch, simulateResolverOnBlockedBouts } from '../../shared/identity/human-review.mjs';
 import { buildIdentityReviewReport } from '../../shared/identity/review-assist.mjs';
 import { reprocessStoredOdds } from '../../shared/odds/replay.mjs';
 import { manualProvenance } from '../../shared/provenance.mjs';
@@ -77,6 +77,10 @@ if (command === 'propose') {
     mkdirSync(out, { recursive: true });
     writeFileSync(join(out, `resolver-dry-run-${batchId}.json`), JSON.stringify(dry, null, 1));
     writeFileSync(join(out, `resolver-dry-run-${batchId}.md`), dryRunMarkdown(dry));
+    // the same proposals as a human review batch (no decision filled in)
+    const batch = await batchFromDryRun(store, dry, { batchId });
+    writeFileSync(join(out, `identity-review-batch-${batchId}.json`), JSON.stringify(batch, null, 1));
+    writeFileSync(join(out, `identity-review-batch-${batchId}.md`), batchMarkdown(batch));
     console.log(`wrote ${join(out, `resolver-dry-run-${batchId}`)}.{json,md}`);
   }
 } else if (command === 'metrics') {
