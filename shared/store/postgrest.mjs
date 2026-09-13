@@ -79,6 +79,22 @@ export function postgrestStore({ url, serviceKey, fetchImpl = fetch }) {
     rankingEntries: (snapshotId) => rpc('boxing_ranking_entries_json', { p_snapshot: snapshotId }),
     rankingSnapshotAsOf: (orgSlug, weightClassKey, gender, asOf) =>
       rpc('boxing_ranking_as_of_json', { p_org_slug: orgSlug, p_weight_class_key: weightClassKey, p_gender: gender, p_as_of: asOf }),
+    // --- events / outcomes
+    upsertEvent: (p) => rpc("boxing_upsert_event", { p: p }),
+    cardState: (p) => rpc("boxing_card_state", { p_event: p }),
+    addBout: (p) => rpc("boxing_add_bout", { p: p }),
+    applyCardChange: (p) => rpc("boxing_apply_card_change", { p: p }),
+    applyOfficialDecision: (p) => rpc("boxing_apply_official_decision", { p: p }),
+    ensureCommission: (p) => rpc("boxing_ensure_commission", { p: p }),
+    ensureVenue: (p) => rpc("boxing_ensure_venue", { p: p }),
+    ensureOrganization: (p) => rpc("boxing_ensure_organization", { p: p }),
+    recordResult: (p) => rpc("boxing_record_result", { p: p }),
+    recordScorecard: (p) => rpc("boxing_record_scorecard", { p: p }),
+    recordWeighIn: (p) => rpc("boxing_record_weigh_in", { p: p }),
+    recordRegulatoryAction: (p) => rpc("boxing_record_regulatory_action", { p: p }),
+    recordPointDeduction: (p) => rpc("boxing_record_point_deduction", { p: p }),
+    boutOutcomeState: (p) => rpc("boxing_bout_outcome_state", { p_bout: p }),
+    officialCandidates: (keys, namespace, externalId) => rpc("boxing_official_candidates", { p_keys: keys, p_namespace: namespace, p_external_id: externalId }),
     async source(sourceKey) {
       const rows = await call(
         `boxing_sources?select=id,source_key,enabled,access_mode,rights_state,persistence_allowed&source_key=eq.${encodeURIComponent(sourceKey)}`,

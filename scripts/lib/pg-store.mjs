@@ -88,6 +88,52 @@ export function pgStore(client) {
     async rankingSnapshotAsOf(orgSlug, weightClassKey, gender, asOf) {
       return (await one(client, 'select public.boxing_ranking_as_of_json($1, $2, $3, $4) as r', [orgSlug, weightClassKey, gender, asOf])).r;
     },
+    // --- events / outcomes
+    async upsertEvent(p) {
+      return (await one(client, "select public.boxing_upsert_event($1) as r", [p])).r;
+    },
+    async cardState(p) {
+      return (await one(client, "select public.boxing_card_state($1) as r", [p])).r;
+    },
+    async addBout(p) {
+      return (await one(client, "select public.boxing_add_bout($1) as r", [p])).r;
+    },
+    async applyCardChange(p) {
+      return (await one(client, "select public.boxing_apply_card_change($1) as r", [p])).r;
+    },
+    async applyOfficialDecision(p) {
+      return (await one(client, "select public.boxing_apply_official_decision($1) as r", [p])).r;
+    },
+    async ensureCommission(p) {
+      return (await one(client, "select public.boxing_ensure_commission($1) as r", [p])).r;
+    },
+    async ensureVenue(p) {
+      return (await one(client, "select public.boxing_ensure_venue($1) as r", [p])).r;
+    },
+    async ensureOrganization(p) {
+      return (await one(client, "select public.boxing_ensure_organization($1) as r", [p])).r;
+    },
+    async recordResult(p) {
+      return (await one(client, "select public.boxing_record_result($1) as r", [p])).r;
+    },
+    async recordScorecard(p) {
+      return (await one(client, "select public.boxing_record_scorecard($1) as r", [p])).r;
+    },
+    async recordWeighIn(p) {
+      return (await one(client, "select public.boxing_record_weigh_in($1) as r", [p])).r;
+    },
+    async recordRegulatoryAction(p) {
+      return (await one(client, "select public.boxing_record_regulatory_action($1) as r", [p])).r;
+    },
+    async recordPointDeduction(p) {
+      return (await one(client, "select public.boxing_record_point_deduction($1) as r", [p])).r;
+    },
+    async boutOutcomeState(p) {
+      return (await one(client, "select public.boxing_bout_outcome_state($1) as r", [p])).r;
+    },
+    async officialCandidates(keys, namespace, externalId) {
+      return (await one(client, "select public.boxing_official_candidates($1, $2, $3) as r", [keys, namespace, externalId])).r;
+    },
     async source(sourceKey) {
       return one(client, 'select id, source_key, enabled, access_mode, rights_state, persistence_allowed from public.boxing_sources where source_key = $1', [sourceKey]);
     },

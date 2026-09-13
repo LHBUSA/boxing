@@ -91,7 +91,7 @@ test('a bout-based title event must match the bout and its official result', asy
   const bout = await boutFor('contender', 'prospect', '2025-04-04', [wbc], 'contender');
   await expectPgError(() => ev(other, 'won', { fighter_id: F.contender, effective_on: '2025-04-04', bout_id: bout }), { code: 'BX061' });
   await expectPgError(() => ev(wbc, 'won', { fighter_id: F.prospect, effective_on: '2025-04-04', bout_id: bout }), { code: 'BX062' });
-  await expectPgError(() => ev(wbc, 'won', { fighter_id: F.king, effective_on: '2025-04-04', bout_id: bout }), { code: 'BX064' });
+  await expectPgError(() => ev(wbc, 'won', { fighter_id: F.king, effective_on: '2025-04-04', bout_id: bout }), { code: 'BX080' });
 });
 
 test('interim and full champion coexist as separate lineages', async () => {

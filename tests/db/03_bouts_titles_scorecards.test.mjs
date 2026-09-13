@@ -55,6 +55,10 @@ test('titles and rankings refuse promoters and broadcasters as issuing bodies', 
 });
 
 async function scorecard(boutRow, judge, a, b, totals, extra = {}) {
+  // since migration 0007 only an assigned official of the bout may score it
+  await db.client.query(
+    `insert into public.boxing_bout_officials (bout_id, official_id, role, slot, source_id) values ($1, $2, 'judge', $3, $4)
+     on conflict (bout_id, official_id, role) do nothing`, [boutRow.bout.id, judge.id, extra.slot ?? null, boutRow.src.id]);
   return (await db.client.query(
     `insert into public.boxing_scorecards
        (bout_id, judge_id, fighter_a_id, fighter_b_id, fighter_a_total, fighter_b_total, decision_for_id, source_id,
@@ -110,10 +114,10 @@ test('scorecards and results cannot reference fighters outside the bout', async 
   const g = await basicBout(db.client, 'crosswire');
   const outsider = await fighter(db.client, 'Not In This Bout');
   const judge = await official(db.client, 'Crosswire Judge');
-  await expectPgError(() => scorecard(g, judge, g.a, outsider, [10, 9]), { code: '23503' });
+  await expectPgError(() => scorecard(g, judge, g.a, outsider, [10, 9]), { code: 'BX080' });
   await expectPgError(() => db.client.query(
     `insert into public.boxing_bout_results (bout_id, source_id, outcome, winner_id, method) values ($1, $2, 'win', $3, 'KO')`,
-    [g.bout.id, g.src.id, outsider.id]), { code: '23503' });
+    [g.bout.id, g.src.id, outsider.id]), { code: 'BX080' });
 });
 
 test('result semantics: decisions carry agreement type; stoppages require a winner', async () => {
