@@ -84,8 +84,9 @@ begin
       and s.persistence_allowed and s.derivative_allowed and s.display_allowed and not s.redistribution_allowed
       and r.decision = 'approved_with_restrictions' and r.terms_url = 'https://the-odds-api.com/terms-and-conditions.html' and not r.account_agreement_found;
   results := results || jsonb_build_object('check', 'the_odds_api_approved_without_raw_redistribution', 'ok', n = 1, 'detail', n || ' matching source/review');
-  select count(*) into n from public.boxing_sources where enabled and source_key in ('boxrec','compubox','wbc_official','wba_official','ibf_official','wbo_official','commission_official','promotion_official','odds_provider');
-  results := results || jsonb_build_object('check', 'no_other_external_feed_enabled', 'ok', n = 0, 'detail', n || ' unapproved candidate sources enabled');
+  select count(*) into n from public.boxing_sources where enabled and source_key not in ('the_odds_api','wikidata','pbe_boxing_internal','pbe_manual_review');
+  results := results || jsonb_build_object('check', 'no_other_external_feed_enabled', 'ok', n = 0 and exists (select 1 from public.boxing_sources where source_key = 'boxrec' and access_mode = 'blocked'),
+    'detail', n || ' sources enabled outside {the_odds_api, wikidata, internal}; boxrec blocked');
   begin
     v_ok := false;
     begin

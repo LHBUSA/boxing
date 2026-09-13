@@ -103,3 +103,35 @@ The newsroom may not invent or infer as fact:
 - scorecards
 
 Derived PropBetEdge analytics must include a model/metric version and must be labeled as derived.
+
+## Rights reviews are data
+
+Every approval, restriction or block is an append-only row in `boxing_source_rights_reviews` with:
+- terms URL, the terms' "last updated" date and page hash
+- permitted and prohibited uses, attribution
+- whether an account-specific agreement was found
+- reviewer, review date and next review date
+
+`boxing_sources.latest_rights_review_id` points at the review in force. Collection code refuses a source without one (`shared/odds/capture.mjs`). The current matrix is `docs/BOXING_SOURCE_ACQUISITION.md`.
+
+## The Odds API — decision 2026-09-13
+
+| | |
+|---|---|
+| Source URL | https://the-odds-api.com/ (API v4, sport key `boxing_boxing`) |
+| Terms URL | https://the-odds-api.com/terms-and-conditions.html |
+| Terms last updated | 2026-08-31 (page sha256 `f4d79e40…f660` at review) |
+| Review date | 2026-09-13; next review due 2026-12-13 |
+| Account agreement | None found. Self-serve subscription under the public terms (100,000 credits/month, shared with NFL/UFC) |
+| Decision | **Approved with restriction** |
+| Permitted | ingestion; storing data and retaining it indefinitely; display in first-party websites/apps/dashboards, including commercial use; research and analytical dashboards; calculating and displaying derived values; training statistical and ML models |
+| Prohibited | reselling, repackaging or redistributing the data as a standalone data product; offering it through our own API, data feed, downloadable files or any format intended as a raw data source for others; any product where the provider data is the primary product sold |
+| Attribution | Not required ("always appreciated") |
+| Registry | `approved_ingest`, `approved`, enabled, `persistence_allowed`, `derivative_allowed`, `display_allowed` = true, **`redistribution_allowed` = false** |
+| Enforcement | `boxing-gateway` serves market data only as a per-bout, field-whitelisted summary. There are no bulk, tick-history, raw, provider-id or download routes, and tests enforce this |
+
+**Future review notes:**
+- The provider may change the terms by posting them and emails registered users about material changes. Re-review on any such email.
+- Re-review before building any external/partner API, export, CSV/download or white-label feature that includes market data. Those are the prohibited raw-redistribution shapes.
+- Re-review if the account moves to a custom or enterprise agreement; account terms would then override this public-terms decision.
+- Responsible-gambling messaging is encouraged on customer-facing surfaces that promote bookmakers.

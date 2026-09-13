@@ -41,7 +41,9 @@ function providerState(moment) {
     ] }] },
   ];
   if (moment.e3) us.push({ ...E3, sport_key: 'boxing_boxing', bookmakers: [h2h('synbook_a', moment.e3ts ?? moment.ts, ...moment.e3, [E3.home_team, E3.away_team])] });
-  const uk = [{ ...E1, sport_key: 'boxing_boxing', bookmakers: [h2h('synbook_uk', moment.ts, moment.e1[0] - 5, moment.e1[1] + 5, [E1.home_team, E1.away_team])] }];
+  // synbook_a is also returned in the uk region (the provider does this for some books)
+  const uk = [{ ...E1, sport_key: 'boxing_boxing', bookmakers: [h2h('synbook_uk', moment.ts, moment.e1[0] - 5, moment.e1[1] + 5, [E1.home_team, E1.away_team]),
+    h2h('synbook_a', moment.ts, ...moment.e1, [E1.home_team, E1.away_team])] }];
   return { us, uk };
 }
 
@@ -124,6 +126,9 @@ test('4 + 5. raw observations and provider history survive unmatched resolution;
     ['h2h_lay', 'Ghost Fighter One', null, 210], ['h2h_lay', 'Ghost Fighter Two', null, -240],
     ['totals', 'Over', 9.5, -120], ['totals', 'Under', 9.5, 100]]);
   assert.ok(e2.every((x) => x.region === 'us'));
+  const multi = await one(`select region, regions, (select count(*)::int from public.boxing_provider_quotes q where q.series_id = s.id) quotes
+    from public.boxing_provider_quote_series s where provider_event_id = 'syn-evt-matched' and bookmaker_key = 'synbook_a' and outcome_name = 'Dmitri Volkov'`);
+  assert.deepEqual(multi, { region: 'us', regions: ['us', 'uk'], quotes: 1 }, 'a book returned in two regions is one series with both regions and no duplicate quote');
   const quote = await one(`select q.observation_id, q.captured_at, q.provider_last_update, q.commence_time, q.ingest_run_id from public.boxing_provider_quotes q
     join public.boxing_provider_quote_series s on s.id = q.series_id where s.provider_event_id = 'syn-evt-unmatched' limit 1`);
   assert.ok(quote.observation_id && quote.ingest_run_id && quote.captured_at && quote.provider_last_update && quote.commence_time);
@@ -241,7 +246,7 @@ test('coverage summary reports ledger, canonical and unmatched counts', async ()
   assert.equal(c.provider_events, 3);
   assert.equal(c.events_mapped_to_bouts, 1);
   assert.equal(c.participants_unresolved, 6);
-  assert.deepEqual(c.bookmakers_by_region, { uk: 1, us: 2 });
+  assert.deepEqual(c.bookmakers_by_region, { uk: 2, us: 2 });
   assert.equal(c.market_moved_events, 2);
   assert.ok(c.credits_spent >= 12);
   const s = await store.oddsScheduleState(new Date().toISOString());
