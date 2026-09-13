@@ -34,7 +34,8 @@ async function metrics() {
     review: await store.identityTierSummary(),
     blocked_bouts: await blockedBoutsByState(store),
     commission_bouts: (await store.commissionCoverage()).bouts,
-    stored_odds_replay: { status: replay.status, observations: replay.metrics?.observations, provider_events: replay.metrics?.provider_events,
+    stored_odds_replay: { status: replay.status, observations: replay.metrics?.observations, provider_event_rows: replay.metrics?.provider_events,
+      events_matched: replay.metrics?.events_matched, events_unmatched: replay.metrics?.events_unmatched,
       newly_linked_events: replay.metrics?.newly_linked_events ?? [], unmatched_reasons: replay.metrics?.unmatched_reasons ?? {} },
   };
 }

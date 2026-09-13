@@ -53,6 +53,31 @@ export async function blockedBoutsByState(store) {
   return out;
 }
 
+// Place consistency between stated hometowns of different granularity ("Puebla, MX" vs "Mexico" agree;
+// "West Palm Beach, FL" vs "Colombia" do not). Advice only; the resolver never uses this.
+const PLACE_ALIASES = {
+  al: 'alabama', ak: 'alaska', az: 'arizona', ar: 'arkansas', ca: 'california', co: 'colorado', ct: 'connecticut', de: 'delaware', dc: 'district of columbia',
+  fl: 'florida', ga: 'georgia', hi: 'hawaii', id: 'idaho', il: 'illinois', in: 'indiana', ia: 'iowa', ks: 'kansas', ky: 'kentucky', la: 'louisiana', me: 'maine',
+  md: 'maryland', ma: 'massachusetts', mi: 'michigan', mn: 'minnesota', ms: 'mississippi', mo: 'missouri', mt: 'montana', ne: 'nebraska', nv: 'nevada',
+  nh: 'new hampshire', nj: 'new jersey', nm: 'new mexico', ny: 'new york', nc: 'north carolina', nd: 'north dakota', oh: 'ohio', ok: 'oklahoma', or: 'oregon',
+  pa: 'pennsylvania', ri: 'rhode island', sc: 'south carolina', sd: 'south dakota', tn: 'tennessee', tx: 'texas', ut: 'utah', vt: 'vermont', va: 'virginia',
+  wa: 'washington', wv: 'west virginia', wi: 'wisconsin', wy: 'wyoming', pr: 'puerto rico', mx: 'mexico', dr: 'dominican republic', usa: 'united states', us: 'united states',
+};
+const US_STATES = new Set(Object.values(PLACE_ALIASES).filter((v) => !['puerto rico', 'mexico', 'dominican republic', 'united states'].includes(v)));
+const regionOf = (h) => {
+  if (!h) return null;
+  const parts = String(h).split(',').map((x) => normalizedAlias(x.replace(/\./g, ''))).filter(Boolean);
+  const last = parts.at(-1);
+  return last ? (PLACE_ALIASES[last] ?? last) : null;
+};
+export function placeConsistency(observed, candidateHometowns = []) {
+  const o = regionOf(observed);
+  const c = [...new Set(candidateHometowns.map(regionOf).filter(Boolean))];
+  if (!o || !c.length) return { status: 'unknown', observed_region: o, candidate_regions: c };
+  const same = c.includes(o) || (c.includes('united states') && US_STATES.has(o)) || (o === 'united states' && c.some((x) => US_STATES.has(x)));
+  return { status: same ? 'consistent' : 'mismatch', observed_region: o, candidate_regions: c };
+}
+
 const surnameOf = (name) => parseName(name).last;
 const givenOf = (name) => parseName(name).given;
 
@@ -66,12 +91,23 @@ export function dangerFlags({ observedName, observedHometown, candidate, nameInd
   const city = cityLevelHometown(observedHometown);
   const surname = surnameOf(observedName);
   if (surname) {
-    const relatives = nameIndex.filter((f) => f.id !== candidate?.fighter_id && surnameOf(f.display_name) === surname
-      && givenOf(f.display_name) !== obs.given && (!city || (f.hometowns ?? []).map(cityLevelHometown).includes(city)));
-    if (relatives.length) flags.push({ kind: city ? 'same_surname_same_city_different_given_name' : 'same_surname_different_given_name', detail: relatives.map((f) => f.display_name).slice(0, 6).join(' / ') });
+    // relatives: same surname, different given name, and the same stated place (city when the sheet gives
+    // one; otherwise the same region/country text). A common surname elsewhere is not a danger by itself.
+    const region = observedHometown ? normalizedAlias(observedHometown) : null;
+    const samePlace = (f) => (city ? (f.hometowns ?? []).map(cityLevelHometown).includes(city) : region && (f.hometowns ?? []).some((h) => normalizedAlias(h) === region));
+    const relatives = nameIndex.filter((f) => f.id !== candidate?.fighter_id && surnameOf(f.display_name) === surname && givenOf(f.display_name) !== obs.given && samePlace(f));
+    if (relatives.length) flags.push({ kind: city ? 'same_surname_same_city_different_given_name' : 'same_surname_same_region_different_given_name', detail: relatives.map((f) => f.display_name).slice(0, 6).join(' / ') });
   }
   if (candidate && !EXACT_FORMS.has(candidate.name_level)) flags.push({ kind: 'name_not_exact_form', detail: `${observedName} ~ ${candidate.display_name} (${candidate.name_level})` });
   if (candidate?.reasons_against?.includes('given_name_differs')) flags.push({ kind: 'given_name_differs', detail: `${observedName} vs ${candidate.display_name}` });
+  if (surname) {
+    const sharing = nameIndex.filter((f) => surnameOf(f.display_name) === surname).length;
+    if (sharing >= 5) flags.push({ kind: 'common_surname', detail: `${sharing} canonical boxers share the surname "${surname}"` });
+  }
+  if (candidate) {
+    const place = placeConsistency(observedHometown, candidate.hometowns ?? []);
+    if (place.status === 'mismatch') flags.push({ kind: 'stated_place_mismatch', detail: `${observedHometown} (${place.observed_region}) vs ${place.candidate_regions.join(' / ')}` });
+  }
   return flags;
 }
 

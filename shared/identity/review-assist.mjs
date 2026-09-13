@@ -69,7 +69,7 @@ export async function buildIdentityReviewReport(store, { sourceKeys = ['nsac_nev
             prior_opponents: (c.bouts ?? []).map((b) => ({ date: b.date, opponent: b.opponent_name, result: b.result ?? null })),
             weights_lb: (c.bouts ?? []).filter((b) => b.weight_lb != null).map((b) => ({ date: b.date, weight_lb: b.weight_lb, class: b.weight_class ?? null })),
             jurisdictions: [...new Set((c.bouts ?? []).map((b) => b.commission).filter(Boolean))],
-            tier: e?.tier ?? null, confidence: e?.confidence ?? null, reasons_for: e?.support ?? [], reasons_against: e?.against ?? [],
+            tier: e?.tier ?? null, confidence: e?.confidence ?? null, name_level: e?.name_level ?? null, reasons_for: e?.support ?? [], reasons_against: e?.against ?? [],
           };
         }),
         proposal: { decision: proposal.decision, tier: proposal.tier ?? null, reason: proposal.reason, fighter_id: proposal.fighter_id ?? null, confidence: proposal.confidence ?? null },
