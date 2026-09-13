@@ -84,9 +84,29 @@ begin
       and s.persistence_allowed and s.derivative_allowed and s.display_allowed and not s.redistribution_allowed
       and r.decision = 'approved_with_restrictions' and r.terms_url = 'https://the-odds-api.com/terms-and-conditions.html' and not r.account_agreement_found;
   results := results || jsonb_build_object('check', 'the_odds_api_approved_without_raw_redistribution', 'ok', n = 1, 'detail', n || ' matching source/review');
-  select count(*) into n from public.boxing_sources where enabled and source_key not in ('the_odds_api','wikidata','pbe_boxing_internal','pbe_manual_review');
-  results := results || jsonb_build_object('check', 'no_other_external_feed_enabled', 'ok', n = 0 and exists (select 1 from public.boxing_sources where source_key = 'boxrec' and access_mode = 'blocked'),
-    'detail', n || ' sources enabled outside {the_odds_api, wikidata, internal}; boxrec blocked');
+  select count(*) into n from public.boxing_sources where enabled and source_key not in ('the_odds_api','wikidata','pbe_boxing_internal','pbe_manual_review',
+    'nsac_nevada','florida_athletic_commission','nj_sacb');
+  results := results || jsonb_build_object('check', 'no_other_external_feed_enabled', 'ok', n = 0
+      and exists (select 1 from public.boxing_sources where source_key = 'boxrec' and access_mode = 'blocked' and not enabled)
+      and exists (select 1 from public.boxing_sources where source_key = 'compubox' and access_mode = 'blocked' and not enabled)
+      and exists (select 1 from public.boxing_sources where source_key = 'tdlr_texas' and access_mode = 'reference_only' and not enabled),
+    'detail', n || ' sources enabled outside {the_odds_api, wikidata, internal, nevada/florida/new jersey commissions}; boxrec+compubox blocked; texas reference_only');
+  select count(*) into n from public.boxing_sources s join public.boxing_source_rights_reviews r on r.id = s.latest_rights_review_id
+    where s.source_key in ('nsac_nevada','florida_athletic_commission','nj_sacb') and s.enabled and s.access_mode = 'approved_ingest' and not s.redistribution_allowed;
+  results := results || jsonb_build_object('check', 'commission_sources_approved_with_reviews', 'ok', n = 3, 'detail', n || ' of 3 commission sources approved with a recorded review');
+  begin
+    v_ok := false;
+    begin
+      insert into public.boxing_source_document_revisions (document_id, revision, sha256, fetched_at)
+      values (gen_random_uuid(), 1, repeat('a', 64), now());
+    exception when foreign_key_violation then v_ok := true;
+    end;
+    select count(*) into n from pg_trigger where tgname = 'boxing_append_only_row' and tgrelid = 'public.boxing_source_document_revisions'::regclass;
+    select count(*) into v_detail from pg_trigger where tgname = 'boxing_ingest_runs_provenance_guard';
+    raise exception using errcode = 'BXTST', message = (v_ok and n = 1 and v_detail::int = 1)::text;
+  exception when sqlstate 'BXTST' then
+    results := results || jsonb_build_object('check', 'document_revisions_append_only_and_run_provenance_guarded', 'ok', sqlerrm = 'true', 'detail', null);
+  end;
   begin
     v_ok := false;
     begin

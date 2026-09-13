@@ -54,7 +54,7 @@ export function postgrestStore({ url, serviceKey, fetchImpl = fetch }) {
     coverage: () => rpc('boxing_identity_coverage', {}),
     // --- odds / news
     recordObservation: (p) => rpc('boxing_record_observation', { p }),
-    boutsInWindow: (from, to) => rpc('boxing_market_bouts_in_window', { p_from: from, p_to: to }),
+    boutsInWindow: (from, to, includeCompleted = false) => rpc('boxing_market_bouts_in_window', { p_from: from, p_to: to, p_include_completed: includeCompleted }),
     boutsForProviderEvents: (namespace, ids) => rpc('boxing_bouts_for_provider_events', { p_namespace: namespace, p_event_ids: ids }),
     mapProviderEvent: (p) => rpc('boxing_map_provider_event', { p }),
     recordMarketUnmatched: (p) => rpc('boxing_record_market_unmatched', { p }),
@@ -119,6 +119,12 @@ export function postgrestStore({ url, serviceKey, fetchImpl = fetch }) {
     recordProviderCapture: (p) => rpc('boxing_record_provider_capture', { p }),
     oddsScheduleState: (now) => rpc('boxing_odds_schedule_state', { p_now: now }),
     providerCoverage: () => rpc('boxing_provider_coverage', {}),
+    // --- commission documents / replay
+    recordDocumentFetch: (p) => rpc('boxing_record_document_fetch', { p }),
+    documentState: (sourceKey, docKeys) => rpc('boxing_source_document_state', { p_source_key: sourceKey, p_doc_keys: docKeys }),
+    oddsObservationsForReplay: (since = null, limit = 200) => rpc('boxing_odds_observations_for_replay', { p_since: since, p_limit: limit }),
+    commissionCoverage: () => rpc('boxing_commission_coverage', {}),
+    commissionRevisionSummary: () => rpc('boxing_commission_revision_summary', {}),
     // --- read-only gateway
     gatewayBout: (id) => rpc('boxing_gateway_bout', { p_bout: id }),
     gatewayOfficial: (id) => rpc('boxing_gateway_official', { p_official: id }),

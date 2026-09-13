@@ -1,0 +1,52 @@
+# boxing-commissions — official athletic-commission ingestion (Nevada, Florida,
+# New Jersey schedule). Texas is reference_only (robots.txt) and never fetched.
+#
+# Top-level (default) environment: NOT DEPLOYED, ingestion OFF, no cron.
+# [env.staging] -> Worker "boxing-commissions-staging", writes ONLY to Supabase
+# wpaxofilvbsjyrxrwjhg (shared/store/target-guard.mjs). No routes, no workers.dev.
+#   secrets (wrangler secret put ... --env staging):
+#     SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, BOXING_INTERNAL_TOKEN
+#
+# Cadence: one daily forward run. Result documents change rarely; a known
+# document is re-checked only when its event is within 45 days and it was not
+# checked in the last 7 days. At most COMMISSION_MAX_DOCUMENTS PDFs per adapter
+# per run, COMMISSION_FETCH_DELAY_MS apart. No paid source, no credits.
+
+name = "boxing-commissions"
+main = "src/index.mjs"
+compatibility_date = "2026-09-01"
+workers_dev = false
+
+[triggers]
+crons = []
+
+[vars]
+COMMISSION_INGEST_ENABLED = "false"
+COMMISSION_MAX_DOCUMENTS = "12"
+COMMISSION_FETCH_DELAY_MS = "1500"
+
+[observability]
+enabled = true
+head_sampling_rate = 1
+
+[env.staging]
+name = "boxing-commissions-staging"
+workers_dev = false
+
+[env.staging.triggers]
+crons = ["40 11 * * *"]
+
+[env.staging.version_metadata]
+binding = "CF_VERSION_METADATA"
+
+[env.staging.vars]
+BOXING_WORKER_NAME = "boxing-commissions-staging"
+BOXING_ENVIRONMENT = "staging"
+BOXING_SUPABASE_REF = "wpaxofilvbsjyrxrwjhg"
+COMMISSION_INGEST_ENABLED = "true"
+COMMISSION_MAX_DOCUMENTS = "12"
+COMMISSION_FETCH_DELAY_MS = "1500"
+
+[env.staging.observability]
+enabled = true
+head_sampling_rate = 1

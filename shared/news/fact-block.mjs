@@ -13,6 +13,7 @@
 // missing odds/ranking/injury fact can never be "filled in".
 
 import { canonicalJson, sha256Hex } from '../canonical.mjs';
+import { assertMinimized } from '../adapters/commissions/minimize.mjs';
 
 export const FACT_BLOCK_SCHEMA = 'boxing-fact-block@1';
 export const BUILDER_VERSION = 'boxing-fact-block-builder@1.0.0';
@@ -25,7 +26,7 @@ export class FactBlockError extends Error {
 }
 
 export const LABELS = new Set(['canonical_fact', 'attributed_statement', 'pbe_derived']);
-const SENSITIVE_TYPES = new Set(['SUSPENSION_POSTED', 'TITLE_STRIPPED', 'RESULT_OVERTURNED']);
+const SENSITIVE_TYPES = new Set(['SUSPENSION_POSTED', 'TITLE_STRIPPED', 'RESULT_OVERTURNED', 'RESULT_CORRECTED']);
 const ALL_TOPICS = ['odds', 'ranking', 'title', 'weight', 'result', 'scorecard', 'officials', 'regulatory', 'fight_dna', 'record', 'injury', 'purse', 'quote', 'previous_meeting'];
 
 // Names are data, never instructions: they must look like names.
@@ -142,6 +143,7 @@ export async function buildFactBlock(ctx) {
       break;
     }
     case 'RESULT_OFFICIAL':
+    case 'RESULT_CORRECTED':
     case 'RESULT_OVERTURNED': {
       const result = payload;
       if (result.outcome === 'win') add('canonical_fact', 'result.winner', result.winner_id, `${nameOf(result.winner_id)} won`);
@@ -257,6 +259,8 @@ export async function buildFactBlock(ctx) {
     sensitivity: reviewReasons.some((r) => r.startsWith('sensitive_event_type')) ? 'sensitive' : 'normal',
     review_reasons: [...new Set(reviewReasons)],
   };
+  // private identifiers / medical details from source documents can never reach prose
+  try { assertMinimized(block); } catch (err) { throw new FactBlockError('sensitive_source_field', err.message); }
   const hash = await sha256Hex(canonicalJson({ ...block, news_event: { ...block.news_event, detected_at: null } }));
   return { block, hash };
 }

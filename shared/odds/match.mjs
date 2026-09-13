@@ -9,6 +9,7 @@
 
 import { resolveIdentity } from '../identity/resolver.mjs';
 
+export const MATCHER_VERSION = 'boxing-odds-event-matcher@1.0.0';
 const WINDOW_MS = 2 * 86_400_000;
 
 function resolveCorner(name, bout, candidatesById) {

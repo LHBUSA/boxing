@@ -203,8 +203,11 @@ test('title vacancy and scorecard release articles', async () => {
 });
 
 test('sensitive, correction, unresolved identity and rights all force review', async () => {
-  const susp = await article(baseCtx('SUSPENSION_POSTED', { status: 'active', effective_from: '2026-11-14', effective_to: '2026-12-14', reason_public: 'mandatory medical suspension' }));
+  const susp = await article(baseCtx('SUSPENSION_POSTED', { status: 'active', effective_from: '2026-11-14', effective_to: '2026-12-14', reason_public: 'failure to appear' }));
   assert.equal(susp.block.sensitivity, 'sensitive');
+  // medical details and private identifiers from source documents never reach a fact block
+  await assert.rejects(() => buildFactBlock(baseCtx('SUSPENSION_POSTED', { status: 'active', effective_from: '2026-11-14', effective_to: '2026-12-14', reason_public: 'mandatory medical suspension' })), /sensitive_source_field/);
+  await assert.rejects(() => buildFactBlock(baseCtx('SUSPENSION_POSTED', { status: 'active', effective_from: '2026-11-14', effective_to: '2026-12-14', reason_public: 'license NV781366 suspended' })), /sensitive_source_field/);
   const unresolved = baseCtx('FIGHT_ANNOUNCED');
   unresolved.fighters[0].identity_state = 'review_required';
   assert.ok((await buildFactBlock(unresolved)).block.review_reasons.includes('fighter_identity_unresolved'));

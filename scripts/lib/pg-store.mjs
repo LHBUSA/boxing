@@ -34,8 +34,8 @@ export function pgStore(client) {
     async recordObservation(p) {
       return (await one(client, 'select public.boxing_record_observation($1) as r', [p])).r;
     },
-    async boutsInWindow(from, to) {
-      return (await one(client, 'select public.boxing_market_bouts_in_window($1, $2) as r', [from, to])).r;
+    async boutsInWindow(from, to, includeCompleted = false) {
+      return (await one(client, 'select public.boxing_market_bouts_in_window($1, $2, $3) as r', [from, to, includeCompleted])).r;
     },
     async boutsForProviderEvents(namespace, ids) {
       return (await one(client, 'select public.boxing_bouts_for_provider_events($1, $2) as r', [namespace, ids])).r;
@@ -204,6 +204,22 @@ export function pgStore(client) {
     },
     async providerCoverage() {
       return (await one(client, 'select public.boxing_provider_coverage() as r')).r;
+    },
+    // --- commission documents / replay
+    async recordDocumentFetch(p) {
+      return (await one(client, 'select public.boxing_record_document_fetch($1) as r', [p])).r;
+    },
+    async documentState(sourceKey, docKeys) {
+      return (await one(client, 'select public.boxing_source_document_state($1, $2) as r', [sourceKey, docKeys])).r;
+    },
+    async oddsObservationsForReplay(since = null, limit = 200) {
+      return (await one(client, 'select public.boxing_odds_observations_for_replay($1, $2) as r', [since, limit])).r;
+    },
+    async commissionRevisionSummary() {
+      return (await one(client, 'select public.boxing_commission_revision_summary() as r')).r;
+    },
+    async commissionCoverage() {
+      return (await one(client, 'select public.boxing_commission_coverage() as r')).r;
     },
     // --- read-only gateway
     async gatewayBout(id) {

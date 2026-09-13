@@ -24,11 +24,12 @@ export async function recordResult(store, input, { now = new Date().toISOString(
 
   const prev = r.previous;
   const overturned = Boolean(prev) && (input.result_state === 'overturned' || prev.outcome !== input.outcome || prev.winner_id !== (input.winner_id ?? null));
-  const type = overturned ? 'RESULT_OVERTURNED' : 'RESULT_OFFICIAL';
+  // a later revision that keeps the winner (method, round, time, decision type) is a correction, not silence
+  const type = overturned ? 'RESULT_OVERTURNED' : prev ? 'RESULT_CORRECTED' : 'RESULT_OFFICIAL';
   const key = await dedupeKey('result', input.bout_id, r.revision);
   const news = newsBase(type, {
     key, boutId: input.bout_id, eventId: state.event_id, fighterIds: state.participants.map((p) => p.fighter_id), sourceKey: input.source_key,
-    sourceUrl: input.source_url, now, review: overturned || cardProblems.length > 0 || input.result_state === 'provisional',
+    sourceUrl: input.source_url, now, review: overturned || Boolean(prev) || cardProblems.length > 0 || input.result_state === 'provisional',
     supersedes: prev ? await dedupeKey('result', input.bout_id, r.revision - 1) : null,
     observedKey: `bout_result:${r.result_id}`,
     facts: { bout_id: input.bout_id, outcome: input.outcome, winner_id: input.winner_id ?? null, method: input.method ?? null,

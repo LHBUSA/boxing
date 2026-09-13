@@ -23,6 +23,7 @@
 import { contentHash, dedupeKey } from '../canonical.mjs';
 import { ingestIdentity } from '../identity/pipeline.mjs';
 import { ingestOfficial } from './officials.mjs';
+import { normalizedAlias } from '../identity/normalize.mjs';
 
 const ACTIVE = new Set(['scheduled', 'confirmed']);
 
@@ -74,15 +75,21 @@ export function diffCard(state, doc) {
 
   // ---- bouts
   const review = [];
+  const claimed = new Set();
   for (const b of doc.bouts) {
     if (!b.resolved) continue;
     const { a: fa, b: fb } = b.resolved;
     const byExternal = b.external_id ? state.bouts.find((s) => s.external_ids.includes(`${doc.namespace}.bout:${b.external_id}`)) : null;
-    const byPair = state.bouts.find((s) => {
+    // pair matching never reuses a bout that carries a DIFFERENT external id from this
+    // source, or one already claimed by another bout in this document (repeat pairings)
+    const byPair = byExternal ? null : state.bouts.find((s) => {
+      if (claimed.has(s.bout_id)) return false;
+      if (b.external_id && s.external_ids.some((x) => x.startsWith(`${doc.namespace}.bout:`))) return false;
       const active = s.participants.filter((p) => ACTIVE.has(p.status)).map((p) => p.fighter_id).sort();
       return active.length === 2 && active.join() === [fa, fb].sort().join();
     });
     const sb = byExternal ?? byPair;
+    if (sb) claimed.add(sb.bout_id);
     const ref = b.external_id ? `ext:${b.external_id}` : `pair:${[fa, fb].sort().join('|')}`;
 
     if (!sb) {
@@ -160,6 +167,9 @@ export function diffCard(state, doc) {
 }
 
 const NEWS = {
+  event_announced: 'EVENT_ADDED',
+  event_date_changed: 'EVENT_CHANGED',
+  event_status_changed: 'EVENT_CHANGED',
   bout_added: 'FIGHT_ANNOUNCED',
   opponent_replaced: 'OPPONENT_REPLACED',
   bout_cancelled: 'FIGHT_CANCELLED',
@@ -200,15 +210,23 @@ export async function applyCardDocument(store, doc, { now = new Date().toISOStri
   }
 
   const unresolved = [];
+  const officialsInDocument = new Map();
+  const fightersInDocument = new Map();
   for (const b of doc.bouts) {
     const corners = {};
     for (const side of ['a', 'b']) {
       const f = b[`fighter_${side}`];
-      const { result } = await ingestIdentity(store, {
+      // within ONE card document, the same external id, or the same name with the same
+      // stated hometown, is the same boxer (repeat pairings); across documents the
+      // resolver decides as always
+      const docKey = f.external_id ? `id:${f.external_id}` : f.hometown ? `name:${normalizedAlias(f.display_name)}|${normalizedAlias(f.hometown)}` : null;
+      const cached = docKey ? fightersInDocument.get(docKey) : null;
+      const { result } = cached ?? await ingestIdentity(store, {
         sourceKey: doc.source_key, accessMode: src.access_mode, namespace: `${doc.namespace}.fighter`,
-        record: { external_id: f.external_id ?? null, display_name: f.display_name, dob: f.dob ?? null, nationality: f.nationality ?? [] },
+        record: { external_id: f.external_id ?? null, display_name: f.display_name, dob: f.dob ?? null, nationality: f.nationality ?? [], hometown: f.hometown ?? null },
         payload: { event: doc.external_id, bout: b.external_id ?? null, side, ...f },
       });
+      if (docKey && !cached && ['matched', 'created'].includes(result.outcome)) fightersInDocument.set(docKey, { result });
       if (['matched', 'created'].includes(result.outcome)) corners[side] = result.fighter_id;
       else unresolved.push({ bout: b.external_id ?? null, side, name: f.display_name, outcome: result.outcome, reason: result.reason, review_item_id: result.review_item_id ?? null });
     }
@@ -228,8 +246,12 @@ export async function applyCardDocument(store, doc, { now = new Date().toISOStri
       if (Array.isArray(b.officials)) {
         rb.resolvedOfficials = [];
         for (const o of b.officials) {
-          const { result } = await ingestOfficial(store, { sourceKey: doc.source_key, namespace: `${doc.namespace}.official`,
-            official: { ...o, official_type: o.role === 'referee' ? 'referee' : 'judge' }, commissionId: resolved.commission_id ?? state.commission_id ?? null });
+          // within ONE card document the same official name is the same person (assignments are written after resolution)
+          const cacheKey = `${o.role === 'referee' ? 'referee' : 'judge'}|${o.external_id ?? normalizedAlias(o.display_name)}`;
+          const { result } = officialsInDocument.get(cacheKey) ?? await ingestOfficial(store, { sourceKey: doc.source_key, namespace: `${doc.namespace}.official`,
+            official: { ...o, official_type: o.role === 'referee' ? 'referee' : 'judge' }, commissionId: resolved.commission_id ?? state.commission_id ?? null,
+            commissionAuthoritative: doc.officials_authority === 'commission' });
+          if (result.official_id) officialsInDocument.set(cacheKey, { result });
           if (result.official_id) rb.resolvedOfficials.push({ official_id: result.official_id, role: o.role, slot: o.slot ?? null });
           else unresolved.push({ bout: b.external_id ?? null, official: o.display_name, outcome: 'review', review_item_id: result.review_item_id ?? null });
         }

@@ -3,13 +3,15 @@
 // Runtime-agnostic (pg store locally, PostgREST store in Workers).
 
 import { contentHash } from '../canonical.mjs';
-import { matchEvent } from './match.mjs';
+import { MATCHER_VERSION, matchEvent } from './match.mjs';
 import {
   ADAPTER_VERSION, EVENT_NAMESPACE, PROVIDER_SLUG, SOURCE_KEY, SPORT_KEY, normalizeEvent, validatePayload,
 } from '../adapters/odds/the-odds-api.mjs';
 import { DEFAULT_MOVE_CONFIG, buildMarketMovedEvent, evaluateMarketMove } from './movement.mjs';
 
-export async function ingestOddsPayload(store, { payload, capturedAt = new Date().toISOString(), runId = null, region = 'us', quota = null, observation = null }) {
+// replay: re-resolution of a stored observation (no provider call). The unmatched
+// queue is not re-counted and new mappings record resolver version + run.
+export async function ingestOddsPayload(store, { payload, capturedAt = new Date().toISOString(), runId = null, region = 'us', quota = null, observation = null, replay = false }) {
   validatePayload(payload);
   const metrics = {
     provider_events: payload.length,
@@ -43,7 +45,7 @@ export async function ingestOddsPayload(store, { payload, capturedAt = new Date(
   const times = payload.map((e) => Date.parse(e.commence_time)).filter(Number.isFinite);
   const from = new Date(Math.min(...times) - 3 * 86_400_000).toISOString();
   const to = new Date(Math.max(...times) + 3 * 86_400_000).toISOString();
-  const bouts = await store.boutsInWindow(from, to);
+  const bouts = await store.boutsInWindow(from, to, replay);
   const participantIds = [...new Set(bouts.flatMap((b) => b.participants.map((p) => p.fighter_id)))];
   const { candidates } = participantIds.length ? await store.candidates({ scope: participantIds }) : { candidates: [] };
   const candidatesById = new Map(candidates.map((c) => [c.id, c]));
@@ -55,6 +57,7 @@ export async function ingestOddsPayload(store, { payload, capturedAt = new Date(
     if (!m.matched) {
       metrics.events_unmatched++;
       metrics.unmatched_reasons[m.reason] = (metrics.unmatched_reasons[m.reason] ?? 0) + 1;
+      if (replay) continue;
       await store.recordMarketUnmatched({
         provider_slug: PROVIDER_SLUG, provider_event_id: String(event.id), reason: m.reason, detail: m.detail ?? {},
         home_name: event.home_team, away_name: event.away_team, commence_time: event.commence_time, observation_id: obs.id,
@@ -64,7 +67,8 @@ export async function ingestOddsPayload(store, { payload, capturedAt = new Date(
     if (m.method !== 'existing_mapping') {
       const map = await store.mapProviderEvent({
         namespace: EVENT_NAMESPACE, provider_event_id: String(event.id), bout_id: m.bout_id, source_key: SOURCE_KEY,
-        verification_state: 'probable', confidence: 90, evidence: { method: m.method, ...m.evidence },
+        verification_state: 'probable', confidence: 90, evidence: { method: m.method, ...m.evidence, ...(replay ? { replayed_from_observation: obs.id, original_captured_at: capturedAt } : {}) },
+        resolver_version: MATCHER_VERSION, resolution_run_id: runId,
       });
       if (map.status === 'conflict') {
         metrics.events_unmatched++;
