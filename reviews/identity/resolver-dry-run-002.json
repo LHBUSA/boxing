@@ -1,0 +1,145 @@
+{
+ "dry_run": true,
+ "applied": false,
+ "batch_id": "002",
+ "generated_at": "2026-09-13T18:24:44.407Z",
+ "summary": {
+  "blocked_bouts_examined": 154,
+  "appearances_that_would_bind": 2,
+  "by_tier": {
+   "A:matched": 2
+  },
+  "by_state": {
+   "FL": 2
+  },
+  "bouts_that_would_be_created": 2,
+  "bouts_by_state": {
+   "FL": 2
+  }
+ },
+ "proposals": [
+  {
+   "source_key": "florida_athletic_commission",
+   "state": "FL",
+   "document": "fl-results:05-01-2026-Team_Boxing_League-results_without_med",
+   "appearance_key": "2026-05-01|fort-lauderdale|team-boxing-league|ariele-davis|sofia-viretti|2|b",
+   "bout_external_id": "2026-05-01|fort-lauderdale|team-boxing-league|ariele-davis|sofia-viretti|2",
+   "side": "b",
+   "name": "Sofia Viretti",
+   "event_date": "2026-05-01",
+   "event": "Team Boxing League at War Memorial Auditorium",
+   "venue": "War Memorial Auditorium, Fort Lauderdale",
+   "commission": "fl-athletic-commission",
+   "opponent": "Ariele Davis",
+   "opponent_resolved_via": "same_card_name_and_hometown",
+   "stated_hometown": "Argentina",
+   "weight_lb": 145.8,
+   "would": {
+    "decision": "matched",
+    "tier": "A",
+    "confidence": 98,
+    "reason": "same_fight_already_on_record",
+    "fighter_id": "dc05fc46-e9fd-4e19-a8ae-f198f97a615b",
+    "display_name": "Sofia Viretti"
+   },
+   "evidence_for": [
+    "name_exact",
+    "hometown_same_region_only(not_decisive)",
+    "same_fight_already_on_record",
+    "weight_145.8_vs_146_on_2026-06-26",
+    "same_commission:fl-athletic-commission"
+   ],
+   "evidence_against": [],
+   "families": [
+    "jurisdiction",
+    "weight"
+   ],
+   "competing": [],
+   "candidate_record": [
+    "2026-05-01 vs Ariele Davis (147.4 lb)",
+    "2026-06-26 vs Suzana Rodriguez Griffin (146 lb)",
+    "2026-06-26 vs Suzana Rodriguez Griffin (146 lb)"
+   ],
+   "bout_would_be_created": true,
+   "depends_on_other_proposal": null
+  },
+  {
+   "source_key": "florida_athletic_commission",
+   "state": "FL",
+   "document": "fl-results:05-01-2026-Team_Boxing_League-results_without_med",
+   "appearance_key": "2026-05-01|fort-lauderdale|team-boxing-league|doctress-robinson|esteuri-suero|2|b",
+   "bout_external_id": "2026-05-01|fort-lauderdale|team-boxing-league|doctress-robinson|esteuri-suero|2",
+   "side": "b",
+   "name": "Esteuri Suero",
+   "event_date": "2026-05-01",
+   "event": "Team Boxing League at War Memorial Auditorium",
+   "venue": "War Memorial Auditorium, Fort Lauderdale",
+   "commission": "fl-athletic-commission",
+   "opponent": "Doctress Robinson",
+   "opponent_resolved_via": "same_card_name_and_hometown",
+   "stated_hometown": "Dominican Republic",
+   "weight_lb": 151.6,
+   "would": {
+    "decision": "matched",
+    "tier": "A",
+    "confidence": 98,
+    "reason": "same_fight_already_on_record",
+    "fighter_id": "3b7a4532-c39d-4879-b0dd-fce7c3a06ec1",
+    "display_name": "Esteuri Suero"
+   },
+   "evidence_for": [
+    "name_exact",
+    "hometown_same_region_only(not_decisive)",
+    "same_fight_already_on_record",
+    "weight_151.6_vs_151_on_2026-06-26",
+    "same_commission:fl-athletic-commission"
+   ],
+   "evidence_against": [],
+   "families": [
+    "jurisdiction",
+    "weight"
+   ],
+   "competing": [],
+   "candidate_record": [
+    "2026-05-01 vs Doctress Robinson (151.6 lb)",
+    "2026-06-26 vs Jasir Riley (151 lb)"
+   ],
+   "bout_would_be_created": true,
+   "depends_on_other_proposal": null
+  }
+ ],
+ "bouts_that_would_be_created": [
+  {
+   "source_key": "florida_athletic_commission",
+   "bout_external_id": "2026-05-01|fort-lauderdale|team-boxing-league|ariele-davis|sofia-viretti|2",
+   "corners": {
+    "a": {
+     "name": "Ariele Davis",
+     "fighter_id": "62e0f8dc-5a27-46ce-9166-e95ee62d7208",
+     "via": "same_card_name_and_hometown"
+    },
+    "b": {
+     "name": "Sofia Viretti",
+     "fighter_id": null,
+     "via": "proposed_in_this_dry_run"
+    }
+   }
+  },
+  {
+   "source_key": "florida_athletic_commission",
+   "bout_external_id": "2026-05-01|fort-lauderdale|team-boxing-league|doctress-robinson|esteuri-suero|2",
+   "corners": {
+    "a": {
+     "name": "Doctress Robinson",
+     "fighter_id": "f1b9fc89-b795-471e-bd2e-7beb62e5d5f5",
+     "via": "same_card_name_and_hometown"
+    },
+    "b": {
+     "name": "Esteuri Suero",
+     "fighter_id": null,
+     "via": "proposed_in_this_dry_run"
+    }
+   }
+  }
+ ]
+}

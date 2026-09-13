@@ -295,22 +295,28 @@ export async function simulateResolverOnBlockedBouts(store, { batchId, now = new
     for (const x of stored) byDoc.set(x.doc_key, [...(byDoc.get(x.doc_key) ?? []), x]);
     const docKeysNeeded = [...new Set(blocked.map((x) => x.doc_key))];
     const cornerFighters = {};
+    const bindings = {};
     for (const docKey of docKeysNeeded) {
       const bouts = byDoc.get(docKey).map((x) => x.bout.source_bout_id);
       Object.assign(cornerFighters, await store.sourceCornerFighters(sourceKey, `${ns}.fighter`, bouts));
-      // canonical bouts on the same card resolve their corners too (used for the same-card name cache)
+      Object.assign(bindings, await store.appearanceBindings(`${ns}.fighter`, bouts.flatMap((id) => [`${id}|a`, `${id}|b`])));
     }
     const eventIds = await store.sourceEventIds(`${ns}.event`, [...new Set(blocked.map((x) => x.bout.source_event_id))]);
     for (const x of blocked) {
       const b = x.bout;
       const card = byDoc.get(x.doc_key);
+      // mirrors card application exactly: a recorded binding resolves its own corner only; the
+      // same-card name+hometown cache is fed by name-resolver outcomes on EARLIER bouts of the card
+      // (a binding does not feed it)
+      const position = card.findIndex((y) => y.bout.source_bout_id === b.source_bout_id);
       const sameCardResolved = (f) => {
         if (!f?.hometown) return null;
         const key = `${normalizedAlias(f.display_name)}|${normalizedAlias(f.hometown)}`;
-        for (const y of card) {
+        for (const y of card.slice(0, position)) {
           for (const s of ['a', 'b']) {
             const g = y.bout[`fighter_${s}`];
-            const id = cornerFighters[`${y.bout.source_bout_id}|${s}`];
+            const k = `${y.bout.source_bout_id}|${s}`;
+            const id = bindings[k] ? null : cornerFighters[k];
             if (id && g?.hometown && `${normalizedAlias(g.display_name)}|${normalizedAlias(g.hometown)}` === key) return id;
           }
         }
@@ -319,9 +325,11 @@ export async function simulateResolverOnBlockedBouts(store, { batchId, now = new
       const corner = {};
       for (const s of ['a', 'b']) {
         const f = b[`fighter_${s}`];
-        const direct = cornerFighters[`${b.source_bout_id}|${s}`] ?? null;
-        const cached = direct ? null : sameCardResolved(f);
-        corner[s] = { fighter_id: direct ?? cached, via: direct ? 'recorded' : cached ? 'same_card_name_and_hometown' : null, name: f.display_name };
+        const k = `${b.source_bout_id}|${s}`;
+        const bound = bindings[k]?.fighter_id ?? null;
+        const automatic = bound ? null : cornerFighters[k] ?? null;
+        const cached = bound || automatic ? null : sameCardResolved(f);
+        corner[s] = { fighter_id: bound ?? automatic ?? cached, via: bound ? 'recorded_binding' : automatic ? 'name_resolver_outcome' : cached ? 'same_card_name_and_hometown' : null, name: f.display_name };
       }
       const ev = eventIds[b.source_event_id] ?? null;
       const sides = [];
@@ -378,6 +386,10 @@ export function summarizeDryRun({ batchId, now, proposals, blockedBouts }) {
       bouts_that_would_be_created: creates.size, bouts_by_state: count([...creates], (k) => STATE_OF[k.split(':')[0]]),
     },
     proposals: proposals.sort((x, y) => String(x.event_date).localeCompare(String(y.event_date)) || x.appearance_key.localeCompare(y.appearance_key)),
+    bouts_that_would_be_created: blockedBouts.filter((bb) => creates.has(`${bb.source_key}:${bb.bout_external_id}`)).map((bb) => ({
+      source_key: bb.source_key, bout_external_id: bb.bout_external_id,
+      corners: Object.fromEntries(['a', 'b'].map((s) => [s, { name: bb.corner[s].name, fighter_id: bb.corner[s].fighter_id, via: bb.corner[s].via ?? (proposed.has(`${bb.bout_external_id}|${s}`) ? 'proposed_in_this_dry_run' : null) }])),
+    })),
   });
 }
 
