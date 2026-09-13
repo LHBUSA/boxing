@@ -163,8 +163,8 @@
    "danger": [],
    "recommendation": "match",
    "recommendation_why": "resolver A repeat_pairing_identity_continuity; no competing candidate or contradiction",
-   "reviewer_decision": null,
-   "reviewer_note": null
+   "reviewer_decision": "approve_match",
+   "reviewer_note": "approve_match (Justin Erickson): Sofia Viretti, 2026-05-01 second meeting vs Ariele Davis (...|2, sheet order 18) to canonical fighter dc05fc46-e9fd-4e19-a8ae-f198f97a615b. Evidence: Tier A repeat_pairing_identity_continuity, confidence 98, no competing candidate, no contradiction."
   },
   {
    "entry_id": "002:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|doctress-robinson|esteuri-suero|2|b",
@@ -278,8 +278,8 @@
    "danger": [],
    "recommendation": "match",
    "recommendation_why": "resolver A repeat_pairing_identity_continuity; no competing candidate or contradiction",
-   "reviewer_decision": null,
-   "reviewer_note": null
+   "reviewer_decision": "approve_match",
+   "reviewer_note": "approve_match (Justin Erickson): Esteuri Suero, 2026-05-01 second meeting vs Doctress Robinson (...|2, sheet order 29) to canonical fighter 3b7a4532-c39d-4879-b0dd-fce7c3a06ec1. Evidence: Tier A repeat_pairing_identity_continuity, confidence 98, no competing candidate, no contradiction."
   }
  ],
  "remaining": []
