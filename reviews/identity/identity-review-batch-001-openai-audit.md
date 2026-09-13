@@ -4,113 +4,70 @@ Date: 2026-09-13
 Environment reviewed: `propbetedge-boxing-staging` (`wpaxofilvbsjyrxrwjhg`)
 Batch source: `reviews/identity/identity-review-batch-001.json`
 
-**This document is advisory only. It is not a human identity decision and must not be written to `boxing_identity_appearance_decisions` as a human review.** The existing review guard requiring a named human reviewer remains correct and must not be bypassed.
+**This document is advisory only. It is not a human identity decision and must not be written to `boxing_identity_appearance_decisions` as a human review.**
 
-## Result
+## Correction after full source-identity verification
 
-- Recommend human approval: **9**
-- Recommend hold: **3**
-- Applied to staging: **0**
-- Production touched: **NO**
+The original version of this audit recommended 9 approvals and 3 holds. **That 9/3 split is withdrawn.**
 
-## Recommend human approval
+The earlier hold rationale misread legitimate Team Boxing League repeat pairings as duplicate canonical bouts because the generated candidate record did not expose the commission bout identity suffix (`|2`), sheet/bout order, or preserved parser-correction history.
 
-These nine appearances have an exact normalized name match, a compatible official weight, same Florida commission continuity, no competing candidate, and no contradiction found in the batch evidence. The staging graph audit also found no duplicate same-date/same-opponent canonical bout for these proposed fighter IDs.
+Direct staging verification now shows:
 
-1. **Jose Valenzuela Alvarado** → `6eb66caa-9b42-4b05-ba67-c27516d415f6`
-   - Exact full-name form.
-   - FL official weight 141.6 lb; candidate evidence 137.6 lb.
-   - Same Florida commission.
-   - Observed Puebla, MX; candidate currently only Mexico.
-   - A different boxer, Jose A Valenzuela Gastelum of Renton, WA, exists, but is not a competing exact-name candidate.
-   - Recommendation: `match` after human review.
+- **Yusmel Alejandro Ruiz vs Juan Barajas, 2026-06-26**
+  - meeting 1: bout order 13, commission identity `...|juan-barajas|yusmel-alejandro-ruiz`
+  - meeting 2: bout order 21, commission identity `...|juan-barajas|yusmel-alejandro-ruiz|2`
+  - Ruiz is the current official winner of both meetings.
 
-2. **Jose Rodriguez Montemayor** → `781262fb-5f1c-4b73-8717-672a192a0c18`
-   - Exact full-name form.
-   - 120.8 lb vs candidate evidence 126 lb.
-   - Mexico on both sides; city-level evidence absent.
-   - Other Jose/Rodriguez names in the graph have materially different full names and locations.
-   - Recommendation: `match` after human review.
+- **Sofia Viretti vs Suzana Rodriguez Griffin, 2026-06-26**
+  - meeting 1: bout order 11, commission identity `...|suzana-rodriguez-griffin|sofia-viretti`
+  - meeting 2: bout order 20, commission identity `...|suzana-rodriguez-griffin|sofia-viretti|2`
+  - meeting 1 current official result is Griffin after the preserved parser correction chain; meeting 2 current official result is Viretti.
 
-3. **Manuel Enrique Arrieta Sangroni** → `7e9af7b5-79b5-44b6-8096-fbed53569808`
-   - Exact full-name form.
-   - 138.4 lb vs 136.8 lb.
-   - Venezuela on both sides; same Florida commission.
-   - No competing candidate or contradiction.
-   - Recommendation: `match` after human review.
+- **Samantha Ginithan vs Shelby Cannon, 2026-06-26**
+  - meeting 1: bout order 3, commission identity `...|shelby-cannon|samantha-ginithan`
+  - meeting 2: bout order 23, commission identity `...|shelby-cannon|samantha-ginithan|2`
+  - meeting 1 current official result is Cannon after the preserved parser correction chain; meeting 2 current official result is Ginithan.
 
-4. **Tristan Gallichan** → `c2bb89ad-4d6d-4c0e-a308-5a0f571d86b0`
-   - Exact name.
-   - 141.8 lb vs 145.2 lb.
-   - Florida on both sides; same commission.
-   - No competing candidate or contradiction.
-   - Recommendation: `match` after human review.
+These are **separate official repeat pairings**, not duplicated canonical bouts. The result revision history is intentionally preserved false history from earlier parser output, with the latest canonical result deterministic.
 
-5. **Gustavo Trujillo** → `8b37e533-a252-43c2-bc73-ce739cc72b95`
-   - Exact name.
-   - 244.4 lb vs 245 lb.
-   - Cuba on both sides; same commission.
-   - No competing candidate or contradiction.
-   - Recommendation: `match` after human review.
+Accordingly, the identity evidence for Yusmel Alejandro Ruiz, Sofia Viretti and Samantha Ginithan is not invalidated by those June 26 rows.
 
-6. **Alex Vallecillo** → `cb481094-6ba0-4c90-884d-b979c5f29b56`
-   - Exact name.
-   - Official and candidate evidence both 124 lb.
-   - Nicaragua on both sides; same commission.
-   - No competing candidate or contradiction.
-   - Recommendation: `match` after human review.
+## Corrected assessment of Batch 001
 
-7. **Jose Cortes** (Colombia appearance) → `d32c813f-f999-412d-af97-bda96e535dd3`
-   - Exact name.
-   - 179.2 lb vs 179 lb.
-   - Colombia on both sides; same Florida commission.
-   - The separate West Palm Beach appearance remains correctly excluded from this batch and should not inherit this decision.
-   - Recommendation: `match` for this appearance only after human review.
+After the additional source-identity check, I find **no evidence-based reason to revoke any of the 12 human approvals recorded by Justin Erickson**.
 
-8. **Ramon De La Cruz Sena** → `58ffde58-2411-4b1b-be7a-5419849fb9a5`
-   - Exact normalized name (`ramon cruz sena`).
-   - 145.4 lb vs 142 lb.
-   - Argentina on both sides; same commission.
-   - No competing candidate or contradiction.
-   - Recommendation: `match` after human review.
+The batch-001 apply record shows exactly 12 human decisions, no automatic resolver decisions, and 12 corresponding official Florida bouts created. The separate Jose Cortes West Palm Beach appearance remains unresolved and was not inherited from the approved Colombia appearance.
 
-9. **Esteuri Suero** → `3b7a4532-c39d-4879-b0dd-fce7c3a06ec1`
-   - Exact name.
-   - 151.6 lb vs 151 lb.
-   - Dominican Republic on both sides; same commission.
-   - No competing candidate or contradiction.
-   - Recommendation: `match` after human review.
+No new hold should be recorded for Yusmel Alejandro Ruiz, Sofia Viretti or Samantha Ginithan based on my original audit.
 
-## HOLD — graph evidence is not currently clean enough
+## Workbench defect that remains valid
 
-### Yusmel Alejandro Ruiz → `5ea394ab-9eeb-44ba-8e2a-384f0650869e`
+The audit did expose a real review-UX/evidence problem:
 
-The identity evidence itself looks strong: exact name, Cuba on both sides, 168.2 lb vs 172.4 lb, same Florida commission, no competing candidate.
+1. Candidate history should display the canonical/source bout identity, including repeat suffix/index such as `|2`.
+2. Candidate history should display source/sheet bout order when repeat pairings occur on one card.
+3. Preserved parser-correction history should be labelled explicitly instead of rendering as an unexplained win/loss pair.
+4. The resolver reason `same_fight_already_on_record` is misleading for a distinct repeat pairing. A distinct label should be used for identity continuity across another meeting, e.g. `same_card_repeat_pairing_identity_continuity` or an equivalent precise reason.
+5. Review tooling should distinguish:
+   - duplicate canonical bout
+   - legitimate repeat pairing
+   - corrected historical result revision
+   - current canonical result
 
-However, staging currently contains **two canonical bouts** on 2026-06-26 against Juan Barajas for this fighter. The batch generator therefore repeats the same candidate record twice. Even though the duplicated result agrees, a duplicated canonical bout is graph-integrity debt and should not be used as clean review evidence.
+This should be fixed so future reviewers are not forced to reverse-engineer source identity from the database.
 
-**Recommendation: HOLD until the duplicate bout is reconciled, then regenerate the review evidence.**
+## Batch 002 advisory review
 
-### Sofia Viretti → `dc05fc46-e9fd-4e19-a8ae-f198f97a615b`
+`reviews/identity/resolver-dry-run-002.json` proposes two still-unapplied appearances:
 
-Identity evidence looks strong: exact name, Argentina on both sides, 147.4 lb vs 146 lb, same commission, no competing candidate.
+- Sofia Viretti, 2026-05-01 second meeting vs Ariele Davis (`...|2`), 145.8 lb, exact name, Argentina, same Florida commission, no competing candidate.
+- Esteuri Suero, 2026-05-01 second meeting vs Doctress Robinson (`...|2`), 151.6 lb, exact name, Dominican Republic, same Florida commission, no competing candidate.
 
-But staging currently contains **two canonical bouts** on 2026-06-26 against Suzana Rodriguez Griffin. Worse, the result history on one duplicate oscillates between opposite winner IDs across reparses/revisions. The batch summary renders this as both a loss and a win while its `contradictions` array remains empty.
+Both are Tier A / confidence 98 in the dry run and each is a distinct official repeat pairing. The existing reason label `same_fight_already_on_record` is semantically wrong, but the identity evidence itself is strong.
 
-**Recommendation: HOLD. Repair/reconcile the duplicate bout and result revision chain, regenerate candidate evidence, then review again.**
+**Advisory recommendation:** a human reviewer may approve both Batch 002 appearances, while separately fixing the resolver/workbench label. The label defect should not be treated as evidence that the boxer identity is wrong.
 
-### Samantha Ginithan → `2b2d8197-95f6-4f98-abe4-70417ed844f0`
+## Production
 
-Identity evidence looks strong: exact name, observed New Mexico with candidate Las Cruces, NM, 129.2 lb vs 129.4 lb, same commission, no competing candidate.
-
-But staging currently contains **two canonical bouts** on 2026-06-26 against Shelby Cannon. The result history on one duplicate also oscillates between opposite winner IDs across reparses/revisions, while the batch `contradictions` field remains empty.
-
-**Recommendation: HOLD. Repair/reconcile the duplicate bout and result revision chain, regenerate candidate evidence, then review again.**
-
-## Required follow-up before applying Batch 001
-
-1. Fix duplicate canonical same-date/same-opponent bouts for Yusmel Alejandro Ruiz, Sofia Viretti and Samantha Ginithan.
-2. Fix/reconcile the result revision chains for Sofia Viretti and Samantha Ginithan so the latest canonical result is deterministic and provenance-correct.
-3. Update the review workbench so duplicate canonical bouts and conflicting result revisions are surfaced as contradiction/danger evidence rather than silently appearing in `candidate_record`.
-4. Regenerate Batch 001 after the repair.
-5. A named human reviewer may then record decisions. Do not weaken the human-review guard and do not attribute this AI audit to a human reviewer.
+Production was not touched by this audit or correction.
