@@ -134,6 +134,28 @@ export function pgStore(client) {
     async officialCandidates(keys, namespace, externalId) {
       return (await one(client, "select public.boxing_official_candidates($1, $2, $3) as r", [keys, namespace, externalId])).r;
     },
+    // --- newsroom
+    async newsContext(p) {
+      return (await one(client, "select public.boxing_news_context($1) as r", [p])).r;
+    },
+    async storeArticle(p) {
+      return (await one(client, "select public.boxing_store_article($1) as r", [p])).r;
+    },
+    async pendingNewsEvents(p) {
+      return (await one(client, "select public.boxing_news_events_pending($1) as r", [p])).r;
+    },
+    async wire(p) {
+      return (await one(client, "select public.boxing_wire($1) as r", [p])).r;
+    },
+    async setNewsEventState(id, state) {
+      await client.query("select public.boxing_set_news_event_state($1, $2)", [id, state]);
+    },
+    async reviewArticle(id, decision, actor, note) {
+      return (await one(client, "select public.boxing_review_article($1, $2, $3, $4) as r", [id, decision, actor, note])).r;
+    },
+    async publishArticle(id) {
+      return (await one(client, "select public.boxing_publish_article($1) as r", [id])).r;
+    },
     async source(sourceKey) {
       return one(client, 'select id, source_key, enabled, access_mode, rights_state, persistence_allowed from public.boxing_sources where source_key = $1', [sourceKey]);
     },

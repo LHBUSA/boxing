@@ -95,6 +95,14 @@ export function postgrestStore({ url, serviceKey, fetchImpl = fetch }) {
     recordPointDeduction: (p) => rpc("boxing_record_point_deduction", { p: p }),
     boutOutcomeState: (p) => rpc("boxing_bout_outcome_state", { p_bout: p }),
     officialCandidates: (keys, namespace, externalId) => rpc("boxing_official_candidates", { p_keys: keys, p_namespace: namespace, p_external_id: externalId }),
+    // --- newsroom
+    newsContext: (p) => rpc("boxing_news_context", { p_news_event: p }),
+    storeArticle: (p) => rpc("boxing_store_article", { p: p }),
+    pendingNewsEvents: (p) => rpc("boxing_news_events_pending", { p_limit: p }),
+    wire: (p) => rpc("boxing_wire", { p_limit: p }),
+    setNewsEventState: (id, state) => rpc("boxing_set_news_event_state", { p_id: id, p_state: state }),
+    reviewArticle: (id, decision, actor, note) => rpc("boxing_review_article", { p_article: id, p_decision: decision, p_actor: actor, p_note: note }),
+    publishArticle: (id) => rpc("boxing_publish_article", { p_article: id }),
     async source(sourceKey) {
       const rows = await call(
         `boxing_sources?select=id,source_key,enabled,access_mode,rights_state,persistence_allowed&source_key=eq.${encodeURIComponent(sourceKey)}`,
