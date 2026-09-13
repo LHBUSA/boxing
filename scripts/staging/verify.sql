@@ -260,6 +260,24 @@ begin
   exception when sqlstate 'BXTST' then null;
   end;
 
+  -- identity graph / provider identities / promoters / news time (migration 0016)
+  select count(*) into n from pg_trigger where tgname = 'boxing_append_only_row'
+    and tgrelid in ('public.boxing_identity_appearance_decisions'::regclass, 'public.boxing_provider_participant_identities'::regclass);
+  results := results || jsonb_build_object('check', 'identity_decisions_and_provider_identities_append_only', 'ok', n = 2, 'detail', n || ' of 2 append-only triggers');
+  select count(*) into n from public.boxing_provider_participant_identities i
+    where not exists (select 1 from public.boxing_bout_participants p where p.bout_id = i.bout_id and p.fighter_id = public.boxing_canonical_fighter_id(i.fighter_id))
+       or not exists (select 1 from public.boxing_bout_identities b where b.bout_id = i.bout_id and b.external_id = i.provider_event_id);
+  results := results || jsonb_build_object('check', 'provider_identities_only_from_mapped_bout_corners', 'ok', n = 0, 'detail', n || ' provider identities without a mapped bout corner');
+  select count(*) into n from public.boxing_sources where source_kind = 'promotion' and (enabled or access_mode = 'approved_ingest');
+  results := results || jsonb_build_object('check', 'no_promoter_source_enabled', 'ok', n = 0, 'detail', n || ' promoter sources enabled or approved');
+  select count(*) into n from public.boxing_identity_appearance_decisions d
+    where d.decided_by = 'resolver' and ((d.decision = 'matched' and d.tier not in ('A','B')) or (d.decision = 'created' and d.tier not in ('A','D')) or d.evidence_hash = '');
+  results := results || jsonb_build_object('check', 'resolver_decisions_tiered_and_evidenced', 'ok', n = 0, 'detail', n || ' resolver decisions without a valid tier or evidence hash');
+  select count(*) into n from public.boxing_news_events ne join public.boxing_events e on e.id = coalesce(ne.boxing_event_id, (select b.event_id from public.boxing_bouts b where b.id = ne.bout_id))
+    where ne.state in ('new','needs_review') and ne.event_type not in ('RESULT_CORRECTED','RESULT_OVERTURNED','MARKET_MOVED')
+      and e.event_date < (ne.detected_at at time zone 'UTC')::date - 45;
+  results := results || jsonb_build_object('check', 'no_newsworthy_news_about_old_events', 'ok', n = 0, 'detail', n || ' open news events more than 45 days after their event');
+
   select count(*) into n from public.boxing_fighters;
   results := results || jsonb_build_object('check', 'verification_left_no_residue', 'ok', n = n_fighters_before and not exists (select 1 from public.boxing_sources where source_key = 'staging_verify_probe'),
     'detail', n || ' fighters after checks, ' || n_fighters_before || ' before');
