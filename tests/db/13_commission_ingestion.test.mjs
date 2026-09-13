@@ -63,7 +63,7 @@ const ingest = (adapterKey, opts = {}) => runCommissionIngest(store, ENV, { adap
   provenance: manualProvenance({ workerName: 'tests/db/13', runtime: 'node test', trigger: opts.trigger ?? 'backfill' }) });
 
 test('Nevada boxing is ingested; MMA and PowerSlap never enter Boxing Core', async () => {
-  const r = await ingest('nevada');
+  const r = await ingest('nevada', { mode: 'forward', trigger: 'manual' });
   assert.equal(r.status, 'ok', JSON.stringify(r.metrics));
   assert.ok(!requested.some((u) => /MMA|SLAP/.test(u)), 'non-boxing documents are not even downloaded');
   assert.equal(r.metrics.rejected_reasons['listing_not_boxing:mma'], 1);
@@ -82,11 +82,11 @@ test('Nevada boxing is ingested; MMA and PowerSlap never enter Boxing Core', asy
   const ded = await one(`select points, round from public.boxing_point_deductions`);
   assert.deepEqual([Number(ded.points), ded.round], [1, 4]);
   const run = await one(`select trigger_type, worker, source_version from public.boxing_ingest_runs where id = $1`, [r.runId]);
-  assert.deepEqual(run, { trigger_type: 'backfill', worker: 'boxing-commissions', source_version: 'nsac-nevada@1.0.1' });
+  assert.deepEqual(run, { trigger_type: 'manual', worker: 'boxing-commissions', source_version: 'nsac-nevada@1.0.1' });
 });
 
 test('Florida boxing is ingested; MMA, bare-knuckle documents and bouts do not enter pro boxing', async () => {
-  const r = await ingest('florida');
+  const r = await ingest('florida', { mode: 'forward', trigger: 'manual' });
   assert.equal(r.status, 'ok', JSON.stringify(r.metrics));
   assert.ok(!requested.some((u) => /Synthetic_MMA|Synthetic_Knuckle/.test(u)), 'listing brand hints skip non-boxing documents');
   const events = await q(`select e.event_date::text, e.status, e.name from public.boxing_events e join public.boxing_sources s on s.id = e.source_id where s.source_key = 'florida_athletic_commission' order by 1`);
@@ -202,7 +202,7 @@ test('stored odds resolve later without refetching; both canonical participants 
   assert.equal(providerCalls, 0, 'replay makes no provider request');
   assert.deepEqual(replay.metrics.newly_linked_events, ['odds-both']);
   const map = await one(`select resolved_at, resolver_version, resolution_run_id, evidence from public.boxing_bout_identities where external_id = 'odds-both'`);
-  assert.equal(map.resolver_version, 'boxing-odds-event-matcher@1.0.0');
+  assert.equal(map.resolver_version, 'boxing-odds-event-matcher@1.1.0');
   assert.equal(map.resolution_run_id, replay.runId);
   assert.equal(new Date(map.evidence.original_captured_at).toISOString(), new Date(capturedAt).toISOString());
   const ticks = await q(`select captured_at, provider_timestamp, recorded_at from public.boxing_market_ticks`);

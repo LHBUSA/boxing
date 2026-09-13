@@ -6,24 +6,38 @@
 // is a filter, never the evidence. An existing provider-event mapping is
 // re-verified every time: if the corners no longer match (opponent replaced
 // but the provider reused its event id) the event goes to the unmatched queue.
+//
+// 1.1.0: a different given name never matches in bout scope (Jermall/Jermell);
+// a provider participant identity VERIFIED by an earlier authoritative match
+// decides that name: it confirms its own boxer and refuses any other corner.
 
 import { resolveIdentity } from '../identity/resolver.mjs';
+import { normalizedAlias } from '../identity/normalize.mjs';
 
-export const MATCHER_VERSION = 'boxing-odds-event-matcher@1.0.0';
+export const MATCHER_VERSION = 'boxing-odds-event-matcher@1.1.0';
 const WINDOW_MS = 2 * 86_400_000;
 
-function resolveCorner(name, bout, candidatesById) {
+export const providerNameKey = (name) => normalizedAlias(name);
+
+function resolveCorner(name, bout, candidatesById, providerIdentities) {
   const corners = bout.participants.map((p) => candidatesById.get(p.fighter_id)).filter(Boolean);
   if (corners.length !== 2) return { outcome: 'unresolved', reason: 'bout_corners_missing' };
+  const known = providerIdentities?.get(providerNameKey(name)) ?? [];
+  if (known.length === 1) {
+    const corner = bout.participants.find((p) => p.fighter_id === known[0]);
+    if (!corner) return { outcome: 'unresolved', reason: 'provider_identity_points_elsewhere' };
+    return { outcome: 'matched', fighter_id: corner.fighter_id, side: corner.side, level: 'provider_identity_verified' };
+  }
   const d = resolveIdentity({ display_name: name }, { candidates: corners }, { scope: corners.map((c) => c.id), allowCreate: false });
   if (d.outcome !== 'matched') return { outcome: 'unresolved', reason: d.reason };
+  if (d.evidence?.givenNameDiffers) return { outcome: 'unresolved', reason: 'given_name_differs' };
   const side = bout.participants.find((p) => p.fighter_id === d.fighter_id)?.side;
   return { outcome: 'matched', fighter_id: d.fighter_id, side, level: d.evidence?.nameLevel };
 }
 
-function tryBout(event, bout, candidatesById) {
-  const home = resolveCorner(event.home_team, bout, candidatesById);
-  const away = resolveCorner(event.away_team, bout, candidatesById);
+function tryBout(event, bout, candidatesById, providerIdentities) {
+  const home = resolveCorner(event.home_team, bout, candidatesById, providerIdentities);
+  const away = resolveCorner(event.away_team, bout, candidatesById, providerIdentities);
   if (home.outcome !== 'matched' || away.outcome !== 'matched') return { ok: false, home, away };
   if (home.fighter_id === away.fighter_id) return { ok: false, home, away, reason: 'both_names_same_corner' };
   return {
@@ -37,14 +51,14 @@ function tryBout(event, bout, candidatesById) {
 
 // bouts: from boxing_market_bouts_in_window; candidatesById: Map of candidate
 // objects for every participant; mappedBoutId: existing provider mapping or null.
-export function matchEvent(event, { bouts, candidatesById, mappedBoutId = null }) {
+export function matchEvent(event, { bouts, candidatesById, mappedBoutId = null, providerIdentities = null }) {
   const commence = Date.parse(event.commence_time);
   if (!Number.isFinite(commence)) return { matched: false, reason: 'invalid_commence_time' };
 
   if (mappedBoutId) {
     const bout = bouts.find((b) => b.bout_id === mappedBoutId);
     if (!bout) return { matched: false, reason: 'mapped_bout_not_schedulable', detail: { mapped_bout_id: mappedBoutId } };
-    const r = tryBout(event, bout, candidatesById);
+    const r = tryBout(event, bout, candidatesById, providerIdentities);
     if (!r.ok) return { matched: false, reason: 'mapped_bout_participant_mismatch', detail: { mapped_bout_id: mappedBoutId, home: r.home, away: r.away } };
     return { matched: true, method: 'existing_mapping', ...r };
   }
@@ -53,7 +67,7 @@ export function matchEvent(event, { bouts, candidatesById, mappedBoutId = null }
   const hits = [];
   const near = [];
   for (const bout of inWindow) {
-    const r = tryBout(event, bout, candidatesById);
+    const r = tryBout(event, bout, candidatesById, providerIdentities);
     if (r.ok) hits.push(r);
     else if (r.home?.outcome === 'matched' || r.away?.outcome === 'matched') near.push({ bout_id: bout.bout_id, home: r.home, away: r.away, reason: r.reason });
   }

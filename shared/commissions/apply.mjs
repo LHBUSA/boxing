@@ -32,12 +32,16 @@ export function cardDocumentFor(adapter, ev, bouts) {
     commission: { ...adapter.commission },
     // the commission's own result sheet is the authoritative record of its ring officials
     officials_authority: 'commission',
+    // official sheets: unresolved corners get career-graph identity resolution
+    identity_graph: true,
     ...(ev.venue?.name ? { venue: { name: ev.venue.name, city: ev.venue.city ?? null, region: ev.venue.region ?? null, country_code: ev.venue.country_code ?? 'US' } } : {}),
     bouts: bouts.map((b) => ({
       external_id: b.source_bout_id, bout_order: b.bout_order ?? null, scheduled_rounds: b.scheduled_rounds ?? null,
       status: b.result?.resolved ? 'complete' : ev.status === 'cancelled' ? 'cancelled' : 'scheduled',
       fighter_a: { display_name: b.fighter_a.display_name, hometown: b.fighter_a.hometown ?? null },
       fighter_b: { display_name: b.fighter_b.display_name, hometown: b.fighter_b.hometown ?? null },
+      // identity context only; kept out of the fighter records so identity observations stay stable
+      corner_context: { a: { weight_lb: b.fighter_a.weight_lb ?? null, debut: b.debut?.a ?? null }, b: { weight_lb: b.fighter_b.weight_lb ?? null, debut: b.debut?.b ?? null } },
       ...((b.referee || b.judges?.some((j) => j.name))
         ? { officials: [...(b.referee ? [{ role: 'referee', display_name: b.referee }] : []),
             ...(b.judges ?? []).filter((j) => j.name).map((j) => ({ role: 'judge', slot: j.slot, display_name: j.name }))], officials_complete: true }
@@ -62,6 +66,11 @@ export async function applyCommissionParsed(store, adapter, parsed, { now = new 
     if (card.event_created) summary.events_created += 1;
     for (const n of card.news ?? []) countNews(n);
     summary.identity_unresolved += card.unresolved?.length ?? 0;
+    summary.graph_bindings_used = (summary.graph_bindings_used ?? 0) + (card.identity_graph?.bindings_used ?? 0);
+    for (const [k, n] of Object.entries(card.identity_graph?.decisions ?? {})) {
+      summary.graph_decisions ??= {};
+      summary.graph_decisions[k] = (summary.graph_decisions[k] ?? 0) + n;
+    }
     for (const u of card.unresolved ?? []) if (u.review_item_id) summary.review_items.push(u.review_item_id);
     if (!bouts.length) continue;
 

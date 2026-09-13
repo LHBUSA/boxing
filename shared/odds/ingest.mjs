@@ -3,7 +3,7 @@
 // Runtime-agnostic (pg store locally, PostgREST store in Workers).
 
 import { contentHash } from '../canonical.mjs';
-import { MATCHER_VERSION, matchEvent } from './match.mjs';
+import { MATCHER_VERSION, matchEvent, providerNameKey } from './match.mjs';
 import {
   ADAPTER_VERSION, EVENT_NAMESPACE, PROVIDER_SLUG, SOURCE_KEY, SPORT_KEY, normalizeEvent, validatePayload,
 } from '../adapters/odds/the-odds-api.mjs';
@@ -50,10 +50,14 @@ export async function ingestOddsPayload(store, { payload, capturedAt = new Date(
   const { candidates } = participantIds.length ? await store.candidates({ scope: participantIds }) : { candidates: [] };
   const candidatesById = new Map(candidates.map((c) => [c.id, c]));
   const mapped = await store.boutsForProviderEvents(EVENT_NAMESPACE, payload.map((e) => String(e.id)));
+  const names = [...new Set(payload.flatMap((e) => [e.home_team, e.away_team]).filter(Boolean).map(providerNameKey))];
+  const providerIdentities = store.providerParticipantIdentityMap && names.length
+    ? new Map(Object.entries(await store.providerParticipantIdentityMap(PROVIDER_SLUG, names))) : new Map();
+  metrics.provider_identities_verified = 0;
 
   const matched = [];
   for (const event of payload) {
-    const m = matchEvent(event, { bouts, candidatesById, mappedBoutId: mapped[event.id] ?? null });
+    const m = matchEvent(event, { bouts, candidatesById, mappedBoutId: mapped[event.id] ?? null, providerIdentities });
     if (!m.matched) {
       metrics.events_unmatched++;
       metrics.unmatched_reasons[m.reason] = (metrics.unmatched_reasons[m.reason] ?? 0) + 1;
@@ -79,6 +83,20 @@ export async function ingestOddsPayload(store, { payload, capturedAt = new Date(
           home_name: event.home_team, away_name: event.away_team, commence_time: event.commence_time, observation_id: obs.id,
         });
         continue;
+      }
+    }
+    // both names resolved to the two corners of one canonical bout: the provider's
+    // participant names are now verified identities (evidence, never a source of boxers)
+    if (store.recordProviderParticipantIdentity) {
+      for (const side of ['home', 'away']) {
+        const ev = m.evidence?.[side];
+        if (!ev?.fighter_id || ev.level === 'provider_identity_verified') continue;
+        const r = await store.recordProviderParticipantIdentity({
+          provider_slug: PROVIDER_SLUG, participant_name: ev.name, normalized_name: providerNameKey(ev.name), fighter_id: ev.fighter_id,
+          bout_id: m.bout_id, provider_event_id: String(event.id), resolver_version: MATCHER_VERSION, ingest_run_id: runId,
+          evidence: { method: m.method, name_level: ev.level, side: ev.side, captured_at: capturedAt, replay },
+        });
+        if (r.status === 'verified') metrics.provider_identities_verified += 1;
       }
     }
     const norm = normalizeEvent(event, { sides: m.sides, fighters: m.fighters, region });

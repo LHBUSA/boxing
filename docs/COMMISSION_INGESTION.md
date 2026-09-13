@@ -109,7 +109,7 @@ Within one card document, the same name with the same stated hometown is one box
   - ticks keep the original `captured_at` and provider timestamps
   - `recorded_at` shows when the row was written
   - the provider ledger is untouched
-- **New mappings record** `resolved_at`, `resolver_version` (`boxing-odds-event-matcher@1.0.0`), `resolution_run_id` and `evidence.original_captured_at`.
+- **New mappings record** `resolved_at`, `resolver_version` (`boxing-odds-event-matcher@1.1.0`), `resolution_run_id` and `evidence.original_captured_at`.
 - **Matching still requires** both provider names to resolve to the two corners of exactly one bout within ±2 days. Event-title similarity alone never links.
 
 ## Cadence (respectful)

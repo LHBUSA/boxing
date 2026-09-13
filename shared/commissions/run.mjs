@@ -11,6 +11,9 @@
 // revision and observation are never overwritten.
 
 import { configHash } from '../provenance.mjs';
+import { sha256Hex } from '../canonical.mjs';
+import { withTemporalMode } from '../news/temporal.mjs';
+import { assignBoutIds } from '../adapters/commissions/contract.mjs';
 import { sourceApprovalFor } from './gates.mjs';
 import { applyCommissionParsed } from './apply.mjs';
 import { NEVADA, parseCalendar, parseNevadaResults, parseResultsIndex, resultsIndexUrl } from '../adapters/commissions/nevada.mjs';
@@ -42,6 +45,8 @@ export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = 
   if (!adapter) return { status: 'blocked', assertions: { adapter: `unknown adapter ${adapterKey}` } };
   if (env.COMMISSION_INGEST_ENABLED !== 'true') return { status: 'disabled', reason: 'COMMISSION_INGEST_ENABLED is not "true"' };
   if (!store?.writeTarget?.verified) return { status: 'blocked', assertions: { write_target: 'store has no verified boxing write target' } };
+  // backfilled past facts are history, not news (payload.temporal, state skipped)
+  if (mode === 'backfill') store = withTemporalMode(store, 'backfill');
   if (!adapter.remote.enabled) return { status: 'blocked', assertions: { remote: adapter.remote.reason } };
   const src = await store.source(adapter.sourceKey);
   const refusal = sourceApprovalFor(adapter.sourceKey, src);
@@ -60,6 +65,7 @@ export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = 
       if (typeof v === 'number') metrics.apply[k] = (metrics.apply[k] ?? 0) + v;
       else if (k === 'news') for (const [t, n] of Object.entries(v)) { metrics.apply.news ??= {}; metrics.apply.news[t] = (metrics.apply.news[t] ?? 0) + n; }
       else if (k === 'review_items') { metrics.apply.review_items ??= []; metrics.apply.review_items.push(...v); }
+      else if (k === 'graph_decisions') for (const [t, n] of Object.entries(v)) { metrics.apply.graph_decisions ??= {}; metrics.apply.graph_decisions[t] = (metrics.apply.graph_decisions[t] ?? 0) + n; }
       else if (k === 'skipped') { metrics.apply.skipped_reasons ??= {}; for (const x of v) metrics.apply.skipped_reasons[x.reason] = (metrics.apply.skipped_reasons[x.reason] ?? 0) + 1; }
     }
   };
@@ -109,7 +115,8 @@ export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = 
     const accepted = parsed.classification.accepted;
     const observation = await store.recordObservation({
       source_key: adapter.sourceKey, ingest_run_id: runId, entity_type: accepted ? 'commission_results_document' : 'commission_document_rejected',
-      external_key: ref.doc_key, source_url: ref.url, content_hash: sha, parser_version: adapter.version, source_published_at: now,
+      // a re-parse of the same bytes by a newer parser is a new observation (the stored parse must match its parser)
+      external_key: ref.doc_key, source_url: ref.url, content_hash: await sha256Hex(`${sha}|${adapter.version}`), parser_version: adapter.version, source_published_at: now,
       payload: assertMinimized({ doc_key: ref.doc_key, url: ref.url, sha256: sha, http_last_modified: fetched.lastModified, summary: summarize(parsed),
         document: accepted ? parsed.minimized : null, events: accepted ? parsed.events : [], bouts: accepted ? parsed.bouts : [] }),
     });
@@ -195,4 +202,57 @@ export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = 
       started_at: now, outcome: status === 'failed' ? 'failed' : 'ran', ingest_run_id: runId, config_hash: prov.config_hash, detail: { adapter: adapterKey, status } }).catch(() => {});
   }
   return { runId, status, metrics };
+}
+
+// Re-applies the latest STORED parse of every accepted official result document
+// (no refetch), e.g. after identity resolution improved. Passes repeat while new
+// appearance bindings keep unlocking bouts. News from a re-apply is history.
+export async function reapplyStoredDocuments(store, { adapterKey, now = new Date().toISOString(), provenance = null, maxPasses = 4, pageSize = 8 } = {}) {
+  const adapter = COMMISSION_ADAPTERS[adapterKey];
+  if (!adapter) throw new Error(`unknown commission adapter ${adapterKey}`);
+  if (!store?.writeTarget?.verified) return { status: 'blocked', assertions: { write_target: 'store has no verified boxing write target' } };
+  const writer = withTemporalMode(store, 'reapply');
+  const prov = provenance ? { ...provenance, source_version: adapter.version, config_hash: await configHash({ adapter: adapter.version, mode: 'reapply', maxPasses }) } : null;
+  const runId = await store.startRun({ worker: 'boxing-commissions', sourceKey: adapter.sourceKey, adapterVersion: adapter.version, provenance: prov });
+  const docs = [];
+  for (let offset = 0; ; offset += pageSize) {
+    const page = await store.commissionParsedDocuments(adapter.sourceKey, offset, pageSize);
+    docs.push(...page);
+    if (page.length < pageSize) break;
+  }
+  // chronological: earlier cards build the career graph later cards are resolved against
+  const firstDate = (d) => (d.events ?? []).map((e) => e.event_date).filter(Boolean).sort()[0] ?? '9999';
+  docs.sort((x, y) => firstDate(x).localeCompare(firstDate(y)) || x.doc_key.localeCompare(y.doc_key));
+  const passes = [];
+  let status = 'ok';
+  try {
+    for (let pass = 1; pass <= maxPasses; pass++) {
+      const m = { pass, documents: 0, bouts_linked: 0, bout_ids_attached: 0, results_created: 0, graph_decisions: {}, graph_bindings_used: 0, identity_unresolved: 0, skipped_reasons: {} };
+      for (const d of docs) {
+        // stored parses from older parser versions predate distinct repeat-pairing ids
+        const bouts = assignBoutIds((d.bouts ?? []).map((b) => ({ ...b })));
+        const s = await applyCommissionParsed(writer, adapter, { events: d.events ?? [], bouts, rejected: [] }, { now, changeReason: 'identity_graph_reapply' });
+        m.documents += 1;
+        for (const k of ['bouts_linked', 'bout_ids_attached', 'results_created', 'graph_bindings_used', 'identity_unresolved']) m[k] += s[k] ?? 0;
+        for (const [k, n] of Object.entries(s.graph_decisions ?? {})) m.graph_decisions[k] = (m.graph_decisions[k] ?? 0) + n;
+        for (const x of s.skipped ?? []) m.skipped_reasons[x.reason] = (m.skipped_reasons[x.reason] ?? 0) + 1;
+      }
+      passes.push(m);
+      const newBindings = Object.entries(m.graph_decisions).filter(([k]) => /:(matched|created)$/.test(k)).reduce((a, [, n]) => a + n, 0);
+      if (!newBindings) break;
+    }
+  } catch (err) {
+    status = 'failed';
+    passes.push({ error: String(err?.message ?? err).slice(0, 300) });
+  }
+  const last = passes.filter((p) => !p.error).at(-1) ?? {};
+  await store.finishRun(runId, { status, metrics: { adapter: adapterKey, mode: 'reapply', documents: docs.length, passes }, observed: 0,
+    canonicalWrites: passes.reduce((a, p) => a + (p.results_created ?? 0), 0), error: passes.find((p) => p.error)?.error ?? null });
+  if (prov?.invocation_id && store.recordWorkerInvocation) {
+    await store.recordWorkerInvocation({ worker: 'boxing-commissions', worker_name: prov.worker_name, worker_version: prov.worker_version, deployment_id: prov.deployment_id,
+      invocation_id: `${prov.invocation_id}:${adapterKey}:reapply`, trigger_type: prov.trigger_type, cron: prov.cron ?? null, scheduled_for: prov.scheduled_for ?? null,
+      runtime: prov.runtime, started_at: prov.started_at ?? now, completed_at: new Date().toISOString(), outcome: status === 'failed' ? 'failed' : 'ran', ingest_run_id: runId,
+      config_hash: prov.config_hash, detail: { adapter: adapterKey, mode: 'reapply', status } });
+  }
+  return { status, runId, documents: docs.length, passes, final: last };
 }

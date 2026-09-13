@@ -221,6 +221,46 @@ export function pgStore(client) {
     async commissionCoverage() {
       return (await one(client, 'select public.boxing_commission_coverage() as r')).r;
     },
+    // --- identity graph
+    async appearanceBindings(namespace, keys) {
+      return (await one(client, 'select public.boxing_appearance_bindings($1, $2) as r', [namespace, keys])).r;
+    },
+    async identityGraphContext(ids) {
+      return (await one(client, 'select public.boxing_identity_graph_context($1) as r', [ids])).r;
+    },
+    async recordAppearanceDecision(p) {
+      return (await one(client, 'select public.boxing_record_appearance_decision($1) as r', [p])).r;
+    },
+    async identityReviewBacklog(sourceKeys = null) {
+      return (await one(client, 'select public.boxing_identity_review_backlog($1) as r', [sourceKeys])).r;
+    },
+    async commissionParsedDocuments(sourceKey, offset = 0, limit = 10) {
+      return (await one(client, 'select public.boxing_commission_parsed_documents($1, $2, $3) as r', [sourceKey, offset, limit])).r;
+    },
+    async sourceCornerFighters(sourceKey, namespace, bouts) {
+      return (await one(client, 'select public.boxing_source_corner_fighters($1, $2, $3) as r', [sourceKey, namespace, bouts])).r;
+    },
+    async sourceEventIds(namespace, externalIds) {
+      return (await one(client, 'select public.boxing_source_event_ids($1, $2) as r', [namespace, externalIds])).r;
+    },
+    async recordProviderParticipantIdentity(p) {
+      return (await one(client, 'select public.boxing_record_provider_participant_identity($1) as r', [p])).r;
+    },
+    async providerParticipantIdentityMap(providerSlug, names) {
+      return (await one(client, 'select public.boxing_provider_participant_identity_map($1, $2) as r', [providerSlug, names])).r;
+    },
+    async eventCrossSourceCandidates(p) {
+      return (await one(client, 'select public.boxing_event_cross_source_candidates($1) as r', [p])).r;
+    },
+    async attachEventIdentity(p) {
+      return (await one(client, 'select public.boxing_attach_event_identity($1) as r', [p])).r;
+    },
+    async eventOwner(eventId) {
+      return (await one(client, 'select public.boxing_event_owner($1) as r', [eventId])).r;
+    },
+    async identityTierSummary() {
+      return (await one(client, 'select public.boxing_identity_tier_summary() as r')).r;
+    },
     // --- read-only gateway
     async gatewayBout(id) {
       return (await one(client, 'select public.boxing_gateway_bout($1) as r', [id])).r;

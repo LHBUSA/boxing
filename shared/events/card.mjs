@@ -24,6 +24,7 @@ import { contentHash, dedupeKey } from '../canonical.mjs';
 import { ingestIdentity } from '../identity/pipeline.mjs';
 import { ingestOfficial } from './officials.mjs';
 import { normalizedAlias } from '../identity/normalize.mjs';
+import { resolveAndRecordAppearance } from '../identity/appearance.mjs';
 
 const ACTIVE = new Set(['scheduled', 'confirmed']);
 
@@ -214,23 +215,67 @@ export async function applyCardDocument(store, doc, { now = new Date().toISOStri
   const unresolved = [];
   const officialsInDocument = new Map();
   const fightersInDocument = new Map();
+  const fighterNamespace = `${doc.namespace}.fighter`;
+  // official sheets carry per-corner context (weight, debut): unresolved corners get
+  // career-graph resolution, and every recorded appearance binding is reused first
+  const graphEnabled = doc.identity_graph === true;
+  const graphKeys = graphEnabled ? doc.bouts.filter((b) => b.external_id).flatMap((b) => [`${b.external_id}|a`, `${b.external_id}|b`]) : [];
+  const bindings = graphKeys.length ? await store.appearanceBindings(fighterNamespace, graphKeys) : {};
+  const identityGraph = { bindings_used: 0, decisions: {} };
+  const docKeyOf = (f) => (f.external_id ? `id:${f.external_id}` : f.hometown ? `name:${normalizedAlias(f.display_name)}|${normalizedAlias(f.hometown)}` : null);
   for (const b of doc.bouts) {
     const corners = {};
+    const pending = [];
     for (const side of ['a', 'b']) {
       const f = b[`fighter_${side}`];
+      const binding = b.external_id ? bindings[`${b.external_id}|${side}`] : null;
+      if (binding?.fighter_id) {
+        corners[side] = binding.fighter_id;
+        identityGraph.bindings_used += 1;
+        continue;
+      }
       // within ONE card document, the same external id, or the same name with the same
       // stated hometown, is the same boxer (repeat pairings); across documents the
       // resolver decides as always
-      const docKey = f.external_id ? `id:${f.external_id}` : f.hometown ? `name:${normalizedAlias(f.display_name)}|${normalizedAlias(f.hometown)}` : null;
+      const docKey = docKeyOf(f);
       const cached = docKey ? fightersInDocument.get(docKey) : null;
       const { result } = cached ?? await ingestIdentity(store, {
-        sourceKey: doc.source_key, accessMode: src.access_mode, namespace: `${doc.namespace}.fighter`,
+        sourceKey: doc.source_key, accessMode: src.access_mode, namespace: fighterNamespace,
         record: { external_id: f.external_id ?? null, display_name: f.display_name, dob: f.dob ?? null, nationality: f.nationality ?? [], hometown: f.hometown ?? null },
         payload: { event: doc.external_id, bout: b.external_id ?? null, side, ...f },
       });
       if (docKey && !cached && ['matched', 'created'].includes(result.outcome)) fightersInDocument.set(docKey, { result });
       if (['matched', 'created'].includes(result.outcome)) corners[side] = result.fighter_id;
-      else unresolved.push({ bout: b.external_id ?? null, side, name: f.display_name, outcome: result.outcome, reason: result.reason, review_item_id: result.review_item_id ?? null });
+      else pending.push({ side, f, result });
+    }
+    if (graphEnabled && b.external_id && pending.length) {
+      // second round only when the first round resolved the opponent (new graph evidence)
+      for (let round = 0, progress = true; round < 2 && progress; round++) {
+        progress = false;
+        for (const p of pending) {
+          if (corners[p.side]) continue;
+          const other = p.side === 'a' ? 'b' : 'a';
+          if (round === 1 && !corners[other]) continue;
+          const ctx = b.corner_context?.[p.side] ?? {};
+          const d = await resolveAndRecordAppearance(store, {
+            source_key: doc.source_key, namespace: fighterNamespace, bout_external_id: b.external_id, side: p.side,
+            display_name: p.f.display_name, hometown: p.f.hometown ?? null, weight_lb: ctx.weight_lb ?? null, debut: ctx.debut ?? null,
+            event: { event_id: eventId, date: doc.event_date ?? null, commission: doc.commission?.slug ?? null, venue_id: resolved.venue_id ?? null },
+            opponent: { display_name: b[`fighter_${other}`].display_name, fighter_id: corners[other] ?? null },
+          }, { allowCreate: src.access_mode === 'approved_ingest' });
+          const k = `${d.tier ?? '-'}:${d.decision}`;
+          identityGraph.decisions[k] = (identityGraph.decisions[k] ?? 0) + 1;
+          if (['matched', 'created'].includes(d.decision) && d.fighter_id) {
+            corners[p.side] = d.fighter_id;
+            progress = true;
+            const docKey = docKeyOf(p.f);
+            if (docKey) fightersInDocument.set(docKey, { result: { outcome: 'matched', fighter_id: d.fighter_id } });
+          }
+        }
+      }
+    }
+    for (const p of pending) {
+      if (!corners[p.side]) unresolved.push({ bout: b.external_id ?? null, side: p.side, name: p.f.display_name, outcome: p.result.outcome, reason: p.result.reason, review_item_id: p.result.review_item_id ?? null });
     }
     const rb = { ...b };
     if (corners.a && corners.b && corners.a !== corners.b) {
@@ -305,5 +350,5 @@ export async function applyCardDocument(store, doc, { now = new Date().toISOStri
 
   // source bout ids for this card: added bouts, and bouts matched by id or by exact pairing
   const bout_links = [...matches, ...[...boutIds].filter(([ref]) => String(ref).startsWith('ext:')).map(([ref, bout_id]) => ({ external_id: String(ref).slice(4), bout_id, matched_by: 'added' }))];
-  return { status: 'applied', event_id: eventId, event_created: ev.created, changes: applied, news, unresolved, review, bout_links, observation_id: observation.id };
+  return { status: 'applied', event_id: eventId, event_created: ev.created, changes: applied, news, unresolved, review, bout_links, identity_graph: identityGraph, observation_id: observation.id };
 }
