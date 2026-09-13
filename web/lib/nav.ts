@@ -1,6 +1,8 @@
 // Navigation registry. Only surfaces a fan can use today are listed; nothing
 // unfinished is advertised. Add an entry when its page has real coverage.
 
+import { BASE_URL } from "./posture.ts";
+
 export interface NavItem { label: string; href: string; blurb?: string }
 
 export const PRIMARY_NAV: NavItem[] = [
@@ -30,6 +32,6 @@ export const NETWORK = [
 export const SITE = {
   name: "PropBetEdge Boxing",
   description: "Boxing fight intelligence: every card on official record, fighter dossiers, judges' scorecards, officials, Fight DNA, titles and markets.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://boxing.propbetedge.ai",
+  url: BASE_URL,
   mark: "https://propbetedge.ai/logo/pbe-mark-160.png",
 };

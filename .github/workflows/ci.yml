@@ -55,4 +55,32 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npx tsc --noEmit
-      - run: npx next build
+      # posture static checks + next build + scan of client bundles and prerendered HTML for secrets
+      - run: npm run build
+
+  web-posture-live:
+    # After a push to main, wait for Vercel to serve this commit on the production alias, then probe
+    # it anonymously: robots, noindex meta + X-Robots-Tag, no custom-domain metadata, no secrets in
+    # HTML or JS bundles, no write endpoints, gateway refuses anonymous. Anonymous 200 is allowed.
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: web
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Wait for the alias to serve this commit
+        run: |
+          want="${GITHUB_SHA:0:12}"
+          for i in $(seq 1 60); do
+            got=$(curl -sI https://boxing-alpha-beryl.vercel.app/ | tr -d '' | awk -F': ' 'tolower($1)=="x-boxing-build"{print $2}')
+            if [ "$got" = "$want" ]; then echo "serving $want"; exit 0; fi
+            sleep 15
+          done
+          echo "alias still serving ${got:-unknown}; a newer push or a failed Vercel build (posture failures fail the build)"
+          exit 1
+      - run: node scripts/posture.mjs live https://boxing-alpha-beryl.vercel.app

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
+import { canonical } from "@/lib/posture";
 import { gateway, todayUtc } from "@/lib/gateway";
 import { cityLine, daysBetween, fmtDate, plural } from "@/lib/format";
 import { boutPath, eventPath, parseRef, refOf } from "@/lib/slug";
@@ -25,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${e.name} · ${fmtDate(e.date)}${e.status === "complete" ? " · results and scorecards" : ""}`,
     description: `Fight Center for ${e.name}: the full card, official results, judges' scorecards and officials from the ${e.commission?.name ?? "athletic commission"} record.`,
-    alternates: { canonical: eventPath(e) },
+    alternates: canonical(eventPath(e)),
   };
 }
 

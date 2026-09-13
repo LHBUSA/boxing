@@ -5,12 +5,13 @@
   "description": "PropBetEdge Boxing frontend. Reads only through boxing-gateway (server-side).",
   "scripts": {
     "dev": "next dev -p 3400",
-    "build": "next build",
+    "build": "node scripts/posture.mjs static && next build && node scripts/posture.mjs bundle",
+    "posture": "node scripts/posture.mjs",
     "start": "next start -p 3400",
     "typecheck": "tsc --noEmit",
     "test": "node --experimental-strip-types --no-warnings --test \"lib/**/*.test.ts\"",
     "deploy:preview": "node scripts/deploy.mjs preview",
-    "deploy:protected": "node scripts/deploy.mjs protected"
+    "deploy:production": "node scripts/deploy.mjs production"
   },
   "dependencies": {
     "next": "15.5.25",

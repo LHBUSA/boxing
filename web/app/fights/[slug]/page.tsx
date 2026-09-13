@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
+import { canonical } from "@/lib/posture";
 import { gateway } from "@/lib/gateway";
 import { cityLine, divisionLabel, fmtDate, fmtLb, fmtRecord, methodLabel, plural } from "@/lib/format";
 import { boutPath, eventPath, fighterPath, parseRef } from "@/lib/slug";
@@ -27,7 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${names}${b.result ? `: ${methodLabel(b.result) ?? "result"}` : ""} · ${fmtDate(e.date)}`,
     description: `Fight Center for ${names} at ${e.name}: official result, judges' scorecards, verified records, Fight DNA and officials.`,
-    alternates: { canonical: boutPath(b) },
+    alternates: canonical(boutPath(b)),
   };
 }
 

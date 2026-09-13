@@ -3,4 +3,5 @@
 qa/
 .next/
 node_modules/
-scripts/
+scripts/qa-shot.mjs
+scripts/deploy.mjs

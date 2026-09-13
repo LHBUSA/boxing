@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
+import { canonical } from "@/lib/posture";
 import { gateway, todayUtc } from "@/lib/gateway";
 import { daysBetween, divisionLabel, fmtClock, fmtDate, fmtLb, fmtRecord, methodLabel, plural, STANCE } from "@/lib/format";
 import { boutPath, eventPath, fighterPath, parseRef } from "@/lib/slug";
@@ -22,7 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const res = await load(slug);
   if (!res.ok || !res.data.fighter) return { title: "Fighter", robots: { index: false } };
   const { fighter: f, record: r } = res.data;
-  return { title: `${f.name}: dossier, verified record, Fight DNA`, description: `${f.name} is ${fmtRecord(r)} in ${plural(r.bouts, "verified bout")} on the official commission record.`, alternates: { canonical: fighterPath(f) } };
+  return { title: `${f.name}: dossier, verified record, Fight DNA`, description: `${f.name} is ${fmtRecord(r)} in ${plural(r.bouts, "verified bout")} on the official commission record.`, alternates: canonical(fighterPath(f)) };
 }
 
 function how(b: FighterBout) {

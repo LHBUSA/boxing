@@ -3,20 +3,19 @@ import { Inter, JetBrains_Mono, Playfair_Display } from "next/font/google";
 import { Suspense } from "react";
 import { Arena, Footer, Header, Wire } from "@/components/Shell";
 import { SITE } from "@/lib/nav";
+import { INDEXABLE } from "@/lib/posture";
 import "./globals.css";
 
 const playfair = Playfair_Display({ subsets: ["latin"], weight: ["700", "800", "900"], style: ["normal", "italic"], variable: "--font-playfair", display: "swap" });
 const inter = Inter({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"], variable: "--font-inter", display: "swap" });
 const mono = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"], variable: "--font-mono", display: "swap" });
 
-const indexable = process.env.VERCEL_ENV === "production" && process.env.BOXING_ALLOW_INDEXING === "true";
-
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: { default: `${SITE.name}: fight intelligence`, template: `%s · ${SITE.name}` },
   description: SITE.description,
   applicationName: SITE.name,
-  robots: indexable ? undefined : { index: false, follow: false },
+  robots: INDEXABLE ? undefined : { index: false, follow: false },
   icons: { icon: SITE.mark },
   openGraph: { type: "website", siteName: SITE.name, title: SITE.name, description: SITE.description },
   twitter: { card: "summary_large_image", title: SITE.name, description: SITE.description },
