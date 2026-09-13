@@ -36,6 +36,14 @@ function fakeStore() {
     siteTitleBoard: async () => ({ divisions: [], organizations: [] }),
     siteRankingBoard: async () => ({ divisions: [], organizations: [], snapshots: [] }),
     siteCoverage: async () => ({ bouts: 0 }),
+    siteScorecards: async () => ({ total: 0, rows: [] }),
+    siteScorecard: async (ref) => ({ bout: { public_id: `pbe_boxbout_${ref}` } }),
+    siteOfficials: async (role) => ({ role, total: 0, rows: [] }),
+    siteOfficial: async (ref) => ({ official: { public_id: `pbe_boxofficial_${ref}` } }),
+    siteMarketIndex: async () => ({ captured_upcoming_events: 42, matched: [{ public_id: 'pbe_boxbout_x', a: { name: 'A' }, best_american: -150, bookmaker: 'draftkings' }], provider_event_ids: ['abc'], quotes: [] }),
+    siteVideos: async () => ({ channels: [], videos: [] }),
+    sitePromoters: async () => ({ rows: [] }),
+    sitePromoter: async (key) => ({ key }),
   };
   const writes = Object.fromEntries(['recordResult', 'writeMetricSnapshots', 'ingestMarketSnapshot', 'applyDecision', 'publishArticle']
     .map((m) => [m, async () => { calls.push(m); }]));
@@ -49,7 +57,9 @@ test('contract file is generated from the route table and is current', () => {
     '/internal/v1/bouts/:id/matchup', '/internal/v1/bouts/:id/odds-summary', '/internal/v1/titles/:id', '/internal/v1/title-map',
     '/internal/v1/rankings', '/internal/v1/officials/:id', '/internal/v1/officials/:id/dna', '/internal/v1/models',
     '/internal/v1/site/home', '/internal/v1/site/events', '/internal/v1/site/events/:ref', '/internal/v1/site/bouts/:ref', '/internal/v1/site/fighters',
-    '/internal/v1/site/fighters/:ref', '/internal/v1/site/titles', '/internal/v1/site/rankings', '/internal/v1/site/coverage'];
+    '/internal/v1/site/fighters/:ref', '/internal/v1/site/titles', '/internal/v1/site/rankings', '/internal/v1/site/coverage',
+    '/internal/v1/site/scorecards', '/internal/v1/site/scorecards/:ref', '/internal/v1/site/officials', '/internal/v1/site/officials/:ref',
+    '/internal/v1/site/market-index', '/internal/v1/site/videos', '/internal/v1/site/promoters', '/internal/v1/site/promoters/:key'];
   assert.deepEqual(ROUTES.map((r) => r.path).sort(), required.sort());
   assert.ok(onDisk.routes.every((r) => r.method === 'GET'));
 });
@@ -82,7 +92,10 @@ test('route handlers can reach only read methods', async () => {
     `/internal/v1/officials/${ID}`, `/internal/v1/officials/${ID}/dna`, '/internal/v1/models', '/internal/v1/contract',
     '/internal/v1/site/home?today=2026-09-13', '/internal/v1/site/events?scope=upcoming&commission=nsac&limit=5', '/internal/v1/site/events/0123456789ab',
     '/internal/v1/site/bouts/0123456789ab', '/internal/v1/site/fighters?q=ruiz', '/internal/v1/site/fighters/0123456789abcdef',
-    '/internal/v1/site/titles?weight_class=welterweight', '/internal/v1/site/rankings?organization=wbc&weight_class=welterweight', '/internal/v1/site/coverage'];
+    '/internal/v1/site/titles?weight_class=welterweight', '/internal/v1/site/rankings?organization=wbc&weight_class=welterweight', '/internal/v1/site/coverage',
+    '/internal/v1/site/scorecards?decision=split&sort=spread', '/internal/v1/site/scorecards/0123456789ab', '/internal/v1/site/officials?role=judge&q=cheek',
+    '/internal/v1/site/officials/0123456789ab', '/internal/v1/site/market-index', '/internal/v1/site/videos?type=weigh_in', '/internal/v1/site/promoters',
+    '/internal/v1/site/promoters/matchroom-boxing-promotions'];
   for (const p of paths) {
     const res = await w.fetch(req(p), env);
     assert.equal(res.status, 200, p);
@@ -103,7 +116,9 @@ test('inputs are validated before the store is touched; missing records are 404'
     '/internal/v1/title-map?weight_class=welterweight&as_of=09-01-2026', '/internal/v1/rankings?organization=wbc',
     '/internal/v1/rankings?organization=wbc&weight_class=welterweight&gender=x', '/internal/v1/fighters/Canelo%20Alvarez',
     '/internal/v1/site/fighters/andy-ruiz', '/internal/v1/site/bouts/pbe_boxbout_0123456789ab', '/internal/v1/site/events?scope=everything',
-    '/internal/v1/site/events?limit=1000', '/internal/v1/site/fighters?q=x', '/internal/v1/site/home?today=13-09-2026', '/internal/v1/site/titles?weight_class=Welter%20weight']) {
+    '/internal/v1/site/events?limit=1000', '/internal/v1/site/fighters?q=x', '/internal/v1/site/home?today=13-09-2026', '/internal/v1/site/titles?weight_class=Welter%20weight',
+    '/internal/v1/site/scorecards?decision=robbery', '/internal/v1/site/scorecards?sort=controversy', '/internal/v1/site/officials', '/internal/v1/site/officials?role=promoter',
+    '/internal/v1/site/videos?type=leak', '/internal/v1/site/promoters/Top%20Rank', '/internal/v1/site/officials/eric-cheek']) {
     assert.equal((await w.fetch(req(p), env)).status, 400, p);
   }
   assert.equal(touched, 0, 'display names are never used to look up a fighter');
@@ -138,8 +153,8 @@ test('rights: no route can serve bulk, raw, historical or downloadable market da
   }
   for (const m of RAW_MARKET_STORE_METHODS) assert.ok(!READ_METHODS.includes(m), `gateway must not reach ${m}`);
   const oddsRoutes = ROUTES.filter((r) => /odds|market|price/i.test(r.path + r.summary));
-  assert.deepEqual(oddsRoutes.map((r) => r.path), ['/internal/v1/bouts/:id/odds-summary', '/internal/v1/site/bouts/:ref'], 'market data is only served per bout');
-  assert.ok(oddsRoutes.every((r) => /\/bouts\/:(id|ref)(\/|$)/.test(r.path)), 'every market-bearing route addresses exactly one bout');
+  assert.deepEqual(oddsRoutes.map((r) => r.path), ['/internal/v1/bouts/:id/odds-summary', '/internal/v1/site/bouts/:ref', '/internal/v1/site/market-index'], 'market prices are only served per bout');
+  assert.ok(oddsRoutes.filter((r) => r.path !== '/internal/v1/site/market-index').every((r) => /\/bouts\/:(id|ref)(\/|$)/.test(r.path)), 'every price-bearing route addresses exactly one bout');
   assert.ok(Object.keys(oddsRoutes[0].query ?? {}).length === 0, 'no paging/limit/range parameters on market data');
   assert.deepEqual(contractDocument().market_data_rights, MARKET_DATA_RIGHTS);
 });
@@ -188,4 +203,15 @@ test('site title maps and ranking snapshots keep public ids only', async () => {
   assert.ok(!JSON.stringify(out).includes(ID));
   assert.equal(out.organizations[0].belts[0].holder.public_id, 'pbe_boxer_y');
   assert.equal(out.entries[0].public_id, 'pbe_boxer_z');
+});
+
+test('site market index is a whitelisted index: no prices, bookmakers or provider ids pass through', async () => {
+  const { store } = fakeStore();
+  const w = createWorker({ makeStore: () => store });
+  const body = await (await w.fetch(req('/internal/v1/site/market-index'), env)).json();
+  assert.equal(body.data.captured_upcoming_events, 42);
+  assert.equal(body.data.provider_event_ids, undefined);
+  assert.equal(body.data.quotes, undefined);
+  assert.doesNotMatch(JSON.stringify(body), /american|bookmaker|draftkings|provider_event/);
+  assert.equal(body.data.matched[0].public_id, 'pbe_boxbout_x');
 });

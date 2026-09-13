@@ -75,7 +75,15 @@
     "siteFighter",
     "siteTitleBoard",
     "siteRankingBoard",
-    "siteCoverage"
+    "siteCoverage",
+    "siteScorecards",
+    "siteScorecard",
+    "siteOfficials",
+    "siteOfficial",
+    "siteMarketIndex",
+    "siteVideos",
+    "sitePromoters",
+    "sitePromoter"
   ],
   "routes": [
     {
@@ -273,6 +281,84 @@
         "gender": "male | female",
         "as_of": "YYYY-MM-DD"
       }
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/scorecards",
+      "summary": "Scorecard Center: decisions with official judges' cards, filterable by decision type and commission, sortable by card spread.",
+      "params": {},
+      "query": {
+        "decision": "unanimous | split | majority | draw",
+        "commission": "commission slug",
+        "sort": "recent | spread",
+        "limit": "1..100, default 40",
+        "offset": "0..10000"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/scorecards/:ref",
+      "summary": "One decision: judges' cards (and round cards when published), spread, deductions, result revisions, card provenance, judges' sample context.",
+      "params": {
+        "ref": "hex suffix of the bout public id (12..32)"
+      },
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/officials",
+      "summary": "Judge or referee directory with assignments, cards and headline descriptive metrics (with samples).",
+      "params": {},
+      "query": {
+        "role": "judge | referee (required)",
+        "q": "name search (2..60 chars)",
+        "limit": "1..120, default 60",
+        "offset": "0..10000"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/officials/:ref",
+      "summary": "Official profile: roles, jurisdictions, Judge/Referee DNA with samples, assignments with the full panel and results.",
+      "params": {
+        "ref": "hex suffix of the official public id (12..32)"
+      },
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/market-index",
+      "summary": "Odds Terminal index: capture coverage counts and the canonical bouts that have a verified market match. No prices; prices come from the one-bout summary.",
+      "params": {},
+      "query": {
+        "today": "YYYY-MM-DD"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/videos",
+      "summary": "Official Video Desk: channel registry states and published videos from enabled, verified, rights-approved channels.",
+      "params": {},
+      "query": {
+        "type": "video type",
+        "limit": "1..60, default 24"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/promoters",
+      "summary": "Promoters exactly as listed on official commission sheets (not canonical entities; no inferred affiliation).",
+      "params": {},
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/promoters/:key",
+      "summary": "One listed promoter: its sheet cards, co-listed promoters, venues and fighters appearing on those cards.",
+      "params": {
+        "key": "normalized promoter listing key"
+      },
+      "query": {}
     },
     {
       "method": "GET",

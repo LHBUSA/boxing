@@ -158,6 +158,14 @@ export function postgrestStore({ url, serviceKey, fetchImpl = fetch }) {
     siteTitleBoard: () => rpc('boxing_site_title_board', {}),
     siteRankingBoard: () => rpc('boxing_site_ranking_board', {}),
     siteCoverage: (today) => rpc('boxing_site_coverage', { p_today: today }),
+    siteScorecards: (decision, commission, sort, limit, offset) => rpc('boxing_site_scorecards', { p_decision: decision, p_commission: commission, p_sort: sort, p_limit: limit, p_offset: offset }),
+    siteScorecard: (ref) => rpc('boxing_site_scorecard', { p_ref: ref }),
+    siteOfficials: (role, q, limit, offset) => rpc('boxing_site_officials', { p_role: role, p_q: q, p_limit: limit, p_offset: offset }),
+    siteOfficial: (ref) => rpc('boxing_site_official', { p_ref: ref }),
+    siteMarketIndex: (today) => rpc('boxing_site_market_index', { p_today: today }),
+    siteVideos: (type, limit) => rpc('boxing_site_videos', { p_type: type, p_limit: limit }),
+    sitePromoters: () => rpc('boxing_site_promoters', {}),
+    sitePromoter: (key) => rpc('boxing_site_promoter', { p_key: key }),
     async source(sourceKey) {
       const rows = await call(
         `boxing_sources?select=id,source_key,enabled,access_mode,rights_state,persistence_allowed,derivative_allowed,display_allowed,redistribution_allowed,latest_rights_review_id&source_key=eq.${encodeURIComponent(sourceKey)}`,

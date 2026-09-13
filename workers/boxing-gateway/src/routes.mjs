@@ -10,6 +10,7 @@ export const READ_METHODS = Object.freeze([
   'getFighter', 'fighterDnaLatest', 'cardState', 'gatewayBout', 'gatewayMatchup', 'gatewayOddsSummary', 'gatewayModels',
   'titleSummary', 'titleReigns', 'titleMapFacts', 'rankingSnapshotAsOf', 'gatewayOfficial', 'officialDnaLatest',
   'siteHome', 'siteEvents', 'siteEvent', 'siteBout', 'siteFighters', 'siteFighter', 'siteTitleBoard', 'siteRankingBoard', 'siteCoverage',
+  'siteScorecards', 'siteScorecard', 'siteOfficials', 'siteOfficial', 'siteMarketIndex', 'siteVideos', 'sitePromoters', 'sitePromoter',
 ]);
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
@@ -17,6 +18,10 @@ const DATE = /^\d{4}-\d{2}-\d{2}$/;
 const SLUG = /^[a-z0-9_]{2,40}$/;
 const SITE_REF = /^[0-9a-f]{12,32}$/;
 const SITE_SCOPES = ['upcoming', 'results', 'all'];
+const DECISIONS = ['unanimous', 'split', 'majority', 'draw'];
+const VIDEO_TYPES = ['announcement', 'trailer_promo', 'grand_arrival', 'media_workout', 'press_conference', 'interview', 'faceoff', 'weigh_in', 'ceremonial_weigh_in',
+  'fight_preview', 'highlights', 'full_fight', 'post_fight_interview', 'post_fight_press_conference', 'analysis', 'other'];
+const PROMOTER_KEY = /^[a-z0-9](?:[a-z0-9-]{0,78}[a-z0-9])?$/;
 const intIn = (q, key, def, min, max) => {
   const n = Number(q.get(key) ?? def);
   need(Number.isInteger(n) && n >= min && n <= max, `${key} must be ${min}..${max}`);
@@ -105,6 +110,16 @@ async function siteBout(s, ref) {
   return { ...rest, market };
 }
 
+// Market index: counts and matched canonical bouts only. Whitelisted so no
+// price, bookmaker or provider identifier can ride along if the SQL grows.
+const MARKET_INDEX_FIELDS = ['captured_upcoming_events', 'captured_events_total', 'next_captured_start', 'captured_by_week', 'unmatched_open',
+  'unmatched_reasons', 'last_capture_at', 'captures_last_7_days'];
+const MATCHED_BOUT_FIELDS = ['public_id', 'order', 'status', 'scheduled_rounds', 'weight', 'a', 'b', 'result', 'titles', 'market_matched', 'event', 'starts_at'];
+export function siteMarketIndex(index) {
+  if (!index) return null;
+  return { ...pick(index, MARKET_INDEX_FIELDS), matched: (index.matched ?? []).map((m) => pick(m, MATCHED_BOUT_FIELDS)) };
+}
+
 const SITE_ROUTES = [
   {
     path: '/internal/v1/site/home', summary: 'Site home: upcoming and recent cards, latest results, scorecard watch, one Fight DNA feature, coverage.',
@@ -169,6 +184,63 @@ const SITE_ROUTES = [
       const snapshot = org && wc ? stripInternalIds(await s.rankingSnapshotAsOf(org, wc, gender(q), asOf(q))) : null;
       return { board, snapshot };
     },
+  },
+  {
+    path: '/internal/v1/site/scorecards', summary: 'Scorecard Center: decisions with official judges\' cards, filterable by decision type and commission, sortable by card spread.',
+    query: { decision: 'unanimous | split | majority | draw', commission: 'commission slug', sort: 'recent | spread', limit: '1..100, default 40', offset: '0..10000' },
+    handler: async (s, _p, q) => {
+      const decision = q.get('decision');
+      need(decision == null || DECISIONS.includes(decision), 'decision must be unanimous, split, majority or draw');
+      const commission = q.get('commission');
+      need(commission == null || /^[a-z0-9-]{2,40}$/.test(commission), 'bad commission slug');
+      const sort = q.get('sort') ?? 'recent';
+      need(['recent', 'spread'].includes(sort), 'sort must be recent or spread');
+      return s.siteScorecards(decision, commission, sort, intIn(q, 'limit', 40, 1, 100), intIn(q, 'offset', 0, 0, 10000));
+    },
+  },
+  {
+    path: '/internal/v1/site/scorecards/:ref', summary: 'One decision: judges\' cards (and round cards when published), spread, deductions, result revisions, card provenance, judges\' sample context.',
+    params: { ref: 'hex suffix of the bout public id (12..32)' },
+    handler: async (s, { ref }) => { need(SITE_REF.test(ref), 'bad bout ref'); return s.siteScorecard(ref); },
+  },
+  {
+    path: '/internal/v1/site/officials', summary: 'Judge or referee directory with assignments, cards and headline descriptive metrics (with samples).',
+    query: { role: 'judge | referee (required)', q: 'name search (2..60 chars)', limit: '1..120, default 60', offset: '0..10000' },
+    handler: async (s, _p, q) => {
+      const role = q.get('role');
+      need(['judge', 'referee'].includes(role), 'role must be judge or referee');
+      const term = q.get('q');
+      need(term == null || (term.length >= 2 && term.length <= 60), 'q must be 2..60 characters');
+      return s.siteOfficials(role, term, intIn(q, 'limit', 60, 1, 120), intIn(q, 'offset', 0, 0, 10000));
+    },
+  },
+  {
+    path: '/internal/v1/site/officials/:ref', summary: 'Official profile: roles, jurisdictions, Judge/Referee DNA with samples, assignments with the full panel and results.',
+    params: { ref: 'hex suffix of the official public id (12..32)' },
+    handler: async (s, { ref }) => { need(SITE_REF.test(ref), 'bad official ref'); return s.siteOfficial(ref); },
+  },
+  {
+    path: '/internal/v1/site/market-index', summary: 'Odds Terminal index: capture coverage counts and the canonical bouts that have a verified market match. No prices; prices come from the one-bout summary.',
+    query: { today: 'YYYY-MM-DD' },
+    handler: async (s, _p, q) => { const d = q.get('today') ?? today(); need(DATE.test(d), 'today must be YYYY-MM-DD'); return siteMarketIndex(await s.siteMarketIndex(d)); },
+  },
+  {
+    path: '/internal/v1/site/videos', summary: 'Official Video Desk: channel registry states and published videos from enabled, verified, rights-approved channels.',
+    query: { type: 'video type', limit: '1..60, default 24' },
+    handler: async (s, _p, q) => {
+      const type = q.get('type');
+      need(type == null || VIDEO_TYPES.includes(type), 'bad video type');
+      return s.siteVideos(type, intIn(q, 'limit', 24, 1, 60));
+    },
+  },
+  {
+    path: '/internal/v1/site/promoters', summary: 'Promoters exactly as listed on official commission sheets (not canonical entities; no inferred affiliation).',
+    handler: async (s) => s.sitePromoters(),
+  },
+  {
+    path: '/internal/v1/site/promoters/:key', summary: 'One listed promoter: its sheet cards, co-listed promoters, venues and fighters appearing on those cards.',
+    params: { key: 'normalized promoter listing key' },
+    handler: async (s, { key }) => { need(PROMOTER_KEY.test(key), 'bad promoter key'); return s.sitePromoter(key); },
   },
   {
     path: '/internal/v1/site/coverage', summary: 'Site coverage counts: what is on verified record and what is still pending.',

@@ -298,6 +298,16 @@ export function pgStore(client) {
     async siteTitleBoard() { return (await one(client, 'select public.boxing_site_title_board() as r')).r; },
     async siteRankingBoard() { return (await one(client, 'select public.boxing_site_ranking_board() as r')).r; },
     async siteCoverage(today) { return (await one(client, 'select public.boxing_site_coverage($1::date) as r', [today])).r; },
+    async siteScorecards(decision, commission, sort, limit, offset) {
+      return (await one(client, 'select public.boxing_site_scorecards($1, $2, $3, $4, $5) as r', [decision, commission, sort, limit, offset])).r;
+    },
+    async siteScorecard(ref) { return (await one(client, 'select public.boxing_site_scorecard($1) as r', [ref])).r; },
+    async siteOfficials(role, q, limit, offset) { return (await one(client, 'select public.boxing_site_officials($1, $2, $3, $4) as r', [role, q, limit, offset])).r; },
+    async siteOfficial(ref) { return (await one(client, 'select public.boxing_site_official($1) as r', [ref])).r; },
+    async siteMarketIndex(today) { return (await one(client, 'select public.boxing_site_market_index($1::date) as r', [today])).r; },
+    async siteVideos(type, limit) { return (await one(client, 'select public.boxing_site_videos($1, $2) as r', [type, limit])).r; },
+    async sitePromoters() { return (await one(client, 'select public.boxing_site_promoters() as r')).r; },
+    async sitePromoter(key) { return (await one(client, 'select public.boxing_site_promoter($1) as r', [key])).r; },
     async source(sourceKey) {
       return one(client, 'select id, source_key, enabled, access_mode, rights_state, persistence_allowed, derivative_allowed, display_allowed, redistribution_allowed, latest_rights_review_id from public.boxing_sources where source_key = $1', [sourceKey]);
     },
