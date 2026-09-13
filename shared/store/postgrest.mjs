@@ -148,6 +148,16 @@ export function postgrestStore({ url, serviceKey, fetchImpl = fetch }) {
     gatewayMatchup: (id, limit) => rpc('boxing_gateway_matchup', { p_bout: id, p_limit: limit }),
     gatewayModels: () => rpc('boxing_gateway_models', {}),
     gatewayOddsSummary: (id) => rpc('boxing_gateway_odds_summary', { p_bout: id }),
+    // --- site read contract (migration 0020): fixed-field projections for the consumer frontend
+    siteHome: (today) => rpc('boxing_site_home', { p_today: today }),
+    siteEvents: (scope, commission, limit, offset, today) => rpc('boxing_site_events', { p_scope: scope, p_commission: commission, p_limit: limit, p_offset: offset, p_today: today }),
+    siteEvent: (ref) => rpc('boxing_site_event', { p_ref: ref }),
+    siteBout: (ref) => rpc('boxing_site_bout', { p_ref: ref }),
+    siteFighters: (q, limit, offset) => rpc('boxing_site_fighters', { p_q: q, p_limit: limit, p_offset: offset }),
+    siteFighter: (ref) => rpc('boxing_site_fighter', { p_ref: ref }),
+    siteTitleBoard: () => rpc('boxing_site_title_board', {}),
+    siteRankingBoard: () => rpc('boxing_site_ranking_board', {}),
+    siteCoverage: (today) => rpc('boxing_site_coverage', { p_today: today }),
     async source(sourceKey) {
       const rows = await call(
         `boxing_sources?select=id,source_key,enabled,access_mode,rights_state,persistence_allowed,derivative_allowed,display_allowed,redistribution_allowed,latest_rights_review_id&source_key=eq.${encodeURIComponent(sourceKey)}`,

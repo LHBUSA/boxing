@@ -286,6 +286,18 @@ export function pgStore(client) {
     async gatewayOddsSummary(id) {
       return (await one(client, 'select public.boxing_gateway_odds_summary($1) as r', [id])).r;
     },
+    // --- site read contract (migration 0020)
+    async siteHome(today) { return (await one(client, 'select public.boxing_site_home($1::date) as r', [today])).r; },
+    async siteEvents(scope, commission, limit, offset, today) {
+      return (await one(client, 'select public.boxing_site_events($1, $2, $3, $4, $5::date) as r', [scope, commission, limit, offset, today])).r;
+    },
+    async siteEvent(ref) { return (await one(client, 'select public.boxing_site_event($1) as r', [ref])).r; },
+    async siteBout(ref) { return (await one(client, 'select public.boxing_site_bout($1) as r', [ref])).r; },
+    async siteFighters(q, limit, offset) { return (await one(client, 'select public.boxing_site_fighters($1, $2, $3) as r', [q, limit, offset])).r; },
+    async siteFighter(ref) { return (await one(client, 'select public.boxing_site_fighter($1) as r', [ref])).r; },
+    async siteTitleBoard() { return (await one(client, 'select public.boxing_site_title_board() as r')).r; },
+    async siteRankingBoard() { return (await one(client, 'select public.boxing_site_ranking_board() as r')).r; },
+    async siteCoverage(today) { return (await one(client, 'select public.boxing_site_coverage($1::date) as r', [today])).r; },
     async source(sourceKey) {
       return one(client, 'select id, source_key, enabled, access_mode, rights_state, persistence_allowed, derivative_allowed, display_allowed, redistribution_allowed, latest_rights_review_id from public.boxing_sources where source_key = $1', [sourceKey]);
     },

@@ -23,7 +23,28 @@
     "derived values are labelled PropBetEdge-derived, carry metric versions and sample sizes, and are null unless status is available",
     "matchup snapshots are immutable and never contain information from after their input_cutoff",
     "fair prices appear only from a trained or validated registered model",
-    "market data: summarized, one bout per request, whitelisted fields; no tick history, raw payloads, provider ids, bulk lists or downloads (The Odds API prohibits raw redistribution)"
+    "market data: summarized, one bout per request, whitelisted fields; no tick history, raw payloads, provider ids, bulk lists or downloads (The Odds API prohibits raw redistribution)",
+    "site routes are fixed-field projections: no DOB, stated hometowns, identity evidence, reviewer names, provider ids or prices outside the one-bout market summary"
+  ],
+  "site_forbidden_keys": [
+    "dob",
+    "hometown",
+    "evidence",
+    "reviewer",
+    "reviewed_by",
+    "decided_by",
+    "review_batch",
+    "raw_dob",
+    "federal_id",
+    "license_number",
+    "medical",
+    "suspensions",
+    "source_record",
+    "payload",
+    "external_id",
+    "provider_event_id",
+    "internal_bout_id",
+    "candidates"
   ],
   "market_data_rights": {
     "sources": [
@@ -45,7 +66,16 @@
     "titleMapFacts",
     "rankingSnapshotAsOf",
     "gatewayOfficial",
-    "officialDnaLatest"
+    "officialDnaLatest",
+    "siteHome",
+    "siteEvents",
+    "siteEvent",
+    "siteBout",
+    "siteFighters",
+    "siteFighter",
+    "siteTitleBoard",
+    "siteRankingBoard",
+    "siteCoverage"
   ],
   "routes": [
     {
@@ -160,6 +190,98 @@
       "summary": "Model registry: versions, feature versions, training cutoffs, status (untrained models publish nothing).",
       "params": {},
       "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/home",
+      "summary": "Site home: upcoming and recent cards, latest results, scorecard watch, one Fight DNA feature, coverage.",
+      "params": {},
+      "query": {
+        "today": "YYYY-MM-DD (default today, UTC)"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/events",
+      "summary": "Site event directory page (upcoming | results | all), optional commission filter.",
+      "params": {},
+      "query": {
+        "scope": "upcoming | results | all",
+        "commission": "commission slug",
+        "limit": "1..100, default 40",
+        "offset": "0..10000",
+        "today": "YYYY-MM-DD"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/events/:ref",
+      "summary": "Site event: summary, card in official sheet order, card-change counts, same-weekend cards.",
+      "params": {
+        "ref": "hex suffix of the event public id (12..32)"
+      },
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/bouts/:ref",
+      "summary": "Site bout: corners with verified record entering and current Fight DNA, result revisions, scorecards, card, and the one-bout market summary when matched.",
+      "params": {
+        "ref": "hex suffix of the bout public id (12..32)"
+      },
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/fighters",
+      "summary": "Site fighter directory page with verified records; optional name search.",
+      "params": {},
+      "query": {
+        "q": "name search (2..60 chars)",
+        "limit": "1..100, default 50",
+        "offset": "0..10000"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/fighters/:ref",
+      "summary": "Site fighter dossier: verified record, verified bouts, current Fight DNA (or a redirect for merged records).",
+      "params": {
+        "ref": "hex suffix of the fighter public id (12..32)"
+      },
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/titles",
+      "summary": "Site Title Map: divisions, sanctioning bodies with source review state, and the division title map when requested.",
+      "params": {},
+      "query": {
+        "weight_class": "class key (optional)",
+        "gender": "male | female",
+        "as_of": "YYYY-MM-DD"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/rankings",
+      "summary": "Site rankings: sanctioning bodies with source review state, stored snapshot index, and one snapshot when requested.",
+      "params": {},
+      "query": {
+        "organization": "slug (optional)",
+        "weight_class": "class key (optional)",
+        "gender": "male | female",
+        "as_of": "YYYY-MM-DD"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/coverage",
+      "summary": "Site coverage counts: what is on verified record and what is still pending.",
+      "params": {},
+      "query": {
+        "today": "YYYY-MM-DD"
+      }
     }
   ]
 }

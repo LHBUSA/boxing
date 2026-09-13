@@ -27,6 +27,15 @@ function fakeStore() {
     rankingSnapshotAsOf: async () => null,
     gatewayOfficial: async (id) => ({ official: { id } }),
     officialDnaLatest: async () => [{ metric_key: 'judge.bouts_scored', category: 'judge' }, { metric_key: 'referee.bouts_refereed', category: 'referee' }],
+    siteHome: async (d) => ({ today: d, upcoming: [], recent: [] }),
+    siteEvents: async (scope) => ({ scope, total: 0, rows: [] }),
+    siteEvent: async (ref) => ({ event: { public_id: `pbe_boxevent_${ref}` }, bouts: [] }),
+    siteBout: async (ref) => ({ internal_bout_id: ID, bout: { public_id: `pbe_boxbout_${ref}`, market_matched: true }, corners: {} }),
+    siteFighters: async (q) => ({ q, total: 0, rows: [] }),
+    siteFighter: async (ref) => ({ fighter: { public_id: `pbe_boxer_${ref}` } }),
+    siteTitleBoard: async () => ({ divisions: [], organizations: [] }),
+    siteRankingBoard: async () => ({ divisions: [], organizations: [], snapshots: [] }),
+    siteCoverage: async () => ({ bouts: 0 }),
   };
   const writes = Object.fromEntries(['recordResult', 'writeMetricSnapshots', 'ingestMarketSnapshot', 'applyDecision', 'publishArticle']
     .map((m) => [m, async () => { calls.push(m); }]));
@@ -38,7 +47,9 @@ test('contract file is generated from the route table and is current', () => {
   assert.deepEqual(onDisk, contractDocument(), 'run: node scripts/gen-gateway-contract.mjs');
   const required = ['/internal/v1/fighters/:ref', '/internal/v1/fighters/:ref/dna', '/internal/v1/events/:id', '/internal/v1/bouts/:id',
     '/internal/v1/bouts/:id/matchup', '/internal/v1/bouts/:id/odds-summary', '/internal/v1/titles/:id', '/internal/v1/title-map',
-    '/internal/v1/rankings', '/internal/v1/officials/:id', '/internal/v1/officials/:id/dna', '/internal/v1/models'];
+    '/internal/v1/rankings', '/internal/v1/officials/:id', '/internal/v1/officials/:id/dna', '/internal/v1/models',
+    '/internal/v1/site/home', '/internal/v1/site/events', '/internal/v1/site/events/:ref', '/internal/v1/site/bouts/:ref', '/internal/v1/site/fighters',
+    '/internal/v1/site/fighters/:ref', '/internal/v1/site/titles', '/internal/v1/site/rankings', '/internal/v1/site/coverage'];
   assert.deepEqual(ROUTES.map((r) => r.path).sort(), required.sort());
   assert.ok(onDisk.routes.every((r) => r.method === 'GET'));
 });
@@ -68,7 +79,10 @@ test('route handlers can reach only read methods', async () => {
   const paths = [`/internal/v1/fighters/${ID}`, '/internal/v1/fighters/pbe_boxer_abc/dna', '/internal/v1/fighters/boxrec:12345', `/internal/v1/events/${ID}`,
     `/internal/v1/bouts/${ID}`, `/internal/v1/bouts/${ID}/matchup?limit=3`, `/internal/v1/bouts/${ID}/odds-summary`, `/internal/v1/titles/${ID}`,
     '/internal/v1/title-map?weight_class=welterweight&as_of=2026-09-01', '/internal/v1/rankings?organization=wbc&weight_class=welterweight&as_of=2026-09-01',
-    `/internal/v1/officials/${ID}`, `/internal/v1/officials/${ID}/dna`, '/internal/v1/models', '/internal/v1/contract'];
+    `/internal/v1/officials/${ID}`, `/internal/v1/officials/${ID}/dna`, '/internal/v1/models', '/internal/v1/contract',
+    '/internal/v1/site/home?today=2026-09-13', '/internal/v1/site/events?scope=upcoming&commission=nsac&limit=5', '/internal/v1/site/events/0123456789ab',
+    '/internal/v1/site/bouts/0123456789ab', '/internal/v1/site/fighters?q=ruiz', '/internal/v1/site/fighters/0123456789abcdef',
+    '/internal/v1/site/titles?weight_class=welterweight', '/internal/v1/site/rankings?organization=wbc&weight_class=welterweight', '/internal/v1/site/coverage'];
   for (const p of paths) {
     const res = await w.fetch(req(p), env);
     assert.equal(res.status, 200, p);
@@ -87,7 +101,9 @@ test('inputs are validated before the store is touched; missing records are 404'
   const w = createWorker({ makeStore: () => store });
   for (const p of ['/internal/v1/bouts/not-a-uuid', '/internal/v1/bouts/' + ID + '/matchup?limit=500', '/internal/v1/title-map',
     '/internal/v1/title-map?weight_class=welterweight&as_of=09-01-2026', '/internal/v1/rankings?organization=wbc',
-    '/internal/v1/rankings?organization=wbc&weight_class=welterweight&gender=x', '/internal/v1/fighters/Canelo%20Alvarez']) {
+    '/internal/v1/rankings?organization=wbc&weight_class=welterweight&gender=x', '/internal/v1/fighters/Canelo%20Alvarez',
+    '/internal/v1/site/fighters/andy-ruiz', '/internal/v1/site/bouts/pbe_boxbout_0123456789ab', '/internal/v1/site/events?scope=everything',
+    '/internal/v1/site/events?limit=1000', '/internal/v1/site/fighters?q=x', '/internal/v1/site/home?today=13-09-2026', '/internal/v1/site/titles?weight_class=Welter%20weight']) {
     assert.equal((await w.fetch(req(p), env)).status, 400, p);
   }
   assert.equal(touched, 0, 'display names are never used to look up a fighter');
@@ -122,7 +138,8 @@ test('rights: no route can serve bulk, raw, historical or downloadable market da
   }
   for (const m of RAW_MARKET_STORE_METHODS) assert.ok(!READ_METHODS.includes(m), `gateway must not reach ${m}`);
   const oddsRoutes = ROUTES.filter((r) => /odds|market|price/i.test(r.path + r.summary));
-  assert.deepEqual(oddsRoutes.map((r) => r.path), ['/internal/v1/bouts/:id/odds-summary'], 'market data is only served per bout');
+  assert.deepEqual(oddsRoutes.map((r) => r.path), ['/internal/v1/bouts/:id/odds-summary', '/internal/v1/site/bouts/:ref'], 'market data is only served per bout');
+  assert.ok(oddsRoutes.every((r) => /\/bouts\/:(id|ref)(\/|$)/.test(r.path)), 'every market-bearing route addresses exactly one bout');
   assert.ok(Object.keys(oddsRoutes[0].query ?? {}).length === 0, 'no paging/limit/range parameters on market data');
   assert.deepEqual(contractDocument().market_data_rights, MARKET_DATA_RIGHTS);
 });
@@ -152,4 +169,14 @@ test('rights: odds-summary whitelists summarized fields even if storage returns 
   assert.deepEqual(body.data.best_prices, [{ market_key: 'moneyline|fight|-|pre', selection_key: 'fighter_a', best_american: -140, bookmaker: 'book2', latest_at: '2026-09-13T10:01:00Z' }]);
   assert.equal(body.data.selections[0].opening_american, -130);
   assert.match(body.data.rights.prohibited, /raw redistribution/);
+});
+
+test('site bout strips the internal bout id and attaches only the summarized one-bout market', async () => {
+  const { store } = fakeStore();
+  const w = createWorker({ makeStore: () => store });
+  const body = await (await w.fetch(req('/internal/v1/site/bouts/0123456789ab'), env)).json();
+  assert.equal(body.data.internal_bout_id, undefined);
+  assert.ok(!JSON.stringify(body).includes(ID), 'no internal uuid in the site payload');
+  assert.ok(body.data.market && Array.isArray(body.data.market.consensus) && body.data.market.rights);
+  assert.equal(body.data.market.bout_id, undefined);
 });

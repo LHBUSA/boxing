@@ -9,11 +9,19 @@ export const API_VERSION = 'boxing-gateway@1';
 export const READ_METHODS = Object.freeze([
   'getFighter', 'fighterDnaLatest', 'cardState', 'gatewayBout', 'gatewayMatchup', 'gatewayOddsSummary', 'gatewayModels',
   'titleSummary', 'titleReigns', 'titleMapFacts', 'rankingSnapshotAsOf', 'gatewayOfficial', 'officialDnaLatest',
+  'siteHome', 'siteEvents', 'siteEvent', 'siteBout', 'siteFighters', 'siteFighter', 'siteTitleBoard', 'siteRankingBoard', 'siteCoverage',
 ]);
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
 const SLUG = /^[a-z0-9_]{2,40}$/;
+const SITE_REF = /^[0-9a-f]{12,32}$/;
+const SITE_SCOPES = ['upcoming', 'results', 'all'];
+const intIn = (q, key, def, min, max) => {
+  const n = Number(q.get(key) ?? def);
+  need(Number.isInteger(n) && n >= min && n <= max, `${key} must be ${min}..${max}`);
+  return n;
+};
 const FIGHTER_REF = /^([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|pbe_boxer_[A-Za-z0-9_]{1,40}|[a-z0-9_]{2,40}:[^/\s]{1,120})$/;
 
 export class BadRequest extends Error {}
@@ -68,6 +76,96 @@ export function summarizeOdds(summary) {
     fair_prices: (summary.fair_prices ?? []).map((r) => pick(r, FAIR_FIELDS)),
   };
 }
+
+// ---------------------------------------------------------------------------
+// Site read contract (consumer frontend). Fixed-field projections built in SQL
+// (migration 0020); refs are the hex suffix of a public id. Payloads never carry
+// DOB, hometowns, identity evidence, reviewer names, provider ids or prices;
+// market prices appear only through the one-bout summary below.
+// ---------------------------------------------------------------------------
+export const SITE_FORBIDDEN_KEYS = Object.freeze(['dob', 'hometown', 'evidence', 'reviewer', 'reviewed_by', 'decided_by', 'review_batch', 'raw_dob',
+  'federal_id', 'license_number', 'medical', 'suspensions', 'source_record', 'payload', 'external_id', 'provider_event_id', 'internal_bout_id', 'candidates']);
+
+async function siteBout(s, ref) {
+  const data = await s.siteBout(ref);
+  if (!data) return null;
+  const { internal_bout_id: boutId, ...rest } = data;
+  const market = rest.bout?.market_matched && boutId ? summarizeOdds(await s.gatewayOddsSummary(boutId)) : null;
+  if (market) delete market.bout_id;
+  return { ...rest, market };
+}
+
+const SITE_ROUTES = [
+  {
+    path: '/internal/v1/site/home', summary: 'Site home: upcoming and recent cards, latest results, scorecard watch, one Fight DNA feature, coverage.',
+    query: { today: 'YYYY-MM-DD (default today, UTC)' },
+    handler: async (s, _p, q) => { const d = q.get('today') ?? today(); need(DATE.test(d), 'today must be YYYY-MM-DD'); return s.siteHome(d); },
+  },
+  {
+    path: '/internal/v1/site/events', summary: 'Site event directory page (upcoming | results | all), optional commission filter.',
+    query: { scope: 'upcoming | results | all', commission: 'commission slug', limit: '1..100, default 40', offset: '0..10000', today: 'YYYY-MM-DD' },
+    handler: async (s, _p, q) => {
+      const scope = q.get('scope') ?? 'all';
+      need(SITE_SCOPES.includes(scope), 'scope must be upcoming, results or all');
+      const commission = q.get('commission');
+      need(commission == null || /^[a-z0-9-]{2,40}$/.test(commission), 'bad commission slug');
+      const d = q.get('today') ?? today();
+      need(DATE.test(d), 'today must be YYYY-MM-DD');
+      return s.siteEvents(scope, commission, intIn(q, 'limit', 40, 1, 100), intIn(q, 'offset', 0, 0, 10000), d);
+    },
+  },
+  {
+    path: '/internal/v1/site/events/:ref', summary: 'Site event: summary, card in official sheet order, card-change counts, same-weekend cards.',
+    params: { ref: 'hex suffix of the event public id (12..32)' },
+    handler: async (s, { ref }) => { need(SITE_REF.test(ref), 'bad event ref'); return s.siteEvent(ref); },
+  },
+  {
+    path: '/internal/v1/site/bouts/:ref', summary: 'Site bout: corners with verified record entering and current Fight DNA, result revisions, scorecards, card, and the one-bout market summary when matched.',
+    params: { ref: 'hex suffix of the bout public id (12..32)' },
+    handler: async (s, { ref }) => { need(SITE_REF.test(ref), 'bad bout ref'); return siteBout(s, ref); },
+  },
+  {
+    path: '/internal/v1/site/fighters', summary: 'Site fighter directory page with verified records; optional name search.',
+    query: { q: 'name search (2..60 chars)', limit: '1..100, default 50', offset: '0..10000' },
+    handler: async (s, _p, q) => {
+      const term = q.get('q');
+      need(term == null || (term.length >= 2 && term.length <= 60), 'q must be 2..60 characters');
+      return s.siteFighters(term, intIn(q, 'limit', 50, 1, 100), intIn(q, 'offset', 0, 0, 10000));
+    },
+  },
+  {
+    path: '/internal/v1/site/fighters/:ref', summary: 'Site fighter dossier: verified record, verified bouts, current Fight DNA (or a redirect for merged records).',
+    params: { ref: 'hex suffix of the fighter public id (12..32)' },
+    handler: async (s, { ref }) => { need(SITE_REF.test(ref), 'bad fighter ref'); return s.siteFighter(ref); },
+  },
+  {
+    path: '/internal/v1/site/titles', summary: 'Site Title Map: divisions, sanctioning bodies with source review state, and the division title map when requested.',
+    query: { weight_class: 'class key (optional)', gender: 'male | female', as_of: 'YYYY-MM-DD' },
+    handler: async (s, _p, q) => {
+      const wc = q.get('weight_class');
+      need(wc == null || SLUG.test(wc), 'bad weight_class');
+      const board = await s.siteTitleBoard();
+      return { board, map: wc ? buildTitleMap(await s.titleMapFacts(wc, gender(q), asOf(q))) : null };
+    },
+  },
+  {
+    path: '/internal/v1/site/rankings', summary: 'Site rankings: sanctioning bodies with source review state, stored snapshot index, and one snapshot when requested.',
+    query: { organization: 'slug (optional)', weight_class: 'class key (optional)', gender: 'male | female', as_of: 'YYYY-MM-DD' },
+    handler: async (s, _p, q) => {
+      const org = q.get('organization');
+      const wc = q.get('weight_class');
+      need((org == null || SLUG.test(org)) && (wc == null || SLUG.test(wc)), 'bad organization or weight_class');
+      const board = await s.siteRankingBoard();
+      const snapshot = org && wc ? await s.rankingSnapshotAsOf(org, wc, gender(q), asOf(q)) : null;
+      return { board, snapshot };
+    },
+  },
+  {
+    path: '/internal/v1/site/coverage', summary: 'Site coverage counts: what is on verified record and what is still pending.',
+    query: { today: 'YYYY-MM-DD' },
+    handler: async (s, _p, q) => { const d = q.get('today') ?? today(); need(DATE.test(d), 'today must be YYYY-MM-DD'); return s.siteCoverage(d); },
+  },
+];
 
 export const ROUTES = [
   {
@@ -164,6 +262,7 @@ export const ROUTES = [
     path: '/internal/v1/models', summary: 'Model registry: versions, feature versions, training cutoffs, status (untrained models publish nothing).',
     handler: async (s) => s.gatewayModels(),
   },
+  ...SITE_ROUTES,
 ];
 
 export function matchRoute(pathname) {
@@ -196,7 +295,9 @@ export const contractDocument = () => ({
     'matchup snapshots are immutable and never contain information from after their input_cutoff',
     'fair prices appear only from a trained or validated registered model',
     'market data: summarized, one bout per request, whitelisted fields; no tick history, raw payloads, provider ids, bulk lists or downloads (The Odds API prohibits raw redistribution)',
+    'site routes are fixed-field projections: no DOB, stated hometowns, identity evidence, reviewer names, provider ids or prices outside the one-bout market summary',
   ],
+  site_forbidden_keys: [...SITE_FORBIDDEN_KEYS],
   market_data_rights: MARKET_DATA_RIGHTS,
   read_methods: [...READ_METHODS],
   routes: ROUTES.map(({ path, summary, params = {}, query = {} }) => ({ method: 'GET', path, summary, params, query })),
