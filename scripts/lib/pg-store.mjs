@@ -59,6 +59,35 @@ export function pgStore(client) {
     async consensus(boutId) {
       return (await client.query('select * from public.boxing_market_consensus where bout_id = $1 order by market_key, selection_key', [boutId])).rows;
     },
+    // --- titles / rankings
+    async ensureTitle({ organizationSlug, weightClassKey, gender, tier, sourceNativeLabel = null }) {
+      return (await one(client, 'select public.boxing_ensure_title($1, $2, $3, $4, $5) as r',
+        [organizationSlug, weightClassKey, gender, tier, sourceNativeLabel])).r;
+    },
+    async recordTitleEvent(p) {
+      return (await one(client, 'select public.boxing_record_title_event($1) as r', [p])).r;
+    },
+    async titleSummary(titleId) {
+      return (await one(client, 'select public.boxing_title_summary($1) as r', [titleId])).r;
+    },
+    async titleEventById(id) {
+      return one(client, 'select * from public.boxing_title_events where id = $1', [id]);
+    },
+    async titleReigns(titleId) {
+      return (await client.query('select * from public.boxing_title_reigns_derived($1) order by started_on', [titleId])).rows;
+    },
+    async titleMapFacts(weightClassKey, gender, asOf) {
+      return (await one(client, 'select public.boxing_title_map_facts($1, $2, $3) as r', [weightClassKey, gender, asOf])).r;
+    },
+    async importRankingSnapshot(p) {
+      return (await one(client, 'select public.boxing_import_ranking_snapshot($1) as r', [p])).r;
+    },
+    async rankingEntries(snapshotId) {
+      return (await one(client, 'select public.boxing_ranking_entries_json($1) as r', [snapshotId])).r;
+    },
+    async rankingSnapshotAsOf(orgSlug, weightClassKey, gender, asOf) {
+      return (await one(client, 'select public.boxing_ranking_as_of_json($1, $2, $3, $4) as r', [orgSlug, weightClassKey, gender, asOf])).r;
+    },
     async source(sourceKey) {
       return one(client, 'select id, source_key, enabled, access_mode, rights_state, persistence_allowed from public.boxing_sources where source_key = $1', [sourceKey]);
     },

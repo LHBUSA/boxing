@@ -1,0 +1,19 @@
+# boxing-rankings — title graph + ranking snapshots. NOT DEPLOYED.
+# Autopilot is OFF: every sanctioning-body adapter is disabled pending terms
+# review of wbc_official / wba_official / ibf_official / wbo_official.
+# Secrets at deploy: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, BOXING_INTERNAL_TOKEN.
+
+name = "boxing-rankings"
+main = "src/index.mjs"
+compatibility_date = "2026-09-01"
+workers_dev = false
+
+[triggers]
+crons = ["30 13 * * 2"]
+
+[vars]
+RANKINGS_AUTOPILOT_ENABLED = "false"
+
+[observability]
+enabled = true
+head_sampling_rate = 1

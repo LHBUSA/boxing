@@ -64,6 +64,21 @@ export function postgrestStore({ url, serviceKey, fetchImpl = fetch }) {
     recentNewsEvents: (eventType, boutId, since) => rpc('boxing_recent_news_events', { p_event_type: eventType, p_bout: boutId, p_since: since }),
     selectionPrices: (boutId) => call(`boxing_market_selection_prices?bout_id=eq.${boutId}&order=market_key,bookmaker,selection_key`, { method: 'GET' }),
     consensus: (boutId) => call(`boxing_market_consensus?bout_id=eq.${boutId}&order=market_key,selection_key`, { method: 'GET' }),
+    // --- titles / rankings
+    ensureTitle: ({ organizationSlug, weightClassKey, gender, tier, sourceNativeLabel = null }) =>
+      rpc('boxing_ensure_title', { p_org_slug: organizationSlug, p_weight_class_key: weightClassKey, p_gender: gender, p_tier: tier, p_source_native_label: sourceNativeLabel }),
+    recordTitleEvent: (p) => rpc('boxing_record_title_event', { p }),
+    titleSummary: (titleId) => rpc('boxing_title_summary', { p_title: titleId }),
+    async titleEventById(id) {
+      const rows = await call(`boxing_title_events?id=eq.${encodeURIComponent(id)}`, { method: 'GET' });
+      return rows?.[0] ?? null;
+    },
+    titleReigns: (titleId) => rpc('boxing_title_reigns_derived', { p_title: titleId }),
+    titleMapFacts: (weightClassKey, gender, asOf) => rpc('boxing_title_map_facts', { p_weight_class_key: weightClassKey, p_gender: gender, p_as_of: asOf }),
+    importRankingSnapshot: (p) => rpc('boxing_import_ranking_snapshot', { p }),
+    rankingEntries: (snapshotId) => rpc('boxing_ranking_entries_json', { p_snapshot: snapshotId }),
+    rankingSnapshotAsOf: (orgSlug, weightClassKey, gender, asOf) =>
+      rpc('boxing_ranking_as_of_json', { p_org_slug: orgSlug, p_weight_class_key: weightClassKey, p_gender: gender, p_as_of: asOf }),
     async source(sourceKey) {
       const rows = await call(
         `boxing_sources?select=id,source_key,enabled,access_mode,rights_state,persistence_allowed&source_key=eq.${encodeURIComponent(sourceKey)}`,
