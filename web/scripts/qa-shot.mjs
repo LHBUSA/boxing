@@ -54,7 +54,7 @@ try {
       if (mobile) await send('Emulation.setTouchEmulationEnabled', { enabled: true });
       await send('Page.navigate', { url: BASE + p });
       await sleep(2500);
-      const { result } = await send('Runtime.evaluate', { expression: `JSON.stringify({sw: document.documentElement.scrollWidth, iw: innerWidth, h: document.documentElement.scrollHeight, title: document.title, wide: [...document.querySelectorAll('body *')].filter((el) => { const r = el.getBoundingClientRect(); return r.right > innerWidth + 1 && getComputedStyle(el).position !== 'fixed' && !el.closest('.rail__list,.chips-row--scroll,.ladder__list,.jump'); }).slice(0, 5).map((el) => el.className || el.tagName)})`, returnByValue: true });
+      const { result } = await send('Runtime.evaluate', { expression: `JSON.stringify({sw: document.documentElement.scrollWidth, iw: innerWidth, h: document.documentElement.scrollHeight, title: document.title, wide: [...document.querySelectorAll('body *')].filter((el) => { const r = el.getBoundingClientRect(); return r.right > innerWidth + 1 && getComputedStyle(el).position !== 'fixed' && !el.closest('.arena,.wire__list,.scroll-x,.ladder,.seg,.tbl-wrap,.rounds'); }).slice(0, 5).map((el) => el.getAttribute('class') || el.tagName)})`, returnByValue: true });
       const m = JSON.parse(result.value);
       const h = Math.min(m.h, 9000);
       await send('Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: 1, mobile });

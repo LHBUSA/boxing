@@ -8,7 +8,9 @@
     "build": "next build",
     "start": "next start -p 3400",
     "typecheck": "tsc --noEmit",
-    "test": "node --experimental-strip-types --no-warnings --test \"lib/**/*.test.ts\""
+    "test": "node --experimental-strip-types --no-warnings --test \"lib/**/*.test.ts\"",
+    "deploy:preview": "node scripts/deploy.mjs preview",
+    "deploy:protected": "node scripts/deploy.mjs protected"
   },
   "dependencies": {
     "next": "15.5.25",

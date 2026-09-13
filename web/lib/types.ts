@@ -1,6 +1,9 @@
 // Shapes of the boxing-gateway site contract (/internal/v1/site/*, migration 0020).
 // Every nullable field is genuinely unknown on record; never coerce null to 0.
 
+import type { EventTimeline, Portrait } from "./types-phase2.ts";
+export type * from "./types-phase2.ts";
+
 export type IsoDate = string; // YYYY-MM-DD
 
 export interface Venue { name: string | null; city: string | null; region: string | null; country_code: string | null }
@@ -9,7 +12,7 @@ export interface Weight { class_key: string | null; class_name: string | null; c
 export interface WeighIn { weight_lb: number | null; kind: string | null; status: string | null }
 
 export type CornerColor = "red" | "blue";
-export interface Corner { public_id: string; name: string; corner: CornerColor | null; weigh_in: WeighIn | null }
+export interface Corner { public_id: string; name: string; corner: CornerColor | null; weigh_in: WeighIn | null; portrait?: Portrait | null }
 
 export type Outcome = "win" | "draw" | "no_contest" | "no_decision" | "unknown";
 export interface Result {
@@ -23,7 +26,7 @@ export interface Result {
   state: string;
 }
 
-export interface Scorecard { slot: number | null; judge: string; a_total: number | null; b_total: number | null; state: string; revision: number }
+export interface Scorecard { slot: number | null; judge: string; judge_public_id?: string; a_total: number | null; b_total: number | null; state: string; revision: number }
 export interface TitleStake { organization: string; organization_slug: string; tier: string; label: string; status: string }
 
 export interface BoutCompact {
@@ -37,6 +40,7 @@ export interface BoutCompact {
   result: Result | null;
   scorecards: Scorecard[];
   referee: string | null;
+  referee_public_id?: string | null;
   titles: TitleStake[];
   market_matched: boolean;
   event?: { public_id: string; name: string; date: IsoDate };
@@ -91,6 +95,7 @@ export interface FighterHead {
   nationality: string | null;
   sex: string | null;
   career_status: string | null;
+  portrait?: Portrait | null;
 }
 
 export type MetricStatus = "available" | "insufficient_sample" | "source_unavailable" | "not_applicable";
@@ -131,6 +136,7 @@ export interface Coverage {
   ranking_snapshots: number;
   matched_market_bouts: number;
   captured_market_events_upcoming: number;
+  scorecard_decisions?: number;
   commissions: { slug: string; name: string; jurisdiction: string | null; events: number }[];
 }
 
@@ -142,6 +148,8 @@ export interface HomeData {
   scorecard_watch: BoutCompact[];
   dna_feature: { fighter: FighterHead; record: RecordSummary; dna: DnaMetric[]; available_metrics: number } | null;
   coverage: Coverage;
+  officials_watch?: { judge: import("./types-phase2.ts").OfficialRow | null; referee: import("./types-phase2.ts").OfficialRow | null };
+  market_index?: import("./types-phase2.ts").MarketIndex;
 }
 
 export interface EventsPage {
@@ -156,6 +164,7 @@ export interface EventsPage {
 
 export interface EventDetail {
   event: EventSummary;
+  timeline?: EventTimeline;
   bouts: BoutCompact[];
   cancelled_bouts: number;
   card_changes: { count: number; latest_at: string | null; by_type: Record<string, number> };

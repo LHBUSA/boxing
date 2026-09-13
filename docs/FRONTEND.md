@@ -1,114 +1,92 @@
-# PropBetEdge Boxing frontend (Phase 1)
+# PropBetEdge Boxing frontend
 
-`web/` is a Next.js 15 app-router site. It uses server components, one small
-client component (navigation), plain CSS and no UI library. It reads only
-through **boxing-gateway** `/internal/v1/site/*`:
+`web/` is a Next.js 15 app-router site (server components, plain CSS, 103 kB
+shared JS) in the PropBetEdge product family. It follows UFC's palette
+(warm ink, paper, championship gold) and type (Playfair Display, Inter,
+JetBrains Mono). Boxing has its own identity: red and blue corner light,
+ring ropes and official-scorecard styling.
 
-- The site's server holds `BOXING_GATEWAY_URL` and `BOXING_GATEWAY_TOKEN`.
+The site reads only through **boxing-gateway** `/internal/v1/site/*` from the
+server:
+
+- `BOXING_GATEWAY_URL` and `BOXING_GATEWAY_TOKEN` are stored on the Vercel
+  project for Preview and Production.
 - The browser never sees the token and never reaches Supabase.
-
-Data path: browser → Vercel (server components, 300 s revalidate) →
-`boxing-gateway-staging` (bearer) → Supabase staging `wpaxofilvbsjyrxrwjhg`
-(service role, inside the Worker only).
 
 ## Routes
 
-| Route | Surface | Data |
-|---|---|---|
-| `/` | This week in boxing: featured card and other cards this weekend, recent results by fight weekend, Scorecard Watch, Fight DNA feature, titles/rankings/markets state, coverage | `site/home` |
-| `/fight-week` | The current (or next) fight week: card selector, event header, main-event face-off plus matchup intelligence when bouts exist, recorded-stage timeline, same-commission results | `site/events`, `site/events/:ref`, `site/bouts/:ref` |
-| `/events` | Upcoming or results, by fight weekend, with a commission filter | `site/events` |
-| `/events/[slug]` | Event / Fight Center: header and coverage stats, headline bout face-off and scorecards, championship bouts, full card in sheet order, officials, decisions, same weekend | `site/events/:ref`, `site/bouts/:ref` |
-| `/fights/[slug]` | Matchup intelligence: face-off, Fight Read, What Matters, Key Comparison, scorecards and revisions, Fight DNA, Paths to Victory, Early/Middle/Late, Market, rest of the card | `site/bouts/:ref` |
-| `/fighters` | Directory with name search | `site/fighters` |
-| `/fighters/[slug]` | Dossier: upcoming fight, Fight DNA, career, result profile, division history, title history, opposition, market history | `site/fighters/:ref` |
-| `/titles` | World Title Map: division ladder, per-body lanes (only with cleared title data), source status, belt vocabulary, derived undisputed rule | `site/titles` |
-| `/rankings` | Rankings by body and division, dated snapshots only | `site/rankings` |
-| `/methodology` | Sources, verified record, Fight DNA, matchups, titles, live coverage | `site/coverage` |
-
-Slugs are `readable-name-<first 12 hex of public_id>`. Lookup uses only the id. A
-renamed boxer 308-redirects to the canonical slug, and merged records redirect
-to the surviving boxer.
-
-**Navigation:** Odds, News, Promotions, Videos, Scorecards, Judges and Referees
-appear as "Soon" (`web/lib/nav.ts`). They are never linked to empty pages.
-
-## Components
-
-- **Shell:**
-  - `Header` and `NavClient`: desktop primary nav plus a More menu, and the mobile drawer.
-  - `StatusRail`: the global event rail.
-  - `Footer`.
-- **Boxing parts (`components/boxing.tsx`):**
-  - `BoutRow` (scan-first) and `EventLine`
-  - `ScorecardTable`, `CardChips`
-  - `FormStrip`, `HistoryChip`, `CornerDot`, `WeighInLine`
-- **Matchup (`components/MatchupDesk.tsx`):**
-  - `Faceoff` (ring frame with red and blue corners)
-  - `MatchupIntel`
-- **Fight DNA (`components/DnaPanel.tsx`):** family tables with value, sample or building state.
-- **`components/Portrait.tsx`:** deterministic monogram composition. There are no photos.
-- **`components/ui.tsx`:**
-  - `RingFrame`, `Ropes`, `SectionHead`
-  - `Chip`, `StateNote`, `Stat`
-  - `Crumbs`, `Unavailable`
-- **Pure logic (`web/lib`, unit-tested):**
-  - `format`, `slug`, `weekend` (fight weeks, featured-card rule)
-  - `dna` (display rules)
-  - `matchup` (facts and thresholds; no picks)
-
-## Site read contract (migrations 0020, 0021)
-
-`boxing_site_*` SQL builds fixed-field JSON. It never contains:
-
-- DOB, stated hometowns or identity evidence
-- reviewer names or internal uuids
-- provider ids or prices outside the one-bout market summary
-
-The guarantees are enforced in two places:
-
-- **`tests/db/16_site_reads.test.mjs`:** a recursive forbidden-key scan, plus federal id, DOB, hometown and uuid patterns, on every site route.
-- **The gateway (`stripInternalIds`):** removes uuids from title maps and ranking snapshots.
-
-A **verified record** counts only canonical bouts on PropBetEdge record. It is
-labelled as such everywhere and never as a career record.
-
-## Coverage states (reader-facing)
-
-| State | Meaning |
+| Route | Surface |
 |---|---|
-| Verified history | 3+ verified bouts |
-| Limited verified history | 1–2 verified bouts |
-| First verified bout | No earlier verified bout |
-| Bout sheet not filed yet / Upcoming card intelligence is filling | The commission listed the card; no bouts are on record yet |
-| N awaiting identity verification | Sheet bouts that are not yet canonical |
-| Official result not recorded | The sheet row has no readable result |
-| Official scorecards not captured | Judges' totals are missing |
-| Fight DNA building (needs N, has M) | Below the metric's sample minimum |
-| No matched market history yet | No verified odds match |
-| Title lineage / ranking source under review | Sanctioning-body data is not cleared |
+| `/` | Hero poster: the next main event, or the latest fight night when no upcoming bout is filed, plus the next-card countdown. Then Fight Week cards, big fights, Scorecard Watch, officials intelligence, a Fight DNA feature, recent results, upcoming cards and the title landscape. |
+| `/fight-week` | This (or next) fight weekend: card picker, main-event poster and card when filed, recorded-stage timeline, last fight week in review |
+| `/events`, `/events/[slug]` | Schedule/results by weekend; Fight Center: header, main-event poster, championship/featured/undercard tiers, timeline, officials, decisions, same weekend |
+| `/fights/[slug]` | Faceoff (photos or silhouettes), result band, Fight Read, What Matters, Tale of the Tape bars, official scorecards, Fight DNA bars, Paths to Victory, market, rest of card |
+| `/fighters`, `/fighters/[slug]` | Directory; dossier: art, record tiles, form, facts, next fight, Fight DNA, result profile, cards, fight history, market history |
+| `/scorecards`, `/scorecards/[slug]` | Scorecard Center (decision filters, widest spread); decision page: official card, panel spread, judges with Judge DNA, provenance |
+| `/officials`, `/officials/[slug]` | Judge/Referee DNA directory; profile with metric tiles (samples), card-by-card panel plot, result mix, assignments |
+| `/titles`, `/rankings` | Four-body belt lanes per division, and body/division rankings. Both show a "records pending source clearance" state until data is cleared. |
+| `/promoters`, `/promoters/[key]` | Promoters exactly as listed on official sheets |
+| `/methodology` | Sources, verified record, DNA/officials, matchups/markets, media rules |
 
-## Local run and QA
+Navigation lists only usable surfaces (`web/lib/nav.ts`). Odds and News stay out
+of navigation until matched markets and published articles exist. Market state
+is shown in context on fight pages and Fight Week.
+
+## Media
+
+- **Fighter portraits.** Source is `boxing_fighter_media` (migration 0023). A
+  portrait needs all of these:
+  - a free license or permission
+  - author and credit
+  - the source page
+  - evidence the image shows that boxer (Wikidata P18, or the Commons
+    description naming them)
+  - evidence of the boxer's identity (a Wikipedia/Wikidata record that includes
+    the verified bout)
+  - `review_state = approved`
+
+  Assets are stored in `web/public/media/boxers/`, never hotlinked, and each one
+  is credited wherever it is shown. Usage is editorial identification only,
+  never ads or share images. The registry is in `scripts/media/portraits.json`:
+  8 approved, 3 held for owner review, 5 rejected.
+- **Silhouette fallback.** `components/FighterArt.tsx` draws a generic boxer in
+  guard with corner light. It is never a likeness.
+- **Video.** Channels live in `boxing_video_channels` (`scripts/videos/channels.json`,
+  21 identity-verified). A channel can publish only after its identity is
+  verified *and* a named person approves its rights review, and none is enabled.
+  The classifier and resolver are in `shared/videos/`.
+
+## Deploy
 
 ```
 cd web
-npm ci
-# .env.local (gitignored): BOXING_GATEWAY_URL, BOXING_GATEWAY_TOKEN (D:\Workers\secrets\boxing-gateway-staging-internal-token)
-NODE_OPTIONS="--require D:/Workers/exfat-readlink.cjs" npx next build && npx next start -p 3400
-MSYS_NO_PATHCONV=1 node scripts/qa-shot.mjs qa/shots http://localhost:3400 1440,1024,390 /,/fight-week,/titles
-npm test
+npm run deploy:protected   # production target on propbetedge-boxing-web.vercel.app (Vercel Authentication)
+npm run deploy:preview     # preview of the current commit
 ```
 
-## Preview
+`scripts/deploy.mjs` refuses to run unless:
 
-- **Project:** Vercel `propbetedge-boxing-web`, deployed from `web/` with `vercel deploy --target preview`.
-- **Env:** the gateway variables are passed with `-e`/`-b` on each deploy.
-- **Access:** previews sit behind Vercel Authentication.
-- **No production deployment and no custom domain.**
-  - A new project's first CLI deploy is auto-targeted to production. Always pass `--target preview`.
+- the tree is clean
+- HEAD equals origin/main
+- the linked project is correct
 
-## Deferred
+After deploying, it removes the deployment if either of these is true:
 
-- **Phase 2:** Promotions, Odds Terminal, Judge DNA, Referee DNA, Scorecard Center, Videos.
-- **Phase 3:** newsroom, media timelines, history exploration, Pro.
-- **Also not yet built:** per-entity OG images (only the site OG image exists) and a sitemap (added when indexing is approved).
+- an alias is not `*.vercel.app` (a custom domain such as boxing.propbetedge.ai)
+- an anonymous request is answered with 200
+
+Deployment protection is `all_except_custom_domains`, so attaching a custom
+domain is the step that would make the site public, and it needs owner
+approval.
+
+Persistent env: `vercel env add NAME preview|production --value … --yes < /dev/null`.
+This works with CLI 59.16. CLI 54.4 looped on `git_branch_required`, and without
+`< /dev/null` the command waits on stdin.
+
+## Local QA
+
+```
+NODE_OPTIONS="--require D:/Workers/exfat-readlink.cjs" npx next build && npx next start -p 3400
+MSYS_NO_PATHCONV=1 node scripts/qa-shot.mjs qa/shots http://localhost:3400 1440,1024,390,375 /,/fight-week,/titles
+npm test && npx tsc --noEmit
+```

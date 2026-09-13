@@ -1,39 +1,37 @@
 import type { Metadata, Viewport } from "next";
-import { Barlow_Condensed, IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
+import { Inter, JetBrains_Mono, Playfair_Display } from "next/font/google";
 import { Suspense } from "react";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { StatusRail } from "@/components/StatusRail";
+import { Arena, Footer, Header, Wire } from "@/components/Shell";
 import { SITE } from "@/lib/nav";
 import "./globals.css";
 
-const display = Barlow_Condensed({ subsets: ["latin"], weight: ["500", "600", "700"], variable: "--f-display", display: "swap" });
-const ui = IBM_Plex_Sans({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--f-ui", display: "swap" });
-const data = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--f-data", display: "swap" });
+const playfair = Playfair_Display({ subsets: ["latin"], weight: ["700", "800", "900"], style: ["normal", "italic"], variable: "--font-playfair", display: "swap" });
+const inter = Inter({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"], variable: "--font-inter", display: "swap" });
+const mono = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"], variable: "--font-mono", display: "swap" });
 
-const production = process.env.VERCEL_ENV === "production";
+const indexable = process.env.VERCEL_ENV === "production" && process.env.BOXING_ALLOW_INDEXING === "true";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
-  title: { default: `${SITE.name}: fight weekends, verified records, titles`, template: `%s · ${SITE.name}` },
+  title: { default: `${SITE.name}: fight intelligence`, template: `%s · ${SITE.name}` },
   description: SITE.description,
   applicationName: SITE.name,
-  robots: production ? undefined : { index: false, follow: false },
+  robots: indexable ? undefined : { index: false, follow: false },
+  icons: { icon: SITE.mark },
   openGraph: { type: "website", siteName: SITE.name, title: SITE.name, description: SITE.description },
   twitter: { card: "summary_large_image", title: SITE.name, description: SITE.description },
 };
 
-export const viewport: Viewport = { themeColor: "#07090c", colorScheme: "dark", width: "device-width", initialScale: 1 };
+export const viewport: Viewport = { themeColor: "#110e0b", colorScheme: "dark", width: "device-width", initialScale: 1 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${ui.variable} ${data.variable}`}>
+    <html lang="en" className={`${playfair.variable} ${inter.variable} ${mono.variable}`}>
       <body>
         <a href="#main" className="skip">Skip to content</a>
+        <Arena />
         <Header />
-        <Suspense fallback={<div className="rail rail--placeholder" aria-hidden="true" />}>
-          <StatusRail />
-        </Suspense>
+        <Suspense fallback={null}><Wire /></Suspense>
         <main id="main">{children}</main>
         <Footer />
       </body>

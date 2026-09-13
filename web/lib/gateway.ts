@@ -1,5 +1,5 @@
 import "server-only";
-import type { BoutDetail, Coverage, EventDetail, EventsPage, FighterDetail, FightersPage, HomeData, RankingsData, TitlesData } from "./types";
+import type { BoutDetail, Coverage, EventDetail, EventsPage, FighterDetail, FightersPage, HomeData, MarketIndex, OfficialDetail, OfficialsPage, PromoterDetail, PromotersPage, RankingsData, ScorecardDetail, ScorecardsPage, TitlesData, VideoDesk } from "./types";
 
 // The ONLY data path of this site: server -> boxing-gateway (bearer token) -> Boxing Core.
 // The token lives in server env and never reaches the browser. Every read fails soft:
@@ -57,4 +57,14 @@ export const gateway = {
   rankings: (organization?: string | null, weightClass?: string | null, gender: "male" | "female" = "male") =>
     read<RankingsData>(`site/rankings${q({ organization, weight_class: weightClass, gender })}`, 1800),
   coverage: () => read<Coverage>(`site/coverage${q({ today: todayUtc() })}`),
+  scorecards: (opts: { decision?: string | null; commission?: string | null; sort?: "recent" | "spread"; limit?: number; offset?: number } = {}) =>
+    read<ScorecardsPage>(`site/scorecards${q({ decision: opts.decision, commission: opts.commission, sort: opts.sort, limit: opts.limit, offset: opts.offset })}`),
+  scorecard: (ref: string) => read<ScorecardDetail>(`site/scorecards/${ref}`),
+  officials: (role: "judge" | "referee", opts: { q?: string | null; limit?: number; offset?: number } = {}) =>
+    read<OfficialsPage>(`site/officials${q({ role, q: opts.q, limit: opts.limit, offset: opts.offset })}`),
+  official: (ref: string) => read<OfficialDetail>(`site/officials/${ref}`),
+  marketIndex: () => read<MarketIndex>(`site/market-index${q({ today: todayUtc() })}`),
+  videos: (type?: string | null, limit = 24) => read<VideoDesk>(`site/videos${q({ type, limit })}`),
+  promoters: () => read<PromotersPage>("site/promoters"),
+  promoter: (key: string) => read<PromoterDetail>(`site/promoters/${key}`),
 };

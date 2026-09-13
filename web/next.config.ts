@@ -8,6 +8,16 @@ const nextConfig: NextConfig = {
   // No remote images: there is no licensed boxer photography yet. Portraits are
   // our own deterministic compositions (components/Portrait.tsx).
   images: { remotePatterns: [] },
+  async redirects() {
+    return [
+      { source: "/judges", destination: "/officials", permanent: false },
+      { source: "/referees", destination: "/officials?role=referee", permanent: false },
+      { source: "/judges/:slug", destination: "/officials/:slug", permanent: false },
+      { source: "/referees/:slug", destination: "/officials/:slug", permanent: false },
+      { source: "/boxers", destination: "/fighters", permanent: false },
+      { source: "/boxers/:slug", destination: "/fighters/:slug", permanent: false },
+    ];
+  },
   async headers() {
     const preview = process.env.VERCEL_ENV !== "production";
     return [
