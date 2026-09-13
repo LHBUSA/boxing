@@ -14,6 +14,7 @@ import { runCapture } from '../../shared/odds/capture.mjs';
 import { reprocessStoredOdds } from '../../shared/odds/replay.mjs';
 import { GRAPH_RESOLVER_VERSION } from '../../shared/identity/graph.mjs';
 import { buildIdentityReviewReport } from '../../shared/identity/review-assist.mjs';
+import { applyApprovedBatch, proposeReviewBatch } from '../../shared/identity/human-review.mjs';
 import { manualProvenance } from '../../shared/provenance.mjs';
 import { decodePages, encodePages, floridaPages } from '../fixtures/commissions/synthetic.mjs';
 
@@ -129,13 +130,43 @@ test('review decisions are versioned, evidenced and append-only; the assistant r
 test('a human decision unlocks a blocked bout on re-apply: no refetch, no bogus fighter news', async () => {
   const blocked = await boutsOn('2026-06-20');
   const sam = await one(`select id from public.boxing_fighters where display_name = 'Sam Samename'`);
-  const appearance = await one(`select bout_external_id, side from public.boxing_identity_appearance_decisions where observed_name = 'Sam Samename'`);
-  // a reviewer moved house facts: same boxer, new city (a manual decision needs a note)
-  await assert.rejects(store.recordAppearanceDecision({ source_key: 'florida_athletic_commission', namespace: 'fl-athletic-commission.fighter', ...appearance,
-    observed_name: 'Sam Samename', decision: 'matched', tier: 'C', fighter_id: sam.id, confidence: 100, evidence: {}, evidence_hash: 'x', resolver_version: 'manual', decided_by: 'reviewer:test' }), /note/);
-  await store.recordAppearanceDecision({ source_key: 'florida_athletic_commission', namespace: 'fl-athletic-commission.fighter', ...appearance,
-    observed_name: 'Sam Samename', hometown: 'Jacksonville, FL', decision: 'matched', tier: 'C', fighter_id: sam.id, confidence: 100,
-    evidence: { note: 'same licence holder; moved from Orlando' }, evidence_hash: 'manual-1', resolver_version: 'manual', decided_by: 'reviewer:test', note: 'same licence holder; moved from Orlando' });
+  const report = await buildIdentityReviewReport(store, { sourceKeys: ['florida_athletic_commission'] });
+  const proposal = await proposeReviewBatch(store, report, { batchId: 'test-001', size: 20 });
+  const entry = proposal.batch.find((e) => e.appearance.display_name === 'Sam Samename');
+  assert.ok(entry, 'Sam Samename is in the batch');
+  assert.equal(entry.proposed_boxer.fighter_id, sam.id);
+  assert.ok(entry.evidence.contradictions.some((c) => c.startsWith('hometown_different_city')));
+  assert.equal(entry.recommendation, 'hold', 'a contradiction is never recommended as a match');
+  assert.ok(entry.evidence.resolver_stop_reason && entry.appearance.latest_decision_seq, 'stop reason and the latest seq the reviewer saw');
+  const rayTwin = proposal.batch.concat(proposal.remaining).find((e) => (e.appearance?.display_name ?? e.name) === 'Ray Twin');
+  assert.ok((rayTwin.danger ?? []).some((d) => (d.kind ?? d) === 'same_name_multiple_canonical_boxers'), 'same-name danger flagged');
+  const seenBefore = await count(`boxing_identity_appearance_decisions where observed_name = 'Sam Samename'`);
+
+  // nothing is applied without a named human, a decision and a note
+  await assert.rejects(applyApprovedBatch(store, { ...proposal, batch: [{ ...entry, reviewer_decision: 'approve_match', reviewer_note: 'same licence holder; moved from Orlando' }] }, { reviewer: 'claude-review-bot' }), /human reviewer/);
+  await assert.rejects(applyApprovedBatch(store, { ...proposal, batch: [{ ...entry, reviewer_decision: 'approve_match', reviewer_note: 'ok' }] }, { reviewer: 'Test Reviewer' }), /reviewer_note/);
+  assert.deepEqual((await applyApprovedBatch(store, proposal, { reviewer: 'Test Reviewer' })).map((x) => x.status).filter((x) => x !== 'not_reviewed'), [], 'unreviewed entries record nothing');
+  await assert.rejects(store.recordAppearanceDecision({ source_key: 'florida_athletic_commission', namespace: entry.appearance.namespace, bout_external_id: entry.appearance.bout_external_id,
+    side: entry.appearance.side, observed_name: 'Sam Samename', decision: 'matched', tier: 'C', fighter_id: sam.id, confidence: 100, evidence: {}, evidence_hash: 'x',
+    resolver_version: 'manual', decided_by: 'reviewer:Script Runner', reviewer: 'Script Runner', review_note: 'a long enough note for the rule', review_batch: 'x', supersedes_seq: entry.appearance.latest_decision_seq }), /check|constraint|violat/i);
+  await assert.rejects(store.recordAppearanceDecision({ source_key: 'florida_athletic_commission', namespace: entry.appearance.namespace, bout_external_id: entry.appearance.bout_external_id,
+    side: entry.appearance.side, observed_name: 'Sam Samename', decision: 'matched', tier: 'C', fighter_id: sam.id, confidence: 100, evidence: {}, evidence_hash: 'x',
+    resolver_version: 'manual', decided_by: 'reviewer:Test Reviewer', reviewer: 'Test Reviewer', review_note: 'a long enough note for the rule', review_batch: 'x', supersedes_seq: 1 }), /stale_review/);
+
+  // a named reviewer approves: a new immutable row; earlier resolver evidence untouched
+  const applied = await applyApprovedBatch(store, { ...proposal, batch: [{ ...entry, reviewer_decision: 'approve_match', reviewer_note: 'Same licence holder per commission roster; moved from Orlando to Jacksonville.' }] },
+    { reviewer: 'Test Reviewer', reviewedAt: '2026-09-14T09:00:00Z' });
+  assert.equal(applied[0].status, 'recorded');
+  assert.equal(await count(`boxing_identity_appearance_decisions where observed_name = 'Sam Samename'`), seenBefore + 1);
+  const human = await one(`select reviewer, reviewed_at, review_note, review_batch, decided_by, supersedes_seq, evidence from public.boxing_identity_appearance_decisions where observed_name = 'Sam Samename' and decided_by <> 'resolver'`);
+  assert.equal(human.reviewer, 'Test Reviewer');
+  assert.equal(human.decided_by, 'reviewer:Test Reviewer');
+  assert.equal(new Date(human.reviewed_at).toISOString(), '2026-09-14T09:00:00.000Z');
+  assert.equal(String(human.supersedes_seq), String(entry.appearance.latest_decision_seq));
+  assert.ok(human.evidence.shown_to_reviewer.contradictions.length > 0, 'the evidence shown to the reviewer is stored with the decision');
+  assert.equal(await count(`boxing_identity_appearance_decisions where observed_name = 'Sam Samename' and decided_by = 'resolver' and decision = 'review'`), seenBefore, 'earlier unresolved evidence kept');
+  await assert.rejects(applyApprovedBatch(store, { ...proposal, batch: [{ ...entry, reviewer_decision: 'approve_match', reviewer_note: 'Same licence holder per commission roster; second attempt.' }] },
+    { reviewer: 'Test Reviewer' }), /stale_review/, 'a second decision on the same stale evidence is refused');
 
   const fetchesBefore = requested.length;
   const r = await reapplyStoredDocuments(store, { adapterKey: 'florida', now: '2026-09-14T12:00:00Z', provenance: prov() });

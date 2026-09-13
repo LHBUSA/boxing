@@ -258,6 +258,12 @@ export function pgStore(client) {
     async eventOwner(eventId) {
       return (await one(client, 'select public.boxing_event_owner($1) as r', [eventId])).r;
     },
+    async appearanceLatest(namespace, keys) {
+      return (await one(client, 'select public.boxing_appearance_latest($1, $2) as r', [namespace, keys])).r;
+    },
+    async fighterNameIndex() {
+      return (await one(client, 'select public.boxing_fighter_name_index() as r')).r;
+    },
     async identityTierSummary() {
       return (await one(client, 'select public.boxing_identity_tier_summary() as r')).r;
     },
