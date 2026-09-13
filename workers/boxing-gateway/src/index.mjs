@@ -1,9 +1,12 @@
-// boxing-gateway — read-only internal API over Boxing Core. NOT DEPLOYED.
-// No consumer frontend, no public routes, no writes, no collection, no cron.
+// boxing-gateway — read-only internal API over Boxing Core.
+// Top-level environment: NOT DEPLOYED. [env.staging] -> boxing-gateway-staging,
+// read by the Boxing frontend's server (never the browser) with a bearer token.
+// No writes, no collection, no cron. The store is built only for a verified
+// boxing Supabase target (shared/store/target-guard.mjs allow-list: staging).
 // Routes and guarantees: workers/boxing-gateway/src/routes.mjs and
 // contracts/boxing-gateway.v1.json.
 
-import { postgrestStore } from '../../../shared/store/postgrest.mjs';
+import { guardedPostgrestStore } from '../../../shared/store/target-guard.mjs';
 import { API_VERSION, BadRequest, READ_METHODS, contractDocument, matchRoute } from './routes.mjs';
 
 const json = (body, status = 200, extra = {}) => new Response(JSON.stringify(body), {
@@ -31,7 +34,7 @@ export function readOnlyStore(store) {
   return Object.freeze(view);
 }
 
-export function createWorker({ makeStore = (env) => postgrestStore({ url: env.SUPABASE_URL, serviceKey: env.SUPABASE_SERVICE_ROLE_KEY }) } = {}) {
+export function createWorker({ makeStore = (env) => guardedPostgrestStore(env) } = {}) {
   return {
     async fetch(request, env) {
       const url = new URL(request.url);
