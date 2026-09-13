@@ -77,7 +77,7 @@ jobs:
         run: |
           want="${GITHUB_SHA:0:12}"
           for i in $(seq 1 60); do
-            got=$(curl -sI https://boxing-alpha-beryl.vercel.app/ | tr -d '' | awk -F': ' 'tolower($1)=="x-boxing-build"{print $2}')
+            got=$(curl -sI https://boxing-alpha-beryl.vercel.app/ | tr -d '\r' | awk -F': ' 'tolower($1)=="x-boxing-build"{print $2}')
             if [ "$got" = "$want" ]; then echo "serving $want"; exit 0; fi
             sleep 15
           done
