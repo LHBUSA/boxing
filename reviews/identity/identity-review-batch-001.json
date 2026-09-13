@@ -1,0 +1,2916 @@
+{
+ "workbench_version": "boxing-identity-review-workbench@1.0.0",
+ "batch_id": "001",
+ "generated_at": "2026-09-13T17:41:52.058Z",
+ "summary": {
+  "pending_items": 130,
+  "pending_appearances": 203,
+  "unlock_now": 121,
+  "recommendations": {
+   "match": 33,
+   "match_with_caveat": 24,
+   "hold": 146
+  },
+  "danger_cases": 94,
+  "blocked_bouts": {
+   "NV": {
+    "on_official_sheets": 134,
+    "canonical": 115,
+    "blocked": 19
+   },
+   "FL": {
+    "on_official_sheets": 391,
+    "canonical": 257,
+    "blocked": 134
+   },
+   "NJ": {
+    "on_official_sheets": 72,
+    "canonical": 59,
+    "blocked": 13
+   }
+  }
+ },
+ "batch": [
+  {
+   "entry_id": "001:florida_athletic_commission:2026-02-20|orlando|boxlab|jose-valenzuela-alvarado|jusiyah-shirley|a",
+   "review_item_id": "b0670207-f783-40f1-bf4e-8d80b9f68aae",
+   "source_key": "florida_athletic_commission",
+   "state": "FL",
+   "appearance": {
+    "namespace": "fl-athletic-commission.fighter",
+    "bout_external_id": "2026-02-20|orlando|boxlab|jose-valenzuela-alvarado|jusiyah-shirley",
+    "side": "a",
+    "printed_name": "Jose Valenzuela Alvarado",
+    "display_name": "Jose Valenzuela Alvarado",
+    "document": "fl-results:02-20-2026-Boxlab_Promotions_Results_without_med",
+    "latest_decision_seq": 27
+   },
+   "unlocks_bout_now": true,
+   "evidence": {
+    "normalized_name": {
+     "observed": "jose valenzuela alvarado",
+     "candidate": "jose valenzuela alvarado",
+     "name_level": "exact"
+    },
+    "city_hometown": {
+     "observed": "Puebla, MX",
+     "observed_city_level": "puebla, mx",
+     "candidate": [
+      "Mexico"
+     ],
+     "candidate_city_level": []
+    },
+    "weight": {
+     "official_lb": 141.6,
+     "contracted_lb": null,
+     "division_printed": null,
+     "candidate_weights": [
+      {
+       "date": "2026-05-16",
+       "weight_lb": 137.6,
+       "class": null
+      }
+     ]
+    },
+    "commission": "fl-athletic-commission",
+    "venue": "Caribe Royale, Orlando",
+    "event": "Boxlab at Caribe Royale",
+    "event_date": "2026-02-20",
+    "opponent": "Jusiyah Shirley",
+    "relationship": [
+     "same_commission:fl-athletic-commission"
+    ],
+    "candidate_record": [
+     {
+      "date": "2026-05-16",
+      "opponent": "Eric Valencia",
+      "result": "loss"
+     }
+    ],
+    "contradictions": [],
+    "similar_named_other_boxers": [
+     "Jose A Valenzuela Gastelum (Renton, WA)"
+    ],
+    "competing_candidates": [],
+    "confidence": 78,
+    "resolver_stop_reason": "insufficient_graph_evidence:jurisdiction+weight"
+   },
+   "proposed_boxer": {
+    "fighter_id": "6eb66caa-9b42-4b05-ba67-c27516d415f6",
+    "display_name": "Jose Valenzuela Alvarado",
+    "tier_by_resolver": "C"
+   },
+   "danger": [],
+   "recommendation": "match",
+   "recommendation_why": "exact-form name, compatible official weight and commission/venue continuity; only a city-level hometown is missing on one side (no contradiction)",
+   "reviewer_decision": null,
+   "reviewer_note": null
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-02-21|miami|m-r-boxing|jose-rodriguez-montemayor|aniel-viamontes|a",
+   "review_item_id": "f527e3bd-ef80-4dd8-8820-ab74d813ec72",
+   "source_key": "florida_athletic_commission",
+   "state": "FL",
+   "appearance": {
+    "namespace": "fl-athletic-commission.fighter",
+    "bout_external_id": "2026-02-21|miami|m-r-boxing|jose-rodriguez-montemayor|aniel-viamontes",
+    "side": "a",
+    "printed_name": "Jose Rodriguez Montemayor",
+    "display_name": "Jose Rodriguez Montemayor",
+    "document": "fl-results:02-21-2026-M_R-Results_without_med",
+    "latest_decision_seq": 37
+   },
+   "unlocks_bout_now": true,
+   "evidence": {
+    "normalized_name": {
+     "observed": "jose rodriguez montemayor",
+     "candidate": "jose rodriguez montemayor",
+     "name_level": "exact"
+    },
+    "city_hometown": {
+     "observed": "Mexico",
+     "observed_city_level": null,
+     "candidate": [
+      "Mexico"
+     ],
+     "candidate_city_level": []
+    },
+    "weight": {
+     "official_lb": 120.8,
+     "contracted_lb": null,
+     "division_printed": null,
+     "candidate_weights": [
+      {
+       "date": "2026-06-28",
+       "weight_lb": 126,
+       "class": null
+      }
+     ]
+    },
+    "commission": "fl-athletic-commission",
+    "venue": "Reception Palace Ballrooms, Miami",
+    "event": "M and R Boxing Promotions at Reception Palace Ballrooms",
+    "event_date": "2026-02-21",
+    "opponent": "Aniel Viamontes",
+    "relationship": [
+     "same_commission:fl-athletic-commission"
+    ],
+    "candidate_record": [
+     {
+      "date": "2026-06-28",
+      "opponent": "Ernesto Leon",
+      "result": "loss"
+     }
+    ],
+    "contradictions": [],
+    "similar_named_other_boxers": [
+     "Jose Adrial Diaz Rodriguez (Cuba)",
+     "Jose Gabriel Rodriguez Tenorio (Guayaquil, ECUADOR)"
+    ],
+    "competing_candidates": [],
+    "confidence": 78,
+    "resolver_stop_reason": "insufficient_graph_evidence:jurisdiction+weight"
+   },
+   "proposed_boxer": {
+    "fighter_id": "781262fb-5f1c-4b73-8717-672a192a0c18",
+    "display_name": "Jose Rodriguez Montemayor",
+    "tier_by_resolver": "C"
+   },
+   "danger": [],
+   "recommendation": "match",
+   "recommendation_why": "exact-form name, compatible official weight and commission/venue continuity; only a city-level hometown is missing on one side (no contradiction)",
+   "reviewer_decision": null,
+   "reviewer_note": null
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-02-21|miami|m-r-boxing|shaquille-rushing|manuel-enrique-arrieta-sangroni|b",
+   "review_item_id": "da3d4593-92d0-42f1-9521-da02121a88d5",
+   "source_key": "florida_athletic_commission",
+   "state": "FL",
+   "appearance": {
+    "namespace": "fl-athletic-commission.fighter",
+    "bout_external_id": "2026-02-21|miami|m-r-boxing|shaquille-rushing|manuel-enrique-arrieta-sangroni",
+    "side": "b",
+    "printed_name": "Manuel Enrique Arrieta Sangroni",
+    "display_name": "Manuel Enrique Arrieta Sangroni",
+    "document": "fl-results:02-21-2026-M_R-Results_without_med",
+    "latest_decision_seq": 34
+   },
+   "unlocks_bout_now": true,
+   "evidence": {
+    "normalized_name": {
+     "observed": "manuel enrique arrieta sangroni",
+     "candidate": "manuel enrique arrieta sangroni",
+     "name_level": "exact"
+    },
+    "city_hometown": {
+     "observed": "Venezuela",
+     "observed_city_level": null,
+     "candidate": [
+      "Venezuela"
+     ],
+     "candidate_city_level": []
+    },
+    "weight": {
+     "official_lb": 138.4,
+     "contracted_lb": null,
+     "division_printed": null,
+     "candidate_weights": [
+      {
+       "date": "2026-05-16",
+       "weight_lb": 136.8,
+       "class": null
+      }
+     ]
+    },
+    "commission": "fl-athletic-commission",
+    "venue": "Reception Palace Ballrooms, Miami",
+    "event": "M and R Boxing Promotions at Reception Palace Ballrooms",
+    "event_date": "2026-02-21",
+    "opponent": "Shaquille Rushing",
+    "relationship": [
+     "same_commission:fl-athletic-commission"
+    ],
+    "candidate_record": [
+     {
+      "date": "2026-05-16",
+      "opponent": "Romeo Orosco",
+      "result": "win"
+     }
+    ],
+    "contradictions": [],
+    "similar_named_other_boxers": [],
+    "competing_candidates": [],
+    "confidence": 78,
+    "resolver_stop_reason": "insufficient_graph_evidence:jurisdiction+weight"
+   },
+   "proposed_boxer": {
+    "fighter_id": "7e9af7b5-79b5-44b6-8096-fbed53569808",
+    "display_name": "Manuel Enrique Arrieta Sangroni",
+    "tier_by_resolver": "C"
+   },
+   "danger": [],
+   "recommendation": "match",
+   "recommendation_why": "exact-form name, compatible official weight and commission/venue continuity; only a city-level hometown is missing on one side (no contradiction)",
+   "reviewer_decision": null,
+   "reviewer_note": null
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-03-07|alamonte-springs|mike-sawyer-promotions|cody-jenkins|tristan-gallichan|b",
+   "review_item_id": "860f399b-92d7-4ecd-9468-80e1a58a2a85",
+   "source_key": "florida_athletic_commission",
+   "state": "FL",
+   "appearance": {
+    "namespace": "fl-athletic-commission.fighter",
+    "bout_external_id": "2026-03-07|alamonte-springs|mike-sawyer-promotions|cody-jenkins|tristan-gallichan",
+    "side": "b",
+    "printed_name": "Tristan Gallichan",
+    "display_name": "Tristan Gallichan",
+    "document": "fl-results:03-07-2026-Mike_Sawyer_Promotions-results_without_med",
+    "latest_decision_seq": 55
+   },
+   "unlocks_bout_now": true,
+   "evidence": {
+    "normalized_name": {
+     "observed": "tristan gallichan",
+     "candidate": "tristan gallichan",
+     "name_level": "exact"
+    },
+    "city_hometown": {
+     "observed": "Florida",
+     "observed_city_level": null,
+     "candidate": [
+      "Florida"
+     ],
+     "candidate_city_level": []
+    },
+    "weight": {
+     "official_lb": 141.8,
+     "contracted_lb": null,
+     "division_printed": null,
+     "candidate_weights": [
+      {
+       "date": "2026-04-10",
+       "weight_lb": 145.2,
+       "class": null
+      }
+     ]
+    },
+    "commission": "fl-athletic-commission",
+    "venue": null,
+    "event": "Mike Sawyer Promotions at Alamonte Springs",
+    "event_date": "2026-03-07",
+    "opponent": "Cody Jenkins",
+    "relationship": [
+     "same_commission:fl-athletic-commission"
+    ],
+    "candidate_record": [
+     {
+      "date": "2026-04-10",
+      "opponent": "Bryan Ivan Duran",
+      "result": "loss"
+     }
+    ],
+    "contradictions": [],
+    "similar_named_other_boxers": [],
+    "competing_candidates": [],
+    "confidence": 78,
+    "resolver_stop_reason": "insufficient_graph_evidence:jurisdiction+weight"
+   },
+   "proposed_boxer": {
+    "fighter_id": "c2bb89ad-4d6d-4c0e-a308-5a0f571d86b0",
+    "display_name": "Tristan Gallichan",
+    "tier_by_resolver": "C"
+   },
+   "danger": [],
+   "recommendation": "match",
+   "recommendation_why": "exact-form name, compatible official weight and commission/venue continuity; only a city-level hometown is missing on one side (no contradiction)",
+   "reviewer_decision": null,
+   "reviewer_note": null
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-03-07|alamonte-springs|mike-sawyer-promotions|ethan-trout|yusmel-alejandro-ruiz|b",
+   "review_item_id": "1c4007a7-6737-483b-ba53-03cde7fcabf7",
+   "source_key": "florida_athletic_commission",
+   "state": "FL",
+   "appearance": {
+    "namespace": "fl-athletic-commission.fighter",
+    "bout_external_id": "2026-03-07|alamonte-springs|mike-sawyer-promotions|ethan-trout|yusmel-alejandro-ruiz",
+    "side": "b",
+    "printed_name": "Yusmel Alejandro Ruiz",
+    "display_name": "Yusmel Alejandro Ruiz",
+    "document": "fl-results:03-07-2026-Mike_Sawyer_Promotions-results_without_med",
+    "latest_decision_seq": 56
+   },
+   "unlocks_bout_now": true,
+   "evidence": {
+    "normalized_name": {
+     "observed": "yusmel alejandro ruiz",
+     "candidate": "yusmel alejandro ruiz",
+     "name_level": "exact"
+    },
+    "city_hometown": {
+     "observed": "Cuba",
+     "observed_city_level": null,
+     "candidate": [
+      "Cuba"
+     ],
+     "candidate_city_level": []
+    },
+    "weight": {
+     "official_lb": 168.2,
+     "contracted_lb": null,
+     "division_printed": null,
+     "candidate_weights": [
+      {
+       "date": "2026-06-26",
+       "weight_lb": 172.4,
+       "class": null
+      },
+      {
+       "date": "2026-06-26",
+       "weight_lb": 172.4,
+       "class": null
+      }
+     ]
+    },
+    "commission": "fl-athletic-commission",
+    "venue": null,
+    "event": "Mike Sawyer Promotions at Alamonte Springs",
+    "event_date": "2026-03-07",
+    "opponent": "Ethan Trout",
+    "relationship": [
+     "same_commission:fl-athletic-commission"
+    ],
+    "candidate_record": [
+     {
+      "date": "2026-06-26",
+      "opponent": "Juan Barajas",
+      "result": "win"
+     },
+     {
+      "date": "2026-06-26",
+      "opponent": "Juan Barajas",
+      "result": "win"
+     }
+    ],
+    "contradictions": [],
+    "similar_named_other_boxers": [],
+    "competing_candidates": [],
+    "confidence": 78,
+    "resolver_stop_reason": "insufficient_graph_evidence:jurisdiction+weight"
+   },
+   "proposed_boxer": {
+    "fighter_id": "5ea394ab-9eeb-44ba-8e2a-384f0650869e",
+    "display_name": "Yusmel Alejandro Ruiz",
+    "tier_by_resolver": "C"
+   },
+   "danger": [],
+   "recommendation": "match",
+   "recommendation_why": "exact-form name, compatible official weight and commission/venue continuity; only a city-level hometown is missing on one side (no contradiction)",
+   "reviewer_decision": null,
+   "reviewer_note": null
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-03-07|alamonte-springs|mike-sawyer-promotions|phillip-penson|gustavo-trujillo|b",
+   "review_item_id": "af9f72df-8caf-49d2-94e3-d2f1a1f32241",
+   "source_key": "florida_athletic_commission",
+   "state": "FL",
+   "appearance": {
+    "namespace": "fl-athletic-commission.fighter",
+    "bout_external_id": "2026-03-07|alamonte-springs|mike-sawyer-promotions|phillip-penson|gustavo-trujillo",
+    "side": "b",
+    "printed_name": "Gustavo Trujillo",
+    "display_name": "Gustavo Trujillo",
+    "document": "fl-results:03-07-2026-Mike_Sawyer_Promotions-results_without_med",
+    "latest_decision_seq": 58
+   },
+   "unlocks_bout_now": true,
+   "evidence": {
+    "normalized_name": {
+     "observed": "gustavo trujillo",
+     "candidate": "gustavo trujillo",
+     "name_level": "exact"
+    },
+    "city_hometown": {
+     "observed": "Cuba",
+     "observed_city_level": null,
+     "candidate": [
+      "Cuba"
+     ],
+     "candidate_city_level": []
+    },
+    "weight": {
+     "official_lb": 244.4,
+     "contracted_lb": null,
+     "division_printed": null,
+     "candidate_weights": [
+      {
+       "date": "2026-06-28",
+       "weight_lb": 245,
+       "class": null
+      }
+     ]
+    },
+    "commission": "fl-athletic-commission",
+    "venue": null,
+    "event": "Mike Sawyer Promotions at Alamonte Springs",
+    "event_date": "2026-03-07",
+    "opponent": "Phillip Penson",
+    "relationship": [
+     "same_commission:fl-athletic-commission"
+    ],
+    "candidate_record": [
+     {
+      "date": "2026-06-28",
+      "opponent": "Calvin Barnett",
+      "result": "win"
+     }
+    ],
+    "contradictions": [],
+    "similar_named_other_boxers": [],
+    "competing_candidates": [],
+    "confidence": 78,
+    "resolver_stop_reason": "insufficient_graph_evidence:jurisdiction+weight"
+   },
+   "proposed_boxer": {
+    "fighter_id": "8b37e533-a252-43c2-bc73-ce739cc72b95",
+    "display_name": "Gustavo Trujillo",
+    "tier_by_resolver": "C"
+   },
+   "danger": [],
+   "recommendation": "match",
+   "recommendation_why": "exact-form name, compatible official weight and commission/venue continuity; only a city-level hometown is missing on one side (no contradiction)",
+   "reviewer_decision": null,
+   "reviewer_note": null
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-03-28|palm-bay|boxlite-promotions|wilner-soto|alex-vallecillo|b",
+   "review_item_id": "f3fee6fa-92d9-4507-acc3-96b888806fc8",
+   "source_key": "florida_athletic_commission",
+   "state": "FL",
+   "appearance": {
+    "namespace": "fl-athletic-commission.fighter",
+    "bout_external_id": "2026-03-28|palm-bay|boxlite-promotions|wilner-soto|alex-vallecillo",
+    "side": "b",
+    "printed_name": "Alex Vallecillo",
+    "display_name": "Alex Vallecillo",
+    "document": "fl-results:03-28-2026-BoxLite-results_without_med",
+    "latest_decision_seq": 82
+   },
+   "unlocks_bout_now": true,
+   "evidence": {
+    "normalized_name": {
+     "observed": "alex vallecillo",
+     "candidate": "alex vallecillo",
+     "name_level": "exact"
+    },
+    "city_hometown": {
+     "observed": "Nicaragua",
+     "observed_city_level": null,
+     "candidate": [
+      "Nicaragua"
+     ],
+     "candidate_city_level": []
+    },
+    "weight": {
+     "official_lb": 124,
+     "contracted_lb": null,
+     "division_printed": null,
+     "candidate_weights": [
+      {
+       "date": "2026-08-15",
+       "weight_lb": 124,
+       "class": null
+      }
+     ]
+    },
+    "commission": "fl-athletic-commission",
+    "venue": "Tony Rosa Community Center, Palm Bay",
+    "event": "Boxlite Promotions at Tony Rosa Community Center",
+    "event_date": "2026-03-28",
+    "opponent": "Wilner Soto",
+    "relationship": [
+     "same_commission:fl-athletic-commission"
+    ],
+    "candidate_record": [
+     {
+      "date": "2026-08-15",
+      "opponent": "Roberto Pucheta",
+      "result": "win"
+     }
+    ],
+    "contradictions": [],
+    "similar_named_other_boxers": [],
+    "competing_candidates": [],
+    "confidence": 78,
+    "resolver_stop_reason": "insufficient_graph_evidence:jurisdiction+weight"
+   },
+   "proposed_boxer": {
+    "fighter_id": "cb481094-6ba0-4c90-884d-b979c5f29b56",
+    "display_name": "Alex Vallecillo",
+    "tier_by_resolver": "C"
+   },
+   "danger": [],
+   "recommendation": "match",
+   "recommendation_why": "exact-form name, compatible official weight and commission/venue continuity; only a city-level hometown is missing on one side (no contradiction)",
+   "reviewer_decision": null,
+   "reviewer_note": null
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-04-12|hollywood|heavyweight-factory|harrison-melendez|jose-cortes|b",
+   "review_item_id": "cfa40fd9-cf82-47b2-b049-0be0af7ecf1a",
+   "source_key": "florida_athletic_commission",
+   "state": "FL",
+   "appearance": {
+    "namespace": "fl-athletic-commission.fighter",
+    "bout_external_id": "2026-04-12|hollywood|heavyweight-factory|harrison-melendez|jose-cortes",
+    "side": "b",
+    "printed_name": "Jose Cortes",
+    "display_name": "Jose Cortes",
+    "document": "fl-results:04-12-26-Heavyweight_Factory-Results_without_med",
+    "latest_decision_seq": 87
+   },
+   "unlocks_bout_now": true,
+   "evidence": {
+    "normalized_name": {
+     "observed": "jose cortes",
+     "candidate": "jose cortes",
+     "name_level": "exact"
+    },
+    "city_hometown": {
+     "observed": "Colombia",
+     "observed_city_level": null,
+     "candidate": [
+      "Colombia"
+     ],
+     "candidate_city_level": []
+    },
+    "weight": {
+     "official_lb": 179.2,
+     "contracted_lb": null,
+     "division_printed": null,
+     "candidate_weights": [
+      {
+       "date": "2026-06-28",
+       "weight_lb": 179,
+       "class": null
+      }
+     ]
+    },
+    "commission": "fl-athletic-commission",
+    "venue": "Seminole Hard Rock Hotel & Casino, Hollywood",
+    "event": "Heavyweight Factory at Seminole Hard Rock Hotel and Casino",
+    "event_date": "2026-04-12",
+    "opponent": "Harrison Melendez",
+    "relationship": [
+     "same_commission:fl-athletic-commission"
+    ],
+    "candidate_record": [
+     {
+      "date": "2026-06-28",
+      "opponent": "Patrick Pierre",
+      "result": "win"
+     }
+    ],
+    "contradictions": [],
+    "similar_named_other_boxers": [],
+    "competing_candidates": [],
+    "confidence": 78,
+    "resolver_stop_reason": "insufficient_graph_evidence:jurisdiction+weight"
+   },
+   "proposed_boxer": {
+    "fighter_id": "d32c813f-f999-412d-af97-bda96e535dd3",
+    "display_name": "Jose Cortes",
+    "tier_by_resolver": "C"
+   },
+   "danger": [],
+   "recommendation": "match",
+   "recommendation_why": "exact-form name, compatible official weight and commission/venue continuity; only a city-level hometown is missing on one side (no contradiction)",
+   "reviewer_decision": null,
+   "reviewer_note": null
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-04-12|hollywood|heavyweight-factory|ramon-de-la-cruz-sena|aaron-aponte|a",
+   "review_item_id": "a40552f2-259a-446d-82ce-f00da86219eb",
+   "source_key": "florida_athletic_commission",
+   "state": "FL",
+   "appearance": {
+    "namespace": "fl-athletic-commission.fighter",
+    "bout_external_id": "2026-04-12|hollywood|heavyweight-factory|ramon-de-la-cruz-sena|aaron-aponte",
+    "side": "a",
+    "printed_name": "Ramon De La Cruz Sena",
+    "display_name": "Ramon De La Cruz Sena",
+    "document": "fl-results:04-12-26-Heavyweight_Factory-Results_without_med",
+    "latest_decision_seq": 91
+   },
+   "unlocks_bout_now": true,
+   "evidence": {
+    "normalized_name": {
+     "observed": "ramon cruz sena",
+     "candidate": "ramon cruz sena",
+     "name_level": "exact"
+    },
+    "city_hometown": {
+     "observed": "Argentina",
+     "observed_city_level": null,
+     "candidate": [
+      "Argentina"
+     ],
+     "candidate_city_level": []
+    },
+    "weight": {
+     "official_lb": 145.4,
+     "contracted_lb": null,
+     "division_printed": null,
+     "candidate_weights": [
+      {
+       "date": "2026-05-16",
+       "weight_lb": 142,
+       "class": null
+      }
+     ]
+    },
+    "commission": "fl-athletic-commission",
+    "venue": "Seminole Hard Rock Hotel & Casino, Hollywood",
+    "event": "Heavyweight Factory at Seminole Hard Rock Hotel and Casino",
+    "event_date": "2026-04-12",
+    "opponent": "Aaron Aponte",
+    "relationship": [
+     "same_commission:fl-athletic-commission"
+    ],
+    "candidate_record": [
+     {
+      "date": "2026-05-16",
+      "opponent": "Joshua Amill",
+      "result": "loss"
+     }
+    ],
+    "contradictions": [],
+    "similar_named_other_boxers": [],
+    "competing_candidates": [],
+    "confidence": 78,
+    "resolver_stop_reason": "insufficient_graph_evidence:jurisdiction+weight"
+   },
+   "proposed_boxer": {
+    "fighter_id": "58ffde58-2411-4b1b-be7a-5419849fb9a5",
+    "display_name": "Ramon De La Cruz Sena",
+    "tier_by_resolver": "C"
+   },
+   "danger": [],
+   "recommendation": "match",
+   "recommendation_why": "exact-form name, compatible official weight and commission/venue continuity; only a city-level hometown is missing on one side (no contradiction)",
+   "reviewer_decision": null,
+   "reviewer_note": null
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|ariele-davis|sofia-viretti|b",
+   "review_item_id": "d51c2f84-ef46-445d-8e64-056739da252b",
+   "source_key": "florida_athletic_commission",
+   "state": "FL",
+   "appearance": {
+    "namespace": "fl-athletic-commission.fighter",
+    "bout_external_id": "2026-05-01|fort-lauderdale|team-boxing-league|ariele-davis|sofia-viretti",
+    "side": "b",
+    "printed_name": "Sofia Viretti",
+    "display_name": "Sofia Viretti",
+    "document": "fl-results:05-01-2026-Team_Boxing_League-results_without_med",
+    "latest_decision_seq": 107
+   },
+   "unlocks_bout_now": true,
+   "evidence": {
+    "normalized_name": {
+     "observed": "sofia viretti",
+     "candidate": "sofia viretti",
+     "name_level": "exact"
+    },
+    "city_hometown": {
+     "observed": "Argentina",
+     "observed_city_level": null,
+     "candidate": [
+      "Argentina"
+     ],
+     "candidate_city_level": []
+    },
+    "weight": {
+     "official_lb": 147.4,
+     "contracted_lb": null,
+     "division_printed": null,
+     "candidate_weights": [
+      {
+       "date": "2026-06-26",
+       "weight_lb": 146,
+       "class": null
+      },
+      {
+       "date": "2026-06-26",
+       "weight_lb": 146,
+       "class": null
+      }
+     ]
+    },
+    "commission": "fl-athletic-commission",
+    "venue": "War Memorial Auditorium, Fort Lauderdale",
+    "event": "Team Boxing League at War Memorial Auditorium",
+    "event_date": "2026-05-01",
+    "opponent": "Ariele Davis",
+    "relationship": [
+     "same_commission:fl-athletic-commission"
+    ],
+    "candidate_record": [
+     {
+      "date": "2026-06-26",
+      "opponent": "Suzana Rodriguez Griffin",
+      "result": "loss"
+     },
+     {
+      "date": "2026-06-26",
+      "opponent": "Suzana Rodriguez Griffin",
+      "result": "win"
+     }
+    ],
+    "contradictions": [],
+    "similar_named_other_boxers": [],
+    "competing_candidates": [],
+    "confidence": 78,
+    "resolver_stop_reason": "insufficient_graph_evidence:jurisdiction+weight"
+   },
+   "proposed_boxer": {
+    "fighter_id": "dc05fc46-e9fd-4e19-a8ae-f198f97a615b",
+    "display_name": "Sofia Viretti",
+    "tier_by_resolver": "C"
+   },
+   "danger": [],
+   "recommendation": "match",
+   "recommendation_why": "exact-form name, compatible official weight and commission/venue continuity; only a city-level hometown is missing on one side (no contradiction)",
+   "reviewer_decision": null,
+   "reviewer_note": null
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|doctress-robinson|esteuri-suero|b",
+   "review_item_id": "7dca7f3b-a9e0-4220-b3a3-0c3501f6e925",
+   "source_key": "florida_athletic_commission",
+   "state": "FL",
+   "appearance": {
+    "namespace": "fl-athletic-commission.fighter",
+    "bout_external_id": "2026-05-01|fort-lauderdale|team-boxing-league|doctress-robinson|esteuri-suero",
+    "side": "b",
+    "printed_name": "Esteuri Suero",
+    "display_name": "Esteuri Suero",
+    "document": "fl-results:05-01-2026-Team_Boxing_League-results_without_med",
+    "latest_decision_seq": 99
+   },
+   "unlocks_bout_now": true,
+   "evidence": {
+    "normalized_name": {
+     "observed": "esteuri suero",
+     "candidate": "esteuri suero",
+     "name_level": "exact"
+    },
+    "city_hometown": {
+     "observed": "Dominican Republic",
+     "observed_city_level": null,
+     "candidate": [
+      "Dominican Republic"
+     ],
+     "candidate_city_level": []
+    },
+    "weight": {
+     "official_lb": 151.6,
+     "contracted_lb": null,
+     "division_printed": null,
+     "candidate_weights": [
+      {
+       "date": "2026-06-26",
+       "weight_lb": 151,
+       "class": null
+      }
+     ]
+    },
+    "commission": "fl-athletic-commission",
+    "venue": "War Memorial Auditorium, Fort Lauderdale",
+    "event": "Team Boxing League at War Memorial Auditorium",
+    "event_date": "2026-05-01",
+    "opponent": "Doctress Robinson",
+    "relationship": [
+     "same_commission:fl-athletic-commission"
+    ],
+    "candidate_record": [
+     {
+      "date": "2026-06-26",
+      "opponent": "Jasir Riley",
+      "result": "win"
+     }
+    ],
+    "contradictions": [],
+    "similar_named_other_boxers": [],
+    "competing_candidates": [],
+    "confidence": 78,
+    "resolver_stop_reason": "insufficient_graph_evidence:jurisdiction+weight"
+   },
+   "proposed_boxer": {
+    "fighter_id": "3b7a4532-c39d-4879-b0dd-fce7c3a06ec1",
+    "display_name": "Esteuri Suero",
+    "tier_by_resolver": "C"
+   },
+   "danger": [],
+   "recommendation": "match",
+   "recommendation_why": "exact-form name, compatible official weight and commission/venue continuity; only a city-level hometown is missing on one side (no contradiction)",
+   "reviewer_decision": null,
+   "reviewer_note": null
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|kaylee-ann-justus-knight|samantha-ginithan|b",
+   "review_item_id": "ee9451a9-6c4b-4467-ad80-d1c502a02312",
+   "source_key": "florida_athletic_commission",
+   "state": "FL",
+   "appearance": {
+    "namespace": "fl-athletic-commission.fighter",
+    "bout_external_id": "2026-05-01|fort-lauderdale|team-boxing-league|kaylee-ann-justus-knight|samantha-ginithan",
+    "side": "b",
+    "printed_name": "Samantha Ginithan",
+    "display_name": "Samantha Ginithan",
+    "document": "fl-results:05-01-2026-Team_Boxing_League-results_without_med",
+    "latest_decision_seq": 95
+   },
+   "unlocks_bout_now": true,
+   "evidence": {
+    "normalized_name": {
+     "observed": "samantha ginithan",
+     "candidate": "samantha ginithan",
+     "name_level": "exact"
+    },
+    "city_hometown": {
+     "observed": "New Mexico",
+     "observed_city_level": null,
+     "candidate": [
+      "Las Cruces, NM"
+     ],
+     "candidate_city_level": [
+      "las cruces, nm"
+     ]
+    },
+    "weight": {
+     "official_lb": 129.2,
+     "contracted_lb": null,
+     "division_printed": null,
+     "candidate_weights": [
+      {
+       "date": "2026-06-26",
+       "weight_lb": 129.4,
+       "class": null
+      },
+      {
+       "date": "2026-06-26",
+       "weight_lb": 129.4,
+       "class": null
+      }
+     ]
+    },
+    "commission": "fl-athletic-commission",
+    "venue": "War Memorial Auditorium, Fort Lauderdale",
+    "event": "Team Boxing League at War Memorial Auditorium",
+    "event_date": "2026-05-01",
+    "opponent": "Kaylee Ann Justus Knight",
+    "relationship": [
+     "same_commission:fl-athletic-commission"
+    ],
+    "candidate_record": [
+     {
+      "date": "2026-06-26",
+      "opponent": "Shelby Cannon",
+      "result": "win"
+     },
+     {
+      "date": "2026-06-26",
+      "opponent": "Shelby Cannon",
+      "result": "loss"
+     }
+    ],
+    "contradictions": [],
+    "similar_named_other_boxers": [],
+    "competing_candidates": [],
+    "confidence": 78,
+    "resolver_stop_reason": "insufficient_graph_evidence:jurisdiction+weight"
+   },
+   "proposed_boxer": {
+    "fighter_id": "2b2d8197-95f6-4f98-abe4-70417ed844f0",
+    "display_name": "Samantha Ginithan",
+    "tier_by_resolver": "C"
+   },
+   "danger": [],
+   "recommendation": "match",
+   "recommendation_why": "exact-form name, compatible official weight and commission/venue continuity; only a city-level hometown is missing on one side (no contradiction)",
+   "reviewer_decision": null,
+   "reviewer_note": null
+  }
+ ],
+ "remaining": [
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-09|fort-lauderdale|team-boxing-league|brandi-robinson|samantha-ginithan|b",
+   "name": "Samantha Ginithan",
+   "state": "FL",
+   "event_date": "2026-05-09",
+   "unlocks_bout_now": true,
+   "recommendation": "match",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-09|fort-lauderdale|team-boxing-league|camilla-panatta|sofia-viretti|b",
+   "name": "Sofia Viretti",
+   "state": "FL",
+   "event_date": "2026-05-09",
+   "unlocks_bout_now": true,
+   "recommendation": "match",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-09|fort-lauderdale|team-boxing-league|gavonne-bess|esteuri-suero|b",
+   "name": "Esteuri Suero",
+   "state": "FL",
+   "event_date": "2026-05-09",
+   "unlocks_bout_now": true,
+   "recommendation": "match",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-09|fort-lauderdale|team-boxing-league|ronald-ellis|yusmel-alejandro-ruiz|b",
+   "name": "Yusmel Alejandro Ruiz",
+   "state": "FL",
+   "event_date": "2026-05-09",
+   "unlocks_bout_now": true,
+   "recommendation": "match",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-16|miami|m-r-boxing|brandon-carmack|aleksei-dronov|b",
+   "name": "Aleksei Dronov",
+   "state": "FL",
+   "event_date": "2026-05-16",
+   "unlocks_bout_now": true,
+   "recommendation": "match",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-16|miami|m-r-boxing|francisco-gomez-sanchez|alex-vallecillo|b",
+   "name": "Alex Vallecillo",
+   "state": "FL",
+   "event_date": "2026-05-16",
+   "unlocks_bout_now": true,
+   "recommendation": "match",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-16|tampa|market-internatoinal|anthony-alston-jr|arrieon-washpun|b",
+   "name": "Arrieon Washpun",
+   "state": "FL",
+   "event_date": "2026-05-16",
+   "unlocks_bout_now": true,
+   "recommendation": "match",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-30|fort-lauderdale|american-dream-boxing|sergio-ramirez-marin|gustavo-trujillo|b",
+   "name": "Gustavo Trujillo",
+   "state": "FL",
+   "event_date": "2026-05-30",
+   "unlocks_bout_now": true,
+   "recommendation": "match",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-06-28|davie|the-heavyweight-factory|javonni-bennett|mohamed-farea|b",
+   "name": "Mohamed Farea",
+   "state": "FL",
+   "event_date": "2026-06-28",
+   "unlocks_bout_now": true,
+   "recommendation": "match",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|samuel-clarkson|alonzo-neal|b",
+   "name": "Alonzo Neal",
+   "state": "FL",
+   "event_date": "2026-05-01",
+   "unlocks_bout_now": true,
+   "recommendation": "match_with_caveat",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-09|fort-lauderdale|team-boxing-league|carla-torres|samantha-sosa|b",
+   "name": "Samantha Sosa",
+   "state": "FL",
+   "event_date": "2026-05-09",
+   "unlocks_bout_now": true,
+   "recommendation": "match_with_caveat",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-09|fort-lauderdale|team-boxing-league|eric-emery|victor-abreu|b",
+   "name": "Victor Abreu",
+   "state": "FL",
+   "event_date": "2026-05-09",
+   "unlocks_bout_now": true,
+   "recommendation": "match_with_caveat",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-09|fort-lauderdale|team-boxing-league|gavonne-bess|darrius-jackson|b",
+   "name": "Darrius Jackson",
+   "state": "FL",
+   "event_date": "2026-05-09",
+   "unlocks_bout_now": true,
+   "recommendation": "match_with_caveat",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-09|fort-lauderdale|team-boxing-league|keno-luna|darrius-jackson|b",
+   "name": "Darrius Jackson",
+   "state": "FL",
+   "event_date": "2026-05-09",
+   "unlocks_bout_now": true,
+   "recommendation": "match_with_caveat",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-09|fort-lauderdale|team-boxing-league|rashidi-ellis|jeovanny-estela|b",
+   "name": "Jeovanny Estela",
+   "state": "FL",
+   "event_date": "2026-05-09",
+   "unlocks_bout_now": true,
+   "recommendation": "match_with_caveat",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-06-14|fort-lauderdale|team-boxing-league|abril-anguiano|samantha-ginithan|b",
+   "name": "Samantha Ginithan",
+   "state": "FL",
+   "event_date": "2026-06-14",
+   "unlocks_bout_now": true,
+   "recommendation": "match_with_caveat",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-06-14|fort-lauderdale|team-boxing-league|angelyris-lopez-mendez|samantha-sosa|b",
+   "name": "Samantha Sosa",
+   "state": "FL",
+   "event_date": "2026-06-14",
+   "unlocks_bout_now": true,
+   "recommendation": "match_with_caveat",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-06-14|fort-lauderdale|team-boxing-league|edward-millard|luis-ortiz|b",
+   "name": "Luis Ortiz",
+   "state": "FL",
+   "event_date": "2026-06-14",
+   "unlocks_bout_now": true,
+   "recommendation": "match_with_caveat",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-06-14|fort-lauderdale|team-boxing-league|jose-adrial-diaz-rodriguez|claudio-marrero|b",
+   "name": "Claudio Marrero",
+   "state": "FL",
+   "event_date": "2026-06-14",
+   "unlocks_bout_now": true,
+   "recommendation": "match_with_caveat",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-06-14|fort-lauderdale|team-boxing-league|lasha-gurguliani|jeovanny-estela|b",
+   "name": "Jeovanny Estela",
+   "state": "FL",
+   "event_date": "2026-06-14",
+   "unlocks_bout_now": true,
+   "recommendation": "match_with_caveat",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-06-14|fort-lauderdale|team-boxing-league|melissa-st-vil|sofia-viretti|b",
+   "name": "Sofia Viretti",
+   "state": "FL",
+   "event_date": "2026-06-14",
+   "unlocks_bout_now": true,
+   "recommendation": "match_with_caveat",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-06-14|fort-lauderdale|team-boxing-league|nataly-zempoaltecatl|samantha-sosa|b",
+   "name": "Samantha Sosa",
+   "state": "FL",
+   "event_date": "2026-06-14",
+   "unlocks_bout_now": true,
+   "recommendation": "match_with_caveat",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-06-14|fort-lauderdale|team-boxing-league|ryan-zempoaltecatl|darrius-jackson|b",
+   "name": "Darrius Jackson",
+   "state": "FL",
+   "event_date": "2026-06-14",
+   "unlocks_bout_now": true,
+   "recommendation": "match_with_caveat",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-06-14|fort-lauderdale|team-boxing-league|shawn-mccalman|yusmel-alejandro-ruiz|b",
+   "name": "Yusmel Alejandro Ruiz",
+   "state": "FL",
+   "event_date": "2026-06-14",
+   "unlocks_bout_now": true,
+   "recommendation": "match_with_caveat",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-02-19|altamonte-springs|christy-martin-promotions|vaughn-alexander|marco-romero|b",
+   "name": "Marco Romero",
+   "state": "FL",
+   "event_date": "2026-02-19",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-02-21|miami|m-r-boxing|juan-camilo-novoa|carlos-fromenta-romero|b",
+   "name": "Carlos Fromenta Romero",
+   "state": "FL",
+   "event_date": "2026-02-21",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:nj_sacb:2026-02-21|showboat-hotel|atlantic-city|ryan-zempoaltecatl|rashad-bogar|a",
+   "name": "Ryan Zempoaltecatl",
+   "state": "NJ",
+   "event_date": "2026-02-21",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-02-28|clearwater|starfight-productions|jeremiah-potts|cornelious-johnson|a",
+   "name": "Jeremiah Potts",
+   "state": "FL",
+   "event_date": "2026-02-28",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-03-07|alamonte-springs|mike-sawyer-promotions|mason-wickett|zayveon-mitchell|b",
+   "name": "Zayveon Mitchell",
+   "state": "FL",
+   "event_date": "2026-03-07",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:nsac_nevada:2026-03-08|ufc-apex|emiliano-venegas-alvarado|erick-pascual-rosado|a",
+   "name": "Emiliano Venegas Alvarado",
+   "state": "NV",
+   "event_date": "2026-03-08",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-03-14|miami|brandrisk-entertainment|malcolm-minikon|anthony-proctor|b",
+   "name": "Anthony Proctor",
+   "state": "FL",
+   "event_date": "2026-03-14",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-03-21|orlando|matchroom-boxlab|antraveous-ingram|christopher-thompson|a",
+   "name": "Antraveous Ingram",
+   "state": "FL",
+   "event_date": "2026-03-21",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:nj_sacb:2026-04-11|boardwalk-hall|atlantic-city|arjan-iseni|christian-figueroa|b",
+   "name": "Christian Figueroa",
+   "state": "NJ",
+   "event_date": "2026-04-11",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:nj_sacb:2026-04-11|boardwalk-hall|atlantic-city|mudah-abdus-salaam|benjamin-gomez|a",
+   "name": "Mudah Abdus Salaam",
+   "state": "NJ",
+   "event_date": "2026-04-11",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|amin-mitchell|yoelys-leal-molina|b",
+   "name": "Yoelys Leal Molina",
+   "state": "FL",
+   "event_date": "2026-05-01",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|kaylee-ann-justus-knight|samantha-sosa|a",
+   "name": "Kaylee Ann Justus Knight",
+   "state": "FL",
+   "event_date": "2026-05-01",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:nsac_nevada:2026-05-02|t-mobile|dylan-lucciano-capetillo-fernandez|james-william-pierce-iii|a",
+   "name": "Dylan Lucciano Capetillo Fernandez",
+   "state": "NV",
+   "event_date": "2026-05-02",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-09|fort-lauderdale|team-boxing-league|jahyae-brown|yoelys-leal-molina|b",
+   "name": "Yoelys Leal Molina",
+   "state": "FL",
+   "event_date": "2026-05-09",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:nsac_nevada:2026-05-10|ufc-apex|emiliano-cardenas|alexis-jesse-alvarado-ariel|a",
+   "name": "Emiliano Cardenas",
+   "state": "NV",
+   "event_date": "2026-05-10",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-16|miami|m-r-boxing|ramon-olivas-echeverria|carlos-fromenta-romero|a",
+   "name": "Ramon Olivas Echeverria",
+   "state": "FL",
+   "event_date": "2026-05-16",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-06-14|fort-lauderdale|team-boxing-league|alexander-castellano|victor-abreu|b",
+   "name": "Victor Abreu",
+   "state": "FL",
+   "event_date": "2026-06-14",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-06-14|fort-lauderdale|team-boxing-league|ryan-pino|yoelys-leal-molina|b",
+   "name": "Yoelys Leal Molina",
+   "state": "FL",
+   "event_date": "2026-06-14",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-06-26|fort-lauderdale|team-boxing-league|jasir-riley|darrius-jackson|a",
+   "name": "Jasir Riley",
+   "state": "FL",
+   "event_date": "2026-06-26",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:nsac_nevada:2026-06-28|cosmopolitan|cain-sandoval|brandun-lee|a",
+   "name": "Cain Sandoval",
+   "state": "NV",
+   "event_date": "2026-06-28",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:nsac_nevada:2026-08-01|virgin-hotels|dylan-lucciano-capetillo-fernandez|juan-carlos-becerril-chavez|a",
+   "name": "Dylan Lucciano Capetillo Fernandez",
+   "state": "NV",
+   "event_date": "2026-08-01",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:nsac_nevada:2026-08-01|virgin-hotels|joel-cuauhtemoc-iriarte|jorge-arturo-lagunas-valencia|b",
+   "name": "Jorge Arturo Lagunas Valencia",
+   "state": "NV",
+   "event_date": "2026-08-01",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:nsac_nevada:2026-08-01|virgin-hotels|raymond-muratalla|robinson-donato-conceicao|a",
+   "name": "Raymond Muratalla",
+   "state": "NV",
+   "event_date": "2026-08-01",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-08-22|fort-lauderdale|brand-risk-promotion|anthony-proctor|anthony-taylor|a",
+   "name": "Anthony Proctor",
+   "state": "FL",
+   "event_date": "2026-08-22",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:nsac_nevada:2026-08-22|t-mobile|yoenli-feliciano-hernandez-martinez|francisco-daniel-vernon|a",
+   "name": "Yoenli Feliciano Hernandez Martinez",
+   "state": "NV",
+   "event_date": "2026-08-22",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-01-04|hollywood|the-heavyweight-factory|joby-steffensmeier|sebastian-santana|b",
+   "name": "Sebastian Santana",
+   "state": "FL",
+   "event_date": "2026-01-04",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "same_surname_same_city_different_given_name"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-01-04|hollywood|the-heavyweight-factory|jose-edgardo-garcia|francisco-rodriguez-jr|b",
+   "name": "Francisco Rodriguez Jr.",
+   "state": "FL",
+   "event_date": "2026-01-04",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "generational_suffix",
+    "name_not_exact_form",
+    "common_surname"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-01-04|hollywood|the-heavyweight-factory|kelton-hall|jose-cortes|b",
+   "name": "Jose Cortes",
+   "state": "FL",
+   "event_date": "2026-01-04",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:nj_sacb:2026-01-15|patriots-theater-at-war-memorial|trenton|shinard-bunch|john-paul-magalong|a",
+   "name": "Shinard Bunch",
+   "state": "NJ",
+   "event_date": "2026-01-15",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-01-23|miami|brand-risk-promotions|akram-ibrahim|chibundu-dunga|b",
+   "name": "Chibundu Dunga",
+   "state": "FL",
+   "event_date": "2026-01-23",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-01-23|miami|brand-risk-promotions|edgar-garcia-de-leon|antonio-williams|b",
+   "name": "Antonio Williams",
+   "state": "FL",
+   "event_date": "2026-01-23",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "generational_suffix",
+    "same_surname_same_city_different_given_name",
+    "name_not_exact_form",
+    "common_surname"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-02-19|altamonte-springs|christy-martin-promotions|diego-dominguez|desmond-lyons|b",
+   "name": "Desmond Lyons",
+   "state": "FL",
+   "event_date": "2026-02-19",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-02-20|orlando|boxlab|donald-hayesworth|dainer-pero|b",
+   "name": "Dainer Pero",
+   "state": "FL",
+   "event_date": "2026-02-20",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form",
+    "given_name_differs"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-02-20|orlando|boxlab|hebreux-francois|alexander-rios-vega|a",
+   "name": "Hebreux Francois",
+   "state": "FL",
+   "event_date": "2026-02-20",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-02-20|orlando|boxlab|helaman-olguin|aleksei-dronov|b",
+   "name": "Aleksei Dronov",
+   "state": "FL",
+   "event_date": "2026-02-20",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-02-20|orlando|boxlab|jose-fernandez-ramos|giovanni-louis|a",
+   "name": "Jose Fernandez Ramos",
+   "state": "FL",
+   "event_date": "2026-02-20",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form",
+    "common_surname"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-02-20|orlando|boxlab|rashad-bowens|pedro-veitia|b",
+   "name": "Pedro Veitia",
+   "state": "FL",
+   "event_date": "2026-02-20",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-02-20|orlando|boxlab|wilner-soto-carvajal|mandeep-jangra|a",
+   "name": "Wilner Soto Carvajal",
+   "state": "FL",
+   "event_date": "2026-02-20",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form",
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-02-21|miami|m-r-boxing|ramon-de-la-cruz|nikita-ababiy|a",
+   "name": "Ramon De La Cruz",
+   "state": "FL",
+   "event_date": "2026-02-21",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-02-28|clearwater|starfight-productions|alan-campa-medina|imran-haddabah|a",
+   "name": "Alan Campa Medina",
+   "state": "FL",
+   "event_date": "2026-02-28",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form",
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-02-28|clearwater|starfight-productions|alexandre-lima-moura|john-garcia|b",
+   "name": "John Garcia",
+   "state": "FL",
+   "event_date": "2026-02-28",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "common_surname"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-02-28|clearwater|starfight-productions|armondo-reeves|zamy-larry|a",
+   "name": "Armondo Reeves",
+   "state": "FL",
+   "event_date": "2026-02-28",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form",
+    "given_name_differs"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-02-28|clearwater|starfight-productions|marcello-williams-saraiva-ferreira|joseph-fernandez|a",
+   "name": "Marcello Williams Saraiva Ferreira",
+   "state": "FL",
+   "event_date": "2026-02-28",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form",
+    "given_name_differs",
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-03-07|alamonte-springs|mike-sawyer-promotions|austin-vasquez|enrique-murga|b",
+   "name": "Enrique Murga",
+   "state": "FL",
+   "event_date": "2026-03-07",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:nsac_nevada:2026-03-08|ufc-apex|jaycob-ramos|ethan-perez|a",
+   "name": "Jaycob Ramos",
+   "state": "NV",
+   "event_date": "2026-03-08",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form",
+    "common_surname"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-03-14|miami|brandrisk-entertainment|carlos-manuel-portillo|antonio-williams|b",
+   "name": "Antonio Williams",
+   "state": "FL",
+   "event_date": "2026-03-14",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "generational_suffix",
+    "same_surname_same_city_different_given_name",
+    "name_not_exact_form",
+    "common_surname"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-03-14|miami|brandrisk-entertainment|chibunda-dunga|johnathan-porter|a",
+   "name": "Chibunda Dunga",
+   "state": "FL",
+   "event_date": "2026-03-14",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form",
+    "given_name_differs"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-03-14|miami|brandrisk-entertainment|jose-florentino|gabriel-da-silva|b",
+   "name": "Gabriel Da Silva",
+   "state": "FL",
+   "event_date": "2026-03-14",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form",
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-03-14|miami|brandrisk-entertainment|joshua-shelton|johnathan-webb|b",
+   "name": "Johnathan Webb",
+   "state": "FL",
+   "event_date": "2026-03-14",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form",
+    "given_name_differs"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-03-21|ocala|wake-up-and|calvin-barnett|drake-banks|a",
+   "name": "Calvin Barnett",
+   "state": "FL",
+   "event_date": "2026-03-21",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-03-21|orlando|matchroom-boxlab|jordan-orozco-hernandez|daniel-olea|a",
+   "name": "Jordan Orozco Hernandez",
+   "state": "FL",
+   "event_date": "2026-03-21",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "common_surname"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-03-21|orlando|matchroom-boxlab|omari-jones|christian-gomez|a",
+   "name": "Omari Jones",
+   "state": "FL",
+   "event_date": "2026-03-21",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form",
+    "common_surname"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-03-28|palm-bay|boxlite-promotions|jessie-clark|michelle-lopez|a",
+   "name": "Jessie Clark",
+   "state": "FL",
+   "event_date": "2026-03-28",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form",
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:nsac_nevada:2026-03-28|grand-garden|kaipo-ethan-gallegos|julian-gonzalez-sanchez|a",
+   "name": "Kaipo Ethan Gallegos",
+   "state": "NV",
+   "event_date": "2026-03-28",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:nsac_nevada:2026-04-05|ufc-apex|troy-aqealies-tichj-nash|bryan-nabor-rodriguez|a",
+   "name": "Troy Aqealies Tichj Nash",
+   "state": "NV",
+   "event_date": "2026-04-05",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form",
+    "given_name_differs"
+   ]
+  },
+  {
+   "entry_id": "001:nj_sacb:2026-04-11|boardwalk-hall|atlantic-city|zahir-abdus-salaam|josue-silva|a",
+   "name": "Zahir Abdus Salaam",
+   "state": "NJ",
+   "event_date": "2026-04-11",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "same_surname_same_city_different_given_name",
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-04-12|hollywood|heavyweight-factory|neslan-machado|armando-martinez-rabi|b",
+   "name": "Armando Martinez Rabi",
+   "state": "FL",
+   "event_date": "2026-04-12",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-04-12|hollywood|heavyweight-factory|wade-garry-haverchuk|sebastian-santana|a",
+   "name": "Wade Garry Haverchuk",
+   "state": "FL",
+   "event_date": "2026-04-12",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|devon-young|nestor-santana|b",
+   "name": "Nestor Santana",
+   "state": "FL",
+   "event_date": "2026-05-01",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "same_surname_same_region_different_given_name",
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|jeremy-hill|claudio-marrero-guzman|b",
+   "name": "Claudio Marrero Guzman",
+   "state": "FL",
+   "event_date": "2026-05-01",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|money-powell-iv|yuniesky-gonzalez|b",
+   "name": "Yuniesky Gonzalez",
+   "state": "FL",
+   "event_date": "2026-05-01",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "common_surname"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|rockill-brown|isaac-carbonell|b",
+   "name": "Isaac Carbonell",
+   "state": "FL",
+   "event_date": "2026-05-01",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-09|fort-lauderdale|team-boxing-league|alexy-de-la-cruz|yosdiel-napoles|b",
+   "name": "Yosdiel Napoles",
+   "state": "FL",
+   "event_date": "2026-05-09",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-09|fort-lauderdale|team-boxing-league|hebreux-francois|claudio-marrero-guzman|b",
+   "name": "Claudio Marrero Guzman",
+   "state": "FL",
+   "event_date": "2026-05-09",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-09|fort-lauderdale|team-boxing-league|michael-polite-coffie|nestor-santana|b",
+   "name": "Nestor Santana",
+   "state": "FL",
+   "event_date": "2026-05-09",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "same_surname_same_region_different_given_name",
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-09|fort-lauderdale|team-boxing-league|miguel-teo|yuniesky-gonzalez|b",
+   "name": "Yuniesky Gonzalez",
+   "state": "FL",
+   "event_date": "2026-05-09",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "common_surname"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-09|fort-lauderdale|team-boxing-league|steven-sumpter|isaac-carbonell|b",
+   "name": "Isaac Carbonell",
+   "state": "FL",
+   "event_date": "2026-05-09",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:nsac_nevada:2026-05-10|ufc-apex|damazion-vanhouter|raphael-murphy|a",
+   "name": "Damazion Vanhouter",
+   "state": "NV",
+   "event_date": "2026-05-10",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form"
+   ]
+  },
+  {
+   "entry_id": "001:nsac_nevada:2026-05-10|ufc-apex|julian-rodriguez-mullen|james-perella|a",
+   "name": "Julian Rodriguez Mullen",
+   "state": "NV",
+   "event_date": "2026-05-10",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form"
+   ]
+  },
+  {
+   "entry_id": "001:nsac_nevada:2026-05-10|ufc-apex|justin-viloria|cesar-ivan-ortiz-castellanos|a",
+   "name": "Justin Viloria",
+   "state": "NV",
+   "event_date": "2026-05-10",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form"
+   ]
+  },
+  {
+   "entry_id": "001:nsac_nevada:2026-05-10|ufc-apex|shane-donte-mosley-jr|serhii-bohachuk|b",
+   "name": "Serhii Bohachuk",
+   "state": "NV",
+   "event_date": "2026-05-10",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-16|tampa|market-internatoinal|armondo-reeves|tyler-yavalar|a",
+   "name": "Armondo Reeves",
+   "state": "FL",
+   "event_date": "2026-05-16",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form",
+    "given_name_differs"
+   ]
+  },
+  {
+   "entry_id": "001:nj_sacb:2026-06-06|prudential-center|newark|muadh-abdus-salaam|michael-ruiz|a",
+   "name": "Muadh Abdus Salaam",
+   "state": "NJ",
+   "event_date": "2026-06-06",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form",
+    "given_name_differs"
+   ]
+  },
+  {
+   "entry_id": "001:nj_sacb:2026-06-06|prudential-center|newark|zahir-abdus-salaam|caleb-dodson|a",
+   "name": "Zahir Abdus-Salaam",
+   "state": "NJ",
+   "event_date": "2026-06-06",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "same_surname_same_city_different_given_name",
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:nj_sacb:2026-06-13|tropicana-hotel-casino|atlantic-city|bruce-seldon-jr|joshua-popper|b",
+   "name": "Joshua Popper",
+   "state": "NJ",
+   "event_date": "2026-06-13",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-06-14|fort-lauderdale|team-boxing-league|tritchlet-merius|yuniesky-gonzalez|b",
+   "name": "Yuniesky Gonzalez",
+   "state": "FL",
+   "event_date": "2026-06-14",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "common_surname"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-06-26|fort-lauderdale|team-boxing-league|deshawn-prather|yoelys-leal-molina|a",
+   "name": "Deshawn Prather",
+   "state": "FL",
+   "event_date": "2026-06-26",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "same_surname_same_city_different_given_name",
+    "name_not_exact_form",
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-06-28|davie|the-heavyweight-factory|edwin-gamboa|michael-osumah|b",
+   "name": "Michael Osumah",
+   "state": "FL",
+   "event_date": "2026-06-28",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:nsac_nevada:2026-06-28|cosmopolitan|brady-ray-ochoa|adrian-miguel-serrano|a",
+   "name": "Brady Ray Ochoa",
+   "state": "NV",
+   "event_date": "2026-06-28",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "same_surname_same_city_different_given_name",
+    "name_not_exact_form"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-08-22|fort-lauderdale|brand-risk-promotion|kevin-ferguson-jr|gabriel-da-silva|b",
+   "name": "Gabriel Da Silva",
+   "state": "FL",
+   "event_date": "2026-08-22",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form",
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-08-22|fort-lauderdale|brand-risk-promotion|patrick-okine|antonio-williams|b",
+   "name": "Antonio Williams",
+   "state": "FL",
+   "event_date": "2026-08-22",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "generational_suffix",
+    "same_surname_same_city_different_given_name",
+    "name_not_exact_form",
+    "common_surname"
+   ]
+  },
+  {
+   "entry_id": "001:nsac_nevada:2026-08-22|t-mobile|aldo-blancas|ricky-mamone|a",
+   "name": "Aldo Blancas",
+   "state": "NV",
+   "event_date": "2026-08-22",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "same_surname_same_city_different_given_name",
+    "name_not_exact_form"
+   ]
+  },
+  {
+   "entry_id": "001:nsac_nevada:2026-08-22|t-mobile|victor-daniel-santillan-perez|gary-antonio-russell|b",
+   "name": "Gary Antonio Russell",
+   "state": "NV",
+   "event_date": "2026-08-22",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form",
+    "given_name_differs",
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-08-28|orlando|matchroom-boxing-promotions|kaipo-gallegos|desmond-lyons|a",
+   "name": "Kaipo Gallegos",
+   "state": "FL",
+   "event_date": "2026-08-28",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form"
+   ]
+  },
+  {
+   "entry_id": "001:nj_sacb:2026-09-04|prudential-center|newark|zaquin-moses|angel-antonio-contreras|a",
+   "name": "Zaquin Moses",
+   "state": "NJ",
+   "event_date": "2026-09-04",
+   "unlocks_bout_now": true,
+   "recommendation": "hold",
+   "danger": [
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-02-21|miami|m-r-boxing|angel-hernandez-pillado|manuel-correa|b",
+   "name": "Manuel Correa",
+   "state": "FL",
+   "event_date": "2026-02-21",
+   "unlocks_bout_now": false,
+   "recommendation": "match",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-02-21|miami|m-r-boxing|evan-dark|joseph-steckerl|a",
+   "name": "Evan Dark",
+   "state": "FL",
+   "event_date": "2026-02-21",
+   "unlocks_bout_now": false,
+   "recommendation": "match",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-02-21|miami|m-r-boxing|evan-dark|joseph-steckerl|b",
+   "name": "Joseph Steckerl",
+   "state": "FL",
+   "event_date": "2026-02-21",
+   "unlocks_bout_now": false,
+   "recommendation": "match",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-02-21|miami|m-r-boxing|luis-eduardo-may-tzuc|maxwel-montes|a",
+   "name": "Luis Eduardo May Tzuc",
+   "state": "FL",
+   "event_date": "2026-02-21",
+   "unlocks_bout_now": false,
+   "recommendation": "match",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-03-28|palm-bay|boxlite-promotions|evan-dark|francisco-andrade|a",
+   "name": "Evan Dark",
+   "state": "FL",
+   "event_date": "2026-03-28",
+   "unlocks_bout_now": false,
+   "recommendation": "match",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|alissa-boltz|samantha-ginithan|b",
+   "name": "Samantha Ginithan",
+   "state": "FL",
+   "event_date": "2026-05-01",
+   "unlocks_bout_now": false,
+   "recommendation": "match",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|ariele-davis|sofia-viretti|2|b",
+   "name": "Sofia Viretti",
+   "state": "FL",
+   "event_date": "2026-05-01",
+   "unlocks_bout_now": false,
+   "recommendation": "match",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|doctress-robinson|esteuri-suero|2|b",
+   "name": "Esteuri Suero",
+   "state": "FL",
+   "event_date": "2026-05-01",
+   "unlocks_bout_now": false,
+   "recommendation": "match",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|raul-garcia|yusmel-alejandro-ruiz|2|b",
+   "name": "Yusmel Alejandro Ruiz",
+   "state": "FL",
+   "event_date": "2026-05-01",
+   "unlocks_bout_now": false,
+   "recommendation": "match",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|raul-garcia|yusmel-alejandro-ruiz|b",
+   "name": "Yusmel Alejandro Ruiz",
+   "state": "FL",
+   "event_date": "2026-05-01",
+   "unlocks_bout_now": false,
+   "recommendation": "match",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-09|fort-lauderdale|team-boxing-league|camilla-panatta|sofia-viretti|2|b",
+   "name": "Sofia Viretti",
+   "state": "FL",
+   "event_date": "2026-05-09",
+   "unlocks_bout_now": false,
+   "recommendation": "match",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-09|fort-lauderdale|team-boxing-league|ronald-ellis|yusmel-alejandro-ruiz|2|b",
+   "name": "Yusmel Alejandro Ruiz",
+   "state": "FL",
+   "event_date": "2026-05-09",
+   "unlocks_bout_now": false,
+   "recommendation": "match",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|devon-young|alonzo-neal|b",
+   "name": "Alonzo Neal",
+   "state": "FL",
+   "event_date": "2026-05-01",
+   "unlocks_bout_now": false,
+   "recommendation": "match_with_caveat",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-09|fort-lauderdale|team-boxing-league|rashidi-ellis|jeovanny-estela|2|b",
+   "name": "Jeovanny Estela",
+   "state": "FL",
+   "event_date": "2026-05-09",
+   "unlocks_bout_now": false,
+   "recommendation": "match_with_caveat",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-06-14|fort-lauderdale|team-boxing-league|jose-adrial-diaz-rodriguez|yosdiel-napoles|b",
+   "name": "Yosdiel Napoles",
+   "state": "FL",
+   "event_date": "2026-06-14",
+   "unlocks_bout_now": false,
+   "recommendation": "match_with_caveat",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-06-14|fort-lauderdale|team-boxing-league|lasha-gurguliani|jeovanny-estela|2|b",
+   "name": "Jeovanny Estela",
+   "state": "FL",
+   "event_date": "2026-06-14",
+   "unlocks_bout_now": false,
+   "recommendation": "match_with_caveat",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-06-14|fort-lauderdale|team-boxing-league|lionel-omar-colon-santana|esteuri-suero|2|b",
+   "name": "Esteuri Suero",
+   "state": "FL",
+   "event_date": "2026-06-14",
+   "unlocks_bout_now": false,
+   "recommendation": "match_with_caveat",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-06-14|fort-lauderdale|team-boxing-league|lionel-omar-colon-santana|esteuri-suero|b",
+   "name": "Esteuri Suero",
+   "state": "FL",
+   "event_date": "2026-06-14",
+   "unlocks_bout_now": false,
+   "recommendation": "match_with_caveat",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-06-14|fort-lauderdale|team-boxing-league|nataly-zempoaltecatl|samantha-ginithan|b",
+   "name": "Samantha Ginithan",
+   "state": "FL",
+   "event_date": "2026-06-14",
+   "unlocks_bout_now": false,
+   "recommendation": "match_with_caveat",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-06-14|fort-lauderdale|team-boxing-league|ryan-zempoaltecatl|darrius-jackson|2|b",
+   "name": "Darrius Jackson",
+   "state": "FL",
+   "event_date": "2026-06-14",
+   "unlocks_bout_now": false,
+   "recommendation": "match_with_caveat",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-06-14|fort-lauderdale|team-boxing-league|shawn-mccalman|yusmel-alejandro-ruiz|2|b",
+   "name": "Yusmel Alejandro Ruiz",
+   "state": "FL",
+   "event_date": "2026-06-14",
+   "unlocks_bout_now": false,
+   "recommendation": "match_with_caveat",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-01-04|hollywood|the-heavyweight-factory|rashad-bowens|andrew-garcia|a",
+   "name": "Rashad Bowens",
+   "state": "FL",
+   "event_date": "2026-01-04",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-01-23|miami|brand-risk-promotions|anthony-proctor|gabriel-da-silva|a",
+   "name": "Anthony Proctor",
+   "state": "FL",
+   "event_date": "2026-01-23",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-01-23|miami|brand-risk-promotions|ethan-stern|zachariah-morris|a",
+   "name": "Ethan Stern",
+   "state": "FL",
+   "event_date": "2026-01-23",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-01-24|tampa|market-international-promotions|brooks-warman|devin-churbe|a",
+   "name": "Brooks Warman",
+   "state": "FL",
+   "event_date": "2026-01-24",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-01-24|tampa|market-international-promotions|brooks-warman|devin-churbe|b",
+   "name": "Devin Churbe",
+   "state": "FL",
+   "event_date": "2026-01-24",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-02-21|miami|m-r-boxing|brandon-carmack|drake-banks|b",
+   "name": "Drake Banks",
+   "state": "FL",
+   "event_date": "2026-02-21",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:nj_sacb:2026-02-21|showboat-hotel|atlantic-city|alonzo-neal|zederic-stephenson|a",
+   "name": "Alonzo Neal",
+   "state": "NJ",
+   "event_date": "2026-02-21",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:nj_sacb:2026-02-21|showboat-hotel|atlantic-city|alonzo-neal|zederic-stephenson|b",
+   "name": "Zederic Stephenson",
+   "state": "NJ",
+   "event_date": "2026-02-21",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-04-12|hollywood|heavyweight-factory|angel-hernandez-pillado|gavonne-bess|b",
+   "name": "Gavonne Bess",
+   "state": "FL",
+   "event_date": "2026-04-12",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|alissa-boltz|samantha-ginithan|a",
+   "name": "Alissa Boltz",
+   "state": "FL",
+   "event_date": "2026-05-01",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|amin-mitchell|yoelys-leal-molina|2|b",
+   "name": "Yoelys Leal Molina",
+   "state": "FL",
+   "event_date": "2026-05-01",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|desmond-lyons|claudio-marrero-guzman|a",
+   "name": "Desmond Lyons",
+   "state": "FL",
+   "event_date": "2026-05-01",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|desmond-lyons|yosdiel-napoles|a",
+   "name": "Desmond Lyons",
+   "state": "FL",
+   "event_date": "2026-05-01",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|devon-young|alonzo-neal|a",
+   "name": "Devon Young",
+   "state": "FL",
+   "event_date": "2026-05-01",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|jeremy-hill|yosdiel-napoles|a",
+   "name": "Jeremy Hill",
+   "state": "FL",
+   "event_date": "2026-05-01",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|samuel-clarkson|nestor-santana|a",
+   "name": "Samuel Clarkson",
+   "state": "FL",
+   "event_date": "2026-05-01",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-08|fort-lauderdale|team-boxing-league|osvel-caballero|marcos-forestal|a",
+   "name": "Osvel Caballero",
+   "state": "FL",
+   "event_date": "2026-05-08",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-08|fort-lauderdale|team-boxing-league|osvel-caballero|marcos-forestal|b",
+   "name": "Marcos Forestal",
+   "state": "FL",
+   "event_date": "2026-05-08",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-09|fort-lauderdale|team-boxing-league|alexy-de-la-cruz|claudio-marrero-guzman|a",
+   "name": "Alexy De la Cruz",
+   "state": "FL",
+   "event_date": "2026-05-09",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-09|fort-lauderdale|team-boxing-league|hebreux-francois|yosdiel-napoles|a",
+   "name": "Hebreux Francois",
+   "state": "FL",
+   "event_date": "2026-05-09",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-09|fort-lauderdale|team-boxing-league|jahyae-brown|yoelys-leal-molina|2|b",
+   "name": "Yoelys Leal Molina",
+   "state": "FL",
+   "event_date": "2026-05-09",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-09|fort-lauderdale|team-boxing-league|skylar-lacy|nestor-santana|a",
+   "name": "Skylar Lacy",
+   "state": "FL",
+   "event_date": "2026-05-09",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-06-14|fort-lauderdale|team-boxing-league|alexander-castellano|victor-abreu|2|b",
+   "name": "Victor Abreu",
+   "state": "FL",
+   "event_date": "2026-06-14",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-06-14|fort-lauderdale|team-boxing-league|nataly-zempoaltecatl|samantha-ginithan|a",
+   "name": "Nataly Zempoaltecatl",
+   "state": "FL",
+   "event_date": "2026-06-14",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-06-14|fort-lauderdale|team-boxing-league|ryan-pino|yoelys-leal-molina|2|b",
+   "name": "Yoelys Leal Molina",
+   "state": "FL",
+   "event_date": "2026-06-14",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-06-26|fort-lauderdale|team-boxing-league|roger-hilley|yosdiel-napoles|a",
+   "name": "Roger Hilley",
+   "state": "FL",
+   "event_date": "2026-06-26",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-06-26|fort-lauderdale|team-boxing-league|roger-hilley|yosdiel-napoles|b",
+   "name": "Yosdiel Napoles",
+   "state": "FL",
+   "event_date": "2026-06-26",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-01-04|hollywood|the-heavyweight-factory|rashad-bowens|andrew-garcia|b",
+   "name": "Andrew Garcia",
+   "state": "FL",
+   "event_date": "2026-01-04",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form",
+    "common_surname"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-01-23|miami|brand-risk-promotions|anthony-proctor|gabriel-da-silva|b",
+   "name": "Gabriel Da Silva",
+   "state": "FL",
+   "event_date": "2026-01-23",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-01-23|miami|brand-risk-promotions|ethan-stern|zachariah-morris|b",
+   "name": "Zachariah Morris",
+   "state": "FL",
+   "event_date": "2026-01-23",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form",
+    "given_name_differs"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-02-21|miami|m-r-boxing|angel-hernandez-pillado|manuel-correa|a",
+   "name": "Angel Hernandez Pillado",
+   "state": "FL",
+   "event_date": "2026-02-21",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form",
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-02-21|miami|m-r-boxing|brandon-carmack|drake-banks|a",
+   "name": "Brandon Carmack",
+   "state": "FL",
+   "event_date": "2026-02-21",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-02-21|miami|m-r-boxing|luis-eduardo-may-tzuc|maxwel-montes|b",
+   "name": "Maxwel Montes",
+   "state": "FL",
+   "event_date": "2026-02-21",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form",
+    "given_name_differs"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-03-14|miami|brandrisk-entertainment|andrew-garcia|deshawn-prather|a",
+   "name": "Andrew Garcia",
+   "state": "FL",
+   "event_date": "2026-03-14",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form",
+    "common_surname"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-03-14|miami|brandrisk-entertainment|andrew-garcia|deshawn-prather|b",
+   "name": "Deshawn Prather",
+   "state": "FL",
+   "event_date": "2026-03-14",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "same_surname_same_city_different_given_name",
+    "name_not_exact_form",
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-03-28|palm-bay|boxlite-promotions|evan-dark|francisco-andrade|b",
+   "name": "Francisco Andrade",
+   "state": "FL",
+   "event_date": "2026-03-28",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:nj_sacb:2026-04-10|prudential-center|newark|francisco-veron|raul-garcia|a",
+   "name": "Francisco Veron",
+   "state": "NJ",
+   "event_date": "2026-04-10",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form"
+   ]
+  },
+  {
+   "entry_id": "001:nj_sacb:2026-04-10|prudential-center|newark|francisco-veron|raul-garcia|b",
+   "name": "Raul Garcia",
+   "state": "NJ",
+   "event_date": "2026-04-10",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form",
+    "common_surname",
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-04-12|hollywood|heavyweight-factory|angel-hernandez-pillado|gavonne-bess|a",
+   "name": "Angel Hernandez Pillado",
+   "state": "FL",
+   "event_date": "2026-04-12",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form",
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|desmond-lyons|claudio-marrero-guzman|b",
+   "name": "Claudio Marrero Guzman",
+   "state": "FL",
+   "event_date": "2026-05-01",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|desmond-lyons|yosdiel-napoles|b",
+   "name": "Yosdiel Napoles",
+   "state": "FL",
+   "event_date": "2026-05-01",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|jeremy-hill|yosdiel-napoles|b",
+   "name": "Yosdiel Napoles",
+   "state": "FL",
+   "event_date": "2026-05-01",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|money-powell-iv|yuniesky-gonzalez|2|b",
+   "name": "Yuniesky Gonzalez",
+   "state": "FL",
+   "event_date": "2026-05-01",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "common_surname"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|raul-garcia|yusmel-alejandro-ruiz|2|a",
+   "name": "Raul Garcia",
+   "state": "FL",
+   "event_date": "2026-05-01",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form",
+    "common_surname",
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|raul-garcia|yusmel-alejandro-ruiz|a",
+   "name": "Raul Garcia",
+   "state": "FL",
+   "event_date": "2026-05-01",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form",
+    "common_surname",
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|rockill-brown|isaac-carbonell|2|b",
+   "name": "Isaac Carbonell",
+   "state": "FL",
+   "event_date": "2026-05-01",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|samuel-clarkson|nestor-santana|b",
+   "name": "Nestor Santana",
+   "state": "FL",
+   "event_date": "2026-05-01",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "same_surname_same_region_different_given_name",
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-09|fort-lauderdale|team-boxing-league|alexy-de-la-cruz|claudio-marrero-guzman|b",
+   "name": "Claudio Marrero Guzman",
+   "state": "FL",
+   "event_date": "2026-05-09",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-09|fort-lauderdale|team-boxing-league|hebreux-francois|yosdiel-napoles|b",
+   "name": "Yosdiel Napoles",
+   "state": "FL",
+   "event_date": "2026-05-09",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-09|fort-lauderdale|team-boxing-league|miguel-teo|yuniesky-gonzalez|2|b",
+   "name": "Yuniesky Gonzalez",
+   "state": "FL",
+   "event_date": "2026-05-09",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "common_surname"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-09|fort-lauderdale|team-boxing-league|skylar-lacy|nestor-santana|b",
+   "name": "Nestor Santana",
+   "state": "FL",
+   "event_date": "2026-05-09",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "same_surname_same_region_different_given_name",
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-06-14|fort-lauderdale|team-boxing-league|jose-adrial-diaz-rodriguez|yosdiel-napoles|a",
+   "name": "Jose Adrial Diaz Rodriguez",
+   "state": "FL",
+   "event_date": "2026-06-14",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "common_surname"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-06-14|fort-lauderdale|team-boxing-league|lionel-omar-colon-santana|esteuri-suero|2|a",
+   "name": "Lionel Omar Colon Santana",
+   "state": "FL",
+   "event_date": "2026-06-14",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form",
+    "given_name_differs",
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-06-14|fort-lauderdale|team-boxing-league|lionel-omar-colon-santana|esteuri-suero|a",
+   "name": "Lionel Omar Colon Santana",
+   "state": "FL",
+   "event_date": "2026-06-14",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form",
+    "given_name_differs",
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-06-14|fort-lauderdale|team-boxing-league|tritchlet-merius|yuniesky-gonzalez|2|b",
+   "name": "Yuniesky Gonzalez",
+   "state": "FL",
+   "event_date": "2026-06-14",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "common_surname"
+   ]
+  },
+  {
+   "entry_id": "001:nsac_nevada:2026-06-28|cosmopolitan|anthony-jerome-hirsch|jaybrio-ronilo-pe-benito|a",
+   "name": "Anthony Jerome Hirsch",
+   "state": "NV",
+   "event_date": "2026-06-28",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:nsac_nevada:2026-06-28|cosmopolitan|anthony-jerome-hirsch|jaybrio-ronilo-pe-benito|b",
+   "name": "Jaybrio Ronilo Pe Benito",
+   "state": "NV",
+   "event_date": "2026-06-28",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:nj_sacb:2026-09-04|prudential-center|newark|alan-chaves|eridson-garcia|a",
+   "name": "Alan Chaves",
+   "state": "NJ",
+   "event_date": "2026-09-04",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "name_not_exact_form"
+   ]
+  },
+  {
+   "entry_id": "001:nj_sacb:2026-09-04|prudential-center|newark|alan-chaves|eridson-garcia|b",
+   "name": "Eridson Garcia",
+   "state": "NJ",
+   "event_date": "2026-09-04",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "common_surname",
+    "stated_place_mismatch"
+   ]
+  },
+  {
+   "entry_id": "001:nj_sacb:2026-09-04|prudential-center|newark|vito-mielnicki-jr|austin-williams|a",
+   "name": "Vito Mielnicki, Jr.",
+   "state": "NJ",
+   "event_date": "2026-09-04",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "generational_suffix"
+   ]
+  },
+  {
+   "entry_id": "001:nj_sacb:2026-09-04|prudential-center|newark|vito-mielnicki-jr|austin-williams|b",
+   "name": "Austin Williams",
+   "state": "NJ",
+   "event_date": "2026-09-04",
+   "unlocks_bout_now": false,
+   "recommendation": "hold",
+   "danger": [
+    "common_surname"
+   ]
+  }
+ ]
+}
