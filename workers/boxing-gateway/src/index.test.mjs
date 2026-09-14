@@ -44,6 +44,11 @@ function fakeStore() {
     siteVideos: async () => ({ channels: [], videos: [] }),
     sitePromoters: async () => ({ rows: [] }),
     sitePromoter: async (key) => ({ key }),
+    siteFighterContext: async (ref) => ({ public_id: `pbe_boxer_${ref}` }),
+    siteBoutContext: async (ref) => ({ public_id: `pbe_boxbout_${ref}` }),
+    siteHallOfFame: async () => ({ rows: [] }),
+    siteHistory: async () => ({ decades: [] }),
+    siteWire: async () => [],
   };
   const writes = Object.fromEntries(['recordResult', 'writeMetricSnapshots', 'ingestMarketSnapshot', 'applyDecision', 'publishArticle']
     .map((m) => [m, async () => { calls.push(m); }]));
@@ -59,7 +64,8 @@ test('contract file is generated from the route table and is current', () => {
     '/internal/v1/site/home', '/internal/v1/site/events', '/internal/v1/site/events/:ref', '/internal/v1/site/bouts/:ref', '/internal/v1/site/fighters',
     '/internal/v1/site/fighters/:ref', '/internal/v1/site/titles', '/internal/v1/site/rankings', '/internal/v1/site/coverage',
     '/internal/v1/site/scorecards', '/internal/v1/site/scorecards/:ref', '/internal/v1/site/officials', '/internal/v1/site/officials/:ref',
-    '/internal/v1/site/market-index', '/internal/v1/site/videos', '/internal/v1/site/promoters', '/internal/v1/site/promoters/:key'];
+    '/internal/v1/site/market-index', '/internal/v1/site/videos', '/internal/v1/site/promoters', '/internal/v1/site/promoters/:key',
+    '/internal/v1/site/fighters/:ref/context', '/internal/v1/site/bouts/:ref/context', '/internal/v1/site/hall-of-fame', '/internal/v1/site/eras', '/internal/v1/site/wire'];
   assert.deepEqual(ROUTES.map((r) => r.path).sort(), required.sort());
   assert.ok(onDisk.routes.every((r) => r.method === 'GET'));
 });
@@ -95,7 +101,8 @@ test('route handlers can reach only read methods', async () => {
     '/internal/v1/site/titles?weight_class=welterweight', '/internal/v1/site/rankings?organization=wbc&weight_class=welterweight', '/internal/v1/site/coverage',
     '/internal/v1/site/scorecards?decision=split&sort=spread', '/internal/v1/site/scorecards/0123456789ab', '/internal/v1/site/officials?role=judge&q=cheek',
     '/internal/v1/site/officials/0123456789ab', '/internal/v1/site/market-index', '/internal/v1/site/videos?type=weigh_in', '/internal/v1/site/promoters',
-    '/internal/v1/site/promoters/matchroom-boxing-promotions'];
+    '/internal/v1/site/promoters/matchroom-boxing-promotions', '/internal/v1/site/fighters/0123456789ab/context', '/internal/v1/site/bouts/0123456789ab/context',
+    "/internal/v1/site/hall-of-fame?category=Men's%20Modern%20Boxers&year=2020", '/internal/v1/site/eras', '/internal/v1/site/wire?limit=10'];
   for (const p of paths) {
     const res = await w.fetch(req(p), env);
     assert.equal(res.status, 200, p);

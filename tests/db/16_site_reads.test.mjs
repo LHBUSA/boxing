@@ -180,3 +180,53 @@ test('titles and rankings boards: sanctioning bodies with source state; no inven
   assertPrivate(c, 'coverage');
   assert.ok(c.body.data.commissions.length === 3);
 });
+
+test('site OS reads: fighter/bout context, Hall of Fame, eras and wire stay private and never invent affiliation', async () => {
+  const f = await one(`select f.id, f.public_id, f.display_name from public.boxing_fighters f join public.boxing_bout_participants p on p.fighter_id = f.id
+    group by f.id order by count(*) desc, f.display_name limit 1`);
+  const wikidata = await one("select id from public.boxing_sources where source_key = 'wikidata'");
+  await q(`insert into public.boxing_fighter_identities (fighter_id, source_id, namespace, external_id, external_url, verification_state, confidence, evidence)
+    values ($1, $2, 'wikidata.item', 'Q999001', 'https://www.wikidata.org/wiki/Q999001', 'verified', 95, '{"rule":"test"}')`, [f.id, wikidata.id]);
+  await q(`insert into public.boxing_fighter_attribute_claims (fighter_id, attribute, value, source_id, claim_hash) values
+    ($1, 'dob', '"1990-01-01"', $2, 'site-os-dob'), ($1, 'height_cm', '180', $2, 'site-os-height'), ($1, 'nationality', '["US"]', $2, 'site-os-nat')`, [f.id, wikidata.id]);
+  const hall = await one("insert into public.boxing_organizations (slug, name, organization_kind) values ('synthetic-hall', 'Synthetic Hall of Fame', 'hall_of_fame') returning id");
+  const person = await one("insert into public.boxing_persons (display_name, normalized_name, fighter_id, identity_state) values ($1, 'x', $2, 'verified') returning id", [f.display_name, f.id]);
+  await q(`insert into public.boxing_hall_inductions (institution_id, person_id, induction_year, category_source_label, source_id, source_url, evidence)
+    values ($1, $2, 2024, 'Men''s Modern Boxers', $3, 'https://www.wikidata.org/wiki/Q999001', 'Synthetic induction record for the site test.')`, [hall.id, person.id, wikidata.id]);
+
+  const ctx = await get(`/internal/v1/site/fighters/${ref(f.public_id)}/context`);
+  assert.equal(ctx.status, 200);
+  assertPrivate(ctx, 'fighter context');
+  const c = ctx.body.data;
+  assert.equal(c.sourced_bio.source, 'Wikidata');
+  assert.equal(c.sourced_bio.wikidata_qid, 'Q999001');
+  assert.ok(c.sourced_bio.age_years >= 36, 'age is derived; the date itself is never served');
+  assert.equal(Number(c.sourced_bio.height_cm), 180);
+  assert.deepEqual(c.hall_of_fame.map((h) => [h.institution, h.year, h.category]), [['Synthetic Hall of Fame', 2024, "Men's Modern Boxers"]]);
+  assert.ok(Array.isArray(c.promoter_appearances) && c.promoter_appearances.every((p) => p.cards >= 1 && !('signed' in p) && !('affiliation' in p)));
+  assert.doesNotMatch(ctx.text, /1990-01-01/);
+
+  const b = await one(`select b.public_id from public.boxing_bouts b join public.boxing_bout_participants p on p.bout_id = b.id where p.fighter_id = $1 limit 1`, [f.id]);
+  const bc = await get(`/internal/v1/site/bouts/${ref(b.public_id)}/context`);
+  assert.equal(bc.status, 200);
+  assertPrivate(bc, 'bout context');
+  assert.ok(Array.isArray(bc.body.data.previous_meetings));
+  assert.ok(bc.body.data.officials.every((o) => o.public_id && ['referee', 'judge'].includes(o.role)));
+
+  const h = await get("/internal/v1/site/hall-of-fame?category=Men's%20Modern%20Boxers");
+  assert.equal(h.status, 200);
+  assertPrivate(h, 'hall of fame');
+  assert.equal(h.body.data.total, 1);
+  assert.equal(h.body.data.rows[0].fighter_public_id, f.public_id);
+  assert.equal(h.body.data.institutions[0].name, 'Synthetic Hall of Fame');
+
+  const eras = await get('/internal/v1/site/eras');
+  assertPrivate(eras, 'eras');
+  assert.ok(eras.body.data.decades.some((d) => d.decade === 2020 && d.verified_bouts > 0 && d.hall_inductions === 1));
+
+  const wire = await get('/internal/v1/site/wire?limit=20');
+  assert.equal(wire.status, 200);
+  assertPrivate(wire, 'wire');
+  assert.ok(wire.body.data.length > 0 && wire.body.data.every((w) => w.kind && w.event?.public_id));
+  assert.equal((await get('/internal/v1/site/hall-of-fame?year=abc')).status, 400);
+});

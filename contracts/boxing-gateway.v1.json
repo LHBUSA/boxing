@@ -83,7 +83,12 @@
     "siteMarketIndex",
     "siteVideos",
     "sitePromoters",
-    "sitePromoter"
+    "sitePromoter",
+    "siteFighterContext",
+    "siteBoutContext",
+    "siteHallOfFame",
+    "siteHistory",
+    "siteWire"
   ],
   "routes": [
     {
@@ -359,6 +364,52 @@
         "key": "normalized promoter listing key"
       },
       "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/fighters/:ref/context",
+      "summary": "Fighter context: sourced biography (age from an identity-proven Wikidata date of birth, nationality, height), Wikidata/Wikipedia links, Hall of Fame inductions, promoter appearances (cards listing a promoter; not affiliation).",
+      "params": {
+        "ref": "hex suffix of the fighter public id (12..32)"
+      },
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/bouts/:ref/context",
+      "summary": "Bout context: both corners sourced tale of the tape, previous meetings on record, assigned officials with DNA samples.",
+      "params": {
+        "ref": "hex suffix of the bout public id (12..32)"
+      },
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/hall-of-fame",
+      "summary": "Hall of Fame: recognized institutions and their source-native induction records (never a PropBetEdge Hall).",
+      "params": {},
+      "query": {
+        "category": "institution category label",
+        "year": "induction year",
+        "limit": "1..600",
+        "offset": ">=0"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/eras",
+      "summary": "History by decade: verified cards and bouts on record, Hall of Fame classes, title reigns on record.",
+      "params": {},
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/wire",
+      "summary": "Verified record wire: official results, posted scorecards, missed weight, recent card changes.",
+      "params": {},
+      "query": {
+        "limit": "1..120"
+      }
     },
     {
       "method": "GET",

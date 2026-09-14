@@ -11,6 +11,7 @@ export const READ_METHODS = Object.freeze([
   'titleSummary', 'titleReigns', 'titleMapFacts', 'rankingSnapshotAsOf', 'gatewayOfficial', 'officialDnaLatest',
   'siteHome', 'siteEvents', 'siteEvent', 'siteBout', 'siteFighters', 'siteFighter', 'siteTitleBoard', 'siteRankingBoard', 'siteCoverage',
   'siteScorecards', 'siteScorecard', 'siteOfficials', 'siteOfficial', 'siteMarketIndex', 'siteVideos', 'sitePromoters', 'sitePromoter',
+  'siteFighterContext', 'siteBoutContext', 'siteHallOfFame', 'siteHistory', 'siteWire',
 ]);
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
@@ -19,8 +20,8 @@ const SLUG = /^[a-z0-9_]{2,40}$/;
 const SITE_REF = /^[0-9a-f]{12,32}$/;
 const SITE_SCOPES = ['upcoming', 'results', 'all'];
 const DECISIONS = ['unanimous', 'split', 'majority', 'draw'];
-const VIDEO_TYPES = ['announcement', 'trailer_promo', 'grand_arrival', 'media_workout', 'press_conference', 'interview', 'faceoff', 'weigh_in', 'ceremonial_weigh_in',
-  'fight_preview', 'highlights', 'full_fight', 'post_fight_interview', 'post_fight_press_conference', 'analysis', 'other'];
+const VIDEO_TYPES = ['announcement', 'trailer_promo', 'grand_arrival', 'media_day', 'open_workout', 'media_workout', 'press_conference', 'interview', 'faceoff', 'weigh_in',
+  'ceremonial_weigh_in', 'fight_preview', 'full_fight', 'replay', 'highlights', 'knockout', 'post_fight_interview', 'post_fight_press_conference', 'analysis', 'documentary_feature', 'other'];
 const PROMOTER_KEY = /^[a-z0-9](?:[a-z0-9-]{0,78}[a-z0-9])?$/;
 const intIn = (q, key, def, min, max) => {
   const n = Number(q.get(key) ?? def);
@@ -241,6 +242,36 @@ const SITE_ROUTES = [
     path: '/internal/v1/site/promoters/:key', summary: 'One listed promoter: its sheet cards, co-listed promoters, venues and fighters appearing on those cards.',
     params: { key: 'normalized promoter listing key' },
     handler: async (s, { key }) => { need(PROMOTER_KEY.test(key), 'bad promoter key'); return s.sitePromoter(key); },
+  },
+  {
+    path: '/internal/v1/site/fighters/:ref/context', summary: 'Fighter context: sourced biography (age from an identity-proven Wikidata date of birth, nationality, height), Wikidata/Wikipedia links, Hall of Fame inductions, promoter appearances (cards listing a promoter; not affiliation).',
+    params: { ref: 'hex suffix of the fighter public id (12..32)' },
+    handler: async (s, { ref }) => { need(SITE_REF.test(ref), 'bad fighter ref'); return s.siteFighterContext(ref); },
+  },
+  {
+    path: '/internal/v1/site/bouts/:ref/context', summary: 'Bout context: both corners sourced tale of the tape, previous meetings on record, assigned officials with DNA samples.',
+    params: { ref: 'hex suffix of the bout public id (12..32)' },
+    handler: async (s, { ref }) => { need(SITE_REF.test(ref), 'bad bout ref'); return s.siteBoutContext(ref); },
+  },
+  {
+    path: '/internal/v1/site/hall-of-fame', summary: 'Hall of Fame: recognized institutions and their source-native induction records (never a PropBetEdge Hall).',
+    query: { category: 'institution category label', year: 'induction year', limit: '1..600', offset: '>=0' },
+    handler: async (s, _p, q) => {
+      const year = q.get('year') ? Number(q.get('year')) : null;
+      need(year == null || (Number.isInteger(year) && year > 1900 && year < 2100), 'bad year');
+      const category = q.get('category');
+      need(category == null || (category.length <= 80 && /^[A-Za-z' -]+$/.test(category)), 'bad category');
+      return s.siteHallOfFame(category, year, intIn(q, 'limit', 120, 1, 600), intIn(q, 'offset', 0, 0, 100000));
+    },
+  },
+  {
+    path: '/internal/v1/site/eras', summary: 'History by decade: verified cards and bouts on record, Hall of Fame classes, title reigns on record.',
+    handler: async (s) => s.siteHistory(),
+  },
+  {
+    path: '/internal/v1/site/wire', summary: 'Verified record wire: official results, posted scorecards, missed weight, recent card changes.',
+    query: { limit: '1..120' },
+    handler: async (s, _p, q) => s.siteWire(intIn(q, 'limit', 40, 1, 120)),
   },
   {
     path: '/internal/v1/site/coverage', summary: 'Site coverage counts: what is on verified record and what is still pending.',
