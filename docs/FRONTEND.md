@@ -122,12 +122,27 @@ Setting them is a launch decision, not a frontend change.
 | Mode | Where it runs | What it checks |
 |---|---|---|
 | `static` | before every `npm run build` (Vercel and CI) | source: posture flags, noindex, robots, header, no custom-domain refs, server-only gateway, GET-only site reads, no Supabase, no route handlers or server actions |
-| `bundle` | after every `npm run build` | `.next/static` and prerendered payloads contain no secret names, values or patterns and no custom domain; the build env holds no database credential; the Vercel production host is `*.vercel.app` |
-| `vercel` | `deploy.mjs`, or by hand | project `boxing` domains (all `*.vercel.app`), env key names (never values), indexing flags unset |
+| `bundle` | after every `npm run build` | `.next/static` and prerendered payloads contain no secret names, values or patterns and no custom domain; every prerendered page carries meta robots noindex; no canonical/`og:url` outside `*.vercel.app`; built robots.txt blocks all crawlers; the build env holds no database credential and no indexing flag |
+| `vercel` | `deploy.mjs`, CI `web-posture-live` (when a `VERCEL_TOKEN` secret exists), or by hand | the project's CURRENT domain list from the Vercel API (every domain `*.vercel.app` unless `LAUNCH_APPROVED` is committed; empty or truncated list fails), env key names (never values), indexing flags unset |
 | `live <url>` | CI job `web-posture-live` after each push to main, and `deploy.mjs` | anonymous probe of robots, sitemap, meta and header on 16 pages, custom-domain and canonical leaks, secrets in HTML and every JS/CSS bundle, write probes, server-action probe, gateway 401 |
 
 A posture failure in `npm run build` fails the Vercel build, so the deployment
-is never promoted. The live CI job waits for the alias to serve the pushed
+is never promoted.
+
+Domain attachment has one authority: the Vercel project domain list read by `vercel`
+mode. The build-time system variable `VERCEL_PROJECT_PRODUCTION_URL` is not evidence
+of attachment. After boxing.propbetedge.ai was attached and then reported detached on
+2026-09-14, Vercel still injected it, and the old bundle check failed every build on it.
+`bundle` now only checks what a build can know (its output and its env). Regression tests
+are in `web/scripts/posture.test.mjs` (run by `npm test`):
+
+- `VERCEL_PROJECT_PRODUCTION_URL=boxing.propbetedge.ai` and only `*.vercel.app` domains
+  attached: bundle passes and vercel passes.
+- boxing.propbetedge.ai attached and `LAUNCH_APPROVED=false`: vercel fails.
+- Any other non-`*.vercel.app` domain fails, and so does an empty or truncated domain list.
+
+A Git-triggered Vercel build cannot read the project's domains, so it no longer stops on
+attachment. `vercel` mode must be green before pushing to `main`. The live CI job waits for the alias to serve the pushed
 commit (`X-Boxing-Build` header), then probes it.
 
 Manual CLI fallback:

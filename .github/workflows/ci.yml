@@ -84,3 +84,10 @@ jobs:
           echo "alias still serving ${got:-unknown}; a newer push or a failed Vercel build (posture failures fail the build)"
           exit 1
       - run: node scripts/posture.mjs live https://boxing-alpha-beryl.vercel.app
+      # Domain attachment is decided by the Vercel project domain list, never by build env.
+      - name: Vercel project posture (domains, env names, indexing flags)
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          if [ -z "$VERCEL_TOKEN" ]; then echo "::warning::VERCEL_TOKEN secret not set; run 'npm run posture -- vercel' by hand"; exit 0; fi
+          node scripts/posture.mjs vercel

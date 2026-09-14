@@ -9,7 +9,7 @@
     "posture": "node scripts/posture.mjs",
     "start": "next start -p 3400",
     "typecheck": "tsc --noEmit",
-    "test": "node --experimental-strip-types --no-warnings --test \"lib/**/*.test.ts\"",
+    "test": "node --experimental-strip-types --no-warnings --test \"lib/**/*.test.ts\" \"scripts/**/*.test.mjs\"",
     "deploy:preview": "node scripts/deploy.mjs preview",
     "deploy:production": "node scripts/deploy.mjs production"
   },

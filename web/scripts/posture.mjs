@@ -20,6 +20,13 @@
 //
 // Every mode exits 1 on any failure. `npm run build` runs static + bundle, so a Vercel build
 // that breaks posture fails and is never promoted.
+//
+// Authority: whether a domain is ATTACHED is answered only by the Vercel project domain list
+// (`vercel` mode, /v9/projects/:id/domains). The build-time system variable
+// VERCEL_PROJECT_PRODUCTION_URL is not evidence: Vercel kept injecting boxing.propbetedge.ai
+// after the domain was detached (2026-09-14). The bundle mode checks what a build can know:
+// its own output (no custom domain, noindex on every prerendered page, robots blocking, no
+// foreign canonical/og:url, no secrets) and that indexing is not switched on in its environment.
 
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
@@ -30,6 +37,9 @@ const PROJECT_ID = "prj_E9VN82i77FdGzL5fB8lWuTX0y7Jw";
 const TEAM_ID = "team_fNvGcQj9hijhsrIMDZbv0DJQ";
 const GATEWAY = "https://boxing-gateway-staging.sales-fd3.workers.dev";
 const CUSTOM_DOMAIN = "boxing.propbetedge.ai";
+// Public launch is an owner decision recorded here in a reviewed commit (never an env flag a build
+// could inherit). Until then any non-*.vercel.app domain attached to the project fails `vercel`.
+export const LAUNCH_APPROVED = false;
 
 const failures = [];
 const passes = [];
@@ -127,26 +137,39 @@ function staticChecks() {
 }
 
 // ---------------------------------------------------------------- bundle
-function bundleChecks() {
-  const next = join(WEB, ".next");
+function bundleChecks({ web = WEB, env = process.env } = {}) {
+  const next = join(web, ".next");
   if (!check(existsSync(join(next, "static")), ".next/static exists (run after next build)")) return;
   const values = secretValues();
   const clientFiles = walk(join(next, "static"), (p) => /\.(js|css|json|txt|html)$/.test(p));
   // Prerendered HTML / RSC payloads are served to browsers too.
   const served = walk(join(next, "server", "app"), (p) => /\.(html|rsc|body|meta)$/.test(p));
   const hits = [];
-  for (const f of [...clientFiles, ...served]) hits.push(...scanText(readFileSync(f, "utf8"), relative(WEB, f).replaceAll("\\", "/"), values));
+  for (const f of [...clientFiles, ...served]) hits.push(...scanText(readFileSync(f, "utf8"), relative(web, f).replaceAll("\\", "/"), values));
   check(!hits.length, `no secrets in ${clientFiles.length} client assets + ${served.length} prerendered payloads${values.length ? " (token value checked)" : ""}`, hits.slice(0, 20).join("; "));
-  const custom = [...clientFiles, ...served].filter((f) => readFileSync(f, "utf8").includes(CUSTOM_DOMAIN)).map((f) => relative(WEB, f));
+  const custom = [...clientFiles, ...served].filter((f) => readFileSync(f, "utf8").includes(CUSTOM_DOMAIN)).map((f) => relative(web, f));
   check(!custom.length, `no ${CUSTOM_DOMAIN} in built output`, custom.slice(0, 10).join(", "));
 
-  const envNames = Object.keys(process.env).filter((k) => /SUPABASE|SERVICE_ROLE|DATABASE_URL|POSTGRES/i.test(k));
+  // Prerendered pages carry the robots policy, and advertise no URL outside *.vercel.app.
+  const html = served.filter((f) => f.endsWith(".html"));
+  const unindexed = html.filter((f) => {
+    const metas = [...readFileSync(f, "utf8").matchAll(/<meta name="robots" content="([^"]+)"/g)].map((m) => m[1]);
+    return !metas.length || !metas.every((c) => /noindex/.test(c));
+  }).map((f) => relative(web, f));
+  check(html.length > 0 && !unindexed.length, `${html.length} prerendered pages carry meta robots noindex`, unindexed.slice(0, 10).join(", "));
+  const foreign = html.flatMap((f) => [...readFileSync(f, "utf8").matchAll(/<(?:link rel="canonical" href|meta property="og:url" content)="(https?:\/\/[^/"]+)/g)]
+    .map((m) => m[1]).filter((u) => !/\.vercel\.app$/.test(u) && !/^https?:\/\/localhost(:\d+)?$/.test(u)).map((u) => `${u} (${relative(web, f)})`));
+  check(!foreign.length, "no canonical/og:url outside *.vercel.app in prerendered pages", foreign.slice(0, 10).join(", "));
+  const robotsBody = join(next, "server", "app", "robots.txt.body");
+  const robots = existsSync(robotsBody) ? readFileSync(robotsBody, "utf8").replace(/\r/g, "") : "";
+  check(/User-Agent: \*\nDisallow: \/\n?/i.test(robots) && !/^Allow:/im.test(robots) && !/Sitemap:/i.test(robots), "built robots.txt blocks all crawlers, no sitemap", JSON.stringify(robots.slice(0, 80)));
+
+  const envNames = Object.keys(env).filter((k) => /SUPABASE|SERVICE_ROLE|DATABASE_URL|POSTGRES/i.test(k));
   check(!envNames.length, "no Supabase/database credential in the build/runtime environment", envNames.join(", "));
-  if (process.env.VERCEL) {
-    const prodHost = process.env.VERCEL_PROJECT_PRODUCTION_URL ?? "";
-    const approved = process.env.BOXING_ALLOW_INDEXING === "true" && process.env.BOXING_PUBLIC_URL?.includes(prodHost);
-    check(!prodHost || prodHost.endsWith(".vercel.app") || approved, "Vercel production domain is *.vercel.app (no custom domain before approval)", prodHost);
-  }
+  const indexing = ["BOXING_ALLOW_INDEXING", "BOXING_PUBLIC_URL"].filter((k) => env[k]);
+  check(!indexing.length, "indexing is not enabled in the build environment (BOXING_ALLOW_INDEXING / BOXING_PUBLIC_URL unset)", indexing.join(", "));
+  // VERCEL_PROJECT_PRODUCTION_URL is reported, never trusted: domain attachment is decided by `vercel` mode.
+  if (env.VERCEL && env.VERCEL_PROJECT_PRODUCTION_URL && !env.POSTURE_QUIET) console.log(`  note  VERCEL_PROJECT_PRODUCTION_URL=${env.VERCEL_PROJECT_PRODUCTION_URL} (informational; attachment is checked against the Vercel project domain list)`);
 }
 
 // ---------------------------------------------------------------- live
@@ -208,24 +231,37 @@ async function liveChecks(base) {
 }
 
 // ---------------------------------------------------------------- vercel
-async function vercelChecks() {
+// Pure decision over the project's CURRENT domain list (the only authority for attachment).
+export function domainAttachment(names, launchApproved = LAUNCH_APPROVED) {
+  const custom = names.filter((n) => !String(n).toLowerCase().endsWith(".vercel.app"));
+  const unapproved = custom.filter((n) => !(launchApproved && n === CUSTOM_DOMAIN));
+  return { custom, unapproved, ok: unapproved.length === 0 };
+}
+
+function vercelApi() {
   let token = process.env.VERCEL_TOKEN;
   if (!token) {
     const auth = join(process.env.APPDATA ?? "", "com.vercel.cli", "Data", "auth.json");
     try { token = JSON.parse(readFileSync(auth, "utf8")).token; } catch { /* none */ }
   }
-  if (!check(Boolean(token), "Vercel API token available (VERCEL_TOKEN or CLI login)")) return;
-  const api = async (path) => {
+  if (!token) return null;
+  return async (path) => {
     const res = await fetch(`https://api.vercel.com${path}${path.includes("?") ? "&" : "?"}teamId=${TEAM_ID}`, { headers: { authorization: `Bearer ${token}` } });
     if (!res.ok) throw new Error(`${path} -> ${res.status}`);
     return res.json();
   };
+}
+
+async function vercelChecks({ api = vercelApi(), launchApproved = LAUNCH_APPROVED } = {}) {
+  if (!check(Boolean(api), "Vercel API token available (VERCEL_TOKEN or CLI login)")) return;
   const project = await api(`/v9/projects/${PROJECT_ID}`);
   check(project.name === "boxing" && project.rootDirectory === "web", "project is boxing with root web", `${project.name} root=${project.rootDirectory}`);
-  const { domains } = await api(`/v9/projects/${PROJECT_ID}/domains?limit=100`);
-  const names = domains.map((d) => d.name);
-  const custom = names.filter((n) => !n.endsWith(".vercel.app"));
-  check(!custom.length, "no custom domain attached to project boxing", `domains: ${names.join(", ")}`);
+  const page = await api(`/v9/projects/${PROJECT_ID}/domains?limit=100`);
+  const names = (page.domains ?? []).map((d) => d.name);
+  // Fail closed when the list is empty or truncated: an unread page could hold a custom domain.
+  check(names.length > 0 && !page.pagination?.next, "complete project domain list read from the Vercel API", `${names.length} domains${page.pagination?.next ? ", more pages" : ""}`);
+  const attach = domainAttachment(names, launchApproved);
+  check(attach.ok, `no custom domain attached to project boxing${launchApproved ? " (launch approved for " + CUSTOM_DOMAIN + ")" : " (launch not approved)"}`, `domains: ${names.join(", ")}`);
   const { envs } = await api(`/v10/projects/${PROJECT_ID}/env`);
   const keys = envs.map((e) => e.key); // names only; values are never requested
   const bad = keys.filter((k) => /SUPABASE|SERVICE_ROLE|DATABASE_URL|POSTGRES/i.test(k) || (/^NEXT_PUBLIC_/.test(k) && /TOKEN|KEY|SECRET|GATEWAY/.test(k)));
@@ -235,13 +271,14 @@ async function vercelChecks() {
 }
 
 // ---------------------------------------------------------------- main
-export async function runPosture(modes, base) {
+// opts (tests): { web, env } for bundle, { api, launchApproved } for vercel.
+export async function runPosture(modes, base, opts = {}) {
   failures.length = 0; passes.length = 0;
   for (const mode of modes) {
     if (mode === "static") staticChecks();
-    else if (mode === "bundle") bundleChecks();
+    else if (mode === "bundle") bundleChecks(opts);
     else if (mode === "live") await liveChecks(base);
-    else if (mode === "vercel") await vercelChecks();
+    else if (mode === "vercel") await vercelChecks(opts);
   }
   return { passes: [...passes], failures: [...failures] };
 }
