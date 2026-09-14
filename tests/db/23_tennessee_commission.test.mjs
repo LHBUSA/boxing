@@ -31,6 +31,10 @@ before(async () => {
   site.set(`${DOCS}2026/SYNTHETIC-SCAN_9-13.pdf`, encodePages([{ page: 1, width: 612, height: 792, rotate: 0, items: [], marks: [] }]));
   site.set(`${DOCS}2025/SYNTHETIC-ARCHIVE_12-20.pdf`, encodePages(tennesseePages({ date: '12 / 20 / 2025', venue: 'SYNTHETIC ARCHIVE HALL',
     bouts: [{ ...TENNESSEE_BOUTS[0], a: { name: 'Synth Oscar', weight: 140 }, b: { name: 'Synth Papa', weight: 141 } }] })));
+  site.set(`${DOCS}2025/SYNTHETIC-MARKUP_12-6.pdf`, encodePages(tennesseePages({ city: 'MEMPHIS', date: '12 / 06 / 2025', venue: 'SYNTHETIC MARKUP HALL',
+    bouts: [{ ...TENNESSEE_BOUTS[1], a: { name: 'Synth Quebec', weight: 150 }, b: { name: 'Synth Romeo', weight: 151 } }] })));
+  site.set(`${DOCS}2025/SYNTHETIC-TYPO_11-2.pdf`, encodePages(tennesseePages({ date: '11 / 02 / 2025', venue: 'SYNTHETIC TYPO HALL',
+    bouts: [{ ...TENNESSEE_BOUTS[1], a: { name: 'Synth Sierra', weight: 160 }, b: { name: 'Synth Tango', weight: 161 } }] })));
 });
 after(async () => { await db?.close(); });
 
@@ -85,6 +89,8 @@ test('Tennessee forward run in January reads the archive page too, so December c
   assert.ok(fetched.includes('https://www.tn.gov/commerce/regboards/athletic/events/archive.html'), JSON.stringify({ fetched, metrics: r.metrics }));
   assert.ok(fetched.includes(`${DOCS}2025/SYNTHETIC-ARCHIVE_12-20.pdf`), JSON.stringify({ fetched, metrics: r.metrics }));
   assert.equal(r.status, 'ok', JSON.stringify(r.metrics));
-  const [ev] = await q(`select count(*)::int n from public.boxing_events e join public.boxing_sources s on s.id = e.source_id where ${TN} and e.event_date = '2025-12-20'`);
-  assert.equal(ev.n, 1);
+  const events = await q(`select e.event_date::text d from public.boxing_events e join public.boxing_sources s on s.id = e.source_id where ${TN} and e.event_date < '2026-01-01' order by 1`);
+  assert.deepEqual(events.map((e) => e.d), ['2025-11-02', '2025-12-06', '2025-12-20'], 'the markup row and the mistyped-date row are fetched too (the sheet supplies the date)');
+  assert.equal(r.metrics.index_dates_unreadable, 1);
+  assert.equal(r.metrics.index_links_unplaced, undefined);
 });

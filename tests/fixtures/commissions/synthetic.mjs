@@ -344,4 +344,7 @@ export const TENNESSEE_EVENTS_HTML = '<table><tbody><tr><th>Date</th><th>Event T
   + '</tr></tbody></table>';
 export const TENNESSEE_ARCHIVE_HTML = '<table><tbody><tr><th>Date</th><th>Event Type</th><th>Location</th><th>Event Name/Venue</th><th>Results</th>'
   + tnRow('12/20/2025', 'Pro Boxing', 'Nashville', 'Synthetic Archive Night', tnLink('2025/SYNTHETIC-ARCHIVE_12-20.pdf', 'Results'))
+  // real archive quirks: markup inside cells, and a mistyped year
+  + tnRow('12/6/2025<br />\n', 'All Pro Boxing<br />\n', 'Memphis', 'Synthetic Markup Night<br />\n', tnLink('2025/SYNTHETIC-MARKUP_12-6.pdf', 'Results'))
+  + tnRow('11/2/202', 'Pro Boxing', 'Nashville', 'Synthetic Typo Night', tnLink('2025/SYNTHETIC-TYPO_11-2.pdf', 'Results'))
   + '</tr></tbody></table>';

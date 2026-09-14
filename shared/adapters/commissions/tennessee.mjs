@@ -64,23 +64,40 @@ export function tennesseeLinkSport(eventType, label) {
   return { sport: SPORT.UNKNOWN, professional };
 }
 
+const RESULTS_PREFIX = 'https://www.tn.gov/content/dam/tn/commerce/documents/regboards/athletic/results/';
+const LINK_RE = /<a[^>]+href="([^"]+\.pdf)"[^>]*>([\s\S]*?)<\/a>/gi;
+const resultUrl = (href) => { const url = new URL(href.replace(/&amp;/g, '&'), TENNESSEE.base).toString(); return url.startsWith(RESULTS_PREFIX) ? url : null; };
+
+// Every distinct result-PDF link on an index page, whatever row it sits in: the run compares this with the parsed refs so
+// a link the row parser cannot place is reported, never silently dropped.
+export function tennesseeResultLinks(html) {
+  return [...new Set([...String(html).matchAll(LINK_RE)].map((l) => resultUrl(l[1])).filter(Boolean))];
+}
+
+// Rows are read cell by cell: cells may carry markup (`Pro Boxing<br />`), and a row whose date is not a valid m/d/yyyy
+// (the archive lists "2/7/202") keeps its links with event_date null and the raw text; the sheet supplies the date and
+// the document's URL folder supplies the year for backfill selection.
 export function parseTennesseeIndex(html) {
   const refs = [];
   const seen = new Set();
-  for (const m of String(html).matchAll(/<tr>\s*<td>([^<]*)<\/td>\s*<td>([^<]*)<\/td>\s*<td>([^<]*)<\/td>\s*<td>([\s\S]*?)<\/td>\s*<td>([\s\S]*?)<\/td>\s*<\/tr>/g)) {
-    const d = decode(m[1]).match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-    if (!d) continue;
-    const eventType = decode(m[2]);
-    for (const l of m[5].matchAll(/<a[^>]+href="([^"]+\.pdf)"[^>]*>([\s\S]*?)<\/a>/gi)) {
-      const url = new URL(l[1].replace(/&amp;/g, '&'), TENNESSEE.base).toString();
-      if (seen.has(url) || !url.startsWith('https://www.tn.gov/content/dam/tn/commerce/documents/regboards/athletic/results/')) continue;
+  for (const row of String(html).split(/<tr[\s>]/i).slice(1)) {
+    const cells = [...row.split(/<\/tr>/i)[0].matchAll(/<td[^>]*>([\s\S]*?)<\/td>/gi)].map((c) => c[1]);
+    if (cells.length < 5) continue;
+    const dateRaw = decode(cells[0]);
+    const d = dateRaw.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+    const eventType = decode(cells[1]);
+    for (const l of cells[4].matchAll(LINK_RE)) {
+      const url = resultUrl(l[1]);
+      if (!url || seen.has(url)) continue;
       seen.add(url);
       const label = decode(l[2]);
       const sport = tennesseeLinkSport(eventType, label);
+      const path = url.slice(RESULTS_PREFIX.length);
       refs.push({
-        doc_key: `tn-results:${url.split('/results/')[1].replace(/\.pdf$/i, '')}`, url, kind: 'results',
-        sport_hint: sport.sport, professional_hint: sport.professional, event_date: `${d[3]}-${pad(d[1])}-${pad(d[2])}`,
-        event_type_raw: eventType, city: decode(m[3]) || null, listed_name: decode(m[4]) || null, link_label: label, title: `${decode(m[1])} ${eventType} ${decode(m[4])}`,
+        doc_key: `tn-results:${path.replace(/\.pdf$/i, '')}`, url, kind: 'results',
+        sport_hint: sport.sport, professional_hint: sport.professional, event_date: d ? `${d[3]}-${pad(d[1])}-${pad(d[2])}` : null,
+        ...(d ? {} : { index_date_raw: dateRaw }), url_year: Number(path.match(/^(\d{4})\//)?.[1]) || null,
+        event_type_raw: eventType, city: decode(cells[2]) || null, listed_name: decode(cells[3]) || null, link_label: label, title: `${dateRaw} ${eventType} ${decode(cells[3])}`,
       });
     }
   }

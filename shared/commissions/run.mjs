@@ -22,7 +22,7 @@ import { NEW_JERSEY, isOfficialNjUrl, parseNjResults, parseNjSchedule } from '..
 import { TEXAS } from '../adapters/commissions/texas.mjs';
 import { MISSOURI, parseMissouriIndex, parseMissouriResults } from '../adapters/commissions/missouri.mjs';
 import { PENNSYLVANIA, parsePennsylvaniaIndex, parsePennsylvaniaResults } from '../adapters/commissions/pennsylvania.mjs';
-import { TENNESSEE, parseTennesseeIndex, parseTennesseeResults } from '../adapters/commissions/tennessee.mjs';
+import { TENNESSEE, parseTennesseeIndex, parseTennesseeResults, tennesseeResultLinks } from '../adapters/commissions/tennessee.mjs';
 import { SPORT } from '../adapters/commissions/contract.mjs';
 import { extractPositionedText, sha256Bytes } from '../adapters/commissions/pdf.mjs';
 import { assertMinimized } from '../adapters/commissions/minimize.mjs';
@@ -272,11 +272,19 @@ export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = 
         await recordListing(docKey, url, 'listing', index.body, index.lastModified);
         const refs = parseTennesseeIndex(index.body);
         if (!refs.length) noteEmptyIndex(docKey);
+        // a result link the row parser could not place is a source-format fault, never a silent skip
+        const placed = new Set(refs.map((r) => r.url));
+        const unplaced = tennesseeResultLinks(index.body).filter((u) => !placed.has(u));
+        if (unplaced.length) (metrics.index_links_unplaced ??= []).push(...unplaced);
         for (const r of refs) if (!indexed.some((x) => x.url === r.url)) indexed.push(r);
       }
-      const refs = indexed.filter((r) => r.event_date && (mode === 'backfill'
-        ? (years ?? [currentYear]).includes(Number(r.event_date.slice(0, 4)))
-        : Date.parse(`${r.event_date}T00:00:00Z`) >= nowMs - 60 * DAY));
+      // a row with an unreadable date ("2/7/202") is selected by its document's year folder; its sheet supplies the date
+      const yearOf = (r) => (r.event_date ? Number(r.event_date.slice(0, 4)) : r.url_year);
+      const forwardYears = new Set([currentYear, ...(new Date(now).getUTCMonth() < 2 ? [currentYear - 1] : [])]);
+      const refs = indexed.filter((r) => yearOf(r) && (mode === 'backfill'
+        ? (years ?? [currentYear]).includes(yearOf(r))
+        : r.event_date ? Date.parse(`${r.event_date}T00:00:00Z`) >= nowMs - 60 * DAY : forwardYears.has(r.url_year)));
+      metrics.index_dates_unreadable = refs.filter((r) => !r.event_date).length;
       metrics.documents_listed += refs.length;
       for (const ref of refs) {
         // the index row names the event type and each link's sport; only boxing links are fetched, the sheet decides the rest
@@ -288,7 +296,7 @@ export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = 
     status = 'failed';
     metrics.error = String(err?.message ?? err).slice(0, 300);
   }
-  if (status === 'ok' && (metrics.http_errors || metrics.parse_failures || metrics.documents_not_pdf || metrics.empty_indexes?.length || metrics.apply.identity_unresolved)) status = 'partial';
+  if (status === 'ok' && (metrics.http_errors || metrics.parse_failures || metrics.documents_not_pdf || metrics.empty_indexes?.length || metrics.index_links_unplaced?.length || metrics.apply.identity_unresolved)) status = 'partial';
   await store.finishRun(runId, { status, metrics, observed: metrics.events_observed + metrics.bouts_observed, canonicalWrites: (metrics.apply.results_created ?? 0) + (metrics.apply.events_created ?? 0),
     reviewItems: metrics.apply.identity_unresolved ?? 0, errors: metrics.http_errors + metrics.parse_failures + (status === 'failed' ? 1 : 0), assertions: status === 'failed' ? { error: metrics.error } : {} });
   if (prov?.invocation_id && store.recordWorkerInvocation) {

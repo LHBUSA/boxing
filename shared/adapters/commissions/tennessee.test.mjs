@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { SPORT } from './contract.mjs';
 import { findSensitive } from './minimize.mjs';
 import { extractDeviceText } from './pdf-device.mjs';
-import { decodeShiftedText, parseTennesseeIndex, parseTennesseeMethod, parseTennesseeResults, parseTennesseeTime, scoreOrder } from './tennessee.mjs';
+import { decodeShiftedText, parseTennesseeIndex, parseTennesseeMethod, parseTennesseeResults, parseTennesseeTime, scoreOrder, tennesseeResultLinks } from './tennessee.mjs';
 import { TENNESSEE_ARCHIVE_HTML, TENNESSEE_BOUTS, TENNESSEE_EVENTS_HTML, TENNESSEE_ROTATED_BOUTS, tennesseePages } from '../../../tests/fixtures/commissions/synthetic.mjs';
 
 const ref = { doc_key: 'tn-results:2026/SYNTHETIC-BOXING_9-5', url: 'https://www.tn.gov/content/dam/tn/commerce/documents/regboards/athletic/results/2026/SYNTHETIC-BOXING_9-5.pdf',
@@ -15,7 +15,13 @@ test('Tennessee index: every result link with the row date, event type and the l
     ['2026-09-05', 'Pro Boxing', SPORT.BOXING, 'Results'], ['2026-09-06', 'Pro-Am MMA', SPORT.MMA, 'Results'],
     ['2026-09-12', 'Pro-Am Boxing', SPORT.BOXING, 'Boxing Results'], ['2026-09-12', 'Pro-Am Boxing', SPORT.BARE_KNUCKLE, 'Bare-Knuckle Results'],
     ['2026-09-13', 'Pro Boxing', SPORT.BOXING, 'Results'], ['2025-12-20', 'Pro Boxing', SPORT.BOXING, 'Results'],
+    ['2025-12-06', 'All Pro Boxing', SPORT.BOXING, 'Results'], [null, 'Pro Boxing', SPORT.BOXING, 'Results'],
   ]);
+  // no link is dropped: cells with markup parse, a mistyped date keeps its link with the raw text and the folder year
+  const typo = refs.at(-1);
+  assert.deepEqual([typo.index_date_raw, typo.url_year, typo.listed_name], ['11/2/202', 2025, 'Synthetic Typo Night']);
+  assert.equal(refs[6].listed_name, 'Synthetic Markup Night');
+  for (const html of [TENNESSEE_EVENTS_HTML, TENNESSEE_ARCHIVE_HTML]) assert.deepEqual(tennesseeResultLinks(html).sort(), parseTennesseeIndex(html).map((r) => r.url).sort());
   assert.equal(refs[0].doc_key, 'tn-results:2026/SYNTHETIC-BOXING_9-5');
   assert.ok(refs.every((r) => r.url.startsWith('https://www.tn.gov/content/dam/tn/commerce/documents/regboards/athletic/results/')));
 });
