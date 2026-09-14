@@ -53,12 +53,26 @@ export function BeltRows({ doc }: { doc: TitleDocument }) {
   );
 }
 
-export function docDate(doc: TitleDocument) {
-  return doc.as_of_label ? `As of ${doc.as_of_label.toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase())}` : doc.published_on ? `Published ${fmtDate(doc.published_on)}` : `Read ${day(doc.retrieved_at)}`;
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+// "JULY 2026" (WBA/WBO) or an IBF record title ending "- 08/2026": shown as the month the body names
+export function asOfText(label: string | null | undefined, asOf?: string | null) {
+  const mmyyyy = label?.match(/(\d{2})\/(\d{4})\s*$/);
+  if (mmyyyy) return `As of ${MONTHS[Number(mmyyyy[1]) - 1]} ${mmyyyy[2]}`;
+  if (label) return `As of ${label.toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase())}`;
+  return asOf ? `As of ${fmtDate(asOf)}` : null;
 }
+export function docDate(doc: TitleDocument) {
+  return asOfText(doc.as_of_label) ?? (doc.published_on ? `Published ${fmtDate(doc.published_on)}` : `Read ${day(doc.retrieved_at)}`);
+}
+// the body's dated ranking document leads; its champions page follows
+const DOC_ORDER = ["wba_ranking", "ibf_rating", "wbo_ratings", "wba_champions", "wbo_champions"];
+const beltLabel = (key: string) => {
+  const tier = key.split("|")[0];
+  return tier === "world" ? "World title" : `${tier.charAt(0).toUpperCase()}${tier.slice(1)} title`;
+};
 
 export function LaneCard({ lane, today, division }: { lane: TitleLane; today: string; division: string }) {
-  const [primary, ...others] = lane.documents;
+  const [primary, ...others] = [...lane.documents].sort((a, b) => DOC_ORDER.indexOf(a.document_kind) - DOC_ORDER.indexOf(b.document_kind));
   return (
     <article className={`lane lane--${lane.state}`} aria-label={`${lane.short_name} ${division}`}>
       <header className="lane__head">
@@ -94,7 +108,7 @@ export function LaneCard({ lane, today, division }: { lane: TitleLane; today: st
           <ul>
             {lane.conflicts_within_body.map((c, i) => (
               <li key={i} className="fine">
-                <b>{c.belt}</b>: {DOC_LABEL[c.left_document] ?? c.left_document} says {c.left ?? "nothing"}; {DOC_LABEL[c.right_document] ?? c.right_document} says {c.right ?? "nothing"}. Not resolved by PropBetEdge.
+                <strong>{beltLabel(c.belt)}</strong>: {DOC_LABEL[c.left_document] ?? c.left_document} says {c.left ?? "nothing"}; {DOC_LABEL[c.right_document] ?? c.right_document} says {c.right ?? "nothing"}. Not resolved by PropBetEdge.
               </li>
             ))}
           </ul>

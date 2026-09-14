@@ -451,12 +451,14 @@ main { flex: 1; position: relative; z-index: 1; }
 .lane__others ul, .lane__conflicts ul { display: grid; gap: 6px; margin-top: 6px; }
 .lane__others li { font-size: 13px; overflow-wrap: anywhere; }
 .lane__conflicts { display: grid; gap: 4px; }
-.lane__conflicts li b { color: var(--paper-2); }
+.lane__conflicts li strong { font: 600 12.5px/1.5 var(--f-ui); color: var(--paper-2); }
 .lane__attr { margin-top: auto; }
 .derived { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; padding: 12px 14px; border-radius: var(--r-2); border: 1px solid var(--line); background: rgba(255, 245, 220, 0.025); font-size: 13.5px; color: var(--dim); }
 .derived b { color: var(--paper); }
 .rk__champs { display: grid; gap: 10px; margin-bottom: 14px; }
 .rk__champ { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: center; padding: 12px 14px; border-radius: var(--r-2); border: 1px solid rgba(212, 175, 55, 0.35); background: var(--gold-wash); }
+.rk__champ .bline__names { display: grid; gap: 2px; }
+.rk__champ .bline__names b { font: 600 16px/1.3 var(--f-ui); color: var(--paper); }
 .rk__tags { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
 .bline--nr .bline__names span { color: var(--subtle); font-style: italic; }
 

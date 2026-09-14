@@ -5,7 +5,7 @@ import { fmtDate } from "@/lib/format";
 import { fighterPath } from "@/lib/slug";
 import type { RankingEntry } from "@/lib/types";
 import { Note, SecHead, Unavailable } from "@/components/fight";
-import { DOC_LABEL, Holder, docDate } from "@/components/titles";
+import { DOC_LABEL, Holder, asOfText, docDate } from "@/components/titles";
 
 export const revalidate = 1800;
 export const metadata: Metadata = { title: "Rankings", description: "WBA, IBF and WBO rankings kept separate by body and division, each from the body's own dated document. No universal ranking." };
@@ -70,7 +70,7 @@ export default async function RankingsPage({ searchParams }: { searchParams: Pro
           kicker={org.name}
           title={`${org.short_name} ${rec?.division_native_label ? titleCase(rec.division_native_label) : div.name}`}
           action={body?.state === "not_licensed" ? <span className="tag tag--pending">Not licensed</span>
-            : snap ? <span className="tag tag--gold">{rec?.as_of_label ? `As of ${titleCase(rec.as_of_label)}` : `Effective ${day(snap.effective_on ?? snap.published_on)}`}</span>
+            : snap ? <span className="tag tag--gold">{asOfText(rec?.as_of_label) ?? `Effective ${day(snap.effective_on ?? snap.published_on)}`}</span>
             : <span className="tag tag--pending">No snapshot yet</span>}
         >
           {rec ? `${DOC_LABEL[rec.document_kind] ?? rec.document_kind}${rec.division_limit_text ? ` · ${rec.division_limit_text}` : ""} · read ${day(rec.retrieved_at)}` : undefined}
