@@ -10,8 +10,7 @@
     "start": "next start -p 3400",
     "typecheck": "tsc --noEmit",
     "test": "node --experimental-strip-types --no-warnings --test \"lib/**/*.test.ts\" \"scripts/**/*.test.mjs\"",
-    "deploy:preview": "node scripts/deploy.mjs preview",
-    "deploy:production": "node scripts/deploy.mjs production"
+    "verify:live": "node scripts/verify-live.mjs"
   },
   "dependencies": {
     "next": "15.5.25",

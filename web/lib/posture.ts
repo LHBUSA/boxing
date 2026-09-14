@@ -1,21 +1,26 @@
-// Deployment posture: preview-only until the owner approves a public launch.
+// Boxing launch posture. ONE switch, committed here by owner decision (never an env flag).
 //
-// Allowed preview posture: anonymous read-only access + staging data + noindex +
-// no custom public domain. The site becomes indexable ONLY when all three hold:
-// VERCEL_ENV=production, BOXING_ALLOW_INDEXING=true and BOXING_PUBLIC_URL set.
-// Until then nothing advertises the custom domain (no canonical, no og:url,
-// no metadataBase pointing at it), robots.txt blocks everything, every response
-// carries X-Robots-Tag: noindex, nofollow and every page has a noindex meta tag.
+// BUILD MODE (LAUNCH_APPROVED = false): boxing.propbetedge.ai is the build surface. Every main push is
+// visible there, anonymously and read-only, but nothing invites discovery: noindex, nofollow on every
+// page and response, robots.txt blocks every crawler, no sitemap, no IndexNow, no canonical or og:url,
+// and metadata URLs never name the public domain.
+//
+// LAUNCH MODE (LAUNCH_APPROVED = true, production deployments only): index/follow, sitemap, IndexNow and
+// canonical/OG URLs on PUBLIC_URL.
+//
+// The switch controls indexing and public discovery. It does not control which domains are attached.
+// scripts/posture.mjs reads these declarations from this file and enforces the matching mode.
 
-export const INDEXABLE =
-  process.env.VERCEL_ENV === "production" && process.env.BOXING_ALLOW_INDEXING === "true" && Boolean(process.env.BOXING_PUBLIC_URL);
+export const LAUNCH_APPROVED: boolean = false;
+export const PUBLIC_URL = "https://boxing.propbetedge.ai";
 
+export const INDEXABLE = LAUNCH_APPROVED && process.env.VERCEL_ENV === "production";
+
+// Absolute base for metadata (OG images). Build mode never uses the public domain.
 export const BASE_URL = INDEXABLE
-  ? (process.env.BOXING_PUBLIC_URL as string)
-  : process.env.VERCEL_PROJECT_PRODUCTION_URL?.endsWith(".vercel.app")
-    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : "http://localhost:3400";
+  ? PUBLIC_URL
+  : process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : "http://localhost:3400";
 
 export const canonical = (path: string): { canonical: string } | undefined => (INDEXABLE ? { canonical: path } : undefined);

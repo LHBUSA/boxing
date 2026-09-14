@@ -4,4 +4,4 @@ qa/
 .next/
 node_modules/
 scripts/qa-shot.mjs
-scripts/deploy.mjs
+scripts/verify-live.mjs

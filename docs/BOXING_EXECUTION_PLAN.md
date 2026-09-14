@@ -12,7 +12,7 @@ How Boxing Core v1 (`BOXING_CORE_V1.md`) becomes running infrastructure. This do
 | Consumer UI (`boxing.propbetedge.ai`) | Vercel, later. It reads only from `boxing-gateway` |
 
 Rules that apply to every service:
-- **GitHub never schedules and never deploys.** CI runs tests only. Workers are deployed with `wrangler` from a clean `git archive` of a pushed commit, and the previous version id is captured as the rollback target first.
+- **GitHub never schedules, never deploys and runs no Actions.** Tests run locally (`npm run verify`); the web deploys through Vercel's native Git integration from `main`. Workers are deployed with `wrangler` from a clean `git archive` of a pushed commit, and the previous version id is captured as the rollback target first.
 - Workers write with the Supabase **service role** through PostgREST, always with an explicit `?on_conflict=<cols>`. Without it, PostgREST infers the primary key, and a rerun fails with 23505 instead of being idempotent.
 - A write is only as trustworthy as its observation. Adapters write `boxing_source_observations` first (the source gate enforces `SOURCE_POLICY.md` in the database). Normalizers then write canonical rows and `boxing_observation_links`.
 - Every run writes one `boxing_ingest_runs` row with counters and named assertion failures. A parser that sees an unexpected shape stops and records the failure; it never writes a guess.

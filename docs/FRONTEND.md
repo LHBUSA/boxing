@@ -66,106 +66,77 @@ News: a wire item; Videos: a published video; History/Hall: a Hall total above z
 
 ## Deployment topology
 
-- **Git:** one repository, `LHBUSA/boxing`. The frontend is `web/`; data,
-  workers, migrations and backend stay in the same repository.
+- **Git:** one repository, `LHBUSA/boxing`, branch `main` only. Direct commits to `main`; no
+  feature or preview branches, no PRs for our own work, no forks, no GitHub Actions. The frontend
+  is `web/`; data, workers, migrations and backend stay in the same repository.
 - **Vercel:** one project, `boxing` (`prj_E9VN82i77FdGzL5fB8lWuTX0y7Jw`, team
-  `justins-projects-ad4f4bb7`). Git integration is `LHBUSA/boxing`, Root
-  Directory is `web`, framework is Next.js.
-  - Production branch is `main`. Pushes to other branches, such as
-    `boxing-core-v1`, deploy previews.
-  - Local `web/.vercel/project.json` points at this project.
-- **Env** (Preview + Production, sensitive): `BOXING_GATEWAY_URL` and
-  `BOXING_GATEWAY_TOKEN`, pointing at the staging gateway.
-- **Protection:** Vercel Standard protection (`all_except_custom_domains`).
-  Deployment and preview URLs require a team login. The production alias
-  `boxing-alpha-beryl.vercel.app` is anonymously reachable; the owner decided
-  this on 2026-09-13 for development review. Advanced Deployment Protection is
-  not purchased.
-- **Retired 2026-09-13:** the redundant projects `web`
-  (`prj_PATkAWtTsh3vmsvODl8E1fMnfH99`, a second Git link to this repository) and
-  `propbetedge-boxing-web` (`prj_AjuV6BIv4vr888KFlwoZwy5AUlkQ`, CLI-only).
-  - Carried over: their Root Directory and the gateway env.
-  - Neither had a custom domain.
-  - `web`'s sensitive `BOXING_TEST_DATABASE_URL` was not carried over: its
-    value cannot be read, and the site does not use it (DB tests run in CI
-    against a disposable Postgres).
+  `justins-projects-ad4f4bb7`). Native Git integration with `LHBUSA/boxing`, Root Directory `web`,
+  framework Next.js, production branch `main`. Every push to `main` builds (`npm run build`,
+  including posture static + bundle) and serves production.
+- **Build surface:** `https://boxing.propbetedge.ai/` is attached and shows the current `main` build.
+  The product is not launched, not advertised and has no subscribers; the domain stays attached.
+  `boxing-alpha-beryl.vercel.app` and the generated `*.vercel.app` URLs also exist.
+- **Env** (Preview + Production, sensitive): `BOXING_GATEWAY_URL` and `BOXING_GATEWAY_TOKEN`,
+  pointing at the staging gateway. No indexing env: the launch switch is committed.
+- **Protection:** Vercel Standard protection (`all_except_custom_domains`). Advanced Deployment
+  Protection is not purchased.
+- **Retired 2026-09-13:** the redundant projects `web` (`prj_PATkAWtTsh3vmsvODl8E1fMnfH99`) and
+  `propbetedge-boxing-web` (`prj_AjuV6BIv4vr888KFlwoZwy5AUlkQ`).
 
-## Deployment safety policy
+## Launch posture
 
-Allowed posture until the owner approves a public launch:
-**anonymous read-only access + staging data + noindex + no custom public domain.**
+One switch, committed in `web/lib/posture.ts`: `LAUNCH_APPROVED`. It controls indexing and public
+discovery. It does not control which domains are attached.
 
-An anonymous HTTP 200 on the production alias is permitted. A deployment fails,
-or its promotion is refused or undone, if any of these is true:
+**BUILD MODE** (`LAUNCH_APPROVED = false`, now). Allowed: `boxing.propbetedge.ai` attached, `main`
+deployments visible there, real routes, data and UI. Required:
 
-- `boxing.propbetedge.ai`, or any domain that is not `*.vercel.app`, is attached
-  to `boxing` without explicit approval.
-- `robots.txt` does not block every crawler, or a sitemap is served.
-- A page loses `<meta name="robots" content="noindex, nofollow">`, or a response
-  loses `X-Robots-Tag: noindex, nofollow`.
-- Canonical, `og:url`, `og:image` or `metadataBase` advertises the custom domain.
-- `BOXING_GATEWAY_TOKEN` (its name or its value), a Supabase URL or key, a JWT, or
-  the gateway host appears in client JS, prerendered HTML or a response.
-- Web code reaches Supabase instead of the gateway, the gateway client calls
-  anything other than GET `/internal/v1/site/*`, or a Supabase or database
-  credential exists in the web environment.
-- A mutation surface appears: a route handler exporting POST/PUT/PATCH/DELETE,
-  a server action, or a write endpoint that answers anonymously. The gateway
-  must also keep refusing anonymous requests with 401.
+- `<meta name="robots" content="noindex, nofollow">` on every page and `X-Robots-Tag: noindex, nofollow`
+  on every response.
+- `robots.txt` blocks every crawler; no sitemap; no IndexNow integration.
+- No canonical or `og:url`, and no metadata URL naming the public domain (`metadataBase` uses the
+  deployment's `*.vercel.app` URL). Titles, descriptions, OG images and structured-data architecture
+  may exist.
+- No env indexing switch (`BOXING_ALLOW_INDEXING` / `BOXING_PUBLIC_URL` are retired and refused).
 
-Indexing turns on only when all three hold: `VERCEL_ENV=production`,
-`BOXING_ALLOW_INDEXING=true` and `BOXING_PUBLIC_URL` is set (`web/lib/posture.ts`).
-Setting them is a launch decision, not a frontend change.
+**LAUNCH MODE** (`LAUNCH_APPROVED = true`, only on explicit owner approval, production deployments
+only): index/follow, robots allowing crawlers, production sitemap, IndexNow, canonical/OG URLs on
+`https://boxing.propbetedge.ai`. Flipping the switch exposes the finished SEO system.
 
-`web/scripts/posture.mjs` enforces the policy:
+**Both modes** refuse:
+
+- A domain other than `*.vercel.app` and `boxing.propbetedge.ai` attached to `boxing`.
+- `BOXING_GATEWAY_TOKEN` (its name or its value), a Supabase URL or key, a JWT, or the gateway host in
+  client JS, prerendered HTML or a response.
+- Web code reaching Supabase instead of the gateway, a gateway client call other than GET
+  `/internal/v1/site/*`, or a Supabase or database credential in the web environment.
+- A mutation surface: a route handler exporting POST/PUT/PATCH/DELETE, a server action, or a write
+  endpoint that answers anonymously. The gateway keeps refusing anonymous requests with 401.
+
+`web/scripts/posture.mjs` enforces the matching mode:
 
 | Mode | Where it runs | What it checks |
 |---|---|---|
-| `static` | before every `npm run build` (Vercel and CI) | source: posture flags, noindex, robots, header, no custom-domain refs, server-only gateway, GET-only site reads, no Supabase, no route handlers or server actions |
-| `bundle` | after every `npm run build` | `.next/static` and prerendered payloads contain no secret names, values or patterns and no custom domain; every prerendered page carries meta robots noindex; no canonical/`og:url` outside `*.vercel.app`; built robots.txt blocks all crawlers; the build env holds no database credential and no indexing flag |
-| `vercel` | `deploy.mjs`, CI `web-posture-live` (when a `VERCEL_TOKEN` secret exists), or by hand | the project's CURRENT domain list from the Vercel API (every domain `*.vercel.app` unless `LAUNCH_APPROVED` is committed; empty or truncated list fails), env key names (never values), indexing flags unset |
-| `live <url>` | CI job `web-posture-live` after each push to main, and `deploy.mjs` | anonymous probe of robots, sitemap, meta and header on 16 pages, custom-domain and canonical leaks, secrets in HTML and every JS/CSS bundle, write probes, server-action probe, gateway 401 |
+| `static` | before every `npm run build` (Vercel and local) | the switch and its single use, noindex/robots/header wiring, no sitemap/IndexNow/public-domain refs in build mode, server-only GET-only gateway, no Supabase, no route handlers or server actions |
+| `bundle` | after every `npm run build` | no secrets in client assets and prerendered payloads; build mode: noindex on every prerendered page, no canonical/`og:url`, no public-domain URLs, robots blocks all; launch mode: indexable pages, launch URLs only on the public domain, robots allows; no database credential or env indexing switch |
+| `vercel` | by hand (`npm run posture -- vercel`, needs `vercel login` or `VERCEL_TOKEN`) | the project's CURRENT domain list (only `*.vercel.app` and `boxing.propbetedge.ai`; empty/truncated/unreadable fails), env key names (never values), no env indexing switch |
+| `live [url]` | `npm run verify:live` after every push (defaults to `https://boxing.propbetedge.ai`) | robots, sitemap, meta, header, canonical/`og:url` on 24 pages in the matching mode, secrets in HTML and every JS/CSS bundle, write probes, server-action probe, gateway 401 |
 
-A posture failure in `npm run build` fails the Vercel build, so the deployment
-is never promoted.
+Attached domains come only from the Vercel project domain list. The build-time system variable
+`VERCEL_PROJECT_PRODUCTION_URL` is never read: on 2026-09-14 Vercel injected a stale value and the old
+bundle check failed builds on it. Regression tests: `web/scripts/posture.test.mjs` (`npm test`).
 
-Domain attachment has one authority: the Vercel project domain list read by `vercel`
-mode. The build-time system variable `VERCEL_PROJECT_PRODUCTION_URL` is not evidence
-of attachment. After boxing.propbetedge.ai was attached and then reported detached on
-2026-09-14, Vercel still injected it, and the old bundle check failed every build on it.
-`bundle` now only checks what a build can know (its output and its env). Regression tests
-are in `web/scripts/posture.test.mjs` (run by `npm test`):
-
-- `VERCEL_PROJECT_PRODUCTION_URL=boxing.propbetedge.ai` and only `*.vercel.app` domains
-  attached: bundle passes and vercel passes.
-- boxing.propbetedge.ai attached and `LAUNCH_APPROVED=false`: vercel fails.
-- Any other non-`*.vercel.app` domain fails, and so does an empty or truncated domain list.
-
-A Git-triggered Vercel build cannot read the project's domains, so it no longer stops on
-attachment. `vercel` mode must be green before pushing to `main`. The live CI job waits for the alias to serve the pushed
-commit (`X-Boxing-Build` header), then probes it.
-
-Manual CLI fallback:
+## Workflow on main
 
 ```
-cd web
-npm run posture -- all https://boxing-alpha-beryl.vercel.app   # verify the live alias
-npm run deploy:preview      # preview of the current commit
-npm run deploy:production   # staged prod deploy -> promote -> live posture -> rollback on failure
+git pull --ff-only
+npm run verify            # repo root: secrets scan, unit + DB tests, web tests, typecheck, web build (posture static + bundle)
+git commit … && git push origin main
+npm run verify:live       # waits for boxing.propbetedge.ai to serve HEAD, then live posture
 ```
 
-`scripts/deploy.mjs`:
-
-- Refuses to run unless the tree is clean, HEAD equals origin/main, the linked
-  project is `boxing`, and the static and vercel posture checks pass.
-- Production deploys with `--skip-domain`, promotes the deployment, and probes
-  the alias anonymously. On any failure it rolls the alias back to the previous
-  production deployment and exits 1.
-- Never deletes a deployment.
-
-Persistent env: `vercel env add NAME preview|production --value … --yes < /dev/null`.
-This works with CLI 59.16. CLI 54.4 looped on `git_branch_required`, and without
-`< /dev/null` the command waits on stdin.
+DB tests use a disposable local PostgreSQL 17 (`BOXING_TEST_DATABASE_URL`, default
+`postgres://postgres@localhost:55432/postgres`; non-local hosts are refused).
 
 ## Local QA
 

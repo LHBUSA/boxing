@@ -17,7 +17,9 @@
     "test:unit": "node --test --test-timeout=60000 \"shared/**/*.test.mjs\" \"workers/**/*.test.mjs\"",
     "test:db": "node --test --test-concurrency=4 --test-timeout=120000 \"tests/db/*.test.mjs\"",
     "check:secrets": "node scripts/check-secrets.mjs",
-    "db:apply-local": "node scripts/db/apply-local.mjs"
+    "db:apply-local": "node scripts/db/apply-local.mjs",
+    "verify": "npm run check:secrets && npm test && npm --prefix web test && npm --prefix web run typecheck && npm --prefix web run build",
+    "verify:live": "npm --prefix web run verify:live"
   },
   "devDependencies": {
     "pg": "^8.23.0"

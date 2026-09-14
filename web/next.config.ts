@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 import path from "node:path";
+import { INDEXABLE } from "./lib/posture.ts";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
@@ -16,8 +17,8 @@ const nextConfig: NextConfig = {
     ];
   },
   async headers() {
-    // Mirrors lib/posture.ts INDEXABLE: noindex everywhere until a public launch is approved.
-    const indexable = process.env.VERCEL_ENV === "production" && process.env.BOXING_ALLOW_INDEXING === "true" && Boolean(process.env.BOXING_PUBLIC_URL);
+    // lib/posture.ts INDEXABLE: noindex on every response in build mode (LAUNCH_APPROVED = false).
+    const indexable = INDEXABLE;
     return [
       {
         source: "/(.*)",
