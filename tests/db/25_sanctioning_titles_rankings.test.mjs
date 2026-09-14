@@ -128,7 +128,9 @@ test('backfill: a month with a refused division stays open in the checkpoint and
   assert.ok(!(cp.completed ?? []).includes('2026-06'));
   assert.ok((cp.failures ?? []).some((f) => f.month === "2026-06" && f.refused >= 1), JSON.stringify({ cp, m: first.metrics }));
   const again = await run('wba', { mode: 'backfill', months: [{ y: 2026, m: 6 }] });
-  assert.equal(again.metrics.requests, 1, 'the open month is requested again');
+  assert.equal(again.metrics.requests, 2, 'the month selector, then the open month again');
+  const unlisted = await run('wba', { mode: 'backfill', months: [{ y: 1999, m: 12 }] });
+  assert.deepEqual([unlisted.metrics.requests, unlisted.metrics.months_not_listed_by_source], [1, ['1999-12']], 'a month the WBA does not list is never requested');
   site.set(june, wbaRankingHtml({ label: 'JUNE 2026', date: 'June 30th, 2026' }));
   const clean = await run('wba', { mode: 'backfill', months: [{ y: 2026, m: 6 }] });
   assert.equal(clean.status, 'ok', JSON.stringify(clean.metrics));

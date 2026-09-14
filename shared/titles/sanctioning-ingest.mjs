@@ -315,6 +315,14 @@ async function collectWbo(ctx, { month = null }) {
 
 // ---- run ------------------------------------------------------------------------------------------------------------
 
+// The WBA ranking page's own month selector (<option value="YYYY:M:">): the months the WBA offers. Gaps are real
+// (2000-01..2026-08 lists 311 of 320 months); a month it does not list is never requested.
+export function wbaListedMonths(html) {
+  const listed = new Set([...String(html).matchAll(/<option[^>]*value="(\d{4}):(\d{1,2}):"/g)].map((m) => `${m[1]}-${m[2].padStart(2, '0')}`));
+  if (!listed.size) throw new StructureError('wba ranking: no month selector options');
+  return listed;
+}
+
 export function monthsBetween(from, to) {
   const out = [];
   for (let y = from.y, m = from.m; y < to.y || (y === to.y && m <= to.m); m === 12 ? (y += 1, m = 1) : (m += 1)) out.push({ y, m });
@@ -358,8 +366,14 @@ export async function runSanctioningCollection(store, env, { body, mode = 'curre
       else await collectWbo(ctx, {});
     } else {
       const job = `${body}-history`;
-      const list = months ?? [];
       const done = new Set((await store.backfillCheckpoint(sourceKey, job)).completed ?? []);
+      let list = (months ?? []).filter((mo) => !done.has(`${mo.y}-${String(mo.m).padStart(2, '0')}`));
+      if (body === 'wba' && list.length) {
+        const listed = wbaListedMonths((await request(URLS.wbaRanking)).text);
+        const unlisted = list.filter((mo) => !listed.has(`${mo.y}-${String(mo.m).padStart(2, '0')}`));
+        if (unlisted.length) metrics.months_not_listed_by_source = unlisted.map((mo) => `${mo.y}-${String(mo.m).padStart(2, '0')}`);
+        list = list.filter((mo) => listed.has(`${mo.y}-${String(mo.m).padStart(2, '0')}`));
+      }
       for (const month of list) {
         const key = `${month.y}-${String(month.m).padStart(2, '0')}`;
         if (done.has(key)) continue;

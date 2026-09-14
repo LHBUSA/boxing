@@ -17,7 +17,8 @@ const fifteen = (prefix, idBase, extra = {}) => Array.from({ length: 15 }, (_, i
 export function wbaRankingHtml({ label = 'AUGUST 2026', date = 'August 31st, 2026', lhwRegular = 'SYNTH BRAVO', extraDesignation = null, extraDivision = null } = {}) {
   const fillers = ['HEAVYWEIGHT', 'CRUISERWEIGHT', 'SUPER MIDDLEWEIGHT', 'MIDDLEWEIGHT', 'SUPER WELTERWEIGHT', 'WELTERWEIGHT', 'SUPER LIGHTWEIGHT', 'FEATHERWEIGHT', 'BANTAMWEIGHT']
     .map((d, k) => wbaDivision(10 + k, d, '— Lbs', champRow(`SYNTH FILL${k}`, 'USA', 900 + k, extraDesignation && k === 0 ? extraDesignation : 'WBA WORLD CHAMPION'), '', fifteen(`FILLER${k}`, 1000 + k * 20)));
-  return `<h2 class="post-title"> World Boxing Association Ranking as of ${label} </h2><a>Download WBA Rankings</a><p>${date}</p>`
+  const selector = '<select name="dates"><option value="2026:8:">AUGUST 2026</option><option value="2026:7:">JULY 2026</option><option value="2026:6:">JUNE 2026</option></select>';
+  return `${selector}<h2 class="post-title"> World Boxing Association Ranking as of ${label} </h2><a>Download WBA Rankings</a><p>${date}</p>`
     + wbaDivision(1, 'LIGHT HEAVYWEIGHT', '175 Lbs / 79,379 Kgs',
       champRow('SYNTH ALPHA', 'RUS', 11, 'WBA SUPER CHAMPION <br>WBO-IBF CHAMPION') + champRow(lhwRegular, 'USA', 12, 'WBA WORLD CHAMPION') + champRow('SYNTH CHARLIE', 'VEN', 13, 'WBA INTERIM CHAMPION'),
       '<span>WBC</span> <span>SYNTH BRAVO</span> &nbsp;', fifteen('SYNTH RANKED', 100, { 2: 'C/LA' }))
