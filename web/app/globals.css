@@ -537,3 +537,23 @@ main { flex: 1; position: relative; z-index: 1; }
 .limits { display: grid; gap: 8px; padding: 0; list-style: none; }
 .limits li { padding: 10px 12px; border-left: 2px solid var(--line-2); background: rgba(255, 245, 220, 0.02); font: 500 14px/1.45 var(--f-ui); color: var(--dim); }
 .limits li b { color: var(--paper); }
+
+/* ---------- Card facts ---------- */
+.cardfacts { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 1px; margin: 0; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--line); }
+.cardfacts > div { display: grid; gap: 4px; padding: 11px 13px; background: var(--ink); }
+.cardfacts dt { font: 600 10px/1.2 var(--f-data); letter-spacing: 0.12em; text-transform: uppercase; color: var(--faint); }
+.cardfacts dd { margin: 0; font: 600 13.5px/1.35 var(--f-ui); color: var(--paper); overflow-wrap: anywhere; }
+.cardfacts .is-pending dd { color: var(--subtle); font-weight: 500; }
+.readiness { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.readiness li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; align-items: start; font: 500 14px/1.4 var(--f-ui); color: var(--dim); }
+.readiness li i { width: 18px; height: 18px; margin-top: 1px; border-radius: 50%; border: 1.5px solid var(--line-2); }
+.readiness li.is-done i { border-color: var(--gold); background: radial-gradient(circle, var(--gold) 45%, transparent 50%); }
+.readiness li b { color: var(--paper); font-weight: 600; }
+
+/* ---------- Title lanes (home) ---------- */
+.lanes { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.lane { display: grid; gap: 6px; padding: 12px; border-radius: 12px; border: 1px solid var(--line); background: linear-gradient(180deg, rgba(212, 175, 55, 0.06), transparent 70%), var(--ink); }
+.lane b { font: 900 22px/1 var(--f-display); color: var(--paper); }
+.lane span { font: 500 12px/1.35 var(--f-ui); color: var(--faint); }
+.lane:hover { border-color: rgba(212, 175, 55, 0.45); }
+@media (max-width: 520px) { .lanes { grid-template-columns: 1fr 1fr; } }

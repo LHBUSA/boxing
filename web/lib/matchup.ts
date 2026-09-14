@@ -160,7 +160,7 @@ export function historyConfidence(bouts: number): Confidence {
 }
 
 // "What could break the read": the limits of the evidence, stated plainly. Pure; no prediction.
-export function readLimits(d: BoutDetail, ctx?: { officials?: { role: string }[] | null } | null): Factor[] {
+export function readLimits(d: BoutDetail, ctx?: { officials?: { role: string }[] | null; corners?: { a?: { sourced_bio: { height_cm: number | null } | null }; b?: { sourced_bio: { height_cm: number | null } | null } } | null } | null): Factor[] {
   const an = d.bout.a?.name ?? "Corner A";
   const bn = d.bout.b?.name ?? "Corner B";
   const A = d.corners.a;
@@ -172,8 +172,9 @@ export function readLimits(d: BoutDetail, ctx?: { officials?: { role: string }[]
   }
   if (!complete && (d.bout.a?.weigh_in == null || d.bout.b?.weigh_in == null)) out.push({ title: "Scale not on record yet", evidence: "The official weigh-in has not been recorded; a missed weight or a late change would change this read." });
   if (!complete && !(ctx?.officials?.length)) out.push({ title: "Officials not assigned on record", evidence: "Referee and judges appear once the commission assigns them." });
-  const missing = UNKNOWN_PHYSICALS(d);
-  if (missing.length) out.push({ title: "Physicals not verified", evidence: `No verified ${missing.join(", ")} for either boxer on the commission record.` });
+  const sourcedHeight = Boolean(ctx?.corners?.a?.sourced_bio?.height_cm || ctx?.corners?.b?.sourced_bio?.height_cm);
+  const missing = UNKNOWN_PHYSICALS(d).filter((m) => !(sourcedHeight && m === "height"));
+  if (missing.length) out.push({ title: "Physicals not verified", evidence: `No verified ${missing.join(", ")} for either boxer${sourcedHeight ? "; height shown comes from Wikidata" : ""}.` });
   if (!d.market) out.push({ title: "No matched market", evidence: "Prices attach only when a sportsbook event matches this verified bout." });
   if (d.result_history.length > 1) out.push({ title: "Result revised", evidence: `The official result has ${plural(d.result_history.length - 1, "revision")} on record.` });
   return out.slice(0, 5);

@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { gateway, todayUtc } from "@/lib/gateway";
-import { plural } from "@/lib/format";
+import { fmtDate, plural } from "@/lib/format";
 import { fighterPath } from "@/lib/slug";
-import { Crumbs, MatchupCard, SecHead, Unavailable } from "@/components/fight";
+import { Crumbs, MatchupCard, Note, SecHead, Unavailable } from "@/components/fight";
 import type { BoutCompact } from "@/lib/types";
 
 export const revalidate = 1800;
@@ -23,7 +23,13 @@ export default async function PromoterPage({ params }: Props) {
   const res = await gateway.promoter(key);
   if (!res.ok) { if (res.reason === "not_found") notFound(); return <Unavailable what="This promoter" />; }
   const d = res.data;
-  void todayUtc();
+  const today = todayUtc();
+  const dated = [...d.cards].sort((a, b) => a.date.localeCompare(b.date));
+  const past = dated.filter((e) => e.date < today);
+  const upcoming = dated.filter((e) => e.date >= today);
+  const months = new Map<string, number>();
+  for (const e of dated) months.set(e.date.slice(0, 7), (months.get(e.date.slice(0, 7)) ?? 0) + 1);
+  const maxMonth = Math.max(1, ...months.values());
   return (
     <div className="wrap page">
       <Crumbs items={[{ label: "Promoters", href: "/promoters" }, { label: d.names[0] }]} />
@@ -37,6 +43,21 @@ export default async function PromoterPage({ params }: Props) {
         <div className="tile"><b>{d.cards.reduce((s, e) => s + e.bout_count, 0)}</b><span>Verified bouts</span></div>
         <div className="tile"><b>{d.fighters.length}</b><span>Fighters on these cards</span></div>
         <div className="tile"><b>{d.title_bouts}</b><span>Title bouts</span></div>
+      </div>
+      <div className="split mt-4">
+        <section>
+          <SecHead kicker={dated.length ? fmtDate(dated[0].date) + " – " + fmtDate(dated[dated.length - 1].date) : "On record"} title="Timeline" />
+          <div className="hof-years" aria-label="Cards by month">
+            {[...months.entries()].map(([m, n]) => (
+              <div key={m} className="hof-year" title={m + ": " + plural(n, "card")}><i style={{ height: Math.max(10, Math.round((n / maxMonth) * 100)) + "%" }} /><span>{m.slice(5)}</span></div>
+            ))}
+          </div>
+          <p className="fine mt-1">{plural(past.length, "card")} on record{upcoming.length ? " · " + plural(upcoming.length, "upcoming card") : ""}. Months are the event dates on the commission records we cover.</p>
+        </section>
+        <section>
+          <SecHead kicker="Brand record" title="Identity" />
+          <Note title="Logo, official site and executives are not on record yet">They appear once the promotion&apos;s brand record is sourced and any logo is rights-cleared for editorial identification. This page never implies which boxers are signed to the promotion.</Note>
+        </section>
       </div>
       <section className="band">
         <SecHead kicker="Most recent first" title="Cards" />

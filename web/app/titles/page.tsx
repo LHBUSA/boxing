@@ -17,6 +17,15 @@ const TIERS: [string, string][] = [
   ["Undisputed", "PropBetEdge-derived: one boxer holding the primary world title of all four bodies (rule pbe_undisputed@1)."],
 ];
 
+// Each body's own title vocabulary, as published on its site (source review 2026-09-14, docs/sources/sanctioning.md).
+// Reference text only: no champion is derived from it.
+const BODIES: { short: string; labels: string[]; status: string }[] = [
+  { short: "WBA", labels: ["Super Champion", "World Champion", "Interim Champion", "Gold", "Champion in Recess", "Vacant"], status: "Monthly rankings and champions pages public; ingestion awaits a rights decision." },
+  { short: "WBC", labels: ["Champion", "Interim Champion", "Franchise Champion", "Champion in Recess", "Champion Emeritus", "Silver"], status: "Site refuses automated readers; reference only." },
+  { short: "IBF", labels: ["Champion", "Interim Champion", "Title Vacant"], status: "Monthly ratings back to 2005 public; ingestion awaits a rights decision." },
+  { short: "WBO", labels: ["Undisputed Super Champion", "Super Champion", "Champion", "Interim Champion", "Vacant"], status: "Current ratings public; source under review." },
+];
+
 export default async function TitlesPage({ searchParams }: { searchParams: Promise<{ division?: string; gender?: string }> }) {
   const sp = await searchParams;
   const gender = sp.gender === "female" ? "female" : "male";
@@ -67,6 +76,17 @@ export default async function TitlesPage({ searchParams }: { searchParams: Promi
           })}
         </div>
         {map?.derived.unification.length ? <div className="mt-2"><Note title="Unification (PropBetEdge-derived)">{map.derived.unification.map((u) => `${u.display_name}: ${u.state}`).join(" · ")}</Note></div> : null}
+      </section>
+      <section className="mt-4">
+        <SecHead kicker="Source-native labels · kept exactly as each body publishes them" title="Four Bodies, Four Vocabularies" />
+        <div className="belts">
+          {BODIES.map((b) => (
+            <div className="belt" key={b.short}>
+              <div><div className="belt__org">{b.short}</div><div className="belt__name">{b.status}</div></div>
+              <div className="belt__slot" style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>{b.labels.map((l) => <span key={l} className="tag">{l}</span>)}</div>
+            </div>
+          ))}
+        </div>
       </section>
       <section className="band">
         <SecHead kicker="Distinct, never collapsed" title="How to Read a Belt" />
