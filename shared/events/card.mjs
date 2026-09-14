@@ -228,7 +228,9 @@ export async function applyCardDocument(store, doc, { now = new Date().toISOStri
     }
   }
   const ev = await store.upsertEvent({ source_key: doc.source_key, namespace: `${doc.namespace}.event`, external_id: doc.external_id,
-    name: doc.name, event_date: doc.event_date ?? null, start_at: doc.start_at ?? null, status: doc.status ?? 'scheduled', source_url: doc.source_url ?? null });
+    name: doc.name, event_date: doc.event_date ?? null, start_at: doc.start_at ?? null, status: doc.status ?? 'scheduled', source_url: doc.source_url ?? null,
+    // a declared naming rule lets the owning source correct a stored derived name (audited in boxing_event_name_revisions)
+    ...(doc.name_rule ? { name_rule: doc.name_rule } : {}) });
   const eventId = ev.event_id;
   const state = { ...(await store.cardState(eventId)), existed: !ev.created };
   if (doc.cross_source_events === true && !ev.created && store.eventOwner) {

@@ -23,6 +23,18 @@ test('Nevada promoters: "d/b/a" stays inside one promoter; I, | and / still sepa
   assert.equal(eventName({ promoters: ['TKO Productions LLC d/b/a Zuffa Boxing'], venue: { name: 'The Cosmopolitan' } }, NEVADA), 'TKO Productions LLC dba Zuffa Boxing at The Cosmopolitan');
 });
 
+test('event names keep meaningful numbers; symbols and markup are still dropped', () => {
+  const at = (promoter, venue) => eventName({ promoters: promoter ? [promoter] : [], venue: { name: venue } }, NEVADA);
+  assert.equal(at('Marshall Kauffman', '2300 Arena'), 'Marshall Kauffman at 2300 Arena');
+  assert.equal(at('8 Count Promotions', 'St. Ann Community Center'), '8 Count Promotions at St. Ann Community Center');
+  assert.equal(at('TBL 12', 'Harrah’s Casino'), 'TBL 12 at Harrah’s Casino');
+  assert.equal(at('Boxing 5', 'Season 2 Hall'), 'Boxing 5 at Season 2 Hall');
+  assert.equal(at('UFC 300 Promotions', '3801 Market Street'), 'UFC 300 Promotions at 3801 Market Street');
+  assert.equal(at('Alpha & Beta', 'Arena / Hall'), 'Alpha and Beta at Arena and Hall');
+  assert.equal(at('<script>alert(1)</script>', 'Arena #2'), 'script alert 1 and script at Arena 2', 'markup characters never survive');
+  assert.equal(at('TKO Productions LLC d/b/a Zuffa Boxing', 'The Meta Apex'), 'TKO Productions LLC dba Zuffa Boxing at The Meta Apex');
+});
+
 test('New Jersey judges: "&" separates judges, suffixes stay with their name, totals stay with their judge', () => {
   const rows = (t) => judgesOf(t).map((j) => [j.name, j.a_total, j.b_total]);
   assert.deepEqual(rows('Judges: Ann Alpha (60-54), Bob Bravo (59-55) & Cy Charlie (58-56)'), [['Ann Alpha', 60, 54], ['Bob Bravo', 59, 55], ['Cy Charlie', 58, 56]]);

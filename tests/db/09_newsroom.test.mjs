@@ -61,7 +61,7 @@ test('fight announcement -> immutable fact block -> validated article -> approve
   assert.match(a.body_md, /At stake: the WBC world title/);
   assert.ok(a.fact_block.absent_topics.includes('odds') && a.fact_block.absent_topics.includes('ranking'));
   assert.equal(a.generator_version, 'pbe-wire-templates@1.0.0');
-  assert.equal(a.validator_version, 'boxing-prose-validator@1.0.0');
+  assert.equal(a.validator_version, 'boxing-prose-validator@1.1.0');
   assert.ok(a.claims.every((c) => c.fact_ids.length));
   const [block] = await q(`select block_hash, builder_version from public.boxing_fact_blocks where id = $1`, [a.fact_block_id]);
   assert.equal(block.block_hash, a.fact_block_hash);

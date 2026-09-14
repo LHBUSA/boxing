@@ -30,10 +30,12 @@ const SENSITIVE_TYPES = new Set(['SUSPENSION_POSTED', 'TITLE_STRIPPED', 'RESULT_
 const ALL_TOPICS = ['odds', 'ranking', 'title', 'weight', 'result', 'scorecard', 'officials', 'regulatory', 'fight_dna', 'record', 'injury', 'purse', 'quote', 'previous_meeting'];
 
 // Names are data, never instructions: they must look like names.
-const NAME_RE = /^[\p{L}\p{M}][\p{L}\p{M}'’. -]{0,79}$/u;
-function safeName(name, what) {
+// Entity names: letters, marks, digits ("2300 Arena", "TBL 12"), spaces and . ' ’ -, at least one letter, no markup.
+// Numbers inside a name are not claims: the validator masks known names before checking numbers.
+const NAME_RE = /^[\p{L}\p{M}\p{N}][\p{L}\p{M}\p{N}'’. -]{0,79}$/u;
+export function safeName(name, what) {
   const n = String(name ?? '').trim();
-  if (!NAME_RE.test(n) || /\b(ignore|instruction|prompt|system|assistant)\b/i.test(n)) {
+  if (!NAME_RE.test(n) || !/\p{L}/u.test(n) || /\b(ignore|instruction|prompt|system|assistant)\b/i.test(n)) {
     throw new FactBlockError('unsafe_entity_name', `${what}: ${JSON.stringify(n).slice(0, 60)}`);
   }
   return n;

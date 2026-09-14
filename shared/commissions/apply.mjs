@@ -13,11 +13,13 @@ export const COMMISSION_NAMESPACES = Object.freeze({ nsac_nevada: 'nsac', florid
 
 const addDays = (date, n) => new Date(Date.parse(`${date}T00:00:00Z`) + n * 86_400_000).toISOString().slice(0, 10);
 
-// Plain-text event name (newsroom entity names allow letters, spaces, . ' ’ -).
-// The date is a separate field; digits and symbols from venue/promoter names
-// are spelled out or dropped from the DISPLAY name only.
-const nameSafe = (s) => String(s ?? '').replace(/\bd\s*\/\s*b\s*\/\s*a\b\.?/gi, ' dba ').replace(/&/g, ' and ').replace(/\//g, ' and ').replace(/[‘`]/g, '’')
-  .replace(/[^\p{L}\p{M}'’. -]+/gu, ' ').replace(/\s+/g, ' ').trim();
+// Plain-text event name (newsroom entity names allow letters, digits, spaces, . ' ’ -).
+// The date is a separate field. "&" and "/" are spelled out; other symbols are dropped from the DISPLAY name only.
+// Digits are part of names ("2300 Arena", "8 Count Promotions", "TBL 12", "Season 2") and are kept: until
+// commission-event-name@2 (2026-09-14) they were stripped, which renamed "2300 Arena" to "Arena".
+export const EVENT_NAME_RULE = 'commission-event-name@2';
+export const nameSafe = (s) => String(s ?? '').replace(/\bd\s*\/\s*b\s*\/\s*a\b\.?/gi, ' dba ').replace(/&/g, ' and ').replace(/\//g, ' and ').replace(/[‘`]/g, '’')
+  .replace(/[^\p{L}\p{M}\p{N}'’. -]+/gu, ' ').replace(/\s+/g, ' ').trim();
 export function eventName(ev, adapter) {
   const where = nameSafe(ev.venue?.name ?? ev.venue?.city ?? adapter.jurisdiction.name);
   const who = ev.promoters?.length ? ev.promoters.map(nameSafe).filter(Boolean).join(' and ') : `${nameSafe(adapter.commission.name)} professional boxing`;
@@ -67,7 +69,7 @@ export function divisionFacts(raw) {
 export function cardDocumentFor(adapter, ev, bouts) {
   const namespace = COMMISSION_NAMESPACES[adapter.sourceKey];
   const doc = {
-    source_key: adapter.sourceKey, namespace, external_id: ev.source_event_id, name: eventName(ev, adapter), event_date: ev.event_date,
+    source_key: adapter.sourceKey, namespace, external_id: ev.source_event_id, name: eventName(ev, adapter), name_rule: EVENT_NAME_RULE, event_date: ev.event_date,
     start_at: ev.start_at ?? null, status: ev.status ?? 'scheduled', source_url: ev.source_url,
     commission: { ...adapter.commission },
     // the commission's own result sheet is the authoritative record of its ring officials

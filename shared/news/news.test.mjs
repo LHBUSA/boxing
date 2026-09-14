@@ -76,6 +76,21 @@ test('malicious fact block values are refused, never rendered', async () => {
   await assert.rejects(() => buildFactBlock(ctx2), /unsafe_entity_name/);
 });
 
+test('numbered entity names ("2300 Arena", "TBL 12") are names, not claims; a bare number still needs a fact', async () => {
+  const ctx = baseCtx('FIGHT_ANNOUNCED');
+  ctx.event.name = 'TBL 12 at 2300 Arena';
+  ctx.event.venue = { name: '2300 Arena', city: 'Philadelphia' };
+  const { block, draft, validation } = await article(ctx);
+  assert.equal(block.entities.event.venue.name, '2300 Arena');
+  assert.equal(draft.ok, true);
+  assert.deepEqual(validation.problems, [], JSON.stringify(validation.problems));
+  const withBareNumber = validateArticle({ ...draft, body_md: `${draft.body_md}\n\nAttendance was 2300.` }, block);
+  assert.ok(withBareNumber.problems.some((p) => /number not in fact block: 2300/.test(p)), JSON.stringify(withBareNumber.problems));
+  const digitsOnly = baseCtx('FIGHT_ANNOUNCED');
+  digitsOnly.event.venue = { name: '12345', city: 'Testville' };
+  await assert.rejects(() => buildFactBlock(digitsOnly), /unsafe_entity_name/);
+});
+
 test('derived facts must carry a version; unknown labels are refused', async () => {
   const ctx = baseCtx('FIGHT_ANNOUNCED', {}, { ctx: { fight_dna: [{ fighter_id: RUIZ, metric_key: 'ko_rate', metric_version: '2.0.0', value_number: 0.61, sample_size: 18, metric_name: 'stoppage-win rate' }] } });
   const { block, draft, validation } = await article(ctx);

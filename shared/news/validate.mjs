@@ -22,7 +22,7 @@
 
 import { topicCategory } from './fact-block.mjs';
 
-export const VALIDATOR_VERSION = 'boxing-prose-validator@1.0.0';
+export const VALIDATOR_VERSION = 'boxing-prose-validator@1.1.0';
 
 const NUMBER_WORDS = {
   zero: 0, one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10, eleven: 11, twelve: 12,
@@ -92,10 +92,27 @@ function wordNumbers(text) {
   return [...String(text).matchAll(NUMBER_WORD_RE)].map((m) => String(NUMBER_WORDS[m[1].toLowerCase()]));
 }
 
-function allowedNumbersFrom(facts) {
+// Digits inside a known entity name ("2300 Arena", "TBL 12") belong to the name, not to a numeric claim: every
+// occurrence of such a name is masked (digits -> '#') in the prose AND in fact texts before numbers are read. A bare
+// "2300" anywhere else still needs a fact that states it.
+export function entityNamesOf(block) {
+  return [
+    ...(block?.entities?.fighters ?? []).map((e) => e.name),
+    ...(block?.entities?.officials ?? []).map((e) => e.name),
+    ...(block?.entities?.organizations ?? []).map((e) => e.name),
+    block?.entities?.event?.name, block?.entities?.event?.venue?.name, block?.entities?.event?.venue?.city, block?.entities?.event?.commission?.name,
+  ].filter(Boolean);
+}
+export function maskEntityNumbers(text, names) {
+  let out = String(text ?? '');
+  for (const n of [...new Set(names.filter((x) => /\d/.test(x)))].sort((a, b) => b.length - a.length)) out = out.split(n).join(n.replace(/\d/g, '#'));
+  return out;
+}
+
+function allowedNumbersFrom(facts, mask = (t) => t) {
   const set = new Set();
   for (const f of facts) {
-    for (const s of [f.text, JSON.stringify(f.value), f.version ?? '']) {
+    for (const s of [mask(f.text), mask(JSON.stringify(f.value)), f.version ?? '']) {
       for (const n of numberTokens(s)) set.add(n);
     }
     // dates like "November 14, 2026" also allow their ISO parts and vice versa
@@ -123,8 +140,9 @@ export function validateArticle({ headline, dek = null, body_md: body, sentences
   const attributed = facts.filter((f) => f.label === 'attributed_statement');
 
   // ---- numbers (digits and words) must come from the block
-  const allowed = allowedNumbersFrom(facts);
-  for (const n of [...numberTokens(fullText), ...wordNumbers(fullText)]) {
+  const mask = (t) => maskEntityNumbers(t, entityNamesOf(block));
+  const allowed = allowedNumbersFrom(facts, mask);
+  for (const n of [...numberTokens(mask(fullText)), ...wordNumbers(fullText)]) {
     if (!allowed.has(n)) problems.push(`number not in fact block: ${n}`);
   }
 
@@ -155,8 +173,8 @@ export function validateArticle({ headline, dek = null, body_md: body, sentences
 
   // ---- ordered tuples: a record (W-L-D) or card (115-113) must match a fact
   // exactly, in order — "5-25" is not "25-5"
-  const factTuples = new Set(facts.flatMap((f) => [...f.text.matchAll(/\b\d+(?:\.\d+)?(?:-\d+(?:\.\d+)?)+\b/g)].map((m) => m[0])));
-  for (const m of fullText.matchAll(/(?<![\w.-])\d+(?:\.\d+)?(?:-\d+(?:\.\d+)?)+(?![\w.-]*\d)/g)) {
+  const factTuples = new Set(facts.flatMap((f) => [...mask(f.text).matchAll(/\b\d+(?:\.\d+)?(?:-\d+(?:\.\d+)?)+\b/g)].map((m) => m[0])));
+  for (const m of mask(fullText).matchAll(/(?<![\w.-])\d+(?:\.\d+)?(?:-\d+(?:\.\d+)?)+(?![\w.-]*\d)/g)) {
     if (!factTuples.has(m[0])) problems.push(`record or score tuple not in fact block (order matters): ${m[0]}`);
   }
 
@@ -191,8 +209,8 @@ export function validateArticle({ headline, dek = null, body_md: body, sentences
     // appear in a sentence that names boxer A but not B
     const named = fighterEntities.filter((e) => s.text.includes(e.name)).map((e) => `fighter:${e.id}`);
     if (named.length) {
-      for (const n of numberTokens(s.text)) {
-        const owners = facts.filter((f) => numberTokens(f.text).includes(n));
+      for (const n of numberTokens(mask(s.text))) {
+        const owners = facts.filter((f) => numberTokens(mask(f.text)).includes(n));
         const owned = owners.filter((f) => (f.refs ?? []).some((r) => r.startsWith('fighter:')));
         if (owners.length && owned.length === owners.length && !owned.some((f) => f.refs.some((r) => named.includes(r)))) {
           problems.push(`number ${n} belongs to a different boxer than the one named: "${s.text.slice(0, 80)}"`);
@@ -201,17 +219,17 @@ export function validateArticle({ headline, dek = null, body_md: body, sentences
     }
     // attribution: a value only an attributed statement contains needs the
     // exact publisher string in the same sentence
-    for (const n of numberTokens(s.text)) {
-      const owners = facts.filter((f) => numberTokens(f.text).includes(n));
+    for (const n of numberTokens(mask(s.text))) {
+      const owners = facts.filter((f) => numberTokens(mask(f.text)).includes(n));
       if (owners.length && owners.every((f) => f.label === 'attributed_statement')
           && !owners.some((f) => f.attribution?.publisher && s.text.includes(f.attribution.publisher))
           && !/per the commission notice|per the sanctioning update/.test(s.text)) {
         problems.push(`attributed value ${n} without its publisher in the sentence: "${s.text.slice(0, 80)}"`);
       }
     }
-    const derivedNumbers = new Set(facts.filter((f) => f.label === 'pbe_derived').flatMap((f) => numberTokens(f.text)));
-    const canonicalNumbers = new Set(facts.filter((f) => f.label !== 'pbe_derived').flatMap((f) => numberTokens(f.text)));
-    const nums = numberTokens(s.text);
+    const derivedNumbers = new Set(facts.filter((f) => f.label === 'pbe_derived').flatMap((f) => numberTokens(mask(f.text))));
+    const canonicalNumbers = new Set(facts.filter((f) => f.label !== 'pbe_derived').flatMap((f) => numberTokens(mask(f.text))));
+    const nums = numberTokens(mask(s.text));
     if (nums.some((n) => derivedNumbers.has(n) && !canonicalNumbers.has(n)) && !/PropBetEdge/.test(s.text)) {
       problems.push(`derived value not labelled as PropBetEdge-derived: "${s.text.slice(0, 80)}"`);
     }
