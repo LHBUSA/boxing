@@ -100,7 +100,9 @@ function walk(dir, filter, out = []) {
 // ---------------------------------------------------------------- static
 function staticChecks({ launchApproved } = {}) {
   const src = (p) => readFileSync(join(WEB, p), "utf8");
-  const code = [...walk(join(WEB, "app"), (p) => /\.(tsx?|mjs|js)$/.test(p)), ...walk(join(WEB, "components"), (p) => /\.(tsx?|mjs|js)$/.test(p)), ...walk(join(WEB, "lib"), (p) => /\.(tsx?|mjs|js)$/.test(p))];
+  // shipped source only: unit tests (*.test.ts) never reach a build and may name the public domain in assertions
+  const shipped = (p) => /\.(tsx?|mjs|js)$/.test(p) && !/\.test\.(tsx?|mjs|js)$/.test(p);
+  const code = [...walk(join(WEB, "app"), shipped), ...walk(join(WEB, "components"), shipped), ...walk(join(WEB, "lib"), shipped)];
   const rel = (p) => relative(WEB, p).replaceAll("\\", "/");
 
   const launch = readLaunch();
@@ -119,8 +121,12 @@ function staticChecks({ launchApproved } = {}) {
   check(/import \{ INDEXABLE \} from "\.\/lib\/posture(\.ts)?";/.test(nextConfig) && /indexable = INDEXABLE;/.test(nextConfig) && /indexable \? \[\] : \[\{ key: "X-Robots-Tag", value: "noindex, nofollow" \}\]/.test(nextConfig), "next.config sends X-Robots-Tag unless indexable (same switch)");
 
   if (!launchOn) {
+    // a sitemap may exist only as a route that answers 404 before reading anything unless the site is indexable
     const sitemaps = code.filter((p) => /(^|\/)sitemap[^/]*\.(ts|tsx|js|xml)$|(^|\/)sitemap[^/]*\/route\.(ts|js)$/.test(rel(p))).map(rel);
-    check(!sitemaps.length, "build mode: no sitemap route", sitemaps.join(", "));
+    const ungated = sitemaps.filter((p) => !/\/route\.(ts|js)$/.test(p) || !/export async function GET\(\)[^{]*\{\s*if \(!INDEXABLE\) return new Response\("Not found", \{ status: 404/.test(src(p)));
+    check(!ungated.length, `build mode: no ungated sitemap (${sitemaps.length} gated on INDEXABLE)`, ungated.join(", "));
+    const robotsSrc = src("app/robots.ts");
+    check(!/sitemap/i.test(robotsSrc.slice(robotsSrc.lastIndexOf("return "))), "build mode: robots.ts advertises no sitemap outside launch mode");
     const indexNow = code.filter((p) => /indexnow/i.test(src(rel(p)).replace(/^\s*\/\/.*$/gm, ""))).map(rel);
     check(!indexNow.length, "build mode: no IndexNow integration", indexNow.join(", "));
     const customRefs = code.filter((p) => !rel(p).endsWith("lib/posture.ts") && src(rel(p)).includes(CUSTOM_DOMAIN)).map(rel);

@@ -7,6 +7,8 @@ import { cityLine, daysBetween, fmtDate, plural } from "@/lib/format";
 import { boutPath, eventPath, parseRef, refOf } from "@/lib/slug";
 import { BoutLine, Crumbs, MatchupCard, Note, PosterCard, SecHead, Unavailable, verdictLine } from "@/components/fight";
 import { Timeline } from "@/components/Timeline";
+import { JsonLd } from "@/components/JsonLd";
+import { eventJsonLd } from "@/lib/seo";
 import type { BoutCompact } from "@/lib/types";
 
 export const revalidate = 300;
@@ -56,6 +58,7 @@ export default async function EventPage({ params }: Props) {
 
   return (
     <div className="wrap page">
+      <JsonLd data={eventJsonLd(e, { bouts })} />
       <Crumbs items={[{ label: "Events", href: complete ? "/events?scope=results" : "/events" }, { label: fmtDate(e.date) }]} />
       <section className="hero__grid" style={{ alignItems: "start" }}>
         <div>

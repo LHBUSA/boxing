@@ -126,6 +126,22 @@ Attached domains come only from the Vercel project domain list. The build-time s
 `VERCEL_PROJECT_PRODUCTION_URL` is never read: on 2026-09-14 Vercel injected a stale value and the old
 bundle check failed builds on it. Regression tests: `web/scripts/posture.test.mjs` (`npm test`).
 
+## SEO architecture (built; discovery gated on the launch switch)
+
+- **Structured data** (`web/lib/seo.ts`, `components/JsonLd.tsx`): schema.org `SportsEvent` for cards (with bouts as
+  `subEvent`), `SportsEvent` with `competitor` Persons for fights, `Person` for fighters (`sameAs` only from
+  identity-proven Wikidata/Wikipedia links). Build mode emits no `url` anywhere; launch mode adds canonical URLs on
+  the public domain. Tests: `web/lib/seo.test.ts`.
+- **Share images** (`components/ShareCard.tsx`): brand image, card image (`/events/[slug]/opengraph-image`) and fight
+  image (`/fights/[slug]/opengraph-image`) in the site's own visual system; no fighter photos in share images.
+- **Sitemap** (`app/sitemap.xml/route.ts`): answers 404 before reading anything unless `INDEXABLE`; in launch mode it
+  lists static routes, every card, fighter and official on `https://boxing.propbetedge.ai`. `robots.ts` advertises it
+  only in launch mode. Posture static refuses any sitemap route without that gate.
+- **IndexNow**: not built into the web (posture refuses any IndexNow reference in build mode). At launch it runs as a
+  post-deploy step that submits changed card/fight/fighter URLs with a key served only in launch mode.
+- Titles and descriptions are set per route (`generateMetadata`); semantic URLs are `/events/<name>-<date>-<ref>`,
+  `/fights/<a>-vs-<b>-<ref>`, `/fighters/<name>-<ref>`.
+
 ## Workflow on main
 
 ```

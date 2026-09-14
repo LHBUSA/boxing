@@ -7,6 +7,8 @@ import { cityLine, divisionLabel, fmtDate, fmtLb, fmtRecord, methodLabel, plural
 import { boutPath, eventPath, fighterPath, parseRef, refOf } from "@/lib/slug";
 import { fightRead, pathsToVictory, readLimits, whatMatters } from "@/lib/matchup";
 import { FighterArt } from "@/components/FighterArt";
+import { JsonLd } from "@/components/JsonLd";
+import { boutJsonLd } from "@/lib/seo";
 import { BoutLine, CompareBars, Crumbs, DnaBars, FormStrip, Note, PublishedTotals, ScorecardView, SecHead, Unavailable, surname, verdictLine, type CmpRow } from "@/components/fight";
 import type { BoutDetail, CornerDetail } from "@/lib/types";
 import type { BoutContext, HallBadge, SourcedBio } from "@/lib/types-os";
@@ -115,6 +117,7 @@ export default async function FightPage({ params }: Props) {
 
   return (
     <div className="wrap page">
+      <JsonLd data={boutJsonLd(d)} />
       <Crumbs items={[{ label: "Events", href: "/events" }, { label: d.event.name, href: eventPath(d.event) }, { label: `${surname(aName)} vs ${surname(bName)}` }]} />
       <section className="faceoff">
         <div className="faceoff__meta">

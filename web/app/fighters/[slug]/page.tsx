@@ -6,6 +6,8 @@ import { gateway, optional, todayUtc } from "@/lib/gateway";
 import { daysBetween, divisionLabel, fmtClock, fmtDate, fmtLb, fmtRecord, methodLabel, plural, STANCE } from "@/lib/format";
 import { boutPath, eventPath, fighterPath, parseRef, refOf } from "@/lib/slug";
 import { FighterArt } from "@/components/FighterArt";
+import { JsonLd } from "@/components/JsonLd";
+import { fighterJsonLd } from "@/lib/seo";
 import { Crumbs, DnaBars, FormStrip, Note, RChip, SecHead, Unavailable } from "@/components/fight";
 import type { FighterBout } from "@/lib/types";
 
@@ -61,6 +63,7 @@ export default async function FighterPage({ params }: Props) {
 
   return (
     <div className="wrap page">
+      <JsonLd data={fighterJsonLd(d, [bio?.wikidata_url, bio?.wikipedia_url])} />
       <Crumbs items={[{ label: "Fighters", href: "/fighters" }, { label: f.name }]} />
       <section className="panel dossier">
         <div className="dossier__art"><FighterArt name={f.name} id={f.public_id} portrait={f.portrait} corner={null} /></div>
