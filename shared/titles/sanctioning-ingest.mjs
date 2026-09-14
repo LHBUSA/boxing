@@ -240,6 +240,11 @@ async function collectWba(ctx, { month = null }) {
     const common = { body: 'wba', sourceKey, runId, retrievedAt: res.retrievedAt, documentSha256: sha, identities, metrics, asOf, publishedOn: parsed.published_on, asOfLabel: parsed.as_of_label,
       request: month ? `POST dates=${month.y}:${month.m}:` : 'GET' };
     await persistSnapshot(store, s, { ...common, kind: 'wba_ranking', divisionNativeLabel: s.division.native_label, pairWith: [{ kind: 'wba_champions' }] });
+    // the page check tolerates a couple of odd divisions; a list whose positions are not 1..n is never stored as a ranking
+    if (!s.ranking.entries.length || s.ranking.entries.some((e, i) => e.position !== i + 1)) {
+      (metrics.refused ??= []).push({ kind: 'wba_ranking', division: s.division.native_label, reason: 'ranking_positions_not_contiguous' });
+      continue;
+    }
     await persistRanking(store, s, { ...common, kind: 'wba_ranking' });
   }
   if (champions) {

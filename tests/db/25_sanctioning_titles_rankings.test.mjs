@@ -119,6 +119,17 @@ test('fail closed: unexpected WBA structure writes nothing; an unknown designati
   assert.ok(await n('public.boxing_ranking_snapshots') >= rankingsBefore);
 });
 
+test('WBA: a division whose numbered list is not 1..n stores its title status but never a ranking', async () => {
+  const may = 'POST https://www.wbaboxing.com/wba-ranking dates=2026:5:';
+  site.set(may, wbaRankingHtml({ label: 'MAY 2026', date: 'May 31st, 2026' }).replace(/<tr><td class="text-center"><p>1<\/p><\/td>[\s\S]*?<\/tr>/, ''));
+  const before = await n(`public.boxing_ranking_snapshots r join public.boxing_organizations o on o.id = r.organization_id where o.slug = 'wba' and r.effective_on = '2026-05-31'`);
+  const r = await run('wba', { mode: 'backfill', months: [{ y: 2026, m: 5 }] });
+  assert.ok(r.metrics.refused.some((x) => x.reason === 'ranking_positions_not_contiguous'), JSON.stringify(r.metrics));
+  const after = await n(`public.boxing_ranking_snapshots r join public.boxing_organizations o on o.id = r.organization_id where o.slug = 'wba' and r.effective_on = '2026-05-31'`);
+  assert.equal(after - before, r.metrics.ranking_snapshots.created, 'only clean lists stored');
+  assert.ok(r.metrics.status_snapshots.created >= r.metrics.ranking_snapshots.created + 1, 'title status of the broken division still stored');
+});
+
 test('backfill: a month with a refused division stays open in the checkpoint and is re-read on resume', async () => {
   const june = 'POST https://www.wbaboxing.com/wba-ranking dates=2026:6:';
   site.set(june, wbaRankingHtml({ label: 'JUNE 2026', date: 'June 30th, 2026', extraDivision: 'EMPEROR WEIGHT' }));
