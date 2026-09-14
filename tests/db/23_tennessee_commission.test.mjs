@@ -94,3 +94,18 @@ test('Tennessee forward run in January reads the archive page too, so December c
   assert.equal(r.metrics.index_dates_unreadable, 1);
   assert.equal(r.metrics.index_links_unplaced, undefined);
 });
+
+test('a dropped connection is retried and leaves evidence in the run metrics; stored documents are not re-applied', async () => {
+  let dropped = false;
+  const flaky = async (url, init) => {
+    if (!dropped && String(url).endsWith('/events.html')) { dropped = true; throw new TypeError('fetch failed'); }
+    return fakeFetch(url, init);
+  };
+  const before = (await q(`select count(*)::int n from public.boxing_bouts b join public.boxing_sources s on s.id = b.source_id where ${TN}`))[0].n;
+  const r = await runCommissionIngest(store, ENV, { adapterKey: 'tennessee', fetchImpl: flaky, now: '2026-09-15T11:40:00Z', extract: decodePages, mode: 'forward' });
+  assert.equal(r.status, 'ok', JSON.stringify(r.metrics));
+  assert.deepEqual(r.metrics.fetch_errors, [{ url: 'https://www.tn.gov/commerce/regboards/athletic/events.html', error: 'fetch failed' }]);
+  assert.equal(r.metrics.http_errors, 0);
+  assert.equal(r.metrics.documents_changed, 0, 'every listed document is already stored: nothing is re-parsed');
+  assert.equal((await q(`select count(*)::int n from public.boxing_bouts b join public.boxing_sources s on s.id = b.source_id where ${TN}`))[0].n, before, 'no duplicate bout');
+});

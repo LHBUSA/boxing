@@ -73,6 +73,58 @@ common surname 15, same surname + same region/city with a different given name 7
 Every held appearance has a name-matched Tier C candidate; the resolver's thresholds are unchanged. No decision has
 been made or recorded: the queue changes only when a named human reviews and applies.
 
+## Review manifest and the six-commission backlog (2026-09-14)
+
+`pwsh scripts/staging/identity-review.ps1 -Manifest <name> -Sources <keys> -Batches <batch.json,...> -OutDir reviews/identity`
+(read-only). It lists every pending appearance per held identity (source + printed name). For each it shows the bouts
+that approving or distinguishing it would unlock, alone or only together with another held identity, and the evidence
+for and against the proposed canonical boxer. Each identity gets an evidence class:
+
+- **A**: every appearance has the workbench's own match advice (exact-form name, compatible official weight,
+  commission/venue/opponent continuity, no contradiction, no danger flag). Still needs a human approval.
+- **B**: exact-form name plus at least two independent families (weight, commission, venue, opponent, hometown) with a
+  caveat or danger flag, or appearances that disagree.
+- **C**: a hard contradiction (same-date bout elsewhere, candidate is the opponent, debut after a recorded bout) or an
+  incompatible official weight.
+- **D**: the name alone, or the name plus one family. For Tennessee, "same commission" is shared by every candidate, so
+  it is not independent evidence. Leave these held.
+
+Classes rank and explain; no decision field is filled. Current manifest:
+`reviews/identity/identity-review-manifest-2026-09-14-mo-pa-tn.{json,md}`.
+
+| Source | Identities | Held appearances | Decisions required | Groups | A | B | C | D | Bouts unlockable by one identity |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Tennessee | 361 | 676 | 676 | 0 | 22 | 31 | 4 | 304 | 268 |
+| Pennsylvania | 78 | 88 | 80 | 8 | 20 | 7 | 0 | 51 | 66 |
+| Missouri | 13 | 15 | 14 | 1 | 0 | 6 | 1 | 6 | 11 |
+
+### Batch 004 (Tennessee), proposed 2026-09-14, NOT applied
+
+`reviews/identity/identity-review-batch-004.{json,md}`: the 12 Tennessee appearances the workbench ranks first. Each has
+match advice, no danger flag, and its opponent already resolved, so approving it creates the bout. Open it with
+`node scripts/identity/review-ui.mjs reviews/identity/identity-review-batch-004.json`. Batch 003 is unchanged: 103
+entries, 0 decided, none stale (every entry's `latest_decision_seq` is still the latest).
+
+### What a recorded decision guarantees (tests/db/24_identity_review_audit.test.mjs)
+
+- **Every decision is recorded the same way.** Approve, hold and reject-candidate each write one append-only row with:
+  - the reviewer name, `decided_by = reviewer:<name>` and `reviewed_at`
+  - the batch id and the note (20+ characters)
+  - the evidence shown to the reviewer, including the official document URL
+  - the rejected candidate, when there is one
+  - the evidence hash and `supersedes_seq` (the resolver row the reviewer saw)
+- **Rows cannot be changed.** Update and delete are refused.
+- **Hold and reject change nothing else.** The review item stays pending, no boxer is created, the bout stays blocked.
+- **Approval preserves the source record.** Tennessee source observations are byte-for-byte unchanged (payload hash,
+  content hash, observed_at), and an update is refused. Existing aliases of the approved boxer are unchanged.
+- **Re-apply is deterministic.** Re-applying the reviewed document binds the approved appearance to that boxer and
+  creates exactly one bout. A second re-apply creates nothing and records no decision.
+- **Every bout traces to its document.** Canonical bout → human decision → the `commission_results_document`
+  observation that carries the source bout id → document key, URL, revision and sha256.
+- **A decision covers one appearance only.** A later appearance of the same printed name is not bound by the earlier
+  decision. It gets its own resolver review row, and the next reviewer sees the approved bout in the candidate's
+  verified record.
+
 ## Rules
 
 - **Batches stay small** (about 10) and are committed under `reviews/identity/` before they are applied.

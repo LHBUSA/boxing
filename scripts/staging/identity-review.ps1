@@ -5,11 +5,12 @@
 #   pwsh scripts/staging/identity-review.ps1 -Apply <batch.json> -Reviewer "<human name>" # records approved entries/groups, re-applies, reports
 #   pwsh scripts/staging/identity-review.ps1 -DryRun -Batch 002 -OutDir <dir>             # read-only: what the resolver WOULD bind now
 #   pwsh scripts/staging/identity-review.ps1 -Metrics                                     # queue, blocked bouts, counts, DNA coverage, stored-odds replay
+#   pwsh scripts/staging/identity-review.ps1 -Manifest <name> [-Sources ...] [-Batches <batch.json,...>] -OutDir <dir>   # read-only: ranked review manifest (advice only)
 #
 # Verifies the project is propbetedge-boxing-staging; the service-role key lives in
 # THIS process only. No external source is contacted (stored observations only).
 
-param([switch]$DryRun, [switch]$Propose, [string]$Batch = '001', [int]$Size = 10, [string]$Sources = '', [string]$OutDir = '', [string]$Apply = '', [string]$Reviewer = '', [switch]$Metrics)
+param([switch]$DryRun, [switch]$Propose, [string]$Batch = '001', [int]$Size = 10, [string]$Sources = '', [string]$OutDir = '', [string]$Apply = '', [string]$Reviewer = '', [switch]$Metrics, [string]$Manifest = '', [string]$Batches = '')
 $ErrorActionPreference = 'Stop'
 $root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 Import-Module (Join-Path $PSScriptRoot 'BoxingSupabase.psm1') -Force
@@ -36,6 +37,13 @@ try {
   if ($Apply) { node $script apply "--file=$Apply" "--reviewer=$Reviewer" }
   if ($DryRun) {
     $nodeArgs = @($script, 'dryrun', "--batch=$Batch")
+    if ($OutDir) { $nodeArgs += "--out=$OutDir" }
+    node @nodeArgs
+  }
+  if ($Manifest) {
+    $nodeArgs = @($script, 'manifest', "--name=$Manifest")
+    if ($Sources) { $nodeArgs += "--sources=$Sources" }
+    if ($Batches) { $nodeArgs += "--batches=$Batches" }
     if ($OutDir) { $nodeArgs += "--out=$OutDir" }
     node @nodeArgs
   }

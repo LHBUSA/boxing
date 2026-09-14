@@ -1,0 +1,150 @@
+{
+  "global": {
+    "bouts": 700,
+    "events": 209,
+    "fighters": 1731,
+    "officials": 182,
+    "queue_resolver_versions": {
+      "boxing-identity-resolver@1.0.0": 626
+    },
+    "bout_identity_collisions": 0,
+    "possible_duplicate_bouts": 0,
+    "same_day_same_pair_bouts": 20,
+    "duplicate_active_referees": 0,
+    "event_identity_collisions": 0,
+    "decision_resolver_versions": {
+      "boxing-identity-graph@1.0.0": 254,
+      "boxing-identity-graph@1.1.0": 792,
+      "human-review:boxing-identity-review-workbench@1.0.0": 14
+    },
+    "duplicate_active_judge_slots": 0
+  },
+  "sources": {
+    "nj_sacb": {
+      "bouts": 59,
+      "events": 20,
+      "documents": {
+        "parsed": 10
+      },
+      "result_rows": 57,
+      "suspensions": 69,
+      "observations": 269,
+      "review_pending": 17,
+      "bout_identities": 59,
+      "decisions_human": 0,
+      "results_current": 57,
+      "review_resolved": 6,
+      "decisions_resolver": 29,
+      "document_revisions": 12,
+      "scorecards_current": 27,
+      "documents_with_revisions": 1,
+      "official_assignments_active": 189
+    },
+    "nsac_nevada": {
+      "bouts": 115,
+      "events": 18,
+      "documents": {
+        "parsed": 19
+      },
+      "result_rows": 113,
+      "suspensions": 0,
+      "observations": 434,
+      "review_pending": 19,
+      "bout_identities": 115,
+      "decisions_human": 0,
+      "results_current": 113,
+      "review_resolved": 7,
+      "decisions_resolver": 28,
+      "document_revisions": 22,
+      "scorecards_current": 153,
+      "documents_with_revisions": 2,
+      "official_assignments_active": 296
+    },
+    "mo_office_of_athletics": {
+      "bouts": 28,
+      "events": 8,
+      "documents": {
+        "parsed": 9,
+        "rejected": 1
+      },
+      "result_rows": 24,
+      "suspensions": 10,
+      "observations": 123,
+      "review_pending": 13,
+      "bout_identities": 28,
+      "decisions_human": 0,
+      "results_current": 24,
+      "review_resolved": 4,
+      "decisions_resolver": 19,
+      "document_revisions": 10,
+      "scorecards_current": 0,
+      "documents_with_revisions": 0,
+      "official_assignments_active": 103
+    },
+    "tn_athletic_commission": {
+      "bouts": 153,
+      "events": 99,
+      "documents": {
+        "parsed": 103,
+        "rejected": 17
+      },
+      "result_rows": 152,
+      "suspensions": 114,
+      "observations": 1621,
+      "review_pending": 361,
+      "bout_identities": 153,
+      "decisions_human": 0,
+      "results_current": 152,
+      "review_resolved": 0,
+      "decisions_resolver": 681,
+      "document_revisions": 127,
+      "scorecards_current": 98,
+      "documents_with_revisions": 2,
+      "official_assignments_active": 266
+    },
+    "florida_athletic_commission": {
+      "bouts": 271,
+      "events": 41,
+      "documents": {
+        "error": 1,
+        "parsed": 36,
+        "rejected": 11
+      },
+      "result_rows": 285,
+      "suspensions": 125,
+      "observations": 1138,
+      "review_pending": 89,
+      "bout_identities": 271,
+      "decisions_human": 14,
+      "results_current": 265,
+      "review_resolved": 32,
+      "decisions_resolver": 202,
+      "document_revisions": 47,
+      "scorecards_current": 0,
+      "documents_with_revisions": 0,
+      "official_assignments_active": 906
+    },
+    "pa_state_athletic_commission": {
+      "bouts": 74,
+      "events": 23,
+      "documents": {
+        "parsed": 24,
+        "rejected": 11
+      },
+      "result_rows": 71,
+      "suspensions": 33,
+      "observations": 430,
+      "review_pending": 78,
+      "bout_identities": 74,
+      "decisions_human": 0,
+      "results_current": 71,
+      "review_resolved": 0,
+      "decisions_resolver": 87,
+      "document_revisions": 35,
+      "scorecards_current": 0,
+      "documents_with_revisions": 0,
+      "official_assignments_active": 54
+    }
+  },
+  "taken_at": "2026-09-14T10:57:16.733677-05:00"
+}

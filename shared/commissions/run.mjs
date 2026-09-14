@@ -94,6 +94,15 @@ export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = 
       else if (k === 'skipped') { metrics.apply.skipped_reasons ??= {}; for (const x of v) metrics.apply.skipped_reasons[x.reason] = (metrics.apply.skipped_reasons[x.reason] ?? 0) + 1; }
     }
   };
+  // every thrown fetch attempt is kept in the run metrics (url + error), so a retry that later succeeded is provable
+  // from the run row: a url listed here with no http error and a completed run recovered on retry
+  const rawFetch = fetchImpl;
+  fetchImpl = async (url, init) => {
+    try { return await rawFetch(url, init); } catch (err) {
+      (metrics.fetch_errors ??= []).push({ url: String(url).slice(0, 200), error: String(err?.message ?? err).slice(0, 120) });
+      throw err;
+    }
+  };
   // an official index that parses to zero result documents is never a quiet success (2026-09-14: the Nevada 2026
   // index answered 200 with a page carrying no result links, and the run reported ok with nothing listed)
   const noteEmptyIndex = (docKey) => { (metrics.empty_indexes ??= []).push(docKey); };

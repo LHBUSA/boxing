@@ -6,6 +6,7 @@
 //   node scripts/identity/review-once.mjs apply --file=<batch.json> --reviewer=<human name>
 //   node scripts/identity/review-once.mjs dryrun --batch=002 --out=<dir>                  (read-only resolver projection)
 //   node scripts/identity/review-once.mjs metrics                                      (read-only + stored-odds replay)
+//   node scripts/identity/review-once.mjs manifest --name=<id> [--sources=<source_key,...>] [--batches=<batch.json,...>] --out=<dir>   (read-only)
 //
 // apply records ONLY entries with reviewer_decision + reviewer_note filled in by the
 // named human, then re-applies stored official parses (no refetch).
@@ -16,6 +17,7 @@ import { join } from 'node:path';
 import { reapplyStoredDocuments } from '../../shared/commissions/run.mjs';
 import { applyApprovedBatch, batchFromDryRun, batchMarkdown, blockedBoutsByState, dryRunMarkdown, proposeReviewBatch, simulateResolverOnBlockedBouts } from '../../shared/identity/human-review.mjs';
 import { buildIdentityReviewReport } from '../../shared/identity/review-assist.mjs';
+import { buildReviewManifest, manifestMarkdown } from '../../shared/identity/review-manifest.mjs';
 import { reprocessStoredOdds } from '../../shared/odds/replay.mjs';
 import { manualProvenance } from '../../shared/provenance.mjs';
 import { guardedPostgrestStore } from '../../shared/store/target-guard.mjs';
@@ -84,9 +86,25 @@ if (command === 'propose') {
     writeFileSync(join(out, `identity-review-batch-${batchId}.md`), batchMarkdown(batch));
     console.log(`wrote ${join(out, `resolver-dry-run-${batchId}`)}.{json,md}`);
   }
+} else if (command === 'manifest') {
+  // every pending appearance for the chosen sources, ranked by what one identity review unlocks; nothing is decided
+  const name = arg('name') ?? 'manifest';
+  const out = arg('out');
+  const sources = arg('sources') ? arg('sources').split(',').map((x) => x.trim()).filter(Boolean) : null;
+  const report = await buildIdentityReviewReport(store);
+  const proposal = await proposeReviewBatch(store, report, { batchId: name, size: Number.MAX_SAFE_INTEGER, sources });
+  const batchFiles = Object.fromEntries((arg('batches') ?? '').split(',').filter(Boolean).map((f) => [f.match(/batch-([^./\\]+)\.json$/)?.[1] ?? f, JSON.parse(readFileSync(f, 'utf8'))]));
+  const manifest = buildReviewManifest(proposal, { sources, batchFiles });
+  console.log(JSON.stringify(manifest.summary, null, 1));
+  if (out) {
+    mkdirSync(out, { recursive: true });
+    writeFileSync(join(out, `identity-review-manifest-${name}.json`), JSON.stringify(manifest, null, 1));
+    writeFileSync(join(out, `identity-review-manifest-${name}.md`), manifestMarkdown(manifest));
+    console.log(`wrote ${join(out, `identity-review-manifest-${name}`)}.{json,md}`);
+  }
 } else if (command === 'metrics') {
   console.log(JSON.stringify(await metrics(), null, 1));
 } else {
-  console.error('usage: review-once.mjs propose|apply|metrics');
+  console.error('usage: review-once.mjs propose|apply|dryrun|manifest|metrics');
   process.exit(2);
 }
