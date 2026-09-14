@@ -19,7 +19,7 @@ export const DIVISIONS = Object.freeze({
     heavyweight: 'heavyweight', cruiserweight: 'cruiserweight', 'light-heavyweight': 'light_heavyweight', 'super-middleweight': 'super_middleweight',
     middleweight: 'middleweight', 'jr-middleweight': 'super_welterweight', welterweight: 'welterweight', 'jr-welterweight': 'super_lightweight',
     lightweight: 'lightweight', 'jr-lightweight': 'super_featherweight', featherweight: 'featherweight', 'jr-featherweight': 'super_bantamweight',
-    bantamweight: 'bantamweight', 'jr-bantamweight': 'super_flyweight', flyweight: 'flyweight', 'jr-flyweight': 'light_flyweight', minimumweight: 'minimumweight',
+    bantamweight: 'bantamweight', 'jr-bantamweight': 'super_flyweight', flyweight: 'flyweight', 'jr-flyweight': 'light_flyweight', 'mini-flyweight': 'minimumweight',
   },
   wbo: {
     HEAVYWEIGHT: 'heavyweight', 'JR. HEAVYWEIGHT': 'cruiserweight', 'LT. HEAVYWEIGHT': 'light_heavyweight', 'SUP. MIDDLEWEIGHT': 'super_middleweight',

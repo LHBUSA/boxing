@@ -40,7 +40,7 @@ export function wbaChampionsHtml({ lhwRegular = 'SYNTH BRAVO' } = {}) {
   return `${html}<div>lightweight</div><div>VACANT</div><div>WBA World</div><div>SYNTH RECESS</div><div>United States</div><div>30-0-1 (28 KO's)</div><div>Champion in recess</div><div>heavyweight</div>`;
 }
 
-export const IBF_SLUGS = ['heavyweight', 'cruiserweight', 'light-heavyweight', 'super-middleweight', 'middleweight', 'jr-middleweight', 'welterweight', 'jr-welterweight', 'lightweight', 'jr-lightweight', 'featherweight', 'jr-featherweight', 'bantamweight', 'jr-bantamweight', 'flyweight', 'jr-flyweight', 'minimumweight'];
+export const IBF_SLUGS = ['heavyweight', 'cruiserweight', 'light-heavyweight', 'super-middleweight', 'middleweight', 'jr-middleweight', 'welterweight', 'jr-welterweight', 'lightweight', 'jr-lightweight', 'featherweight', 'jr-featherweight', 'bantamweight', 'jr-bantamweight', 'flyweight', 'jr-flyweight', 'mini-flyweight'];
 export const ibfRecord = (over = {}) => ({
   title: 'IBF: LT. HEAVYWEIGHT (175 LBS) &#8211; 08/2026', desc: '', rating_month: '20260831', post_date: '09/08/2026',
   ratings: ';Synth Delta,Australia (AUS);Synth Echo,United States (USA),Nevada (NV)', champ: 'Synth Alpha,Kyrgyzstan (KGZ),;11/11/2017;10/28/2024;01/28/2023;',
