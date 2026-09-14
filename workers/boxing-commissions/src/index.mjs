@@ -1,7 +1,7 @@
 // boxing-commissions — official athletic-commission ingestion.
 //
 // scheduled(): once a day, forward mode, sequentially: nevada, florida,
-//              new_jersey, missouri (texas is reference_only: never fetched). Each adapter
+//              new_jersey, missouri, pennsylvania (texas is reference_only: never fetched). Each adapter
 //              is its own ingest run with scheduled provenance.
 // Routes (Bearer BOXING_INTERNAL_TOKEN):
 //   POST /internal/v1/commissions/:adapter/run?mode=forward|backfill&year=2026  operator run (manual provenance)
@@ -14,7 +14,7 @@ import { guardedPostgrestStore } from '../../../shared/store/target-guard.mjs';
 import { COMMISSION_ADAPTERS, runCommissionIngest } from '../../../shared/commissions/run.mjs';
 import { manualProvenance, scheduledProvenance } from '../../../shared/provenance.mjs';
 
-export const SCHEDULED_ADAPTERS = Object.freeze(['nevada', 'florida', 'new_jersey', 'missouri']);
+export const SCHEDULED_ADAPTERS = Object.freeze(['nevada', 'florida', 'new_jersey', 'missouri', 'pennsylvania']);
 
 const json = (body, status = 200) => new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' } });
 function constantTimeEqual(a, b) {

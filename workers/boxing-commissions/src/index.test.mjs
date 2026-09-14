@@ -9,7 +9,7 @@ const APPROVED = { enabled: true, access_mode: 'approved_ingest', rights_state: 
 const neverFetch = async () => { throw new Error('network must not be touched'); };
 
 test('texas is never scheduled and its remote gate refuses', async () => {
-  assert.deepEqual(SCHEDULED_ADAPTERS, ['nevada', 'florida', 'new_jersey', 'missouri']);
+  assert.deepEqual(SCHEDULED_ADAPTERS, ['nevada', 'florida', 'new_jersey', 'missouri', 'pennsylvania']);
   const store = { writeTarget: { verified: true }, source: async () => APPROVED };
   const r = await runCommissionIngest(store, { COMMISSION_INGEST_ENABLED: 'true' }, { adapterKey: 'texas', fetchImpl: neverFetch });
   assert.equal(r.status, 'blocked');

@@ -220,3 +220,46 @@ export const MISSOURI_INDEX_HTML = "<Table width='100%'><tr><th scope='col'>Date
   + "<TR><td><a target='_blank' href='boards/athletics/boxingresults/2026-09-05%20BOXAKICKRES%20Synthetic%20City%20Synthetic%20Boxing.pdf'>2026-09-05 BOXAKICKRES Synthetic City Synthetic Boxing</a></td><td><font size='-2'><i>9/7/2026</i></font></td></TR>"
   + "<TR><td><a target='_blank' href='boards/athletics/boxingresults/2026-09-04%20KICKBOXRES%20Synthetic%20City%20Kick.pdf'>2026-09-04 KICKBOXRES Synthetic City Kick</a></td><td><font size='-2'><i>9/6/2026</i></font></td></TR>"
   + "<TR><td><a target='_blank' href='boards/athletics/boxingresults/2026-09-03%20AKICKRES%20Synthetic%20City%20Am.pdf'>2026-09-03 AKICKRES Synthetic City Am</a></td><td><font size='-2'><i>9/5/2026</i></font></td></TR></Table>";
+
+// ---------------------------------------------------------------- Pennsylvania
+// Geometry mirrors the Pennsylvania State Athletic Commission "BoxResults" sheets reviewed on 2026-09-14. Every
+// name, date of birth and federal id below is FAKE.
+// bouts: [{ rds, marker, a: { name, result, state, weight, remarks }, b: {...} }]
+export function pennsylvaniaPages({ event = 'BOXING', promoter = 'SYNTHETIC, PAT', location = 'Synthetic Arena-Philadelphia', date = '9/5/2026',
+  referees = [['REFONE, REX', '1'], ['REFTWO, RAY', '2']], judges = ['ALPHA, JAN', 'BRAVO, JOE', 'CHARLIE, KIM'], bouts = [] } = {}) {
+  const header = [
+    it('PENNSYLVANIA DEPARTMENT OF STATE', 259, 527), it('STATE ATHLETIC COMMISSION', 300, 509),
+    it('Promoter:', 87, 492), it(promoter, 138, 492), it('Synthetic Director, Executive Director', 315, 492), it('Commissioner:', 492, 492), it('SYN COMMISH', 573, 492),
+    it('Location:', 89, 475), it(location, 138, 479), it('2525 North 7th Street,', 337, 479), it('Physician:', 511, 479), it('DOC, SYN', 573, 479),
+    it('Date:', 105, 461), it(date, 138, 464), it('Harrisburg, Pennsylvania 17110', 320, 464), it('Timekeeper:', 503, 461), it('KEEPER, TIM', 573, 464),
+    it('Referees:', 89, 447), it('Judges:', 520, 447), it('Fax: (717) 555-0101', 340, 437), it('Event:', 101, 417), it(event, 138, 417),
+    it('Sch', 93, 349), it('Rounds Contestants', 77, 338), it('Result', 275, 338), it('State', 338, 338), it('Weight', 380, 338), it('Birth Date', 423, 338), it('Fed Id', 478, 338), it('Remarks', 549, 338),
+  ];
+  let ry = 450;
+  for (const [name, n] of referees) { header.push(it(name, 138, ry)); if (n) header.push(it(n, 212, ry)); ry -= 17; }
+  let jy = 450;
+  for (const name of judges) { header.push(it(name, 573, jy)); jy -= 13; }
+  const items = [...header];
+  let y = 323;
+  for (const b of bouts) {
+    items.push(it(`${b.rds} ${b.a.name}`, 108, y), it(b.a.result, 256, y), it(b.a.state, 328, y), it(b.a.weight.toFixed(2), 384, y), it('1/1/1995 PA-123456', 424, y));
+    if (b.a.remarks) items.push(it(b.a.remarks, 544, y));
+    if (b.marker) items.push(it(b.marker, 57, y - 12));
+    const by = y - 15;
+    items.push(it(b.b.name, 118, by), it(b.b.result, 256, by), it(b.b.state, 328, by), it(b.b.weight.toFixed(2), 384, by), it('2/2/1996', 424, by), it('NJ-654321', 478, by));
+    if (b.b.remarks) items.push(it(b.b.remarks, 544, by));
+    y -= 34;
+  }
+  return [{ page: 1, width: 792, height: 612, items }];
+}
+
+export const PENNSYLVANIA_BOUTS = [
+  { rds: 4, marker: '1', a: { name: 'ALPHA, SYNTH', result: 'W UNA 4RD', state: 'PA', weight: 146.2 }, b: { name: 'BRAVO, SYNTH', result: 'L UNA 4RD', state: 'NJ', weight: 147 } },
+  { rds: 6, marker: '2', a: { name: 'Charlie, Synth', result: 'L Ko 1RD', state: 'MEXICO', weight: 118.6, remarks: 'IND SUSP - ORTHO LEFT HAND' }, b: { name: "O'DELTA JR., SYNTH", result: 'W Ko 1RD', state: 'AZ', weight: 121, remarks: '1:21 rd-1 KO' } },
+  { rds: 8, marker: 'REFONE', a: { name: 'ECHO, SYNTH', result: 'D MAJ 8RD', state: 'PA', weight: 160 }, b: { name: 'FOXTROT, SYNTH', result: 'D MAJ 8RD', state: 'NY', weight: 159.4, remarks: '45 DAY SUSPENSION-LEFT EYE' } },
+];
+
+export const PENNSYLVANIA_INDEX_HTML = '<div><a href="/content/dam/copapwp-pagov/en/dos/programs/state-athletics/results/2026/09-05-26%20box%20synthetic%20-%20synthetic%20arena%20-%20phila.%20pa%20-%20results.pdf">Boxing</a>'
+  + '<a href="/content/dam/copapwp-pagov/en/dos/programs/state-athletics/results/2026/09-06-26%20mma%20synthetic%20-%20synthetic%20arena%20-%20phila.%20pa%20-%20results.pdf">MMA</a>'
+  + '<a href="/content/dam/copapwp-pagov/en/dos/programs/state-athletics/results/2026/09-07-26%20grant%20amateur%20k-bx%20-%20parkview%20inn%20-%20allentown%20pa%20-%20results.pdf">KB</a>'
+  + '<a href="/content/dam/copapwp-pagov/en/dos/programs/state-athletics/results/2024/2024-01-12-Boxing-Results.pdf">2024</a></div>';

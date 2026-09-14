@@ -9,7 +9,7 @@ import { applyCardDocument } from '../events/card.mjs';
 import { recordRegulatoryAction, recordResult, recordScorecards, recordWeighIn } from '../events/outcomes.mjs';
 import { assertMinimized } from '../adapters/commissions/minimize.mjs';
 
-export const COMMISSION_NAMESPACES = Object.freeze({ nsac_nevada: 'nsac', florida_athletic_commission: 'fl-athletic-commission', nj_sacb: 'nj-sacb', mo_office_of_athletics: 'mo-office-of-athletics', tdlr_texas: 'tdlr' });
+export const COMMISSION_NAMESPACES = Object.freeze({ nsac_nevada: 'nsac', florida_athletic_commission: 'fl-athletic-commission', nj_sacb: 'nj-sacb', mo_office_of_athletics: 'mo-office-of-athletics', pa_state_athletic_commission: 'pa-state-athletic-commission', tdlr_texas: 'tdlr' });
 
 const addDays = (date, n) => new Date(Date.parse(`${date}T00:00:00Z`) + n * 86_400_000).toISOString().slice(0, 10);
 

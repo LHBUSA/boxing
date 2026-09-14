@@ -1,4 +1,4 @@
-// Commission ingestion runs (Nevada, Florida, New Jersey, Missouri; Texas is disabled).
+// Commission ingestion runs (Nevada, Florida, New Jersey, Missouri, Pennsylvania; Texas is disabled).
 //
 // Gates (fail closed): COMMISSION_INGEST_ENABLED="true"; verified boxing write
 // target; adapter.remote.enabled; source row approved_ingest + enabled +
@@ -21,11 +21,12 @@ import { FLORIDA, parseFloridaResults, parseResultsListing, parseUpcoming } from
 import { NEW_JERSEY, isOfficialNjUrl, parseNjResults, parseNjSchedule } from '../adapters/commissions/new-jersey.mjs';
 import { TEXAS } from '../adapters/commissions/texas.mjs';
 import { MISSOURI, parseMissouriIndex, parseMissouriResults } from '../adapters/commissions/missouri.mjs';
+import { PENNSYLVANIA, parsePennsylvaniaIndex, parsePennsylvaniaResults } from '../adapters/commissions/pennsylvania.mjs';
 import { SPORT } from '../adapters/commissions/contract.mjs';
 import { extractPositionedText, sha256Bytes } from '../adapters/commissions/pdf.mjs';
 import { assertMinimized } from '../adapters/commissions/minimize.mjs';
 
-export const COMMISSION_ADAPTERS = Object.freeze({ nevada: NEVADA, florida: FLORIDA, new_jersey: NEW_JERSEY, missouri: MISSOURI, texas: TEXAS });
+export const COMMISSION_ADAPTERS = Object.freeze({ nevada: NEVADA, florida: FLORIDA, new_jersey: NEW_JERSEY, missouri: MISSOURI, pennsylvania: PENNSYLVANIA, texas: TEXAS });
 export const USER_AGENT = 'PropBetEdge-Boxing/1.0 (+https://propbetedge.ai; official commission records; low-rate)';
 const DAY = 86_400_000;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -230,6 +231,19 @@ export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = 
         // file-name codes name the sports on the sheet; a boxing code (or none) lets the document decide
         if (![SPORT.UNKNOWN, SPORT.BOXING].includes(ref.sport_hint)) { metrics.documents_skipped += 1; reject([`listing_not_boxing:${ref.sport_hint}`]); continue; }
         await processDocument(ref, (r, pages, o) => parseMissouriResults(r, pages, { capturedAt: now, ...o }));
+      }
+    } else if (adapterKey === 'pennsylvania') {
+      const index = await fetchOk(fetchImpl, PENNSYLVANIA.resultsUrl);
+      await recordListing('pa-results:index', PENNSYLVANIA.resultsUrl, 'listing', index.body, index.lastModified);
+      const indexed = parsePennsylvaniaIndex(index.body);
+      if (!indexed.length) noteEmptyIndex('pa-results:index');
+      const refs = indexed.filter((r) => r.event_date && (mode === 'backfill'
+        ? (years ?? [new Date(now).getUTCFullYear()]).includes(Number(r.event_date.slice(0, 4)))
+        : Date.parse(`${r.event_date}T00:00:00Z`) >= nowMs - 60 * DAY));
+      metrics.documents_listed += refs.length;
+      for (const ref of refs) {
+        if (![SPORT.UNKNOWN, SPORT.BOXING].includes(ref.sport_hint)) { metrics.documents_skipped += 1; reject([`listing_not_boxing:${ref.sport_hint}`]); continue; }
+        await processDocument(ref, (r, pages, o) => parsePennsylvaniaResults(r, pages, { capturedAt: now, ...o }));
       }
     }
   } catch (err) {
