@@ -63,7 +63,9 @@ export function parseWbaRankingPage(html) {
         continue;
       }
       if (cells.length < 4 || !/^\d+$/.test(decode(cells[0]))) continue;
-      entries.push({ position: Number(decode(cells[0])), rank_label: decode(cells[0]), source_name: decode(cells[1]) || null,
+      // a ranked row whose name cell is empty (the WBA prints only a profile link, e.g. SEPTEMBER 2016 super lightweight #6):
+      // the position stands, the name is recorded as not printed, and no name is invented
+      entries.push({ position: Number(decode(cells[0])), rank_label: decode(cells[0]), source_name: decode(cells[1]) || null, ...(decode(cells[1]) ? {} : { name_not_printed: true }),
         wba_id: cells[1].match(/wba-boxer-profile\/\?id=(\d+)/)?.[1] ?? null, regional_label: decode(cells[2]) || null, country: countryCode(decode(cells[3])) ?? (decode(cells[3]) || null) });
     }
     divisions.push({ division: { ...divisionOf('wba', label), limit_text: decode(limitHtml) }, champions, claims_about_other_bodies: otherBodies, entries });

@@ -42,13 +42,17 @@ before(async () => {
 });
 after(async () => { await db?.close(); });
 
-test('sources: WBA, IBF, WBO approved with recorded reviews; WBC not licensed; vocabulary seeded', async () => {
+test('sources: WBC, WBA, IBF, WBO approved with recorded reviews; WBC has no collector yet; vocabulary seeded', async () => {
   const rows = await q(`select source_key, enabled, access_mode, redistribution_allowed from public.boxing_sources where source_key in ('wbc_official','wba_official','ibf_official','wbo_official') order by 1`);
   assert.deepEqual(rows.map((r) => [r.source_key, r.enabled, r.access_mode, r.redistribution_allowed]),
-    [['ibf_official', true, 'approved_ingest', false], ['wba_official', true, 'approved_ingest', false], ['wbc_official', false, 'review_required', false], ['wbo_official', true, 'approved_ingest', false]]);
-  assert.equal((await run('wbc')).status, 'blocked', 'no WBC collector exists');
+    [['ibf_official', true, 'approved_ingest', false], ['wba_official', true, 'approved_ingest', false], ['wbc_official', true, 'approved_ingest', false], ['wbo_official', true, 'approved_ingest', false]]);
+  const wbc = await run('wbc');
+  assert.deepEqual([wbc.status, /no collector/.test(wbc.reason)], ['blocked', true], 'approved, but nothing is fetched without a built collector');
+  assert.equal(await n(`public.boxing_source_rights_reviews r join public.boxing_sources s on s.id = r.source_id where s.source_key = 'wbc_official' and r.decision = 'approved_with_restrictions'`), 1);
   assert.ok(await n(`public.boxing_org_designations where review_state = 'seeded'`) >= 15);
-  await assert.rejects(q(`select public.boxing_import_title_status_snapshot('{"source_key":"wbc_official","organization_slug":"wbc","division_native_label":"x"}'::jsonb)`), /source_not_approved/);
+  // the ordinary source gate now admits WBC; an unknown WBC division still goes to review instead of being stored
+  const [odd] = await q(`select public.boxing_import_title_status_snapshot('{"source_key":"wbc_official","organization_slug":"wbc","division_native_label":"x","document_kind":"wbc_ratings"}'::jsonb) as r`);
+  assert.equal(odd.r.reason, 'unknown_division_pending_review');
 });
 
 test('WBA current: own belts per division, rankings with regional tags, claims about other bodies, conflicts between WBA pages kept', async () => {
@@ -78,11 +82,10 @@ test('WBA current: own belts per division, rankings with regional tags, claims a
   await assert.rejects(q(`update public.boxing_title_status_snapshots set source_url = 'x'`), /append-only|not allowed|immutable/i);
 });
 
-test('lanes read: WBC not licensed with labelled claims; WBA current with freshness and its own conflict; undisputed not derivable', async () => {
+test('lanes read: WBC approved with no snapshot and labelled claims; WBA current with freshness and its own conflict; derived pending', async () => {
   const lanes = await store.siteTitleLanes('light_heavyweight', 'male');
   const byBody = Object.fromEntries(lanes.lanes.map((l) => [l.body, l]));
-  assert.deepEqual([byBody.wbc.state, byBody.wbc.documents.length], ['not_licensed', 0]);
-  assert.match(byBody.wbc.note, /not licensed/i);
+  assert.deepEqual([byBody.wbc.state, byBody.wbc.documents.length, byBody.wbc.note], ['no_snapshot', 0, null]);
   assert.ok(byBody.wbc.claims_by_other_bodies.every((c) => c.by !== 'wbc' && c.by));
   assert.equal(byBody.wba.state, 'current');
   assert.ok(byBody.wba.documents.every((d) => d.retrieved_at));
@@ -90,10 +93,10 @@ test('lanes read: WBC not licensed with labelled claims; WBA current with freshn
   assert.ok(byBody.wba.freshness.last_ok_at);
   assert.equal(byBody.wbc.freshness, null);
   assert.equal(byBody.wba.conflicts_within_body.length, 1);
-  assert.deepEqual([lanes.derived.status, lanes.derived.rule], ['not_derivable', 'pbe_undisputed@1']);
-  assert.match(lanes.derived.reason, /WBC/);
+  assert.equal(lanes.derived.rule, 'pbe_undisputed@1');
+  assert.notEqual(lanes.derived.status, 'undisputed');
   const wbcRankings = await store.siteBodyRankings('wbc', 'light_heavyweight', 'male', null);
-  assert.equal(wbcRankings.state, 'not_licensed');
+  assert.equal(wbcRankings.state, 'no_snapshot');
 });
 
 test('fail closed: unexpected WBA structure writes nothing; an unknown designation goes to review and refuses the document', async () => {
@@ -119,6 +122,36 @@ test('fail closed: unexpected WBA structure writes nothing; an unknown designati
   assert.ok(await n('public.boxing_ranking_snapshots') >= rankingsBefore);
 });
 
+test('WBA owner decisions: MINIMUM stored as minimumweight with its native label; GOLD; phrase as honorific only; nameless entry keeps its position', async () => {
+  const mar = 'POST https://www.wbaboxing.com/wba-ranking dates=2026:3:';
+  site.set(mar, wbaRankingHtml({ label: 'MARCH 2026', date: 'March 31st, 2026', extraDivision: 'MINIMUM', namelessLhwAt: 6,
+    fillerDesignations: { 0: 'WBA SUPER CHAMPION <br>WBA UNDISPUTED CHAMPION', 2: 'WBA GOLD CHAMPION' } }));
+  const reviewsBefore = await n('public.boxing_org_identity_reviews');
+  const r = await run('wba', { mode: 'backfill', months: [{ y: 2026, m: 3 }] });
+  assert.equal(r.status, 'ok', JSON.stringify(r.metrics.refused));
+  const [mini] = await q(`select d.native_label, wc.class_key, (select division_label from public.boxing_ranking_snapshots x where x.organization_id = s.organization_id and x.weight_class_id = s.weight_class_id and x.effective_on = '2026-03-31') ranking_label
+    from public.boxing_title_status_snapshots s join public.boxing_org_divisions d on d.id = s.org_division_id join public.boxing_weight_classes wc on wc.id = s.weight_class_id
+    join public.boxing_organizations o on o.id = s.organization_id where o.slug = 'wba' and s.as_of = '2026-03-31' and wc.class_key = 'minimumweight'`);
+  assert.deepEqual([mini.native_label, mini.class_key, mini.ranking_label], ['MINIMUM', 'minimumweight', 'MINIMUM']);
+  const belts = await q(`select wc.class_key, e.tier, e.designation_native, e.honorific from public.boxing_title_status_entries e join public.boxing_title_status_snapshots s on s.id = e.snapshot_id
+    join public.boxing_weight_classes wc on wc.id = s.weight_class_id join public.boxing_organizations o on o.id = s.organization_id
+    where o.slug = 'wba' and s.as_of = '2026-03-31' and wc.class_key in ('heavyweight', 'super_middleweight') order by 1`);
+  assert.deepEqual(belts.map((b) => [b.class_key, b.tier, b.designation_native, b.honorific]),
+    [['heavyweight', 'super', 'WBA SUPER CHAMPION', 'WBA UNDISPUTED CHAMPION'], ['super_middleweight', 'gold', 'WBA GOLD CHAMPION', null]]);
+  const lanes = await store.siteTitleLanes('heavyweight', 'male');
+  assert.notEqual(lanes.derived.status, 'undisputed', 'a WBA phrase never produces PropBetEdge undisputed');
+  const [row] = await q(`select e.position, e.source_name, e.fighter_id, e.metadata ->> 'name_not_printed' np, e.metadata ->> 'source_fighter_id' wba_id, e.metadata ->> 'regional_label' reg
+    from public.boxing_ranking_entries e join public.boxing_ranking_snapshots x on x.id = e.snapshot_id join public.boxing_weight_classes wc on wc.id = x.weight_class_id
+    join public.boxing_organizations o on o.id = x.organization_id where o.slug = 'wba' and x.effective_on = '2026-03-31' and wc.class_key = 'light_heavyweight' and e.position = 6`);
+  assert.deepEqual([row.position, row.source_name, row.fighter_id, row.np, row.wba_id, row.reg], [6, null, null, 'true', '4060', 'CON']);
+  assert.equal(await n(`public.boxing_org_identity_reviews where org_boxer_id = '4060'`), 0, 'a missing name never becomes an identity');
+  assert.ok(await n('public.boxing_org_identity_reviews') >= reviewsBefore);
+  // alone, the phrase still refuses its division's title status for review
+  site.set('POST https://www.wbaboxing.com/wba-ranking dates=2026:2:', wbaRankingHtml({ label: 'FEBRUARY 2026', date: 'February 28th, 2026', fillerDesignations: { 1: 'WBA -WBC UNIFIED CHAMPION' } }));
+  const lone = await run('wba', { mode: 'backfill', months: [{ y: 2026, m: 2 }] });
+  assert.ok(lone.metrics.refused.some((x) => x.reason === 'unknown_designation_pending_review' && x.division === 'CRUISERWEIGHT'), JSON.stringify(lone.metrics.refused));
+});
+
 test('WBA: a division whose numbered list is not 1..n stores its title status but never a ranking', async () => {
   const may = 'POST https://www.wbaboxing.com/wba-ranking dates=2026:5:';
   site.set(may, wbaRankingHtml({ label: 'MAY 2026', date: 'May 31st, 2026' }).replace(/<tr><td class="text-center"><p>1<\/p><\/td>[\s\S]*?<\/tr>/, ''));
@@ -136,7 +169,7 @@ test('WBA: a document that lists one division twice stores nothing for that divi
   site.set(apr, page + wbaDivision(90, 'WELTERWEIGHT', '147 Lbs', champRow('SYNTH SECOND', 'USA', 991, 'WBA WORLD CHAMPION'), '', fifteen('SECONDLIST', 4000)));
   const q2 = `public.boxing_title_status_snapshots s join public.boxing_organizations o on o.id = s.organization_id join public.boxing_weight_classes wc on wc.id = s.weight_class_id
     where o.slug = 'wba' and wc.class_key = 'welterweight' and s.as_of = '2026-04-30'`;
-  const r = await run('wba', { mode: 'backfill', months: [{ y: 2026, m: 4 }] });
+  const r = await run('wba', { mode: 'backfill', months: [{ y: 2026, m: 4 }], retryFailed: true });
   assert.ok(r.metrics.refused.some((x) => x.division === 'welterweight' && x.reason === 'division_listed_twice_in_document'), JSON.stringify(r.metrics.refused));
   assert.equal(await n(q2), 0);
   assert.equal(await n(`public.boxing_ranking_snapshots r join public.boxing_organizations o on o.id = r.organization_id join public.boxing_weight_classes wc on wc.id = r.weight_class_id

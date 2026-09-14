@@ -88,13 +88,12 @@ begin
   results := results || jsonb_build_object('check', 'the_odds_api_approved_without_raw_redistribution', 'ok', n = 1, 'detail', n || ' matching source/review');
   select count(*) into n from public.boxing_sources where enabled and source_key not in ('the_odds_api','wikidata','pbe_boxing_internal','pbe_manual_review',
     'nsac_nevada','florida_athletic_commission','nj_sacb','mo_office_of_athletics','pa_state_athletic_commission','tn_athletic_commission',
-    'wba_official','ibf_official','wbo_official');
+    'wba_official','ibf_official','wbo_official','wbc_official');
   results := results || jsonb_build_object('check', 'no_other_external_feed_enabled', 'ok', n = 0
-      and exists (select 1 from public.boxing_sources where source_key = 'wbc_official' and access_mode <> 'approved_ingest' and not enabled)
       and exists (select 1 from public.boxing_sources where source_key = 'boxrec' and access_mode = 'blocked' and not enabled)
       and exists (select 1 from public.boxing_sources where source_key = 'compubox' and access_mode = 'blocked' and not enabled)
       and exists (select 1 from public.boxing_sources where source_key = 'tdlr_texas' and access_mode = 'reference_only' and not enabled),
-    'detail', n || ' sources enabled outside {the_odds_api, wikidata, internal, nevada/florida/new jersey/missouri/pennsylvania/tennessee commissions, wba/ibf/wbo sanctioning bodies}; wbc not licensed; boxrec+compubox blocked; texas reference_only');
+    'detail', n || ' sources enabled outside {the_odds_api, wikidata, internal, nevada/florida/new jersey/missouri/pennsylvania/tennessee commissions, wbc/wba/ibf/wbo sanctioning bodies}; boxrec+compubox blocked; texas reference_only');
   select count(*) into n from public.boxing_sources s join public.boxing_source_rights_reviews r on r.id = s.latest_rights_review_id
     where s.source_key in ('nsac_nevada','florida_athletic_commission','nj_sacb','mo_office_of_athletics','pa_state_athletic_commission','tn_athletic_commission') and s.enabled and s.access_mode = 'approved_ingest' and not s.redistribution_allowed;
   results := results || jsonb_build_object('check', 'commission_sources_approved_with_reviews', 'ok', n = 6, 'detail', n || ' of 6 commission sources approved with a recorded review');

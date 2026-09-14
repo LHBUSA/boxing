@@ -8,7 +8,7 @@
 
 import { normalizedAlias } from '../identity/normalize.mjs';
 import { diffRankings } from '../rankings/diff.mjs';
-import { BODIES } from '../adapters/sanctioning/vocabulary.mjs';
+import { BODIES, WBA_STATUS_PHRASE } from '../adapters/sanctioning/vocabulary.mjs';
 
 export const SNAPSHOT_RULE = 'pbe-sanctioning-snapshot@0.1.0-dryrun';
 export const DERIVED_UNIFICATION_RULE = 'pbe_undisputed@1';
@@ -34,6 +34,7 @@ function titleFrom(body, divisionKey, c, extra = {}) {
     designation_known: Boolean(d.known),
     status: vacant ? 'vacant' : unknown ? 'unknown' : d.status === 'in_recess' ? 'in_recess' : d.status === 'champion' ? 'held' : 'unknown',
     honorific: d.honorific ?? null,
+    honorific_as_printed: c.honorific_as_printed ?? null,
     holder: vacant || unknown ? null : { source_name: c.source_name, country: c.country ?? null, source_fighter_id: c.wba_id ?? null },
     reign_start: extra.reign_start ?? null,
     mandatory: extra.mandatory ?? null,
@@ -52,8 +53,14 @@ export function wbaRankingSnapshots(parsed, meta) {
   return parsed.divisions.map((d) => ({
     snapshot: snapshotHeader('wba', 'ranking', { ...meta, publishedOn: parsed.published_on, asOfLabel: parsed.as_of_label }),
     division: { key: d.division.weight_class_key, native_label: d.division.native_label, limit_text: d.division.limit_text },
-    titles: d.champions.flatMap((c) => (c.designations.length ? c.designations : [{ native: null, tier: null, status: 'unknown', known: false }])
-      .map((des) => titleFrom('wba', d.division.weight_class_key, { ...c, designation: des }))),
+    titles: d.champions.flatMap((c) => {
+      const phrases = c.designations.filter((x) => WBA_STATUS_PHRASE.test(x.native ?? ''));
+      const lineage = c.designations.filter((x) => !phrases.includes(x));
+      // a phrase rides on a lineage label the row prints itself; with no such label it stays an unresolved designation
+      const honorific = lineage.length && phrases.length ? phrases.map((x) => x.native).join(' / ') : null;
+      const labels = lineage.length ? lineage : phrases.length ? phrases : [{ native: null, tier: null, status: 'unknown', known: false }];
+      return labels.map((des) => titleFrom('wba', d.division.weight_class_key, { ...c, designation: des, honorific_as_printed: honorific }));
+    }),
     ranking: { entries: d.entries.map((e) => ({ ...e, is_vacant: Boolean(e.not_rated) })), outside_numbered_list: [], champions_listed_outside_numbers: true },
     claims_about_other_bodies: [...d.champions.flatMap((c) => c.claims_about_other_bodies.map((x) => ({ ...x, source_name: c.source_name, vacant: false, where: 'champion row' }))),
       ...d.claims_about_other_bodies.map((x) => ({ ...x, where: 'other organizations line' }))],
@@ -191,6 +198,7 @@ export function toRankingDocument(s, { sourceKey }) {
     source_key: sourceKey, organization_slug: s.snapshot.body, division_label: s.division.native_label ?? s.division.key, gender_scope: 'male',
     published_on: s.snapshot.published_on, effective_on: s.snapshot.as_of, source_url: s.snapshot.source_url,
     entries: s.ranking.entries.map((e) => (e.is_vacant ? { position: e.position, rank_label: e.rank_label, is_vacant: true }
-      : { position: e.position, rank_label: e.rank_label, source_name: e.source_name, nationality: e.country ?? null, source_fighter_id: e.wba_id ?? null, designation: e.regional_label ?? null })),
+      : { position: e.position, rank_label: e.rank_label, source_name: e.source_name, nationality: e.country ?? null, source_fighter_id: e.wba_id ?? null, designation: e.regional_label ?? null,
+        ...(e.name_not_printed ? { name_not_printed: true } : {}) })),
   };
 }

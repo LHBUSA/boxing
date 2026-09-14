@@ -8,7 +8,7 @@ const env = { BOXING_INTERNAL_TOKEN: TOKEN };
 const auth = { authorization: `Bearer ${TOKEN}`, 'content-type': 'application/json' };
 
 test('WBC has no collector (not licensed); WBA, IBF and WBO are approved collectors', async () => {
-  assert.equal(rankingAdapters.wbc.state, 'not_licensed');
+  assert.equal(rankingAdapters.wbc.state, 'approved_no_collector');
   await assert.rejects(() => rankingAdapters.wbc.fetchDocuments(), /adapter_disabled/);
   assert.deepEqual(['wba', 'ibf', 'wbo'].map((b) => rankingAdapters[b].state), ['approved', 'approved', 'approved']);
 });

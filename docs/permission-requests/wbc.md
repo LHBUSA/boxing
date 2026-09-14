@@ -1,9 +1,8 @@
-# WBC ratings and title status: permission request. DRAFT, NOT SENT
+# WBC ratings and title status: permission request. SUPERSEDED, NOT SENT
 
-Status (2026-09-14): drafted for owner review under the titles + rankings approval.
-- **Nothing has been sent.** Nobody at the WBC has been contacted.
-- **Nothing here is permission.** `wbc_official` stays `review_required` and disabled. The WBC lane shows "Not licensed" and holds no WBC-collected champion or ranking fact.
-- No WBC page, PDF or feed is fetched, and none is read through search engines, mirrors or another site's copy.
+**Status (2026-09-14, later the same day): superseded.** The owner decided the WBC does not require separate permission for this project; `wbc_official` is `approved_ingest` (migration 20260914000036). This draft is kept only as a record. It is not a blocker and is not required.
+- Nothing was sent.
+- Collection still uses only normally accessible official WBC sources and never circumvents a technical access control.
 
 ## Before sending (owner)
 

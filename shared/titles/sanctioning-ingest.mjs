@@ -161,6 +161,7 @@ export async function persistSnapshot(store, snap, { body, kind, sourceKey, runI
       designation_native: t.native_designation, holder_status: t.status, holder_source_name: t.holder?.source_name ?? null, holder_normalized_name: id.normalized,
       holder_country: t.holder?.country ?? null, holder_org_boxer_id: t.holder?.source_fighter_id ?? null, fighter_id: id.fighter_id,
       reign_start_on: t.reign_start?.on ?? null, reign_start_basis: t.reign_start?.basis ?? null, last_defense_on: t.last_defense_on ?? null,
+      honorific_as_printed: t.honorific_as_printed ?? null,
       previous_holder_as_printed: t.previous_holder_as_printed ?? null, ignored_fields: null, mandatory: t.mandatory ?? null,
     });
   }
@@ -210,13 +211,14 @@ export async function persistRanking(store, snap, { body, kind, sourceKey, retri
   const r = await importRankingDocument(store, { ...doc, entries: [...doc.entries, ...outside], published_on: publishedOn, effective_on: asOf }, {
     weightClassKey: snap.division.key,
     resolveEntry: async (e) => {
+      if (!e.source_name) return null;
       const id = await identities.resolve({ name: e.source_name, country: e.nationality, orgBoxerId: e.source_fighter_id, kind, metrics });
       return id.fighter_id ? { fighter_id: id.fighter_id, method: 'org_identity_review' } : null;
     },
     entryMetadata: (e) => {
       const src = byPosition.get(e.position) ?? {};
       return { regional_label: src.regional_label ?? null, country: src.country ?? null, country_label: src.country_label ?? null, org_boxer_id: src.wba_id ?? null,
-        not_rated: Boolean(src.not_rated), slot_text: src.slot_text ?? null, outside_numbered_list: e.rank_label === '**' };
+        not_rated: Boolean(src.not_rated), slot_text: src.slot_text ?? null, name_not_printed: Boolean(src.name_not_printed), outside_numbered_list: e.rank_label === '**' };
     },
     sourceRecord: { document_kind: kind, as_of_label: asOfLabel, division_native_label: snap.division.native_label, division_limit_text: snap.division.limit_text ?? null,
       retrieved_at: retrievedAt, document_sha256: documentSha256, parser_version: PARSER_VERSIONS[kind], champions_listed_outside_numbers: true, attribution: body.toUpperCase(), request },
@@ -354,7 +356,8 @@ export function monthsBetween(from, to) {
 // retryFailed: months (or IBF divisions) with a recorded failure or refusal are skipped by a normal pass, so a chunked
 // backfill moves forward; a later pass with retryFailed re-reads them (after a review, or a parser fix)
 export async function runSanctioningCollection(store, env, { body, mode = 'current', fetchImpl = fetch, sleep = defaultSleep, months = null, maxRequests = null, now = new Date().toISOString(), provenance = null, extractPdfText = pdfText, retryFailed = false } = {}) {
-  if (!['wba', 'ibf', 'wbo'].includes(body)) return { status: 'blocked', reason: `${body}: no approved collector (WBC is not licensed)` };
+  if (body === 'wbc') return { status: 'blocked', reason: 'wbc: approved source; no collector or parser built yet' };
+  if (!['wba', 'ibf', 'wbo'].includes(body)) return { status: 'blocked', reason: `${body}: no collector` };
   if (env.TITLES_INGEST_ENABLED !== 'true') return { status: 'disabled', reason: 'TITLES_INGEST_ENABLED is not "true"' };
   if (!store?.writeTarget?.verified) return { status: 'blocked', reason: 'store has no verified boxing write target' };
   const sourceKey = `${body}_official`;

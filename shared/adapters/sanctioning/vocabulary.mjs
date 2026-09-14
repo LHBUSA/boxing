@@ -14,6 +14,8 @@ export const DIVISIONS = Object.freeze({
     'SUPER LIGHTWEIGHT': 'super_lightweight', LIGHTWEIGHT: 'lightweight', 'SUPER FEATHERWEIGHT': 'super_featherweight', FEATHERWEIGHT: 'featherweight',
     'SUPER BANTAMWEIGHT': 'super_bantamweight', BANTAMWEIGHT: 'bantamweight', 'SUPER FLYWEIGHT': 'super_flyweight', FLYWEIGHT: 'flyweight',
     'LIGHT FLYWEIGHT': 'light_flyweight', MINIMUMWEIGHT: 'minimumweight',
+    // owner-approved 2026-09-14: WBA wording on its own lists for the same canonical division ("UNKNOWN" stays unmapped)
+    MINIMUM: 'minimumweight', 'MINI FLYWEIGHT': 'minimumweight',
   },
   ibf: {
     heavyweight: 'heavyweight', cruiserweight: 'cruiserweight', 'light-heavyweight': 'light_heavyweight', 'super-middleweight': 'super_middleweight',
@@ -36,7 +38,7 @@ export const DESIGNATIONS = Object.freeze({
     'WBA SUPER CHAMPION': D('super'), 'WBA SUPER WORLD': D('super'),
     'WBA WORLD CHAMPION': D('regular'), 'WBA WORLD': D('regular'),
     'WBA INTERIM CHAMPION': D('interim'), 'INTERIM WBA': D('interim'),
-    'WBA GOLD': D('gold'),
+    'WBA GOLD': D('gold'), 'WBA GOLD CHAMPION': D('gold'),
     // the WBA does not say which of its belts a champion in recess would return to
     'CHAMPION IN RECESS': D(null, 'in_recess'),
   },
@@ -55,6 +57,11 @@ export const DESIGNATIONS = Object.freeze({
 });
 
 export const VACANT_WORDS = /^(TITLE\s+)?VACANT$/i;
+
+// WBA wording such as "WBA UNDISPUTED CHAMPION", "WBA UNIFIED CHAMPION", "WBA -WBC UNIFIED CHAMPION" (owner decision
+// 2026-09-14): source-native status text, never a lineage and never proof of PropBetEdge unified/undisputed. It is kept as
+// the honorific of a lineage the same champion row names independently; alone it stays an unresolved designation.
+export const WBA_STATUS_PHRASE = /\b(UNIFIED|UNDISPUTED)\b/i;
 
 export function designationOf(body, label) {
   const key = String(label ?? '').replace(/\s+/g, ' ').trim().toUpperCase();

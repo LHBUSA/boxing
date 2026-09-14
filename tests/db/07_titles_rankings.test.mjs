@@ -274,6 +274,6 @@ test('title map for a division/date: champions, rankings, mandatories, vacancies
 });
 
 test('ranking import from an unapproved source is refused by the database', async () => {
-  await expectPgError(() => importRankingDocument(store, { ...doc('2026-10-01', [entry(1, '1', 'Sam Rowe')]), source_key: 'wbc_official' }),
-    { code: 'BX010', match: /wbc_official/ });
+  await expectPgError(() => importRankingDocument(store, { ...doc('2026-10-01', [entry(1, '1', 'Sam Rowe')]), source_key: 'boxrec' }),
+    { code: 'BX010', match: /boxrec/ });
 });

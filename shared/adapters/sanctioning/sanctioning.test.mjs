@@ -99,6 +99,26 @@ test('WBA prints an unfilled position as one wide "NOT RATED" cell; WBO history 
   assert.deepEqual([wbo.divisions[0].entries.length, wbo.divisions[0].outside_numbered_list.length], [1, 0]);
 });
 
+test('owner-approved WBA vocabulary: MINIMUM / MINI FLYWEIGHT keep their native text; UNKNOWN stays unmapped; phrases ride on a printed lineage only', () => {
+  for (const label of ['MINIMUM', 'MINI FLYWEIGHT']) assert.deepEqual(divisionOf('wba', label), { native_label: label, weight_class_key: 'minimumweight', known: true });
+  assert.equal(divisionOf('wba', 'UNKNOWN').weight_class_key, null);
+  assert.equal(divisionOf('ibf', 'jr-mini-flyweight').weight_class_key, null, 'not force-mapped');
+  assert.deepEqual([designationOf('wba', 'WBA GOLD CHAMPION').tier, designationOf('wba', 'WBA GOLD CHAMPION').known], ['gold', true]);
+  const page = WBA_RANKING.replace('WBA SUPER CHAMPION <br>WBO-IBF CHAMPION', 'WBA SUPER CHAMPION <br>WBA UNDISPUTED CHAMPION')
+    .replace("champRow('SYNTH BRAVO', 'USA', 12, 'WBA WORLD CHAMPION')", '').replace('WBA INTERIM CHAMPION', 'WBA -WBC UNIFIED CHAMPION');
+  const [lhw] = wbaRankingSnapshots(parseWbaRankingPage(page), meta);
+  const alpha = lhw.titles.filter((t) => t.holder?.source_name === 'SYNTH ALPHA');
+  assert.deepEqual(alpha.map((t) => [t.lineage.tier, t.native_designation, t.honorific_as_printed]), [['super', 'WBA SUPER CHAMPION', 'WBA UNDISPUTED CHAMPION']],
+    'the phrase is the honorific of the lineage the row prints; it is not a belt of its own');
+  const charlie = lhw.titles.filter((t) => t.holder?.source_name === 'SYNTH CHARLIE');
+  assert.deepEqual(charlie.map((t) => [t.lineage.tier, t.native_designation, t.designation_known, t.honorific_as_printed]), [[null, 'WBA -WBC UNIFIED CHAMPION', false, null]],
+    'alone, the phrase stays an unresolved designation (review), never a guessed tier');
+  const nameless = parseWbaRankingPage(WBA_RANKING.replace(rankRow(2, 'SYNTH ECHO', 22, 'C/LA', 'CUB'), rankRow(2, '', 4060, 'CON', ''))).divisions[0].entries[1];
+  assert.deepEqual([nameless.position, nameless.source_name, nameless.name_not_printed, nameless.wba_id], [2, null, true, '4060']);
+  const doc = toRankingDocument(wbaRankingSnapshots(parseWbaRankingPage(WBA_RANKING.replace(rankRow(2, 'SYNTH ECHO', 22, 'C/LA', 'CUB'), rankRow(2, '', 4060, 'CON', ''))), meta)[0], { sourceKey: 'wba_official' });
+  assert.deepEqual([doc.entries[1].source_name, doc.entries[1].name_not_printed, doc.entries[1].source_fighter_id], [null, true, '4060']);
+});
+
 const WBO_TEXT = `WBO MALE\nWORLD\nRATINGS\nAs of August 28, 2026\n=====PAGE=====\nLT. HEAVYWEIGHT\n(175 lbs) (79.38 kgs)\n1. Synth Delta (RUS)\n2. Synth Echo (Int-Cont) (AUS)
 ** Synth Regional (WBO Africa) (TZA)\nSYNTH ALPHA WBA\nIBF\nVACANT WBC\nCHAMPIONS\nSYNTH ALPHA (RUS)\nSYNTH INTERIM (Interim) (GBR)
 MYSTERYWEIGHT\n(99 lbs) (44.91 kgs)\n1. Synth Mystery (JPN)\nCHAMPIONS\nSYNTH SUPER (Sup. Champion) (MEX)`;

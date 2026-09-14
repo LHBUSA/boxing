@@ -22,7 +22,7 @@ const DIVISION_WORDS = [
   ['atomweight', ['atomweight']],
   // sanctioning bodies abbreviate: IBF "LT. HEAVYWEIGHT", "S. MIDDLEWEIGHT", "JR. MIDDLEWEIGHT"; WBO "SUP. MIDDLEWEIGHT",
   // "MINI-FLYWEIGHT". Abbreviated forms must be listed or the bare word ("heavyweight") would match first.
-  ['minimumweight', ['minimumweight', 'strawweight', 'mini flyweight', 'mini fly']],
+  ['minimumweight', ['minimumweight', 'strawweight', 'mini flyweight', 'mini fly', 'minimum']],
   ['light_flyweight', ['light flyweight', 'lt flyweight', 'junior flyweight', 'jr flyweight']],
   ['super_flyweight', ['super flyweight', 's flyweight', 'sup flyweight', 'junior bantamweight', 'jr bantamweight']],
   ['flyweight', ['flyweight']],
@@ -62,7 +62,8 @@ export function validateRankingDocument(doc) {
     if (!Number.isInteger(e.position) || e.position < 1) problems.push(`entry ${i}: position must be a positive integer`);
     if (positions.has(e.position)) problems.push(`entry ${i}: duplicate position ${e.position}`);
     positions.add(e.position);
-    if (!e.is_vacant && !e.source_name) problems.push(`entry ${i}: source_name required unless is_vacant`);
+    if (!e.is_vacant && !e.source_name && !e.name_not_printed) problems.push(`entry ${i}: source_name required unless is_vacant or name_not_printed`);
+    if (e.name_not_printed && (e.source_name || e.is_vacant)) problems.push(`entry ${i}: name_not_printed entry has no name and is not vacant`);
     if (e.is_vacant && e.source_name) problems.push(`entry ${i}: vacant entry cannot name a boxer`);
     if (e.mandatory != null && typeof e.mandatory !== 'boolean') problems.push(`entry ${i}: mandatory must be boolean or absent (never inferred)`);
   }
@@ -91,7 +92,9 @@ export async function importRankingDocument(store, doc, { now = new Date().toISO
   for (const e of doc.entries) {
     let fighterId = null;
     let method = null;
-    if (!e.is_vacant && resolveEntry) {
+    if (e.name_not_printed) {
+      // nothing to resolve: a missing printed name never becomes an identity
+    } else if (!e.is_vacant && resolveEntry) {
       const r = await resolveEntry(e);
       if (r?.fighter_id) { fighterId = r.fighter_id; method = r.method; } else unresolved.push({ position: e.position, source_name: e.source_name, reason: 'held_for_identity_review' });
     } else if (!e.is_vacant) {
@@ -121,7 +124,7 @@ export async function importRankingDocument(store, doc, { now = new Date().toISO
       mandatory: e.mandatory ?? null,
       is_vacant: Boolean(e.is_vacant),
       is_champion: Boolean(e.is_champion),
-      metadata: { resolution: method, nationality: e.nationality ?? null, source_fighter_id: e.source_fighter_id ?? null, ...(entryMetadata ? entryMetadata(e) : {}) },
+      metadata: { resolution: method, nationality: e.nationality ?? null, source_fighter_id: e.source_fighter_id ?? null, ...(e.name_not_printed ? { name_not_printed: true } : {}), ...(entryMetadata ? entryMetadata(e) : {}) },
     });
   }
 

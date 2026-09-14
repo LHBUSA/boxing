@@ -1,6 +1,6 @@
 # Titles and rankings (issue #2)
 
-**Status:** built and tested. Since 2026-09-14 WBA, IBF and WBO official sources are approved and collected on staging; WBC is not licensed. Ingestion, the four-lane Title Map and body-native rankings are described in [TITLES_RANKINGS_INGESTION.md](TITLES_RANKINGS_INGESTION.md).
+**Status:** built and tested. Since 2026-09-14 all four official sources (WBC, WBA, IBF, WBO) are approved; WBA, IBF and WBO are collected on staging, and the WBC collector is not built yet. Ingestion, the four-lane Title Map and body-native rankings are described in [TITLES_RANKINGS_INGESTION.md](TITLES_RANKINGS_INGESTION.md).
 
 There is no `fighter.current_belt`. Belts are a historical graph.
 
@@ -92,7 +92,7 @@ Internal route: `GET /internal/v1/title-map?weight_class=&gender=&as_of=` on `bo
 | Source | State |
 |---|---|
 | `wba_official`, `ibf_official`, `wbo_official` | `approved_ingest`, enabled (owner approval 2026-09-14, rights reviews in migration 0033). Facts only, attributed, no redistribution of copied HTML/PDF |
-| `wbc_official` | `review_required`, disabled: **not licensed**. No collector exists; scheduled runs record `blocked`; the database refuses its imports (`BX010`). Permission request drafted, not sent: [permission-requests/wbc.md](permission-requests/wbc.md) |
+| `wbc_official` | `approved_ingest`, enabled (owner decision 2026-09-14, rights review in migration 0036). Same posture as the other bodies. No WBC collector or parser is built yet, so scheduled runs record `blocked` with that reason |
 
 Test fixtures stay synthetic.
 

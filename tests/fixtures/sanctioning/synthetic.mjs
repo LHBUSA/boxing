@@ -14,14 +14,16 @@ export const fifteen = (prefix, idBase, extra = {}) => Array.from({ length: 15 }
 
 // WBA ranking page: light heavyweight (three WBA belts), lightweight (vacant world belt, a commented recess row),
 // plus filler divisions so the page passes the structure check (>= 10 divisions)
-export function wbaRankingHtml({ label = 'AUGUST 2026', date = 'August 31st, 2026', lhwRegular = 'SYNTH BRAVO', extraDesignation = null, extraDivision = null } = {}) {
+export function wbaRankingHtml({ label = 'AUGUST 2026', date = 'August 31st, 2026', lhwRegular = 'SYNTH BRAVO', extraDesignation = null, extraDivision = null, fillerDesignations = {}, namelessLhwAt = null } = {}) {
   const fillers = ['HEAVYWEIGHT', 'CRUISERWEIGHT', 'SUPER MIDDLEWEIGHT', 'MIDDLEWEIGHT', 'SUPER WELTERWEIGHT', 'WELTERWEIGHT', 'SUPER LIGHTWEIGHT', 'FEATHERWEIGHT', 'BANTAMWEIGHT']
-    .map((d, k) => wbaDivision(10 + k, d, '— Lbs', champRow(`SYNTH FILL${k}`, 'USA', 900 + k, extraDesignation && k === 0 ? extraDesignation : 'WBA WORLD CHAMPION'), '', fifteen(`FILLER${k}`, 1000 + k * 20)));
-  const selector = '<select name="dates"><option value="2026:8:">AUGUST 2026</option><option value="2026:7:">JULY 2026</option><option value="2026:6:">JUNE 2026</option><option value="2026:5:">MAY 2026</option><option value="2026:4:">APRIL 2026</option></select>';
+    .map((d, k) => wbaDivision(10 + k, d, '— Lbs', champRow(`SYNTH FILL${k}`, 'USA', 900 + k, fillerDesignations[k] ?? (extraDesignation && k === 0 ? extraDesignation : 'WBA WORLD CHAMPION')), '', fifteen(`FILLER${k}`, 1000 + k * 20)));
+  const selector = '<select name="dates"><option value="2026:8:">AUGUST 2026</option><option value="2026:7:">JULY 2026</option><option value="2026:6:">JUNE 2026</option><option value="2026:5:">MAY 2026</option><option value="2026:4:">APRIL 2026</option><option value="2026:3:">MARCH 2026</option><option value="2026:2:">FEBRUARY 2026</option></select>';
   return `${selector}<h2 class="post-title"> World Boxing Association Ranking as of ${label} </h2><a>Download WBA Rankings</a><p>${date}</p>`
     + wbaDivision(1, 'LIGHT HEAVYWEIGHT', '175 Lbs / 79,379 Kgs',
       champRow('SYNTH ALPHA', 'RUS', 11, 'WBA SUPER CHAMPION <br>WBO-IBF CHAMPION') + champRow(lhwRegular, 'USA', 12, 'WBA WORLD CHAMPION') + champRow('SYNTH CHARLIE', 'VEN', 13, 'WBA INTERIM CHAMPION'),
-      '<span>WBC</span> <span>SYNTH BRAVO</span> &nbsp;', fifteen('SYNTH RANKED', 100, { 2: 'C/LA' }))
+      '<span>WBC</span> <span>SYNTH BRAVO</span> &nbsp;', namelessLhwAt
+        ? fifteen('SYNTH RANKED', 100, { 2: 'C/LA' }).replace(rankRow(namelessLhwAt, `SYNTH RANKED ${String.fromCharCode(64 + namelessLhwAt)}`, 99 + namelessLhwAt, '', 'USA'), rankRow(namelessLhwAt, '', 4060, 'CON', ''))
+        : fifteen('SYNTH RANKED', 100, { 2: 'C/LA' }))
     + wbaDivision(2, 'LIGHTWEIGHT', '135 Lbs / 61,235 Kgs',
       champRow('VACANT', null, null, 'WBA WORLD CHAMPION') + `<!--${champRow('SYNTH RECESS', 'USA', 14, 'CHAMPION IN RECESS')}-->`,
       '<span>WBC</span> <span>VACANT</span> &nbsp; <span>IBF</span> <span>SYNTH FOXTROT</span> &nbsp; <span>WBO</span> <span>SYNTH GOLF</span> &nbsp;', fifteen('SYNTH LIGHT', 200))

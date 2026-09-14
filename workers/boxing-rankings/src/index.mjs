@@ -7,7 +7,7 @@
 //   GET  /internal/v1/title-map?weight_class=&gender=&as_of=
 //
 // scheduled(): TITLES_INGEST_ENABLED must be "true". Collects the current WBA, WBO and IBF documents (owner approvals
-// 2026-09-14) through runSanctioningCollection, one body after another; records a blocked run for the WBC (not licensed).
+// 2026-09-14) through runSanctioningCollection, one body after another; records a blocked run for any approved body without a collector yet (the WBC, 2026-09-14).
 
 import { guardedPostgrestStore } from '../../../shared/store/target-guard.mjs';
 import { runSanctioningCollection } from '../../../shared/titles/sanctioning-ingest.mjs';
@@ -82,8 +82,8 @@ export function createWorker({ makeStore = (env) => guardedPostgrestStore(env), 
         const r = await collect(store, env, { body, mode: 'current', fetchImpl, provenance });
         results[body] = r.status;
       }
-      for (const adapter of Object.values(adapters).filter((a) => a.state === 'not_licensed')) {
-        const runId = await store.startRun({ worker: 'boxing-rankings', sourceKey: adapter.sourceKey, adapterVersion: `${adapter.key}@not_licensed` });
+      for (const adapter of Object.values(adapters).filter((a) => a.state === 'approved_no_collector')) {
+        const runId = await store.startRun({ worker: 'boxing-rankings', sourceKey: adapter.sourceKey, adapterVersion: `${adapter.key}@no_collector` });
         await store.finishRun(runId, { status: 'blocked', metrics: {}, assertions: { source_policy: adapter.disabled } });
         results[adapter.key] = 'blocked';
       }
