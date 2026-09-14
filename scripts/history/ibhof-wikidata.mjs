@@ -35,7 +35,7 @@ const query = `SELECT ?person ?personLabel ?year ?start ?ibhof ?dob ?image ?enwi
   OPTIONAL { ?st pq:P585 ?year . } OPTIONAL { ?st pq:P580 ?start . }
   OPTIONAL { ?person wdt:P4474 ?ibhof . } OPTIONAL { ?person wdt:P569 ?dob . } OPTIONAL { ?person wdt:P18 ?image . }
   OPTIONAL { ?enwiki schema:about ?person ; schema:isPartOf <https://en.wikipedia.org/> . }
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en,mul,es,fr,de,ja,pt,it". }
 }`;
 const res = await fetch(`https://query.wikidata.org/sparql?format=json&query=${encodeURIComponent(query)}`, { headers: { 'user-agent': UA, accept: 'application/sparql-results+json' } });
 if (!res.ok) { console.error(`WDQS http ${res.status}`); process.exit(1); }
@@ -105,6 +105,11 @@ select o.id, (select id from pid limit 1), ${r.induction_year}, ${lit(r.category
 from public.boxing_organizations o, public.boxing_sources s
 where o.slug = 'international-boxing-hall-of-fame' and s.source_key = 'wikidata'
 on conflict do nothing;`);
+  // a person first stored before a label existed in the requested languages keeps its QID as a name: repair it
+  if (!/^Q\d+$/.test(r.label)) {
+    sql.push(`update public.boxing_persons p set display_name = ${lit(r.label)}, normalized_name = ${lit(norm(r.label))}
+from public.boxing_person_identities i where i.person_id = p.id and i.namespace = 'wikidata.item' and i.external_id = ${lit(r.qid)} and p.display_name ~ '^Q[0-9]+$';`);
+  }
 }
 sql.push('commit;');
 mkdirSync(out, { recursive: true });

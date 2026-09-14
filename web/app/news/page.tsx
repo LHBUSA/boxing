@@ -39,7 +39,7 @@ function Line({ it }: { it: WireItem }) {
 }
 
 export default async function NewsPage() {
-  const res = await gateway.wire(80);
+  const res = await gateway.wire(40);
   if (!res.ok) return <Unavailable what="The Boxing Desk" />;
   const items = res.data;
   const groups = new Map<string, WireItem[]>();

@@ -223,7 +223,7 @@ export default async function Home() {
             {wire.length ? (
               <div className="blist">{wire.slice(0, 6).map((w, i) => (
                 <Link key={i} href={w.bout ? boutPath(w.bout) : w.event ? eventPath(w.event) : "/news"} className="bline">
-                  <span className="bline__names"><span className="bline__meta"><span className="tag">{w.kind === "result_official" ? "Official result" : w.kind === "scorecards_posted" ? "Scorecards posted" : w.kind === "missed_weight" ? "Missed weight" : "Card change"}</span></span><span style={{ color: "var(--paper)", fontWeight: 600 }}>{w.kind === "result_official" && w.bout ? verdictLine(w.bout) : w.bout?.a && w.bout?.b ? `${w.bout.a.name} vs ${w.bout.b.name}` : w.event?.name}</span></span>
+                  <span className="bline__names"><span className="bline__meta"><span className="tag">{w.kind === "result_official" ? "Official result" : w.kind === "scorecards_posted" ? "Scorecards posted" : w.kind === "missed_weight" ? "Missed weight" : "Card change"}</span></span><span style={{ color: "var(--paper)", fontWeight: 600 }}>{w.kind === "result_official" && w.bout ? verdictLine(w.bout) : w.kind === "missed_weight" ? `${String((w.detail as { fighter?: string }).fighter ?? "")} missed weight` : w.bout?.a && w.bout?.b ? `${w.bout.a.name} vs ${w.bout.b.name}` : w.event?.name}</span></span>
                   <span className="bline__res"><span className="bline__method">{w.event_date ? fmtDate(w.event_date, { year: false }) : ""}</span></span>
                 </Link>
               ))}</div>

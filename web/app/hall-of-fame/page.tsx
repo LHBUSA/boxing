@@ -12,7 +12,12 @@ export default async function HallOfFamePage({ searchParams }: { searchParams: P
   const sp = await searchParams;
   const year = sp.year && /^\d{4}$/.test(sp.year) ? Number(sp.year) : null;
   const category = sp.category && sp.category.length <= 80 ? sp.category : null;
-  const res = await gateway.hallOfFame({ category, year, limit: 600 });
+  const all = !year && !category && sp.year === "all";
+  const facets = await gateway.hallOfFame({ limit: 1 });
+  const latest = facets.ok && facets.data.years.length ? Math.max(...facets.data.years.map((y) => y.year)) : null;
+  // A class at a time by default: never a wall of every inductee.
+  const shownYear = year ?? (category || all ? null : latest);
+  const res = await gateway.hallOfFame({ category, year: shownYear, limit: 600 });
   if (!res.ok) {
     return res.reason === "not_found" || res.reason === "not_configured"
       ? <div className="wrap page"><header className="page-hero"><div className="eyebrow">Hall of Fame</div><h1>Hall of Fame</h1></header><Note title="Induction records are being loaded">Hall of Fame pages show recognized institutions&apos; own induction records once they are on record. PropBetEdge never keeps a Hall of its own.</Note></div>
@@ -29,6 +34,7 @@ export default async function HallOfFamePage({ searchParams }: { searchParams: P
     return `/hall-of-fame${s ? `?${s}` : ""}`;
   };
   const maxYear = Math.max(1, ...d.years.map((y) => y.n));
+  const allYears = facets.ok ? facets.data.years : d.years;
   const byYear = new Map<number, typeof d.rows>();
   for (const r of d.rows) { if (!byYear.has(r.year)) byYear.set(r.year, []); byYear.get(r.year)!.push(r); }
 
@@ -55,8 +61,8 @@ export default async function HallOfFamePage({ searchParams }: { searchParams: P
           {d.categories.map((c) => <Link key={c.label} className={`pill${category === c.label ? " is-on" : ""}`} href={qs({ category: c.label })}>{c.label} · {c.n}</Link>)}
         </div>
         <div className="hof-years mt-2" aria-label="Induction classes by year">
-          {[...d.years].sort((a, b) => a.year - b.year).map((y) => (
-            <Link key={y.year} href={qs({ year: year === y.year ? null : y.year })} className={`hof-year${year === y.year ? " is-on" : ""}`} title={`${y.year}: ${plural(y.n, "inductee")}`}>
+          {[...allYears].sort((a, b) => a.year - b.year).map((y) => (
+            <Link key={y.year} href={qs({ year: y.year })} className={`hof-year${shownYear === y.year ? " is-on" : ""}`} title={`${y.year}: ${plural(y.n, "inductee")}`}>
               <i style={{ height: `${Math.max(8, Math.round((y.n / maxYear) * 100))}%` }} />
               <span>{String(y.year).slice(2)}</span>
             </Link>
@@ -65,7 +71,7 @@ export default async function HallOfFamePage({ searchParams }: { searchParams: P
       </section>
 
       <section className="mt-4">
-        <SecHead kicker={`${plural(d.total, "induction")}${category ? ` · ${category}` : ""}${year ? ` · class of ${year}` : ""}`} title={year ? `Class of ${year}` : "Inductees"} />
+        <SecHead kicker={`${plural(d.total, "induction")}${category ? ` · ${category}` : ""}`} title={shownYear ? `Class of ${shownYear}` : category ?? "All inductees"} action={shownYear || category ? <Link className="link-gold" href="/hall-of-fame?year=all">Every class →</Link> : undefined} />
         {!d.rows.length ? <Note title="No induction matches this filter" /> : null}
         <div style={{ display: "grid", gap: 26 }}>
           {[...byYear.entries()].map(([y, rows]) => (
