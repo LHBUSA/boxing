@@ -48,6 +48,9 @@ export const ibfRecord = (over = {}) => ({
 });
 // heavyweight monthly history: champion, vacancy with a stale date, new champion who leaves the list
 export const IBF_HEAVYWEIGHT_HISTORY = [
+  // older format: printed NOT RATED, a named slot past the 15 the IBF page shows, a champion record with no name
+  ibfRecord({ title: 'IBF: HEAVYWEIGHT &#8211; 04/2026', rating_month: '20260430', post_date: '05/08/2026', champ: ',,;;;;',
+    ratings: `NOT RATED;Synth Next,Cuba (CUB);${Array.from({ length: 13 }, () => 'NOT RATED').join(';')};Synth Hidden,Peru (PER);` }),
   ibfRecord({ title: 'IBF: HEAVYWEIGHT (OVER 200LBS) &#8211; 05/2026', rating_month: '20260531', post_date: '06/08/2026', champ: 'Synth King,Ukraine (UKR),;06/01/2024;;;', ratings: 'Synth Next,Cuba (CUB);;Synth Other,England (ENG)' }),
   ibfRecord({ title: 'IBF: HEAVYWEIGHT (OVER 200LBS) &#8211; 06/2026', rating_month: '20260630', post_date: '07/09/2026', champ: 'TITLE VACANT,,;06/01/2024;;;', ratings: 'Synth Next,Cuba (CUB);;Synth Other,England (ENG)' }),
   ibfRecord({ title: 'IBF: HEAVYWEIGHT (OVER 200LBS) &#8211; 08/2026', rating_month: '20260831', post_date: '09/08/2026', champ: 'Synth Next,Cuba (CUB),;08/29/2026;;;', ratings: ';Synth Other,England (ENG);Synth New,Croatia (HRV)' }),

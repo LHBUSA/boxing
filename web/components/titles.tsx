@@ -28,7 +28,9 @@ export function Freshness({ lane, today }: { lane: TitleLane; today: string }) {
 }
 
 export function Holder({ belt }: { belt: TitleBeltStatus }) {
-  if (belt.status === "vacant" || !belt.holder) return <span className="dim">Vacant</span>;
+  if (belt.status === "vacant") return <span className="dim">Vacant</span>;
+  // a record that names no holder is shown as not stated; it is never read as a vacancy
+  if (!belt.holder?.name) return <span className="dim" title="The body's document names no holder for this belt">Not stated</span>;
   const h = belt.holder;
   if (h.fighter && h.display_name) return <Link className="gold" href={fighterPath({ public_id: h.fighter, name: h.display_name })}>{h.display_name}</Link>;
   // not yet tied to a PropBetEdge fighter: shown exactly as the body prints it, never matched by name

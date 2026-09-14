@@ -144,7 +144,10 @@ test('IBF backfill: every monthly record kept, vacancy without a cause, new hold
     join public.boxing_title_status_entries e on e.snapshot_id = s.id join public.boxing_organizations o on o.id = s.organization_id join public.boxing_weight_classes wc on wc.id = s.weight_class_id
     where o.slug = 'ibf' and wc.class_key = 'heavyweight' order by s.as_of`);
   assert.deepEqual(hw.map((x) => [x.as_of, x.holder_status, x.holder_source_name, x.reign_start_on]),
-    [['2026-05-31', 'held', 'Synth King', '2024-06-01'], ['2026-06-30', 'vacant', null, null], ['2026-08-31', 'held', 'Synth Next', '2026-08-29']]);
+    [['2026-04-30', 'unknown', null, null], ['2026-05-31', 'held', 'Synth King', '2024-06-01'], ['2026-06-30', 'vacant', null, null], ['2026-08-31', 'held', 'Synth Next', '2026-08-29']]);
+  assert.equal(await n(`public.boxing_org_identity_reviews where source_name is null or upper(source_name) = 'NOT RATED' or source_name = 'Synth Hidden'`), 0, 'no identity hold for a missing name, printed NOT RATED, or a slot the IBF does not show');
+  const april = await store.siteBodyRankings('ibf', 'heavyweight', 'male', '2026-04-30');
+  assert.deepEqual([april.snapshot.entries.length, april.snapshot.entries.filter((e) => e.metadata.not_rated).length], [15, 14]);
   const proposals = await q(`select p.change_type, p.previous_holder_source_name, p.holder_source_name, p.cause_as_stated from public.boxing_title_event_proposals p
     join public.boxing_organizations o on o.id = p.organization_id join public.boxing_weight_classes wc on wc.id = p.weight_class_id where o.slug = 'ibf' and wc.class_key = 'heavyweight' order by p.created_at`);
   assert.deepEqual(proposals.map((p) => [p.change_type, p.previous_holder_source_name, p.holder_source_name, p.cause_as_stated]),
@@ -154,7 +157,7 @@ test('IBF backfill: every monthly record kept, vacancy without a cause, new hold
   assert.equal(rank.state, 'current');
   assert.deepEqual(rank.snapshot.entries.slice(0, 2).map((e) => [e.position, e.source_name, e.is_vacant, e.metadata.not_rated]), [[1, null, true, true], [2, 'Synth Other', false, false]]);
   assert.equal(rank.champions.belts[0].holder.name, 'Synth Next', 'champion shown above the list');
-  assert.equal(rank.history.length, 3);
+  assert.equal(rank.history.length, 4);
   const checkpoint = (await q(`select completed from public.boxing_source_backfill_checkpoints where source_key = 'ibf_official'`))[0];
   assert.equal(checkpoint.completed.length, 17);
   const resumed = await run('ibf', { mode: 'backfill' });

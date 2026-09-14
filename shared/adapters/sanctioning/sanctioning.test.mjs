@@ -70,6 +70,20 @@ test('IBF record: dates as published, NOT RATED slots, dates on a vacant record 
   assert.deepEqual([vacant.champions[0].vacant, vacant.champions[0].title_won_on, vacant.champions[0].ignored_fields.title_won], [true, null, '2025-06-07']);
 });
 
+test('IBF older records follow the IBF page: printed NOT RATED, only 15 slots shown, a nameless champion is not stated (not vacant)', () => {
+  const names = Array.from({ length: 16 }, (_, i) => `Synth Old${i},United States (USA)`);
+  const r = parseIbfRecord(ibfRecord({ title: 'IBF: HEAVYWEIGHT &#8211; 01/2006', rating_month: '20060101', champ: ',,;;;;',
+    ratings: ['NOT RATED', ...names.slice(1, 15), names[15], 'NOT RATED', ''].join(';') }), { weightSlug: 'heavyweight' });
+  assert.equal(r.entries.length, 15);
+  assert.deepEqual([r.entries[0].source_name, r.entries[0].not_rated], [null, true], 'the words NOT RATED are never a boxer');
+  assert.deepEqual(r.slots_not_shown, ['Synth Old15'], 'a named slot past 15 is noted, never ranked');
+  assert.deepEqual(r.champions.map((c) => [c.source_name, c.vacant, c.holder_unknown]), [[null, false, true]]);
+  const snap = ibfSnapshot(r, { sourceUrl: 'x', retrievedAt: '2026-09-14T00:00:00Z', contentSha256: 'x' });
+  assert.deepEqual(snap.titles.map((t) => [t.status, t.holder]), [['unknown', null]]);
+  assert.ok(snap.warnings.some((w) => /slots past 15/.test(w)));
+  assert.deepEqual(titleStatusChanges({ titles: snap.titles }, { titles: [{ ...snap.titles[0], status: 'held', holder: { source_name: 'Synth Later' } }] }).title_changes, [], 'not stated -> held proposes nothing');
+});
+
 const WBO_TEXT = `WBO MALE\nWORLD\nRATINGS\nAs of August 28, 2026\n=====PAGE=====\nLT. HEAVYWEIGHT\n(175 lbs) (79.38 kgs)\n1. Synth Delta (RUS)\n2. Synth Echo (Int-Cont) (AUS)
 ** Synth Regional (WBO Africa) (TZA)\nSYNTH ALPHA WBA\nIBF\nVACANT WBC\nCHAMPIONS\nSYNTH ALPHA (RUS)\nSYNTH INTERIM (Interim) (GBR)
 MYSTERYWEIGHT\n(99 lbs) (44.91 kgs)\n1. Synth Mystery (JPN)\nCHAMPIONS\nSYNTH SUPER (Sup. Champion) (MEX)`;

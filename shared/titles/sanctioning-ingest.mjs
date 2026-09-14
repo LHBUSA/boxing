@@ -145,7 +145,8 @@ export async function holdUnknownDivision(store, { body, kind, sourceKey, native
 export async function persistSnapshot(store, snap, { body, kind, sourceKey, runId, retrievedAt, documentSha256, identities, metrics, divisionNativeLabel, asOf, publishedOn, asOfLabel, pairWith = [] }) {
   const entries = [];
   for (const t of snap.titles) {
-    const id = t.status === 'vacant' ? { fighter_id: null, normalized: null } : await identities.resolve({ name: t.holder.source_name, country: t.holder.country, orgBoxerId: t.holder.source_fighter_id, kind, metrics });
+    // a vacancy, or a record that names no holder, has no identity to resolve or hold
+    const id = t.status === 'vacant' || !t.holder?.source_name ? { fighter_id: null, normalized: null } : await identities.resolve({ name: t.holder.source_name, country: t.holder.country, orgBoxerId: t.holder.source_fighter_id, kind, metrics });
     entries.push({
       designation_native: t.native_designation, holder_status: t.status, holder_source_name: t.holder?.source_name ?? null, holder_normalized_name: id.normalized,
       holder_country: t.holder?.country ?? null, holder_org_boxer_id: t.holder?.source_fighter_id ?? null, fighter_id: id.fighter_id,

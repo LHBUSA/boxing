@@ -27,13 +27,14 @@ export function mandatoryStatement(asPrinted, { dueOn = null, basis }) {
 function titleFrom(body, divisionKey, c, extra = {}) {
   const d = c.designation ?? {};
   const vacant = Boolean(c.vacant);
+  const unknown = Boolean(c.holder_unknown);
   return {
     lineage: { body, division_key: divisionKey, tier: d.tier ?? null },
     native_designation: d.native ?? null,
     designation_known: Boolean(d.known),
-    status: vacant ? 'vacant' : d.status === 'in_recess' ? 'in_recess' : d.status === 'champion' ? 'held' : 'unknown',
+    status: vacant ? 'vacant' : unknown ? 'unknown' : d.status === 'in_recess' ? 'in_recess' : d.status === 'champion' ? 'held' : 'unknown',
     honorific: d.honorific ?? null,
-    holder: vacant ? null : { source_name: c.source_name, country: c.country ?? null, source_fighter_id: c.wba_id ?? null },
+    holder: vacant || unknown ? null : { source_name: c.source_name, country: c.country ?? null, source_fighter_id: c.wba_id ?? null },
     reign_start: extra.reign_start ?? null,
     mandatory: extra.mandatory ?? null,
     last_defense_on: extra.last_defense_on ?? null,
@@ -79,7 +80,8 @@ export function ibfSnapshot(record, meta) {
     })),
     ranking: { entries: record.entries.map((e) => ({ ...e, is_vacant: Boolean(e.not_rated) })), outside_numbered_list: [], champions_listed_outside_numbers: true },
     claims_about_other_bodies: record.claims_about_other_bodies.map((x) => ({ ...x, where: 'rating record wba/wbc/wbo fields' })),
-    warnings: record.champions.filter((c) => c.ignored_fields).map((c) => `ignored ${JSON.stringify(c.ignored_fields)}`),
+    warnings: [...record.champions.filter((c) => c.ignored_fields).map((c) => `ignored ${JSON.stringify(c.ignored_fields)}`),
+      ...(record.slots_not_shown ? [`slots past 15, not shown by the IBF page: ${JSON.stringify(record.slots_not_shown)}`] : [])],
   };
 }
 
