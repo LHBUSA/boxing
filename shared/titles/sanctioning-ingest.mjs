@@ -206,7 +206,7 @@ export async function persistRanking(store, snap, { body, kind, sourceKey, retri
     entryMetadata: (e) => {
       const src = byPosition.get(e.position) ?? {};
       return { regional_label: src.regional_label ?? null, country: src.country ?? null, country_label: src.country_label ?? null, org_boxer_id: src.wba_id ?? null,
-        not_rated: Boolean(src.not_rated), outside_numbered_list: e.rank_label === '**' };
+        not_rated: Boolean(src.not_rated), slot_text: src.slot_text ?? null, outside_numbered_list: e.rank_label === '**' };
     },
     sourceRecord: { document_kind: kind, as_of_label: asOfLabel, division_native_label: snap.division.native_label, division_limit_text: snap.division.limit_text ?? null,
       retrieved_at: retrievedAt, document_sha256: documentSha256, parser_version: PARSER_VERSIONS[kind], champions_listed_outside_numbers: true, attribution: body.toUpperCase(), request },

@@ -90,6 +90,10 @@ test('WBA prints an unfilled position as one wide "NOT RATED" cell; WBO history 
   const d = parseWbaRankingPage(html).divisions[0];
   assert.deepEqual(d.entries.map((e) => [e.position, e.source_name, Boolean(e.not_rated)]), [[1, null, true], [2, 'SYNTH ECHO', false]]);
   assert.equal(wbaRankingSnapshots(parseWbaRankingPage(html), { sourceUrl: 'x', retrievedAt: 'x', contentSha256: 'x' })[0].ranking.entries[0].is_vacant, true);
+  const older = parseWbaRankingPage(WBA_RANKING.replace(rankRow(1, 'SYNTH DELTA', 21, '', 'RUS'), '<tr><td class="text-center"><p>1</p></td><td colspan="3"><p> OFFICIAL CHALLENGER VACANT </p></td></tr>')).divisions[0];
+  assert.deepEqual([older.entries[0].not_rated, older.entries[0].slot_text], [true, 'OFFICIAL CHALLENGER VACANT'], 'kept as printed; no challenger is inferred');
+  const other = parseWbaRankingPage(WBA_RANKING.replace(rankRow(1, 'SYNTH DELTA', 21, '', 'RUS'), '<tr><td class="text-center"><p>1</p></td><td colspan="3"><p> SEE NOTE </p></td></tr>')).divisions[0];
+  assert.equal(other.entries[0].position, 2, 'unrecognised wide-cell text is not read (the structure check then fails closed)');
   const wbo = parseWboHistoryHtml('<h1>WORLD BOXING ORGANIZATION MALE RANKING AUGUST 2026</h1><table class="ranking table"><tr><td class="title-weight text-center">BANTAMWEIGHT (118 lbs)</td></tr>'
     + '<tr><td>1</td><td>SYNTH ONE</td><td>USA</td></tr><tr><td>**</td><td></td><td></td></tr></table>');
   assert.deepEqual([wbo.divisions[0].entries.length, wbo.divisions[0].outside_numbered_list.length], [1, 0]);

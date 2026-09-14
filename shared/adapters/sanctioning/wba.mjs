@@ -56,9 +56,10 @@ export function parseWbaRankingPage(html) {
     for (const row of [...rankTable.matchAll(/<tr>([\s\S]*?)<\/tr>/g)].map((r) => r[1])) {
       if (/otherorgs/.test(row)) continue;
       const cells = [...row.matchAll(/<td[^>]*>([\s\S]*?)<\/td>/g)].map((c) => c[1]);
-      // an unfilled position is printed as one wide cell: "1 | NOT RATED" (colspan=3)
-      if (cells.length === 2 && /^\d+$/.test(decode(cells[0])) && /^not\s+rated$/i.test(decode(cells[1]))) {
-        entries.push({ position: Number(decode(cells[0])), rank_label: decode(cells[0]), source_name: null, not_rated: true, wba_id: null, regional_label: null, country: null });
+      // an unfilled position is printed as one wide cell: "1 | NOT RATED" or, on older lists, "1 | OFFICIAL CHALLENGER VACANT"
+      // (colspan=3). Kept as an unfilled slot with the words as printed; any other wide-cell text is not read.
+      if (cells.length === 2 && /^\d+$/.test(decode(cells[0])) && /^not\s+rated$|\bvacant\b/i.test(decode(cells[1]))) {
+        entries.push({ position: Number(decode(cells[0])), rank_label: decode(cells[0]), source_name: null, not_rated: true, slot_text: decode(cells[1]), wba_id: null, regional_label: null, country: null });
         continue;
       }
       if (cells.length < 4 || !/^\d+$/.test(decode(cells[0]))) continue;

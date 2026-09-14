@@ -15,7 +15,7 @@ const titleCase = (s: string) => s.toLowerCase().replace(/\b\w/g, (c) => c.toUpp
 const notRated = (e: RankingEntry) => Boolean(e.metadata?.not_rated || (e.is_vacant && !e.source_name));
 
 function Who({ e }: { e: RankingEntry }) {
-  if (notRated(e)) return <span>NOT RATED</span>;
+  if (notRated(e)) return <span>{e.metadata?.slot_text ?? "NOT RATED"}</span>;
   if (e.public_id && e.display_name) return <Link href={fighterPath({ public_id: e.public_id, name: e.display_name })}>{e.display_name}</Link>;
   // not yet tied to a PropBetEdge fighter: as printed by the body, never matched by name
   return <span className="lane__asprinted" title="As printed by the body; identity under review">{e.source_name}</span>;

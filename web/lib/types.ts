@@ -319,7 +319,7 @@ export interface TitleLanes {
   derived: { rule: string; label: string; status: "not_derivable" | "pending_complete_holdings"; reason: string | null };
 }
 
-export interface RankingEntry { position: number; rank: number; rank_label: string | null; public_id: string | null; display_name: string | null; source_name?: string | null; designation: string | null; mandatory: boolean | null; is_vacant: boolean | null; is_champion: boolean | null; metadata?: { regional_label?: string | null; country?: string | null; country_label?: string | null; not_rated?: boolean; outside_numbered_list?: boolean } | null }
+export interface RankingEntry { position: number; rank: number; rank_label: string | null; public_id: string | null; display_name: string | null; source_name?: string | null; designation: string | null; mandatory: boolean | null; is_vacant: boolean | null; is_champion: boolean | null; metadata?: { regional_label?: string | null; country?: string | null; country_label?: string | null; not_rated?: boolean; slot_text?: string | null; outside_numbered_list?: boolean } | null }
 export interface RankingsData {
   board: { organizations: SanctioningBody[]; divisions: Division[]; snapshots: { organization_slug: string; class_key: string; published_on: string | null; effective_on: string | null; stored?: number }[] };
   snapshot: RankingSnapshotView | null;
