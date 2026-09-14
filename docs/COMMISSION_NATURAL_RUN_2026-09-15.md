@@ -6,16 +6,15 @@ evidence, and it would change the counts the baseline is compared with.
 | | |
 |---|---|
 | Worker | `boxing-commissions-staging`, cron `40 11 * * *` (UTC) |
-| Version expected at the slot | `41e2e040-addc-499c-a941-1b3e8443b0a5` = main `76890ec` (rollback `5964684e`, then `d3c08e78`) |
+| Version expected at the slot | `b451ad9b-3990-4438-897a-bfa6cc0bc8ad` = main `9a202c4` (rollbacks, newest first: `41e2e040` = `76890ec`, `5964684e` = `bf10259`, `d3c08e78` = `d707522`) |
 | Adapters, in order | `nevada`, `florida`, `new_jersey`, `missouri`, `pennsylvania`, `tennessee`; forward mode; `texas` never fetched |
 | Adapter versions | `nsac-nevada@1.0.2`, `florida-athletic-commission@1.0.2`, `nj-sacb@1.1.1`, `mo-athletics@1.0.0`, `pa-sac@1.0.0`, `tn-athletic@1.0.0` |
 | Identity code at the slot | `boxing-identity-resolver@1.0.0`, `boxing-identity-graph@1.1.0` (`TIER_B_RULES` unchanged since 2026-09-13) |
 | Baseline | `reviews/commissions/2026-09-15-natural-run-baseline.json` (taken 2026-09-14 15:57Z) |
 | Target | Supabase `wpaxofilvbsjyrxrwjhg` only |
 
-Note: main after `76890ec` adds the `fetch_errors` run metric (retry evidence). If that commit is deployed before the
-slot, item 4 below reads it; if not, item 4 is checked from Workers logs and `http_errors` only. Confirm with
-`npx wrangler@4 deployments list --env staging` before running the check.
+`9a202c4` carries the `fetch_errors` run metric that item 4 reads. Confirm `npx wrangler@4 deployments list --env staging`
+still shows `b451ad9b` before running the check; if anything was deployed after it, use that version and commit.
 
 ## 1. Run the check (any time after about 12:00Z)
 
@@ -23,7 +22,7 @@ slot, item 4 below reads it; if not, item 4 is checked from Workers logs and `ht
 pwsh scripts/staging/natural-run-check.ps1 -Check -Baseline reviews/commissions/2026-09-15-natural-run-baseline.json `
   -Slot 2026-09-15T11:40:00Z -Out reviews/commissions/2026-09-15-natural-run-after.json
 pwsh scripts/staging/verify-staging.ps1          # must stay 44/44
-git diff bf10259..<commit of the deployed version> --stat -- shared/identity/graph.mjs shared/identity/resolver.mjs shared/identity/evidence.mjs shared/identity/normalize.mjs shared/identity/appearance.mjs shared/identity/pipeline.mjs
+git diff bf10259..9a202c4 --stat -- shared/identity/graph.mjs shared/identity/resolver.mjs shared/identity/evidence.mjs shared/identity/normalize.mjs shared/identity/appearance.mjs shared/identity/pipeline.mjs
 ```
 
 The script is read-only. It prints one line per adapter run and writes the invocations, runs, deltas and duplicate
