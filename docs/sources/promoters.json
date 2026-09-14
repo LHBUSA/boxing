@@ -1,0 +1,1888 @@
+[
+  {
+    "name": "Matchroom Boxing",
+    "aliases": [
+      "Matchroom Boxing Limited",
+      "Matchroom Sport (parent)",
+      "Matchroom Sport Ltd"
+    ],
+    "wikidata_qid": "Q1786678 (Matchroom Sport, parent; no separate Matchroom Boxing item)",
+    "website": "https://www.matchroomboxing.com/",
+    "pages": {
+      "events": "https://www.matchroomboxing.com/events/",
+      "news": "https://www.matchroomboxing.com/news/",
+      "fighters": "https://www.matchroomboxing.com/boxers-2/",
+      "tickets": "https://www.matchroomboxing.com/tickets/",
+      "parent_about": "https://matchroom.com/about/",
+      "results": null,
+      "media_kit": null
+    },
+    "press_kit": {
+      "url": null,
+      "terms_quote": "No press/media kit or brand-asset page found on matchroomboxing.com or matchroom.com."
+    },
+    "site_terms": {
+      "url": "https://www.matchroomboxing.com/terms-conditions/",
+      "quote": "Page is 'Matchroom Boxing General Terms and Conditions of Entry' (ticket/venue terms), not website terms: \"Nothing in this clause shall entitle any person to use, display, alter, copy or otherwise deal in any manner whatsoever with Matchroom's or the Organiser's intellectual property rights.\" Footer: \"© 2026 Matchroom Boxing all rights reserved\". No website terms of use or anti-scraping clause found."
+    },
+    "robots": "https://www.matchroomboxing.com/robots.txt: 'User-agent: *' with WooCommerce disallows ('Disallow: /wp/wp-admin/', 'Disallow: /*?add-to-cart=') plus Yoast block 'User-agent: * / Disallow:' (i.e. permissive). matchroom.com: 'User-agent: * / Disallow:'.",
+    "founded": {
+      "value": "1982 (Matchroom Sport, parent)",
+      "source": "https://matchroom.com/about/ (\"In 1982, Matchroom Sport was formed in offices in Romford, Essex\"); Wikidata Q1786678 P571 1982-04-23"
+    },
+    "founders": [
+      {
+        "name": "Barry Hearn",
+        "source": "https://en.wikipedia.org/wiki/Matchroom_Sport (\"founded by Barry Hearn\"); Wikidata Q1786678 P112 also lists Eddie Hearn"
+      }
+    ],
+    "executives": [
+      {
+        "name": "Barry Hearn",
+        "role": "President, Matchroom Sport",
+        "source": "https://matchroom.com/about/"
+      },
+      {
+        "name": "Eddie Hearn",
+        "role": "Chairman (Matchroom Sport); head of boxing division",
+        "source": "https://matchroom.com/about/ ('Our Directors': Chairman; \"Led by Eddie Hearn\")"
+      },
+      {
+        "name": "Steve Dawson",
+        "role": "Director (listed under 'Our Directors')",
+        "source": "https://matchroom.com/about/"
+      }
+    ],
+    "commons_logo": {
+      "file_url": "https://en.wikipedia.org/wiki/File:Matchroom_logo.jpeg",
+      "license": "enwiki LOCAL file (not on Commons), tagged {{PD-ineligible-USonly}}; author 'Matchroom Sport'; source Facebook",
+      "reusable_assessment": "Not a Commons file. PD-ineligible-USonly = copyright-free in the US only (may be protected in UK); trademark still applies. Not cleared for our use without owner/legal review."
+    },
+    "executive_portraits": [
+      {
+        "person": "Eddie Hearn",
+        "file_url": "https://commons.wikimedia.org/wiki/File:Eddie_Hearn_Press_Conference_(cropped).jpg",
+        "license": "CC BY-SA 4.0",
+        "author": "JazzyJoeyD",
+        "commons_names_person": true,
+        "note": "Wikidata P18 of Q16728747; crop of an Anthony Joshua press-conference photo; description names 'Promoter Eddie Hearn'"
+      },
+      {
+        "person": "Barry Hearn",
+        "file_url": "https://commons.wikimedia.org/wiki/File:Barry_Hearn_2012.JPG",
+        "license": "CC BY-SA 3.0",
+        "author": "DmitryYakunin",
+        "commons_names_person": true,
+        "note": "Wikidata P18 of Q809044"
+      }
+    ],
+    "youtube": {
+      "url": "https://www.youtube.com/user/MatchroomBoxing",
+      "linked_from_official_site": true
+    },
+    "automation_suitability": "Good technically: WordPress site with /events/ listing and per-event pages; robots permissive; no website ToS prohibiting automated access found (only ticket terms). Facts-only extraction (date/venue/bouts) at low rate is the lowest-friction major-promoter source.",
+    "recommended_state": "approved_ingest",
+    "notes": "Recommendation is conditional on owner sign-off: no explicit permission exists either; the absence of a website ToS is not a licence for images/text. Ingest facts only, never copy imagery/copy.",
+    "evidence_urls": [
+      "https://www.matchroomboxing.com/",
+      "https://www.matchroomboxing.com/terms-conditions/",
+      "https://www.matchroomboxing.com/robots.txt",
+      "https://matchroom.com/about/",
+      "https://www.wikidata.org/wiki/Q1786678",
+      "https://en.wikipedia.org/wiki/File:Matchroom_logo.jpeg",
+      "https://commons.wikimedia.org/wiki/File:Eddie_Hearn_Press_Conference_(cropped).jpg",
+      "https://commons.wikimedia.org/wiki/File:Barry_Hearn_2012.JPG"
+    ]
+  },
+  {
+    "name": "Top Rank",
+    "aliases": [
+      "Top Rank, Inc.",
+      "Top Rank Boxing"
+    ],
+    "wikidata_qid": "Q7824594",
+    "website": "https://toprank.com/",
+    "pages": {
+      "events": "https://toprank.com/events/upcoming",
+      "news": "https://toprank.com/news",
+      "fighters": "https://toprank.com/fighters",
+      "videos": "https://toprank.com/watch",
+      "media_credentials": "https://toprank.com/media-credentials",
+      "leadership": "https://toprank.com/leadership",
+      "about_founder": "https://toprank.com/about-our-founder",
+      "results": null
+    },
+    "press_kit": {
+      "url": "https://toprank.com/media-credentials",
+      "terms_quote": "Media-credentials request page only (\"Credential Confirmations are sent the Friday prior to fight week.\"); no logo/brand kit and no asset reuse terms."
+    },
+    "site_terms": {
+      "url": "https://toprank.com/terms-of-use",
+      "quote": "\"We only grant you a limited revocable license to use the Site for your own non-commercial use\"; \"you will not monitor, gather, copy, or distribute the Content (except as may be a result of standard search engine activity or use of a standard browser) on the Site by using any robot, rover, 'bot', spider, scraper, crawler, spyware, engine, device, software, extraction tool, or any other automatic device\"; Content includes \"trademarks, trade dress, logos\"."
+    },
+    "robots": "https://toprank.com/robots.txt: 'User-agent: * / Disallow:' (allow all) + sitemap. Robots permissive but ToS prohibits bots.",
+    "founded": {
+      "value": "1973",
+      "source": "https://en.wikipedia.org/wiki/Top_Rank (\"incorporated in 1973\"); Wikidata Q7824594 P571"
+    },
+    "founders": [
+      {
+        "name": "Bob Arum",
+        "source": "https://toprank.com/leadership ('Founder and CEO'); https://en.wikipedia.org/wiki/Top_Rank"
+      },
+      {
+        "name": "Jabir Herbert Muhammad",
+        "source": "https://en.wikipedia.org/wiki/Top_Rank (infobox founder list)"
+      }
+    ],
+    "executives": [
+      {
+        "name": "Bob Arum",
+        "role": "Founder and CEO",
+        "source": "https://toprank.com/leadership"
+      },
+      {
+        "name": "Todd duBoef",
+        "role": "President",
+        "source": "https://toprank.com/leadership (Wikidata Q134319450)"
+      },
+      {
+        "name": "Brad Jacobs",
+        "role": "Chief Operating Officer",
+        "source": "https://toprank.com/leadership"
+      },
+      {
+        "name": "Brad Goodman",
+        "role": "Matchmaker",
+        "source": "https://toprank.com/leadership"
+      },
+      {
+        "name": "Bruce Trampler",
+        "role": "Matchmaker",
+        "source": "https://toprank.com/leadership"
+      },
+      {
+        "name": "Carl Moretti",
+        "role": "VP, Boxing Operations",
+        "source": "https://toprank.com/leadership"
+      },
+      {
+        "name": "Dena duBoef",
+        "role": "Executive VP, Special Events",
+        "source": "https://toprank.com/leadership"
+      },
+      {
+        "name": "Jeremy Koegel",
+        "role": "General Counsel & EVP, Business Affairs",
+        "source": "https://toprank.com/leadership"
+      },
+      {
+        "name": "Joleen Legakes",
+        "role": "Chief Financial Officer",
+        "source": "https://toprank.com/leadership"
+      }
+    ],
+    "commons_logo": {
+      "file_url": "https://en.wikipedia.org/wiki/File:Top_Rank_logo.png",
+      "license": "enwiki LOCAL non-free 'Fair use' (NonFree=true); not on Commons",
+      "reusable_assessment": "NOT reusable (enwiki fair-use only)."
+    },
+    "executive_portraits": [
+      {
+        "person": "Bob Arum",
+        "file_url": "https://commons.wikimedia.org/wiki/File:Bob_Arum_cropped.jpg",
+        "license": "Public domain ({{PD-user-en|Cocoruff}})",
+        "author": "Robert Brizel",
+        "commons_names_person": true,
+        "note": "Wikidata P18 of Q887766; description: 'Boxing promoter Bob Arum at the Kelly Pavlik-Sergio Martinez post fight press conference ... April 18, 2010'"
+      }
+    ],
+    "youtube": {
+      "url": "https://www.youtube.com/@toprank",
+      "linked_from_official_site": true
+    },
+    "automation_suitability": "Technically easy (server-rendered Next.js, /events/upcoming), but ToS expressly bans robots/scrapers/crawlers.",
+    "recommended_state": "approved_reference",
+    "notes": "Wikidata P2397 lists channel id UCbzRzJNHx7ZLlJML9BjZQVQ (not cross-checked against @toprank). Use for manual verification of cards only.",
+    "evidence_urls": [
+      "https://toprank.com/terms-of-use",
+      "https://toprank.com/leadership",
+      "https://toprank.com/media-credentials",
+      "https://toprank.com/robots.txt",
+      "https://www.wikidata.org/wiki/Q7824594",
+      "https://en.wikipedia.org/wiki/Top_Rank",
+      "https://commons.wikimedia.org/wiki/File:Bob_Arum_cropped.jpg"
+    ]
+  },
+  {
+    "name": "Golden Boy Promotions",
+    "aliases": [
+      "Golden Boy Promotions, Inc.",
+      "Golden Boy Promotions LLC",
+      "Golden Boy",
+      "GBP"
+    ],
+    "wikidata_qid": "Q1763567",
+    "website": "https://www.goldenboy.com/ (goldenboypromotions.com redirects here)",
+    "pages": {
+      "events": "https://www.goldenboy.com/events/",
+      "past_events": "https://www.goldenboy.com/previous-events/",
+      "news": "https://www.goldenboy.com/news/",
+      "fighters": "https://www.goldenboy.com/fighters/",
+      "press_credentials": "https://www.goldenboy.com/press-credentials/",
+      "about": "https://www.goldenboy.com/about/"
+    },
+    "press_kit": {
+      "url": "https://www.goldenboy.com/press-credentials/",
+      "terms_quote": "Credential request forms only (\"Please Find Press Credential Request Forms Below\"); no brand/logo kit or reuse terms."
+    },
+    "site_terms": {
+      "url": "https://www.goldenboy.com/disclaimer/",
+      "quote": "\"All intellectual property rights to content on this website are vested in Golden Boy Promotions LLC or in third parties...\"; \"Copying, disseminating and any other use of these materials is not permitted without the written permission of Golden Boy Promotions LLC, except and only insofar as otherwise stipulated in regulations of mandatory law (such as the right to quote)\". Footer: \"© 2026 GOLDEN BOY PROMOTIONS, INC. ALL RIGHTS RESERVED.\" No explicit bot clause."
+    },
+    "robots": "https://www.goldenboy.com/robots.txt: 'User-agent: * / Disallow:' (allow all).",
+    "founded": {
+      "value": "2002",
+      "source": "https://www.goldenboy.com/about/ (\"established in 2002 by current Chairman and CEO Oscar De La Hoya\"); Wikidata Q1763567 P571"
+    },
+    "founders": [
+      {
+        "name": "Oscar De La Hoya",
+        "source": "https://www.goldenboy.com/about/; Wikidata Q1763567 P112"
+      }
+    ],
+    "executives": [
+      {
+        "name": "Oscar De La Hoya",
+        "role": "Chairman and CEO",
+        "source": "https://www.goldenboy.com/about/"
+      },
+      {
+        "name": "Eric Gomez",
+        "role": "President",
+        "source": "https://www.goldenboy.com/about/"
+      },
+      {
+        "name": "Bernard Hopkins",
+        "role": "Partner",
+        "source": "https://www.goldenboy.com/about/"
+      }
+    ],
+    "commons_logo": {
+      "file_url": "https://en.wikipedia.org/wiki/File:Golden_Boy_Promotions.gif",
+      "license": "enwiki LOCAL non-free 'Fair use'; not on Commons",
+      "reusable_assessment": "NOT reusable."
+    },
+    "executive_portraits": [
+      {
+        "person": "Oscar De La Hoya",
+        "file_url": "https://commons.wikimedia.org/wiki/File:Oscar_De_La_Hoya_at_Morongo_Casino_(cropped).jpg",
+        "license": "Public domain (U.S. Navy photo)",
+        "author": "U.S. Navy photo (Released)",
+        "commons_names_person": true,
+        "note": "Wikidata P18; desc 'The boxing Promoter Oscar De La Hoya at a event held at the Morongo Casino' (2008)"
+      },
+      {
+        "person": "Oscar De La Hoya",
+        "file_url": "https://commons.wikimedia.org/wiki/File:Oscar_De_La_Hoya_2010.jpg",
+        "license": "CC BY 2.0",
+        "author": "DEWALT POWER TOOLS FIGHT NIGHT CLUB 2010 (Flickr)",
+        "commons_names_person": true,
+        "note": "Wikidata P18"
+      },
+      {
+        "person": "Oscar De La Hoya",
+        "file_url": "https://commons.wikimedia.org/wiki/File:Oscar_De_La_Hoya,_Feb_2011.jpg",
+        "license": "CC BY-SA 2.0",
+        "author": "DEWALT POWER TOOLS FIGHT NIGHT CLUB 2010 (Flickr)",
+        "commons_names_person": true,
+        "note": "Wikidata P18"
+      },
+      {
+        "person": "Oscar De La Hoya",
+        "file_url": "https://commons.wikimedia.org/wiki/File:Oscar_de_la_Hoya_2014_(cropped).jpg",
+        "license": "CC BY 2.0",
+        "author": "Salvation Army USA West (Flickr)",
+        "commons_names_person": true,
+        "note": "enwiki infobox image"
+      }
+    ],
+    "youtube": {
+      "url": "https://www.youtube.com/user/goldenboypromo",
+      "linked_from_official_site": true
+    },
+    "automation_suitability": "Technically easy (WordPress, /events/ and /previous-events/). Disclaimer forbids 'any other use' of materials without written permission; no explicit bot ban.",
+    "recommended_state": "review_required",
+    "notes": null,
+    "evidence_urls": [
+      "https://www.goldenboy.com/about/",
+      "https://www.goldenboy.com/disclaimer/",
+      "https://www.goldenboy.com/press-credentials/",
+      "https://www.goldenboy.com/robots.txt",
+      "https://www.wikidata.org/wiki/Q1763567",
+      "https://en.wikipedia.org/wiki/File:Golden_Boy_Promotions.gif"
+    ]
+  },
+  {
+    "name": "Premier Boxing Champions (PBC)",
+    "aliases": [
+      "PBC",
+      "Premier Boxing Champions",
+      "Haymon (site operator named in ToS)"
+    ],
+    "wikidata_qid": "Q19750818 (typed as television program)",
+    "website": "https://www.premierboxingchampions.com/",
+    "pages": {
+      "schedule": "https://www.premierboxingchampions.com/boxing-schedule",
+      "past_fights": "https://www.premierboxingchampions.com/past-boxing-fights",
+      "news": "https://www.premierboxingchampions.com/boxing-news",
+      "fighters": "https://www.premierboxingchampions.com/fighters",
+      "press_center": "https://presscenter.premierboxingchampions.com/",
+      "press_releases": "https://presscenter.premierboxingchampions.com/press-releases/",
+      "fight_alerts_calendar": "https://pbc.ecal.com"
+    },
+    "press_kit": {
+      "url": "https://presscenter.premierboxingchampions.com/",
+      "terms_quote": "Press Center (press releases, fights, fighters, contacts, photos/videos section); no logo kit or reuse licence text found; links back to main site Terms of Use."
+    },
+    "site_terms": {
+      "url": "https://www.premierboxingchampions.com/terms-of-use",
+      "quote": "\"Haymon owns or has the right to use all of the data, information, trademarks, service marks, text, images...\"; \"Unless otherwise noted, all photographs are licensed by Getty Images.\"; \"You may review, download, and/or print one copy of the Content of this Website, but you may not make more than one copy of such Content, modify it in any way, distribute or transmit it to any other person or company, frame or otherwise display any of the Content ... or make any other use of it.\"; \"You may not use any trademarks or service marks as links\"."
+    },
+    "robots": "https://www.premierboxingchampions.com/robots.txt: 'User-agent: * / Crawl-delay: 10' plus Drupal defaults (Disallow: /admin/, /search/, /user/login/ ...).",
+    "founded": {
+      "value": null,
+      "source": "Not stated as a company founding; enwiki: first PBC card broadcast by NBC on March 7, 2015 (https://en.wikipedia.org/wiki/Premier_Boxing_Champions)"
+    },
+    "founders": [],
+    "executives": [
+      {
+        "name": "Al Haymon",
+        "role": "Manager connected to PBC ('series ... connected to manager Al Haymon')",
+        "source": "https://en.wikipedia.org/wiki/Premier_Boxing_Champions"
+      }
+    ],
+    "commons_logo": {
+      "file_url": "https://commons.wikimedia.org/wiki/File:Logo_of_Premier_Boxing_Champions.svg",
+      "license": "{{PD-textlogo}}; permission field {{trademarked}}; author 'N.B.C.'; source premierboxingchampions.com logo-black.svg; dated 2015-12-01",
+      "reusable_assessment": "Commons treats it as below threshold of originality (public domain, text logo); trademark restrictions remain. 2015-era wordmark - verify it is still current. Usable only as nominative identification after owner review."
+    },
+    "executive_portraits": [],
+    "youtube": {
+      "url": "https://www.youtube.com/c/premierboxingchampions",
+      "linked_from_official_site": true
+    },
+    "automation_suitability": "Schedule page + ecal calendar feed exist; Crawl-delay 10; ToS forbids any use beyond one personal copy.",
+    "recommended_state": "review_required",
+    "notes": "PBC is not itself a licensed promoter per enwiki (Ali Act); commission sheets typically name the licensed promoter (e.g., TGB Promotions). No Commons portrait for Al Haymon; Wikidata has no P18.",
+    "evidence_urls": [
+      "https://www.premierboxingchampions.com/terms-of-use",
+      "https://presscenter.premierboxingchampions.com/",
+      "https://www.premierboxingchampions.com/robots.txt",
+      "https://www.wikidata.org/wiki/Q19750818",
+      "https://commons.wikimedia.org/wiki/File:Logo_of_Premier_Boxing_Champions.svg",
+      "https://en.wikipedia.org/wiki/Premier_Boxing_Champions"
+    ]
+  },
+  {
+    "name": "Most Valuable Promotions (MVP)",
+    "aliases": [
+      "MVP",
+      "MVPW (women's series brand)"
+    ],
+    "wikidata_qid": "Q134876843",
+    "website": "https://www.mostvaluablepromotions.com/",
+    "pages": {
+      "events": "https://www.mostvaluablepromotions.com/events/",
+      "upcoming": "https://www.mostvaluablepromotions.com/events/?filter=upcoming",
+      "past": "https://www.mostvaluablepromotions.com/events/?filter=past",
+      "news": "https://www.mostvaluablepromotions.com/news/",
+      "about": "https://www.mostvaluablepromotions.com/about"
+    },
+    "press_kit": {
+      "url": null,
+      "terms_quote": "No press/media kit or brand page found."
+    },
+    "site_terms": {
+      "url": "https://www.mostvaluablepromotions.com/terms-conditions/",
+      "quote": "Ticket/entry terms (same template as Matchroom): \"Nothing in this clause shall entitle any person to use, display, alter, copy or otherwise deal in any manner whatsoever with Most Valuable Promotions' or the Organiser's intellectual property rights.\" Footer: \"©2026 Most Valuable Promotions. All rights reserved.\""
+    },
+    "robots": "https://www.mostvaluablepromotions.com/robots.txt (Cloudflare managed): \"# As a condition of accessing this website, you agree to abide by the following content signals\"; 'User-agent: * / Content-Signal: search=yes,ai-train=no,use=reference / Allow: /'; 'User-agent: ClaudeBot / Disallow: /' (also GPTBot, CCBot, Google-Extended, Amazonbot, Applebot-Extended, Bytespider, meta-externalagent, CloudflareBrowserRenderingCrawler).",
+    "founded": {
+      "value": "2021",
+      "source": "https://www.mostvaluablepromotions.com/about (\"Co-founded by ... Jake Paul and ... Nakisa Bidarian in 2021\"); Wikidata Q134876843 P571"
+    },
+    "founders": [
+      {
+        "name": "Jake Paul",
+        "source": "https://www.mostvaluablepromotions.com/about"
+      },
+      {
+        "name": "Nakisa Bidarian",
+        "source": "https://www.mostvaluablepromotions.com/about"
+      }
+    ],
+    "executives": [
+      {
+        "name": "Jake Paul",
+        "role": "Co-founder",
+        "source": "https://www.mostvaluablepromotions.com/about"
+      },
+      {
+        "name": "Nakisa Bidarian",
+        "role": "Co-founder",
+        "source": "https://www.mostvaluablepromotions.com/about"
+      },
+      {
+        "name": "John Martin",
+        "role": "CEO (enwiki infobox only; not on official about page)",
+        "source": "https://en.wikipedia.org/wiki/Most_Valuable_Promotions"
+      }
+    ],
+    "commons_logo": {
+      "file_url": "https://commons.wikimedia.org/wiki/File:Most_Valuable_Promotions_Logo.png",
+      "license": "{{PD-textlogo}} + {{Trademarked}}; author 'Most Valuable Promotions'; source tapology.com",
+      "reusable_assessment": "Commons tag says PD-textlogo, but the logo contains a stylised 'MVP' graphic mark, so the tag is arguable; sourced from Tapology; trademarked. Treat as review-required, identification use only."
+    },
+    "executive_portraits": [
+      {
+        "person": "Jake Paul",
+        "file_url": "https://commons.wikimedia.org/wiki/File:Jake_Paul_March_2026_(3x4_cropped).jpg",
+        "license": "Public domain (White House)",
+        "author": "The White House (Joyce N. Boghosian)",
+        "commons_names_person": true,
+        "note": "enwiki infobox image; description names 'podcaster Jake Paul'"
+      },
+      {
+        "person": "Jake Paul",
+        "file_url": "https://commons.wikimedia.org/wiki/File:Jake_Paul_(53116882732).jpg",
+        "license": "CC BY 2.0",
+        "author": "Erik Drost",
+        "commons_names_person": true,
+        "note": "Wikidata P18"
+      },
+      {
+        "person": "Jake Paul",
+        "file_url": "https://commons.wikimedia.org/wiki/File:Jake_Paul_2019.jpg",
+        "license": "CC BY 2.0",
+        "author": "Erik Drost",
+        "commons_names_person": true,
+        "note": "Wikidata P18"
+      }
+    ],
+    "youtube": {
+      "url": "https://www.youtube.com/@Most_Valuable_Promotions",
+      "linked_from_official_site": true
+    },
+    "automation_suitability": "Technically easy (WordPress events filters), but robots.txt explicitly disallows ClaudeBot and sets ai-train=no, use=reference as a stated condition of access.",
+    "recommended_state": "review_required",
+    "notes": "No Commons/Wikidata image for Nakisa Bidarian. Content-Signal 'use=reference' may be read as permitting reference use; owner/legal should decide whether automated schedule collection is acceptable.",
+    "evidence_urls": [
+      "https://www.mostvaluablepromotions.com/about",
+      "https://www.mostvaluablepromotions.com/robots.txt",
+      "https://www.mostvaluablepromotions.com/terms-conditions/",
+      "https://www.wikidata.org/wiki/Q134876843",
+      "https://commons.wikimedia.org/wiki/File:Most_Valuable_Promotions_Logo.png",
+      "https://commons.wikimedia.org/wiki/File:Jake_Paul_March_2026_(3x4_cropped).jpg"
+    ]
+  },
+  {
+    "name": "Queensberry Promotions",
+    "aliases": [
+      "Queensberry",
+      "Queensberry Promotions (Frank Warren)"
+    ],
+    "wikidata_qid": null,
+    "website": "https://queensberry.co.uk/",
+    "pages": {
+      "events": "https://queensberry.co.uk/pages/events",
+      "news": "https://queensberry.co.uk/pages/news",
+      "fighters": "https://queensberry.co.uk/pages/boxers",
+      "tickets": "https://queensberry.co.uk/pages/tickets",
+      "press_accreditation": "https://queensberry.co.uk/pages/press-accreditation",
+      "about": "https://queensberry.co.uk/pages/about-us"
+    },
+    "press_kit": {
+      "url": "https://queensberry.co.uk/pages/press-accreditation",
+      "terms_quote": "Accreditation instructions only (\"please email webstore@queensberry.co.uk with 'Press Accreditation'\"); no logo kit or reuse terms."
+    },
+    "site_terms": {
+      "url": "https://queensberry.co.uk/policies/terms-of-service",
+      "quote": "\"You agree not to reproduce, duplicate, copy, sell, resell or exploit any portion of the Service ... without express written permission by us.\"; prohibited uses include \"(i) to spam, phish, pharm, pretext, spider, crawl, or scrape\". Footer: \"© 2026 - Queensberry.\""
+    },
+    "robots": "https://queensberry.co.uk/robots.txt: Shopify default ('User-agent: * / Allow: /' with cart/checkout rules). File also embeds agent-directed marketing text from Shopify (ignored as data).",
+    "founded": {
+      "value": null,
+      "source": "No founding date on official about page; enwiki 'Queensberry Promotions' redirects to Frank Warren (promoter)"
+    },
+    "founders": [
+      {
+        "name": "Frank Warren",
+        "source": "https://en.wikipedia.org/wiki/Frank_Warren_(promoter) (\"the founder of Queensberry Promotions\")"
+      }
+    ],
+    "executives": [
+      {
+        "name": "Frank Warren",
+        "role": "Promoter (International Hall of Fame Promoter per about page)",
+        "source": "https://queensberry.co.uk/pages/about-us"
+      }
+    ],
+    "commons_logo": {
+      "file_url": null,
+      "license": null,
+      "reusable_assessment": "No Commons logo found."
+    },
+    "executive_portraits": [
+      {
+        "person": "Frank Warren",
+        "file_url": "https://commons.wikimedia.org/wiki/File:Frank_Warren.jpg",
+        "license": "CC BY 3.0 / GFDL (self)",
+        "author": "Paul Barlow (retouch of Vintagekits original)",
+        "commons_names_person": true,
+        "note": "Wikidata P18 of Q1444412 (Depicted Q1444412). CAUTION: derivative of a file originally named 'Allegedly_Fwwank_Warren.jpg' - identity was once doubted; verify before use."
+      },
+      {
+        "person": "Frank Warren",
+        "file_url": "https://commons.wikimedia.org/wiki/File:Frank_Warren_(22-03-2008).jpg",
+        "license": "GFDL / CC BY 3.0 (self)",
+        "author": "Vintagekits",
+        "commons_names_person": true,
+        "note": "Depicted Q1444412; the original of the above"
+      }
+    ],
+    "youtube": {
+      "url": "https://www.youtube.com/channel/UCP3MOjimNiqqkhBcuXzO0RA",
+      "linked_from_official_site": true
+    },
+    "automation_suitability": "Shopify pages for events; ToS explicitly bans spider/crawl/scrape.",
+    "recommended_state": "approved_reference",
+    "notes": "Same YouTube channel id is Wikidata P2397 on Frank Warren (Q1444412). No Wikidata item for the company itself.",
+    "evidence_urls": [
+      "https://queensberry.co.uk/policies/terms-of-service",
+      "https://queensberry.co.uk/pages/press-accreditation",
+      "https://queensberry.co.uk/robots.txt",
+      "https://en.wikipedia.org/wiki/Frank_Warren_(promoter)",
+      "https://commons.wikimedia.org/wiki/File:Frank_Warren.jpg",
+      "https://commons.wikimedia.org/wiki/File:Frank_Warren_(22-03-2008).jpg"
+    ]
+  },
+  {
+    "name": "BOXXER",
+    "aliases": [
+      "Boxxer",
+      "BOXXER Limited"
+    ],
+    "wikidata_qid": "Q108822323",
+    "website": "https://www.boxxer.com/",
+    "pages": {
+      "upcoming_events": "https://www.boxxer.com/tickets/",
+      "previous_events": "https://www.boxxer.com/previous-events/",
+      "news": "https://www.boxxer.com/latest-news/",
+      "fighters": "https://www.boxxer.com/fighters/",
+      "press_media": "https://www.boxxer.com/press-media/",
+      "about": "https://www.boxxer.com/about/"
+    },
+    "press_kit": {
+      "url": "https://www.boxxer.com/press-media/",
+      "terms_quote": "\"All media wishing to apply for media accreditation for BOXXER events, please email press@boxxer.com\" - no asset kit or reuse terms."
+    },
+    "site_terms": {
+      "url": "https://www.boxxer.com/terms-conditions/",
+      "quote": "\"You agree not to reproduce, duplicate, copy, sell, resell or exploit any portion of the Service ... without express written permission by us.\"; prohibited: \"(i) to spam, phish, pharm, pretext, spider, crawl, or scrape\". Footer: \"2026 ©BOXXER Limited.\""
+    },
+    "robots": "https://www.boxxer.com/robots.txt: 'User-agent: * / Disallow: /wp-admin/ / Allow: /wp-admin/admin-ajax.php / Disallow: /cart / Disallow: /checkout / Disallow: /my-account / Disallow: /sign-up'.",
+    "founded": {
+      "value": null,
+      "source": "Not stated on enwiki/Wikidata or official about page"
+    },
+    "founders": [
+      {
+        "name": "Ben Shalom",
+        "source": "https://www.boxxer.com/about/ (\"Founded by the youngest promoter in the UK, Ben Shalom\"); https://en.wikipedia.org/wiki/Boxxer"
+      }
+    ],
+    "executives": [
+      {
+        "name": "Ben Shalom",
+        "role": "Founder",
+        "source": "https://www.boxxer.com/about/"
+      }
+    ],
+    "commons_logo": {
+      "file_url": "https://commons.wikimedia.org/wiki/File:BOXXER_LOGO-04.jpg",
+      "license": "{{PD-textlogo}}; source {{own}}; author User:Stevejhoskins; 2021-02-10",
+      "reusable_assessment": "Visually verified: plain 'BOXXER' wordmark, plausibly below threshold of originality; uploaded as 'own work' by a user, not by BOXXER; trademark applies. Possibly usable for identification after owner review."
+    },
+    "executive_portraits": [],
+    "youtube": {
+      "url": "https://www.youtube.com/channel/UC-DvM-fdpkuy7Cupga3LOOQ",
+      "linked_from_official_site": true
+    },
+    "automation_suitability": "WordPress/Elementor events pages; ToS bans spider/crawl/scrape.",
+    "recommended_state": "approved_reference",
+    "notes": "No Commons/Wikidata portrait for Ben Shalom (Q137653162 has no P18).",
+    "evidence_urls": [
+      "https://www.boxxer.com/about/",
+      "https://www.boxxer.com/terms-conditions/",
+      "https://www.boxxer.com/press-media/",
+      "https://www.boxxer.com/robots.txt",
+      "https://www.wikidata.org/wiki/Q108822323",
+      "https://commons.wikimedia.org/wiki/File:BOXXER_LOGO-04.jpg"
+    ]
+  },
+  {
+    "name": "Probellum",
+    "aliases": [],
+    "wikidata_qid": "Q109597860 (unlabelled company item; P2002/P2003 = probellum)",
+    "website": "https://www.probellum.com/ (not reachable)",
+    "pages": {},
+    "press_kit": {
+      "url": null,
+      "terms_quote": "Site unavailable."
+    },
+    "site_terms": {
+      "url": null,
+      "quote": "Site unavailable: https://www.probellum.com TLS handshake fails; http://probellum.com/ 302-redirects to a safebrowse.io warning page."
+    },
+    "robots": "Not retrievable.",
+    "founded": {
+      "value": "2021 (launched)",
+      "source": "https://en.wikipedia.org/wiki/Richard_Schaefer (\"In 2021, Schaefer launched Probellum, a boxing promotion and media company.\")"
+    },
+    "founders": [
+      {
+        "name": "Richard Schaefer",
+        "source": "https://en.wikipedia.org/wiki/Richard_Schaefer"
+      }
+    ],
+    "executives": [],
+    "commons_logo": {
+      "file_url": null,
+      "license": null,
+      "reusable_assessment": "No Commons logo found."
+    },
+    "executive_portraits": [
+      {
+        "person": "Richard Schaefer",
+        "file_url": "https://commons.wikimedia.org/wiki/File:Richard_Schaefer.jpg",
+        "license": "CC BY-SA 2.0",
+        "author": "Bryan Horowitz (Flickr)",
+        "commons_names_person": true,
+        "note": "Wikidata P18 of Q7328909"
+      }
+    ],
+    "youtube": {
+      "url": null,
+      "linked_from_official_site": false
+    },
+    "automation_suitability": "None - no working official site.",
+    "recommended_state": "unavailable",
+    "notes": "enwiki also says Schaefer joined Anthem Sports Group as president in 2023; current Probellum status unverified. Do not use third-party aggregators as substitutes without approval.",
+    "evidence_urls": [
+      "https://en.wikipedia.org/wiki/Richard_Schaefer",
+      "https://www.wikidata.org/wiki/Q109597860",
+      "https://commons.wikimedia.org/wiki/File:Richard_Schaefer.jpg"
+    ]
+  },
+  {
+    "name": "Riyadh Season / The Ring (Turki Alalshikh events)",
+    "aliases": [
+      "Riyadh Season",
+      "The Ring",
+      "The Ring Magazine FZ-LLC",
+      "Ring (event series: Ring III, Ring IV)",
+      "General Entertainment Authority (GEA) - organiser of Riyadh Season"
+    ],
+    "wikidata_qid": "Q70529561 (Riyadh Season); Q1140774 (The Ring magazine)",
+    "website": "https://www.ringmagazine.com/ (schedule); https://riyadhseason.com/ (festival, JS app)",
+    "pages": {
+      "ring_schedule": "https://www.ringmagazine.com/events",
+      "ring_news": "https://www.ringmagazine.com/news",
+      "gea_news": "https://gea.gov.sa/en/media-center/news/the-ring-iv/",
+      "riyadh_season": "https://riyadhseason.com/"
+    },
+    "press_kit": {
+      "url": null,
+      "terms_quote": "No press/brand kit found on ringmagazine.com; riyadhseason.com is a client-side app (not inspected further)."
+    },
+    "site_terms": {
+      "url": "https://www.ringmagazine.com/terms",
+      "quote": "\"Unless otherwise stated, Ring (or its licensors) owns all intellectual property rights in the Services and all content published through them, including articles, photographs, audio, video, graphics, logos, trade marks, designs, and the Ring Magazine Archive.\"; \"You must not use bots/scrapers/crawlers to extract content except as permitted by public search engines in accordance with robots.\" Footer: \"© 2026 The Ring Magazine FZ-LLC. All Rights Reserved.\" riyadhseason.com terms not retrieved."
+    },
+    "robots": "ringmagazine.com: 'User-Agent: * / Allow: /'. riyadhseason.com: 'User-agent: * / disallow: /profile/ / disallow: /generated-payment/ ...'.",
+    "founded": {
+      "value": "Riyadh Season: October 11, 2019; The Ring: 1922",
+      "source": "https://en.wikipedia.org/wiki/Riyadh_Season (infobox); Wikidata Q1140774 P571"
+    },
+    "founders": [],
+    "executives": [
+      {
+        "name": "Turki Al-Sheikh (Turki Alalshikh)",
+        "role": "Owner, The Ring; Chairman of GEA",
+        "source": "https://en.wikipedia.org/wiki/The_Ring_(magazine) (infobox key_people); https://en.wikipedia.org/wiki/Turki_Al-Sheikh"
+      },
+      {
+        "name": "Rick Reeno",
+        "role": "CEO, The Ring",
+        "source": "https://en.wikipedia.org/wiki/The_Ring_(magazine) (infobox)"
+      }
+    ],
+    "commons_logo": {
+      "file_url": "https://commons.wikimedia.org/wiki/File:Riyadh_Season_Logo.svg",
+      "license": "{{cc-by-4.0}} + {{PD-textlogo}}; author Cergun62, 'Own work based on riyadhseason.com'",
+      "reusable_assessment": "Riyadh Season logo is a user redraw of an official mark that includes stylised Arabic lettering; PD-textlogo claim is arguable; trademarked by a government body. The Ring logo (enwiki File:The_Ring_magazine_logo.jpg) is non-free fair use - NOT reusable."
+    },
+    "executive_portraits": [
+      {
+        "person": "Turki Al-Sheikh",
+        "file_url": "https://commons.wikimedia.org/wiki/File:Turki_Al-Sheikh_(cropped).jpg",
+        "license": "CC BY-SA 4.0",
+        "author": "LaMons",
+        "commons_names_person": true,
+        "note": "Wikidata P18 of Q40353584; 2019 press conference photo"
+      }
+    ],
+    "youtube": {
+      "url": "https://youtube.com/@ringmagazine",
+      "linked_from_official_site": true
+    },
+    "automation_suitability": "ringmagazine.com/events is a usable human schedule, but Ring ToS bans bots/scrapers. Riyadh Season is a JS app; GEA press releases are announcements, not a feed.",
+    "recommended_state": "approved_reference",
+    "notes": "This is an event series/owner, not a licensed promoter; commission sheets name the actual promoter(s). Do not infer promoter relationships from Ring branding.",
+    "evidence_urls": [
+      "https://www.ringmagazine.com/terms",
+      "https://www.ringmagazine.com/events",
+      "https://www.ringmagazine.com/robots.txt",
+      "https://riyadhseason.com/robots.txt",
+      "https://www.wikidata.org/wiki/Q70529561",
+      "https://www.wikidata.org/wiki/Q1140774",
+      "https://commons.wikimedia.org/wiki/File:Riyadh_Season_Logo.svg",
+      "https://commons.wikimedia.org/wiki/File:Turki_Al-Sheikh_(cropped).jpg"
+    ]
+  },
+  {
+    "name": "TGB Promotions",
+    "aliases": [
+      "TGB Promotions, LLC. (Facebook page name)"
+    ],
+    "wikidata_qid": null,
+    "website": null,
+    "pages": {
+      "ibf_usba_promoter_page": "https://www.ibf-usba-boxing.com/promoter/tgb-promotions/",
+      "facebook": "https://www.facebook.com/p/TGB-Promotions-LLC-100067013109714/"
+    },
+    "press_kit": {
+      "url": null,
+      "terms_quote": "No official website found."
+    },
+    "site_terms": {
+      "url": null,
+      "quote": "No official website found (tgbpromotions.com does not resolve)."
+    },
+    "robots": "n/a",
+    "founded": {
+      "value": null,
+      "source": "No official/Wikipedia/Wikidata statement found"
+    },
+    "founders": [],
+    "executives": [],
+    "commons_logo": {
+      "file_url": null,
+      "license": null,
+      "reusable_assessment": "None found."
+    },
+    "executive_portraits": [],
+    "youtube": {
+      "url": null,
+      "linked_from_official_site": false
+    },
+    "automation_suitability": "No official source; PBC schedule/press center covers many TGB-promoted cards but PBC terms restrict use.",
+    "recommended_state": "unavailable",
+    "notes": "Tom Brown is widely reported as president, but no official or Wikipedia/Wikidata page states it, so he is not listed; no Commons portrait found. A forum claim about the meaning of 'TGB' was ignored.",
+    "evidence_urls": [
+      "https://www.ibf-usba-boxing.com/promoter/tgb-promotions/",
+      "https://www.facebook.com/p/TGB-Promotions-LLC-100067013109714/"
+    ]
+  },
+  {
+    "name": "Zuffa Boxing / TKO Boxing",
+    "aliases": [
+      "Zuffa Boxing",
+      "Boxing OpCo, LLC (enwiki: incorporated as)",
+      "TKO Boxing Promotions (enwiki parent, citing NSAC agenda)",
+      "TKO Group Holdings, Inc. (40% owner per enwiki)"
+    ],
+    "wikidata_qid": "Q135938003 (Zuffa Boxing); Q120435068 (TKO Group Holdings)",
+    "website": "https://zuffaboxing.com/ (redirects to /register email-capture page)",
+    "pages": {
+      "register": "https://zuffaboxing.com/register",
+      "anti_doping_program": "https://zuffaboxingadp.com/",
+      "tko_news": "https://tkogrp.com/news/",
+      "tko_press_email": "mailto:press@tkogrp.com",
+      "streaming": "https://www.paramountplus.com/shows/zuffa-boxing/"
+    },
+    "press_kit": {
+      "url": null,
+      "terms_quote": "No press/brand kit found; TKO lists press@tkogrp.com only."
+    },
+    "site_terms": {
+      "url": "https://zuffaboxingadp.com/terms.html (Zuffa Boxing Anti-Doping site; main zuffaboxing.com has no terms page) and https://tkogrp.com/terms-of-use/",
+      "quote": "Zuffa Boxing terms: \"You shall not, and shall not permit any third party to, engage in data scraping, web scraping, crawling, text and data mining, or any other form of automated data extraction from the Services or Contents\"; \"You shall not use any Contents, data, or information obtained from the Services to train, develop, test, improve, or operate any artificial intelligence, machine learning, neural network, algorithm, or other automated system or model\". TKO: \"you agree not to reproduce, duplicate, copy, sell, resell or exploit for any commercial purpose, any portion of the Website or the Contents other than as expressly authorized by TKO Group Holdings in writing.\""
+    },
+    "robots": "zuffaboxing.com/robots.txt returns the HTML app shell (no robots file). tkogrp.com: Yoast 'User-agent: * / Disallow:'.",
+    "founded": {
+      "value": "September 2024",
+      "source": "https://en.wikipedia.org/wiki/Zuffa_Boxing (infobox); inaugural event September 13, 2025 per enwiki lead"
+    },
+    "founders": [
+      {
+        "name": "Dana White",
+        "source": "https://en.wikipedia.org/wiki/Zuffa_Boxing"
+      },
+      {
+        "name": "Turki Al-Sheikh",
+        "source": "https://en.wikipedia.org/wiki/Zuffa_Boxing"
+      }
+    ],
+    "executives": [
+      {
+        "name": "Rakan Alharthy",
+        "role": "CEO & Managing Director, Sela (listed as key person)",
+        "source": "https://en.wikipedia.org/wiki/Zuffa_Boxing"
+      },
+      {
+        "name": "Ari Emanuel",
+        "role": "CEO & Executive Chairman, TKO",
+        "source": "https://en.wikipedia.org/wiki/Zuffa_Boxing"
+      },
+      {
+        "name": "Dana White",
+        "role": "Promoter",
+        "source": "https://en.wikipedia.org/wiki/Zuffa_Boxing"
+      },
+      {
+        "name": "Nick Khan",
+        "role": "Promoter",
+        "source": "https://en.wikipedia.org/wiki/Zuffa_Boxing"
+      },
+      {
+        "name": "Turki Al-Sheikh",
+        "role": "Promoter",
+        "source": "https://en.wikipedia.org/wiki/Zuffa_Boxing"
+      }
+    ],
+    "commons_logo": {
+      "file_url": "https://commons.wikimedia.org/wiki/File:TKO_Group_Holdings_Logo_2025.svg",
+      "license": "TKO Group (parent) logo: {{cc-by-sa-4.0}} + {{PD-textlogo}}; author 'TKO Group Holdings'. Other versions: TKO_Group_Holdings_Logo_2024.svg (PD-textlogo), TKO_Group_Holdings_logo_(Black).svg (PD), TKO_Group_Holdings_logo.svg (CC BY-SA 4.0 only). No Zuffa Boxing logo on Commons.",
+      "reusable_assessment": "Parent (TKO) wordmark only; PD-textlogo versions are plausibly copyright-free in US but trademarked; the CC-BY-SA-only version's licence claim by an uploader on TKO's behalf is doubtful. No Zuffa Boxing mark available."
+    },
+    "executive_portraits": [
+      {
+        "person": "Dana White",
+        "file_url": "https://commons.wikimedia.org/wiki/File:Dana_White_in_June_2025_(cropped).jpg",
+        "license": "CC BY 4.0",
+        "author": "Press Service of the President of the Republic of Azerbaijan",
+        "commons_names_person": true,
+        "note": "Wikidata P18 of Q660297; description 'Ilham Aliyev received Dana White, President of the Ultimate Fighting Championship (UFC)'"
+      },
+      {
+        "person": "Turki Al-Sheikh",
+        "file_url": "https://commons.wikimedia.org/wiki/File:Turki_Al-Sheikh_(cropped).jpg",
+        "license": "CC BY-SA 4.0",
+        "author": "LaMons",
+        "commons_names_person": true,
+        "note": "Wikidata P18 of Q40353584"
+      }
+    ],
+    "youtube": {
+      "url": null,
+      "linked_from_official_site": false
+    },
+    "automation_suitability": "Blocked: terms expressly prohibit scraping, TDM and using Contents to operate any algorithm/automated system; main site is an email-capture page with no schedule.",
+    "recommended_state": "blocked",
+    "notes": "Wikidata P18 on Nick Khan (Q124351939) points to 'Wrestling - Sikeston, MO 1938 - 1.jpg', which does not depict him - do not use. Use commission result sheets (already held) rather than Zuffa sources.",
+    "evidence_urls": [
+      "https://zuffaboxingadp.com/terms.html",
+      "https://tkogrp.com/terms-of-use/",
+      "https://en.wikipedia.org/wiki/Zuffa_Boxing",
+      "https://www.wikidata.org/wiki/Q135938003",
+      "https://www.wikidata.org/wiki/Q120435068",
+      "https://commons.wikimedia.org/wiki/File:TKO_Group_Holdings_Logo_2025.svg",
+      "https://commons.wikimedia.org/wiki/File:Dana_White_in_June_2025_(cropped).jpg"
+    ]
+  },
+  {
+    "name": "Salita Promotions",
+    "aliases": [
+      "Salita Promotions Corp."
+    ],
+    "wikidata_qid": null,
+    "website": "https://www.salitapromotions.com/",
+    "pages": {
+      "events": "https://www.salitapromotions.com/events",
+      "news": "https://www.salitapromotions.com/news",
+      "fighters": "https://www.salitapromotions.com/boxers",
+      "contact": "https://www.salitapromotions.com/contact"
+    },
+    "press_kit": {
+      "url": null,
+      "terms_quote": "No press/brand kit found."
+    },
+    "site_terms": {
+      "url": "https://www.salitapromotions.com/legal/terms-conditions",
+      "quote": "\"Salita Promotions grants you a limited, revocable, non-exclusive, non-transferable license to access and use the Website solely for your personal, informational, and non-commercial use.\"; you may not \"use automated software, bots, crawlers, or scraping tools to collect Website content\"; protected IP includes \"the Salita Promotions name and logo\"."
+    },
+    "robots": "https://www.salitapromotions.com/robots.txt: 'User-Agent: * / Allow: / / Disallow: /api/ / Disallow: /admin'.",
+    "founded": {
+      "value": "2010 (official site); enwiki says Salita became a promoter in April 2011",
+      "source": "https://www.salitapromotions.com/ (\"Salita Promotions was founded in 2010 by Dmitriy Salita\"); https://en.wikipedia.org/wiki/Dmitry_Salita"
+    },
+    "founders": [
+      {
+        "name": "Dmitriy Salita",
+        "source": "https://www.salitapromotions.com/"
+      }
+    ],
+    "executives": [
+      {
+        "name": "Dmitry (Dmitriy) Salita",
+        "role": "President",
+        "source": "https://en.wikipedia.org/wiki/Dmitry_Salita (\"He is the President of Brooklyn, New York-based Salita Promotions\")"
+      }
+    ],
+    "commons_logo": {
+      "file_url": null,
+      "license": null,
+      "reusable_assessment": "No Commons logo found."
+    },
+    "executive_portraits": [
+      {
+        "person": "Dmitry Salita",
+        "file_url": "https://commons.wikimedia.org/wiki/File:Dmitry_Salita_cropped.jpg",
+        "license": "Public domain ({{PD-user-en}})",
+        "author": "Robert Brizel",
+        "commons_names_person": true,
+        "note": "Wikidata P18 of Q2044192; ring photo as a boxer (2010)"
+      },
+      {
+        "person": "Dmitry Salita",
+        "file_url": "https://commons.wikimedia.org/wiki/File:Opening_of_Dmitriy_Salita_Youth_Center.jpg",
+        "license": "CC BY-SA 3.0 (VRT permission ticket 2011122710017853)",
+        "author": "Devik Roitman",
+        "commons_names_person": false,
+        "note": "Group photo; description names the youth center, not an identified individual; in Category:Dmitry Salita only - do not use as a portrait"
+      }
+    ],
+    "youtube": {
+      "url": "https://www.youtube.com/@SalitaPromotions",
+      "linked_from_official_site": true
+    },
+    "automation_suitability": "Modern Next.js site with events pages; ToS expressly bans bots/crawlers/scraping.",
+    "recommended_state": "approved_reference",
+    "notes": null,
+    "evidence_urls": [
+      "https://www.salitapromotions.com/",
+      "https://www.salitapromotions.com/legal/terms-conditions",
+      "https://www.salitapromotions.com/robots.txt",
+      "https://en.wikipedia.org/wiki/Dmitry_Salita",
+      "https://commons.wikimedia.org/wiki/File:Dmitry_Salita_cropped.jpg"
+    ]
+  },
+  {
+    "name": "Sampson Boxing",
+    "aliases": [
+      "Sampson Boxing Online (site title)"
+    ],
+    "wikidata_qid": null,
+    "website": "https://www.sampsonboxing.com/",
+    "pages": {
+      "fighters": "https://www.sampsonboxing.com/fighters.html",
+      "about": "https://www.sampsonboxing.com/sampson_bio.html",
+      "contact": "https://www.sampsonboxing.com/contact.html"
+    },
+    "press_kit": {
+      "url": null,
+      "terms_quote": "None found."
+    },
+    "site_terms": {
+      "url": null,
+      "quote": "No terms page or copyright notice found on homepage."
+    },
+    "robots": "https://www.sampsonboxing.com/robots.txt returns an HTML 'File Not Found' page (404) - no robots file.",
+    "founded": {
+      "value": null,
+      "source": "Not stated"
+    },
+    "founders": [],
+    "executives": [
+      {
+        "name": "Sampson Lewkowicz",
+        "role": "President",
+        "source": "https://en.wikipedia.org/wiki/Sampson_Lewkowicz (\"Lewkowicz is the president of Sampson Boxing\")"
+      }
+    ],
+    "commons_logo": {
+      "file_url": null,
+      "license": null,
+      "reusable_assessment": "None found."
+    },
+    "executive_portraits": [
+      {
+        "person": "Sampson Lewkowicz",
+        "file_url": "https://commons.wikimedia.org/wiki/File:Sampson_Lewkowicz.jpg",
+        "license": "CC BY-SA 3.0",
+        "author": "Davemcarlson",
+        "commons_names_person": true,
+        "note": "Wikidata P18 of Q17388720; 'Sampson Lewkowicz with fan' (2012) - second person present; crop needed"
+      }
+    ],
+    "youtube": {
+      "url": null,
+      "linked_from_official_site": false
+    },
+    "automation_suitability": "Static HTML news page; no event schedule structure. Low value for schedule ingestion.",
+    "recommended_state": "review_required",
+    "notes": null,
+    "evidence_urls": [
+      "https://www.sampsonboxing.com/",
+      "https://www.sampsonboxing.com/sampson_bio.html",
+      "https://en.wikipedia.org/wiki/Sampson_Lewkowicz",
+      "https://commons.wikimedia.org/wiki/File:Sampson_Lewkowicz.jpg"
+    ]
+  },
+  {
+    "name": "Boxing Insider Promotions",
+    "aliases": [
+      "Boxing Insider",
+      "BoxingInsider.com",
+      "BI Promotions"
+    ],
+    "wikidata_qid": null,
+    "website": "https://www.boxinginsider.com/promotions/",
+    "pages": {
+      "results": "https://www.boxinginsider.com/category/promotions/",
+      "promotions_hub": "https://www.boxinginsider.com/promotions/",
+      "general_schedule": "https://www.boxinginsider.com/updated-boxing-schedule/",
+      "contact": "https://www.boxinginsider.com/contact-us/"
+    },
+    "press_kit": {
+      "url": null,
+      "terms_quote": "None found."
+    },
+    "site_terms": {
+      "url": null,
+      "quote": "No terms-of-use link found on homepage; footer \"© 2026 BoxingInsider.com. All rights reserved.\""
+    },
+    "robots": "https://www.boxinginsider.com/robots.txt: 'User-agent: * / Allow: / / Disallow: /wp-json/ / Disallow: /feed/ / Disallow: /search/ ...'; comment '# LLMs.txt https://www.boxinginsider.com/llms.txt'.",
+    "founded": {
+      "value": "Pro series launched late 2022 (official)",
+      "source": "https://www.boxinginsider.com/promotions/ (\"has staged 20 professional boxing events across New York and New Jersey since 2022\")"
+    },
+    "founders": [],
+    "executives": [],
+    "commons_logo": {
+      "file_url": null,
+      "license": null,
+      "reusable_assessment": "None found."
+    },
+    "executive_portraits": [],
+    "youtube": {
+      "url": "https://www.youtube.com/user/boxinginsider",
+      "linked_from_official_site": true
+    },
+    "automation_suitability": "Results are posted as news articles (e.g. 'Boxing Insider 20 Results'), not structured; site is also a general boxing-news outlet, so its schedule page covers other promoters.",
+    "recommended_state": "review_required",
+    "notes": "Larry Goldberg is reported as the promoter in search snippets but was not confirmed on an official page read here, so not listed.",
+    "evidence_urls": [
+      "https://www.boxinginsider.com/promotions/",
+      "https://www.boxinginsider.com/robots.txt"
+    ]
+  },
+  {
+    "name": "Wasserman Boxing",
+    "aliases": [
+      "Wasserman Boxing",
+      "Team Sauerland (predecessor)",
+      "MF Sports / MF Pro (reported 2026 successor)",
+      "Wasserman / The Team (parent, formerly Wasserman Media Group)"
+    ],
+    "wikidata_qid": "Q22078150 (parent Wasserman / The Team); no Wasserman Boxing item",
+    "website": "https://wassermanboxing.com/ (DNS does not resolve)",
+    "pages": {
+      "parent": "https://the.team/"
+    },
+    "press_kit": {
+      "url": null,
+      "terms_quote": "Site unavailable."
+    },
+    "site_terms": {
+      "url": null,
+      "quote": "wassermanboxing.com does not resolve (getaddrinfo failed)."
+    },
+    "robots": "Not retrievable.",
+    "founded": {
+      "value": "Parent founded 2002",
+      "source": "https://en.wikipedia.org/wiki/Wasserman_(company)"
+    },
+    "founders": [
+      {
+        "name": "Casey Wasserman (parent company)",
+        "source": "https://en.wikipedia.org/wiki/Wasserman_(company); Wikidata Q22078150 P112"
+      }
+    ],
+    "executives": [
+      {
+        "name": "Kalle Sauerland",
+        "role": "Global Head of Boxing at Wasserman; co-president of Misfits Boxing (enwiki, may be stale)",
+        "source": "https://en.wikipedia.org/wiki/Kalle_Sauerland"
+      }
+    ],
+    "commons_logo": {
+      "file_url": "https://commons.wikimedia.org/wiki/File:The_team_logo_v2.svg",
+      "license": "Parent 'The Team' logo: {{PD-textlogo}} {{trademark}}",
+      "reusable_assessment": "Parent company wordmark only; not the boxing brand. Not relevant for Wasserman Boxing identification."
+    },
+    "executive_portraits": [
+      {
+        "person": "Kalle Sauerland",
+        "file_url": "https://commons.wikimedia.org/wiki/File:Kalle-Sauerland.jpg",
+        "license": "CC BY 4.0 (as tagged)",
+        "author": "Unknown author (uploaded by Thatch412)",
+        "commons_names_person": true,
+        "note": "Description 'Anglo-German boxing promoter Kalle Sauerland'; SOURCE is a wassermanboxing.com article - licence claim unverified and likely invalid; do not use"
+      },
+      {
+        "person": "Kalle and Nisse Sauerland",
+        "file_url": "https://commons.wikimedia.org/wiki/File:Kalle_and_Nisse_Sauerland.jpg",
+        "license": "CC BY-SA 3.0",
+        "author": "Sauerland Promotion (own work)",
+        "commons_names_person": true,
+        "note": "Two people; 2012"
+      },
+      {
+        "person": "Casey Wasserman",
+        "file_url": "https://commons.wikimedia.org/wiki/File:Casey_Wasserman_2025_(54702622778)_(cropped).jpg",
+        "license": "Public domain (White House)",
+        "author": "Joyce N. Boghosian, Official White House Photographer",
+        "commons_names_person": true,
+        "note": "Named in file title only; description is about a Trump executive order"
+      }
+    ],
+    "youtube": {
+      "url": null,
+      "linked_from_official_site": false
+    },
+    "automation_suitability": "None - site gone.",
+    "recommended_state": "unavailable",
+    "notes": "Trade press (britishboxingnews.co.uk, fightnews.com) reports the stable relaunched as MF Sports/MF Pro under Kalle & Nisse Sauerland in 2026; that successor was not researched here.",
+    "evidence_urls": [
+      "https://en.wikipedia.org/wiki/Kalle_Sauerland",
+      "https://en.wikipedia.org/wiki/Wasserman_(company)",
+      "https://commons.wikimedia.org/wiki/File:Kalle-Sauerland.jpg",
+      "https://britishboxingnews.co.uk/news/sauerlands-mf-sports-wasserman-boxing/"
+    ]
+  },
+  {
+    "name": "Teiken Promotions (Japan)",
+    "aliases": [
+      "帝拳プロモーション",
+      "Teiken Promotions Inc.",
+      "Teiken Boxing Gym / 帝拳ボクシングジム"
+    ],
+    "wikidata_qid": "Q7695027",
+    "website": "https://www.teiken.com/",
+    "pages": {
+      "bout_schedule": "https://www.teiken.com/bout/index.html",
+      "fighters": "https://www.teiken.com/profile/index.html",
+      "about": "https://www.teiken.com/about/index.html"
+    },
+    "press_kit": {
+      "url": null,
+      "terms_quote": "None found."
+    },
+    "site_terms": {
+      "url": null,
+      "quote": "No terms page; footer \"© COPYRIGHT TEIKEN PROMOTIONS INC. ALL RIGHTS RESERVED.\""
+    },
+    "robots": "https://www.teiken.com/robots.txt: 404 (no file).",
+    "founded": {
+      "value": "Official: 設立 昭和21年8月 (August 1946); Wikidata/enwiki: dating back to 1926",
+      "source": "https://www.teiken.com/about/index.html; Wikidata Q7695027 P571 1926"
+    },
+    "founders": [],
+    "executives": [
+      {
+        "name": "Akihiko Honda (本田 明彦)",
+        "role": "Representative Director (代表取締役)",
+        "source": "https://www.teiken.com/about/index.html; enwiki Akihiko Honda: president of Teiken Promotions since 1964"
+      }
+    ],
+    "commons_logo": {
+      "file_url": null,
+      "license": null,
+      "reusable_assessment": "None found."
+    },
+    "executive_portraits": [],
+    "youtube": {
+      "url": null,
+      "linked_from_official_site": false
+    },
+    "automation_suitability": "Single static Japanese HTML page listing upcoming bouts as prose lines (date/venue/bout text); parseable but brittle; no ToS/robots restrictions found.",
+    "recommended_state": "review_required",
+    "notes": null,
+    "evidence_urls": [
+      "https://www.teiken.com/about/index.html",
+      "https://www.teiken.com/bout/index.html",
+      "https://www.wikidata.org/wiki/Q7695027",
+      "https://en.wikipedia.org/wiki/Akihiko_Honda"
+    ]
+  },
+  {
+    "name": "Ohashi Boxing Gym / Ohashi Promotions (Japan)",
+    "aliases": [
+      "大橋ボクシングジム",
+      "株式会社フェニックス・プロモーション / Phoenix Promotion Co. Ltd. (operator per jawiki)",
+      "Ohashi Promotions (enwiki)"
+    ],
+    "wikidata_qid": "Q11436533 (jawiki 大橋ボクシングジム)",
+    "website": "https://www.ohashi-gym.com/",
+    "pages": {
+      "boxers": "https://www.ohashi-gym.com/boxers/",
+      "press": "https://www.ohashi-gym.com/press/",
+      "tickets": "https://ohashi-gym.tstar.jp/"
+    },
+    "press_kit": {
+      "url": "https://www.ohashi-gym.com/press/",
+      "terms_quote": "'Press' is an interview back-number page, not a media kit; no reuse terms."
+    },
+    "site_terms": {
+      "url": null,
+      "quote": "No terms page; footer \"(c) 1996- Phoenix Promotion. All rights reserved.\""
+    },
+    "robots": "https://www.ohashi-gym.com/robots.txt returns an HTML page (no robots file).",
+    "founded": {
+      "value": "1994 (Phoenix Promotion Co. Ltd.)",
+      "source": "https://ja.wikipedia.org/wiki/大橋ボクシングジム (infobox 設立 1994年)"
+    },
+    "founders": [
+      {
+        "name": "Hideyuki Ohashi",
+        "source": "https://en.wikipedia.org/wiki/Hideyuki_Ohashi (\"he created the Ohashi Boxing Gym (Ohashi Promotions)\")"
+      }
+    ],
+    "executives": [
+      {
+        "name": "Hideyuki Ohashi (大橋秀行)",
+        "role": "Representative Director (代表取締役)",
+        "source": "https://ja.wikipedia.org/wiki/大橋ボクシングジム"
+      }
+    ],
+    "commons_logo": {
+      "file_url": null,
+      "license": null,
+      "reusable_assessment": "None found."
+    },
+    "executive_portraits": [],
+    "youtube": {
+      "url": null,
+      "linked_from_official_site": false
+    },
+    "automation_suitability": "Homepage ticker lists upcoming bouts in Japanese prose; no structured schedule; no robots/ToS restrictions found.",
+    "recommended_state": "review_required",
+    "notes": "No Commons/Wikidata image for Hideyuki Ohashi (Q2393428) or Akihiko Honda (Q4700916).",
+    "evidence_urls": [
+      "https://www.ohashi-gym.com/",
+      "https://ja.wikipedia.org/wiki/大橋ボクシングジム",
+      "https://en.wikipedia.org/wiki/Hideyuki_Ohashi"
+    ]
+  },
+  {
+    "name": "Team Boxing League (formerly Team Combat League)",
+    "aliases": [
+      "TBL",
+      "Team Combat League",
+      "TCL"
+    ],
+    "wikidata_qid": null,
+    "website": "https://www.teamboxingleague.com/",
+    "pages": {
+      "events": "https://www.teamboxingleague.com/pages/events",
+      "news": "https://www.teamboxingleague.com/blogs/news",
+      "media": "https://www.teamboxingleague.com/pages/media",
+      "about": "https://www.teamboxingleague.com/pages/about",
+      "stats": "https://www.tblstats.com",
+      "watch": "https://www.teamboxingleague.com/pages/watch-team-boxing-league"
+    },
+    "press_kit": {
+      "url": "https://www.teamboxingleague.com/pages/media",
+      "terms_quote": "Explicit media page: \"Corporate Identity Brand logos and guidelines\" and \"Photos Official TBL press photos\" (Dropbox folder links) plus credentials form. No reuse/licence terms on the page; guideline documents inside Dropbox were not opened. Site ToS: \"Team Boxing League's names, logos, product and service names, designs, and slogans are trademarks of Team Boxing League ... You must not use such trademarks without the prior written permission of Team Boxing League.\""
+    },
+    "site_terms": {
+      "url": "https://www.teamboxingleague.com/policies/terms-of-service",
+      "quote": "\"These Terms permit you to use the Services for your personal, non-commercial use only.\"; you may not \"spam, phish, pharm, pretext, spider, crawl, or scrape\"."
+    },
+    "robots": "https://www.teamboxingleague.com/robots.txt: Shopify default ('User-agent: * / Allow: /').",
+    "founded": {
+      "value": null,
+      "source": "Not stated on official/Wikipedia/Wikidata"
+    },
+    "founders": [],
+    "executives": [
+      {
+        "name": "Kevin Cassidy",
+        "role": "CEO",
+        "source": "https://www.teamboxingleague.com/pages/about"
+      }
+    ],
+    "commons_logo": {
+      "file_url": null,
+      "license": null,
+      "reusable_assessment": "None on Commons; official brand-logo Dropbox exists but trademark use requires prior written permission per ToS."
+    },
+    "executive_portraits": [],
+    "youtube": {
+      "url": "https://www.youtube.com/@teamboxingleague",
+      "linked_from_official_site": true
+    },
+    "automation_suitability": "Shopify pages + separate stats site; ToS bans spider/crawl/scrape. teamcombatleague.tv has an expired TLS certificate.",
+    "recommended_state": "approved_reference",
+    "notes": "teamboxingleague.com/2023/05/ archive is titled 'TCL News', consistent with the rename. Team-format bouts: confirm how commissions record them before ingesting.",
+    "evidence_urls": [
+      "https://www.teamboxingleague.com/pages/media",
+      "https://www.teamboxingleague.com/policies/terms-of-service",
+      "https://www.teamboxingleague.com/pages/about",
+      "https://www.teamboxingleague.com/robots.txt"
+    ]
+  },
+  {
+    "name": "DAZN (broadcaster, not a promoter)",
+    "aliases": [
+      "DAZN Group Limited",
+      "Perform Group (former)"
+    ],
+    "wikidata_qid": "Q30133334",
+    "website": "https://www.dazn.com/ ; corporate https://dazngroup.com/",
+    "pages": {
+      "press_room": "https://dazngroup.com/press-room/",
+      "assets_kit": "https://dazngroup.com/assets-kit/",
+      "team": "https://dazngroup.com/the-team/"
+    },
+    "press_kit": {
+      "url": "https://dazngroup.com/assets-kit/",
+      "terms_quote": "Explicit 'Press Kit' page with downloadable 'DAZN Master logos' and 'DAZN Bet logos' ZIPs, but NO reuse terms on the page. Site T&Cs: \"Material on dazngroup.com ... is solely provided for your personal, non-commercial use. Such material may not be copied, reproduced, republished, uploaded, posted, transmitted, or distributed in any way\". Downloadable is not licensed."
+    },
+    "site_terms": {
+      "url": "https://dazngroup.com/terms-conditions/",
+      "quote": "\"Without the prior written consent of the owner, modification of the materials, use of the materials on any other web site or networked computer environment, or use of the materials for any purpose other than personal, non-commercial use is a violation of the copyrights, trademarks, and other proprietary rights, and is prohibited.\""
+    },
+    "robots": "dazngroup.com: Yoast 'User-agent: * / Disallow:'. www.dazn.com/robots.txt returned no content to our client.",
+    "founded": {
+      "value": "2015-07-08 (DAZN service); company founded 2007 as Perform Group",
+      "source": "Wikidata Q30133334 P571; https://en.wikipedia.org/wiki/DAZN"
+    },
+    "founders": [],
+    "executives": [
+      {
+        "name": "Shay Segev",
+        "role": "CEO",
+        "source": "https://en.wikipedia.org/wiki/DAZN; Wikidata Q30133334 P169"
+      }
+    ],
+    "commons_logo": {
+      "file_url": "https://commons.wikimedia.org/wiki/File:DAZN_Logo_Master.svg",
+      "license": "{{PD-textlogo}} {{Trademark}}; author DAZN Group (also DAZN_Logo_Chalk.svg, DAZN_Logo_Boxed.svg)",
+      "reusable_assessment": "Commons: public-domain text logo, trademarked. Broadcaster mark; could be used nominatively ('on DAZN') after review. The official press-kit ZIPs carry no licence."
+    },
+    "executive_portraits": [],
+    "youtube": {
+      "url": "https://www.youtube.com/channel/UCurvRE5fGcdUgCYWgh-BDsg (Wikidata P2397)",
+      "linked_from_official_site": false
+    },
+    "automation_suitability": "Not a promoter source; schedule is inside the streaming app. Press releases are useful references for rights deals only.",
+    "recommended_state": "approved_reference",
+    "notes": "Never record DAZN as the promoter of a bout.",
+    "evidence_urls": [
+      "https://dazngroup.com/assets-kit/",
+      "https://dazngroup.com/terms-conditions/",
+      "https://dazngroup.com/robots.txt",
+      "https://www.wikidata.org/wiki/Q30133334",
+      "https://commons.wikimedia.org/wiki/File:DAZN_Logo_Master.svg"
+    ]
+  },
+  {
+    "name": "ProBox Promotions / ProBox TV",
+    "aliases": [
+      "ProBoxTV, LLC",
+      "ProBox TV",
+      "Probox Promotions"
+    ],
+    "wikidata_qid": null,
+    "website": "https://proboxtv.com/ (ProBox Promotions site https://proboxpromotions.us/ returned HTTP 500)",
+    "pages": {
+      "tickets_upcoming": "https://proboxtv.com/tickets/",
+      "roster": "https://proboxtv.com/roster/",
+      "how_to_watch": "https://proboxtv.com/how-to-watch/"
+    },
+    "press_kit": {
+      "url": null,
+      "terms_quote": "None found."
+    },
+    "site_terms": {
+      "url": "https://proboxtv.com/terms/",
+      "quote": "\"This site ... is owned or licensed and operated by ProBoxTV, LLC\"; user \"will not use any meta tags, 'hidden text', crawlers, robots, spiders, or other tools, whether manual or automated, to collect, scrape, index, mine, republish, redistribute, transmit, sell, license or download information within the ProBox Services ... without our prior written permission\"."
+    },
+    "robots": "https://proboxtv.com/robots.txt: Yoast 'User-agent: * / Disallow:'.",
+    "founded": {
+      "value": null,
+      "source": "No official/Wikipedia/Wikidata statement read"
+    },
+    "founders": [],
+    "executives": [],
+    "commons_logo": {
+      "file_url": null,
+      "license": null,
+      "reusable_assessment": "None found."
+    },
+    "executive_portraits": [],
+    "youtube": {
+      "url": "https://www.youtube.com/c/ProBoxTV",
+      "linked_from_official_site": true
+    },
+    "automation_suitability": "ToS bans crawlers/scrapers/mining.",
+    "recommended_state": "approved_reference",
+    "notes": "A search snippet of https://proboxpromotions.us/managing-partners/garry-jonas/ calls Garry Jonas 'Chief Executive Officer and Co-Founder of Probox Promotions', but that page returned HTTP 500 twice, so he is NOT listed as a verified executive - re-check later. Commission sheets may say 'ProBox Promotions'; the reachable site is ProBox TV (ProBoxTV, LLC).",
+    "evidence_urls": [
+      "https://proboxtv.com/terms/",
+      "https://proboxtv.com/robots.txt",
+      "https://proboxpromotions.us/managing-partners/garry-jonas/"
+    ]
+  },
+  {
+    "name": "Boogeyman Boxing Promotions",
+    "aliases": [
+      "Boogeyman Promotions (Tapology name)"
+    ],
+    "wikidata_qid": null,
+    "website": null,
+    "pages": {},
+    "press_kit": {
+      "url": null,
+      "terms_quote": "No official website found."
+    },
+    "site_terms": {
+      "url": null,
+      "quote": "No official website found; boogeymanpromotions.com is a parked domain (JS redirect to /lander) and must not be treated as official."
+    },
+    "robots": "n/a",
+    "founded": {
+      "value": null,
+      "source": null
+    },
+    "founders": [],
+    "executives": [],
+    "commons_logo": {
+      "file_url": null,
+      "license": null,
+      "reusable_assessment": "None."
+    },
+    "executive_portraits": [],
+    "youtube": {
+      "url": null,
+      "linked_from_official_site": false
+    },
+    "automation_suitability": "No official source.",
+    "recommended_state": "unavailable",
+    "notes": "Only third-party listing found (Tapology, Sarasota FL events).",
+    "evidence_urls": [
+      "https://www.tapology.com/fightcenter/promotions/6864-boogeyman-promotions-bp"
+    ]
+  },
+  {
+    "name": "Warriors Boxing",
+    "aliases": [
+      "Warriors Boxing Promotions",
+      "WARRIORS BOXING AND PROMOTIONS, LLC (Florida entity per business registry mirrors)"
+    ],
+    "wikidata_qid": null,
+    "website": "http://www.warriorsboxing.com/",
+    "pages": {
+      "contact": "http://www.warriorsboxing.com/contact.html"
+    },
+    "press_kit": {
+      "url": null,
+      "terms_quote": "None found."
+    },
+    "site_terms": {
+      "url": null,
+      "quote": "No terms page found. HTTPS fails certificate validation; HTTP homepage content is years stale (Frank Sanchez 15-0 news) and contains an injected adult-spam outbound link."
+    },
+    "robots": "Not retrieved (TLS failure on https).",
+    "founded": {
+      "value": null,
+      "source": "Not stated on official/Wikipedia/Wikidata"
+    },
+    "founders": [],
+    "executives": [],
+    "commons_logo": {
+      "file_url": null,
+      "license": null,
+      "reusable_assessment": "None."
+    },
+    "executive_portraits": [],
+    "youtube": {
+      "url": null,
+      "linked_from_official_site": false
+    },
+    "automation_suitability": "Unsafe and stale: site appears compromised.",
+    "recommended_state": "blocked",
+    "notes": "Leon Margules is widely reported as president (e.g., BoxingInsider interview) but no official/Wikipedia/Wikidata confirmation was read, so not listed.",
+    "evidence_urls": [
+      "http://www.warriorsboxing.com/"
+    ]
+  },
+  {
+    "name": "RDR Promotions",
+    "aliases": [
+      "Rdrpromotions"
+    ],
+    "wikidata_qid": null,
+    "website": "https://www.rdrpromotions.com/",
+    "pages": {
+      "events": "https://www.rdrpromotions.com/event-list",
+      "contact": "https://www.rdrpromotions.com/contact-8"
+    },
+    "press_kit": {
+      "url": null,
+      "terms_quote": "None found."
+    },
+    "site_terms": {
+      "url": "https://www.rdrpromotions.com/general-clean",
+      "quote": "Generic Wix terms; prohibits users to \"Harvest or collect information about Site users\" (no clause on event data). Footer reads \"© 2025 by Chinchecka Promotions\" (template/ownership inconsistency)."
+    },
+    "robots": "https://www.rdrpromotions.com/robots.txt: Wix default 'User-agent: * / Allow: / / Disallow: *?lightbox=' (PetalBot disallowed).",
+    "founded": {
+      "value": null,
+      "source": "Not stated"
+    },
+    "founders": [],
+    "executives": [],
+    "commons_logo": {
+      "file_url": null,
+      "license": null,
+      "reusable_assessment": "None."
+    },
+    "executive_portraits": [],
+    "youtube": {
+      "url": null,
+      "linked_from_official_site": false
+    },
+    "automation_suitability": "Wix event-list pages (JS-heavy); low volume; Philadelphia-based per homepage.",
+    "recommended_state": "review_required",
+    "notes": "Rodney Rice is reported as president by search snippets; not confirmed on official page read here.",
+    "evidence_urls": [
+      "https://www.rdrpromotions.com/",
+      "https://www.rdrpromotions.com/general-clean",
+      "https://www.rdrpromotions.com/robots.txt"
+    ]
+  },
+  {
+    "name": "Rising Star Promotions",
+    "aliases": [
+      "RSP",
+      "RSPBoxing (Facebook handle)"
+    ],
+    "wikidata_qid": null,
+    "website": null,
+    "pages": {
+      "facebook": "https://www.facebook.com/RSPBoxing/"
+    },
+    "press_kit": {
+      "url": null,
+      "terms_quote": "No official website found."
+    },
+    "site_terms": {
+      "url": null,
+      "quote": "No official website found; risingstarpromotions.com is a parked domain (JS redirect to /lander). risingstarsboxing.com is a different Columbus, OH organisation."
+    },
+    "robots": "n/a",
+    "founded": {
+      "value": null,
+      "source": null
+    },
+    "founders": [],
+    "executives": [],
+    "commons_logo": {
+      "file_url": null,
+      "license": null,
+      "reusable_assessment": "None."
+    },
+    "executive_portraits": [],
+    "youtube": {
+      "url": null,
+      "linked_from_official_site": false
+    },
+    "automation_suitability": "No official source.",
+    "recommended_state": "unavailable",
+    "notes": "Thomas 'Cornflake' LaManna reported as president by trade press (fightnews.com); not official/Wikipedia-confirmed.",
+    "evidence_urls": [
+      "https://www.facebook.com/RSPBoxing/",
+      "https://fightnews.com/rising-star-promotions-returns-to-prudential-center-april-10-live-on-proboxtv/182531"
+    ]
+  },
+  {
+    "name": "Mike Sawyer Promotions",
+    "aliases": [
+      "MSP"
+    ],
+    "wikidata_qid": null,
+    "website": "https://www.mikesawyerpromotions.com/",
+    "pages": {
+      "events": "https://www.mikesawyerpromotions.com/events",
+      "news": "https://www.mikesawyerpromotions.com/news",
+      "about": "https://www.mikesawyerpromotions.com/about",
+      "team": "https://www.mikesawyerpromotions.com/team",
+      "tickets": "https://msp.simpletix.com/"
+    },
+    "press_kit": {
+      "url": "https://www.mikesawyerpromotions.com/photography (event photography page, not a kit)",
+      "terms_quote": "No reuse terms found."
+    },
+    "site_terms": {
+      "url": null,
+      "quote": "No terms page found; footer '© 2026 Mike Sawyer Promotions'."
+    },
+    "robots": "https://www.mikesawyerpromotions.com/robots.txt: 'User-agent: * / Allow: /'.",
+    "founded": {
+      "value": null,
+      "source": "Not dated"
+    },
+    "founders": [
+      {
+        "name": "Mike Sawyer",
+        "source": "https://www.mikesawyerpromotions.com/about (\"Founded by Mike Sawyer\")"
+      }
+    ],
+    "executives": [
+      {
+        "name": "Mike Sawyer",
+        "role": "Founder",
+        "source": "https://www.mikesawyerpromotions.com/about"
+      }
+    ],
+    "commons_logo": {
+      "file_url": null,
+      "license": null,
+      "reusable_assessment": "None."
+    },
+    "executive_portraits": [],
+    "youtube": {
+      "url": null,
+      "linked_from_official_site": false
+    },
+    "automation_suitability": "Small site with events page; permissive robots; no ToS found. Florida DBPR results PDFs also exist (official commission source).",
+    "recommended_state": "review_required",
+    "notes": null,
+    "evidence_urls": [
+      "https://www.mikesawyerpromotions.com/about",
+      "https://www.mikesawyerpromotions.com/robots.txt",
+      "https://www2.myfloridalicense.com/pro/sbc/documents/11-08-2025-Mike_Sawyer_Promotions-results_without_med.pdf"
+    ]
+  },
+  {
+    "name": "The Heavyweight Factory",
+    "aliases": [
+      "Heavyweight Factory",
+      "THF",
+      "Fists of Fury Series (event brand)"
+    ],
+    "wikidata_qid": null,
+    "website": "https://theheavyweightfactory.com/",
+    "pages": {
+      "events": "https://theheavyweightfactory.com/events/",
+      "fighters": "https://theheavyweightfactory.com/fighters/",
+      "about": "https://theheavyweightfactory.com/about-us/"
+    },
+    "press_kit": {
+      "url": null,
+      "terms_quote": "None found."
+    },
+    "site_terms": {
+      "url": null,
+      "quote": "No terms page linked; footer \"Copyright © 2025 The Heavyweight Factory. All Rights Reserved.\""
+    },
+    "robots": "https://theheavyweightfactory.com/robots.txt: 'User-agent: * / Disallow:'. (heavyweightfactory.com without 'the' is a parked domain.)",
+    "founded": {
+      "value": null,
+      "source": "Not dated"
+    },
+    "founders": [
+      {
+        "name": "Kris Lawrence",
+        "source": "https://theheavyweightfactory.com/about-us/ (\"Founded by Kris Lawrence\")"
+      }
+    ],
+    "executives": [],
+    "commons_logo": {
+      "file_url": null,
+      "license": null,
+      "reusable_assessment": "None."
+    },
+    "executive_portraits": [],
+    "youtube": {
+      "url": null,
+      "linked_from_official_site": false
+    },
+    "automation_suitability": "WordPress events page; permissive robots; no ToS found.",
+    "recommended_state": "review_required",
+    "notes": null,
+    "evidence_urls": [
+      "https://theheavyweightfactory.com/about-us/",
+      "https://theheavyweightfactory.com/robots.txt"
+    ]
+  },
+  {
+    "name": "M&R Boxing Promotions",
+    "aliases": [
+      "M&R BOXING PROMOTIONS INC. (Florida Sunbiz entity)"
+    ],
+    "wikidata_qid": null,
+    "website": null,
+    "pages": {
+      "instagram": "https://www.instagram.com/mnrboxingpromotions/",
+      "facebook": "https://www.facebook.com/p/MR-Boxing-Promotions-61551787112029/"
+    },
+    "press_kit": {
+      "url": null,
+      "terms_quote": "No official website found."
+    },
+    "site_terms": {
+      "url": null,
+      "quote": "No official website found."
+    },
+    "robots": "n/a",
+    "founded": {
+      "value": null,
+      "source": null
+    },
+    "founders": [],
+    "executives": [],
+    "commons_logo": {
+      "file_url": null,
+      "license": null,
+      "reusable_assessment": "None."
+    },
+    "executive_portraits": [],
+    "youtube": {
+      "url": "https://www.youtube.com/@mrboxingpromotions9049",
+      "linked_from_official_site": false
+    },
+    "automation_suitability": "No official website.",
+    "recommended_state": "unavailable",
+    "notes": "YouTube channel found by search only; not verified as official (no official site to link it).",
+    "evidence_urls": [
+      "https://www.instagram.com/mnrboxingpromotions/",
+      "https://www.youtube.com/@mrboxingpromotions9049"
+    ]
+  },
+  {
+    "name": "Wake Up and Dream Promotions",
+    "aliases": [
+      "WUAD"
+    ],
+    "wikidata_qid": null,
+    "website": null,
+    "pages": {},
+    "press_kit": {
+      "url": null,
+      "terms_quote": "No official website found."
+    },
+    "site_terms": {
+      "url": null,
+      "quote": "No official website found."
+    },
+    "robots": "n/a",
+    "founded": {
+      "value": null,
+      "source": null
+    },
+    "founders": [],
+    "executives": [],
+    "commons_logo": {
+      "file_url": null,
+      "license": null,
+      "reusable_assessment": "None."
+    },
+    "executive_portraits": [],
+    "youtube": {
+      "url": null,
+      "linked_from_official_site": false
+    },
+    "automation_suitability": "No official source.",
+    "recommended_state": "unavailable",
+    "notes": "Only third-party listing (Tapology; Alachua, FL).",
+    "evidence_urls": [
+      "https://www.tapology.com/fightcenter/promotions/6445-wake-up-and-dream-promotions-wuad"
+    ]
+  },
+  {
+    "name": "Boxlab Promotions",
+    "aliases": [
+      "BoxLab"
+    ],
+    "wikidata_qid": null,
+    "website": "https://www.boxlabpromotions.com/",
+    "pages": {
+      "events": "https://www.boxlabpromotions.com/new-events-1",
+      "contact": "https://www.boxlabpromotions.com/contact-horizon"
+    },
+    "press_kit": {
+      "url": null,
+      "terms_quote": "None found."
+    },
+    "site_terms": {
+      "url": null,
+      "quote": "No terms page or copyright notice found (Squarespace site)."
+    },
+    "robots": "https://www.boxlabpromotions.com/robots.txt: Squarespace default - long AI-crawler user-agent list (GPTBot, ClaudeBot, CCBot, Google-Extended...) grouped with 'User-agent: *' and 'Disallow: /config', '/search', '/api/', '/*?format=json' etc.; no site-wide disallow.",
+    "founded": {
+      "value": null,
+      "source": "Not stated"
+    },
+    "founders": [],
+    "executives": [
+      {
+        "name": "Amaury Piedra",
+        "role": "President",
+        "source": "https://www.boxlabpromotions.com/ ('THE BOXLAB TEAM')"
+      },
+      {
+        "name": "Eric Enrique",
+        "role": "Vice President",
+        "source": "https://www.boxlabpromotions.com/"
+      },
+      {
+        "name": "Melvin 'Chico' Rivas",
+        "role": "Director of Boxing Operations & Matchmaking",
+        "source": "https://www.boxlabpromotions.com/"
+      }
+    ],
+    "commons_logo": {
+      "file_url": null,
+      "license": null,
+      "reusable_assessment": "None."
+    },
+    "executive_portraits": [],
+    "youtube": {
+      "url": "https://www.youtube.com/@BoxlabPromotions",
+      "linked_from_official_site": true
+    },
+    "automation_suitability": "Squarespace; robots blocks ?format=json endpoints; events page small; no ToS found.",
+    "recommended_state": "review_required",
+    "notes": "Homepage lists fighters and co-promotion news; do not derive signings from it.",
+    "evidence_urls": [
+      "https://www.boxlabpromotions.com/",
+      "https://www.boxlabpromotions.com/robots.txt"
+    ]
+  }
+]
