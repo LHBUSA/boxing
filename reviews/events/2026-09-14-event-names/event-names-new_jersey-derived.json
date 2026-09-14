@@ -1,0 +1,74 @@
+[
+ {
+  "source_key": "nj_sacb",
+  "namespace": "nj-sacb.event",
+  "external_id": "2026-01-15|patriots-theater-at-war-memorial|trenton",
+  "name": "CB Promotions at Patriots Theater at War Memorial",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "nj-results:2026-0115_Show-Results-Pro-Bxg-Patriots-Theater-at-War-Memorial-Trenton-CB-Prom"
+ },
+ {
+  "source_key": "nj_sacb",
+  "namespace": "nj-sacb.event",
+  "external_id": "2026-03-07|tropicana-hotel-casino|atlantic-city",
+  "name": "Boxing Insider Promotions at Tropicana Hotel Casino",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "nj-results:2026-0307_Official-Show-Result-Pro-Bxg-Tropicana-Hotel-Casino-AC-Boxing-Insider"
+ },
+ {
+  "source_key": "nj_sacb",
+  "namespace": "nj-sacb.event",
+  "external_id": "2026-04-10|prudential-center|newark",
+  "name": "Rising Star Promotions and ProBox TV at Prudential Center",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "nj-results:2026-0410_Show-Results-Pro-Boxing-4-10-26-Prudential-Center-Newark-Rising-Star-ProBox-TV"
+ },
+ {
+  "source_key": "nj_sacb",
+  "namespace": "nj-sacb.event",
+  "external_id": "2026-04-11|boardwalk-hall|atlantic-city",
+  "name": "Sampson Boxing and Paco Present Boxing Promotions and ProBox TV at Adrian Philip",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "nj-results:2026-0411_Show-Results-Pro-Boxing-4-11-26-Boardwalk-Hall-AC-Sampson-Paco-ProBoxTV"
+ },
+ {
+  "source_key": "nj_sacb",
+  "namespace": "nj-sacb.event",
+  "external_id": "2026-06-06|prudential-center|newark",
+  "name": "RDR Promotions at Prudential Center",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "nj-results:2026-0606_Show_Results_Pro_Boxing-Prudential_Center_Newark_RDR"
+ },
+ {
+  "source_key": "nj_sacb",
+  "namespace": "nj-sacb.event",
+  "external_id": "2026-06-13|tropicana-hotel-casino|atlantic-city",
+  "name": "Boxing Insider Promotions at Tropicana Hotel Casino",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "nj-results:2026-0613_Official-Show-Results-Pro-Boxing-Tropicana-Hotel-Casino-AC-Boxing-Insider"
+ },
+ {
+  "source_key": "nj_sacb",
+  "namespace": "nj-sacb.event",
+  "external_id": "2026-09-04|prudential-center|newark",
+  "name": "Matchroom Boxing Promotions at Prudential Center",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "nj-results:2026-0904_Official_Show_Results_Pro_Boxing-Prudential_Center_Newark_Matchroom"
+ },
+ {
+  "source_key": "nj_sacb",
+  "namespace": "nj-sacb.event",
+  "external_id": "2026-02-21|showboat-hotel|atlantic-city",
+  "name": "RDR Promotions at Showboat Hotel",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "nj-results:Official-Show-Results-Pro-Boxing-02-21-26-Showboat-Hotel-AC-RDR"
+ },
+ {
+  "source_key": "nj_sacb",
+  "namespace": "nj-sacb.event",
+  "external_id": "2026-02-07|hard-rock-hotel-casino|atlantic-city",
+  "name": "R and B Promotions at Hard Rock Hotel Casino",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "nj-results:Show-Results-02-07-26-Hard-Rock-Hotel-Casino-AC-RB"
+ }
+]

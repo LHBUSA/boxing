@@ -1,0 +1,274 @@
+[
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-01-04|hollywood|the-heavyweight-factory",
+  "name": "The Heavyweight Factory at Seminole Hard Rock Hotel and Casino",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:01-04-2026-Heavyweight_Factory-Results_without_med"
+ },
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-02-19|altamonte-springs|christy-martin-promotions",
+  "name": "Christy Martin Promotions at Hilton Hotel",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:02-19-2026-Christy_Martin_Promotions-results_without_med"
+ },
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-02-20|orlando|boxlab",
+  "name": "Boxlab at Caribe Royale",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:02-20-2026-Boxlab_Promotions_Results_without_med"
+ },
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-02-21|miami|m-r-boxing",
+  "name": "M and R Boxing Promotions at Reception Palace Ballrooms",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:02-21-2026-M_R-Results_without_med"
+ },
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-02-28|clearwater|starfight-productions",
+  "name": "Starfight Productions at OCC Road House and Museum",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:02-28-2026-Starfight_Promotions-results_without_med"
+ },
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-03-07|alamonte-springs|mike-sawyer-promotions",
+  "name": "Mike Sawyer Promotions at Alamonte Springs",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:03-07-2026-Mike_Sawyer_Promotions-results_without_med"
+ },
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-03-13|kissimmee|probox",
+  "name": "Probox at Osceola Heritage Park",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:03-13-2026-Probox_Promotions_Results_without_med"
+ },
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-03-14|miami|brandrisk-entertainment",
+  "name": "BrandRisk Entertainment at Brand Risk Building",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:03-14-2026-Brand_Risk_Promotions-Results_without_med"
+ },
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-03-21|orlando|matchroom-boxlab",
+  "name": "Matchroom - Boxlab at Caribe Royale",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:03-21-2026-Boxlab_Promotion-Results_without_med"
+ },
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-03-21|ocala|wake-up-and",
+  "name": "Wake Up and Dream at Boys and Girls Clubs of Marion County",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:03-21-26-Wake_Up_&_Dream-Results_without_med"
+ },
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-03-28|palm-bay|boxlite-promotions",
+  "name": "Boxlite Promotions at Tony Rosa Community Center",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:03-28-2026-BoxLite-results_without_med"
+ },
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-04-10|miami|dirty-boxing",
+  "name": "Dirty Boxing at James L. Knight Center",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:04-10-2026-Dirty_Boxing_Promotion-results_without_med"
+ },
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-04-12|hollywood|heavyweight-factory",
+  "name": "Heavyweight Factory at Seminole Hard Rock Hotel and Casino",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:04-12-26-Heavyweight_Factory-Results_without_med"
+ },
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-05-01|fort-lauderdale|team-boxing-league",
+  "name": "Team Boxing League at War Memorial Auditorium",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:05-01-2026-Team_Boxing_League-results_without_med"
+ },
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-05-08|fort-lauderdale|team-boxing-league",
+  "name": "Team Boxing League at War Memorial Auditorium",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:05-08-2026-Team_Boxing_League_Promotion-Results_without_med"
+ },
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-05-09|fort-lauderdale|team-boxing-league",
+  "name": "Team Boxing League at War Memorial Auditorium",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:05-09-26-Team_Boxing_League_Promotion-Results_without_med"
+ },
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-05-16|miami|m-r-boxing",
+  "name": "M and R Boxing Promotions at Miccosukee Indian Gaming Resort",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:05-16-2026-M&R_Boxing_Promotions-results_without_med"
+ },
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-05-16|tampa|market-internatoinal",
+  "name": "Market Internatoinal at Shanna and Bryan Glazer JCC",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:05-16-2026-Market_International_Promotion-Results_without_med"
+ },
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-05-30|fort-lauderdale|american-dream-boxing",
+  "name": "American Dream Boxing Promotion at War Memorial Auditorium",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:05-30-2026-American-Dream-Production-Results_without_med"
+ },
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-06-13|sarasota|boogieman-boxing-promotions",
+  "name": "Boogieman Boxing Promotions at Robarts Arena",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:06-13-2026-Boogieman_Promotions-Results_without_med"
+ },
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-06-13|orlando|boxlab",
+  "name": "Boxlab at Caribe Royale",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:06-13-2026-Boxlab_Promotions_Results_without_med"
+ },
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-06-14|fort-lauderdale|team-boxing-league",
+  "name": "Team Boxing League at War Memorial Auditorium",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:06-14-2026-Team_Boxing_League_Promotion_Results_without_med"
+ },
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-06-26|fort-lauderdale|team-boxing-league",
+  "name": "Team Boxing League at FTL War Memorial",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:06-26-2026-Team_Boxing_League_Promotion_Results_without_med"
+ },
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-06-28|davie|the-heavyweight-factory",
+  "name": "The Heavyweight Factory Promotions at Seminole Hard Rock Hotel and Casino",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:06-28-2026-Jackpot_Promotions-Results_without_med"
+ },
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-07-25|sanford|mike-sawyer-promotions",
+  "name": "Mike Sawyer Promotions at Ritz Theater",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:07-25-2026-Mike_Sawyer_Promotions-results_without_med"
+ },
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-08-08|orlando|most-valuable-promotion",
+  "name": "Most Valuable Promotion at Caribe Royale",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:08-08-2026-MVP_Boxing_Promotion-Results_without_med"
+ },
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-08-08|ocala|wake-up-and",
+  "name": "Wake Up and Dream at Southeastern Livestock Pavilion",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:08-08-2026-Wake_Up_and_Dream-Results_without_med"
+ },
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-08-15|miami|m-r-boxing",
+  "name": "M and R Boxing Promotions at Miccosukee Casino and Resort",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:08-15-2026-M&R_Boxing_Promotions-results_without_med"
+ },
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-08-16|davie|heavyweight-factory",
+  "name": "Heavyweight Factory at Seminole Hard Rock Hotel and Casino",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:08-16-26-Jackpot_Promotions-Results_without_med"
+ },
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-08-22|fort-lauderdale|brand-risk-promotion",
+  "name": "Brand Risk Promotion at FTL War Memorial",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:08-22-2026-Brand_Risk_Promotions-Results_without_med"
+ },
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-08-29|sarasota|boogieman-boxing-promotions",
+  "name": "Boogieman Boxing Promotions at Robarts Arena",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:08-29-2026-Boogieman_Promotions-Results_without_med"
+ },
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-08-28|orlando|matchroom-boxing-promotions",
+  "name": "Matchroom Boxing Promotions at Caribe Royal",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:08-29-2026-Boxlab_Promotions_Results_without_med"
+ },
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-01-23|miami|brand-risk-promotions",
+  "name": "Brand Risk Promotions at Private Facility",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:1-23-26-Brand_Risk_Promotions-Results_without_med"
+ },
+ {
+  "source_key": "florida_athletic_commission",
+  "namespace": "fl-athletic-commission.event",
+  "external_id": "2026-01-24|tampa|market-international-promotions",
+  "name": "Market International Promotions at Bryan Glazer Family JCC Auditorium",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "fl-results:1-24-2026-Market_International-Results_without_med"
+ }
+]

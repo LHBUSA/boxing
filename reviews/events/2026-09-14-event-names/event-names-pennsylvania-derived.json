@@ -1,0 +1,186 @@
+[
+ {
+  "source_key": "pa_state_athletic_commission",
+  "namespace": "pa-state-athletic-commission.event",
+  "external_id": "2026-01-17|philadelphia|2300-arena",
+  "name": "Marshall Kauffman at 2300 Arena",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "pa-results:2026:01-17-26 - box - 2300 arena - phila. pa - results"
+ },
+ {
+  "source_key": "pa_state_athletic_commission",
+  "namespace": "pa-state-athletic-commission.event",
+  "external_id": "2026-02-06|philadelphia|live-casino",
+  "name": "Jesus Rivera at Live Casino",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "pa-results:2026:02-06-26 box rivera - live casino - phila pa - results"
+ },
+ {
+  "source_key": "pa_state_athletic_commission",
+  "namespace": "pa-state-athletic-commission.event",
+  "external_id": "2026-02-07|pittsburgh|the-priority",
+  "name": "John Richardson at The Priority",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "pa-results:2026:02-07-26 box richardson - the priory - pittsburgh pa - results"
+ },
+ {
+  "source_key": "pa_state_athletic_commission",
+  "namespace": "pa-state-athletic-commission.event",
+  "external_id": "2026-03-07|pa|mohegan-sun-wilkes-barre",
+  "name": "Chris Coyne at MOHEGAN SUN - Wilkes Barre",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "pa-results:2026:03-07-26 box coyne - results"
+ },
+ {
+  "source_key": "pa_state_athletic_commission",
+  "namespace": "pa-state-athletic-commission.event",
+  "external_id": "2026-03-07|philadelphia|sixth-man-center",
+  "name": "Dominique Walton at Sixth Man Center",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "pa-results:2026:03-07-26 box walton - sixth man arena - phila., pa - results"
+ },
+ {
+  "source_key": "pa_state_athletic_commission",
+  "namespace": "pa-state-athletic-commission.event",
+  "external_id": "2026-03-28|chester|harrah-s-casino",
+  "name": "Greg Pritchett at Harrah's Casino",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "pa-results:2026:03-28-26 box pritchett - harrahs casino - chester pa - results"
+ },
+ {
+  "source_key": "pa_state_athletic_commission",
+  "namespace": "pa-state-athletic-commission.event",
+  "external_id": "2026-04-03|allentown|the-archer",
+  "name": "James Bartley at The Archer",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "pa-results:2026:04-03-26 box bartley - the archer - allentown pa - results"
+ },
+ {
+  "source_key": "pa_state_athletic_commission",
+  "namespace": "pa-state-athletic-commission.event",
+  "external_id": "2026-04-11|philadelphia|2300-arena",
+  "name": "Brian Costello at 2300 Arena",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "pa-results:2026:04-11-26 box costello - 2300 arena - phila pa results"
+ },
+ {
+  "source_key": "pa_state_athletic_commission",
+  "namespace": "pa-state-athletic-commission.event",
+  "external_id": "2026-04-11|coraopolis|montour-sports-complex",
+  "name": "William Hutchinson at Montour Sports Complex",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "pa-results:2026:04-11-26 box hutchinson - montour sportsplex - coraopolis pa"
+ },
+ {
+  "source_key": "pa_state_athletic_commission",
+  "namespace": "pa-state-athletic-commission.event",
+  "external_id": "2026-05-09|washington|meadows-casino",
+  "name": "John Richardson at Meadows Casino",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "pa-results:2026:05-09-26 box richardson - meadows casino - washington pa - results"
+ },
+ {
+  "source_key": "pa_state_athletic_commission",
+  "namespace": "pa-state-athletic-commission.event",
+  "external_id": "2026-05-22|philadelphia|live-casino-philadelphia",
+  "name": "Jesus Rivera at Live Casino Philadelphia",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "pa-results:2026:05-22-26 box rivera - live casino - phila pa - results"
+ },
+ {
+  "source_key": "pa_state_athletic_commission",
+  "namespace": "pa-state-athletic-commission.event",
+  "external_id": "2026-05-29|allentown|archer-allentown-pa",
+  "name": "James Bartley at Archer - Allentown Pa",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "pa-results:2026:05-29-26 box bartley - the archer - allentown pa - results"
+ },
+ {
+  "source_key": "pa_state_athletic_commission",
+  "namespace": "pa-state-athletic-commission.event",
+  "external_id": "2026-06-13|pa|pasquerilla-center-johnstown",
+  "name": "Max Leasock at Pasquerilla Center - Johnstown",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "pa-results:2026:06-13-26 box leasock - pasquerilla conference center - johnstown - results"
+ },
+ {
+  "source_key": "pa_state_athletic_commission",
+  "namespace": "pa-state-athletic-commission.event",
+  "external_id": "2026-06-13|philadelphia|first-district-plaza",
+  "name": "Dominique Walton at First District Plaza",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "pa-results:2026:06-13-26 box walton - first district plaza - phila., pa - results"
+ },
+ {
+  "source_key": "pa_state_athletic_commission",
+  "namespace": "pa-state-athletic-commission.event",
+  "external_id": "2026-06-20|philadelphia|2300-arena-philadelphia",
+  "name": "Thomas Lamanna at 2300 Arena Philadelphia",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "pa-results:2026:06-20-26 box lamanna - 2300 arena - phila pa - results"
+ },
+ {
+  "source_key": "pa_state_athletic_commission",
+  "namespace": "pa-state-athletic-commission.event",
+  "external_id": "2026-07-11|chester|harrah-s-casino",
+  "name": "Greg Pritchett at Harrah's Casino",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "pa-results:2026:07-11-26 box pritchett - harrahs casino - chester pa - results"
+ },
+ {
+  "source_key": "pa_state_athletic_commission",
+  "namespace": "pa-state-athletic-commission.event",
+  "external_id": "2026-07-18|washington|hollywood-casino-meadows",
+  "name": "John Richardson at Hollywood Casino - Meadows",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "pa-results:2026:07-18-26 box richardson - meadows casino - washington pa - results"
+ },
+ {
+  "source_key": "pa_state_athletic_commission",
+  "namespace": "pa-state-athletic-commission.event",
+  "external_id": "2026-07-24|philadelphia|2300-arena",
+  "name": "Robert Farrell at 2300 Arena",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "pa-results:2026:07-24-26 box farrell - 2300 arena - phila. pa - results"
+ },
+ {
+  "source_key": "pa_state_athletic_commission",
+  "namespace": "pa-state-athletic-commission.event",
+  "external_id": "2026-07-25|philadelphia|the-fillmore",
+  "name": "Brian Costello at The Fillmore",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "pa-results:2026:07-25-26 box costello - canstatters - 9130 academy road -phila. pa - results"
+ },
+ {
+  "source_key": "pa_state_athletic_commission",
+  "namespace": "pa-state-athletic-commission.event",
+  "external_id": "2026-08-07|philadelphia|2300-arena",
+  "name": "Alexis Barbosa at 2300 Arena",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "pa-results:2026:08-07-26 box barbosa - 2300 arena - phila. pa - results"
+ },
+ {
+  "source_key": "pa_state_athletic_commission",
+  "namespace": "pa-state-athletic-commission.event",
+  "external_id": "2026-08-22|philadelphia|first-district-plaza",
+  "name": "Dominique Walton at First District Plaza",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "pa-results:2026:08-22-26 box - first district plaza - 3801 market street - phila. pa - results"
+ },
+ {
+  "source_key": "pa_state_athletic_commission",
+  "namespace": "pa-state-athletic-commission.event",
+  "external_id": "2026-08-28|philadelphia|live-casino",
+  "name": "Jesus Rivera at Live Casino",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "pa-results:2026:08-28-26 box rivera - live casino - 900 packer ave - phila. pa - results"
+ },
+ {
+  "source_key": "pa_state_athletic_commission",
+  "namespace": "pa-state-athletic-commission.event",
+  "external_id": "2026-08-29|philadelphia|2300-arena",
+  "name": "Marshall Kauffman at 2300 Arena",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "pa-results:2026:08-29-26 box kauffman - 2300 arena - phila. pa - results"
+ }
+]

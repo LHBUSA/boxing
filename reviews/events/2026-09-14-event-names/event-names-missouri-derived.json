@@ -1,0 +1,66 @@
+[
+ {
+  "source_key": "mo_office_of_athletics",
+  "namespace": "mo-office-of-athletics.event",
+  "external_id": "2026-02-13|kansas-city|event-26-103",
+  "name": "Blue Corner Promotions at Harrah’s Casino",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "mo-results:2026-02-13 BOXRESAKICKRES Kansas City Blue Corner Promo"
+ },
+ {
+  "source_key": "mo_office_of_athletics",
+  "namespace": "mo-office-of-athletics.event",
+  "external_id": "2026-02-28|st-joseph|event-26-133",
+  "name": "Carden Combat Sports Promotions at Good Time Events Center",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "mo-results:2026-02-28 BOXRES Carden Combat Sports St. Joseph"
+ },
+ {
+  "source_key": "mo_office_of_athletics",
+  "namespace": "mo-office-of-athletics.event",
+  "external_id": "2026-03-20|independence|event-26-160",
+  "name": "KC Boxing Promotions at Truman Memorial Building",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "mo-results:2026-03-20 BOXRES Independence KC Boxing Promo"
+ },
+ {
+  "source_key": "mo_office_of_athletics",
+  "namespace": "mo-office-of-athletics.event",
+  "external_id": "2026-03-21|st-louis|event-26-144",
+  "name": "Box Culture Promotions at Ambassador Club",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "mo-results:2026-03-21 BOXRES St. Louis Box Culture Promotions"
+ },
+ {
+  "source_key": "mo_office_of_athletics",
+  "namespace": "mo-office-of-athletics.event",
+  "external_id": "2026-03-28|st-ann|event-26-142",
+  "name": "8 Count Promotions at St. Ann Community Center",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "mo-results:2026-03-28 BOXAKICKMUAYTHAIRES St. Ann 8 Count Promo"
+ },
+ {
+  "source_key": "mo_office_of_athletics",
+  "namespace": "mo-office-of-athletics.event",
+  "external_id": "2026-04-25|jefferson-city|event-26-102",
+  "name": "Gaines Boxing Promotions at Capitol Plaza Hotel",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "mo-results:2026-04-25 BOXKICKRES Jefferson City Gaines Boxing Promo"
+ },
+ {
+  "source_key": "mo_office_of_athletics",
+  "namespace": "mo-office-of-athletics.event",
+  "external_id": "2026-04-25|kansas-city|event-26-175",
+  "name": "Blue Corner Promotions at Harrah’s Casino",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "mo-results:2026-04-25 BOXRES KICKRES Kansas CIty Blue Corner"
+ },
+ {
+  "source_key": "mo_office_of_athletics",
+  "namespace": "mo-office-of-athletics.event",
+  "external_id": "2026-05-16|kansas-city|event-26-163",
+  "name": "KC Boxing Promotions at Scottish Rite Temple",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "mo-results:2026-05-16 BOXRES Kansas City KC Boxing Promo"
+ }
+]

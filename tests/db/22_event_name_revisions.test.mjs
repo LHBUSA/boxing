@@ -35,4 +35,13 @@ test('a stored name from the old digit-stripping rule is corrected by the owning
   await applyCommissionParsed(store, PENNSYLVANIA, { events: [ev], bouts: [] }, { now: '2026-09-14T12:05:00Z' });
   assert.equal((await q(`select count(*)::int n from public.boxing_event_name_revisions`))[0].n, 1, 'an unchanged name records nothing');
   await assert.rejects(() => q(`update public.boxing_event_name_revisions set name = 'x'`), /append|BX00/i);
+
+  // a different derived promoter list (or venue) is not what the rule changed: the stored name stays
+  const unrelated = await store.upsertEvent({ source_key: PENNSYLVANIA.sourceKey, namespace: 'pa-state-athletic-commission.event', external_id: ev.source_event_id,
+    name: 'Marshall Kauffman and ProBox TV at 2300 Arena', name_rule: EVENT_NAME_RULE });
+  assert.equal(unrelated.renamed, false);
+  const [kept] = await q(`select name from public.boxing_events where external_event_id = $1`, [ev.source_event_id]);
+  assert.equal(kept.name, 'Marshall Kauffman at 2300 Arena');
+  assert.deepEqual((await q(`select public.boxing_event_name_rule_correction('Count Promotions at St. Ann Community Center', '8 Count Promotions at St. Ann Community Center', $1) ok`, [EVENT_NAME_RULE]))[0], { ok: true });
+  assert.deepEqual((await q(`select public.boxing_event_name_rule_correction('RNB Promotions at Showboat Hotel', 'RDR Promotions at Showboat Hotel', $1) ok`, [EVENT_NAME_RULE]))[0], { ok: false });
 });

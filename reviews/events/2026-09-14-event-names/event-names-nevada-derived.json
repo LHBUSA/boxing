@@ -1,0 +1,138 @@
+[
+ {
+  "source_key": "nsac_nevada",
+  "namespace": "nsac.event",
+  "external_id": "2026-01-23|ufc-apex",
+  "name": "TKO Productions LLC d and b and a Zuffa Boxing at The Meta Apex",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "nv-results:2026:01-23-26_Boxing_REDACTED"
+ },
+ {
+  "source_key": "nsac_nevada",
+  "namespace": "nsac.event",
+  "external_id": "2026-01-24|fontainebleau",
+  "name": "Matchroom Boxing at The Fontainebleau",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "nv-results:2026:01-24-26_Boxing_REDACTED"
+ },
+ {
+  "source_key": "nsac_nevada",
+  "namespace": "nsac.event",
+  "external_id": "2026-02-01|meta-apex",
+  "name": "TKO Productions LLC d and b and a Zuffa Boxing at The Meta Apex",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "nv-results:2026:02-01-26_Boxing_REDACTED"
+ },
+ {
+  "source_key": "nsac_nevada",
+  "namespace": "nsac.event",
+  "external_id": "2026-02-15|ufc-apex",
+  "name": "TKO Productions LLC d and b and a Zuffa Boxing at The Meta Apex",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "nv-results:2026:02-15-26_Boxing_REDACTED"
+ },
+ {
+  "source_key": "nsac_nevada",
+  "namespace": "nsac.event",
+  "external_id": "2026-02-21|t-mobile",
+  "name": "TGB Promotions and Golden Boy Promotions at T-Mobile Arena",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "nv-results:2026:02-21-26_Boxing_REDACTED"
+ },
+ {
+  "source_key": "nsac_nevada",
+  "namespace": "nsac.event",
+  "external_id": "2026-03-08|ufc-apex",
+  "name": "TKO Productions LLC d and b and a Zuffa Boxing at The Meta Apex",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "nv-results:2026:03-08-26_Boxing_REDACTED"
+ },
+ {
+  "source_key": "nsac_nevada",
+  "namespace": "nsac.event",
+  "external_id": "2026-03-20|silver-legacy",
+  "name": "Let’s Get It On Promotions at Silver Legacy Casino",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "nv-results:2026:03-20-26_Boxing_REDACTED"
+ },
+ {
+  "source_key": "nsac_nevada",
+  "namespace": "nsac.event",
+  "external_id": "2026-03-28|grand-garden",
+  "name": "TGB Promotions and Sampson Boxing at MGM Grand Garden Arena",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "nv-results:2026:03-28-26_Boxing_REDACTED"
+ },
+ {
+  "source_key": "nsac_nevada",
+  "namespace": "nsac.event",
+  "external_id": "2026-04-05|ufc-apex",
+  "name": "TKO Boxing Promotions LLC at Meta Apex",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "nv-results:2026:04-05-26_Boxing_REDACTED"
+ },
+ {
+  "source_key": "nsac_nevada",
+  "namespace": "nsac.event",
+  "external_id": "2026-04-11|cosmopolitan",
+  "name": "DMG Boxing and Promotions Inc. at Chelsea at Cosmopolitan",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "nv-results:2026:04-11-26_Boxing_REDACTED"
+ },
+ {
+  "source_key": "nsac_nevada",
+  "namespace": "nsac.event",
+  "external_id": "2026-04-25|fontainebleau",
+  "name": "Matchroom Boxing at The Fontainebleau",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "nv-results:2026:04-25-26_Boxing_REDACTED"
+ },
+ {
+  "source_key": "nsac_nevada",
+  "namespace": "nsac.event",
+  "external_id": "2026-05-02|t-mobile",
+  "name": "TGB Promotions and Golden Boy Promotions and Sampson Boxing at T-Mobile Arena",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "nv-results:2026:05-02-26_Boxing_REDACTED"
+ },
+ {
+  "source_key": "nsac_nevada",
+  "namespace": "nsac.event",
+  "external_id": "2026-05-10|ufc-apex",
+  "name": "TKO Productions LLC d and b and a Zuffa Boxing at The Meta Apex",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "nv-results:2026:05-10-26_Boxing_REDACTED"
+ },
+ {
+  "source_key": "nsac_nevada",
+  "namespace": "nsac.event",
+  "external_id": "2026-05-23|meta-apex",
+  "name": "RR Enterprise LLC dba Reid Boxing at The Meta Apex",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "nv-results:2026:05-23-26_Boxing_REDACTED"
+ },
+ {
+  "source_key": "nsac_nevada",
+  "namespace": "nsac.event",
+  "external_id": "2026-06-28|cosmopolitan",
+  "name": "TKO Productions LLC d and b and a Zuffa Boxing at The Cosmopolitan",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "nv-results:2026:06-28-26_Boxing_REDACTED"
+ },
+ {
+  "source_key": "nsac_nevada",
+  "namespace": "nsac.event",
+  "external_id": "2026-08-01|virgin-hotels",
+  "name": "Golden Boy Promotions TGB Promotions and Top Rank at Virgin Hotel and Casino",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "nv-results:2026:08-01-26_Boxing_REDACTED"
+ },
+ {
+  "source_key": "nsac_nevada",
+  "namespace": "nsac.event",
+  "external_id": "2026-08-22|t-mobile",
+  "name": "TGB Promotions and Warrior Boxing and Promotions at T-Mobile Arena",
+  "name_rule": "commission-event-name@2",
+  "doc_key": "nv-results:2026:08-22-26_Boxing_REDACTED"
+ }
+]
