@@ -154,8 +154,9 @@ main { flex: 1; position: relative; z-index: 1; }
 
 /* ---------------------------------------------------------------- Fighter art */
 .fart { position: relative; overflow: hidden; border-radius: var(--r-3); background: #0d0a08; isolation: isolate; aspect-ratio: 4 / 5; border: 1px solid var(--line); }
-.fart > img, .fart > svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-.fart > img { object-fit: cover; object-position: 50% 18%; }
+.fart { display: block; }
+.fart > img, .fart > svg, .fart__hit, .fart__hit > img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.fart > img, .fart__hit > img { object-fit: cover; object-position: 50% 18%; }
 .fart::after { content: ""; position: absolute; inset: 0; z-index: 2; background: linear-gradient(180deg, transparent 50%, rgba(8, 6, 5, 0.45) 78%, rgba(8, 6, 5, 0.85)); pointer-events: none; }
 .fart--red { box-shadow: inset 0 0 0 1px rgba(211, 58, 63, 0.4); }
 .fart--blue { box-shadow: inset 0 0 0 1px rgba(47, 118, 220, 0.4); }

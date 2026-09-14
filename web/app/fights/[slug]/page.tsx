@@ -40,9 +40,9 @@ function Side({ d, c, side, ctx }: { d: BoutDetail; c: CornerDetail | undefined;
   const won = d.bout.result?.winner_side === side;
   return (
     <div className={`faceoff__side faceoff__side--${side}`}>
-      <Link href={fighterPath(corner)} style={{ width: "100%", display: "grid", justifyItems: side === "a" ? "start" : "end" }}>
-        <FighterArt name={corner.name} id={corner.public_id} corner={corner.corner ?? (side === "a" ? "red" : "blue")} portrait={corner.portrait} side={side} />
-      </Link>
+      <div style={{ width: "100%", display: "grid", justifyItems: side === "a" ? "start" : "end" }}>
+        <FighterArt name={corner.name} id={corner.public_id} corner={corner.corner ?? (side === "a" ? "red" : "blue")} portrait={corner.portrait} side={side} href={fighterPath(corner)} />
+      </div>
       <div>
         <div className="faceoff__sub">
           <span className={`tag ${side === "a" ? "tag--red" : "tag--blue"}`}>{corner.corner ? `${corner.corner} corner` : side === "a" ? "Corner A" : "Corner B"}</span>

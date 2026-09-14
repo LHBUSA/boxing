@@ -167,9 +167,9 @@ export function readLimits(d: BoutDetail, ctx?: { officials?: { role: string }[]
   const B = d.corners.b;
   const out: Factor[] = [];
   const complete = Boolean(d.bout.result) || d.event.status === "complete";
-  for (const [name, c] of [[an, A], [bn, B]] as const) {
-    if (c && c.entering.bouts < 3) out.push({ title: "Thin verified history", evidence: `${name} entered with ${plural(c.entering.bouts, "verified bout")}. Verified records cover the commissions PropBetEdge ingests, not a full career.` });
-  }
+  // One item for both corners: titles are unique within a read (they key the rendered list).
+  const thin = ([[an, A], [bn, B]] as const).flatMap(([name, c]) => (c && c.entering.bouts < 3 ? [`${name} entered with ${plural(c.entering.bouts, "verified bout")}`] : []));
+  if (thin.length) out.push({ title: "Thin verified history", evidence: `${thin.join("; ")}. Verified records cover the commissions PropBetEdge ingests, not a full career.` });
   if (!complete && (d.bout.a?.weigh_in == null || d.bout.b?.weigh_in == null)) out.push({ title: "Scale not on record yet", evidence: "The official weigh-in has not been recorded; a missed weight or a late change would change this read." });
   if (!complete && !(ctx?.officials?.length)) out.push({ title: "Officials not assigned on record", evidence: "Referee and judges appear once the commission assigns them." });
   const sourcedHeight = Boolean(ctx?.corners?.a?.sourced_bio?.height_cm || ctx?.corners?.b?.sourced_bio?.height_cm);

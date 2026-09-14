@@ -54,8 +54,8 @@ export default async function ScorecardPage({ params }: Props) {
           </div>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-          {b.a ? <Link href={fighterPath(b.a)}><FighterArt name={aName} id={b.a.public_id} corner={b.a.corner ?? "red"} portrait={b.a.portrait} side="a" /></Link> : null}
-          {b.b ? <Link href={fighterPath(b.b)}><FighterArt name={bName} id={b.b.public_id} corner={b.b.corner ?? "blue"} portrait={b.b.portrait} side="b" /></Link> : null}
+          {b.a ? <FighterArt name={aName} id={b.a.public_id} corner={b.a.corner ?? "red"} portrait={b.a.portrait} side="a" href={fighterPath(b.a)} /> : null}
+          {b.b ? <FighterArt name={bName} id={b.b.public_id} corner={b.b.corner ?? "blue"} portrait={b.b.portrait} side="b" href={fighterPath(b.b)} /> : null}
         </div>
       </section>
 

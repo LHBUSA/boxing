@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Portrait } from "@/lib/types";
 
 // Fighter imagery, rights-aware.
@@ -6,6 +7,9 @@ import type { Portrait } from "@/lib/types";
 //  - Otherwise: the PropBetEdge boxer silhouette. It is a generic figure in a
 //    high guard, lit from the boxer's corner under an arena spotlight, behind
 //    ring ropes. It never depicts a face and is never presented as a likeness.
+//  - `href` links the art to a page. The link wraps only the image, never the credit line: the
+//    credit carries its own license link, and a link inside a link is invalid HTML (it broke
+//    hydration on fight and scorecard pages).
 
 function hash(s: string): number {
   let h = 2166136261;
@@ -78,17 +82,18 @@ export function Silhouette({ id, corner, mirror = false }: { id: string; corner:
   );
 }
 
-export function FighterArt({ name, id, corner = null, portrait = null, side = "a", variant = "card", className = "", credit = true }: {
-  name: string; id: string; corner?: "red" | "blue" | null; portrait?: Portrait | null; side?: "a" | "b"; variant?: "card" | "thumb"; className?: string; credit?: boolean;
+export function FighterArt({ name, id, corner = null, portrait = null, side = "a", variant = "card", className = "", credit = true, href }: {
+  name: string; id: string; corner?: "red" | "blue" | null; portrait?: Portrait | null; side?: "a" | "b"; variant?: "card" | "thumb"; className?: string; credit?: boolean; href?: string;
 }) {
   const tone = corner ?? (side === "a" ? "red" : "blue");
   const cls = `fart fart--${tone}${variant === "thumb" ? " fart--thumb" : ""} ${className}`;
   if (portrait && variant !== "thumb") {
+    // eslint-disable-next-line @next/next/no-img-element
+    const img = <img src={portrait.src} alt={name} width={portrait.width ?? 800} height={portrait.height ?? 1000} loading="lazy" decoding="async"
+      style={portrait.focus ? { objectPosition: portrait.focus } : undefined} />;
     return (
       <figure className={cls} style={{ margin: 0 }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={portrait.src} alt={name} width={portrait.width ?? 800} height={portrait.height ?? 1000} loading="lazy" decoding="async"
-          style={portrait.focus ? { objectPosition: portrait.focus } : undefined} />
+        {href ? <Link href={href} className="fart__hit">{img}</Link> : img}
         {credit ? (
           <figcaption className="fart__credit">
             Photo: {portrait.credit} · <a href={portrait.license_url ?? portrait.source_url} target="_blank" rel="noopener noreferrer">{portrait.license}</a>
@@ -97,9 +102,11 @@ export function FighterArt({ name, id, corner = null, portrait = null, side = "a
       </figure>
     );
   }
+  const silhouette = <Silhouette id={id} corner={tone === "red" || tone === "blue" ? tone : null} mirror={side === "b"} />;
+  if (href) return <Link href={href} className={cls} aria-label={`${name}: no licensed photo on file`}>{silhouette}</Link>;
   return (
     <div className={cls} role="img" aria-label={`${name}: no licensed photo on file`}>
-      <Silhouette id={id} corner={tone === "red" || tone === "blue" ? tone : null} mirror={side === "b"} />
+      {silhouette}
     </div>
   );
 }
