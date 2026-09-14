@@ -2,7 +2,7 @@
 // Human identity review batches against the guarded Boxing store (staging via
 // scripts/staging/identity-review.ps1).
 //
-//   node scripts/identity/review-once.mjs propose --batch=001 --size=10 --out=<dir>   (read-only)
+//   node scripts/identity/review-once.mjs propose --batch=001 --size=10 [--sources=<source_key,...>] --out=<dir>   (read-only)
 //   node scripts/identity/review-once.mjs apply --file=<batch.json> --reviewer=<human name>
 //   node scripts/identity/review-once.mjs dryrun --batch=002 --out=<dir>                  (read-only resolver projection)
 //   node scripts/identity/review-once.mjs metrics                                      (read-only + stored-odds replay)
@@ -45,7 +45,8 @@ if (command === 'propose') {
   const batchId = arg('batch') ?? '001';
   const out = arg('out');
   const report = await buildIdentityReviewReport(store);
-  const proposal = await proposeReviewBatch(store, report, { batchId, size: Number(arg('size') ?? 10) });
+  const sources = arg('sources') ? arg('sources').split(',').map((x) => x.trim()).filter(Boolean) : null;
+  const proposal = await proposeReviewBatch(store, report, { batchId, size: Number(arg('size') ?? 10), sources });
   console.log(JSON.stringify(proposal.summary, null, 1));
   if (out) {
     mkdirSync(out, { recursive: true });

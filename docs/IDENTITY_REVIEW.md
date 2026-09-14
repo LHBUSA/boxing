@@ -46,6 +46,33 @@ The career-graph resolver (`boxing-identity-graph@1.0.0`, [IDENTITY_GRAPH.md](ID
    - Fight DNA coverage
    - replay of the stored odds observations (no provider request)
 
+## Workbench 1.1.0 (2026-09-14): per-source batches, grouped identities, local review UI
+
+- **Per-source batches:** `-Propose -Batch 003 -Size 200 -Sources mo_office_of_athletics,pa_state_athletic_commission -OutDir reviews/identity`.
+- **More evidence per entry:** official document URL, jurisdiction, weight class, every name-similar candidate (tier,
+  confidence, aliases, hometowns, jurisdictions, verified bouts, reasons for/against), why it is held (queue reason and
+  the resolver's own stop reason), and the date-of-birth policy (never collected).
+- **Grouped identities** (`groupEntries`): several held appearances become ONE review decision only when they share the
+  source, the exact normalized printed name and a stated place, propose the same canonical boxer (or none), carry no
+  competing candidate and no separating danger flag (namesakes, relatives, suffixes, non-exact form, place mismatch),
+  fall on distinct dates, and their official weights move by at most max(8 lb, 5%). Similar names never group. A batch
+  never splits a group.
+- **Group apply:** a group decision writes one append-only decision row per member (same reviewer, note and batch; the
+  group id and basis in the evidence). `approve_distinct` creates ONE new boxer from the earliest member and matches the
+  others to it. A member cannot carry its own decision as well; members must propose the same boxer.
+- **Local review UI:** `node scripts/identity/review-ui.mjs reviews/identity/identity-review-batch-003.json` opens
+  http://127.0.0.1:4717 with every group and entry and its evidence, a decision select and a note. Save writes only
+  `reviewer_decision` / `reviewer_note` into the batch file. It never talks to a database; it binds 127.0.0.1, refuses
+  other Host headers and requires a per-run token. Applying stays `-Apply <file> -Reviewer "<human name>"`.
+
+### Batch 003 (Missouri + Pennsylvania holds), proposed 2026-09-14, NOT applied
+
+103 held appearances (MO 15, PA 88), 9 grouped identities covering 18 appearances, 77 would unlock a bout on approval.
+Workbench advice: 24 match, 79 hold; danger flags on 31 entries (stated place mismatch 15, non-exact name form 15,
+common surname 15, same surname + same region/city with a different given name 7, given name differs 1, suffix 1).
+Every held appearance has a name-matched Tier C candidate; the resolver's thresholds are unchanged. No decision has
+been made or recorded: the queue changes only when a named human reviews and applies.
+
 ## Rules
 
 - **Batches stay small** (about 10) and are committed under `reviews/identity/` before they are applied.

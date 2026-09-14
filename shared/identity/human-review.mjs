@@ -23,7 +23,7 @@ import { normalizedAlias, parseName } from './normalize.mjs';
 import { buildIndex, toIdentity } from './pipeline.mjs';
 import { classifyCandidateBouts, historyLine } from './bout-history.mjs';
 
-export const REVIEW_WORKBENCH_VERSION = 'boxing-identity-review-workbench@1.0.0';
+export const REVIEW_WORKBENCH_VERSION = 'boxing-identity-review-workbench@1.1.0';
 export const COMMISSION_SOURCES = ['nsac_nevada', 'florida_athletic_commission', 'nj_sacb', 'mo_office_of_athletics', 'pa_state_athletic_commission'];
 const STATE_OF = { nsac_nevada: 'NV', florida_athletic_commission: 'FL', nj_sacb: 'NJ', mo_office_of_athletics: 'MO', pa_state_athletic_commission: 'PA' };
 const EXACT_FORMS = new Set(['exact', 'reordered', 'joined']);
@@ -148,14 +148,57 @@ export function recommend({ appearance, top, plausible, flags }) {
   return { recommendation: 'hold', why: 'not enough independent evidence' };
 }
 
+// ---------------------------------------------------------------------------------------------------------------------
+// Grouped review: several held appearances of ONE unresolved identity reviewed with one decision.
+// A group forms only when every member shares the source, the exact normalized printed name and a stated place
+// (city-level hometown, or the identical hometown text), proposes the same canonical boxer (or none), has no
+// competing candidate and no danger flag that separates people (namesakes, relatives, suffixes, place mismatch),
+// no two members fight on the same date, and official weights move by at most max(8 lb, 5%) between consecutive
+// appearances. Similar names alone never group.
+// ---------------------------------------------------------------------------------------------------------------------
+const SEPARATING_FLAGS = new Set(['same_name_multiple_canonical_boxers', 'same_surname_same_city_different_given_name', 'same_surname_same_region_different_given_name',
+  'generational_suffix', 'stated_place_mismatch', 'given_name_differs', 'name_not_exact_form']);
+const placeKey = (e) => e.evidence.city_hometown.observed_city_level ?? (e.evidence.city_hometown.observed ? `text:${normalizedAlias(e.evidence.city_hometown.observed)}` : null);
+export function groupEntries(entries) {
+  const buckets = new Map();
+  for (const e of entries) {
+    const place = placeKey(e);
+    if (!place) continue;
+    if (e.danger.some((d) => SEPARATING_FLAGS.has(d.kind)) || (e.evidence.competing_candidates ?? []).length) continue;
+    const key = [e.source_key, normalizedAlias(e.appearance.display_name), place, e.proposed_boxer?.fighter_id ?? 'none'].join('|');
+    buckets.set(key, [...(buckets.get(key) ?? []), e]);
+  }
+  const groups = [];
+  for (const [key, members] of buckets) {
+    if (members.length < 2) continue;
+    const byDate = [...members].sort((x, y) => String(x.evidence.event_date).localeCompare(String(y.evidence.event_date)) || x.entry_id.localeCompare(y.entry_id));
+    const dates = byDate.map((m) => m.evidence.event_date);
+    if (dates.some((d) => !d) || new Set(dates).size !== dates.length) continue;
+    const weights = byDate.map((m) => m.evidence.weight.official_lb).filter((w) => w != null);
+    const weightsOk = weights.every((w, i) => i === 0 || Math.abs(w - weights[i - 1]) <= Math.max(8, weights[i - 1] * 0.05));
+    if (!weightsOk) continue;
+    groups.push({
+      group_id: `G:${key}`, source_key: byDate[0].source_key, state: byDate[0].state, display_name: byDate[0].appearance.display_name,
+      stated_place: byDate[0].evidence.city_hometown.observed, proposed_boxer: byDate[0].proposed_boxer,
+      members: byDate.map((m) => m.entry_id),
+      basis: `same source, exact normalized name, same stated place, ${byDate[0].proposed_boxer ? 'same proposed boxer' : 'no canonical candidate'}, no competing candidate or separating danger flag, distinct dates (${dates.join(', ')}), weights ${weights.join(' -> ') || 'not printed'}`,
+      // filled in by the human reviewer: approve_match | approve_distinct (one new boxer for all members) | hold | reject_candidate
+      reviewer_decision: null, reviewer_note: null,
+    });
+  }
+  return groups;
+}
+
 // report: buildIdentityReviewReport output; returns proposals for every pending appearance, ranked
-export async function proposeReviewBatch(store, report, { batchId, size = 10, now = new Date().toISOString() } = {}) {
+// sources: optional commission source keys to review (e.g. Missouri and Pennsylvania only)
+export async function proposeReviewBatch(store, report, { batchId, size = 10, now = new Date().toISOString(), sources = null } = {}) {
   const nameIndex = await store.fighterNameIndex();
   const blocked = await blockedBoutsByState(store);
   const boutsBySource = new Map();
   for (const s of COMMISSION_SOURCES) boutsBySource.set(s, new Map((await storedBouts(store, s)).map((x) => [x.bout.source_bout_id, x])));
   const entries = [];
   for (const item of report.items) {
+    if (sources && !sources.includes(item.source_key)) continue;
     const ns = `${COMMISSION_NAMESPACES[item.source_key]}.fighter`;
     const keys = item.appearances.map((a) => `${a.bout}|${a.side}`);
     const latest = await store.appearanceLatest(ns, keys);
@@ -177,6 +220,14 @@ export async function proposeReviewBatch(store, report, { batchId, size = 10, no
           display_name: stored?.bout?.[`fighter_${a.side}`]?.display_name ?? item.raw_name, document: ctx.document, latest_decision_seq: bound?.seq ?? null },
         unlocks_bout_now: Boolean(ctx.opponent_fighter_id),
         evidence: {
+          source_url: stored?.bout?.source_url ?? null, jurisdiction: ctx.jurisdiction ?? STATE_OF[item.source_key],
+          // why it waits: the queue reason and the resolver's own stop reason, verbatim
+          held_reason: { queue_reason: item.review_reason, resolver: a.proposal?.reason ?? null, resolver_tier: a.proposal?.tier ?? null },
+          birthdate_policy: { note: 'not collected: dates of birth are never stored (data minimization policy)' },
+          weight_class: contract.weight_class_key ?? null,
+          candidates: (a.candidates ?? []).map((c) => ({ fighter_id: c.fighter_id, display_name: c.display_name, identity_state: c.identity_state, tier: c.tier, confidence: c.confidence,
+            name_level: c.name_level, aliases: c.aliases ?? [], hometowns: c.hometowns ?? [], jurisdictions: c.jurisdictions ?? [], verified_bouts: (c.bout_history ?? []).length,
+            for: c.reasons_for ?? [], against: c.reasons_against ?? [] })),
           normalized_name: { observed: normalizedAlias(item.raw_name), candidate: top ? normalizedAlias(top.display_name) : null, name_level: top?.name_level ?? null },
           city_hometown: { observed: ctx.stated_hometown, observed_city_level: cityLevelHometown(ctx.stated_hometown), candidate: top?.hometowns ?? [],
             candidate_city_level: (top?.hometowns ?? []).map(cityLevelHometown).filter(Boolean) },
@@ -205,15 +256,25 @@ export async function proposeReviewBatch(store, report, { batchId, size = 10, no
   }
   const rank = (e) => (e.unlocks_bout_now ? 0 : 10) + ({ match: 0, match_with_caveat: 2, distinct: 3, hold: 5, distinct_or_hold: 6 }[e.recommendation] ?? 9) + (e.danger.length ? 4 : 0);
   entries.sort((x, y) => rank(x) - rank(y) || String(x.evidence.event_date).localeCompare(String(y.evidence.event_date)) || x.entry_id.localeCompare(y.entry_id));
-  const batch = entries.slice(0, size);
+  // a batch never splits a group: when a member is selected, every member comes along
+  const allGroups = groupEntries(entries);
+  const groupOf = new Map(allGroups.flatMap((g) => g.members.map((m) => [m, g])));
+  const selected = new Set();
+  for (const e of entries) {
+    if (selected.size >= size) break;
+    for (const id of groupOf.get(e.entry_id)?.members ?? [e.entry_id]) selected.add(id);
+  }
+  const batch = entries.filter((e) => selected.has(e.entry_id)).map((e) => ({ ...e, group_id: groupOf.get(e.entry_id)?.group_id ?? null }));
+  const groups = allGroups.filter((g) => g.members.every((m) => selected.has(m)));
   const summary = {
+    groups_in_batch: groups.length, grouped_entries_in_batch: groups.reduce((n, g) => n + g.members.length, 0), groupable_identities_in_queue: allGroups.length,
     pending_items: report.summary.pending_items, pending_appearances: entries.length,
     unlock_now: entries.filter((e) => e.unlocks_bout_now).length,
     recommendations: entries.reduce((m, e) => ({ ...m, [e.recommendation]: (m[e.recommendation] ?? 0) + 1 }), {}),
     danger_cases: entries.filter((e) => e.danger.length).length,
     blocked_bouts: blocked,
   };
-  return assertMinimized({ workbench_version: REVIEW_WORKBENCH_VERSION, batch_id: batchId, generated_at: now, summary, batch, remaining: entries.slice(size).map((e) => ({
+  return assertMinimized({ workbench_version: REVIEW_WORKBENCH_VERSION, batch_id: batchId, generated_at: now, sources, summary, groups, batch, remaining: entries.filter((e) => !selected.has(e.entry_id)).map((e) => ({
     entry_id: e.entry_id, name: e.appearance.display_name, state: e.state, event_date: e.evidence.event_date, unlocks_bout_now: e.unlocks_bout_now,
     recommendation: e.recommendation, danger: e.danger.map((d) => d.kind) })) });
 }
@@ -221,6 +282,8 @@ export async function proposeReviewBatch(store, report, { batchId, size = 10, no
 export function batchMarkdown(p) {
   const L = [`# Identity review batch ${p.batch_id}`, '', `Generated ${p.generated_at} by ${p.workbench_version}. **Nothing has been applied.** Each entry needs a named human reviewer's decision and note.`, '',
     '```', JSON.stringify(p.summary, null, 1), '```', ''];
+  L.push('## Grouped identities (one decision covers every member)', '');
+  L.push((p.groups ?? []).length ? p.groups.map((g) => `- **${g.display_name}** (${g.state}, ${g.stated_place ?? '-'}) -> ${g.proposed_boxer ? `proposed ${g.proposed_boxer.display_name}` : 'no canonical candidate'}; ${g.members.length} appearances. Basis: ${g.basis}`).join('\n') : '- none', '');
   const dangers = p.batch.filter((e) => e.danger.length);
   L.push('## Sibling / twin / same-name danger cases in this batch', '');
   L.push(dangers.length ? dangers.map((e) => `- **${e.appearance.display_name}** (${e.state}, ${e.evidence.event_date}): ${e.danger.map((d) => `${d.kind} [${d.detail}]`).join('; ')}`).join('\n') : '- none', '');
@@ -228,7 +291,11 @@ export function batchMarkdown(p) {
     const ev = e.evidence;
     L.push(`## ${e.entry_id}`, '',
       `| | |`, `|---|---|`,
-      `| Source appearance | "${e.appearance.printed_name}" (${e.state}), corner ${e.appearance.side}, ${ev.event_date}, ${ev.event ?? ''}; document \`${e.appearance.document}\` |`,
+      `| Source appearance | "${e.appearance.printed_name}" (${e.state}), corner ${e.appearance.side}, ${ev.event_date}, ${ev.event ?? ''}; document \`${e.appearance.document}\`${ev.source_url ? ` ([official document](${ev.source_url}))` : ''} |`,
+      ...(e.group_id ? [`| Group | \`${e.group_id}\` (decided once for all members) |`] : []),
+      ...(ev.held_reason ? [`| Why held | queue: ${ev.held_reason.queue_reason ?? '-'}; resolver: ${ev.held_reason.resolver ?? '-'} |`] : []),
+      ...(ev.candidates ? [`| All candidates | ${ev.candidates.map((c) => `${c.display_name} [${c.tier ?? '-'}, ${c.confidence ?? '-'}; ${c.verified_bouts} bouts; aliases: ${c.aliases.join(', ') || '-'}]`).join('<br>') || 'none'} |`] : []),
+      ...(ev.weight_class !== undefined ? [`| Weight class / DOB | ${ev.weight_class ?? 'not derivable from the sheet'} / ${ev.birthdate_policy?.note ?? '-'} |`] : []),
       `| Proposed canonical boxer | ${e.proposed_boxer ? `${e.proposed_boxer.display_name} (\`${e.proposed_boxer.fighter_id}\`, resolver tier ${e.proposed_boxer.tier_by_resolver})` : 'none'} |`,
       `| Normalized name | ${ev.normalized_name.observed} ~ ${ev.normalized_name.candidate ?? '-'} (${ev.normalized_name.name_level ?? '-'}) |`,
       `| City-level hometown | observed: ${ev.city_hometown.observed ?? '-'} (${ev.city_hometown.observed_city_level ?? 'not city-level'}); candidate: ${ev.city_hometown.candidate.join(' / ') || '-'} |`,
@@ -258,12 +325,35 @@ export async function applyApprovedBatch(store, batch, { reviewer, reviewedAt = 
     throw new Error('a named human reviewer is required');
   }
   const results = [];
-  for (const e of batch.batch) {
+  // group decisions expand onto their members; a member may not also carry its own decision
+  const entryById = new Map(batch.batch.map((e) => [e.entry_id, e]));
+  const groupCreated = new Map();
+  const groupContext = new Map();
+  for (const g of batch.groups ?? []) {
+    if (!g.reviewer_decision) continue;
+    if (!REVIEWER_DECISIONS.has(g.reviewer_decision)) throw new Error(`${g.group_id}: unknown reviewer_decision ${g.reviewer_decision}`);
+    if (!g.reviewer_note || g.reviewer_note.trim().length < 20) throw new Error(`${g.group_id}: reviewer_note (20+ characters) is required`);
+    const members = g.members.map((id) => entryById.get(id));
+    if (members.some((m) => !m)) throw new Error(`${g.group_id}: a member is missing from the batch`);
+    if (members.some((m) => m.reviewer_decision)) throw new Error(`${g.group_id}: a member also carries its own decision; decide the group OR its entries`);
+    if (members.some((m) => (m.proposed_boxer?.fighter_id ?? null) !== (g.proposed_boxer?.fighter_id ?? null))) throw new Error(`${g.group_id}: members propose different boxers`);
+    for (const m of members) groupContext.set(m.entry_id, g);
+  }
+  const ordered = [...batch.batch].sort((x, y) => {
+    const gx = groupContext.get(x.entry_id); const gy = groupContext.get(y.entry_id);
+    return (gx && gy && gx === gy) ? gx.members.indexOf(x.entry_id) - gx.members.indexOf(y.entry_id) : 0;
+  });
+  for (const e0 of ordered) {
+    const g = groupContext.get(e0.entry_id);
+    const e = g ? { ...e0, reviewer_decision: g.reviewer_decision, reviewer_note: g.reviewer_note } : e0;
     if (!e.reviewer_decision) { results.push({ entry_id: e.entry_id, status: 'not_reviewed' }); continue; }
     if (!REVIEWER_DECISIONS.has(e.reviewer_decision)) throw new Error(`${e.entry_id}: unknown reviewer_decision ${e.reviewer_decision}`);
     if (!e.reviewer_note || e.reviewer_note.trim().length < 20) throw new Error(`${e.entry_id}: reviewer_note (20+ characters) is required`);
     if (e.reviewer_decision === 'approve_match' && !e.proposed_boxer?.fighter_id) throw new Error(`${e.entry_id}: no proposed boxer to match`);
-    const decision = { approve_match: 'matched', approve_distinct: 'created', hold: 'review', reject_candidate: 'review' }[e.reviewer_decision];
+    let decision = { approve_match: 'matched', approve_distinct: 'created', hold: 'review', reject_candidate: 'review' }[e.reviewer_decision];
+    // one new boxer per group: the earliest member creates it, later members are matched to it
+    let groupFighter = null;
+    if (g && decision === 'created' && groupCreated.has(g.group_id)) { decision = 'matched'; groupFighter = groupCreated.get(g.group_id); }
     // the reviewed evidence described a BLOCKED bout; if that bout became canonical since, the evidence is stale
     if (decision !== 'review') {
       const boutNs = e.appearance.namespace.replace(/\.fighter$/, '.bout');
@@ -271,16 +361,18 @@ export async function applyApprovedBatch(store, batch, { reviewer, reviewedAt = 
       if (existing) { results.push({ entry_id: e.entry_id, status: 'refused_bout_already_canonical', bout_id: existing }); continue; }
     }
     const evidence = { shown_to_reviewer: e.evidence, danger: e.danger, workbench_recommendation: { recommendation: e.recommendation, why: e.recommendation_why },
-      reviewer_decision: e.reviewer_decision, rejected_candidate: e.reviewer_decision === 'reject_candidate' ? e.proposed_boxer : null, workbench_version: batch.workbench_version };
+      reviewer_decision: e.reviewer_decision, rejected_candidate: e.reviewer_decision === 'reject_candidate' ? e.proposed_boxer : null, workbench_version: batch.workbench_version,
+      ...(g ? { group: { group_id: g.group_id, members: g.members, basis: g.basis, ...(groupFighter ? { matched_to_boxer_created_by_this_group: groupFighter } : {}) } } : {}) };
     const r = await store.recordAppearanceDecision({
       source_key: e.source_key, namespace: e.appearance.namespace, bout_external_id: e.appearance.bout_external_id, side: e.appearance.side,
       observed_name: e.appearance.display_name, hometown: e.evidence.city_hometown.observed ?? null, decision, tier: 'C',
-      fighter_id: decision === 'matched' ? e.proposed_boxer.fighter_id : null, confidence: 100, evidence, evidence_hash: await contentHash(evidence),
+      fighter_id: decision === 'matched' ? (groupFighter ?? e.proposed_boxer.fighter_id) : null, confidence: 100, evidence, evidence_hash: await contentHash(evidence),
       resolver_version: `human-review:${batch.workbench_version}`, decided_by: `reviewer:${reviewer}`, reviewer, reviewed_at: reviewedAt,
       review_note: e.reviewer_note, review_batch: batch.batch_id, supersedes_seq: e.appearance.latest_decision_seq,
       index: buildIndex(toIdentity({ display_name: e.appearance.display_name }, e.appearance.namespace), { evidence: { nameLevel: 'exact' } }),
     });
-    results.push({ entry_id: e.entry_id, status: r.status, decision, decision_seq: r.decision_seq, review_items_closed: r.review_items_closed });
+    if (g && decision === 'created' && r.fighter_id) groupCreated.set(g.group_id, r.fighter_id);
+    results.push({ entry_id: e.entry_id, status: r.status, decision, decision_seq: r.decision_seq, review_items_closed: r.review_items_closed, ...(g ? { group_id: g.group_id } : {}) });
   }
   return results;
 }
