@@ -133,6 +133,15 @@ function identityCache(store, org) {
   };
 }
 
+// A division label the vocabulary does not know is written as a pending_review org division (the database refuses the
+// document in the same call), so it reaches review instead of living only in run metrics. Nothing else is stored.
+export async function holdUnknownDivision(store, { body, kind, sourceKey, nativeLabel, limitText, metrics }) {
+  const r = await store.importTitleStatusSnapshot({ source_key: sourceKey, organization_slug: body, gender_scope: 'male', document_kind: kind,
+    division_native_label: nativeLabel, division_limit_text: limitText ?? null, entries: [], claims: [] });
+  (metrics.refused ??= []).push({ kind, division: nativeLabel, reason: r.reason ?? 'unknown_division' });
+  return r;
+}
+
 export async function persistSnapshot(store, snap, { body, kind, sourceKey, runId, retrievedAt, documentSha256, identities, metrics, divisionNativeLabel, asOf, publishedOn, asOfLabel, pairWith = [] }) {
   const entries = [];
   for (const t of snap.titles) {
@@ -225,7 +234,7 @@ async function collectWba(ctx, { month = null }) {
     champions = { parsed: checkWbaChampions(parseWbaChampionsPage(cres.text)), meta: { sourceUrl: URLS.wbaChampions, retrievedAt: cres.retrievedAt, contentSha256: await sha256Bytes(cres.bytes) } };
   }
   for (const s of snaps) {
-    if (!s.division.key) { (metrics.refused ??= []).push({ kind: 'wba_ranking', division: s.division.native_label, reason: 'unknown_division' }); continue; }
+    if (!s.division.key) { await holdUnknownDivision(store, { body: 'wba', kind: 'wba_ranking', sourceKey, nativeLabel: s.division.native_label, limitText: s.division.limit_text, metrics }); continue; }
     const common = { body: 'wba', sourceKey, runId, retrievedAt: res.retrievedAt, documentSha256: sha, identities, metrics, asOf, publishedOn: parsed.published_on, asOfLabel: parsed.as_of_label };
     await persistSnapshot(store, s, { ...common, kind: 'wba_ranking', divisionNativeLabel: s.division.native_label, pairWith: [{ kind: 'wba_champions' }] });
     await persistRanking(store, s, { ...common, kind: 'wba_ranking' });
@@ -248,7 +257,7 @@ async function processIbfRecords(ctx, slug, json, { latestOnly }) {
   const records = parseIbfResponse(checkIbfResponse(json, { slug }), { weightSlug: slug }).sort((a, b) => a.results_month_end.localeCompare(b.results_month_end));
   const pick = latestOnly ? records.slice(-1) : records;
   for (const rec of pick) {
-    if (!rec.division.weight_class_key) { (metrics.refused ??= []).push({ kind: 'ibf_rating', division: slug, reason: 'unknown_division' }); continue; }
+    if (!rec.division.weight_class_key) { await holdUnknownDivision(store, { body: 'ibf', kind: 'ibf_rating', sourceKey, nativeLabel: slug, limitText: rec.division.label_as_printed, metrics }); continue; }
     const s = ibfSnapshot(rec, { sourceUrl: `${URLS.ibfFilter}?weight=${slug}&org=ibf`, retrievedAt: ctx.retrievedAt, contentSha256: ctx.sha });
     s.division = { ...s.division, native_label: slug, limit_text: rec.division.label_as_printed };
     const common = { body: 'ibf', kind: 'ibf_rating', sourceKey, runId, retrievedAt: ctx.retrievedAt, documentSha256: ctx.sha, identities, metrics, asOf: rec.results_month_end, publishedOn: rec.published_on, asOfLabel: rec.title_as_printed };
@@ -284,7 +293,7 @@ async function collectWbo(ctx, { month = null }) {
   const sha = await sha256Bytes(res.bytes);
   const snaps = wboRatingsSnapshots({ ...parsed, as_of: asOf }, { sourceUrl, retrievedAt: res.retrievedAt, contentSha256: sha });
   for (const s of snaps) {
-    if (!s.division.key) { (metrics.refused ??= []).push({ kind: 'wbo_ratings', division: s.division.native_label, reason: 'unknown_division' }); continue; }
+    if (!s.division.key) { await holdUnknownDivision(store, { body: 'wbo', kind: 'wbo_ratings', sourceKey, nativeLabel: s.division.native_label, limitText: s.division.limit_text, metrics }); continue; }
     const common = { body: 'wbo', kind: 'wbo_ratings', sourceKey, runId, retrievedAt: res.retrievedAt, documentSha256: sha, identities, metrics, asOf, publishedOn: null, asOfLabel };
     await persistSnapshot(store, s, { ...common, divisionNativeLabel: s.division.native_label, pairWith: [{ kind: 'wbo_champions' }] });
     await persistRanking(store, s, common);
@@ -336,8 +345,12 @@ export async function runSanctioningCollection(store, env, { body, mode = 'curre
         const res = await request(`${URLS.ibfFilter}?weight=${slug}&org=ibf${mode === 'backfill' ? '&ppp=-1' : ''}`, { accept: 'application/json' });
         let json;
         try { json = JSON.parse(res.text); } catch { throw new StructureError(`ibf ${slug}: not JSON (${res.contentType})`); }
+        const refusedBefore = metrics.refused?.length ?? 0;
         await processIbfRecords({ ...ctx, retrievedAt: res.retrievedAt, sha: await sha256Bytes(res.bytes) }, slug, json, { latestOnly: mode !== 'backfill' });
-        if (job) await store.backfillCheckpoint(sourceKey, job, { completed: slug, cursor: { last_slug: slug, at: new Date().toISOString() } });
+        // a division with refused documents stays open, so a resume after review re-reads it (stored months are duplicates)
+        const refused = (metrics.refused ?? []).slice(refusedBefore);
+        if (job && refused.length) await store.backfillCheckpoint(sourceKey, job, { failure: [{ slug, refused: refused.length, reasons: [...new Set(refused.map((x) => x.reason))] }] });
+        else if (job) await store.backfillCheckpoint(sourceKey, job, { completed: slug, cursor: { last_slug: slug, at: new Date().toISOString() } });
       }
     } else if (mode === 'current') {
       if (body === 'wba') await collectWba(ctx, {});
@@ -351,11 +364,15 @@ export async function runSanctioningCollection(store, env, { body, mode = 'curre
         if (done.has(key)) continue;
         if (budget()) { status = 'partial'; metrics.stopped = 'request budget'; break; }
         try {
+          const refusedBefore = metrics.refused?.length ?? 0;
           if (body === 'wba') await collectWba(ctx, { month });
           else await collectWbo(ctx, { month });
-          await store.backfillCheckpoint(sourceKey, job, { completed: key, cursor: { last_month: key, at: new Date().toISOString() } });
           metrics.months ??= {};
           metrics.months[key] = 1;
+          // a month with a refused division or designation stays open for a resume after review
+          const refused = (metrics.refused ?? []).slice(refusedBefore);
+          if (refused.length) await store.backfillCheckpoint(sourceKey, job, { failure: [{ month: key, refused: refused.length, reasons: [...new Set(refused.map((x) => x.reason))] }] });
+          else await store.backfillCheckpoint(sourceKey, job, { completed: key, cursor: { last_month: key, at: new Date().toISOString() } });
         } catch (err) {
           if (!(err instanceof StructureError) && !err.httpStatus) throw err;
           // a month the source cannot serve in the expected shape is recorded and skipped, never guessed

@@ -107,6 +107,33 @@ test('fail closed: unexpected WBA structure writes nothing; an unknown designati
   assert.equal(odd.status, 'partial');
   assert.ok(odd.metrics.refused.some((x) => x.reason === 'unknown_designation_pending_review'));
   assert.equal(await n(`public.boxing_org_designations where review_state = 'pending_review' and native_label = 'WBA DIAMOND EMPEROR'`), 1);
+  // an unknown division label is queued for review in the database, not only noted in run metrics, and stores nothing
+  const snapsBefore = await n('public.boxing_title_status_snapshots');
+  const rankingsBefore = await n('public.boxing_ranking_snapshots');
+  site.set('https://www.wbaboxing.com/wba-ranking', wbaRankingHtml({ label: 'SEPTEMBER 2026', date: 'September 30th, 2026', extraDivision: 'EMPEROR WEIGHT' }));
+  const div = await run('wba');
+  assert.ok(div.metrics.refused.some((x) => x.division === 'EMPEROR WEIGHT' && x.reason === 'unknown_division_pending_review'), JSON.stringify(div.metrics.refused));
+  assert.equal(await n(`public.boxing_org_divisions where review_state = 'pending_review' and native_label = 'EMPEROR WEIGHT' and weight_class_id is null`), 1);
+  assert.equal(await n(`public.boxing_title_status_snapshots s join public.boxing_org_divisions d on d.id = s.org_division_id where d.native_label = 'EMPEROR WEIGHT'`), 0);
+  assert.ok(await n('public.boxing_title_status_snapshots') >= snapsBefore);
+  assert.ok(await n('public.boxing_ranking_snapshots') >= rankingsBefore);
+});
+
+test('backfill: a month with a refused division stays open in the checkpoint and is re-read on resume', async () => {
+  const june = 'POST https://www.wbaboxing.com/wba-ranking dates=2026:6:';
+  site.set(june, wbaRankingHtml({ label: 'JUNE 2026', date: 'June 30th, 2026', extraDivision: 'EMPEROR WEIGHT' }));
+  const first = await run('wba', { mode: 'backfill', months: [{ y: 2026, m: 6 }] });
+  assert.equal(first.status, 'partial');
+  const cp = await store.backfillCheckpoint('wba_official', 'wba-history');
+  assert.ok(!(cp.completed ?? []).includes('2026-06'));
+  assert.ok((cp.failures ?? []).some((f) => f.month === "2026-06" && f.refused >= 1), JSON.stringify({ cp, m: first.metrics }));
+  const again = await run('wba', { mode: 'backfill', months: [{ y: 2026, m: 6 }] });
+  assert.equal(again.metrics.requests, 1, 'the open month is requested again');
+  site.set(june, wbaRankingHtml({ label: 'JUNE 2026', date: 'June 30th, 2026' }));
+  const clean = await run('wba', { mode: 'backfill', months: [{ y: 2026, m: 6 }] });
+  assert.equal(clean.status, 'ok', JSON.stringify(clean.metrics));
+  assert.ok((await store.backfillCheckpoint('wba_official', 'wba-history')).completed.includes('2026-06'));
+  assert.equal((await run('wba', { mode: 'backfill', months: [{ y: 2026, m: 6 }] })).metrics.requests, 0, 'a completed month is not requested again');
 });
 
 test('IBF backfill: every monthly record kept, vacancy without a cause, new holder proposed; checkpoint resumes; NOT RATED visible', async () => {
