@@ -6,7 +6,7 @@ import assert from 'node:assert/strict';
 import { freshDatabase } from '../helpers/db.mjs';
 import { pgStore } from '../../scripts/lib/pg-store.mjs';
 import { runSanctioningCollection } from '../../shared/titles/sanctioning-ingest.mjs';
-import { IBF_HEAVYWEIGHT_HISTORY, IBF_SLUGS, ibfRecord, wbaChampionsHtml, wbaRankingHtml, wboChampionsHtml, wboHistoryHtml, wboRankingsPage, wboRatingsText } from '../fixtures/sanctioning/synthetic.mjs';
+import { IBF_HEAVYWEIGHT_HISTORY, IBF_SLUGS, champRow, fifteen, ibfRecord, wbaDivision, wbaChampionsHtml, wbaRankingHtml, wboChampionsHtml, wboHistoryHtml, wboRankingsPage, wboRatingsText } from '../fixtures/sanctioning/synthetic.mjs';
 
 let db;
 let store;
@@ -128,6 +128,19 @@ test('WBA: a division whose numbered list is not 1..n stores its title status bu
   const after = await n(`public.boxing_ranking_snapshots r join public.boxing_organizations o on o.id = r.organization_id where o.slug = 'wba' and r.effective_on = '2026-05-31'`);
   assert.equal(after - before, r.metrics.ranking_snapshots.created, 'only clean lists stored');
   assert.ok(r.metrics.status_snapshots.created >= r.metrics.ranking_snapshots.created + 1, 'title status of the broken division still stored');
+});
+
+test('WBA: a document that lists one division twice stores nothing for that division', async () => {
+  const apr = 'POST https://www.wbaboxing.com/wba-ranking dates=2026:4:';
+  const page = wbaRankingHtml({ label: 'APRIL 2026', date: 'April 30th, 2026' });
+  site.set(apr, page + wbaDivision(90, 'WELTERWEIGHT', '147 Lbs', champRow('SYNTH SECOND', 'USA', 991, 'WBA WORLD CHAMPION'), '', fifteen('SECONDLIST', 4000)));
+  const q2 = `public.boxing_title_status_snapshots s join public.boxing_organizations o on o.id = s.organization_id join public.boxing_weight_classes wc on wc.id = s.weight_class_id
+    where o.slug = 'wba' and wc.class_key = 'welterweight' and s.as_of = '2026-04-30'`;
+  const r = await run('wba', { mode: 'backfill', months: [{ y: 2026, m: 4 }] });
+  assert.ok(r.metrics.refused.some((x) => x.division === 'welterweight' && x.reason === 'division_listed_twice_in_document'), JSON.stringify(r.metrics.refused));
+  assert.equal(await n(q2), 0);
+  assert.equal(await n(`public.boxing_ranking_snapshots r join public.boxing_organizations o on o.id = r.organization_id join public.boxing_weight_classes wc on wc.id = r.weight_class_id
+    where o.slug = 'wba' and wc.class_key = 'welterweight' and r.effective_on = '2026-04-30'`), 0);
 });
 
 test('backfill: a month with a refused division stays open in the checkpoint and is re-read on resume', async () => {

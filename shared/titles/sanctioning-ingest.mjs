@@ -142,6 +142,16 @@ export async function holdUnknownDivision(store, { body, kind, sourceKey, native
   return r;
 }
 
+// One document that lists the same division twice (seen on the WBA July 2011 list) disagrees with itself: neither list
+// is chosen and nothing is stored for that division from that document.
+function listedTwice(snaps, metrics, kind) {
+  const seen = new Map();
+  for (const s of snaps) if (s.division.key) seen.set(s.division.key, (seen.get(s.division.key) ?? 0) + 1);
+  const twice = new Set([...seen].filter(([, n]) => n > 1).map(([k]) => k));
+  for (const key of twice) (metrics.refused ??= []).push({ kind, division: key, reason: 'division_listed_twice_in_document' });
+  return (s) => twice.has(s.division.key);
+}
+
 export async function persistSnapshot(store, snap, { body, kind, sourceKey, runId, retrievedAt, documentSha256, identities, metrics, divisionNativeLabel, asOf, publishedOn, asOfLabel, pairWith = [] }) {
   const entries = [];
   for (const t of snap.titles) {
@@ -230,12 +240,14 @@ async function collectWba(ctx, { month = null }) {
   // the same page URL for current and history: a label in the URL would make an identical list hash as a new revision
   const meta = { sourceUrl: URLS.wbaRanking, retrievedAt: res.retrievedAt, contentSha256: sha };
   const snaps = wbaRankingSnapshots(parsed, meta);
+  const duplicated = listedTwice(snaps, metrics, 'wba_ranking');
   let champions = null;
   if (!month) {
     const cres = await request(URLS.wbaChampions);
     champions = { parsed: checkWbaChampions(parseWbaChampionsPage(cres.text)), meta: { sourceUrl: URLS.wbaChampions, retrievedAt: cres.retrievedAt, contentSha256: await sha256Bytes(cres.bytes) } };
   }
   for (const s of snaps) {
+    if (duplicated(s)) continue;
     if (!s.division.key) { await holdUnknownDivision(store, { body: 'wba', kind: 'wba_ranking', sourceKey, nativeLabel: s.division.native_label, limitText: s.division.limit_text, metrics }); continue; }
     const common = { body: 'wba', sourceKey, runId, retrievedAt: res.retrievedAt, documentSha256: sha, identities, metrics, asOf, publishedOn: parsed.published_on, asOfLabel: parsed.as_of_label,
       request: month ? `POST dates=${month.y}:${month.m}:` : 'GET' };
@@ -300,7 +312,9 @@ async function collectWbo(ctx, { month = null }) {
   }
   const sha = await sha256Bytes(res.bytes);
   const snaps = wboRatingsSnapshots({ ...parsed, as_of: asOf }, { sourceUrl, retrievedAt: res.retrievedAt, contentSha256: sha });
+  const duplicated = listedTwice(snaps, metrics, 'wbo_ratings');
   for (const s of snaps) {
+    if (duplicated(s)) continue;
     if (!s.division.key) { await holdUnknownDivision(store, { body: 'wbo', kind: 'wbo_ratings', sourceKey, nativeLabel: s.division.native_label, limitText: s.division.limit_text, metrics }); continue; }
     const common = { body: 'wbo', kind: 'wbo_ratings', sourceKey, runId, retrievedAt: res.retrievedAt, documentSha256: sha, identities, metrics, asOf, publishedOn: null, asOfLabel };
     await persistSnapshot(store, s, { ...common, divisionNativeLabel: s.division.native_label, pairWith: [{ kind: 'wbo_champions' }] });
