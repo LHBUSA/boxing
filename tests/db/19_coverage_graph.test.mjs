@@ -64,4 +64,13 @@ test('event distribution and venue aliases are append-only observations; source 
   await expectPgError(() => q("delete from public.boxing_event_distribution"), { match: /append/i });
   const health = await q('select source_key, failures_last_5_runs from public.boxing_source_health');
   assert.ok(health.some((h) => h.source_key === 'nsac_nevada'));
+  const ec = await one('select public.boxing_event_completeness($1) as c', [ev.id]);
+  assert.deepEqual({ bouts: ec.c.bouts, distribution: ec.c.distribution_observations, venue: ec.c.venue }, { bouts: 0, distribution: 1, venue: false });
+  const fighter = await one("insert into public.boxing_fighters (display_name, normalized_name, identity_state) values ('Pat Synthetic', 'pat synthetic', 'source_native') returning id");
+  const fc = await one('select public.boxing_fighter_completeness($1) as c', [fighter.id]);
+  assert.equal(fc.c.identity.wikidata, false);
+  assert.equal(fc.c.career.verified_bouts, 0);
+  assert.equal(fc.c.media.approved_portrait, false);
+  const anon = await q("select has_function_privilege('anon', 'public.boxing_fighter_completeness(uuid)', 'execute') as ok");
+  assert.equal(anon[0].ok, false, 'diagnostics are not public');
 });

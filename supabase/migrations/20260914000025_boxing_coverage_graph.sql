@@ -324,4 +324,60 @@ alter table public.boxing_videos add constraint boxing_videos_video_type_check c
   'weigh_in','ceremonial_weigh_in','fight_preview','full_fight','replay','highlights','knockout','post_fight_interview',
   'post_fight_press_conference','analysis','documentary_feature','other'));
 
+-- ---------------------------------------------------------------------------
+-- Completeness diagnostics (INTERNAL: never part of boxing_site_* reads). Booleans and counts, no scores.
+-- ---------------------------------------------------------------------------
+create or replace function public.boxing_fighter_completeness(p_fighter uuid)
+returns jsonb language sql stable set search_path = '' as $$
+  with f as (select public.boxing_canonical_fighter_id(p_fighter) id),
+  bouts as (select distinct p.bout_id from f join public.boxing_bout_participants p on public.boxing_canonical_fighter_id(p.fighter_id) = f.id
+            join public.boxing_bouts b on b.id = p.bout_id and b.status is distinct from 'cancelled' where p.participant_status in ('scheduled','confirmed'))
+  select jsonb_build_object(
+    'identity', jsonb_build_object(
+      'wikidata', exists (select 1 from f join public.boxing_fighter_identities i on public.boxing_canonical_fighter_id(i.fighter_id) = f.id where i.namespace = 'wikidata.item' and i.verification_state <> 'rejected'),
+      'dob_claim', exists (select 1 from f join public.boxing_fighter_attribute_claims c on c.fighter_id = f.id where c.attribute = 'dob'),
+      'nationality_claim', exists (select 1 from f join public.boxing_fighter_attribute_claims c on c.fighter_id = f.id where c.attribute = 'nationality'),
+      'height_claim', exists (select 1 from f join public.boxing_fighter_attribute_claims c on c.fighter_id = f.id where c.attribute = 'height_cm'),
+      'stance', (select fx.stance is not null and fx.stance <> 'unknown' from f join public.boxing_fighters fx on fx.id = f.id)),
+    'career', jsonb_build_object(
+      'verified_bouts', (select count(*) from bouts),
+      'bouts_with_result', (select count(*) from bouts b where exists (select 1 from public.boxing_bout_results_current r where r.bout_id = b.bout_id)),
+      'bouts_with_scorecards', (select count(*) from bouts b where exists (select 1 from public.boxing_scorecards_current s where s.bout_id = b.bout_id))),
+    'media', jsonb_build_object(
+      'approved_portrait', exists (select 1 from f join public.boxing_fighter_media m on m.fighter_id = f.id where m.review_state = 'approved'),
+      'linked_videos', (select count(*) from f join public.boxing_video_links l on public.boxing_canonical_fighter_id(l.fighter_id) = f.id)),
+    'fight_dna', jsonb_build_object(
+      'available_metrics', (select count(*) from (select distinct on (s.metric_key) s.status from f join public.boxing_fighter_metric_snapshots s on s.fighter_id = f.id order by s.metric_key, s.as_of desc) l where l.status = 'available')))
+$$;
+
+create or replace function public.boxing_bout_completeness(p_bout uuid)
+returns jsonb language sql stable set search_path = '' as $$
+  select jsonb_build_object(
+    'result', exists (select 1 from public.boxing_bout_results_current r where r.bout_id = p_bout),
+    'result_method', exists (select 1 from public.boxing_bout_results_current r where r.bout_id = p_bout and r.method is not null),
+    'scheduled_rounds', exists (select 1 from public.boxing_bouts b where b.id = p_bout and b.scheduled_rounds is not null),
+    'weight', exists (select 1 from public.boxing_bouts b where b.id = p_bout and (b.weight_class_id is not null or b.contracted_weight_lb is not null)),
+    'referee', exists (select 1 from public.boxing_bout_officials o where o.bout_id = p_bout and o.role = 'referee' and o.assignment_state in ('assigned','worked')),
+    'judges_active', (select count(*) from public.boxing_bout_officials o where o.bout_id = p_bout and o.role = 'judge' and o.assignment_state in ('assigned','worked')),
+    'scorecards_current', (select count(*) from public.boxing_scorecards_current s where s.bout_id = p_bout),
+    'official_weigh_ins_corners', (select count(distinct w.fighter_id) from public.boxing_weigh_ins w where w.bout_id = p_bout and w.weigh_in_kind = 'official'),
+    'titles_recorded', (select count(*) from public.boxing_bout_titles t where t.bout_id = p_bout),
+    'linked_videos', (select count(*) from public.boxing_video_links l where l.bout_id = p_bout),
+    'matched_markets', (select count(*) from public.boxing_markets m where m.bout_id = p_bout))
+$$;
+
+create or replace function public.boxing_event_completeness(p_event uuid)
+returns jsonb language sql stable set search_path = '' as $$
+  with b as (select id from public.boxing_bouts where event_id = p_event and status is distinct from 'cancelled')
+  select jsonb_build_object(
+    'bouts', (select count(*) from b),
+    'bouts_with_result', (select count(*) from b where exists (select 1 from public.boxing_bout_results_current r where r.bout_id = b.id)),
+    'bouts_with_referee', (select count(*) from b where exists (select 1 from public.boxing_bout_officials o where o.bout_id = b.id and o.role = 'referee' and o.assignment_state in ('assigned','worked'))),
+    'venue', exists (select 1 from public.boxing_events e where e.id = p_event and e.venue_id is not null),
+    'start_time', exists (select 1 from public.boxing_events e where e.id = p_event and e.start_at is not null),
+    'distribution_observations', (select count(*) from public.boxing_event_distribution d where d.event_id = p_event),
+    'linked_videos', (select count(*) from public.boxing_video_links l where l.event_id = p_event),
+    'card_changes', (select count(*) from public.boxing_card_changes c where c.event_id = p_event))
+$$;
+
 select public.boxing_lockdown();
