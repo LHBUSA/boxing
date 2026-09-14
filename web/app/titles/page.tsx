@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { gateway } from "@/lib/gateway";
-import { fighterPath } from "@/lib/slug";
-import { fmtDate } from "@/lib/format";
+import { todayUtc } from "@/lib/gateway";
 import { Note, SecHead, Unavailable } from "@/components/fight";
+import { LaneCard } from "@/components/titles";
 
 export const revalidate = 1800;
-export const metadata: Metadata = { title: "World Title Map", description: "Boxing's world titles division by division: WBC, WBA, IBF and WBO belts kept separate, champions only from cleared sanctioning-body records." };
+export const metadata: Metadata = { title: "World Title Map", description: "Boxing's world titles division by division in four separate lanes: WBC, WBA, IBF and WBO, each from its own official documents, with source dates and disagreements shown." };
 
 const TIERS: [string, string][] = [
   ["World / full", "An organization's main championship in a division."],
@@ -14,16 +14,16 @@ const TIERS: [string, string][] = [
   ["Regular", "WBA world title that can coexist with a super champion."],
   ["Interim", "Placeholder while the full champion is out. Never counts toward undisputed."],
   ["Franchise", "WBC designation excusing mandatory defences. Tracked separately."],
-  ["Undisputed", "PropBetEdge-derived: one boxer holding the primary world title of all four bodies (rule pbe_undisputed@1)."],
+  ["Undisputed", "PropBetEdge-derived only from every body's own official holdings (rule pbe_undisputed@1). Not derivable while any body's statement is unavailable."],
 ];
 
-// Each body's own title vocabulary, as published on its site (source review 2026-09-14, docs/sources/sanctioning.md).
+// Each body's own title vocabulary, as published on its site (source review 2026-09-14, docs/TITLES_RANKINGS_SOURCES_2026-09-14.md).
 // Reference text only: no champion is derived from it.
 const BODIES: { short: string; labels: string[]; status: string }[] = [
-  { short: "WBA", labels: ["Super Champion", "World Champion", "Interim Champion", "Gold", "Champion in Recess", "Vacant"], status: "Monthly rankings and champions pages public; ingestion awaits a rights decision." },
-  { short: "WBC", labels: ["Champion", "Interim Champion", "Franchise Champion", "Champion in Recess", "Champion Emeritus", "Silver"], status: "Site refuses automated readers; reference only." },
-  { short: "IBF", labels: ["Champion", "Interim Champion", "Title Vacant"], status: "Monthly ratings back to 2005 public; ingestion awaits a rights decision." },
-  { short: "WBO", labels: ["Undisputed Super Champion", "Super Champion", "Champion", "Interim Champion", "Vacant"], status: "Current ratings public; source under review." },
+  { short: "WBC", labels: ["Champion", "Interim Champion", "Franchise Champion", "Champion in Recess", "Champion Emeritus", "Silver"], status: "Not licensed. No WBC data is collected; labels listed for reference." },
+  { short: "WBA", labels: ["Super Champion", "World Champion", "Interim Champion", "Gold", "Champion in Recess", "Vacant"], status: "Official ranking and champions pages, collected with attribution." },
+  { short: "IBF", labels: ["Champion", "Interim Champion", "Title Vacant"], status: "Official monthly ratings, collected with attribution back to 2005." },
+  { short: "WBO", labels: ["Super Champion", "Champion", "Interim Champion", "Vacant"], status: "Official ratings PDF and champions page, collected with attribution." },
 ];
 
 export default async function TitlesPage({ searchParams }: { searchParams: Promise<{ division?: string; gender?: string }> }) {
@@ -35,15 +35,15 @@ export default async function TitlesPage({ searchParams }: { searchParams: Promi
   const sel = divisions.find((d) => d.class_key === sp.division) ?? divisions.find((d) => d.class_key === "welterweight") ?? divisions[0];
   const res = await gateway.titles(sel.class_key, gender);
   const board = res.ok ? res.data.board : base.data.board;
-  const map = res.ok ? res.data.map : null;
+  const lanes = res.ok ? res.data.lanes : null;
   const link = (division: string, g = gender) => `/titles?${new URLSearchParams({ division, ...(g === "female" ? { gender: g } : {}) })}`;
-  const orgs = board.organizations;
+  const today = todayUtc();
   return (
     <div className="wrap page">
       <header className="page-hero">
         <div className="eyebrow">World Title Map · four sanctioning bodies</div>
         <h1>Four belts. <span className="gold" style={{ fontStyle: "italic" }}>Never merged.</span></h1>
-        <p>Boxing has no single champion per division. The WBC, WBA, IBF and WBO each crown their own, sometimes several at once. This map keeps every belt separate and shows a champion only from a cleared sanctioning-body record.</p>
+        <p>Boxing has no single champion per division. The WBC, WBA, IBF and WBO each crown their own, sometimes several at once. Each lane below shows one body's own official documents with their dates. When a body's documents disagree, both versions are shown.</p>
       </header>
       <div className="filters">
         <div className="seg"><Link className={gender === "male" ? "is-on" : ""} href={link(sel.class_key, "male")}>Men</Link><Link className={gender === "female" ? "is-on" : ""} href={link(sel.class_key, "female")}>Women</Link></div>
@@ -52,30 +52,19 @@ export default async function TitlesPage({ searchParams }: { searchParams: Promi
         {[...divisions].reverse().map((d) => <Link key={d.class_key} href={link(d.class_key)} className={d.class_key === sel.class_key ? "is-on" : ""}><b>{d.name}</b><span>{d.max_lb ? `${d.max_lb} lb` : "No limit"}</span></Link>)}
       </nav>
       <section className="mt-4">
-        <SecHead kicker={`${sel.max_lb ? `${sel.max_lb} lb · ${sel.max_kg} kg` : "No upper limit"} · ${sel.verified_bouts ?? 0} verified bouts in this division`} title={sel.name}>{sel.notes ?? undefined}</SecHead>
-        <div className="belts">
-          {orgs.map((o) => {
-            const lane = map?.organizations.find((x) => x.organization_slug === o.slug);
-            return (
-              <div className="belt" key={o.slug}>
-                <div><div className="belt__org">{o.short_name}</div><div className="belt__name">{o.name}</div></div>
-                {lane?.belts.length ? (
-                  <div className="belt__slot">
-                    {lane.belts.map((b, i) => (
-                      <div key={i}>
-                        <span className="eyebrow eyebrow--dim">{b.source_native_label ?? b.tier}</span>
-                        {b.holder ? <p><Link className="gold" href={fighterPath({ public_id: b.holder.public_id, name: b.holder.display_name })}>{b.holder.display_name}</Link>{b.holder.started_on ? <span className="fine"> · since {fmtDate(b.holder.started_on)}</span> : null}</p> : <p className="dim">Vacant</p>}
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="belt__slot"><b>Champion record pending</b><span className="fine">{o.short_name} title data is under source review. No champion is inferred from results or press.</span></div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-        {map?.derived.unification.length ? <div className="mt-2"><Note title="Unification (PropBetEdge-derived)">{map.derived.unification.map((u) => `${u.display_name}: ${u.state}`).join(" · ")}</Note></div> : null}
+        <SecHead kicker={`${sel.max_lb ? `${sel.max_lb} lb · ${sel.max_kg} kg` : "No upper limit"} · WBC | WBA | IBF | WBO`} title={sel.name}>{sel.notes ?? undefined}</SecHead>
+        {lanes ? (
+          <>
+            <div className="belts">{lanes.lanes.map((l) => <LaneCard key={l.body} lane={l} today={today} division={sel.name} />)}</div>
+            <div className="derived mt-2">
+              <span className="tag">PropBetEdge-derived</span>
+              <span><b>Undisputed: {lanes.derived.status === "not_derivable" ? "not derivable" : "pending complete holdings"}.</b> {lanes.derived.reason ? `${lanes.derived.reason.replace(/^own statement unavailable/, "One body's own statement is unavailable")}. ` : ""}PropBetEdge does not call anyone undisputed from three bodies or from other bodies' claims.</span>
+            </div>
+          </>
+        ) : (
+          <Note title="Title lanes unavailable" pending>The title lanes for {sel.name.toLowerCase()} did not load. Nothing is shown rather than a guessed view.</Note>
+        )}
+        <p className="fine mt-2">{board.organizations.length} sanctioning bodies on record. Champion changes seen between monthly documents are held for review; no title history is written from them automatically.</p>
       </section>
       <section className="mt-4">
         <SecHead kicker="Source-native labels · kept exactly as each body publishes them" title="Four Bodies, Four Vocabularies" />

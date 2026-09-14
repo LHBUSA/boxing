@@ -71,10 +71,14 @@ export function validateRankingDocument(doc) {
 
 const numericRank = (label) => (/^\d+$/.test(String(label ?? '').trim()) ? Number(label) : null);
 
-export async function importRankingDocument(store, doc, { now = new Date().toISOString() } = {}) {
+// options.weightClassKey: the division already mapped by an organization-native vocabulary (sanctioning adapters)
+// options.resolveEntry(e): replaces the default identity steps entirely; returns { fighter_id, method } or null.
+//   Sanctioning-body ingestion passes one that only accepts reviewed identities (never a name match).
+// options.sourceRecord / options.entryMetadata(e): source-native extras stored with the snapshot / each entry
+export async function importRankingDocument(store, doc, { now = new Date().toISOString(), weightClassKey = null, resolveEntry = null, sourceRecord = null, entryMetadata = null } = {}) {
   const problems = validateRankingDocument(doc);
   if (problems.length) return { status: 'rejected', problems };
-  const division = parseDivisionLabel(doc.division_label);
+  const division = weightClassKey ? { weight_class_key: weightClassKey, gender: doc.gender_scope ?? null } : parseDivisionLabel(doc.division_label);
   if (!division.weight_class_key) return { status: 'rejected', problems: [`unrecognised division label "${doc.division_label}"`] };
   const gender = doc.gender_scope ?? division.gender ?? 'male';
   const namespace = `${doc.organization_slug}.ranking_entry`;
@@ -87,7 +91,10 @@ export async function importRankingDocument(store, doc, { now = new Date().toISO
   for (const e of doc.entries) {
     let fighterId = null;
     let method = null;
-    if (!e.is_vacant) {
+    if (!e.is_vacant && resolveEntry) {
+      const r = await resolveEntry(e);
+      if (r?.fighter_id) { fighterId = r.fighter_id; method = r.method; } else unresolved.push({ position: e.position, source_name: e.source_name, reason: 'held_for_identity_review' });
+    } else if (!e.is_vacant) {
       if (e.source_fighter_id) {
         const r = await resolveOnly(store, { external_id: e.source_fighter_id, display_name: e.source_name, nationality: e.nationality },
           { namespace, allowCreate: false });
@@ -114,7 +121,7 @@ export async function importRankingDocument(store, doc, { now = new Date().toISO
       mandatory: e.mandatory ?? null,
       is_vacant: Boolean(e.is_vacant),
       is_champion: Boolean(e.is_champion),
-      metadata: { resolution: method, nationality: e.nationality ?? null, source_fighter_id: e.source_fighter_id ?? null },
+      metadata: { resolution: method, nationality: e.nationality ?? null, source_fighter_id: e.source_fighter_id ?? null, ...(entryMetadata ? entryMetadata(e) : {}) },
     });
   }
 
@@ -130,6 +137,7 @@ export async function importRankingDocument(store, doc, { now = new Date().toISO
     effective_on: doc.effective_on ?? null,
     source_url: doc.source_url ?? null,
     correction_note: doc.correction_note ?? null,
+    ...(sourceRecord ? { source_record: sourceRecord } : {}),
     content_hash: hash,
     raw,
     entries,

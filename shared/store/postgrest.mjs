@@ -77,6 +77,18 @@ export function postgrestStore({ url, serviceKey, fetchImpl = fetch }) {
     titleMapFacts: (weightClassKey, gender, asOf) => rpc('boxing_title_map_facts', { p_weight_class_key: weightClassKey, p_gender: gender, p_as_of: asOf }),
     importRankingSnapshot: (p) => rpc('boxing_import_ranking_snapshot', { p }),
     rankingEntries: (snapshotId) => rpc('boxing_ranking_entries_json', { p_snapshot: snapshotId }),
+    importTitleStatusSnapshot: (p) => rpc('boxing_import_title_status_snapshot', { p }),
+    recordTitleAnalysis: (p) => rpc('boxing_record_title_analysis', { p }),
+    holdOrgIdentity: (p) => rpc('boxing_hold_org_identity', { p }),
+    titleSnapshotJson: (id) => rpc('boxing_title_snapshot_json', { p_snapshot: id }),
+    latestTitleSnapshot: (orgSlug, weightClassKey, gender, kind, onOrBefore = null, exclude = null) =>
+      rpc('boxing_latest_title_snapshot', { p_org_slug: orgSlug, p_weight_class_key: weightClassKey, p_gender: gender, p_kind: kind, p_on_or_before: onOrBefore, p_exclude: exclude }),
+    orgIdentityResolution: (orgSlug, normalizedName, country, orgBoxerId) =>
+      rpc('boxing_org_identity_resolution', { p_org_slug: orgSlug, p_normalized_name: normalizedName, p_country: country, p_org_boxer_id: orgBoxerId }),
+    backfillCheckpoint: (sourceKey, jobKey, { cursor = null, completed = null, failure = null } = {}) =>
+      rpc('boxing_backfill_checkpoint', { p_source_key: sourceKey, p_job_key: jobKey, p_cursor: cursor, p_completed: completed, p_failure: failure }),
+    siteTitleLanes: (weightClassKey, gender) => rpc('boxing_site_title_lanes', { p_weight_class_key: weightClassKey, p_gender: gender }),
+    siteBodyRankings: (orgSlug, weightClassKey, gender, asOf) => rpc('boxing_site_body_rankings', { p_org_slug: orgSlug, p_weight_class_key: weightClassKey, p_gender: gender, p_as_of: asOf }),
     rankingSnapshotAsOf: (orgSlug, weightClassKey, gender, asOf) =>
       rpc('boxing_ranking_as_of_json', { p_org_slug: orgSlug, p_weight_class_key: weightClassKey, p_gender: gender, p_as_of: asOf }),
     // --- events / outcomes

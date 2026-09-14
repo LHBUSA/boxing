@@ -9,7 +9,7 @@ export const API_VERSION = 'boxing-gateway@1';
 export const READ_METHODS = Object.freeze([
   'getFighter', 'fighterDnaLatest', 'cardState', 'gatewayBout', 'gatewayMatchup', 'gatewayOddsSummary', 'gatewayModels',
   'titleSummary', 'titleReigns', 'titleMapFacts', 'rankingSnapshotAsOf', 'gatewayOfficial', 'officialDnaLatest',
-  'siteHome', 'siteEvents', 'siteEvent', 'siteBout', 'siteFighters', 'siteFighter', 'siteTitleBoard', 'siteRankingBoard', 'siteCoverage',
+  'siteHome', 'siteEvents', 'siteEvent', 'siteBout', 'siteFighters', 'siteFighter', 'siteTitleBoard', 'siteRankingBoard', 'siteTitleLanes', 'siteBodyRankings', 'siteCoverage',
   'siteScorecards', 'siteScorecard', 'siteOfficials', 'siteOfficial', 'siteMarketIndex', 'siteVideos', 'sitePromoters', 'sitePromoter',
   'siteFighterContext', 'siteBoutContext', 'siteHallOfFame', 'siteHistory', 'siteWire',
 ]);
@@ -165,25 +165,28 @@ const SITE_ROUTES = [
     handler: async (s, { ref }) => { need(SITE_REF.test(ref), 'bad fighter ref'); return s.siteFighter(ref); },
   },
   {
-    path: '/internal/v1/site/titles', summary: 'Site Title Map: divisions, sanctioning bodies with source review state, and the division title map when requested.',
+    path: '/internal/v1/site/titles', summary: 'Site Title Map: divisions, sanctioning bodies with source review state, the division title map, and the four body lanes (WBC | WBA | IBF | WBO: each body document with freshness, intra-body conflicts, claims made by other bodies kept apart, derived undisputed state) when a division is requested.',
     query: { weight_class: 'class key (optional)', gender: 'male | female', as_of: 'YYYY-MM-DD' },
     handler: async (s, _p, q) => {
       const wc = q.get('weight_class');
       need(wc == null || SLUG.test(wc), 'bad weight_class');
       const board = await s.siteTitleBoard();
-      return { board, map: wc ? stripInternalIds(buildTitleMap(await s.titleMapFacts(wc, gender(q), asOf(q)))) : null };
+      if (!wc) return { board, map: null, lanes: null };
+      const [facts, lanes] = await Promise.all([s.titleMapFacts(wc, gender(q), asOf(q)), s.siteTitleLanes(wc, gender(q))]);
+      return { board, map: stripInternalIds(buildTitleMap(facts)), lanes: stripInternalIds(lanes) };
     },
   },
   {
-    path: '/internal/v1/site/rankings', summary: 'Site rankings: sanctioning bodies with source review state, stored snapshot index, and one snapshot when requested.',
+    path: '/internal/v1/site/rankings', summary: 'Site rankings: sanctioning bodies with source review state, stored snapshot index, and one body-native ranking (licence state, champions listed above the numbered list, source record, previous snapshot, history) when requested.',
     query: { organization: 'slug (optional)', weight_class: 'class key (optional)', gender: 'male | female', as_of: 'YYYY-MM-DD' },
     handler: async (s, _p, q) => {
       const org = q.get('organization');
       const wc = q.get('weight_class');
       need((org == null || SLUG.test(org)) && (wc == null || SLUG.test(wc)), 'bad organization or weight_class');
       const board = await s.siteRankingBoard();
-      const snapshot = org && wc ? stripInternalIds(await s.rankingSnapshotAsOf(org, wc, gender(q), asOf(q))) : null;
-      return { board, snapshot };
+      if (!(org && wc)) return { board, snapshot: null, body: null };
+      const [snapshot, body] = await Promise.all([s.rankingSnapshotAsOf(org, wc, gender(q), asOf(q)), s.siteBodyRankings(org, wc, gender(q), asOf(q))]);
+      return { board, snapshot: stripInternalIds(snapshot), body: stripInternalIds(body) };
     },
   },
   {

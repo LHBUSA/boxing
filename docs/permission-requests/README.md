@@ -10,6 +10,8 @@ Status (2026-09-13): drafted for owner review.
 | Matchroom Boxing | `promoter_matchroom` | review_required, disabled | [matchroom.md](matchroom.md) | boxing@matchroom.com (listed on matchroomboxing.com); confirm before sending |
 | Ohashi Boxing Gym / Phoenix Promotion | `promoter_ohashi` | review_required, disabled | [ohashi.md](ohashi.md) (English + Japanese) | **not identified**: find the official inquiry form or address on ohashi-gym.com first |
 
+Sanctioning body (added 2026-09-14): **WBC** (`wbc_official`), review_required and disabled, not licensed. Draft: [wbc.md](wbc.md). Contact channel **not identified**; find it on wbcboxing.com before sending.
+
 **Not drafted, and they stay disabled:**
 - **Top Rank, Queensberry and BOXXER** (`blocked`): their terms explicitly prohibit robots, spiders, crawling or scraping.
 - **Golden Boy and Riyadh Season** (`review_required`).

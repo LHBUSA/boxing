@@ -275,10 +275,64 @@ export interface TitleMap {
 export interface TitlesData {
   board: { divisions: Division[]; organizations: SanctioningBody[]; title_records: number; title_events: number; title_bouts: number };
   map: TitleMap | null;
+  lanes: TitleLanes | null;
 }
 
-export interface RankingEntry { position: number; rank: number; rank_label: string | null; public_id: string | null; display_name: string | null; source_name?: string | null; designation: string | null; mandatory: boolean | null; is_vacant: boolean | null; is_champion: boolean | null }
+// Four-lane Title Map (boxing_site_title_lanes): each body's own documents, never merged
+export type LaneState = "current" | "not_licensed" | "no_snapshot";
+export interface TitleBeltStatus {
+  designation: string | null;
+  tier: string | null;
+  status: "held" | "vacant" | "in_recess" | "unknown";
+  honorific: string | null;
+  holder: { name: string | null; country: string | null; fighter: string | null; display_name: string | null; identity_state: "resolved" | "held" | "not_applicable" } | null;
+  reign_start: { on: string; basis: string | null } | null;
+  last_defense_on: string | null;
+  mandatory: { as_printed: string; challenger: string | null; status_as_printed: string | null; due_on: string | null; basis: string | null } | null;
+}
+export interface TitleDocument {
+  document_kind: "wba_ranking" | "wba_champions" | "ibf_rating" | "wbo_ratings" | "wbo_champions";
+  source_url: string;
+  published_on: string | null;
+  as_of: string | null;
+  as_of_label: string | null;
+  retrieved_at: string;
+  division_native_label: string;
+  division_limit_text: string | null;
+  belts: TitleBeltStatus[];
+  claims: { about: string; says: string | null; blank: boolean; native_text: string | null }[];
+}
+export interface TitleLane {
+  body: string;
+  short_name: string;
+  name: string;
+  state: LaneState;
+  note: string | null;
+  freshness: { last_run_at: string; last_run_status: string; last_ok_at: string | null } | null;
+  documents: TitleDocument[];
+  conflicts_within_body: { belt: string; left_document: string; left: string | null; right_document: string; right: string | null; same_surname: boolean }[];
+  claims_by_other_bodies: { by: string; document_kind: string; as_of: string | null; says: string | null; blank: boolean; native_text: string | null }[];
+}
+export interface TitleLanes {
+  division: { class_key: string; name: string; max_lb: number | null } | null;
+  lanes: TitleLane[];
+  derived: { rule: string; label: string; status: "not_derivable" | "pending_complete_holdings"; reason: string | null };
+}
+
+export interface RankingEntry { position: number; rank: number; rank_label: string | null; public_id: string | null; display_name: string | null; source_name?: string | null; designation: string | null; mandatory: boolean | null; is_vacant: boolean | null; is_champion: boolean | null; metadata?: { regional_label?: string | null; country?: string | null; country_label?: string | null; not_rated?: boolean; outside_numbered_list?: boolean } | null }
 export interface RankingsData {
-  board: { organizations: SanctioningBody[]; divisions: Division[]; snapshots: { organization_slug: string; class_key: string; published_on: string | null; effective_on: string | null }[] };
-  snapshot: { published_on: string | null; effective_on: string | null; revision: number | null; source_url: string | null; division_label: string | null; entries: RankingEntry[] } | null;
+  board: { organizations: SanctioningBody[]; divisions: Division[]; snapshots: { organization_slug: string; class_key: string; published_on: string | null; effective_on: string | null; stored?: number }[] };
+  snapshot: RankingSnapshotView | null;
+  body: BodyRankings | null;
+}
+export interface RankingSnapshotView { published_on: string | null; effective_on: string | null; revision: number | null; source_url: string | null; division_label: string | null; captured_at?: string; entries: RankingEntry[] }
+// body-native rankings (boxing_site_body_rankings): champions from the body's own document, listed above the numbers
+export interface BodyRankings {
+  organization: string;
+  state: LaneState;
+  snapshot?: RankingSnapshotView | null;
+  source_record?: { document_kind: string; as_of_label: string | null; division_native_label: string; division_limit_text: string | null; retrieved_at: string; attribution: string } | null;
+  previous?: RankingSnapshotView | null;
+  champions?: TitleDocument | null;
+  history?: { published_on: string | null; effective_on: string | null }[];
 }

@@ -90,3 +90,37 @@ export function parseWboChampionsPage(html) {
   }
   return { body: 'wbo', document: 'champions', cards };
 }
+
+// Monthly history: POST /rankings/ (req_ORG=World Boxing Organization, req_year, req_month, req_category=ALL,
+// req_genre=M) answers an HTML page "WORLD BOXING ORGANIZATION MALE RANKING <MONTH> <YEAR>" with one table per division:
+// a "title-weight" header, rows "CHAMPION | name | country", "Interim | ...", "<n> | name (regional) | country",
+// "** | ...", then two-cell rows "WBA | NAME" (the WBO's statement about other bodies).
+export function parseWboHistoryHtml(html) {
+  const page = String(html);
+  const heading = page.match(/<h1>\s*WORLD BOXING ORGANIZATION MALE RANKING\s+([A-Z]+)\s+(\d{4})\s*<\/h1>/i);
+  const month = heading ? MONTHS.indexOf(heading[1].toLowerCase()) + 1 : 0;
+  const cell = (s) => String(s).replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&#039;|&#8217;/g, "'").replace(/\s+/g, ' ').trim();
+  const divisions = [];
+  for (const t of [...page.matchAll(/<table class="(ranking[^"]*)"[^>]*>([\s\S]*?)<\/table>/g)].map((m) => [m[0], m[2], m[1]])) {
+    const head = cell(t[1].match(/class="title-weight[^"]*"[^>]*>([\s\S]*?)<\/td>/)?.[1] ?? '');
+    const label = head.replace(/\s*\(.*$/, '').trim();
+    // the "other-org" table after a division carries the WBO's lines about the other bodies for that division
+    const d = /other-org/.test(t[2]) && divisions.length ? divisions.at(-1)
+      : { division: { ...divisionOf('wbo', label), limit_text: head.slice(label.length).trim() || null }, entries: [], outside_numbered_list: [], claims_about_other_bodies: [], champions: [] };
+    for (const r of t[1].matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/g)) {
+      const cells = [...r[1].matchAll(/<td[^>]*>([\s\S]*?)<\/td>/g)].map((c) => cell(c[1]));
+      if (cells.length === 3 && cells[0] !== 'Title') {
+        const t2 = trailing(`${cells[1]}${cells[2] ? ` (${cells[2]})` : ''}`);
+        if (/^\d{1,2}$/.test(cells[0])) d.entries.push({ position: Number(cells[0]), rank_label: cells[0], source_name: t2.name, country: t2.country, regional_label: t2.notes.join(' ') || null });
+        else if (cells[0] === '**') d.outside_numbered_list.push({ rank_label: '**', source_name: t2.name, country: t2.country, regional_label: t2.notes.join(' ') || null });
+        else d.champions.push({ source_name: VACANT_WORDS.test(t2.name) ? null : t2.name, vacant: VACANT_WORDS.test(t2.name), country: t2.country, designation: designationOf('wbo', cells[0]), notes: t2.notes });
+      } else if (cells.length === 2 && /^(WBA|IBF|WBC)$/.test(cells[0])) {
+        const name = cells[1].replace(/\s*\((WBA|IBF|WBC)\)\s*$/, '').trim();
+        d.claims_about_other_bodies.push({ about: cells[0].toLowerCase(), source_name: name && !VACANT_WORDS.test(name) ? name : null, vacant: VACANT_WORDS.test(name), blank: !name, native_text: `${cells[0]} ${cells[1]}`.trim() });
+      }
+    }
+    if (label && !/other-org/.test(t[2])) divisions.push(d);
+  }
+  return { body: 'wbo', document: 'ratings_history', as_of_label: heading ? `${heading[1].toUpperCase()} ${heading[2]}` : null,
+    month: month ? `${heading[2]}-${String(month).padStart(2, '0')}` : null, divisions };
+}

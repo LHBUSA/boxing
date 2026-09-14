@@ -90,6 +90,28 @@ export function pgStore(client) {
     async rankingEntries(snapshotId) {
       return (await one(client, 'select public.boxing_ranking_entries_json($1) as r', [snapshotId])).r;
     },
+    // --- sanctioning-body title status (0033)
+    async importTitleStatusSnapshot(p) { return (await one(client, 'select public.boxing_import_title_status_snapshot($1) as r', [p])).r; },
+    async recordTitleAnalysis(p) { return (await one(client, 'select public.boxing_record_title_analysis($1) as r', [p])).r; },
+    async holdOrgIdentity(p) { return (await one(client, 'select public.boxing_hold_org_identity($1) as r', [p])).r; },
+    async titleSnapshotJson(id) { return (await one(client, 'select public.boxing_title_snapshot_json($1) as r', [id])).r; },
+    async latestTitleSnapshot(orgSlug, weightClassKey, gender, kind, onOrBefore = null, exclude = null) {
+      return (await one(client, 'select public.boxing_latest_title_snapshot($1, $2, $3, $4, $5, $6) as r', [orgSlug, weightClassKey, gender, kind, onOrBefore, exclude])).r;
+    },
+    async orgIdentityResolution(orgSlug, normalizedName, country, orgBoxerId) {
+      return (await one(client, 'select public.boxing_org_identity_resolution($1, $2, $3, $4) as r', [orgSlug, normalizedName, country, orgBoxerId])).r;
+    },
+    async backfillCheckpoint(sourceKey, jobKey, { cursor = null, completed = null, failure = null } = {}) {
+      return (await one(client, 'select public.boxing_backfill_checkpoint($1, $2, $3, $4, $5) as r', [sourceKey, jobKey, cursor == null ? null : JSON.stringify(cursor), completed, failure == null ? null : JSON.stringify(failure)])).r;
+    },
+    async decideTitleEventProposal(p) { return (await one(client, 'select public.boxing_decide_title_event_proposal($1) as r', [p])).r; },
+    async autoConfirmTitleEventProposal(proposalId, boutId, snapshotId) {
+      return (await one(client, 'select public.boxing_auto_confirm_title_event_proposal($1, $2, $3) as r', [proposalId, boutId, snapshotId])).r;
+    },
+    async siteTitleLanes(weightClassKey, gender) { return (await one(client, 'select public.boxing_site_title_lanes($1, $2) as r', [weightClassKey, gender])).r; },
+    async siteBodyRankings(orgSlug, weightClassKey, gender, asOf) {
+      return (await one(client, 'select public.boxing_site_body_rankings($1, $2, $3, $4) as r', [orgSlug, weightClassKey, gender, asOf])).r;
+    },
     async rankingSnapshotAsOf(orgSlug, weightClassKey, gender, asOf) {
       return (await one(client, 'select public.boxing_ranking_as_of_json($1, $2, $3, $4) as r', [orgSlug, weightClassKey, gender, asOf])).r;
     },

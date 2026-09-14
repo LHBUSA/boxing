@@ -35,6 +35,12 @@ function fakeStore() {
     siteFighter: async (ref) => ({ fighter: { public_id: `pbe_boxer_${ref}` } }),
     siteTitleBoard: async () => ({ divisions: [], organizations: [] }),
     siteRankingBoard: async () => ({ divisions: [], organizations: [], snapshots: [] }),
+    siteTitleLanes: async (wc) => ({ division: { class_key: wc }, lanes: [
+      { body: 'wbc', state: 'not_licensed', note: 'Source not licensed', documents: [], conflicts_within_body: [], claims_by_other_bodies: [{ by: 'wba', says: 'X', native_text: 'X' }] },
+      { body: 'wba', state: 'current', documents: [{ document_kind: 'wba_ranking', belts: [{ holder: { name: 'A', fighter: 'pbe_boxer_a', fighter_id: ID } }] }], conflicts_within_body: [], claims_by_other_bodies: [] }],
+      derived: { status: 'not_derivable' } }),
+    siteBodyRankings: async (org) => (org === 'wbc' ? { organization: org, state: 'not_licensed' }
+      : { organization: org, state: 'current', snapshot: { snapshot_id: ID, entries: [{ fighter_id: ID, public_id: 'pbe_boxer_a', metadata: { not_rated: true } }] } }),
     siteCoverage: async () => ({ bouts: 0 }),
     siteScorecards: async () => ({ total: 0, rows: [] }),
     siteScorecard: async (ref) => ({ bout: { public_id: `pbe_boxbout_${ref}` } }),
@@ -130,6 +136,24 @@ test('inputs are validated before the store is touched; missing records are 404'
   }
   assert.equal(touched, 0, 'display names are never used to look up a fighter');
   assert.equal((await w.fetch(req(`/internal/v1/bouts/${ID}`), env)).status, 404);
+});
+
+test('site titles carry the four lanes and site rankings carry body-native rankings, internal ids stripped', async () => {
+  const { store } = fakeStore();
+  const w = createWorker({ makeStore: () => store });
+  const titles = (await (await w.fetch(req('/internal/v1/site/titles?weight_class=welterweight'), env)).json()).data;
+  assert.equal(titles.lanes.lanes[0].state, 'not_licensed');
+  assert.equal(titles.lanes.lanes[0].claims_by_other_bodies[0].by, 'wba');
+  assert.equal(titles.lanes.derived.status, 'not_derivable');
+  assert.equal(titles.lanes.lanes[1].documents[0].belts[0].holder.fighter, 'pbe_boxer_a');
+  assert.ok(!JSON.stringify(titles).includes(ID), 'no canonical uuid reaches the site payload');
+  const none = (await (await w.fetch(req('/internal/v1/site/titles'), env)).json()).data;
+  assert.equal(none.lanes, null);
+  const wbc = (await (await w.fetch(req('/internal/v1/site/rankings?organization=wbc&weight_class=welterweight'), env)).json()).data;
+  assert.deepEqual(wbc.body, { organization: 'wbc', state: 'not_licensed' });
+  const ibf = (await (await w.fetch(req('/internal/v1/site/rankings?organization=ibf&weight_class=welterweight'), env)).json()).data;
+  assert.equal(ibf.body.snapshot.entries[0].metadata.not_rated, true);
+  assert.ok(!JSON.stringify(ibf).includes(ID));
 });
 
 test('official DNA splits judge and referee metrics and carries a neutral note', async () => {

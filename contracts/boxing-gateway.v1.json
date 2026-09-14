@@ -75,6 +75,8 @@
     "siteFighter",
     "siteTitleBoard",
     "siteRankingBoard",
+    "siteTitleLanes",
+    "siteBodyRankings",
     "siteCoverage",
     "siteScorecards",
     "siteScorecard",
@@ -267,7 +269,7 @@
     {
       "method": "GET",
       "path": "/internal/v1/site/titles",
-      "summary": "Site Title Map: divisions, sanctioning bodies with source review state, and the division title map when requested.",
+      "summary": "Site Title Map: divisions, sanctioning bodies with source review state, the division title map, and the four body lanes (WBC | WBA | IBF | WBO: each body document with freshness, intra-body conflicts, claims made by other bodies kept apart, derived undisputed state) when a division is requested.",
       "params": {},
       "query": {
         "weight_class": "class key (optional)",
@@ -278,7 +280,7 @@
     {
       "method": "GET",
       "path": "/internal/v1/site/rankings",
-      "summary": "Site rankings: sanctioning bodies with source review state, stored snapshot index, and one snapshot when requested.",
+      "summary": "Site rankings: sanctioning bodies with source review state, stored snapshot index, and one body-native ranking (licence state, champions listed above the numbered list, source record, previous snapshot, history) when requested.",
       "params": {},
       "query": {
         "organization": "slug (optional)",

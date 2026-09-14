@@ -7,21 +7,23 @@ const TOKEN = 'r'.repeat(40);
 const env = { BOXING_INTERNAL_TOKEN: TOKEN };
 const auth = { authorization: `Bearer ${TOKEN}`, 'content-type': 'application/json' };
 
-test('all sanctioning-body adapters are disabled and never fetch', async () => {
-  for (const a of Object.values(rankingAdapters)) {
-    assert.match(a.disabled, /review_required/);
-    await assert.rejects(() => a.fetchDocuments(), /adapter_disabled/);
-  }
+test('WBC has no collector (not licensed); WBA, IBF and WBO are approved collectors', async () => {
+  assert.equal(rankingAdapters.wbc.state, 'not_licensed');
+  await assert.rejects(() => rankingAdapters.wbc.fetchDocuments(), /adapter_disabled/);
+  assert.deepEqual(['wba', 'ibf', 'wbo'].map((b) => rankingAdapters[b].state), ['approved', 'approved', 'approved']);
 });
 
-test('scheduled autopilot is off by default and records blocked runs when switched on', async () => {
+test('scheduled collection is off by default; when on it collects WBA, WBO, IBF and records WBC as blocked', async () => {
   const runs = [];
+  const collected = [];
   const store = { startRun: async (r) => { runs.push(['start', r.sourceKey]); return 'run'; }, finishRun: async (id, r) => runs.push(['finish', r.status]) };
-  const worker = createWorker({ makeStore: () => store });
-  await worker.scheduled({}, { ...env });
-  assert.equal(runs.length, 0);
-  await worker.scheduled({}, { ...env, RANKINGS_AUTOPILOT_ENABLED: 'true' });
-  assert.equal(runs.filter(([k, s]) => k === 'finish' && s === 'blocked').length, 4);
+  const collect = async (s, e, o) => { collected.push([o.body, o.mode, o.provenance?.trigger_type]); return { status: 'ok' }; };
+  const worker = createWorker({ makeStore: () => store, collect });
+  await worker.scheduled({ scheduledTime: Date.parse('2026-09-20T14:25:00Z'), cron: '25 14 20 * *' }, { ...env });
+  assert.deepEqual([runs.length, collected.length], [0, 0]);
+  await worker.scheduled({ scheduledTime: Date.parse('2026-09-20T14:25:00Z'), cron: '25 14 20 * *' }, { ...env, TITLES_INGEST_ENABLED: 'true' });
+  assert.deepEqual(collected, [['wba', 'current', 'scheduled'], ['wbo', 'current', 'scheduled'], ['ibf', 'current', 'scheduled']]);
+  assert.deepEqual(runs, [['start', 'wbc_official'], ['finish', 'blocked']]);
 });
 
 test('title map route validates input and returns the derived map', async () => {

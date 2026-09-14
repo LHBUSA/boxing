@@ -1,7 +1,15 @@
-# boxing-rankings — title graph + ranking snapshots. NOT DEPLOYED.
-# Autopilot is OFF: every sanctioning-body adapter is disabled pending terms
-# review of wbc_official / wba_official / ibf_official / wbo_official.
-# Secrets at deploy: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, BOXING_INTERNAL_TOKEN.
+# boxing-rankings — title graph, ranking snapshots and sanctioning-body collection.
+#
+# Top-level (default) environment: NOT DEPLOYED, collection OFF, no cron.
+# [env.staging] -> Worker "boxing-rankings-staging", writes ONLY to Supabase wpaxofilvbsjyrxrwjhg
+# (shared/store/target-guard.mjs). No routes, no workers.dev.
+#   secrets (wrangler secret put ... --env staging): SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, BOXING_INTERNAL_TOKEN
+#
+# Sources (owner approvals 2026-09-14): WBA /wba-ranking + /current-wba-champions, IBF ratings JSON (Crawl-delay 10),
+# WBO ratings PDF (token from /rankings/ each run) + /male-champions/. WBC is NOT licensed and never fetched.
+# Cadence: monthly, as approved (20th, 14:25Z); unchanged documents are duplicates and write nothing. A body that
+# publishes after the 20th is picked up the following month. Historical backfill is an operator job
+# (scripts/staging/titles-collect.ps1 -Backfill), throttled and checkpointed, never on this cron.
 
 name = "boxing-rankings"
 main = "src/index.mjs"
@@ -9,11 +17,31 @@ compatibility_date = "2026-09-01"
 workers_dev = false
 
 [triggers]
-crons = ["30 13 * * 2"]
+crons = []
 
 [vars]
-RANKINGS_AUTOPILOT_ENABLED = "false"
+TITLES_INGEST_ENABLED = "false"
 
 [observability]
+enabled = true
+head_sampling_rate = 1
+
+[env.staging]
+name = "boxing-rankings-staging"
+workers_dev = false
+
+[env.staging.triggers]
+crons = ["25 14 20 * *"]
+
+[env.staging.version_metadata]
+binding = "CF_VERSION_METADATA"
+
+[env.staging.vars]
+BOXING_WORKER_NAME = "boxing-rankings-staging"
+BOXING_ENVIRONMENT = "staging"
+BOXING_SUPABASE_REF = "wpaxofilvbsjyrxrwjhg"
+TITLES_INGEST_ENABLED = "true"
+
+[env.staging.observability]
 enabled = true
 head_sampling_rate = 1

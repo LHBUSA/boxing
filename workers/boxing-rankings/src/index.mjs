@@ -1,4 +1,4 @@
-// boxing-rankings — title graph + ranking snapshots (internal only). NOT DEPLOYED.
+// boxing-rankings — title graph + ranking snapshots + sanctioning-body collection (internal only).
 //
 // Routes (Bearer BOXING_INTERNAL_TOKEN):
 //   POST /internal/v1/rankings/documents   ranking document -> snapshot/revision + RANKING_CHANGED
@@ -6,14 +6,16 @@
 //   POST /internal/v1/titles/lineages      { organization_slug, weight_class_key, gender, tier, source_native_label }
 //   GET  /internal/v1/title-map?weight_class=&gender=&as_of=
 //
-// scheduled(): RANKINGS_AUTOPILOT_ENABLED must be "true"; every sanctioning-body
-// adapter is currently disabled, so a run records a blocked status per body.
+// scheduled(): TITLES_INGEST_ENABLED must be "true". Collects the current WBA, WBO and IBF documents (owner approvals
+// 2026-09-14) through runSanctioningCollection, one body after another; records a blocked run for the WBC (not licensed).
 
-import { postgrestStore } from '../../../shared/store/postgrest.mjs';
+import { guardedPostgrestStore } from '../../../shared/store/target-guard.mjs';
+import { runSanctioningCollection } from '../../../shared/titles/sanctioning-ingest.mjs';
+import { scheduledProvenance } from '../../../shared/provenance.mjs';
 import { importRankingDocument } from '../../../shared/rankings/import.mjs';
 import { recordTitleEvent } from '../../../shared/titles/events.mjs';
 import { buildTitleMap } from '../../../shared/titles/title-map.mjs';
-import { rankingAdapters } from '../../../shared/adapters/rankings/registry.mjs';
+import { COLLECTED_BODIES, rankingAdapters } from '../../../shared/adapters/rankings/registry.mjs';
 
 const json = (body, status = 200) => new Response(JSON.stringify(body), {
   status, headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' },
@@ -32,7 +34,7 @@ const authorized = (request, env) => {
   return Boolean(token && token.length >= 32 && header.startsWith('Bearer ') && constantTimeEqual(header.slice(7), token));
 };
 
-export function createWorker({ makeStore = (env) => postgrestStore({ url: env.SUPABASE_URL, serviceKey: env.SUPABASE_SERVICE_ROLE_KEY }), adapters = rankingAdapters } = {}) {
+export function createWorker({ makeStore = (env) => guardedPostgrestStore(env), adapters = rankingAdapters, fetchImpl = fetch, collect = runSanctioningCollection } = {}) {
   return {
     async fetch(request, env) {
       const url = new URL(request.url);
@@ -71,13 +73,21 @@ export function createWorker({ makeStore = (env) => postgrestStore({ url: env.SU
       }
     },
     async scheduled(controller, env) {
-      if (env.RANKINGS_AUTOPILOT_ENABLED !== 'true') return;
+      if (env.TITLES_INGEST_ENABLED !== 'true') return;
       let store;
-      try { store = makeStore(env); } catch { return; }
-      for (const adapter of Object.values(adapters)) {
-        const runId = await store.startRun({ worker: 'boxing-rankings', sourceKey: adapter.sourceKey, adapterVersion: `${adapter.key}@disabled` });
-        await store.finishRun(runId, { status: 'blocked', metrics: {}, assertions: { source_policy: adapter.disabled ?? 'adapter has no fetch path' } });
+      try { store = makeStore(env); } catch (err) { console.log(`boxing-rankings: skipped (${err?.code ?? 'store_not_configured'})`); return; }
+      const results = {};
+      for (const body of COLLECTED_BODIES) {
+        const provenance = scheduledProvenance(controller, env, { workerName: 'boxing-rankings' });
+        const r = await collect(store, env, { body, mode: 'current', fetchImpl, provenance });
+        results[body] = r.status;
       }
+      for (const adapter of Object.values(adapters).filter((a) => a.state === 'not_licensed')) {
+        const runId = await store.startRun({ worker: 'boxing-rankings', sourceKey: adapter.sourceKey, adapterVersion: `${adapter.key}@not_licensed` });
+        await store.finishRun(runId, { status: 'blocked', metrics: {}, assertions: { source_policy: adapter.disabled } });
+        results[adapter.key] = 'blocked';
+      }
+      console.log(`boxing-rankings: ${JSON.stringify(results)}`);
     },
   };
 }
