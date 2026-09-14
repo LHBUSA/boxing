@@ -24,8 +24,8 @@ import { buildIndex, toIdentity } from './pipeline.mjs';
 import { classifyCandidateBouts, historyLine } from './bout-history.mjs';
 
 export const REVIEW_WORKBENCH_VERSION = 'boxing-identity-review-workbench@1.1.0';
-export const COMMISSION_SOURCES = ['nsac_nevada', 'florida_athletic_commission', 'nj_sacb', 'mo_office_of_athletics', 'pa_state_athletic_commission'];
-const STATE_OF = { nsac_nevada: 'NV', florida_athletic_commission: 'FL', nj_sacb: 'NJ', mo_office_of_athletics: 'MO', pa_state_athletic_commission: 'PA' };
+export const COMMISSION_SOURCES = ['nsac_nevada', 'florida_athletic_commission', 'nj_sacb', 'mo_office_of_athletics', 'pa_state_athletic_commission', 'tn_athletic_commission'];
+const STATE_OF = { nsac_nevada: 'NV', florida_athletic_commission: 'FL', nj_sacb: 'NJ', mo_office_of_athletics: 'MO', pa_state_athletic_commission: 'PA', tn_athletic_commission: 'TN' };
 const EXACT_FORMS = new Set(['exact', 'reordered', 'joined']);
 
 // Parsed-document bouts per commission, with source bout ids normalized as the re-apply does.

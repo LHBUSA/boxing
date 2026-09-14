@@ -263,3 +263,85 @@ export const PENNSYLVANIA_INDEX_HTML = '<div><a href="/content/dam/copapwp-pagov
   + '<a href="/content/dam/copapwp-pagov/en/dos/programs/state-athletics/results/2026/09-06-26%20mma%20synthetic%20-%20synthetic%20arena%20-%20phila.%20pa%20-%20results.pdf">MMA</a>'
   + '<a href="/content/dam/copapwp-pagov/en/dos/programs/state-athletics/results/2026/09-07-26%20grant%20amateur%20k-bx%20-%20parkview%20inn%20-%20allentown%20pa%20-%20results.pdf">KB</a>'
   + '<a href="/content/dam/copapwp-pagov/en/dos/programs/state-athletics/results/2024/2024-01-12-Boxing-Results.pdf">2024</a></div>';
+
+// ---------------------------------------------------------------- Tennessee
+// Device-space pages (the shape extractDeviceText() returns: y up, drawn radio dots as marks). Geometry mirrors the
+// Tennessee Athletic Commission "BOXING MATCH RESULTS" form reviewed on 2026-09-14, upright (612 wide) or landscape
+// with /Rotate 90 (792 wide: x scaled by 1.294). Every name, federal ID and birth date below is FAKE.
+// bouts: [{ n, rds, status: 'pro'|'am', a: { name, weight }, b: { name, weight }, winner: 'a'|'b'|'both'|null,
+//           rd, time, method: [lines], susp: { a: [[days, text]], b: [[days, text]] } }]
+export function tennesseePages({ title = 'BOXING MATCH RESULTS', city = 'NASHVILLE', date = '09 / 05 / 2026', venue = 'SYNTHETIC HALL', eventName = 'SYNTHETIC FIGHT NIGHT',
+  promoter = 'SYNTHETIC PROMOTIONS', judges = ['Jan Alpha', 'Joe Bravo', 'Kim Charlie', 'Lou Delta'], referees = ['Rex Refone', 'Ray Reftwo'], rotate = false, bouts = [] } = {}) {
+  const kx = rotate ? 1.294 : 1;
+  const dy = rotate ? -84 : 0;
+  const t = (s, x, y) => ({ s, x: Math.round(x * kx), y: y + dy, w: Math.round(s.length * 4.5 * kx) });
+  const mark = (x, y) => ({ x: Math.round(x * kx * 10) / 10, y: Math.round((y + dy) * 10) / 10, w: 2.9, h: 2.9 });
+  const items = [
+    t('* Information circled in red is required', 467, 610), t(title, 15, 606),
+    t('STATE OF TENNESSEE ATHLETIC COMMISSION', 62, 589), t('CITY :', 275, 589), t(city, 344, 589), t('DATE:', 473, 589), t(date, 520, 589),
+    t('DAVY CROCKETT TOWERS', 18, 575), t('STATE/PROVINCE :', 275, 575), t('TENNESSEE', 344, 575), t('VENUE :', 473, 575), t(venue, 520, 575),
+    t('P: 615 555 0100', 16, 563), t('synthetic@example.test', 171, 563), t('EVENT NAME :', 275, 563), t(eventName, 344, 563), t('PROMOTER :', 473, 563), t(promoter, 520, 563),
+    t('EXECUTIVE DIRECTOR:', 19, 542), t('Syn Director', 88, 542), t('JUDGE(s):', 274, 542),
+    t('NAME: Ina Inspector', 18, 518), t('TITLE:', 129, 518), t('Inspector', 151, 518), t('REFEREE(s):', 274, 514),
+    t('RINGSIDE DOCTOR(s):', 274, 486), t('1.', 343, 486), t('Dr. Syn Physician', 352, 486), t('ANNOUNCER:', 273, 472), t('Ann Announcer', 345, 472),
+    t('TIMEKEEPER:', 273, 459), t('Tim Keeper', 345, 459),
+    t('BOUT # RDS.', 15, 415), t('STATUS', 66, 415), t('FIGHTER NAME', 106, 415), t('FED ID AND/OR DOB', 172, 415), t('WEIGHT', 233, 415), t('WINNER', 267, 415),
+    t('RD.', 304, 415), t('TIME', 322, 415), t('METHOD', 375, 415), t('SUSPENSIONS', 494, 415),
+  ];
+  const slots = [[343, 352], [426, 435], [510, 518]];
+  const numbered = (names, y) => names.forEach((name, i) => { const [nx, vx] = slots[i % 3]; const ry = y - 14 * Math.floor(i / 3); items.push(t(`${i + 1}.`, nx, ry), t(name, vx, ry)); });
+  numbered(judges, 542);
+  numbered(referees, 514);
+  const marks = [];
+  bouts.forEach((b, k) => {
+    const y0 = 397 - 49 * k;
+    items.push(t('Pro', 79, y0), t(b.a.name, 100, y0), t('TN 1234567', 184, y0 + 5), t(b.a.weight.toFixed(1), 240, y0));
+    items.push(t(String(b.n), 26, y0 - 10), t(String(b.rds), 51, y0 - 10));
+    if (b.rd) items.push(t(String(b.rd), 308, y0 - 10));
+    if (b.time) items.push(t(b.time, 325, y0 - 10));
+    items.push(t('Am', 79, y0 - 18), t('1/1/1995', 183, y0 - 18), t(b.b.name, 100, y0 - 24), t(b.b.weight.toFixed(1), 240, y0 - 24));
+    marks.push(mark(69.9, b.status === 'am' ? y0 - 17.6 : y0 + 0.4));
+    if (b.winner === 'a' || b.winner === 'both') marks.push(mark(280.8, y0 + 1));
+    if (b.winner === 'b' || b.winner === 'both') marks.push(mark(280.8, y0 - 17.5));
+    (b.method ?? []).forEach((line, i) => items.push(t(line, 344, y0 + 5 - 8.5 * i)));
+    for (const [side, base] of [['a', y0 - 2], ['b', y0 - 22]]) {
+      (b.susp?.[side] ?? []).forEach(([days, text], i) => items.push(t(String(days), 445, base - 9 * i), t(text, 475, base - 9 * i)));
+    }
+  });
+  return [{ page: 1, width: rotate ? 792 : 612, height: rotate ? 612 : 792, rotate: rotate ? 90 : 0, items, marks }];
+}
+
+export const TENNESSEE_BOUTS = [
+  { n: 1, rds: 4, a: { name: 'Synth Alpha', weight: 146.2 }, b: { name: 'Synth Bravo', weight: 147 }, winner: 'a',
+    method: ['UNANIMOUS DECISION', 'REF: Rex Refone', 'Jan Alpha 40-36', 'Joe Bravo 39-37', 'Kim Charlie 39-37'] },
+  { n: 2, rds: 6, a: { name: 'Synth Charlie', weight: 118.6 }, b: { name: "Synth O'Delta Jr", weight: 121 }, winner: 'b', rd: 2, time: '1:21',
+    method: ['TKO', 'REF: Ray Reftwo'], susp: { a: [[30, 'MANDATORY - TKO'], [60, 'OR CLEARED BY OPHTHALMOLOGIST']] } },
+  { n: 3, rds: 6, a: { name: 'Synth Echo', weight: 160 }, b: { name: 'Synth Foxtrot', weight: 159.4 }, winner: 'b',
+    method: ['SPLIT DECISION', 'REF: Rex Refone', 'Jan Alpha 58-56', 'Joe Bravo 56-58', 'Lou Delta 55-59'] },
+  { n: 4, rds: 4, status: 'am', a: { name: 'Synth Amateur', weight: 150 }, b: { name: 'Synth Novice', weight: 151 }, winner: 'a',
+    method: ['UNANIMOUS DECISION', 'REF: Rex Refone'] },
+  { n: 5, rds: 8, a: { name: 'Synth Golf', weight: 175 }, b: { name: 'Synth Hotel', weight: 174.2 }, winner: null,
+    method: ['MAJORITY DRAW', 'REF: Ray Reftwo', 'Jan Alpha 77-75', 'Kim Charlie 76-76', 'Lou Delta 76-76'] },
+  { n: 6, rds: 4, a: { name: 'Synth India', weight: 200 }, b: { name: 'Synth Juliet', weight: 201 }, winner: 'both',
+    method: ['UNANIMOUS DECISION', 'REF: Rex Refone', 'Jan Alpha 40-36', 'Joe Bravo 40-36', 'Kim Charlie 40-36'], susp: { b: [[14, '14 days by Dr.']] } },
+];
+
+export const TENNESSEE_ROTATED_BOUTS = [
+  { n: 1, rds: 4, a: { name: 'Synth Kilo', weight: 130 }, b: { name: 'Synth Lima', weight: 131.4 }, winner: 'b', rd: 1, time: '2.47',
+    method: ['REF: Rex Refone', 'KO'], susp: { a: [[30, '30 Days by Commission']] } },
+  // the WINNER mark is on A but every line, read A first, gives the fight to B
+  { n: 2, rds: 4, a: { name: 'Synth Mike', weight: 119.4 }, b: { name: 'Synth November', weight: 122.6 }, winner: 'a',
+    method: ['UNANIMOUS DECISION', 'Jan Alpha - 36-40', 'Joe Bravo - 36-40', 'Kim Charlie - 37-39'] },
+];
+
+const tnRow = (date, type, city, name, links) => `</tr><tr><td>${date}</td>\n<td>${type}</td>\n<td>${city}</td>\n<td>${name}</td>\n<td>${links}</td>\n`;
+const tnLink = (path, label) => `<a title="${label}" href="/content/dam/tn/commerce/documents/regboards/athletic/results/${path}">${label}</a>`;
+export const TENNESSEE_EVENTS_HTML = '<table><tbody><tr><th>Date</th><th>Event Type</th><th>Location</th><th>Event Name/Venue</th><th>Results</th>'
+  + tnRow('9/5/2026', 'Pro Boxing', 'Nashville', 'Synthetic Fight Night', tnLink('2026/SYNTHETIC-BOXING_9-5.pdf', 'Results'))
+  + tnRow('9/6/2026', 'Pro-Am MMA', 'Memphis', 'Synthetic Cage', tnLink('2026/SYNTHETIC-MMA_9-6.pdf', 'Results'))
+  + tnRow('9/12/2026', 'Pro-Am Boxing', 'Knoxville', 'Synthetic Brawl', `${tnLink('2026/SYNTHETIC_9-12_Boxing.pdf', 'Boxing Results')}<br />\n${tnLink('2026/SYNTHETIC_9-12_Bare-Knuckle.pdf', 'Bare-Knuckle Results')}`)
+  + tnRow('9/13/2026', 'Pro Boxing', 'Chattanooga', 'Synthetic Scan', tnLink('2026/SYNTHETIC-SCAN_9-13.pdf', 'Results'))
+  + '</tr></tbody></table>';
+export const TENNESSEE_ARCHIVE_HTML = '<table><tbody><tr><th>Date</th><th>Event Type</th><th>Location</th><th>Event Name/Venue</th><th>Results</th>'
+  + tnRow('12/20/2025', 'Pro Boxing', 'Nashville', 'Synthetic Archive Night', tnLink('2025/SYNTHETIC-ARCHIVE_12-20.pdf', 'Results'))
+  + '</tr></tbody></table>';

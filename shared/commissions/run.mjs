@@ -1,4 +1,4 @@
-// Commission ingestion runs (Nevada, Florida, New Jersey, Missouri, Pennsylvania; Texas is disabled).
+// Commission ingestion runs (Nevada, Florida, New Jersey, Missouri, Pennsylvania, Tennessee; Texas is disabled).
 //
 // Gates (fail closed): COMMISSION_INGEST_ENABLED="true"; verified boxing write
 // target; adapter.remote.enabled; source row approved_ingest + enabled +
@@ -22,11 +22,12 @@ import { NEW_JERSEY, isOfficialNjUrl, parseNjResults, parseNjSchedule } from '..
 import { TEXAS } from '../adapters/commissions/texas.mjs';
 import { MISSOURI, parseMissouriIndex, parseMissouriResults } from '../adapters/commissions/missouri.mjs';
 import { PENNSYLVANIA, parsePennsylvaniaIndex, parsePennsylvaniaResults } from '../adapters/commissions/pennsylvania.mjs';
+import { TENNESSEE, parseTennesseeIndex, parseTennesseeResults } from '../adapters/commissions/tennessee.mjs';
 import { SPORT } from '../adapters/commissions/contract.mjs';
 import { extractPositionedText, sha256Bytes } from '../adapters/commissions/pdf.mjs';
 import { assertMinimized } from '../adapters/commissions/minimize.mjs';
 
-export const COMMISSION_ADAPTERS = Object.freeze({ nevada: NEVADA, florida: FLORIDA, new_jersey: NEW_JERSEY, missouri: MISSOURI, pennsylvania: PENNSYLVANIA, texas: TEXAS });
+export const COMMISSION_ADAPTERS = Object.freeze({ nevada: NEVADA, florida: FLORIDA, new_jersey: NEW_JERSEY, missouri: MISSOURI, pennsylvania: PENNSYLVANIA, tennessee: TENNESSEE, texas: TEXAS });
 export const USER_AGENT = 'PropBetEdge-Boxing/1.0 (+https://propbetedge.ai; official commission records; low-rate)';
 const DAY = 86_400_000;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -62,6 +63,9 @@ export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = 
   const refusal = sourceApprovalFor(adapter.sourceKey, src);
   if (refusal) return { status: 'blocked', assertions: { source_policy: refusal } };
 
+  // the real extractor may be adapter-specific (Tennessee reads drawn radio marks); tests inject their own extractor
+  const realExtractor = extract === extractPositionedText;
+  const extractor = realExtractor && adapter.extractDocument ? adapter.extractDocument : extract;
   const cap = maxDocuments ?? Number(env.COMMISSION_MAX_DOCUMENTS ?? (mode === 'backfill' ? 80 : 12));
   const pause = delayMs ?? Number(env.COMMISSION_FETCH_DELAY_MS ?? 1500);
   const nowMs = Date.parse(now);
@@ -114,7 +118,7 @@ export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = 
     // a listed document that is not a PDF (a site error page served with 200) is a source-side fault, not a parse failure
     // (checked for the real PDF extractor; tests inject a synthetic extractor and synthetic bytes)
     const magic = String.fromCharCode(...fetched.body.slice(0, 5));
-    if (extract === extractPositionedText && magic !== '%PDF-') {
+    if (realExtractor && magic !== '%PDF-') {
       metrics.documents_not_pdf = (metrics.documents_not_pdf ?? 0) + 1;
       await store.recordDocumentFetch({ source_key: adapter.sourceKey, doc_key: ref.doc_key, url: ref.url, kind: 'results', sport_hint: ref.sport_hint, status: 'error',
         error: `not_a_pdf: ${String(fetched.contentType ?? 'unknown content type').slice(0, 60)}`, fetched_at: now });
@@ -129,7 +133,7 @@ export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = 
     }
     let parsed;
     try {
-      parsed = parse(ref, await extract(fetched.body), { sourceRevision: `sha256:${sha.slice(0, 16)}` });
+      parsed = parse(ref, await extractor(fetched.body), { sourceRevision: `sha256:${sha.slice(0, 16)}` });
     } catch (err) {
       metrics.parse_failures += 1;
       // no revision for a failed parse: the document stays retryable when the parser is fixed
@@ -244,6 +248,29 @@ export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = 
       for (const ref of refs) {
         if (![SPORT.UNKNOWN, SPORT.BOXING].includes(ref.sport_hint)) { metrics.documents_skipped += 1; reject([`listing_not_boxing:${ref.sport_hint}`]); continue; }
         await processDocument(ref, (r, pages, o) => parsePennsylvaniaResults(r, pages, { capturedAt: now, ...o }));
+      }
+    } else if (adapterKey === 'tennessee') {
+      // current-year page plus the archive page (earlier years): the archive is read for a backfill of earlier years, and
+      // in January-February when the forward window reaches back into last year
+      const pages = [['tn-results:events', TENNESSEE.resultsUrl]];
+      const currentYear = new Date(now).getUTCFullYear();
+      if (mode === 'backfill' ? (years ?? [currentYear]).some((y) => y < currentYear) : new Date(now).getUTCMonth() < 2) pages.push(['tn-results:archive', TENNESSEE.archiveUrl]);
+      const indexed = [];
+      for (const [docKey, url] of pages) {
+        const index = await fetchOk(fetchImpl, url);
+        await recordListing(docKey, url, 'listing', index.body, index.lastModified);
+        const refs = parseTennesseeIndex(index.body);
+        if (!refs.length) noteEmptyIndex(docKey);
+        for (const r of refs) if (!indexed.some((x) => x.url === r.url)) indexed.push(r);
+      }
+      const refs = indexed.filter((r) => r.event_date && (mode === 'backfill'
+        ? (years ?? [currentYear]).includes(Number(r.event_date.slice(0, 4)))
+        : Date.parse(`${r.event_date}T00:00:00Z`) >= nowMs - 60 * DAY));
+      metrics.documents_listed += refs.length;
+      for (const ref of refs) {
+        // the index row names the event type and each link's sport; only boxing links are fetched, the sheet decides the rest
+        if (ref.sport_hint !== SPORT.BOXING) { metrics.documents_skipped += 1; reject([`listing_not_boxing:${ref.sport_hint}`]); continue; }
+        await processDocument(ref, (r, pages, o) => parseTennesseeResults(r, pages, { capturedAt: now, ...o }));
       }
     }
   } catch (err) {

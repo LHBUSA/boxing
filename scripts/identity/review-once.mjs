@@ -27,7 +27,7 @@ console.log(`target: ${store.writeTarget.projectName} (${store.writeTarget.ref},
 let sha = null;
 try { sha = execSync('git rev-parse HEAD', { cwd: new URL('../..', import.meta.url) }).toString().trim(); } catch { /* not a checkout */ }
 const prov = () => manualProvenance({ workerName: 'scripts/staging/identity-review.ps1', workerVersion: sha ? `git:${sha}` : null, runtime: `node ${process.version}`, trigger: 'backfill' });
-const ADAPTER_OF = { nsac_nevada: 'nevada', florida_athletic_commission: 'florida', nj_sacb: 'new_jersey', mo_office_of_athletics: 'missouri', pa_state_athletic_commission: 'pennsylvania' };
+const ADAPTER_OF = { nsac_nevada: 'nevada', florida_athletic_commission: 'florida', nj_sacb: 'new_jersey', mo_office_of_athletics: 'missouri', pa_state_athletic_commission: 'pennsylvania', tn_athletic_commission: 'tennessee' };
 
 async function metrics() {
   const replay = await reprocessStoredOdds(store, { provenance: prov(), limit: 1000 });
