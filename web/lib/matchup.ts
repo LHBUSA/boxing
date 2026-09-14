@@ -158,3 +158,23 @@ export function historyConfidence(bouts: number): Confidence {
   if (bouts >= 1) return "limited";
   return "first";
 }
+
+// "What could break the read": the limits of the evidence, stated plainly. Pure; no prediction.
+export function readLimits(d: BoutDetail, ctx?: { officials?: { role: string }[] | null } | null): Factor[] {
+  const an = d.bout.a?.name ?? "Corner A";
+  const bn = d.bout.b?.name ?? "Corner B";
+  const A = d.corners.a;
+  const B = d.corners.b;
+  const out: Factor[] = [];
+  const complete = Boolean(d.bout.result) || d.event.status === "complete";
+  for (const [name, c] of [[an, A], [bn, B]] as const) {
+    if (c && c.entering.bouts < 3) out.push({ title: "Thin verified history", evidence: `${name} entered with ${plural(c.entering.bouts, "verified bout")}. Verified records cover the commissions PropBetEdge ingests, not a full career.` });
+  }
+  if (!complete && (d.bout.a?.weigh_in == null || d.bout.b?.weigh_in == null)) out.push({ title: "Scale not on record yet", evidence: "The official weigh-in has not been recorded; a missed weight or a late change would change this read." });
+  if (!complete && !(ctx?.officials?.length)) out.push({ title: "Officials not assigned on record", evidence: "Referee and judges appear once the commission assigns them." });
+  const missing = UNKNOWN_PHYSICALS(d);
+  if (missing.length) out.push({ title: "Physicals not verified", evidence: `No verified ${missing.join(", ")} for either boxer on the commission record.` });
+  if (!d.market) out.push({ title: "No matched market", evidence: "Prices attach only when a sportsbook event matches this verified bout." });
+  if (d.result_history.length > 1) out.push({ title: "Result revised", evidence: `The official result has ${plural(d.result_history.length - 1, "revision")} on record.` });
+  return out.slice(0, 5);
+}

@@ -533,3 +533,7 @@ main { flex: 1; position: relative; z-index: 1; }
 .vcard b { font: 700 15px/1.3 var(--f-ui); color: var(--paper); }
 .vcard span { font: 500 12px/1.3 var(--f-data); color: var(--faint); }
 .vcard small { font: 500 12px/1.4 var(--f-ui); color: var(--gold); }
+
+.limits { display: grid; gap: 8px; padding: 0; list-style: none; }
+.limits li { padding: 10px 12px; border-left: 2px solid var(--line-2); background: rgba(255, 245, 220, 0.02); font: 500 14px/1.45 var(--f-ui); color: var(--dim); }
+.limits li b { color: var(--paper); }

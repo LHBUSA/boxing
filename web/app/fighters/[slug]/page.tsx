@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
 import { canonical } from "@/lib/posture";
-import { gateway, todayUtc } from "@/lib/gateway";
+import { gateway, optional, todayUtc } from "@/lib/gateway";
 import { daysBetween, divisionLabel, fmtClock, fmtDate, fmtLb, fmtRecord, methodLabel, plural, STANCE } from "@/lib/format";
-import { boutPath, eventPath, fighterPath, parseRef } from "@/lib/slug";
+import { boutPath, eventPath, fighterPath, parseRef, refOf } from "@/lib/slug";
 import { FighterArt } from "@/components/FighterArt";
 import { Crumbs, DnaBars, FormStrip, Note, RChip, SecHead, Unavailable } from "@/components/fight";
 import type { FighterBout } from "@/lib/types";
@@ -45,6 +45,8 @@ export default async function FighterPage({ params }: Props) {
   }
   const f = d.fighter;
   if (`/fighters/${slug}` !== fighterPath(f)) permanentRedirect(fighterPath(f));
+  const ctx = optional(await gateway.fighterContext(refOf(f.public_id)));
+  const bio = ctx?.sourced_bio ?? null;
   const r = d.record;
   const today = todayUtc();
   const done = d.bouts.filter((b) => b.event_complete);
@@ -66,6 +68,11 @@ export default async function FighterPage({ params }: Props) {
           <div className="eyebrow">{[division, commissions[0]].filter(Boolean).join(" · ") || "Boxer"}</div>
           <h1>{f.name}</h1>
           {f.nickname ? <p className="serif gold" style={{ fontStyle: "italic", fontSize: 22, marginTop: 6 }}>“{f.nickname}”</p> : null}
+          {ctx?.hall_of_fame?.length ? (
+            <div className="mt-1" style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              {ctx.hall_of_fame.map((h) => <Link key={h.institution_slug + h.year} href={"/hall-of-fame?year=" + h.year} className="tag tag--gold">Hall of Fame · {h.institution} · {h.year} · {h.category}</Link>)}
+            </div>
+          ) : null}
           <div className="tiles mt-3">
             <div className="tile"><b className="gold">{r.bouts ? fmtRecord(r) : "0-0"}</b><span>Verified record</span></div>
             <div className="tile"><b>{r.bouts}</b><span>Verified bouts</span></div>
@@ -76,12 +83,15 @@ export default async function FighterPage({ params }: Props) {
           <dl className="facts mt-3">
             <div><dt>Division</dt><dd>{division ?? (weights.length ? `Weighed ${fmtLb(weights[0])} last out` : "Not on sheet")}</dd></div>
             <div><dt>Stance</dt><dd className={f.stance ? "" : "faint"}>{f.stance ? STANCE[f.stance] ?? f.stance : "Not verified"}</dd></div>
-            <div><dt>Height · reach</dt><dd className={f.height_cm || f.reach_cm ? "" : "faint"}>{f.height_cm || f.reach_cm ? `${f.height_cm ? `${Math.round(f.height_cm)} cm` : "—"} · ${f.reach_cm ? `${Math.round(f.reach_cm)} cm` : "—"}` : "Not verified"}</dd></div>
+            <div><dt>Height · reach</dt><dd className={f.height_cm || f.reach_cm || bio?.height_cm ? "" : "faint"}>{f.height_cm || f.reach_cm ? `${f.height_cm ? `${Math.round(f.height_cm)} cm` : "—"} · ${f.reach_cm ? `${Math.round(f.reach_cm)} cm` : "—"}` : bio?.height_cm ? `${Math.round(bio.height_cm)} cm (Wikidata) · reach not verified` : "Not verified"}</dd></div>
+            <div><dt>Age</dt><dd className={bio?.age_years ? "" : "faint"}>{bio?.age_years ? `${bio.age_years} (Wikidata)` : "Not verified"}</dd></div>
+            <div><dt>Nationality</dt><dd className={bio?.nationality?.length || f.nationality ? "" : "faint"}>{f.nationality ?? (bio?.nationality?.length ? `${bio.nationality.join(" / ")} (Wikidata)` : "Not verified")}</dd></div>
             <div><dt>Last verified bout</dt><dd>{latest ? <Link className="gold" href={boutPath({ public_id: latest.public_id })}>{fmtDate(latest.date)}</Link> : "—"}</dd></div>
             <div><dt>First verified bout</dt><dd>{r.first_date ? fmtDate(r.first_date) : "—"}</dd></div>
             <div><dt>Weigh-in range</dt><dd>{weights.length ? `${fmtLb(Math.min(...weights))} – ${fmtLb(Math.max(...weights))}` : "—"}</dd></div>
           </dl>
-          <p className="fine mt-2">Titles and rankings appear once sanctioning-body records are cleared. Age is shown only with a verified date of birth. Bouts outside covered commissions are not on this record.</p>
+          {bio ? <p className="fine mt-2">Identity matched to <a className="link-gold" href={bio.wikidata_url} target="_blank" rel="noopener noreferrer">Wikidata {bio.wikidata_qid}</a>{bio.wikipedia_url ? <> · <a className="link-gold" href={bio.wikipedia_url} target="_blank" rel="noopener noreferrer">Wikipedia</a></> : null}: its boxing record lists a bout on our verified record.</p> : null}
+          <p className="fine mt-2">Titles and rankings appear once sanctioning-body records are cleared. Age appears only from an identity-proven source. Bouts outside covered commissions are not on this record.</p>
         </div>
       </section>
 
@@ -146,6 +156,20 @@ export default async function FighterPage({ params }: Props) {
           ))}
         </div>
       </section>
+
+      {ctx?.promoter_appearances?.length ? (
+        <section className="mt-4">
+          <SecHead kicker="Cards listing each promoter · appearances, not affiliation" title="Promotion Appearances">
+            {f.name} appeared on cards listing these promoters on the official sheet. That is all it shows: no contract or promotional affiliation is implied.
+          </SecHead>
+          <div className="blist">{ctx.promoter_appearances.map((p) => (
+            <Link key={p.key} href={"/promoters/" + p.key} className="bline">
+              <span className="bline__names"><span style={{ color: "var(--paper)", fontWeight: 600 }}>{p.name}</span><span className="bline__meta">{fmtDate(p.first_date)}{p.first_date !== p.last_date ? " – " + fmtDate(p.last_date) : ""}</span></span>
+              <span className="bline__res"><span className="bline__method">{plural(p.cards, "card")}</span></span>
+            </Link>
+          ))}</div>
+        </section>
+      ) : null}
 
       <section className="mt-4">
         <SecHead kicker="Matched markets only" title="Market History" />
