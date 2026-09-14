@@ -137,6 +137,10 @@ export interface Coverage {
   matched_market_bouts: number;
   captured_market_events_upcoming: number;
   scorecard_decisions?: number;
+  video_channels_registered?: number;
+  video_channels_enabled?: number;
+  videos_published?: number;
+  promoter_names_listed?: number;
   commissions: { slug: string; name: string; jurisdiction: string | null; events: number }[];
 }
 

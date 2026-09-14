@@ -5,7 +5,7 @@ import { boutPath, eventPath, fighterPath, parseRef, refOf, slugify } from "./sl
 import { currentFightWeek, eventState, groupByWeek, rankCards, weekStart } from "./weekend.ts";
 import { FAMILIES, FORBIDDEN_LABEL_WORDS, familyViews, fmtMetricValue, metricView, needText } from "./dna.ts";
 import { comparisonRows, fightRead, whatMatters } from "./matchup.ts";
-import { MORE_NAV, PRIMARY_NAV } from "./nav.ts";
+import { MORE_NAV, PRIMARY_NAV, filterNav } from "./nav.ts";
 import type { BoutDetail, DnaMetric, EventSummary, RecordSummary } from "./types.ts";
 
 const ev = (over: Partial<EventSummary>): EventSummary => ({
@@ -114,6 +114,8 @@ test("matchup factors are facts past fixed thresholds; no picks or probabilities
 });
 
 test("navigation lists only usable surfaces", () => {
-  assert.deepEqual(PRIMARY_NAV.map((n) => n.label), ["Fight Week", "Events", "Fighters", "Scorecards", "Officials", "Titles", "Rankings"]);
+  assert.deepEqual(PRIMARY_NAV.map((n) => n.label), ["Fight Week", "Events", "Fighters", "Titles", "Rankings", "Odds", "News"]);
+  const onlyCore = filterNav([...PRIMARY_NAV, ...MORE_NAV], new Set(["fight-week", "events", "fighters", "titles", "rankings"]));
+  assert.deepEqual(onlyCore.map((n) => n.key), ["fight-week", "events", "fighters", "titles", "rankings"], "a surface without data is never listed");
   assert.ok([...PRIMARY_NAV, ...MORE_NAV].every((n) => n.href.startsWith("/") && !/soon/i.test(n.label)));
 });

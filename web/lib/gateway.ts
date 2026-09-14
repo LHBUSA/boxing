@@ -1,4 +1,5 @@
 import "server-only";
+import type { BoutContext, ErasData, FighterContext, HallOfFamePage, WireItem } from "./types-os";
 import type { BoutDetail, Coverage, EventDetail, EventsPage, FighterDetail, FightersPage, HomeData, MarketIndex, OfficialDetail, OfficialsPage, PromoterDetail, PromotersPage, RankingsData, ScorecardDetail, ScorecardsPage, TitlesData, VideoDesk } from "./types";
 
 // The ONLY data path of this site: server -> boxing-gateway (bearer token) -> Boxing Core.
@@ -67,4 +68,13 @@ export const gateway = {
   videos: (type?: string | null, limit = 24) => read<VideoDesk>(`site/videos${q({ type, limit })}`),
   promoters: () => read<PromotersPage>("site/promoters"),
   promoter: (key: string) => read<PromoterDetail>(`site/promoters/${key}`),
+  fighterContext: (ref: string) => read<FighterContext>(`site/fighters/${ref}/context`),
+  boutContext: (ref: string) => read<BoutContext>(`site/bouts/${ref}/context`),
+  hallOfFame: (opts: { category?: string | null; year?: number | null; limit?: number; offset?: number } = {}) =>
+    read<HallOfFamePage>(`site/hall-of-fame${q({ category: opts.category, year: opts.year, limit: opts.limit, offset: opts.offset })}`, 1800),
+  eras: () => read<ErasData>("site/eras", 1800),
+  wire: (limit = 40) => read<WireItem[]>(`site/wire${q({ limit })}`),
 };
+
+// Optional reads: absent (not deployed yet, not found, outage) is simply null.
+export const optional = <T>(r: Read<T>): T | null => (r.ok ? r.data : null);

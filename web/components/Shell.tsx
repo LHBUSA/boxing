@@ -2,7 +2,8 @@ import Link from "next/link";
 import { gateway, todayUtc } from "@/lib/gateway";
 import { daysBetween, fmtDateShort, methodLabel, shortEventName, winnerLoser } from "@/lib/format";
 import { eventPath } from "@/lib/slug";
-import { MORE_NAV, NETWORK, PRIMARY_NAV, SITE } from "@/lib/nav";
+import { MORE_NAV, NETWORK, PRIMARY_NAV, SITE, filterNav } from "@/lib/nav";
+import { navAvailability } from "@/lib/availability";
 import { DesktopNav, MobileNav } from "./Nav";
 
 export function RingGlyph({ size = 20 }: { size?: number }) {
@@ -45,7 +46,9 @@ async function nextCard() {
 }
 
 export async function Header() {
-  const next = await nextCard();
+  const [next, available] = await Promise.all([nextCard(), navAvailability()]);
+  const primary = filterNav(PRIMARY_NAV, available);
+  const more = filterNav(MORE_NAV, available);
   return (
     <header className="hdr">
       <div className="wrap hdr__in">
@@ -55,7 +58,7 @@ export async function Header() {
           <span className="brand__word">PropBet<em>Edge</em></span>
           <span className="brand__tag">BOXING</span>
         </Link>
-        <DesktopNav primary={PRIMARY_NAV} more={MORE_NAV} />
+        <DesktopNav primary={primary} more={more} />
         <div className="hdr__right">
           {next ? (
             <Link href={next.href} className="next-chip" aria-label={`${next.label}: ${next.date}`}>
@@ -63,7 +66,7 @@ export async function Header() {
               <span><b>{next.label}</b>{next.date}</span>
             </Link>
           ) : null}
-          <MobileNav items={[...PRIMARY_NAV, ...MORE_NAV]} next={next ? { label: `${next.label} · ${next.date}`, href: next.href } : null} />
+          <MobileNav items={[...primary, ...more]} next={next ? { label: `${next.label} · ${next.date}`, href: next.href } : null} />
         </div>
       </div>
     </header>
@@ -101,7 +104,10 @@ export async function Wire() {
   );
 }
 
-export function Footer() {
+export async function Footer() {
+  const available = await navAvailability();
+  const primary = filterNav(PRIMARY_NAV, available);
+  const more = filterNav(MORE_NAV, available);
   return (
     <footer className="ftr">
       <div className="wrap ftr__grid">
@@ -117,11 +123,11 @@ export function Footer() {
         <div className="ftr__cols">
           <div>
             <h4>Boxing</h4>
-            {PRIMARY_NAV.slice(0, 4).map((n) => <Link key={n.href} href={n.href}>{n.label}</Link>)}
+            {primary.slice(0, 4).map((n) => <Link key={n.href} href={n.href}>{n.label}</Link>)}
           </div>
           <div>
             <h4>Intelligence</h4>
-            {[...PRIMARY_NAV.slice(4), ...MORE_NAV].map((n) => <Link key={n.href} href={n.href}>{n.label}</Link>)}
+            {[...primary.slice(4), ...more].map((n) => <Link key={n.href} href={n.href}>{n.label}</Link>)}
           </div>
           <div>
             <h4>PropBetEdge</h4>
