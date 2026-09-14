@@ -7,7 +7,7 @@
 # Verifies the project is propbetedge-boxing-staging, reads the service-role key from the Management API into THIS
 # process only, runs scripts/titles/collect-once.mjs (same code path as the boxing-rankings Worker), then clears it.
 
-param([Parameter(Mandatory = $true)][ValidateSet('wba', 'ibf', 'wbo')][string]$Body, [switch]$Backfill, [string]$From = '', [string]$To = '', [int]$MaxRequests = 0, [switch]$RetryFailed)
+param([Parameter(Mandatory = $true)][ValidateSet('wba', 'ibf', 'wbo')][string]$Body, [switch]$Backfill, [string]$From = '', [string]$To = '', [int]$MaxRequests = 0, [switch]$RetryFailed, [string]$RetryFailedBefore = '')
 $ErrorActionPreference = 'Stop'
 $root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 Import-Module (Join-Path $PSScriptRoot 'BoxingSupabase.psm1') -Force
@@ -29,6 +29,7 @@ try {
   if ($To) { $nodeArgs += "--to=$To" }
   if ($MaxRequests -gt 0) { $nodeArgs += "--max-requests=$MaxRequests" }
   if ($RetryFailed) { $nodeArgs += '--retry-failed' }
+  if ($RetryFailedBefore) { $nodeArgs += "--retry-failed-before=$RetryFailedBefore" }
   node @nodeArgs
   if ($LASTEXITCODE -ne 0) { throw "collect-once exited $LASTEXITCODE" }
 } finally {

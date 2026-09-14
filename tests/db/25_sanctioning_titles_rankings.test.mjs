@@ -194,6 +194,15 @@ test('backfill: a month with a refused division stays open in the checkpoint and
   const clean = await run('wba', { mode: 'backfill', months: [{ y: 2026, m: 6 }], retryFailed: true });
   assert.equal(clean.status, 'ok', JSON.stringify(clean.metrics));
   assert.ok((await store.backfillCheckpoint('wba_official', 'wba-history')).completed.includes('2026-06'));
+  // a chunked retry pass reads each failure recorded before the pass once, not again on the next chunk
+  site.set(june, wbaRankingHtml({ label: 'JUNE 2026', date: 'June 30th, 2026', extraDivision: 'EMPEROR WEIGHT' }));
+  const july = 'POST https://www.wbaboxing.com/wba-ranking dates=2026:7:';
+  site.set(july, wbaRankingHtml({ label: 'JULY 2026', date: 'July 31st, 2026', extraDivision: 'EMPEROR WEIGHT' }));
+  await run('wba', { mode: 'backfill', months: [{ y: 2026, m: 7 }] });
+  const passStart = new Date().toISOString();
+  const r1 = await run('wba', { mode: 'backfill', months: [{ y: 2026, m: 7 }], retryFailed: passStart });
+  const r2 = await run('wba', { mode: 'backfill', months: [{ y: 2026, m: 7 }], retryFailed: passStart });
+  assert.deepEqual([r1.metrics.requests, r2.metrics.requests], [2, 0]);
   assert.equal((await run('wba', { mode: 'backfill', months: [{ y: 2026, m: 6 }] })).metrics.requests, 0, 'a completed month is not requested again');
 });
 

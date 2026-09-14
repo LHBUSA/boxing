@@ -6,7 +6,8 @@
 //   node scripts/titles/collect-once.mjs ibf --backfill                               2005-2026 history (checkpointed)
 //   node scripts/titles/collect-once.mjs <wba|wbo> --backfill --from=2000-01 --to=2026-08 [--max-requests=N] [--retry-failed]
 //
-// A backfill pass skips months (IBF: divisions) that already recorded a failure or refusal; --retry-failed re-reads them.
+// A backfill pass skips months (IBF: divisions) that already recorded a failure or refusal; --retry-failed re-reads them;
+// --retry-failed-before=<ISO time> re-reads only failures recorded before that time (a chunked retry pass).
 //
 // WBC has no collector (not licensed). Prints metrics only; never prints credentials.
 
@@ -27,7 +28,7 @@ let sha = null;
 try { sha = execSync('git rev-parse HEAD', { cwd: new URL('../..', import.meta.url) }).toString().trim(); } catch { /* not a checkout */ }
 const provenance = manualProvenance({ workerName: 'scripts/staging/titles-collect.ps1', workerVersion: sha ? `git:${sha}` : null, runtime: `node ${process.version}`, trigger: backfill ? 'backfill' : 'manual' });
 const months = backfill && body !== 'ibf' ? monthsBetween(ym(arg('from') ?? '2000-01'), ym(arg('to') ?? '2026-08')).reverse() : null;
-const r = await runSanctioningCollection(store, env, { body, mode: backfill ? 'backfill' : 'current', months, maxRequests: arg('max-requests') ? Number(arg('max-requests')) : null, provenance, retryFailed: args.includes('--retry-failed') });
+const r = await runSanctioningCollection(store, env, { body, mode: backfill ? 'backfill' : 'current', months, maxRequests: arg('max-requests') ? Number(arg('max-requests')) : null, provenance, retryFailed: arg('retry-failed-before') ?? args.includes('--retry-failed') });
 const { months: captured, ...rest } = r.metrics ?? {};
 console.log(JSON.stringify({ body, status: r.status, runId: r.runId ?? null, reason: r.reason ?? null, metrics: { ...rest, months_captured: captured ? Object.keys(captured).length : 0,
   first_month: captured ? Object.keys(captured).sort()[0] : null, last_month: captured ? Object.keys(captured).sort().at(-1) : null } }, null, 1));

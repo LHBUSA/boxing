@@ -354,7 +354,10 @@ export function monthsBetween(from, to) {
 
 // extractPdfText is injectable for tests (synthetic documents); the default reads the PDF text layer with unpdf
 // retryFailed: months (or IBF divisions) with a recorded failure or refusal are skipped by a normal pass, so a chunked
-// backfill moves forward; a later pass with retryFailed re-reads them (after a review, or a parser fix)
+// backfill moves forward; retryFailed: true re-reads them (after a review, or a parser fix). retryFailed: '<ISO time>'
+// re-reads only failures recorded before that time, so a chunked retry pass reads each old failure once.
+const skipByFailure = (failures, key, retryFailed) => new Set(failures.filter((f) => f[key]).filter((f) => retryFailed === false || retryFailed == null
+  || (typeof retryFailed === 'string' && f.at && f.at >= retryFailed)).map((f) => f[key]));
 export async function runSanctioningCollection(store, env, { body, mode = 'current', fetchImpl = fetch, sleep = defaultSleep, months = null, maxRequests = null, now = new Date().toISOString(), provenance = null, extractPdfText = pdfText, retryFailed = false } = {}) {
   if (body === 'wbc') return { status: 'blocked', reason: 'wbc: approved source; no collector or parser built yet' };
   if (!['wba', 'ibf', 'wbo'].includes(body)) return { status: 'blocked', reason: `${body}: no collector` };
@@ -374,7 +377,7 @@ export async function runSanctioningCollection(store, env, { body, mode = 'curre
     if (body === 'ibf') {
       const job = mode === 'backfill' ? 'ibf-history-2005-2026' : null;
       const cp = job ? await store.backfillCheckpoint(sourceKey, job) : null;
-      const done = new Set([...(cp?.completed ?? []), ...(retryFailed ? [] : (cp?.failures ?? []).map((f) => f.slug).filter(Boolean))]);
+      const done = new Set([...(cp?.completed ?? []), ...(retryFailed === true ? [] : skipByFailure(cp?.failures ?? [], 'slug', retryFailed))]);
       for (const slug of Object.keys(DIVISIONS.ibf)) {
         if (done.has(slug)) continue;
         if (budget()) { status = 'partial'; metrics.stopped = 'request budget'; break; }
@@ -385,7 +388,7 @@ export async function runSanctioningCollection(store, env, { body, mode = 'curre
         await processIbfRecords({ ...ctx, retrievedAt: res.retrievedAt, sha: await sha256Bytes(res.bytes) }, slug, json, { latestOnly: mode !== 'backfill' });
         // a division with refused documents stays open, so a resume after review re-reads it (stored months are duplicates)
         const refused = (metrics.refused ?? []).slice(refusedBefore);
-        if (job && refused.length) await store.backfillCheckpoint(sourceKey, job, { failure: [{ slug, refused: refused.length, reasons: [...new Set(refused.map((x) => x.reason))] }] });
+        if (job && refused.length) await store.backfillCheckpoint(sourceKey, job, { failure: [{ slug, at: new Date().toISOString(), refused: refused.length, reasons: [...new Set(refused.map((x) => x.reason))] }] });
         else if (job) await store.backfillCheckpoint(sourceKey, job, { completed: slug, cursor: { last_slug: slug, at: new Date().toISOString() } });
       }
     } else if (mode === 'current') {
@@ -394,7 +397,7 @@ export async function runSanctioningCollection(store, env, { body, mode = 'curre
     } else {
       const job = `${body}-history`;
       const cp = await store.backfillCheckpoint(sourceKey, job);
-      const done = new Set([...(cp.completed ?? []), ...(retryFailed ? [] : (cp.failures ?? []).map((f) => f.month).filter(Boolean))]);
+      const done = new Set([...(cp.completed ?? []), ...(retryFailed === true ? [] : skipByFailure(cp.failures ?? [], 'month', retryFailed))]);
       let list = (months ?? []).filter((mo) => !done.has(`${mo.y}-${String(mo.m).padStart(2, '0')}`));
       if (body === 'wba' && list.length) {
         const listed = wbaListedMonths((await request(URLS.wbaRanking)).text);
@@ -414,12 +417,12 @@ export async function runSanctioningCollection(store, env, { body, mode = 'curre
           metrics.months[key] = 1;
           // a month with a refused division or designation stays open for a resume after review
           const refused = (metrics.refused ?? []).slice(refusedBefore);
-          if (refused.length) await store.backfillCheckpoint(sourceKey, job, { failure: [{ month: key, refused: refused.length, reasons: [...new Set(refused.map((x) => x.reason))] }] });
+          if (refused.length) await store.backfillCheckpoint(sourceKey, job, { failure: [{ month: key, at: new Date().toISOString(), refused: refused.length, reasons: [...new Set(refused.map((x) => x.reason))] }] });
           else await store.backfillCheckpoint(sourceKey, job, { completed: key, cursor: { last_month: key, at: new Date().toISOString() } });
         } catch (err) {
           if (!(err instanceof StructureError) && !err.httpStatus) throw err;
           // a month the source cannot serve in the expected shape is recorded and skipped, never guessed
-          await store.backfillCheckpoint(sourceKey, job, { failure: [{ month: key, error: String(err.message).slice(0, 200) }] });
+          await store.backfillCheckpoint(sourceKey, job, { failure: [{ month: key, at: new Date().toISOString(), error: String(err.message).slice(0, 200) }] });
           (metrics.month_failures ??= []).push({ month: key, error: String(err.message).slice(0, 120) });
         }
       }
