@@ -315,4 +315,13 @@ select s.source_key, s.source_kind, s.access_mode, s.rights_state, s.enabled,
   (select count(*) from public.boxing_source_documents d where d.source_id = s.id and d.status = 'error') as documents_in_error
 from public.boxing_sources s;
 
+-- ---------------------------------------------------------------------------
+-- Video types: the full official-media vocabulary (shared/videos/classify.mjs VIDEO_TYPES)
+-- ---------------------------------------------------------------------------
+alter table public.boxing_videos drop constraint if exists boxing_videos_video_type_check;
+alter table public.boxing_videos add constraint boxing_videos_video_type_check check (video_type in (
+  'announcement','trailer_promo','grand_arrival','media_day','open_workout','media_workout','press_conference','interview','faceoff',
+  'weigh_in','ceremonial_weigh_in','fight_preview','full_fight','replay','highlights','knockout','post_fight_interview',
+  'post_fight_press_conference','analysis','documentary_feature','other'));
+
 select public.boxing_lockdown();

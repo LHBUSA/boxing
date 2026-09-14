@@ -1,0 +1,1281 @@
+[
+  {
+    "channel_id": "UC7LReVje9aPB4B6XAsXX8WQ",
+    "name": "Matchroom Boxing",
+    "handle": "@MatchroomBoxing",
+    "registered_source_class": "promoter_official",
+    "organization": "Matchroom Boxing (Matchroom Sport)",
+    "organization_type": "promoter",
+    "source_class": "promoter_official",
+    "official_site_corroboration": {
+      "url": "https://www.matchroomboxing.com/",
+      "links_to_channel": true,
+      "note": "Homepage links https://www.youtube.com/user/MatchroomBoxing, which resolves (externalId/canonical) to UC7LReVje9aPB4B6XAsXX8WQ."
+    },
+    "verified_badge": "verified (channel page header title carries the CHECK_CIRCLE_FILLED badge in public page data)",
+    "content_types": [
+      "full fight",
+      "weigh-in",
+      "post-fight press conference",
+      "post-fight interview",
+      "highlights",
+      "promo",
+      "interview",
+      "documentary/feature"
+    ],
+    "recent_titles": [
+      "2026-09-12 Ryan Garcia vs Rolando Romero | Full Fight | Matchroom Boxing (G9gYHQQVHo4)",
+      "2026-09-06 Taylor Vs Pili Post-Fight Press Conference With Eddie Hearn | Matchroom Boxing (jgWoXIFNfp4)",
+      "2026-09-04 Katie Taylor Vs Flora Pili Weigh In | Matchroom Boxing (l7ZHXIYtcGs)",
+      "2026-09-09 Pat Brown vs John Hedges: Countdown to Clash of Unbeatens | Matchroom Boxing (HCPDURNoXkA)",
+      "2026-09-05 Katie Taylor Vs Flora Pili Prelims | 5 Live Fights | Matchroom Boxing (0EGEGxufaJA)"
+    ],
+    "oembed_checks": [
+      {
+        "video_id": "G9gYHQQVHo4",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@MatchroomBoxing"
+      },
+      {
+        "video_id": "_69vmG7eL_E",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@MatchroomBoxing"
+      }
+    ],
+    "region_restrictions": "Not discoverable without the YouTube Data API (contentDetails.regionRestriction); not checked.",
+    "terms_observations": "Site terms found (https://www.matchroomboxing.com/terms-conditions) are ticket/event T&Cs: s3.6 \"Nothing in this clause shall entitle any person to use, display, alter, copy or otherwise deal in any manner whatsoever with Matchroom's or the Organiser's intellectual property rights.\" No website clause on embedding, framing or scraping found. Live events are DAZN-exclusive; YouTube carries replays/highlights/press. A separate website-data permission request is drafted (not sent) - it does not cover or block YouTube-player embedding. YouTube ToS: \"You may also show YouTube videos through the embeddable YouTube player.\" (https://www.youtube.com/static?gl=US&template=terms). All oEmbed probes returned 200, which indicates embedding is allowed for those videos; it does not rule out per-video region locks, age gates or members-only restrictions.",
+    "rss": {
+      "ok": true,
+      "entries": 15,
+      "latest_published": "2026-09-12T21:11:41+00:00",
+      "feed_title": "Matchroom Boxing"
+    },
+    "automation_suitability": "Feed returned entries on one manual fetch (2026-09-13). Caveat for automation: youtube.com/robots.txt has \"User-agent: * / Disallow: /feeds/videos.xml\", and the YouTube Terms of Service list as a restriction accessing the Service \"using any automated means (such as robots, botnets or scrapers) except (a) in the case of public search engines, in accordance with YouTube's robots.txt file; or (b) with YouTube's prior written permission\". Scheduled RSS polling is therefore not clearly sanctioned; the ingestion method (RSS vs YouTube Data API under the API Services Terms) needs an owner decision. oEmbed (/oembed) is not disallowed in robots.txt.",
+    "recommendation": "approve_for_embed_metadata",
+    "reason": "Site-linked channel ID, verified badge, feed returns entries, newest uploads embeddable; no org clause against YouTube-player embedding found.",
+    "evidence_urls": [
+      "https://www.matchroomboxing.com/",
+      "https://www.matchroomboxing.com/terms-conditions",
+      "https://www.youtube.com/feeds/videos.xml?channel_id=UC7LReVje9aPB4B6XAsXX8WQ",
+      "https://www.youtube.com/channel/UC7LReVje9aPB4B6XAsXX8WQ",
+      "https://www.youtube.com/robots.txt",
+      "https://www.youtube.com/static?gl=US&template=terms"
+    ],
+    "checked_at": "2026-09-13"
+  },
+  {
+    "channel_id": "UCbzRzJNHx7ZLlJML9BjZQVQ",
+    "name": "Top Rank Boxing",
+    "handle": "@toprank",
+    "registered_source_class": "promoter_official",
+    "organization": "Top Rank, Inc.",
+    "organization_type": "promoter",
+    "source_class": "promoter_official",
+    "official_site_corroboration": {
+      "url": "https://toprank.com/",
+      "links_to_channel": true,
+      "note": "Homepage links youtube.com/@toprank, youtube.com/toprank and youtube.com/trboxing; all resolve to this ID. Homepage also links a fighter channel (@keyshawndavis1773) - not this channel."
+    },
+    "verified_badge": "verified (channel page header title carries the CHECK_CIRCLE_FILLED badge in public page data)",
+    "content_types": [
+      "documentary/feature",
+      "highlights",
+      "press conference",
+      "announcement",
+      "trailer",
+      "interview",
+      "knockout"
+    ],
+    "recent_titles": [
+      "2026-09-12 The ENTIRE O'Shaquie Foster vs Robson Conceicao Rivalry In One Video (N3qqF94St8Y)",
+      "2026-09-02 Emanuel Navarrete vs O'Shaquie Foster | ANNOUNCEMENT PRESS CONFERENCE (ZCoH8_Ghbgw)",
+      "2026-09-02 Emanuel Navarrete vs O'Shaquie Foster | EVENT TEASE (WKxu1IYV1Z8)",
+      "2026-09-08 Wladimir Klitschko's Three Knockdown Slugfest (MRHTfVJmkvw)",
+      "2026-09-09 Abass Baraou Wants to Prove He Belongs Among The Best (g1DgneN7z0E)"
+    ],
+    "oembed_checks": [
+      {
+        "video_id": "N3qqF94St8Y",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@toprank"
+      },
+      {
+        "video_id": "VFmpr17pR-M",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@toprank"
+      }
+    ],
+    "region_restrictions": "Not discoverable without the YouTube Data API (contentDetails.regionRestriction); not checked.",
+    "terms_observations": "https://toprank.com/terms-of-use: \"you will not monitor, gather, copy, or distribute the Content ... by using any robot, rover, 'bot', spider, scraper, crawler ...\"; \"you will not frame or utilize framing techniques to enclose any such Content\"; \"(vi) you will not copy, modify, reproduce ... distribute, broadcast, retransmit ... on any third-party application or website ... except as specifically permitted by these Terms ... or with the prior written consent of an officer\". These terms govern the toprank.com Site Content, not YouTube-hosted uploads, but the owner's 2026-09-13 promoter source review already set Top Rank to blocked. YouTube ToS: \"You may also show YouTube videos through the embeddable YouTube player.\" (https://www.youtube.com/static?gl=US&template=terms). All oEmbed probes returned 200, which indicates embedding is allowed for those videos; it does not rule out per-video region locks, age gates or members-only restrictions.",
+    "rss": {
+      "ok": true,
+      "entries": 15,
+      "latest_published": "2026-09-12T18:30:38+00:00",
+      "feed_title": "Top Rank Boxing"
+    },
+    "automation_suitability": "Feed returned entries on one manual fetch (2026-09-13). Caveat for automation: youtube.com/robots.txt has \"User-agent: * / Disallow: /feeds/videos.xml\", and the YouTube Terms of Service list as a restriction accessing the Service \"using any automated means (such as robots, botnets or scrapers) except (a) in the case of public search engines, in accordance with YouTube's robots.txt file; or (b) with YouTube's prior written permission\". Scheduled RSS polling is therefore not clearly sanctioned; the ingestion method (RSS vs YouTube Data API under the API Services Terms) needs an owner decision. oEmbed (/oembed) is not disallowed in robots.txt.",
+    "recommendation": "permission_required",
+    "reason": "Identity, feed and embeds pass, but Top Rank is blocked by the recorded promoter source policy and its terms broadly bar third-party redistribution without written consent; needs owner/permission decision.",
+    "evidence_urls": [
+      "https://toprank.com/",
+      "https://toprank.com/terms-of-use",
+      "D:/Workers/boxing/docs/BOXING_SOURCE_ACQUISITION.md",
+      "https://www.youtube.com/feeds/videos.xml?channel_id=UCbzRzJNHx7ZLlJML9BjZQVQ",
+      "https://www.youtube.com/channel/UCbzRzJNHx7ZLlJML9BjZQVQ",
+      "https://www.youtube.com/robots.txt",
+      "https://www.youtube.com/static?gl=US&template=terms"
+    ],
+    "checked_at": "2026-09-13"
+  },
+  {
+    "channel_id": "UC518BHmSjZ2R1UanxO9nHmg",
+    "name": "Golden Boy Boxing (Golden Boy Promotions)",
+    "handle": "@GoldenBoyBoxing",
+    "registered_source_class": "promoter_official",
+    "organization": "Golden Boy Promotions LLC",
+    "organization_type": "promoter",
+    "source_class": "promoter_official",
+    "official_site_corroboration": {
+      "url": "https://www.goldenboy.com/",
+      "links_to_channel": true,
+      "note": "Homepage links https://www.youtube.com/user/goldenboypromo, which resolves to this ID."
+    },
+    "verified_badge": "verified (channel page header title carries the CHECK_CIRCLE_FILLED badge in public page data)",
+    "content_types": [
+      "full fight",
+      "highlights",
+      "knockout",
+      "interview",
+      "promo",
+      "other"
+    ],
+    "recent_titles": [
+      "2026-09-12 Full Fight | José Ramirez vs. Rances Barthelemy | Power. Pressure. Experience. (37mRwAzJXuQ)",
+      "2026-09-04 Full Fight | Oscar De La Hoya vs. Félix “Tito” Trinidad | 🥊 THE FIGHT OF THE MILLENNIUM 🥊 (TPYlXk5UfR0)",
+      "2026-09-10 Quick Jabs | Alexis Rocha vs. Jojo Diaz Jr. | 🔥 SO CAL SHOWDOWN! 🔥 (tAmdjJk9yTg)",
+      "2026-09-11 Oscar Collazo is ready for the big fights and ready to make history! 🇵🇷 (H1kW2rAGw-c)",
+      "2026-09-02 Floyd Schofield made 𝒆𝒂𝒔𝒚 𝒘𝒐𝒓𝒌, scoring a first-round stoppage over Ricardo Lopez Torres! 💪 (xW7pgsuGvRc)"
+    ],
+    "oembed_checks": [
+      {
+        "video_id": "r0zsy6Ds0uY",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@GoldenBoyBoxing"
+      },
+      {
+        "video_id": "j2om1CDIY-A",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@GoldenBoyBoxing"
+      }
+    ],
+    "region_restrictions": "Not discoverable without the YouTube Data API (contentDetails.regionRestriction); not checked.",
+    "terms_observations": "https://www.goldenboy.com/disclaimer/: \"All intellectual property rights to content on this website are vested in Golden Boy Promotions LLC or in third parties\"; \"Copying, disseminating and any other use of these materials is not permitted without the written permission of Golden Boy Promotions LLC\". No terms-of-use link found on the homepage (the referenced terms return 404 per the earlier review). Disclaimer governs website materials; it says nothing about YouTube embedding. YouTube ToS: \"You may also show YouTube videos through the embeddable YouTube player.\" (https://www.youtube.com/static?gl=US&template=terms). All oEmbed probes returned 200, which indicates embedding is allowed for those videos; it does not rule out per-video region locks, age gates or members-only restrictions.",
+    "rss": {
+      "ok": true,
+      "entries": 15,
+      "latest_published": "2026-09-13T19:08:27+00:00",
+      "feed_title": "Golden Boy Boxing"
+    },
+    "automation_suitability": "Feed returned entries on one manual fetch (2026-09-13). Caveat for automation: youtube.com/robots.txt has \"User-agent: * / Disallow: /feeds/videos.xml\", and the YouTube Terms of Service list as a restriction accessing the Service \"using any automated means (such as robots, botnets or scrapers) except (a) in the case of public search engines, in accordance with YouTube's robots.txt file; or (b) with YouTube's prior written permission\". Scheduled RSS polling is therefore not clearly sanctioned; the ingestion method (RSS vs YouTube Data API under the API Services Terms) needs an owner decision. oEmbed (/oembed) is not disallowed in robots.txt.",
+    "recommendation": "permission_required",
+    "reason": "Identity, feed and embeds pass, but Golden Boy is disabled by the recorded promoter source review and its disclaimer requires written permission for any use of its materials; owner decision needed.",
+    "evidence_urls": [
+      "https://www.goldenboy.com/",
+      "https://www.goldenboy.com/disclaimer/",
+      "https://www.youtube.com/feeds/videos.xml?channel_id=UC518BHmSjZ2R1UanxO9nHmg",
+      "https://www.youtube.com/channel/UC518BHmSjZ2R1UanxO9nHmg",
+      "https://www.youtube.com/robots.txt",
+      "https://www.youtube.com/static?gl=US&template=terms"
+    ],
+    "checked_at": "2026-09-13"
+  },
+  {
+    "channel_id": "UCWXYAGB9SadlL6p5Bb66wWw",
+    "name": "Premier Boxing Champions",
+    "handle": "@PremierBoxingChampions",
+    "registered_source_class": "promoter_official",
+    "organization": "Premier Boxing Champions (Haymon Boxing)",
+    "organization_type": "promoter",
+    "source_class": "promoter_official",
+    "official_site_corroboration": {
+      "url": "https://www.premierboxingchampions.com/",
+      "links_to_channel": true,
+      "note": "Site links youtube.com/c/premierboxingchampions, which resolves to this ID."
+    },
+    "verified_badge": "verified (channel page header title carries the CHECK_CIRCLE_FILLED badge in public page data)",
+    "content_types": [
+      "weigh-in",
+      "press conference",
+      "highlights",
+      "knockout",
+      "preview",
+      "interview",
+      "promo"
+    ],
+    "recent_titles": [
+      "2026-09-11 Pitbull vs Bravo WEIGH-IN LIVESTREAM (MRQm-3-wwGc)",
+      "2026-09-11 Pitbull vs Bravo FINAL PRESS CONFERENCE LIVESTREAM (DY1Oq_MdQqs)",
+      "2026-09-13 Face-First on the Canvas. That's Pitbull's Power (wl9wcTdJsWw)",
+      "2026-09-08 Pitbull vs Bravo: A Classic Mexico vs. Puerto Rico Showdown in the Making (7s0Q4aUXzaU)",
+      "2026-09-10 Jesus Ramos Explains How He Had to DIG DEEP to Defeat Mosley Jr. (ifEYtZRCu9c)"
+    ],
+    "oembed_checks": [
+      {
+        "video_id": "wl9wcTdJsWw",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@PremierBoxingChampions"
+      },
+      {
+        "video_id": "G6-u1XgmuIA",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@PremierBoxingChampions"
+      }
+    ],
+    "region_restrictions": "Not discoverable without the YouTube Data API (contentDetails.regionRestriction); not checked.",
+    "terms_observations": "https://www.premierboxingchampions.com/terms-of-use: \"You may review, download, and/or print one copy of the Content of this Website, but you may not ... frame or otherwise display any of the Content of this Website on your own or any other website\"; \"Haymon maintains social media pages on various websites (including ... YouTube)\". Clauses govern Website Content; no statement restricting YouTube-player embedding found. Live events are on Prime Video. A website-data permission request is drafted (not sent). YouTube ToS: \"You may also show YouTube videos through the embeddable YouTube player.\" (https://www.youtube.com/static?gl=US&template=terms). All oEmbed probes returned 200, which indicates embedding is allowed for those videos; it does not rule out per-video region locks, age gates or members-only restrictions.",
+    "rss": {
+      "ok": true,
+      "entries": 15,
+      "latest_published": "2026-09-13T00:14:02+00:00",
+      "feed_title": "Premier Boxing Champions"
+    },
+    "automation_suitability": "Feed returned entries on one manual fetch (2026-09-13). Caveat for automation: youtube.com/robots.txt has \"User-agent: * / Disallow: /feeds/videos.xml\", and the YouTube Terms of Service list as a restriction accessing the Service \"using any automated means (such as robots, botnets or scrapers) except (a) in the case of public search engines, in accordance with YouTube's robots.txt file; or (b) with YouTube's prior written permission\". Scheduled RSS polling is therefore not clearly sanctioned; the ingestion method (RSS vs YouTube Data API under the API Services Terms) needs an owner decision. oEmbed (/oembed) is not disallowed in robots.txt.",
+    "recommendation": "approve_for_embed_metadata",
+    "reason": "Site-linked channel ID, verified badge, feed returns entries, uploads embeddable; website-content terms do not address YouTube-player embeds.",
+    "evidence_urls": [
+      "https://www.premierboxingchampions.com/",
+      "https://www.premierboxingchampions.com/terms-of-use",
+      "https://www.youtube.com/feeds/videos.xml?channel_id=UCWXYAGB9SadlL6p5Bb66wWw",
+      "https://www.youtube.com/channel/UCWXYAGB9SadlL6p5Bb66wWw",
+      "https://www.youtube.com/robots.txt",
+      "https://www.youtube.com/static?gl=US&template=terms"
+    ],
+    "checked_at": "2026-09-13"
+  },
+  {
+    "channel_id": "UCP3MOjimNiqqkhBcuXzO0RA",
+    "name": "Queensberry Promotions (Frank Warren's Queensberry Promotions)",
+    "handle": "@QueensberryPromotions",
+    "registered_source_class": "promoter_official",
+    "organization": "Queensberry Promotions Limited (Frank Warren)",
+    "organization_type": "promoter",
+    "source_class": "promoter_official",
+    "official_site_corroboration": {
+      "url": "https://queensberry.co.uk/",
+      "links_to_channel": true,
+      "note": "Homepage links https://www.youtube.com/channel/UCP3MOjimNiqqkhBcuXzO0RA (exact ID)."
+    },
+    "verified_badge": "not verified (no badge in channel page header data; observed from public HTML, not the rendered UI)",
+    "content_types": [
+      "full fight",
+      "press conference",
+      "faceoff",
+      "interview",
+      "highlights",
+      "promo"
+    ],
+    "recent_titles": [
+      "2026-09-09 A WAR 🔥 Joshua Buatsi vs Willy Hutchinson 1 FULL FIGHT (7lvxjbfY_3c)",
+      "2026-09-08 LIVE Launch Press Conference | Joshua Buatsi vs Willy Hutchinson 2 | A Point 2 Prove 🥊 (FPO9ytORdYM)",
+      "2026-09-10 The Face Off: Buatsi vs Hutchinson 2 (nBZdrgZO2EQ)",
+      "2026-09-11 Joshua Buatsi relives his win over Willy Hutchinson at Wembley Stadium 🏟️⚔️ (GktSW06fiDc)",
+      "2026-09-08 The last time Daniel Dubois walked into the ring to face Fabio Wardley 🤩 (I4Cntyvn_BM)"
+    ],
+    "oembed_checks": [
+      {
+        "video_id": "GktSW06fiDc",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@QueensberryPromotions"
+      },
+      {
+        "video_id": "_5upfr_hOmM",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@QueensberryPromotions"
+      }
+    ],
+    "region_restrictions": "Not discoverable without the YouTube Data API (contentDetails.regionRestriction); not checked.",
+    "terms_observations": "https://queensberry.co.uk/policies/terms-of-service (store/site ToS): \"You agree not to reproduce, duplicate, copy, sell, resell or exploit any portion of the Service ... without express written permission by us\"; prohibited uses include \"to spam, phish, pharm, pretext, spider, crawl, or scrape\". Governs the website Service; owner's promoter source review set Queensberry to blocked. YouTube ToS: \"You may also show YouTube videos through the embeddable YouTube player.\" (https://www.youtube.com/static?gl=US&template=terms). All oEmbed probes returned 200, which indicates embedding is allowed for those videos; it does not rule out per-video region locks, age gates or members-only restrictions.",
+    "rss": {
+      "ok": true,
+      "entries": 15,
+      "latest_published": "2026-09-11T18:00:05+00:00",
+      "feed_title": "Frank Warren's Queensberry Promotions"
+    },
+    "automation_suitability": "Feed returned entries on one manual fetch (2026-09-13). Caveat for automation: youtube.com/robots.txt has \"User-agent: * / Disallow: /feeds/videos.xml\", and the YouTube Terms of Service list as a restriction accessing the Service \"using any automated means (such as robots, botnets or scrapers) except (a) in the case of public search engines, in accordance with YouTube's robots.txt file; or (b) with YouTube's prior written permission\". Scheduled RSS polling is therefore not clearly sanctioned; the ingestion method (RSS vs YouTube Data API under the API Services Terms) needs an owner decision. oEmbed (/oembed) is not disallowed in robots.txt.",
+    "recommendation": "permission_required",
+    "reason": "Exact-ID site link, feed and embeds pass, but Queensberry is blocked by the recorded promoter source policy (anti-scrape terms); needs owner/permission decision. No verified badge.",
+    "evidence_urls": [
+      "https://queensberry.co.uk/",
+      "https://queensberry.co.uk/policies/terms-of-service",
+      "https://www.youtube.com/feeds/videos.xml?channel_id=UCP3MOjimNiqqkhBcuXzO0RA",
+      "https://www.youtube.com/channel/UCP3MOjimNiqqkhBcuXzO0RA",
+      "https://www.youtube.com/robots.txt",
+      "https://www.youtube.com/static?gl=US&template=terms"
+    ],
+    "checked_at": "2026-09-13"
+  },
+  {
+    "channel_id": "UC-DvM-fdpkuy7Cupga3LOOQ",
+    "name": "BOXXER",
+    "handle": "@BOXXERofficial",
+    "registered_source_class": "promoter_official",
+    "organization": "BOXXER",
+    "organization_type": "promoter",
+    "source_class": "promoter_official",
+    "official_site_corroboration": {
+      "url": "https://www.boxxer.com/",
+      "links_to_channel": true,
+      "note": "Homepage links https://www.youtube.com/channel/UC-DvM-fdpkuy7Cupga3LOOQ (exact ID)."
+    },
+    "verified_badge": "verified (channel page header title carries the CHECK_CIRCLE_FILLED badge in public page data)",
+    "content_types": [
+      "full fight",
+      "documentary/feature",
+      "knockout",
+      "highlights",
+      "weigh-in",
+      "promo"
+    ],
+    "recent_titles": [
+      "2026-09-02 Frazer Clarke v David Allen | OTD - September 2nd 2023 (JXHptR9gAu4)",
+      "2026-08-14 REVENGE! Williamson v Simpson 2 - The After Movie | Inside BOXXER 🩸 (oM8HHC2W1H8)",
+      "2026-08-08 WHAT A KO 🤯 #WilliamsonSimpson2 | DAZN | Aug 8 | First Direct Bank Arena, Leeds (wUeQm4djen8)",
+      "2026-08-07 FIRST PRO WEIGH IN ✅ PRO DEBUT ⏳ #WilliamsonSimpson2 | DAZN | Aug 8 | First Direct Bank Arena, Leeds (F5mk85yfpiM)",
+      "2026-08-08 AZIM STOPS MARTIN 🤩 #WilliamsonSimpson2 | DAZN | Today | First Direct Bank Arena, Leeds (CDsoqQ_vuBU)"
+    ],
+    "oembed_checks": [
+      {
+        "video_id": "JXHptR9gAu4",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@boxxerofficial"
+      },
+      {
+        "video_id": "cWEyZuvAguI",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@boxxerofficial"
+      }
+    ],
+    "region_restrictions": "Not discoverable without the YouTube Data API (contentDetails.regionRestriction); not checked.",
+    "terms_observations": "https://www.boxxer.com/terms-conditions/: \"You agree not to reproduce, duplicate, copy, sell, resell or exploit any portion of the Service ... without express written permission by us\"; prohibited: \"to spam, phish, pharm, pretext, spider, crawl, or scrape\". Governs the website Service; owner's promoter source review set BOXXER to blocked. Low cadence (newest 2026-09-02). YouTube ToS: \"You may also show YouTube videos through the embeddable YouTube player.\" (https://www.youtube.com/static?gl=US&template=terms). All oEmbed probes returned 200, which indicates embedding is allowed for those videos; it does not rule out per-video region locks, age gates or members-only restrictions.",
+    "rss": {
+      "ok": true,
+      "entries": 15,
+      "latest_published": "2026-09-02T11:30:21+00:00",
+      "feed_title": "BOXXER"
+    },
+    "automation_suitability": "Feed returned entries on one manual fetch (2026-09-13). Caveat for automation: youtube.com/robots.txt has \"User-agent: * / Disallow: /feeds/videos.xml\", and the YouTube Terms of Service list as a restriction accessing the Service \"using any automated means (such as robots, botnets or scrapers) except (a) in the case of public search engines, in accordance with YouTube's robots.txt file; or (b) with YouTube's prior written permission\". Scheduled RSS polling is therefore not clearly sanctioned; the ingestion method (RSS vs YouTube Data API under the API Services Terms) needs an owner decision. oEmbed (/oembed) is not disallowed in robots.txt.",
+    "recommendation": "permission_required",
+    "reason": "Exact-ID site link, verified badge, feed and embeds pass, but BOXXER is blocked by the recorded promoter source policy (anti-scrape terms); needs owner/permission decision.",
+    "evidence_urls": [
+      "https://www.boxxer.com/",
+      "https://www.boxxer.com/terms-conditions/",
+      "https://www.youtube.com/feeds/videos.xml?channel_id=UC-DvM-fdpkuy7Cupga3LOOQ",
+      "https://www.youtube.com/channel/UC-DvM-fdpkuy7Cupga3LOOQ",
+      "https://www.youtube.com/robots.txt",
+      "https://www.youtube.com/static?gl=US&template=terms"
+    ],
+    "checked_at": "2026-09-13"
+  },
+  {
+    "channel_id": "UCGJlZUB-7b5s1wFynzpYU7Q",
+    "name": "Most Valuable Promotions (MVP)",
+    "handle": "@Most_Valuable_Promotions",
+    "registered_source_class": "promoter_official",
+    "organization": "Most Valuable Promotions (MVP)",
+    "organization_type": "promoter",
+    "source_class": "promoter_official",
+    "official_site_corroboration": {
+      "url": "https://www.mostvaluablepromotions.com/",
+      "links_to_channel": true,
+      "note": "Homepage links https://www.youtube.com/@Most_Valuable_Promotions, which resolves to this ID. Decoys @MostValuablePromotions and @mvppromotions are different channels."
+    },
+    "verified_badge": "not verified (no badge in channel page header data; observed from public HTML, not the rendered UI)",
+    "content_types": [
+      "announcement",
+      "post-fight press conference",
+      "faceoff",
+      "documentary/feature",
+      "highlights",
+      "other"
+    ],
+    "recent_titles": [
+      "2026-08-30 POST FIGHT PRESS CONFERENCE | MVPW06 UK VS USA (iWhi-bf19dQ)",
+      "2026-08-30 ELIF TURHAN AND ALYCIA BAUMGARDNER FACEOFF 🔥 (ADN23a2KXYU)",
+      "2026-08-31 MVP UNCUT: Mikaela Mayer vs Chantelle Cameron | Episode 3 (UtoRBRfRMsM)",
+      "2026-09-11 JAKE PAUL AND LOGAN PAUL ANNOUNCE THEIR NEW SHOW 😳 (Sq0xTjQwca0)",
+      "2026-09-10 MVPW07 | TURHAN VS BAUMGARDNER TICKETS ON SALE NOW 👀🔥 (fK-Od5M0F-o)"
+    ],
+    "oembed_checks": [
+      {
+        "video_id": "NRupTEQOGv0",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@Most_Valuable_Promotions"
+      },
+      {
+        "video_id": "Sq0xTjQwca0",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@Most_Valuable_Promotions"
+      }
+    ],
+    "region_restrictions": "Not discoverable without the YouTube Data API (contentDetails.regionRestriction); not checked.",
+    "terms_observations": "Earlier source review recorded MVP robots.txt \"Content-Signal: search=yes,ai-train=no,use=reference\" and a terms page that returned 403 (WebFetch returned 403 again today). No embed-specific clause could be read. Owner registry: reference_only. Content is personality/vlog heavy (Jake Paul). YouTube ToS: \"You may also show YouTube videos through the embeddable YouTube player.\" (https://www.youtube.com/static?gl=US&template=terms). All oEmbed probes returned 200, which indicates embedding is allowed for those videos; it does not rule out per-video region locks, age gates or members-only restrictions.",
+    "rss": {
+      "ok": true,
+      "entries": 15,
+      "latest_published": "2026-09-11T16:21:05+00:00",
+      "feed_title": "MVP - Most Valuable Promotions"
+    },
+    "automation_suitability": "Feed returned entries on one manual fetch (2026-09-13). Caveat for automation: youtube.com/robots.txt has \"User-agent: * / Disallow: /feeds/videos.xml\", and the YouTube Terms of Service list as a restriction accessing the Service \"using any automated means (such as robots, botnets or scrapers) except (a) in the case of public search engines, in accordance with YouTube's robots.txt file; or (b) with YouTube's prior written permission\". Scheduled RSS polling is therefore not clearly sanctioned; the ingestion method (RSS vs YouTube Data API under the API Services Terms) needs an owner decision. oEmbed (/oembed) is not disallowed in robots.txt.",
+    "recommendation": "reference_only",
+    "reason": "Identity corroborated and embeds work, but the site signals use=reference, terms were unreadable, and the recorded policy is reference-only.",
+    "evidence_urls": [
+      "https://www.mostvaluablepromotions.com/",
+      "https://www.mostvaluablepromotions.com/terms-conditions",
+      "https://www.youtube.com/feeds/videos.xml?channel_id=UCGJlZUB-7b5s1wFynzpYU7Q",
+      "https://www.youtube.com/channel/UCGJlZUB-7b5s1wFynzpYU7Q",
+      "https://www.youtube.com/robots.txt",
+      "https://www.youtube.com/static?gl=US&template=terms"
+    ],
+    "checked_at": "2026-09-13"
+  },
+  {
+    "channel_id": "UCgKoiUinex5G_p7s8kTrU1Q",
+    "name": "Salita Promotions",
+    "handle": "@SalitaPromotions",
+    "registered_source_class": "promoter_official",
+    "organization": "Salita Promotions",
+    "organization_type": "promoter",
+    "source_class": "promoter_official",
+    "official_site_corroboration": {
+      "url": "https://www.salitapromotions.com/",
+      "links_to_channel": true,
+      "note": "Homepage links https://www.youtube.com/@SalitaPromotions, which resolves to this ID."
+    },
+    "verified_badge": "not verified (no badge in channel page header data; observed from public HTML, not the rendered UI)",
+    "content_types": [
+      "full fight",
+      "faceoff",
+      "interview",
+      "press conference",
+      "other"
+    ],
+    "recent_titles": [
+      "2026-09-13 BRANDON MOORE VS BRYANT JENNINGS FULL FIGHT (k4vivw2yqV4)",
+      "2026-09-13 SARDIUS SIMMONS VS DETRAILOUS WEBSTER FULL FIGH (X7FNVB24bVE)",
+      "2026-08-30 Moore vs Jennings 1st Face Off (wsJ7CDXOOxE)",
+      "2026-08-29 Jonny Mansour Press conference Interview (HmfqpXo5TJ4)",
+      "2026-08-29 Juju Bhallo Pre-Fight Interview: Expect Fireworks in Detroit! (zMVYO04kW-g)"
+    ],
+    "oembed_checks": [
+      {
+        "video_id": "X7FNVB24bVE",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@SalitaPromotions"
+      },
+      {
+        "video_id": "k4vivw2yqV4",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@SalitaPromotions"
+      }
+    ],
+    "region_restrictions": "Not discoverable without the YouTube Data API (contentDetails.regionRestriction); not checked.",
+    "terms_observations": "https://www.salitapromotions.com/legal/terms-conditions: \"You agree not to: copy, reproduce, or distribute Website content without written permission\"; \"use automated software, bots, crawlers, or scraping tools to collect Website content\"; \"no content from this Website may be copied, reproduced, republished ... displayed, or exploited for commercial purposes without the prior written consent of Salita Promotions or the applicable rights holder.\" These govern Website content; no clause on YouTube-player embedding. Several uploads are untitled-style bout videos (e.g. \"JOE RUDY VS MARK LEWIS\") that are probably full fights but not labelled. YouTube ToS: \"You may also show YouTube videos through the embeddable YouTube player.\" (https://www.youtube.com/static?gl=US&template=terms). All oEmbed probes returned 200, which indicates embedding is allowed for those videos; it does not rule out per-video region locks, age gates or members-only restrictions.",
+    "rss": {
+      "ok": true,
+      "entries": 15,
+      "latest_published": "2026-09-13T22:30:20+00:00",
+      "feed_title": "Salita Promotions"
+    },
+    "automation_suitability": "Feed returned entries on one manual fetch (2026-09-13). Caveat for automation: youtube.com/robots.txt has \"User-agent: * / Disallow: /feeds/videos.xml\", and the YouTube Terms of Service list as a restriction accessing the Service \"using any automated means (such as robots, botnets or scrapers) except (a) in the case of public search engines, in accordance with YouTube's robots.txt file; or (b) with YouTube's prior written permission\". Scheduled RSS polling is therefore not clearly sanctioned; the ingestion method (RSS vs YouTube Data API under the API Services Terms) needs an owner decision. oEmbed (/oembed) is not disallowed in robots.txt.",
+    "recommendation": "approve_for_embed_metadata",
+    "reason": "Site-linked channel, feed returns entries, uploads embeddable; website-only terms. No verified badge - identity rests on the site link.",
+    "evidence_urls": [
+      "https://www.salitapromotions.com/",
+      "https://www.salitapromotions.com/legal/terms-conditions",
+      "https://www.youtube.com/feeds/videos.xml?channel_id=UCgKoiUinex5G_p7s8kTrU1Q",
+      "https://www.youtube.com/channel/UCgKoiUinex5G_p7s8kTrU1Q",
+      "https://www.youtube.com/robots.txt",
+      "https://www.youtube.com/static?gl=US&template=terms"
+    ],
+    "checked_at": "2026-09-13"
+  },
+  {
+    "channel_id": "UC8ybHJltwhtpk0cFKU4G8kQ",
+    "name": "Ring Magazine",
+    "handle": "@ringmagazine",
+    "registered_source_class": "promoter_official",
+    "organization": "The Ring (Ring Magazine)",
+    "organization_type": "broadcaster",
+    "source_class": "broadcaster_official",
+    "official_site_corroboration": {
+      "url": "https://www.ringmagazine.com/",
+      "links_to_channel": true,
+      "note": "Site links https://youtube.com/@ringmagazine, which resolves to this ID. Registered source_class is promoter_official; Ring is a media brand tied to Riyadh Season events, so broadcaster/media is the closer organization type."
+    },
+    "verified_badge": "verified (channel page header title carries the CHECK_CIRCLE_FILLED badge in public page data)",
+    "content_types": [
+      "highlights",
+      "knockout",
+      "post-fight interview",
+      "analysis",
+      "interview",
+      "other"
+    ],
+    "recent_titles": [
+      "2026-09-13 SPITEFUL FINISH! Ryan Garcia KNOCKS OUT Conor Benn | FIGHT HIGHLIGHTS (X-TvuYsbDA0)",
+      "2026-09-13 KING RY REIGNS SUPREME! Ryan Garcia vs Conor Benn | FIGHT REVIEW (IzcNZMlN70I)",
+      "2026-09-13 \"HE CAN'T F**K WITH ME!\" 😤Ryan Garcia's instant reaction after dispatching Conor Benn 💪 (3XRx4k9YWQk)",
+      "2026-09-13 WAR! Jai Opetaia vs Noel Mikaelian | FIGHT HIGHLIGHTS (DuA_I1OPWSI)",
+      "2026-09-13 Brian Norman Jr CALLS on Ryan Garcia Fight, Reacts to Benn KO & SOUNDS OFF On Richardson Hitchins  (3tfHDQhmkE0)"
+    ],
+    "oembed_checks": [
+      {
+        "video_id": "VjAoVnY4c60",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@RingMagazine"
+      },
+      {
+        "video_id": "p8MsEXPWlpE",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@RingMagazine"
+      }
+    ],
+    "region_restrictions": "Not discoverable without the YouTube Data API (contentDetails.regionRestriction); not checked.",
+    "terms_observations": "https://www.ringmagazine.com/terms: \"You must not reproduce, distribute or exploit substantial parts of the Services or content for commercial purposes without our written consent.\"; \"You must not use bots/scrapers/crawlers to extract content except as permitted by public search engines in accordance with robots.txt or explicit permission.\"; \"(a) copy, download, capture, scrape, bulk-extract, republish or redistribute archive or magazine content\". Govern Ring's own Services; no statement about YouTube-player embeds. YouTube ToS: \"You may also show YouTube videos through the embeddable YouTube player.\" (https://www.youtube.com/static?gl=US&template=terms). All oEmbed probes returned 200, which indicates embedding is allowed for those videos; it does not rule out per-video region locks, age gates or members-only restrictions.",
+    "rss": {
+      "ok": true,
+      "entries": 15,
+      "latest_published": "2026-09-13T23:00:08+00:00",
+      "feed_title": "Ring Magazine"
+    },
+    "automation_suitability": "Feed returned entries on one manual fetch (2026-09-13). Caveat for automation: youtube.com/robots.txt has \"User-agent: * / Disallow: /feeds/videos.xml\", and the YouTube Terms of Service list as a restriction accessing the Service \"using any automated means (such as robots, botnets or scrapers) except (a) in the case of public search engines, in accordance with YouTube's robots.txt file; or (b) with YouTube's prior written permission\". Scheduled RSS polling is therefore not clearly sanctioned; the ingestion method (RSS vs YouTube Data API under the API Services Terms) needs an owner decision. oEmbed (/oembed) is not disallowed in robots.txt.",
+    "recommendation": "approve_for_embed_metadata",
+    "reason": "Site-linked channel ID, verified badge, feed active, uploads embeddable; Ring terms target its own Services, not YouTube embeds.",
+    "evidence_urls": [
+      "https://www.ringmagazine.com/",
+      "https://www.ringmagazine.com/terms",
+      "https://www.youtube.com/feeds/videos.xml?channel_id=UC8ybHJltwhtpk0cFKU4G8kQ",
+      "https://www.youtube.com/channel/UC8ybHJltwhtpk0cFKU4G8kQ",
+      "https://www.youtube.com/robots.txt",
+      "https://www.youtube.com/static?gl=US&template=terms"
+    ],
+    "checked_at": "2026-09-13"
+  },
+  {
+    "channel_id": "UC2IV4srmjG3d3FAEE88n4_A",
+    "name": "Riyadh Season",
+    "handle": "@RiyadhSeason",
+    "registered_source_class": "promoter_official",
+    "organization": "Riyadh Season (Saudi General Entertainment Authority event season)",
+    "organization_type": "promoter",
+    "source_class": "promoter_official",
+    "official_site_corroboration": {
+      "url": "https://riyadhseason.com/",
+      "links_to_channel": false,
+      "note": "riyadhseason.com and /en/explore return a ~2.5KB script shell with no YouTube link in static HTML; could not re-verify a site link. Identity rests on the verified badge only."
+    },
+    "verified_badge": "verified (channel page header title carries the CHECK_CIRCLE_FILLED badge in public page data)",
+    "content_types": [
+      "full fight",
+      "other"
+    ],
+    "recent_titles": [
+      "2026-06-14 البث المباشر للمواجهة بين أنتوني جوشوا وكريستيان برينغا | Live stream of the  Joshua vs.  Prenga (o49vWT0mM4k)",
+      "2026-06-01 البث المباشر للمواجهة بين أنتوني جوشوا وكريستيان برينغا | Live stream of the  Joshua vs.  Prenga (k5CDjREQl4w)",
+      "2026-01-20 البث المباشر: بطولة ماسترز السعودية للسهام | Live Stream: The Saudi Darts Masters (7jcgjMS9sCM)",
+      "2026-01-17 البث المباشر لحفل ⁧#جوي_أووردز 2026 ⁩| Watch the Live Stream of Joy Awards 2026 😎❤️ (NAOK7ey0TlY)",
+      "2026-01-15 تعرف وش جديد بوليفارد سيتي؟ فلوق ياخذك في رحلة ممتعة حول المنطقة 😎❤️ (aVZr21sVgEY)"
+    ],
+    "oembed_checks": [
+      {
+        "video_id": "o49vWT0mM4k",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@RiyadhSeason"
+      },
+      {
+        "video_id": "k5CDjREQl4w",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@RiyadhSeason"
+      }
+    ],
+    "region_restrictions": "Not discoverable without the YouTube Data API (contentDetails.regionRestriction); not checked.",
+    "terms_observations": "Terms page is script-rendered and unreadable (earlier review and today). Channel is general entertainment (concerts, darts, lifestyle); boxing appears only as occasional event live streams. Newest upload 2026-06-14. YouTube ToS: \"You may also show YouTube videos through the embeddable YouTube player.\" (https://www.youtube.com/static?gl=US&template=terms). All oEmbed probes returned 200, which indicates embedding is allowed for those videos; it does not rule out per-video region locks, age gates or members-only restrictions.",
+    "rss": {
+      "ok": true,
+      "entries": 15,
+      "latest_published": "2026-06-14T17:37:05+00:00",
+      "feed_title": "موسم الرياض | Riyadh Season"
+    },
+    "automation_suitability": "Feed returned entries on one manual fetch (2026-09-13). Caveat for automation: youtube.com/robots.txt has \"User-agent: * / Disallow: /feeds/videos.xml\", and the YouTube Terms of Service list as a restriction accessing the Service \"using any automated means (such as robots, botnets or scrapers) except (a) in the case of public search engines, in accordance with YouTube's robots.txt file; or (b) with YouTube's prior written permission\". Scheduled RSS polling is therefore not clearly sanctioned; the ingestion method (RSS vs YouTube Data API under the API Services Terms) needs an owner decision. oEmbed (/oembed) is not disallowed in robots.txt.",
+    "recommendation": "reference_only",
+    "reason": "No site corroboration (badge only), mostly non-boxing uploads, stale since June; recorded promoter policy disables it.",
+    "evidence_urls": [
+      "https://riyadhseason.com/",
+      "https://www.youtube.com/@RiyadhSeason",
+      "https://www.youtube.com/feeds/videos.xml?channel_id=UC2IV4srmjG3d3FAEE88n4_A",
+      "https://www.youtube.com/channel/UC2IV4srmjG3d3FAEE88n4_A",
+      "https://www.youtube.com/robots.txt",
+      "https://www.youtube.com/static?gl=US&template=terms"
+    ],
+    "checked_at": "2026-09-13"
+  },
+  {
+    "channel_id": "UCurvRE5fGcdUgCYWgh-BDsg",
+    "name": "DAZN Boxing",
+    "handle": "@DAZNBoxing",
+    "registered_source_class": "broadcaster_official",
+    "organization": "DAZN Group",
+    "organization_type": "broadcaster",
+    "source_class": "broadcaster_official",
+    "official_site_corroboration": {
+      "url": "https://www.dazn.com/en-GB/news/boxing/usyk-vs-verhoeven-fight-card-prelim-fights-watch-free-on-dazn/fewjbmdsse781jrx0bdq1coj4",
+      "links_to_channel": true,
+      "note": "Video-level corroboration: the dazn.com article says \"Watch them for free on DAZN here, or on the DAZN YouTube channel below.\" and links watch?v=e0MGk4MtHg0, whose oEmbed author_url is https://www.youtube.com/@DAZNBoxing (= this ID). Confirmed via WebFetch; a plain static fetch returns an SPA shell. The page links a video from the channel, not the channel URL itself."
+    },
+    "verified_badge": "verified (channel page header title carries the CHECK_CIRCLE_FILLED badge in public page data)",
+    "content_types": [
+      "highlights",
+      "knockout",
+      "post-fight interview",
+      "analysis",
+      "grand arrivals",
+      "other"
+    ],
+    "recent_titles": [
+      "2026-09-13 Ryan Garcia vs. Conor Benn | FIGHT HIGHLIGHTS (KGDH_rHeYZg)",
+      "2026-09-13 FULL CARD HIGHLIGHTS | Ryan Garcia vs. Conor Benn (Epc16TQdNL4)",
+      "2026-09-13 \"EXPOSED!\" Tony Bellew & DAZN panel REACT to Conor Benn's defeat by Ryan Garcia | Beyond The Bell (AvG4qJ4CZ6s)",
+      "2026-09-13 Ryan Garcia REACTS to knocking out Conor Benn and wants all the SMOKE next! (LsJSPEUUgwE)",
+      "2026-09-13 Ryan Garcia makes his ring walk against Conor Benn in Las Vegas! (GKM374H3bN0)"
+    ],
+    "oembed_checks": [
+      {
+        "video_id": "_NkCeRKoaUE",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@DAZNBoxing"
+      },
+      {
+        "video_id": "THNsw8MaEFE",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@DAZNBoxing"
+      }
+    ],
+    "region_restrictions": "Not discoverable without the YouTube Data API (contentDetails.regionRestriction); not checked.",
+    "terms_observations": "DAZN service terms (per search snippet of dazngroup.com/help pages, not read verbatim) prohibit embedding the DAZN Service into other sites and copying/republishing material on DAZN without consent; these concern the DAZN service, not its public YouTube uploads. A person should read the live DAZN T&Cs before relying on this. Main events are subscription/PPV; YouTube carries free prelims, highlights and reaction clips. YouTube ToS: \"You may also show YouTube videos through the embeddable YouTube player.\" (https://www.youtube.com/static?gl=US&template=terms). All oEmbed probes returned 200, which indicates embedding is allowed for those videos; it does not rule out per-video region locks, age gates or members-only restrictions.",
+    "rss": {
+      "ok": true,
+      "entries": 15,
+      "latest_published": "2026-09-13T17:57:12+00:00",
+      "feed_title": "DAZN Boxing"
+    },
+    "automation_suitability": "Feed returned entries on one manual fetch (2026-09-13). Caveat for automation: youtube.com/robots.txt has \"User-agent: * / Disallow: /feeds/videos.xml\", and the YouTube Terms of Service list as a restriction accessing the Service \"using any automated means (such as robots, botnets or scrapers) except (a) in the case of public search engines, in accordance with YouTube's robots.txt file; or (b) with YouTube's prior written permission\". Scheduled RSS polling is therefore not clearly sanctioned; the ingestion method (RSS vs YouTube Data API under the API Services Terms) needs an owner decision. oEmbed (/oembed) is not disallowed in robots.txt.",
+    "recommendation": "approve_for_embed_metadata",
+    "reason": "Verified badge plus official dazn.com page pointing to this channel's video, feed active, uploads embeddable.",
+    "evidence_urls": [
+      "https://www.dazn.com/en-GB/news/boxing/usyk-vs-verhoeven-fight-card-prelim-fights-watch-free-on-dazn/fewjbmdsse781jrx0bdq1coj4",
+      "https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=e0MGk4MtHg0&format=json",
+      "https://dazngroup.com/terms-conditions/",
+      "https://www.youtube.com/feeds/videos.xml?channel_id=UCurvRE5fGcdUgCYWgh-BDsg",
+      "https://www.youtube.com/channel/UCurvRE5fGcdUgCYWgh-BDsg",
+      "https://www.youtube.com/robots.txt",
+      "https://www.youtube.com/static?gl=US&template=terms"
+    ],
+    "checked_at": "2026-09-13"
+  },
+  {
+    "channel_id": "UC_JQGBtA7P0RwkRxd7xpJcA",
+    "name": "Sky Sports Boxing",
+    "handle": "@SkySportsBoxing",
+    "registered_source_class": "broadcaster_official",
+    "organization": "Sky Sports (Sky UK)",
+    "organization_type": "broadcaster",
+    "source_class": "broadcaster_official",
+    "official_site_corroboration": {
+      "url": "https://www.skysports.com/boxing/news/12040/13188821/free-stream-watch-the-zak-chelli-vs-callum-simpson-and-caroline-dubois-vs-maira-moneo-public-workouts",
+      "links_to_channel": true,
+      "note": "Video-level corroboration: the skysports.com FREE STREAM article embeds youtube.com/embed/lM5nXXNq290, whose oEmbed author_url is https://www.youtube.com/@skysportsboxing (= this ID). skysports.com footer links only the parent @SkySports channel."
+    },
+    "verified_badge": "verified (channel page header title carries the CHECK_CIRCLE_FILLED badge in public page data)",
+    "content_types": [
+      "interview",
+      "analysis",
+      "documentary/feature",
+      "open workout",
+      "other"
+    ],
+    "recent_titles": [
+      "2026-09-03 Fabio Wardley explains why he lost to Daniel Dubois ahead of their upcoming rematch! 👀 (9G0P3GaKkCo)",
+      "2026-09-08 Will Conor Benn shock Ryan Garcia? 'Trailblazer' Katie Taylor | Toe2Toe podcast (e-ONqHMBJTY)",
+      "2026-09-01 \"He's lost his aura\" | What went wrong for Moses Itauma against Filip Hrgović? (7a2MrJfj55I)",
+      "2026-09-02 Frank Warren reacts to Moses Itauma stoppage loss, gives update on Fury vs AJ (f1P93jd5NVI)",
+      "2026-09-10 George Groves and James DeGale’s HEATED argument! 🤬 | Ringside Rewind (9LJTTC5-nrI)"
+    ],
+    "oembed_checks": [
+      {
+        "video_id": "ZfmfEfsGG_Q",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@skysportsboxing"
+      },
+      {
+        "video_id": "9LJTTC5-nrI",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@skysportsboxing"
+      }
+    ],
+    "region_restrictions": "Not discoverable without the YouTube Data API (contentDetails.regionRestriction); not checked.",
+    "terms_observations": "Sky terms page (https://www.sky.com/help/articles/skycom-terms-and-conditions) is script-rendered; no readable clause. Sky is a UK/IE rights holder - some uploads may be geo-limited (not checkable without API). YouTube ToS: \"You may also show YouTube videos through the embeddable YouTube player.\" (https://www.youtube.com/static?gl=US&template=terms). All oEmbed probes returned 200, which indicates embedding is allowed for those videos; it does not rule out per-video region locks, age gates or members-only restrictions.",
+    "rss": {
+      "ok": true,
+      "entries": 15,
+      "latest_published": "2026-09-13T09:00:32+00:00",
+      "feed_title": "Sky Sports Boxing"
+    },
+    "automation_suitability": "Feed returned entries on one manual fetch (2026-09-13). Caveat for automation: youtube.com/robots.txt has \"User-agent: * / Disallow: /feeds/videos.xml\", and the YouTube Terms of Service list as a restriction accessing the Service \"using any automated means (such as robots, botnets or scrapers) except (a) in the case of public search engines, in accordance with YouTube's robots.txt file; or (b) with YouTube's prior written permission\". Scheduled RSS polling is therefore not clearly sanctioned; the ingestion method (RSS vs YouTube Data API under the API Services Terms) needs an owner decision. oEmbed (/oembed) is not disallowed in robots.txt.",
+    "recommendation": "approve_for_embed_metadata",
+    "reason": "Verified badge plus official skysports.com page embedding this channel's video, feed active, uploads embeddable.",
+    "evidence_urls": [
+      "https://www.skysports.com/boxing/news/12040/13188821/free-stream-watch-the-zak-chelli-vs-callum-simpson-and-caroline-dubois-vs-maira-moneo-public-workouts",
+      "https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=lM5nXXNq290&format=json",
+      "https://www.youtube.com/feeds/videos.xml?channel_id=UC_JQGBtA7P0RwkRxd7xpJcA",
+      "https://www.youtube.com/channel/UC_JQGBtA7P0RwkRxd7xpJcA",
+      "https://www.youtube.com/robots.txt",
+      "https://www.youtube.com/static?gl=US&template=terms"
+    ],
+    "checked_at": "2026-09-13"
+  },
+  {
+    "channel_id": "UC-hWvVvE-crFl5vg5G8QbqA",
+    "name": "TNT Fight Sports (formerly TNT Sports Boxing)",
+    "handle": "@TNTFightSports",
+    "registered_source_class": "broadcaster_official",
+    "organization": "TNT Sports UK & Ireland (Warner Bros. Discovery / BT JV)",
+    "organization_type": "broadcaster",
+    "source_class": "broadcaster_official",
+    "official_site_corroboration": {
+      "url": "https://www.tntsports.co.uk/",
+      "links_to_channel": false,
+      "note": "tntsports.co.uk homepage links only https://youtube.com/@TNTSports (a different channel); /boxing/ and the boxing how-to-watch article have no YouTube link (curl gets 403; Node fetch and WebFetch read the pages). Identity rests on the verified badge and channel description."
+    },
+    "verified_badge": "verified (channel page header title carries the CHECK_CIRCLE_FILLED badge in public page data)",
+    "content_types": [
+      "highlights",
+      "knockout",
+      "other"
+    ],
+    "recent_titles": [
+      "2026-09-13 BLOODY BRAWL! 🩸 | Tommy McMillen vs. Marwan Rahiki | #UFCNoche Fight Highlights (mhe1gOojCZk)",
+      "2026-09-03 TOP 10 UFC KNOCKOUTS FROM AUGUST 2026 💥 (cUYEwbcq1VI)",
+      "2026-09-05 UNANIMOUS DECISION VICTORY 👏 | Michael Page vs Nursulton Ruziboev | #UFCParis Fight Highlights (0biiBYI8r9U)",
+      "2026-08-29 STUNNING KNOCKOUT! 🔥 | Umar Nurmagomedov vs Song Yadong | #UFCShanghai Highlights (2joMs7riMzY)",
+      "2026-08-17 Ian Machado Garry lost but looked as ELITE as it gets 🙏 #UFC330 #UFC #MMA (9VpcTmRIrSE)"
+    ],
+    "oembed_checks": [
+      {
+        "video_id": "mhe1gOojCZk",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@TNTFightSports"
+      },
+      {
+        "video_id": "hEieTo1STX8",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@TNTFightSports"
+      }
+    ],
+    "region_restrictions": "Not discoverable without the YouTube Data API (contentDetails.regionRestriction); not checked.",
+    "terms_observations": "No readable TNT Sports terms clause about embeds located. All 15 newest uploads are UFC/MMA, none boxing. YouTube ToS: \"You may also show YouTube videos through the embeddable YouTube player.\" (https://www.youtube.com/static?gl=US&template=terms). All oEmbed probes returned 200, which indicates embedding is allowed for those videos; it does not rule out per-video region locks, age gates or members-only restrictions.",
+    "rss": {
+      "ok": true,
+      "entries": 15,
+      "latest_published": "2026-09-13T04:00:03+00:00",
+      "feed_title": "TNT Fight Sports"
+    },
+    "automation_suitability": "Feed returned entries on one manual fetch (2026-09-13). Caveat for automation: youtube.com/robots.txt has \"User-agent: * / Disallow: /feeds/videos.xml\", and the YouTube Terms of Service list as a restriction accessing the Service \"using any automated means (such as robots, botnets or scrapers) except (a) in the case of public search engines, in accordance with YouTube's robots.txt file; or (b) with YouTube's prior written permission\". Scheduled RSS polling is therefore not clearly sanctioned; the ingestion method (RSS vs YouTube Data API under the API Services Terms) needs an owner decision. oEmbed (/oembed) is not disallowed in robots.txt.",
+    "recommendation": "reference_only",
+    "reason": "Not linked from the official site (site links @TNTSports instead), badge-only identity, and current uploads are UFC not boxing.",
+    "evidence_urls": [
+      "https://www.tntsports.co.uk/",
+      "https://www.tntsports.co.uk/boxing/",
+      "https://www.tntsports.co.uk/boxing/boxing-on-tnt-sports-how-to-watch-and-live-stream-what-is-tnt-sports-what-is-discovery_sto9667676/story.shtml",
+      "https://www.youtube.com/feeds/videos.xml?channel_id=UC-hWvVvE-crFl5vg5G8QbqA",
+      "https://www.youtube.com/channel/UC-hWvVvE-crFl5vg5G8QbqA",
+      "https://www.youtube.com/robots.txt",
+      "https://www.youtube.com/static?gl=US&template=terms"
+    ],
+    "checked_at": "2026-09-13"
+  },
+  {
+    "channel_id": "UCwNqHDsnBCKT-olwJwIFyfg",
+    "name": "FOX Sports",
+    "handle": "@FOXSports",
+    "registered_source_class": "broadcaster_official",
+    "organization": "FOX Sports (Fox Corporation)",
+    "organization_type": "broadcaster",
+    "source_class": "broadcaster_official",
+    "official_site_corroboration": {
+      "url": "https://www.foxsports.com/",
+      "links_to_channel": true,
+      "note": "Homepage links https://www.youtube.com/foxsports, which resolves to this ID."
+    },
+    "verified_badge": "verified (channel page header title carries the CHECK_CIRCLE_FILLED badge in public page data)",
+    "content_types": [
+      "highlights",
+      "other"
+    ],
+    "recent_titles": [
+      "2026-09-13 Ronald Acuña Jr. comes through for the Braves 💪 #acuna #braves #homerun #mlb (d_u47gQl1F8)",
+      "2026-09-12 CFB Weekend RECAP 🏈 FOX College Football (Lf1rr8yQyew)",
+      "2026-09-09 ELLY DE LA CRUZ THREW OUT TEOSCAR WITH A 105.3 MPH LASER 🤯 🔥 #MLB (IT9Kq_do5t0)",
+      "2026-09-11 A special moment as the Yankees honor the victims of 9/11 ❤️ (q4OV9JUKrAo)",
+      "2026-09-09 What a rookie season for Kazuma Okamoto! 👏 #MLB #ROOKIE (Mt0XMXJd5vQ)"
+    ],
+    "oembed_checks": [
+      {
+        "video_id": "d_u47gQl1F8",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@foxsports"
+      },
+      {
+        "video_id": "NH9X2ROs3es",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@foxsports"
+      }
+    ],
+    "region_restrictions": "Not discoverable without the YouTube Data API (contentDetails.regionRestriction); not checked.",
+    "terms_observations": "https://www.foxsports.com/terms-of-use: \"you may not copy, download, stream, scrape, capture, reproduce ... frame, deep-link, make available or otherwise use any Content contained in or accessible through the Fox Services\"; \"Fox reserves the right to prevent embedding on any website or other location that Fox finds inappropriate or objectionable ... or for any other reason.\" (Fox Video Player). No boxing in the 15 newest uploads (MLB/CFB). YouTube ToS: \"You may also show YouTube videos through the embeddable YouTube player.\" (https://www.youtube.com/static?gl=US&template=terms). All oEmbed probes returned 200, which indicates embedding is allowed for those videos; it does not rule out per-video region locks, age gates or members-only restrictions.",
+    "rss": {
+      "ok": true,
+      "entries": 15,
+      "latest_published": "2026-09-13T00:29:39+00:00",
+      "feed_title": "FOX Sports"
+    },
+    "automation_suitability": "Feed returned entries on one manual fetch (2026-09-13). Caveat for automation: youtube.com/robots.txt has \"User-agent: * / Disallow: /feeds/videos.xml\", and the YouTube Terms of Service list as a restriction accessing the Service \"using any automated means (such as robots, botnets or scrapers) except (a) in the case of public search engines, in accordance with YouTube's robots.txt file; or (b) with YouTube's prior written permission\". Scheduled RSS polling is therefore not clearly sanctioned; the ingestion method (RSS vs YouTube Data API under the API Services Terms) needs an owner decision. oEmbed (/oembed) is not disallowed in robots.txt.",
+    "recommendation": "reference_only",
+    "reason": "Identity and embeds pass, but the channel carries no boxing and Fox terms reserve embedding control; no value for a boxing desk.",
+    "evidence_urls": [
+      "https://www.foxsports.com/",
+      "https://www.foxsports.com/terms-of-use",
+      "https://www.youtube.com/feeds/videos.xml?channel_id=UCwNqHDsnBCKT-olwJwIFyfg",
+      "https://www.youtube.com/channel/UCwNqHDsnBCKT-olwJwIFyfg",
+      "https://www.youtube.com/robots.txt",
+      "https://www.youtube.com/static?gl=US&template=terms"
+    ],
+    "checked_at": "2026-09-13"
+  },
+  {
+    "channel_id": "UCOogiDvTQ8G7Zb5AOim9Olw",
+    "name": "World Boxing Council (WBC)",
+    "handle": "@WBCBoxingvid",
+    "registered_source_class": "sanctioning_body_official",
+    "organization": "World Boxing Council (WBC)",
+    "organization_type": "sanctioning body",
+    "source_class": "sanctioning_body_official",
+    "official_site_corroboration": {
+      "url": "https://www.wbcboxing.com/",
+      "links_to_channel": true,
+      "note": "Homepage links https://www.youtube.com/user/WBCBoxingvid (resolves to this ID) and the page source contains the channel ID itself. Channel description: \"Official YouTube account of the World Boxing Council (WBC)\"."
+    },
+    "verified_badge": "not verified (no badge in channel page header data; observed from public HTML, not the rendered UI)",
+    "content_types": [
+      "highlights",
+      "knockout",
+      "documentary/feature",
+      "announcement",
+      "other"
+    ],
+    "recent_titles": [
+      "2026-09-13 Floyd Mayweather Jr. and Marcos Maidana produced a fascinating clash of styles! 👑 (j8EBfLdr4TE)",
+      "2026-09-12 Tollan Topiltzin, the WBC Belt that will be awarded to the winner of Ryan Garcia vs Conor Benn. 🏆 (dTL6RgZd9jM)",
+      "2026-09-11 KO Friday! Juan Manuel Márquez delivered such iconic knockout when he stopped Manny Pacquiao! 🇲🇽 (yB2z96bHjXk)",
+      "2026-09-12 Joséjas, embajador del WBC hablando sobre el cinturón conmemorativo Tollan Topiltzin! 👹🔰 (VtsTpato7Bc)",
+      "2026-09-11 Gennady Golovkin defended his WBC middleweight title against Kell Brook, on September 10, 2016. 🔰 (UbQmkGPmSnY)"
+    ],
+    "oembed_checks": [
+      {
+        "video_id": "j8EBfLdr4TE",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@WBCBoxingvid"
+      },
+      {
+        "video_id": "rQzuNBViPl4",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@WBCBoxingvid"
+      }
+    ],
+    "region_restrictions": "Not discoverable without the YouTube Data API (contentDetails.regionRestriction); not checked.",
+    "terms_observations": "No terms-of-use link found on wbcboxing.com (only a privacy notice, https://wbcboxing.com/en/aviso-de-privacidad/). Uploads are on-this-day historical fight clips that include third-party broadcast footage; embedding via YouTube leaves rights handling with the uploader. YouTube ToS: \"You may also show YouTube videos through the embeddable YouTube player.\" (https://www.youtube.com/static?gl=US&template=terms). All oEmbed probes returned 200, which indicates embedding is allowed for those videos; it does not rule out per-video region locks, age gates or members-only restrictions.",
+    "rss": {
+      "ok": true,
+      "entries": 15,
+      "latest_published": "2026-09-13T22:34:10+00:00",
+      "feed_title": "World Boxing Council"
+    },
+    "automation_suitability": "Feed returned entries on one manual fetch (2026-09-13). Caveat for automation: youtube.com/robots.txt has \"User-agent: * / Disallow: /feeds/videos.xml\", and the YouTube Terms of Service list as a restriction accessing the Service \"using any automated means (such as robots, botnets or scrapers) except (a) in the case of public search engines, in accordance with YouTube's robots.txt file; or (b) with YouTube's prior written permission\". Scheduled RSS polling is therefore not clearly sanctioned; the ingestion method (RSS vs YouTube Data API under the API Services Terms) needs an owner decision. oEmbed (/oembed) is not disallowed in robots.txt.",
+    "recommendation": "approve_for_embed_metadata",
+    "reason": "Site-linked (and ID in page source) official channel, feed active, uploads embeddable; no org restriction found. No verified badge.",
+    "evidence_urls": [
+      "https://www.wbcboxing.com/",
+      "https://www.youtube.com/feeds/videos.xml?channel_id=UCOogiDvTQ8G7Zb5AOim9Olw",
+      "https://www.youtube.com/channel/UCOogiDvTQ8G7Zb5AOim9Olw",
+      "https://www.youtube.com/robots.txt",
+      "https://www.youtube.com/static?gl=US&template=terms"
+    ],
+    "checked_at": "2026-09-13"
+  },
+  {
+    "channel_id": "UCFLh18_umMvBkz9YCLo4vkA",
+    "name": "World Boxing Association (WBA)",
+    "handle": "@WorldBoxingAssociationOfficial",
+    "registered_source_class": "sanctioning_body_official",
+    "organization": "World Boxing Association (WBA)",
+    "organization_type": "sanctioning body",
+    "source_class": "sanctioning_body_official",
+    "official_site_corroboration": {
+      "url": "https://www.wbaboxing.com/boxing-news/canelito-and-carbajal-set-to-headline-wba-future",
+      "links_to_channel": true,
+      "note": "Official wbaboxing.com news post links https://www.youtube.com/@WorldBoxingAssociationOfficial (resolves to this ID). The WBA homepage and /boxing-news index have no YouTube link. Four look-alike WBA channels are decoys."
+    },
+    "verified_badge": "not verified (no badge in channel page header data; observed from public HTML, not the rendered UI)",
+    "content_types": [
+      "full fight",
+      "replay",
+      "other"
+    ],
+    "recent_titles": [
+      "2026-09-13 WBA Future of Venezuelan Boxing September 12th,  2026 #16 - Boxeo AMB presented by RIYADH SEASON (BELV6HIyF-Q)",
+      "2026-09-06 WBA Future Champions Venezuela Boxing  September 5th,  2026 - Boxeo AMB presented by RIYADH SEASON (9-X0_Mj8oJg)",
+      "2026-08-30 FUTURE CHAMPIONS PANAMA (rovJ6K4uVcQ)",
+      "2026-05-23 WBA Future Champions Andorra | 2026 WBA (xtKWm3TFeVA)",
+      "2026-08-02 FUTURE CHAMPIONS URUGUAY (frJKJs3EK_s)"
+    ],
+    "oembed_checks": [
+      {
+        "video_id": "BELV6HIyF-Q",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@WorldBoxingAssociationOfficial"
+      },
+      {
+        "video_id": "9-X0_Mj8oJg",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@WorldBoxingAssociationOfficial"
+      }
+    ],
+    "region_restrictions": "Not discoverable without the YouTube Data API (contentDetails.regionRestriction); not checked.",
+    "terms_observations": "https://www.wbaboxing.com/important-legal-information is an accuracy disclaimer (\"provided for informational purposes only\") with a copyright notice; no clause on embedding or content use found (a referenced \"Usage of Content\" page was not located). Uploads are full-length WBA Future Champions live-stream cards (prospect/amateur-level). YouTube ToS: \"You may also show YouTube videos through the embeddable YouTube player.\" (https://www.youtube.com/static?gl=US&template=terms). All oEmbed probes returned 200, which indicates embedding is allowed for those videos; it does not rule out per-video region locks, age gates or members-only restrictions.",
+    "rss": {
+      "ok": true,
+      "entries": 15,
+      "latest_published": "2026-09-13T02:15:32+00:00",
+      "feed_title": "World Boxing Association"
+    },
+    "automation_suitability": "Feed returned entries on one manual fetch (2026-09-13). Caveat for automation: youtube.com/robots.txt has \"User-agent: * / Disallow: /feeds/videos.xml\", and the YouTube Terms of Service list as a restriction accessing the Service \"using any automated means (such as robots, botnets or scrapers) except (a) in the case of public search engines, in accordance with YouTube's robots.txt file; or (b) with YouTube's prior written permission\". Scheduled RSS polling is therefore not clearly sanctioned; the ingestion method (RSS vs YouTube Data API under the API Services Terms) needs an owner decision. oEmbed (/oembed) is not disallowed in robots.txt.",
+    "recommendation": "approve_for_embed_metadata",
+    "reason": "Linked from an official WBA news post, feed active, uploads embeddable; no org restriction found. Corroboration is a news post, not the homepage; no badge.",
+    "evidence_urls": [
+      "https://www.wbaboxing.com/boxing-news/canelito-and-carbajal-set-to-headline-wba-future",
+      "https://www.wbaboxing.com/important-legal-information",
+      "https://www.youtube.com/feeds/videos.xml?channel_id=UCFLh18_umMvBkz9YCLo4vkA",
+      "https://www.youtube.com/channel/UCFLh18_umMvBkz9YCLo4vkA",
+      "https://www.youtube.com/robots.txt",
+      "https://www.youtube.com/static?gl=US&template=terms"
+    ],
+    "checked_at": "2026-09-13"
+  },
+  {
+    "channel_id": "UCj9SVchp1P7nXAOcaWGMCiA",
+    "name": "World Boxing Organization (WBO)",
+    "handle": "@WorldBoxingOrg",
+    "registered_source_class": "sanctioning_body_official",
+    "organization": "World Boxing Organization (WBO)",
+    "organization_type": "sanctioning body",
+    "source_class": "sanctioning_body_official",
+    "official_site_corroboration": {
+      "url": "https://wboboxing.com/",
+      "links_to_channel": true,
+      "note": "Homepage links https://www.youtube.com/@WorldBoxingOrg, which resolves to this ID. Description: \"Welcome to the official YouTube of the World Boxing Organization (WBO)\"."
+    },
+    "verified_badge": "not verified (no badge in channel page header data; observed from public HTML, not the rendered UI)",
+    "content_types": [
+      "documentary/feature",
+      "announcement",
+      "other"
+    ],
+    "recent_titles": [
+      "2026-08-04 WBO/IBF Unified Convention 2026 (VQyyVK5Lwa8)",
+      "2026-07-30 WBO Welterweight Mandatory Championship Purse Bid (Jaj2cSLkEd8)",
+      "2026-04-28 WBO Honors Greatness: Navarrete & Olascuaga Receive Elite Legacy Ring (YnMOS6vrzuo)",
+      "2026-03-29 René Santiago: Road to Japan 🇯🇵 | #beltsmatter  (Mgf9x9ORvbU)",
+      "2025-10-31 38th ANNUAL CONVENTION - DAY 3 (mXROKexuLQs)"
+    ],
+    "oembed_checks": [
+      {
+        "video_id": "VQyyVK5Lwa8",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@WorldBoxingOrg"
+      },
+      {
+        "video_id": "Jaj2cSLkEd8",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@WorldBoxingOrg"
+      }
+    ],
+    "region_restrictions": "Not discoverable without the YouTube Data API (contentDetails.regionRestriction); not checked.",
+    "terms_observations": "No terms link found on wboboxing.com homepage. Institutional content (conventions, purse bids, ceremonies); low cadence (newest 2026-08-04). YouTube ToS: \"You may also show YouTube videos through the embeddable YouTube player.\" (https://www.youtube.com/static?gl=US&template=terms). All oEmbed probes returned 200, which indicates embedding is allowed for those videos; it does not rule out per-video region locks, age gates or members-only restrictions.",
+    "rss": {
+      "ok": true,
+      "entries": 15,
+      "latest_published": "2026-08-04T17:50:00+00:00",
+      "feed_title": "World Boxing Organization"
+    },
+    "automation_suitability": "Feed returned entries on one manual fetch (2026-09-13). Caveat for automation: youtube.com/robots.txt has \"User-agent: * / Disallow: /feeds/videos.xml\", and the YouTube Terms of Service list as a restriction accessing the Service \"using any automated means (such as robots, botnets or scrapers) except (a) in the case of public search engines, in accordance with YouTube's robots.txt file; or (b) with YouTube's prior written permission\". Scheduled RSS polling is therefore not clearly sanctioned; the ingestion method (RSS vs YouTube Data API under the API Services Terms) needs an owner decision. oEmbed (/oembed) is not disallowed in robots.txt.",
+    "recommendation": "approve_for_embed_metadata",
+    "reason": "Site-linked official channel, feed returns entries, uploads embeddable; low cadence and institutional content. No badge.",
+    "evidence_urls": [
+      "https://wboboxing.com/",
+      "https://www.youtube.com/feeds/videos.xml?channel_id=UCj9SVchp1P7nXAOcaWGMCiA",
+      "https://www.youtube.com/channel/UCj9SVchp1P7nXAOcaWGMCiA",
+      "https://www.youtube.com/robots.txt",
+      "https://www.youtube.com/static?gl=US&template=terms"
+    ],
+    "checked_at": "2026-09-13"
+  },
+  {
+    "channel_id": "UC1yoLnmPP-tQElJsL1kYL0g",
+    "name": "New Jersey OAG (parent of NJ State Athletic Control Board)",
+    "handle": "@NewJerseyOAG",
+    "registered_source_class": "commission_official",
+    "organization": "New Jersey Office of the Attorney General (parent of NJ State Athletic Control Board)",
+    "organization_type": "commission",
+    "source_class": "commission_official",
+    "official_site_corroboration": {
+      "url": "https://www.njoag.gov/about/divisions-and-offices/state-athletic-control-board-home/",
+      "links_to_channel": true,
+      "note": "Official SACB page links https://www.youtube.com/NewJerseyOAG/ (resolves to this ID) and embeds WhIKn4ImMrs (oEmbed author @NewJerseyOAG). Channel belongs to the AG office, not the SACB."
+    },
+    "verified_badge": "not verified (no badge in channel page header data; observed from public HTML, not the rendered UI)",
+    "content_types": [
+      "press conference",
+      "announcement",
+      "other"
+    ],
+    "recent_titles": [
+      "2026-08-26 Attorney General Davenport Announces Historic Settlement with Meta (SEe0QOwqO6g)",
+      "2026-08-05 AG Davenport to Hold Press Conference to Announce an Antitrust Complaint Against Major Tech Company (neu1h98Esps)",
+      "2026-08-07 New Jersey Family Leave Act (NJFLA) (fvyJtz_jCxw)",
+      "2026-07-21 Post-World Cup Security Overview with State and Federal Partners (ZJHRYWzWRBc)",
+      "2026-07-07 The Office of the Attorney General Celebrates 250 Years (vSBGNqvmw6E)"
+    ],
+    "oembed_checks": [
+      {
+        "video_id": "SEe0QOwqO6g",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@NewJerseyOAG"
+      },
+      {
+        "video_id": "fvyJtz_jCxw",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@NewJerseyOAG"
+      }
+    ],
+    "region_restrictions": "Not discoverable without the YouTube Data API (contentDetails.regionRestriction); not checked.",
+    "terms_observations": "https://www.njoag.gov/resources/legal-notices/ had no embed/scrape clause matched. None of the 15 newest uploads relate to boxing (AG announcements, legal campaigns). YouTube ToS: \"You may also show YouTube videos through the embeddable YouTube player.\" (https://www.youtube.com/static?gl=US&template=terms). All oEmbed probes returned 200, which indicates embedding is allowed for those videos; it does not rule out per-video region locks, age gates or members-only restrictions.",
+    "rss": {
+      "ok": true,
+      "entries": 15,
+      "latest_published": "2026-08-26T13:56:16+00:00",
+      "feed_title": "New Jersey OAG"
+    },
+    "automation_suitability": "Feed returned entries on one manual fetch (2026-09-13). Caveat for automation: youtube.com/robots.txt has \"User-agent: * / Disallow: /feeds/videos.xml\", and the YouTube Terms of Service list as a restriction accessing the Service \"using any automated means (such as robots, botnets or scrapers) except (a) in the case of public search engines, in accordance with YouTube's robots.txt file; or (b) with YouTube's prior written permission\". Scheduled RSS polling is therefore not clearly sanctioned; the ingestion method (RSS vs YouTube Data API under the API Services Terms) needs an owner decision. oEmbed (/oembed) is not disallowed in robots.txt.",
+    "recommendation": "reference_only",
+    "reason": "Genuine government channel but it is the Attorney General office, and uploads are not boxing.",
+    "evidence_urls": [
+      "https://www.njoag.gov/about/divisions-and-offices/state-athletic-control-board-home/",
+      "https://www.njoag.gov/resources/legal-notices/",
+      "https://www.youtube.com/feeds/videos.xml?channel_id=UC1yoLnmPP-tQElJsL1kYL0g",
+      "https://www.youtube.com/channel/UC1yoLnmPP-tQElJsL1kYL0g",
+      "https://www.youtube.com/robots.txt",
+      "https://www.youtube.com/static?gl=US&template=terms"
+    ],
+    "checked_at": "2026-09-13"
+  },
+  {
+    "channel_id": "UCoUph3knwfclNRB2yxEDIRQ",
+    "name": "Florida DBPR (parent of Florida State Boxing/Athletic Commission)",
+    "handle": "@FloridaDBPR",
+    "registered_source_class": "commission_official",
+    "organization": "Florida Department of Business and Professional Regulation (parent of Florida State Boxing Commission)",
+    "organization_type": "commission",
+    "source_class": "commission_official",
+    "official_site_corroboration": {
+      "url": "https://www2.myfloridalicense.com/athletic-commission/",
+      "links_to_channel": true,
+      "note": "Florida Athletic Commission page links https://www.youtube.com/user/FloridaDBPR/ (resolves to this ID). Channel belongs to the parent department."
+    },
+    "verified_badge": "not verified (no badge in channel page header data; observed from public HTML, not the rendered UI)",
+    "content_types": [
+      "other"
+    ],
+    "recent_titles": [
+      "2026-08-27 Florida DBPR Broadcast H264_8.27.26 (2Mi2PozQ-0c)",
+      "2026-08-27 Scams_ULA english final_8.27.26 (Y9tIMA9H2ks)",
+      "2026-08-27 DBPR After a Storm_30 Sec Griffin_8.27.26 (uZ5DtyBQwVM)",
+      "2023-11-04 2023 DBPR Employee Awards (kWAAtv1iyy4)",
+      "2022-11-30 Florida DBPR Live Stream (PjSEewz3PDg)"
+    ],
+    "oembed_checks": [
+      {
+        "video_id": "3MKzuaKH--E",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@FloridaDBPR"
+      },
+      {
+        "video_id": "2Mi2PozQ-0c",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@FloridaDBPR"
+      }
+    ],
+    "region_restrictions": "Not discoverable without the YouTube Data API (contentDetails.regionRestriction); not checked.",
+    "terms_observations": "No terms link found on the page. Uploads are licensing/scam-awareness PSAs and agency awards; no boxing. YouTube ToS: \"You may also show YouTube videos through the embeddable YouTube player.\" (https://www.youtube.com/static?gl=US&template=terms). All oEmbed probes returned 200, which indicates embedding is allowed for those videos; it does not rule out per-video region locks, age gates or members-only restrictions.",
+    "rss": {
+      "ok": true,
+      "entries": 15,
+      "latest_published": "2026-08-27T21:47:13+00:00",
+      "feed_title": "Florida DBPR"
+    },
+    "automation_suitability": "Feed returned entries on one manual fetch (2026-09-13). Caveat for automation: youtube.com/robots.txt has \"User-agent: * / Disallow: /feeds/videos.xml\", and the YouTube Terms of Service list as a restriction accessing the Service \"using any automated means (such as robots, botnets or scrapers) except (a) in the case of public search engines, in accordance with YouTube's robots.txt file; or (b) with YouTube's prior written permission\". Scheduled RSS polling is therefore not clearly sanctioned; the ingestion method (RSS vs YouTube Data API under the API Services Terms) needs an owner decision. oEmbed (/oembed) is not disallowed in robots.txt.",
+    "recommendation": "reference_only",
+    "reason": "Genuine parent-agency channel, but uploads are not boxing.",
+    "evidence_urls": [
+      "https://www2.myfloridalicense.com/athletic-commission/",
+      "https://www.youtube.com/feeds/videos.xml?channel_id=UCoUph3knwfclNRB2yxEDIRQ",
+      "https://www.youtube.com/channel/UCoUph3knwfclNRB2yxEDIRQ",
+      "https://www.youtube.com/robots.txt",
+      "https://www.youtube.com/static?gl=US&template=terms"
+    ],
+    "checked_at": "2026-09-13"
+  },
+  {
+    "channel_id": "UCDncyGaGt5KumYowsnYUXKg",
+    "name": "Zuffa Boxing",
+    "handle": "@zuffaboxing",
+    "registered_source_class": "promoter_official",
+    "organization": "Zuffa Boxing (TKO Group / Sela)",
+    "organization_type": "promoter",
+    "source_class": "promoter_official",
+    "official_site_corroboration": {
+      "url": "https://www.zuffaboxing.com/",
+      "links_to_channel": false,
+      "note": "zuffaboxing.com returns a ~2.4KB script shell with no social links in static HTML; https://www.ufc.com/zuffaboxing links only youtube.com/ufc; UFC channel pages do not reference this ID; Paramount+ show page links only youtube.com/paramountplus. The channel About page links paramountplus.com/shows/zuffa-boxing (reverse direction only). No verified badge. Web search shows the handle and Instagram/X @zuffaboxing but no first-party site link."
+    },
+    "verified_badge": "not verified (no badge in channel page header data; observed from public HTML, not the rendered UI)",
+    "content_types": [
+      "highlights",
+      "knockout",
+      "post-fight press conference",
+      "post-fight interview",
+      "weigh-in",
+      "other"
+    ],
+    "recent_titles": [
+      "2026-09-13 Ryan Garcia ROCKS Conor Benn with a Round 2 TKO stunner: Garcia Benn on Paramount (liptI5VrkQo)",
+      "2026-09-13 Post-Fight Press Conference: Garcia Benn on Paramount (SPPy9hyAKE8)",
+      "2026-09-13 Jai Opetaia scores a powerful TKO victory over Noel Mikaelian: Garcia Benn on Paramount (qk_Az-vVEss)",
+      "2026-09-13 BREAKING: Ryan Garcia calls out Teofimo Lopez (dAXYawcFfO4)",
+      "2026-09-13 Ryan Garcia ignites chaos when he calls out Teofimo Lopez: Garcia Benn on Paramount (0qFZ-UnV8Fc)"
+    ],
+    "oembed_checks": [
+      {
+        "video_id": "0qFZ-UnV8Fc",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@zuffaboxing"
+      },
+      {
+        "video_id": "WxeZ7QfBk1o",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@zuffaboxing"
+      }
+    ],
+    "region_restrictions": "Not discoverable without the YouTube Data API (contentDetails.regionRestriction); not checked.",
+    "terms_observations": "No readable Zuffa terms. Events are Paramount+ exclusive in the US; channel titles append \"on Paramount\". Note: a search hit for \"OFFICIAL WEIGH-IN RESULTS | ZUFFA BOXING 03\" (hWISZkMHd4s) belongs to @VegasSportsToday, not this channel - third-party uploads of Zuffa media exist. YouTube ToS: \"You may also show YouTube videos through the embeddable YouTube player.\" (https://www.youtube.com/static?gl=US&template=terms). All oEmbed probes returned 200, which indicates embedding is allowed for those videos; it does not rule out per-video region locks, age gates or members-only restrictions.",
+    "rss": {
+      "ok": true,
+      "entries": 15,
+      "latest_published": "2026-09-13T19:00:12+00:00",
+      "feed_title": "Zuffa Boxing"
+    },
+    "automation_suitability": "Feed returned entries on one manual fetch (2026-09-13). Caveat for automation: youtube.com/robots.txt has \"User-agent: * / Disallow: /feeds/videos.xml\", and the YouTube Terms of Service list as a restriction accessing the Service \"using any automated means (such as robots, botnets or scrapers) except (a) in the case of public search engines, in accordance with YouTube's robots.txt file; or (b) with YouTube's prior written permission\". Scheduled RSS polling is therefore not clearly sanctioned; the ingestion method (RSS vs YouTube Data API under the API Services Terms) needs an owner decision. oEmbed (/oembed) is not disallowed in robots.txt.",
+    "recommendation": "unresolved",
+    "reason": "Content fits and embeds work, but no official site link and no verified badge; ownership not proven.",
+    "evidence_urls": [
+      "https://www.zuffaboxing.com/",
+      "https://www.ufc.com/zuffaboxing",
+      "https://www.paramountplus.com/shows/zuffa-boxing/",
+      "https://www.youtube.com/@zuffaboxing",
+      "https://www.youtube.com/feeds/videos.xml?channel_id=UCDncyGaGt5KumYowsnYUXKg",
+      "https://www.youtube.com/channel/UCDncyGaGt5KumYowsnYUXKg",
+      "https://www.youtube.com/robots.txt",
+      "https://www.youtube.com/static?gl=US&template=terms"
+    ],
+    "checked_at": "2026-09-13"
+  },
+  {
+    "channel_id": "UCT7Mm-aRWBZ1Zd2bIXIEsyg",
+    "name": "ProBox TV",
+    "handle": "@ProBoxTV",
+    "registered_source_class": "broadcaster_official",
+    "organization": "ProBox TV",
+    "organization_type": "broadcaster",
+    "source_class": "broadcaster_official",
+    "official_site_corroboration": {
+      "url": "https://proboxtv.com/",
+      "links_to_channel": true,
+      "note": "Homepage links https://www.youtube.com/channel/UCT7Mm-aRWBZ1Zd2bIXIEsyg (exact ID) and youtube.com/c/ProBoxTV (same ID). Also links a Spanish channel (c/ProBoxTVEspañol) not audited here. ProBox also promotes cards (Championship Series), so it is promoter + broadcaster."
+    },
+    "verified_badge": "verified (channel page header title carries the CHECK_CIRCLE_FILLED badge in public page data)",
+    "content_types": [
+      "post-fight interview",
+      "analysis",
+      "highlights",
+      "knockout",
+      "other"
+    ],
+    "recent_titles": [
+      "2026-09-12 Abass Baraou BEATS Hometown Hero Santillan, Takes WBO Title | Post-Fight Interview  (esQwyBQRh2s)",
+      "2026-09-13 \"IT WAS BOY AGAINST MAN\" Paulie Malignaggi on Conor Benn's performance against Ryan Garcia (5AfRlOvnTqg)",
+      "2026-09-12 Dominic Valle vs Francois Scarboro Jr: Best Action | Championship Series (YKq4HFgj52w)",
+      "2026-09-12 Venado Lopez Finishes It in Round 3 | ProBox TV Debut (Cl2Z15SBpXk)",
+      "2026-09-12 Giovanni Santillan Warms Up Backstage | WBO Intercontinental Title Main Event (0QfhRgyB4Go)"
+    ],
+    "oembed_checks": [
+      {
+        "video_id": "5AfRlOvnTqg",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@ProBoxTV"
+      },
+      {
+        "video_id": "M8oB-GGCwuE",
+        "status": 200,
+        "author_url": "https://www.youtube.com/@ProBoxTV"
+      }
+    ],
+    "region_restrictions": "Not discoverable without the YouTube Data API (contentDetails.regionRestriction); not checked.",
+    "terms_observations": "https://proboxtv.com/terms/ defines \"ProBox Services\" as \"the Site and the App and any other sites or mobile applications, features, apps, services, or technologies owned, licensed, and/or operated by ProBox\" and says users \"will not create Internet 'links' to or from the ProBox Services or its Content, or 'frame' or 'mirror' any content contained therein\" without express written consent; also bars crawlers/robots \"to collect, scrape, index, mine, republish, redistribute\". YouTube is not named in the definition. Channel description: \"We are launching our new Championship Series with YouTube Membership\" - some fights may be members-only and not publicly embeddable. YouTube ToS: \"You may also show YouTube videos through the embeddable YouTube player.\" (https://www.youtube.com/static?gl=US&template=terms). All oEmbed probes returned 200, which indicates embedding is allowed for those videos; it does not rule out per-video region locks, age gates or members-only restrictions.",
+    "rss": {
+      "ok": true,
+      "entries": 15,
+      "latest_published": "2026-09-13T20:37:08+00:00",
+      "feed_title": "ProBox TV"
+    },
+    "automation_suitability": "Feed returned entries on one manual fetch (2026-09-13). Caveat for automation: youtube.com/robots.txt has \"User-agent: * / Disallow: /feeds/videos.xml\", and the YouTube Terms of Service list as a restriction accessing the Service \"using any automated means (such as robots, botnets or scrapers) except (a) in the case of public search engines, in accordance with YouTube's robots.txt file; or (b) with YouTube's prior written permission\". Scheduled RSS polling is therefore not clearly sanctioned; the ingestion method (RSS vs YouTube Data API under the API Services Terms) needs an owner decision. oEmbed (/oembed) is not disallowed in robots.txt.",
+    "recommendation": "permission_required",
+    "reason": "Identity, feed and embeds pass, but ProBox terms bar linking/framing its Content without written consent and fights are moving behind YouTube Membership; get permission first.",
+    "evidence_urls": [
+      "https://proboxtv.com/",
+      "https://proboxtv.com/terms/",
+      "https://www.youtube.com/feeds/videos.xml?channel_id=UCT7Mm-aRWBZ1Zd2bIXIEsyg",
+      "https://www.youtube.com/channel/UCT7Mm-aRWBZ1Zd2bIXIEsyg",
+      "https://www.youtube.com/robots.txt",
+      "https://www.youtube.com/static?gl=US&template=terms"
+    ],
+    "checked_at": "2026-09-13"
+  }
+]

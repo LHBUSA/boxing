@@ -11,7 +11,13 @@ test('boxing titles classify into boxing media types; post-fight and ceremonial 
     ['Official Weigh In Results: Elliott vs Valencia', 'weigh_in'],
     ['FACE OFF: Ruiz & Knyba go head to head', 'faceoff'],
     ['Grand Arrivals | Newark fight week', 'grand_arrival'],
-    ['Open Workout highlights - Ruiz', 'media_workout'],
+    ['Open Workout highlights - Ruiz', 'open_workout'],
+    ['Media Day | Ruiz vs Knyba', 'media_day'],
+    ['Media workout in Newark', 'media_workout'],
+    ['Knyba knocks down and beats Andy Ruiz Jnr', 'knockout'],
+    ['Full Replay: Ruiz vs Knyba', 'replay'],
+    ['REVENGE! The After Movie | Inside BOXXER', 'documentary_feature'],
+    ['Katie Taylor Vs Flora Pili Prelims | 5 Live Fights', 'full_fight'],
     ['Final Press Conference | Ruiz vs Knyba', 'press_conference'],
     ['FULL FIGHT | Andy Ruiz vs Damian Knyba', 'full_fight'],
     ['Ruiz vs Knyba Highlights', 'highlights'],
@@ -20,7 +26,8 @@ test('boxing titles classify into boxing media types; post-fight and ceremonial 
     ['Round-by-round breakdown', 'analysis'],
     ['Ruiz vs Knyba announced for September 4', 'announcement'],
     ['Knyba sits down before the biggest fight of his life', 'interview'],
-    ['Behind the scenes in Newark', 'other'],
+    ['Behind the scenes in Newark', 'documentary_feature'],
+    ['And STILL!', 'other'],
   ];
   for (const [title, type] of cases) assert.equal(classifyVideo({ title }).video_type, type, title);
   assert.ok(VIDEO_TYPES.every((t) => VIDEO_TYPE_LABEL[t]));
