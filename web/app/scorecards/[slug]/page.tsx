@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { gateway } from "@/lib/gateway";
+import { gateway, optional } from "@/lib/gateway";
 import { cityLine, fmtDate, plural } from "@/lib/format";
-import { boutPath, eventPath, fighterPath, parseRef } from "@/lib/slug";
+import { boutPath, eventPath, fighterPath, parseRef, refOf } from "@/lib/slug";
 import { FighterArt } from "@/components/FighterArt";
-import { Crumbs, Note, ScorecardView, SecHead, Unavailable, surname, verdictLine } from "@/components/fight";
+import { Crumbs, Note, PublishedTotals, ScorecardView, SecHead, Unavailable, surname, verdictLine } from "@/components/fight";
 import type { OfficialMetric } from "@/lib/types";
 
 export const revalidate = 300;
@@ -33,6 +33,7 @@ export default async function ScorecardPage({ params }: Props) {
   if (!res.ok) { if (res.reason === "not_found") notFound(); return <Unavailable what="This scorecard" />; }
   const d = res.data;
   const b = d.bout;
+  const ctx = b.scorecards.length ? null : optional(await gateway.boutContext(refOf(b.public_id)));
   const aName = b.a?.name ?? "Corner A";
   const bName = b.b?.name ?? "Corner B";
   const margins = b.scorecards.filter((c) => c.a_total != null && c.b_total != null).map((c) => (c.a_total as number) - (c.b_total as number));
@@ -60,7 +61,10 @@ export default async function ScorecardPage({ params }: Props) {
       </section>
 
       <section className="mt-4">
-        {b.scorecards.length ? <ScorecardView bout={b} aName={aName} bName={bName} title="The judges' cards" source={<span>Source: <a href={d.card_provenance.source_url ?? "#"} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "underline" }}>{d.event.commission?.name ?? "commission"} document</a></span>} /> : <Note title="No judges' cards on record for this bout" />}
+        {b.scorecards.length ? <ScorecardView bout={b} aName={aName} bName={bName} title="The judges' cards" source={<span>Source: <a href={d.card_provenance.source_url ?? "#"} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "underline" }}>{d.event.commission?.name ?? "commission"} document</a></span>} />
+          : ctx?.published_totals?.totals.length ? <PublishedTotals totals={ctx.published_totals.totals} aName={aName} bName={bName} source={ctx.published_totals.source} sourceUrl={ctx.published_totals.source_url}
+              judges={(ctx.officials ?? []).filter((o) => o.role === "judge").map((o) => ({ public_id: o.public_id, name: o.name }))} />
+          : <Note title="No judges' cards on record for this bout" />}
       </section>
 
       {margins.length >= 2 ? (

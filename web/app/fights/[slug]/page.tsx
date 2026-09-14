@@ -7,7 +7,7 @@ import { cityLine, divisionLabel, fmtDate, fmtLb, fmtRecord, methodLabel, plural
 import { boutPath, eventPath, fighterPath, parseRef, refOf } from "@/lib/slug";
 import { fightRead, pathsToVictory, readLimits, whatMatters } from "@/lib/matchup";
 import { FighterArt } from "@/components/FighterArt";
-import { BoutLine, CompareBars, Crumbs, DnaBars, FormStrip, Note, ScorecardView, SecHead, Unavailable, surname, verdictLine, type CmpRow } from "@/components/fight";
+import { BoutLine, CompareBars, Crumbs, DnaBars, FormStrip, Note, PublishedTotals, ScorecardView, SecHead, Unavailable, surname, verdictLine, type CmpRow } from "@/components/fight";
 import type { BoutDetail, CornerDetail } from "@/lib/types";
 import type { BoutContext, HallBadge, SourcedBio } from "@/lib/types-os";
 import type { OfficialMetric } from "@/lib/types-phase2";
@@ -110,6 +110,7 @@ export default async function FightPage({ params }: Props) {
   const pa = A ? pathsToVictory(A) : null;
   const pb = B ? pathsToVictory(B) : null;
   const judges = b.scorecards.filter((s) => s.judge_public_id);
+  const assignedJudges = (ctx?.officials ?? []).filter((o) => o.role === "judge");
   const later = Math.max(A?.later_bouts ?? 0, B?.later_bouts ?? 0);
 
   return (
@@ -163,14 +164,18 @@ export default async function FightPage({ params }: Props) {
       {complete ? (
         <section className="mt-4">
           <SecHead kicker={b.referee ? `Referee · ${b.referee}` : "Officials"} title="Official Scorecards" action={b.scorecards.length ? <Link className="link-gold" href={`/scorecards/${b.public_id.slice(-32).slice(0, 12)}`}>Open the scorecard →</Link> : undefined} />
-          {b.scorecards.length ? <ScorecardView bout={b} aName={aName} bName={bName} /> : (
+          {b.scorecards.length ? <ScorecardView bout={b} aName={aName} bName={bName} /> : ctx?.published_totals?.totals.length ? (
+            <PublishedTotals totals={ctx.published_totals.totals} aName={aName} bName={bName} source={ctx.published_totals.source} sourceUrl={ctx.published_totals.source_url}
+              judges={assignedJudges.map((o) => ({ public_id: o.public_id, name: o.name }))} />
+          ) : (
             <Note title={b.result?.method === "DECISION" ? "Judges' totals not captured for this decision" : "No judges' cards: this bout did not go to the scorecards"}>
-              {b.result?.method === "DECISION" ? "The commission document did not publish readable totals for this bout." : null}
+              {b.result?.method === "DECISION" ? "No readable judges' totals for this bout are stored from the commission document." : null}
             </Note>
           )}
-          {judges.length || b.referee_public_id ? (
+          {judges.length || assignedJudges.length || b.referee_public_id ? (
             <div className="tiles mt-2">
               {judges.map((j) => <Link key={j.judge_public_id} href={`/officials/${j.judge_public_id!.slice(-32).slice(0, 12)}`} className="tile"><b style={{ fontSize: 15, fontFamily: "var(--f-ui)" }}>{j.judge}</b><span>Judge · history →</span></Link>)}
+              {judges.length ? null : assignedJudges.map((o) => <Link key={o.public_id} href={`/officials/${refOf(o.public_id)}`} className="tile"><b style={{ fontSize: 15, fontFamily: "var(--f-ui)" }}>{o.name}</b><span>Judge (assigned) · history →</span></Link>)}
               {b.referee_public_id ? <Link href={`/officials/${b.referee_public_id.slice(-32).slice(0, 12)}`} className="tile"><b style={{ fontSize: 15, fontFamily: "var(--f-ui)" }}>{b.referee}</b><span>Referee · history →</span></Link> : null}
             </div>
           ) : null}

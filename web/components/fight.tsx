@@ -291,6 +291,51 @@ export function ScorecardView({ bout, aName, bName, title, compact = false, sour
   );
 }
 
+// Totals the commission printed without tying them to judge names (Missouri sheets). Shown in the sheet's order and
+// labelled as such; the judges assigned to the bout are listed separately and no total is placed against a name.
+export function PublishedTotals({ totals, aName, bName, source, sourceUrl, judges }: {
+  totals: { a: number; b: number }[]; aName: string; bName: string; source: string; sourceUrl: string | null; judges: { public_id: string; name: string }[];
+}) {
+  const cards = totals.map((t) => ({ a_total: t.a, b_total: t.b }));
+  const v = scoreVerdict(cards);
+  const scale = Math.max(6, ...totals.map((t) => Math.abs(t.a - t.b)));
+  return (
+    <div className="scorecard">
+      <div className="scorecard__head">
+        <h3>Judges&apos; totals as printed</h3>
+        <span className="tag tag--gold" style={{ textTransform: "uppercase" }}>Not tied to judges on the sheet</span>
+      </div>
+      <div className="scorecard__row scorecard__row--hd">
+        <span>Sheet order</span><span className="ca">{surname(aName)}</span><span className="cb">{surname(bName)}</span><span>Card lean</span>
+      </div>
+      {totals.map((t, i) => {
+        const m = t.a - t.b;
+        const pct = Math.min(50, (Math.abs(m) / scale) * 50);
+        return (
+          <div className="scorecard__row" key={i}>
+            <span className="scorecard__judge">Total {i + 1}<small>Judge not named for this total</small></span>
+            <span className={`scorecard__tot${m > 0 ? " is-a" : m === 0 ? " is-even" : ""}`}>{t.a}</span>
+            <span className={`scorecard__tot${m < 0 ? " is-b" : m === 0 ? " is-even" : ""}`}>{t.b}</span>
+            <span>
+              <span className="lean" aria-hidden="true">
+                {m ? <i style={m > 0 ? { right: "50%", width: `${pct}%`, background: "#b0272c" } : { left: "50%", width: `${pct}%`, background: "#1f5fbd" }} /> : null}
+              </span>
+              <span className="lean__lbl">{m === 0 ? "Even card" : `${Math.abs(m)} for ${surname(m > 0 ? aName : bName)}`}</span>
+            </span>
+          </div>
+        );
+      })}
+      <div className="scorecard__foot">
+        <span><b>{v.a}</b> for {surname(aName)} · <b>{v.b}</b> for {surname(bName)}{v.even ? <> · <b>{v.even}</b> even</> : null}</span>
+        <span>
+          The {sourceUrl ? <a href={sourceUrl} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "underline" }}>{source} sheet</a> : `${source} sheet`} prints these totals without naming which judge scored each.
+          {judges.length ? <> Judges assigned: {judges.map((j, i) => <span key={j.public_id}>{i ? ", " : ""}<Link href={`/officials/${j.public_id.slice(-32).slice(0, 12)}`} style={{ textDecoration: "underline" }}>{j.name}</Link></span>)}.</> : null}
+        </span>
+      </div>
+    </div>
+  );
+}
+
 /* ------------------------------------------------------------------ comparison + DNA bars */
 
 export interface CmpRow { label: string; a: string | null; b: string | null; an?: number | null; bn?: number | null }

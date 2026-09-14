@@ -31,6 +31,8 @@ export interface BoutContext {
   corners: { a?: { sourced_bio: SourcedBio | null; hall_of_fame: HallBadge[]; promoter_appearances: PromoterAppearance[] }; b?: { sourced_bio: SourcedBio | null; hall_of_fame: HallBadge[]; promoter_appearances: PromoterAppearance[] } } | null;
   previous_meetings: { bout_public_id: string; date: IsoDate; result_for_a: string | null; method: string | null; decision_type: string | null; round: number | null; event: { public_id: string; name: string } }[];
   officials: { role: "referee" | "judge"; slot: number | null; public_id: string; name: string; assignments: number; dna: OfficialMetric[] }[];
+  // totals a commission printed without naming which judge scored each (sheet order); never attributed to an official
+  published_totals?: { totals: { a: number; b: number }[]; attribution: "not_stated_on_sheet"; source: string; source_url: string | null } | null;
 }
 
 export interface HallOfFamePage {

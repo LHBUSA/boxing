@@ -59,6 +59,12 @@ test('Missouri: professional boxing bouts, results, referees and judges; kickbox
   assert.equal(await count(`boxing_scorecards s join public.boxing_bouts b on b.id = s.bout_id join public.boxing_sources x on x.id = b.source_id where x.source_key = 'mo_office_of_athletics'`), 0,
     'totals the sheet does not tie to judges are never written as judge scorecards');
   assert.equal(await count(`boxing_events e join public.boxing_sources s on s.id = e.source_id where s.source_key = 'mo_office_of_athletics' and e.event_date = '2026-09-05'`), 1);
+  const [split] = await q(`select b.public_id from public.boxing_bouts b join public.boxing_sources s on s.id = b.source_id where s.source_key = 'mo_office_of_athletics' and b.bout_order = 2`);
+  const [ctx] = await q(`select public.boxing_site_bout_context($1) c`, [split.public_id.slice(-32).slice(0, 12)]);
+  assert.deepEqual(ctx.c.published_totals.totals, [{ a: 36, b: 40 }, { a: 39, b: 37 }, { a: 37, b: 39 }], 'printed totals in the sheet order');
+  assert.equal(ctx.c.published_totals.attribution, 'not_stated_on_sheet');
+  const [tko] = await q(`select b.public_id from public.boxing_bouts b join public.boxing_sources s on s.id = b.source_id where s.source_key = 'mo_office_of_athletics' and b.bout_order = 3`);
+  assert.equal((await q(`select public.boxing_site_bout_context($1) c`, [tko.public_id.slice(-32).slice(0, 12)]))[0].c.published_totals, null, 'a stoppage has no printed totals');
   const dump = JSON.stringify(await q(`select payload from public.boxing_source_observations o join public.boxing_sources s on s.id = o.source_id where s.source_key = 'mo_office_of_athletics'`));
   for (const s of ['123456', '1/1/95', 'Concussion', 'Cut Over Eye', 'Dr. Syn Thetic', 'Kick Syntheticone']) assert.ok(!dump.includes(s), `${s} stored`);
 });
