@@ -1,6 +1,7 @@
 # Officials cleanup against Boxing STAGING only.
 #
 #   pwsh scripts/staging/officials-cleanup.ps1 -Evidence -OutDir <dir>                     # READ ONLY: evidence.json
+#   pwsh scripts/staging/officials-cleanup.ps1 -RunMetrics [-Since <iso>] -OutDir <dir>     # READ ONLY: run-metrics.json (commission runs + officials counts)
 #   pwsh scripts/staging/officials-cleanup.ps1 -Plan -OutDir <dir> [-SimulateParse]        # READ ONLY: evidence + plan (.json/.md)
 #   pwsh scripts/staging/officials-cleanup.ps1 -ApplyCategoryA -Actor "<name>" -OutDir <dir>  # Category A only; needs migration 0024
 #
@@ -9,7 +10,7 @@
 # -ApplyCategoryA reads the service-role key into THIS process only, recomputes the plan from live evidence and
 # applies only deterministic parser artifacts; B/C/D are written as a human review batch.
 
-param([switch]$Evidence, [switch]$Plan, [switch]$SimulateParse, [switch]$ApplyCategoryA, [string]$Actor = '', [string]$OutDir = '.')
+param([switch]$Evidence, [switch]$Plan, [switch]$SimulateParse, [switch]$ApplyCategoryA, [switch]$RunMetrics, [string]$Since = '', [string]$Actor = '', [string]$OutDir = '.')
 $ErrorActionPreference = 'Stop'
 $root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 Import-Module (Join-Path $PSScriptRoot 'BoxingSupabase.psm1') -Force
@@ -20,6 +21,15 @@ Write-Host "target verified: $($project.name) ($ref)"
 New-Item -ItemType Directory -Force $OutDir | Out-Null
 $evidencePath = Join-Path $OutDir 'officials-evidence.json'
 
+if ($RunMetrics) {
+  $sinceIso = if ($Since) { ([datetimeoffset]::Parse($Since)).ToUniversalTime().ToString('o') } else { [datetimeoffset]::UtcNow.AddHours(-36).ToString('o') }
+  $sql = (Get-Content (Join-Path $root 'scripts/officials/run-metrics.sql') -Raw) -replace '(?m)^--.*$', ''
+  $sql = $sql.Replace(':since', "'$sinceIso'::timestamptz")
+  $rows = Invoke-BoxingStagingSql -Ref $ref -Sql $sql
+  $metricsPath = Join-Path $OutDir 'run-metrics.json'
+  [IO.File]::WriteAllText($metricsPath, $rows[0].metrics, (New-Object System.Text.UTF8Encoding $false))
+  Write-Host "run metrics (since $sinceIso): $metricsPath"
+}
 if ($Evidence -or $Plan) {
   $body = (Get-Content (Join-Path $root 'scripts/officials/cleanup-evidence.sql') -Raw) -replace '(?m)^--.*$', ''
   $body = $body.Trim().TrimEnd(';')

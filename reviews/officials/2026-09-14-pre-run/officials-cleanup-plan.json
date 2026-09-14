@@ -1,0 +1,4924 @@
+{
+ "tool_version": "boxing-official-cleanup@1.0.0",
+ "generated_at": "2026-09-14T11:19:16.526Z",
+ "evidence_generated_at": "2026-09-14T11:19:22.033477+00:00",
+ "simulated_documents": 0,
+ "totals": {
+  "officials": 117,
+  "scorecards": 180,
+  "bout_officials": 1391,
+  "review_pending": 28,
+  "officials_merged": 0,
+  "official_name_keys": 735,
+  "scorecards_current": 180,
+  "official_identities": 0,
+  "bout_officials_active": 1391,
+  "duplicate_active_judge_slots": 0,
+  "bouts_with_two_active_referees": 0,
+  "scorecards_without_active_assignment": 0
+ },
+ "A": [],
+ "A_pending": [],
+ "B": [
+  {
+   "candidate_a": {
+    "id": "94e3be8e-f86c-45d6-9df6-bac0882afc21",
+    "public_id": "pbe_boxofficial_79b09c57a22b45ad9f903a5969700d46",
+    "name": "& Cory Santos",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "nsac"
+    ],
+    "assignments_active": 10,
+    "assignments_total": 10,
+    "scorecards": 8,
+    "judge_slots": [
+     {
+      "bout_id": "47d27e31-678e-4ba6-bdd4-1daa67d5a7e0",
+      "slot": 2,
+      "event_date": "2026-01-23"
+     },
+     {
+      "bout_id": "25c099d5-09e9-4f8f-8d83-abec2471e60b",
+      "slot": 3,
+      "event_date": "2026-03-28"
+     },
+     {
+      "bout_id": "06f5486c-f845-4d2e-8778-f28aa412eabe",
+      "slot": 2,
+      "event_date": "2026-04-11"
+     },
+     {
+      "bout_id": "9b85e517-53eb-43b3-92cf-83dea87508e2",
+      "slot": 2,
+      "event_date": "2026-04-11"
+     },
+     {
+      "bout_id": "a65dcf79-aeee-451c-b067-4b1ea79ac228",
+      "slot": 3,
+      "event_date": "2026-04-11"
+     },
+     {
+      "bout_id": "301150c3-7591-4660-830d-509d60daa9fb",
+      "slot": 3,
+      "event_date": "2026-05-02"
+     },
+     {
+      "bout_id": "50c1530e-4976-4b20-9a60-32fccb1af1a6",
+      "slot": 1,
+      "event_date": "2026-05-02"
+     },
+     {
+      "bout_id": "cb34afb9-8cc1-48af-a924-6b66e4712de0",
+      "slot": 3,
+      "event_date": "2026-05-02"
+     },
+     {
+      "bout_id": "64d75810-b68a-4302-994b-8ac936eae374",
+      "slot": 2,
+      "event_date": "2026-05-10"
+     },
+     {
+      "bout_id": "a82f6b59-4666-4258-ab92-81d288b3a42c",
+      "slot": 3,
+      "event_date": "2026-05-23"
+     }
+    ],
+    "events": [
+     "2026-01-23 TKO Productions LLC d and b and a Zuffa Boxing at The Meta Apex",
+     "2026-03-28 TGB Promotions and Sampson Boxing at MGM Grand Garden Arena",
+     "2026-04-11 DMG Boxing and Promotions Inc. at Chelsea at Cosmopolitan",
+     "2026-05-02 TGB Promotions and Golden Boy Promotions and Sampson Boxing at T-Mobile Arena",
+     "2026-05-10 TKO Productions LLC d and b and a Zuffa Boxing at The Meta Apex",
+     "2026-05-23 RR Enterprise LLC dba Reid Boxing at The Meta Apex"
+    ]
+   },
+   "candidate_b": null,
+   "corrected_name": "Cory Santos",
+   "relation": "leading \"&\" removed (parser artifact)",
+   "source_documents": [
+    {
+     "doc_key": "nv-results:2026:01-23-26_Boxing_REDACTED",
+     "parser_versions": [
+      "nsac-nevada@1.0.0"
+     ]
+    },
+    {
+     "doc_key": "nv-results:2026:03-28-26_Boxing_REDACTED",
+     "parser_versions": [
+      "nsac-nevada@1.0.0"
+     ]
+    },
+    {
+     "doc_key": "nv-results:2026:04-11-26_Boxing_REDACTED",
+     "parser_versions": [
+      "nsac-nevada@1.0.0"
+     ]
+    },
+    {
+     "doc_key": "nv-results:2026:05-02-26_Boxing_REDACTED",
+     "parser_versions": [
+      "nsac-nevada@1.0.0"
+     ]
+    },
+    {
+     "doc_key": "nv-results:2026:05-10-26_Boxing_REDACTED",
+     "parser_versions": [
+      "nsac-nevada@1.0.0"
+     ]
+    },
+    {
+     "doc_key": "nv-results:2026:05-23-26_Boxing_REDACTED",
+     "parser_versions": [
+      "nsac-nevada@1.0.0"
+     ]
+    }
+   ],
+   "continuity": [
+    {
+     "bout_id": "47d27e31-678e-4ba6-bdd4-1daa67d5a7e0",
+     "role": "judge",
+     "slot": 2,
+     "event_date": "2026-01-23",
+     "event_name": "TKO Productions LLC d and b and a Zuffa Boxing at The Meta Apex",
+     "commission": "nsac",
+     "scorecards": 1,
+     "scorecard_slot": 2,
+     "doc_key": "nv-results:2026:01-23-26_Boxing_REDACTED",
+     "old_name": "& Cory Santos",
+     "old_parser_version": "nsac-nevada@1.0.0",
+     "new_name": "& Cory Santos",
+     "new_parser_version": "nsac-nevada@1.0.0",
+     "simulated": false,
+     "status": "no_corrected_parse"
+    },
+    {
+     "bout_id": "25c099d5-09e9-4f8f-8d83-abec2471e60b",
+     "role": "judge",
+     "slot": 3,
+     "event_date": "2026-03-28",
+     "event_name": "TGB Promotions and Sampson Boxing at MGM Grand Garden Arena",
+     "commission": "nsac",
+     "scorecards": 1,
+     "scorecard_slot": 3,
+     "doc_key": "nv-results:2026:03-28-26_Boxing_REDACTED",
+     "old_name": null,
+     "old_parser_version": null,
+     "new_name": "Cory Santos",
+     "new_parser_version": "nsac-nevada@1.0.0",
+     "simulated": false,
+     "status": "document_names_the_corrected_name"
+    },
+    {
+     "bout_id": "06f5486c-f845-4d2e-8778-f28aa412eabe",
+     "role": "judge",
+     "slot": 2,
+     "event_date": "2026-04-11",
+     "event_name": "DMG Boxing and Promotions Inc. at Chelsea at Cosmopolitan",
+     "commission": "nsac",
+     "scorecards": 1,
+     "scorecard_slot": 2,
+     "doc_key": "nv-results:2026:04-11-26_Boxing_REDACTED",
+     "old_name": null,
+     "old_parser_version": null,
+     "new_name": "Cory Santos",
+     "new_parser_version": "nsac-nevada@1.0.0",
+     "simulated": false,
+     "status": "document_names_the_corrected_name"
+    },
+    {
+     "bout_id": "9b85e517-53eb-43b3-92cf-83dea87508e2",
+     "role": "judge",
+     "slot": 2,
+     "event_date": "2026-04-11",
+     "event_name": "DMG Boxing and Promotions Inc. at Chelsea at Cosmopolitan",
+     "commission": "nsac",
+     "scorecards": 1,
+     "scorecard_slot": 2,
+     "doc_key": "nv-results:2026:04-11-26_Boxing_REDACTED",
+     "old_name": null,
+     "old_parser_version": null,
+     "new_name": "Cory Santos",
+     "new_parser_version": "nsac-nevada@1.0.0",
+     "simulated": false,
+     "status": "document_names_the_corrected_name"
+    },
+    {
+     "bout_id": "a65dcf79-aeee-451c-b067-4b1ea79ac228",
+     "role": "judge",
+     "slot": 3,
+     "event_date": "2026-04-11",
+     "event_name": "DMG Boxing and Promotions Inc. at Chelsea at Cosmopolitan",
+     "commission": "nsac",
+     "scorecards": 1,
+     "scorecard_slot": 3,
+     "doc_key": "nv-results:2026:04-11-26_Boxing_REDACTED",
+     "old_name": null,
+     "old_parser_version": null,
+     "new_name": "Cory Santos",
+     "new_parser_version": "nsac-nevada@1.0.0",
+     "simulated": false,
+     "status": "document_names_the_corrected_name"
+    },
+    {
+     "bout_id": "301150c3-7591-4660-830d-509d60daa9fb",
+     "role": "judge",
+     "slot": 3,
+     "event_date": "2026-05-02",
+     "event_name": "TGB Promotions and Golden Boy Promotions and Sampson Boxing at T-Mobile Arena",
+     "commission": "nsac",
+     "scorecards": 1,
+     "scorecard_slot": 3,
+     "doc_key": "nv-results:2026:05-02-26_Boxing_REDACTED",
+     "old_name": null,
+     "old_parser_version": null,
+     "new_name": "Cory Santos",
+     "new_parser_version": "nsac-nevada@1.0.0",
+     "simulated": false,
+     "status": "document_names_the_corrected_name"
+    },
+    {
+     "bout_id": "50c1530e-4976-4b20-9a60-32fccb1af1a6",
+     "role": "judge",
+     "slot": 1,
+     "event_date": "2026-05-02",
+     "event_name": "TGB Promotions and Golden Boy Promotions and Sampson Boxing at T-Mobile Arena",
+     "commission": "nsac",
+     "scorecards": 0,
+     "scorecard_slot": null,
+     "doc_key": "nv-results:2026:05-02-26_Boxing_REDACTED",
+     "old_name": null,
+     "old_parser_version": null,
+     "new_name": "Cory Santos",
+     "new_parser_version": "nsac-nevada@1.0.0",
+     "simulated": false,
+     "status": "document_names_the_corrected_name"
+    },
+    {
+     "bout_id": "cb34afb9-8cc1-48af-a924-6b66e4712de0",
+     "role": "judge",
+     "slot": 3,
+     "event_date": "2026-05-02",
+     "event_name": "TGB Promotions and Golden Boy Promotions and Sampson Boxing at T-Mobile Arena",
+     "commission": "nsac",
+     "scorecards": 0,
+     "scorecard_slot": null,
+     "doc_key": "nv-results:2026:05-02-26_Boxing_REDACTED",
+     "old_name": null,
+     "old_parser_version": null,
+     "new_name": "Cory Santos",
+     "new_parser_version": "nsac-nevada@1.0.0",
+     "simulated": false,
+     "status": "document_names_the_corrected_name"
+    },
+    {
+     "bout_id": "64d75810-b68a-4302-994b-8ac936eae374",
+     "role": "judge",
+     "slot": 2,
+     "event_date": "2026-05-10",
+     "event_name": "TKO Productions LLC d and b and a Zuffa Boxing at The Meta Apex",
+     "commission": "nsac",
+     "scorecards": 1,
+     "scorecard_slot": 2,
+     "doc_key": "nv-results:2026:05-10-26_Boxing_REDACTED",
+     "old_name": null,
+     "old_parser_version": null,
+     "new_name": "Cory Santos",
+     "new_parser_version": "nsac-nevada@1.0.0",
+     "simulated": false,
+     "status": "document_names_the_corrected_name"
+    },
+    {
+     "bout_id": "a82f6b59-4666-4258-ab92-81d288b3a42c",
+     "role": "judge",
+     "slot": 3,
+     "event_date": "2026-05-23",
+     "event_name": "RR Enterprise LLC dba Reid Boxing at The Meta Apex",
+     "commission": "nsac",
+     "scorecards": 1,
+     "scorecard_slot": 3,
+     "doc_key": "nv-results:2026:05-23-26_Boxing_REDACTED",
+     "old_name": "& Cory Santos",
+     "old_parser_version": "nsac-nevada@1.0.0",
+     "new_name": "& Cory Santos",
+     "new_parser_version": "nsac-nevada@1.0.0",
+     "simulated": false,
+     "status": "no_corrected_parse"
+    }
+   ],
+   "classification": "B",
+   "reason": "artifact name without a corrected parse of its documents"
+  },
+  {
+   "candidate_a": {
+    "id": "c337811a-d277-4ad9-8cd9-08b033d2d19c",
+    "public_id": "pbe_boxofficial_31eb276369c44c628d1f5fa7531767b4",
+    "name": "& Steve Weisfeld",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "nsac"
+    ],
+    "assignments_active": 8,
+    "assignments_total": 8,
+    "scorecards": 7,
+    "judge_slots": [
+     {
+      "bout_id": "47d27e31-678e-4ba6-bdd4-1daa67d5a7e0",
+      "slot": 3,
+      "event_date": "2026-01-23"
+     },
+     {
+      "bout_id": "37fc7b5e-c57c-4a33-8d8e-82559d3dff51",
+      "slot": 3,
+      "event_date": "2026-02-21"
+     },
+     {
+      "bout_id": "ffaffb72-578e-41ee-bf28-d9debbb54cb2",
+      "slot": 3,
+      "event_date": "2026-02-21"
+     },
+     {
+      "bout_id": "39c0c940-40df-4545-ba30-7535a8c8218c",
+      "slot": 3,
+      "event_date": "2026-04-05"
+     },
+     {
+      "bout_id": "d8426a59-b5ec-41df-be03-467eed004d33",
+      "slot": 3,
+      "event_date": "2026-04-05"
+     },
+     {
+      "bout_id": "04601489-f06a-4e4a-bf00-b93beb88d44b",
+      "slot": 3,
+      "event_date": "2026-04-25"
+     },
+     {
+      "bout_id": "70115cf1-151b-4f4e-9f55-aebc33986177",
+      "slot": 3,
+      "event_date": "2026-04-25"
+     },
+     {
+      "bout_id": "64d75810-b68a-4302-994b-8ac936eae374",
+      "slot": 3,
+      "event_date": "2026-05-10"
+     }
+    ],
+    "events": [
+     "2026-01-23 TKO Productions LLC d and b and a Zuffa Boxing at The Meta Apex",
+     "2026-02-21 TGB Promotions and Golden Boy Promotions at T-Mobile Arena",
+     "2026-04-05 TKO Boxing Promotions LLC at Meta Apex",
+     "2026-04-25 Matchroom Boxing at The Fontainebleau",
+     "2026-05-10 TKO Productions LLC d and b and a Zuffa Boxing at The Meta Apex"
+    ]
+   },
+   "candidate_b": null,
+   "corrected_name": "Steve Weisfeld",
+   "relation": "leading \"&\" removed (parser artifact)",
+   "source_documents": [
+    {
+     "doc_key": "nv-results:2026:01-23-26_Boxing_REDACTED",
+     "parser_versions": [
+      "nsac-nevada@1.0.0"
+     ]
+    },
+    {
+     "doc_key": "nv-results:2026:02-21-26_Boxing_REDACTED",
+     "parser_versions": [
+      "nsac-nevada@1.0.0"
+     ]
+    },
+    {
+     "doc_key": "nv-results:2026:04-05-26_Boxing_REDACTED",
+     "parser_versions": [
+      "nsac-nevada@1.0.0"
+     ]
+    },
+    {
+     "doc_key": "nv-results:2026:04-25-26_Boxing_REDACTED",
+     "parser_versions": [
+      "nsac-nevada@1.0.0"
+     ]
+    },
+    {
+     "doc_key": "nv-results:2026:05-10-26_Boxing_REDACTED",
+     "parser_versions": [
+      "nsac-nevada@1.0.0"
+     ]
+    }
+   ],
+   "continuity": [
+    {
+     "bout_id": "47d27e31-678e-4ba6-bdd4-1daa67d5a7e0",
+     "role": "judge",
+     "slot": 3,
+     "event_date": "2026-01-23",
+     "event_name": "TKO Productions LLC d and b and a Zuffa Boxing at The Meta Apex",
+     "commission": "nsac",
+     "scorecards": 1,
+     "scorecard_slot": 3,
+     "doc_key": "nv-results:2026:01-23-26_Boxing_REDACTED",
+     "old_name": "& Steve Weisfeld",
+     "old_parser_version": "nsac-nevada@1.0.0",
+     "new_name": "& Steve Weisfeld",
+     "new_parser_version": "nsac-nevada@1.0.0",
+     "simulated": false,
+     "status": "no_corrected_parse"
+    },
+    {
+     "bout_id": "37fc7b5e-c57c-4a33-8d8e-82559d3dff51",
+     "role": "judge",
+     "slot": 3,
+     "event_date": "2026-02-21",
+     "event_name": "TGB Promotions and Golden Boy Promotions at T-Mobile Arena",
+     "commission": "nsac",
+     "scorecards": 1,
+     "scorecard_slot": 3,
+     "doc_key": "nv-results:2026:02-21-26_Boxing_REDACTED",
+     "old_name": null,
+     "old_parser_version": null,
+     "new_name": "Steve Weisfeld",
+     "new_parser_version": "nsac-nevada@1.0.0",
+     "simulated": false,
+     "status": "document_names_the_corrected_name"
+    },
+    {
+     "bout_id": "ffaffb72-578e-41ee-bf28-d9debbb54cb2",
+     "role": "judge",
+     "slot": 3,
+     "event_date": "2026-02-21",
+     "event_name": "TGB Promotions and Golden Boy Promotions at T-Mobile Arena",
+     "commission": "nsac",
+     "scorecards": 1,
+     "scorecard_slot": 3,
+     "doc_key": "nv-results:2026:02-21-26_Boxing_REDACTED",
+     "old_name": null,
+     "old_parser_version": null,
+     "new_name": "Steve Weisfeld",
+     "new_parser_version": "nsac-nevada@1.0.0",
+     "simulated": false,
+     "status": "document_names_the_corrected_name"
+    },
+    {
+     "bout_id": "39c0c940-40df-4545-ba30-7535a8c8218c",
+     "role": "judge",
+     "slot": 3,
+     "event_date": "2026-04-05",
+     "event_name": "TKO Boxing Promotions LLC at Meta Apex",
+     "commission": "nsac",
+     "scorecards": 1,
+     "scorecard_slot": 3,
+     "doc_key": "nv-results:2026:04-05-26_Boxing_REDACTED",
+     "old_name": null,
+     "old_parser_version": null,
+     "new_name": "Steve Weisfeld",
+     "new_parser_version": "nsac-nevada@1.0.0",
+     "simulated": false,
+     "status": "document_names_the_corrected_name"
+    },
+    {
+     "bout_id": "d8426a59-b5ec-41df-be03-467eed004d33",
+     "role": "judge",
+     "slot": 3,
+     "event_date": "2026-04-05",
+     "event_name": "TKO Boxing Promotions LLC at Meta Apex",
+     "commission": "nsac",
+     "scorecards": 0,
+     "scorecard_slot": null,
+     "doc_key": "nv-results:2026:04-05-26_Boxing_REDACTED",
+     "old_name": null,
+     "old_parser_version": null,
+     "new_name": "Steve Weisfeld",
+     "new_parser_version": "nsac-nevada@1.0.0",
+     "simulated": false,
+     "status": "document_names_the_corrected_name"
+    },
+    {
+     "bout_id": "04601489-f06a-4e4a-bf00-b93beb88d44b",
+     "role": "judge",
+     "slot": 3,
+     "event_date": "2026-04-25",
+     "event_name": "Matchroom Boxing at The Fontainebleau",
+     "commission": "nsac",
+     "scorecards": 1,
+     "scorecard_slot": 3,
+     "doc_key": "nv-results:2026:04-25-26_Boxing_REDACTED",
+     "old_name": null,
+     "old_parser_version": null,
+     "new_name": "Steve Weisfeld",
+     "new_parser_version": "nsac-nevada@1.0.0",
+     "simulated": false,
+     "status": "document_names_the_corrected_name"
+    },
+    {
+     "bout_id": "70115cf1-151b-4f4e-9f55-aebc33986177",
+     "role": "judge",
+     "slot": 3,
+     "event_date": "2026-04-25",
+     "event_name": "Matchroom Boxing at The Fontainebleau",
+     "commission": "nsac",
+     "scorecards": 1,
+     "scorecard_slot": 3,
+     "doc_key": "nv-results:2026:04-25-26_Boxing_REDACTED",
+     "old_name": null,
+     "old_parser_version": null,
+     "new_name": "Steve Weisfeld",
+     "new_parser_version": "nsac-nevada@1.0.0",
+     "simulated": false,
+     "status": "document_names_the_corrected_name"
+    },
+    {
+     "bout_id": "64d75810-b68a-4302-994b-8ac936eae374",
+     "role": "judge",
+     "slot": 3,
+     "event_date": "2026-05-10",
+     "event_name": "TKO Productions LLC d and b and a Zuffa Boxing at The Meta Apex",
+     "commission": "nsac",
+     "scorecards": 1,
+     "scorecard_slot": 3,
+     "doc_key": "nv-results:2026:05-10-26_Boxing_REDACTED",
+     "old_name": null,
+     "old_parser_version": null,
+     "new_name": "Steve Weisfeld",
+     "new_parser_version": "nsac-nevada@1.0.0",
+     "simulated": false,
+     "status": "document_names_the_corrected_name"
+    }
+   ],
+   "classification": "B",
+   "reason": "artifact name without a corrected parse of its documents"
+  },
+  {
+   "candidate_a": {
+    "id": "1bb69940-5e70-43b8-916b-69db48a2609b",
+    "public_id": "pbe_boxofficial_62de7388cb1048538e9434b9b008506f",
+    "name": "Daniel Torres",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "fl-athletic-commission"
+    ],
+    "assignments_active": 9,
+    "assignments_total": 9,
+    "scorecards": 0,
+    "judge_slots": [
+     {
+      "bout_id": "34e0df26-fcf4-4663-a02d-add6bd9f11f9",
+      "slot": 1,
+      "event_date": "2026-02-19"
+     },
+     {
+      "bout_id": "35d5a4e0-5522-4512-bf6e-5b6c0c77fd87",
+      "slot": 1,
+      "event_date": "2026-02-19"
+     },
+     {
+      "bout_id": "48e014fa-b317-4e17-8cad-fe0957d2d75b",
+      "slot": 2,
+      "event_date": "2026-02-19"
+     },
+     {
+      "bout_id": "a93a46e3-51dd-4e09-b1d2-9139ff7615f1",
+      "slot": 1,
+      "event_date": "2026-02-19"
+     },
+     {
+      "bout_id": "c3c76291-76c9-4ab1-951e-884bd78372d5",
+      "slot": 2,
+      "event_date": "2026-02-19"
+     },
+     {
+      "bout_id": "01438aca-ba8a-4f11-b009-ce3e1659df09",
+      "slot": 1,
+      "event_date": "2026-03-28"
+     },
+     {
+      "bout_id": "40b3ff69-0de2-499f-a873-af25bd8f4ce0",
+      "slot": 2,
+      "event_date": "2026-03-28"
+     },
+     {
+      "bout_id": "66adb624-0ee7-43f6-9c09-e460644a3821",
+      "slot": 1,
+      "event_date": "2026-03-28"
+     },
+     {
+      "bout_id": "7bb76df6-9037-4f5f-8524-4ccc8295721e",
+      "slot": 2,
+      "event_date": "2026-03-28"
+     }
+    ],
+    "events": [
+     "2026-02-19 Christy Martin Promotions at Hilton Hotel",
+     "2026-03-28 Boxlite Promotions at Tony Rosa Community Center"
+    ]
+   },
+   "candidate_b": {
+    "id": "501d6386-0bff-4adb-9308-e44cc8bdb735",
+    "public_id": "pbe_boxofficial_8694558c6fbb4154bf647569f0e6b5a3",
+    "name": "Prof. Daniel Torres",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "fl-athletic-commission"
+    ],
+    "assignments_active": 7,
+    "assignments_total": 7,
+    "scorecards": 0,
+    "judge_slots": [
+     {
+      "bout_id": "001ae07b-d15e-4178-9fad-138169044c45",
+      "slot": 2,
+      "event_date": "2026-07-25"
+     },
+     {
+      "bout_id": "2fef6537-aaee-4bbb-8fde-b8e7d688df18",
+      "slot": 1,
+      "event_date": "2026-07-25"
+     },
+     {
+      "bout_id": "404e4341-2810-4039-a167-2391b7b7945f",
+      "slot": 3,
+      "event_date": "2026-07-25"
+     },
+     {
+      "bout_id": "84ab254f-0938-4ff6-8e09-06063df6dbbf",
+      "slot": 1,
+      "event_date": "2026-07-25"
+     },
+     {
+      "bout_id": "b3b006ca-e883-40fd-ac67-0a970b99b85a",
+      "slot": 1,
+      "event_date": "2026-07-25"
+     },
+     {
+      "bout_id": "e2a2995e-211e-4a8a-aab3-1c73ad9bfefd",
+      "slot": 2,
+      "event_date": "2026-07-25"
+     },
+     {
+      "bout_id": "ec33be55-8b30-4a6e-b613-98f33d571235",
+      "slot": 3,
+      "event_date": "2026-07-25"
+     }
+    ],
+    "events": [
+     "2026-07-25 Mike Sawyer Promotions at Ritz Theater"
+    ]
+   },
+   "classification": "B",
+   "reason": "name_variant:token_containment"
+  },
+  {
+   "candidate_a": {
+    "id": "3a5b88d7-69b1-4255-8183-bf8f43bb6790",
+    "public_id": "pbe_boxofficial_b3f57649bf964144b03b78f9e9a12bf5",
+    "name": "G. Wayne Hedgpeth",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "nj-sacb"
+    ],
+    "assignments_active": 24,
+    "assignments_total": 24,
+    "scorecards": 3,
+    "judge_slots": [
+     {
+      "bout_id": "651f0063-2e82-456e-9a53-9b07137369a5",
+      "slot": 2,
+      "event_date": "2026-01-15"
+     },
+     {
+      "bout_id": "d76f2e8f-c476-4f3d-8fb5-7be4514d6fd0",
+      "slot": 1,
+      "event_date": "2026-01-15"
+     },
+     {
+      "bout_id": "e6e923db-9999-4112-ab51-699c067e8bd8",
+      "slot": 2,
+      "event_date": "2026-01-15"
+     },
+     {
+      "bout_id": "fddf5ac3-3723-4408-8c71-04edcdcd9cee",
+      "slot": 3,
+      "event_date": "2026-01-15"
+     },
+     {
+      "bout_id": "14c1abb4-8c69-42de-bf74-66c4a0268632",
+      "slot": 2,
+      "event_date": "2026-02-21"
+     },
+     {
+      "bout_id": "55f256d9-8840-4fd8-836a-b9370a7ba284",
+      "slot": 1,
+      "event_date": "2026-02-21"
+     },
+     {
+      "bout_id": "5911f0d4-572b-4fbe-9e41-169b49af26c1",
+      "slot": 1,
+      "event_date": "2026-02-21"
+     },
+     {
+      "bout_id": "6447af63-92dd-4fec-90a5-276b8c3f0f9d",
+      "slot": 2,
+      "event_date": "2026-02-21"
+     },
+     {
+      "bout_id": "6ae16fb8-5908-4e35-9284-b737fa0fdf2c",
+      "slot": 2,
+      "event_date": "2026-02-21"
+     },
+     {
+      "bout_id": "8eb1e4ac-0048-438b-bc9e-d90689096345",
+      "slot": 2,
+      "event_date": "2026-02-21"
+     },
+     {
+      "bout_id": "b3ff6f8a-7470-43d4-91bb-abd6d576f92c",
+      "slot": 2,
+      "event_date": "2026-02-21"
+     },
+     {
+      "bout_id": "dd9dbd27-8b48-463c-b433-1848ba3ba4e1",
+      "slot": 2,
+      "event_date": "2026-02-21"
+     },
+     {
+      "bout_id": "3acd5bd9-3a2d-4ce5-9028-f604b6ef373d",
+      "slot": 2,
+      "event_date": "2026-03-07"
+     },
+     {
+      "bout_id": "3ee2ac1e-5baf-4d73-b6a2-4b68bcf8d333",
+      "slot": 1,
+      "event_date": "2026-03-07"
+     },
+     {
+      "bout_id": "966c6215-59af-4abe-9046-555bf3c95440",
+      "slot": 2,
+      "event_date": "2026-03-07"
+     },
+     {
+      "bout_id": "bf94c09c-b26b-4fa6-8d9d-464d856ac584",
+      "slot": 2,
+      "event_date": "2026-03-07"
+     },
+     {
+      "bout_id": "4eaf8c45-2550-4ce0-8421-4a3fcc1e23a6",
+      "slot": 1,
+      "event_date": "2026-04-11"
+     },
+     {
+      "bout_id": "9b43a311-7490-430f-a476-bda934cde2ae",
+      "slot": 1,
+      "event_date": "2026-04-11"
+     },
+     {
+      "bout_id": "b070b54f-83cd-4db7-b9c0-faa7a3470372",
+      "slot": 1,
+      "event_date": "2026-04-11"
+     },
+     {
+      "bout_id": "48628674-a525-4bb8-b97c-a05b54ddfd66",
+      "slot": 2,
+      "event_date": "2026-06-06"
+     },
+     {
+      "bout_id": "7c4bd4d2-91fd-4487-b5ee-d1b19d6bb8ad",
+      "slot": 2,
+      "event_date": "2026-06-06"
+     },
+     {
+      "bout_id": "841fe1f6-8cde-49bd-9433-4027efc448cd",
+      "slot": 2,
+      "event_date": "2026-06-06"
+     },
+     {
+      "bout_id": "c3e5b7ea-f3d3-4f87-a8ad-3409be6de96c",
+      "slot": 2,
+      "event_date": "2026-06-06"
+     },
+     {
+      "bout_id": "e9eea8f7-52a0-44f9-81fb-79db92c81c07",
+      "slot": 1,
+      "event_date": "2026-06-06"
+     }
+    ],
+    "events": [
+     "2026-01-15 CB Promotions at Patriots Theater at War Memorial",
+     "2026-02-21 RNB Promotions at Showboat Hotel",
+     "2026-03-07 Boxing Insider Promotions at Tropicana Hotel Casino",
+     "2026-04-11 Sampson Boxing Promotions at Boardwalk Hall",
+     "2026-06-06 RDRice at Prudential Center"
+    ]
+   },
+   "candidate_b": {
+    "id": "96d4bab1-55dc-4750-b420-1fa8f5b68301",
+    "public_id": "pbe_boxofficial_e568d91e649942158b0b6854344078b1",
+    "name": "Gilbert Wayne Hedgpeth",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "nj-sacb"
+    ],
+    "assignments_active": 4,
+    "assignments_total": 4,
+    "scorecards": 2,
+    "judge_slots": [
+     {
+      "bout_id": "024048b2-d132-4676-8bba-7d4d4ec20fce",
+      "slot": 2,
+      "event_date": "2026-09-04"
+     },
+     {
+      "bout_id": "07100383-2549-484d-80c9-4da402e713cb",
+      "slot": 2,
+      "event_date": "2026-09-04"
+     },
+     {
+      "bout_id": "2ff3a2d8-3e1d-41ad-8d18-33aa07a39b52",
+      "slot": 2,
+      "event_date": "2026-09-04"
+     },
+     {
+      "bout_id": "998c1e93-edf0-4a2a-9b81-0aea953c4806",
+      "slot": 2,
+      "event_date": "2026-09-04"
+     }
+    ],
+    "events": [
+     "2026-09-04 Matchroom Boxing Promotions at Prudential Center"
+    ]
+   },
+   "classification": "B",
+   "reason": "name_variant:initial"
+  },
+  {
+   "candidate_a": {
+    "id": "926ad644-61eb-4bce-b082-f7e660e9e39d",
+    "public_id": "pbe_boxofficial_7cf7303b5426479b9f2d6c29cdba0a9f",
+    "name": "Ged O'Connor",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "fl-athletic-commission"
+    ],
+    "assignments_active": 7,
+    "assignments_total": 7,
+    "scorecards": 0,
+    "judge_slots": [
+     {
+      "bout_id": "051ea5ea-feb9-4646-9c80-89f446fa57b9",
+      "slot": 1,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "924dad20-b5ff-47f5-ab97-61ff2ee085de",
+      "slot": 2,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "94b005b8-6645-4d94-9c46-cd294be9baf3",
+      "slot": 3,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "b5df93c0-5c0d-437b-9a3c-4f219a33de72",
+      "slot": 3,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "c04740fd-5f41-4eba-87c1-89e3c5f3fe97",
+      "slot": 3,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "cd6d27eb-ffe1-4218-b86b-948366d39cc4",
+      "slot": 1,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "7947c93a-0945-4c57-9d33-d41ebd80fca8",
+      "slot": 3,
+      "event_date": "2026-08-28"
+     }
+    ],
+    "events": [
+     "2026-05-16 Market Internatoinal at Shanna and Bryan Glazer JCC",
+     "2026-08-28 Matchroom Boxing Promotions at Caribe Royal"
+    ]
+   },
+   "candidate_b": {
+    "id": "1e96b8ea-6c81-40b4-bfc1-ec3d43ca4c72",
+    "public_id": "pbe_boxofficial_1281d934bccf4e2f9de3fb53e46ea498",
+    "name": "James (Ged) O'Connor",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "fl-athletic-commission"
+    ],
+    "assignments_active": 6,
+    "assignments_total": 6,
+    "scorecards": 0,
+    "judge_slots": [
+     {
+      "bout_id": "22388cfa-a91e-454e-8669-3c00072937dd",
+      "slot": 3,
+      "event_date": "2026-01-24"
+     },
+     {
+      "bout_id": "da47cd20-e554-486e-8790-588282361399",
+      "slot": 1,
+      "event_date": "2026-01-24"
+     },
+     {
+      "bout_id": "ea549eb3-9db8-45a6-876d-492dea9dbda9",
+      "slot": 1,
+      "event_date": "2026-01-24"
+     },
+     {
+      "bout_id": "f9a81296-8c2c-463a-a184-7d3ee86c59a4",
+      "slot": 2,
+      "event_date": "2026-01-24"
+     },
+     {
+      "bout_id": "0c852adb-d559-4849-813e-15f04c0fd9e3",
+      "slot": 1,
+      "event_date": "2026-03-21"
+     },
+     {
+      "bout_id": "c0c2cae3-745d-4f52-9ec3-052d9e42915c",
+      "slot": 3,
+      "event_date": "2026-03-21"
+     }
+    ],
+    "events": [
+     "2026-01-24 Market International Promotions at Bryan Glazer Family JCC Auditorium",
+     "2026-03-21 Matchroom - Boxlab at Caribe Royale"
+    ]
+   },
+   "classification": "B",
+   "reason": "name_variant:nickname_as_first_name"
+  },
+  {
+   "candidate_a": {
+    "id": "d5df2fb2-915d-40ee-a5d3-a14672fe9698",
+    "public_id": "pbe_boxofficial_ff34446c28784650b7d1ad8e2e88e69e",
+    "name": "Kevin Mogan",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "nj-sacb"
+    ],
+    "assignments_active": 1,
+    "assignments_total": 1,
+    "scorecards": 0,
+    "judge_slots": [
+     {
+      "bout_id": "983f5bca-9159-47ed-9d93-3e5eb602f341",
+      "slot": 3,
+      "event_date": "2026-06-13"
+     }
+    ],
+    "events": [
+     "2026-06-13 Boxing Insider Promotions at Tropicana Hotel Casino"
+    ]
+   },
+   "candidate_b": {
+    "id": "f6d821ad-29c6-4c44-963d-a5358f49e821",
+    "public_id": "pbe_boxofficial_360500d6c9024be4a9390d4cffb44dd8",
+    "name": "Kevin Moran",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "nj-sacb"
+    ],
+    "assignments_active": 1,
+    "assignments_total": 1,
+    "scorecards": 0,
+    "judge_slots": [
+     {
+      "bout_id": "3ee2ac1e-5baf-4d73-b6a2-4b68bcf8d333",
+      "slot": 3,
+      "event_date": "2026-03-07"
+     }
+    ],
+    "events": [
+     "2026-03-07 Boxing Insider Promotions at Tropicana Hotel Casino"
+    ]
+   },
+   "classification": "B",
+   "reason": "name_variant:fuzzy"
+  },
+  {
+   "candidate_a": {
+    "id": "d5df2fb2-915d-40ee-a5d3-a14672fe9698",
+    "public_id": "pbe_boxofficial_ff34446c28784650b7d1ad8e2e88e69e",
+    "name": "Kevin Mogan",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "nj-sacb"
+    ],
+    "assignments_active": 1,
+    "assignments_total": 1,
+    "scorecards": 0,
+    "judge_slots": [
+     {
+      "bout_id": "983f5bca-9159-47ed-9d93-3e5eb602f341",
+      "slot": 3,
+      "event_date": "2026-06-13"
+     }
+    ],
+    "events": [
+     "2026-06-13 Boxing Insider Promotions at Tropicana Hotel Casino"
+    ]
+   },
+   "candidate_b": {
+    "id": "0f677237-6a7c-41a7-9c2b-23ec546ebd29",
+    "public_id": "pbe_boxofficial_8898acfd70d54c9dbcec898a2a088700",
+    "name": "Kevin Morgan",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "nj-sacb"
+    ],
+    "assignments_active": 7,
+    "assignments_total": 7,
+    "scorecards": 0,
+    "judge_slots": [
+     {
+      "bout_id": "3acd5bd9-3a2d-4ce5-9028-f604b6ef373d",
+      "slot": 3,
+      "event_date": "2026-03-07"
+     },
+     {
+      "bout_id": "66facd4c-f708-4ccb-b0fd-38374eb2a97d",
+      "slot": 3,
+      "event_date": "2026-03-07"
+     },
+     {
+      "bout_id": "966c6215-59af-4abe-9046-555bf3c95440",
+      "slot": 3,
+      "event_date": "2026-03-07"
+     },
+     {
+      "bout_id": "d311dce9-9e24-48fa-a026-1358f30399e3",
+      "slot": 3,
+      "event_date": "2026-03-07"
+     },
+     {
+      "bout_id": "39f25256-5b4a-4382-afbd-d4ccc63a69ae",
+      "slot": 2,
+      "event_date": "2026-06-13"
+     },
+     {
+      "bout_id": "e4785245-5f48-4c28-8237-2a1b6a22132a",
+      "slot": 2,
+      "event_date": "2026-06-13"
+     },
+     {
+      "bout_id": "cd332f06-3332-4441-91f8-e7fb6c64a4e1",
+      "slot": 3,
+      "event_date": "2026-09-04"
+     }
+    ],
+    "events": [
+     "2026-03-07 Boxing Insider Promotions at Tropicana Hotel Casino",
+     "2026-06-13 Boxing Insider Promotions at Tropicana Hotel Casino",
+     "2026-09-04 Matchroom Boxing Promotions at Prudential Center"
+    ]
+   },
+   "classification": "B",
+   "reason": "name_variant:fuzzy"
+  },
+  {
+   "candidate_a": {
+    "id": "f6d821ad-29c6-4c44-963d-a5358f49e821",
+    "public_id": "pbe_boxofficial_360500d6c9024be4a9390d4cffb44dd8",
+    "name": "Kevin Moran",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "nj-sacb"
+    ],
+    "assignments_active": 1,
+    "assignments_total": 1,
+    "scorecards": 0,
+    "judge_slots": [
+     {
+      "bout_id": "3ee2ac1e-5baf-4d73-b6a2-4b68bcf8d333",
+      "slot": 3,
+      "event_date": "2026-03-07"
+     }
+    ],
+    "events": [
+     "2026-03-07 Boxing Insider Promotions at Tropicana Hotel Casino"
+    ]
+   },
+   "candidate_b": {
+    "id": "0f677237-6a7c-41a7-9c2b-23ec546ebd29",
+    "public_id": "pbe_boxofficial_8898acfd70d54c9dbcec898a2a088700",
+    "name": "Kevin Morgan",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "nj-sacb"
+    ],
+    "assignments_active": 7,
+    "assignments_total": 7,
+    "scorecards": 0,
+    "judge_slots": [
+     {
+      "bout_id": "3acd5bd9-3a2d-4ce5-9028-f604b6ef373d",
+      "slot": 3,
+      "event_date": "2026-03-07"
+     },
+     {
+      "bout_id": "66facd4c-f708-4ccb-b0fd-38374eb2a97d",
+      "slot": 3,
+      "event_date": "2026-03-07"
+     },
+     {
+      "bout_id": "966c6215-59af-4abe-9046-555bf3c95440",
+      "slot": 3,
+      "event_date": "2026-03-07"
+     },
+     {
+      "bout_id": "d311dce9-9e24-48fa-a026-1358f30399e3",
+      "slot": 3,
+      "event_date": "2026-03-07"
+     },
+     {
+      "bout_id": "39f25256-5b4a-4382-afbd-d4ccc63a69ae",
+      "slot": 2,
+      "event_date": "2026-06-13"
+     },
+     {
+      "bout_id": "e4785245-5f48-4c28-8237-2a1b6a22132a",
+      "slot": 2,
+      "event_date": "2026-06-13"
+     },
+     {
+      "bout_id": "cd332f06-3332-4441-91f8-e7fb6c64a4e1",
+      "slot": 3,
+      "event_date": "2026-09-04"
+     }
+    ],
+    "events": [
+     "2026-03-07 Boxing Insider Promotions at Tropicana Hotel Casino",
+     "2026-06-13 Boxing Insider Promotions at Tropicana Hotel Casino",
+     "2026-09-04 Matchroom Boxing Promotions at Prudential Center"
+    ]
+   },
+   "classification": "B",
+   "reason": "name_variant:fuzzy"
+  },
+  {
+   "candidate_a": {
+    "id": "5f616c4f-0d8a-44fa-b787-29a8ddcda83a",
+    "public_id": "pbe_boxofficial_465fe7fae7b643bba0495caf8babb023",
+    "name": "Lynne Carte",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "nj-sacb"
+    ],
+    "assignments_active": 1,
+    "assignments_total": 1,
+    "scorecards": 0,
+    "judge_slots": [
+     {
+      "bout_id": "9f5a6e6e-9974-4183-9be8-f44dcc88a48b",
+      "slot": 1,
+      "event_date": "2026-04-10"
+     }
+    ],
+    "events": [
+     "2026-04-10 Rising Star Promotions at Prudential Center"
+    ]
+   },
+   "candidate_b": {
+    "id": "ecc916af-784f-41fb-826b-d53ac4bf89a9",
+    "public_id": "pbe_boxofficial_6081bcd4d52545c2bd27b53e10b50e07",
+    "name": "Lynne Carter",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "nj-sacb"
+    ],
+    "assignments_active": 17,
+    "assignments_total": 17,
+    "scorecards": 3,
+    "judge_slots": [
+     {
+      "bout_id": "2a132342-f534-48bc-9c46-b04b063806db",
+      "slot": 1,
+      "event_date": "2026-01-15"
+     },
+     {
+      "bout_id": "4cb95da7-c985-43d8-8a14-ca31845ff632",
+      "slot": 1,
+      "event_date": "2026-01-15"
+     },
+     {
+      "bout_id": "651f0063-2e82-456e-9a53-9b07137369a5",
+      "slot": 1,
+      "event_date": "2026-01-15"
+     },
+     {
+      "bout_id": "e6e923db-9999-4112-ab51-699c067e8bd8",
+      "slot": 1,
+      "event_date": "2026-01-15"
+     },
+     {
+      "bout_id": "fddf5ac3-3723-4408-8c71-04edcdcd9cee",
+      "slot": 1,
+      "event_date": "2026-01-15"
+     },
+     {
+      "bout_id": "01760aac-007d-42ee-b3e4-f9581547e717",
+      "slot": 1,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "56ddc738-975f-42d0-9b10-8ce4f44afc30",
+      "slot": 1,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "574da360-8f6a-4f1a-b499-51a2801b0f5c",
+      "slot": 1,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "6733f9fe-45bd-4713-9fb3-50f1dc7c8974",
+      "slot": 1,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "9322bdf5-4f53-4081-abcd-77816aceb344",
+      "slot": 1,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "d2cdcb8b-284f-4b49-8681-25111ab6f60f",
+      "slot": 1,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "e03dc904-2ff4-4184-a720-031c5d82b06b",
+      "slot": 1,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "14a04bc4-dcdc-483b-a17b-de1c5a6b3a3f",
+      "slot": 1,
+      "event_date": "2026-06-13"
+     },
+     {
+      "bout_id": "2270769f-4e27-4a18-8eb7-70377a66166b",
+      "slot": 1,
+      "event_date": "2026-06-13"
+     },
+     {
+      "bout_id": "39f25256-5b4a-4382-afbd-d4ccc63a69ae",
+      "slot": 1,
+      "event_date": "2026-06-13"
+     },
+     {
+      "bout_id": "983f5bca-9159-47ed-9d93-3e5eb602f341",
+      "slot": 1,
+      "event_date": "2026-06-13"
+     },
+     {
+      "bout_id": "bab78f1a-8157-4733-9bf7-8905b818f6f8",
+      "slot": 1,
+      "event_date": "2026-06-13"
+     }
+    ],
+    "events": [
+     "2026-01-15 CB Promotions at Patriots Theater at War Memorial",
+     "2026-04-10 Rising Star Promotions at Prudential Center",
+     "2026-06-13 Boxing Insider Promotions at Tropicana Hotel Casino"
+    ]
+   },
+   "classification": "B",
+   "reason": "name_variant:fuzzy"
+  }
+ ],
+ "C": [
+  {
+   "candidate_a": {
+    "id": "4bdf6deb-c599-4db3-83dd-2f4efef53c7b",
+    "public_id": "pbe_boxofficial_6d287d76e9bf4fe18ccbcef9e7f9b780",
+    "name": "Cheatham",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "nsac"
+    ],
+    "assignments_active": 1,
+    "assignments_total": 1,
+    "scorecards": 1,
+    "judge_slots": [
+     {
+      "bout_id": "04601489-f06a-4e4a-bf00-b93beb88d44b",
+      "slot": 1,
+      "event_date": "2026-04-25"
+     }
+    ],
+    "events": [
+     "2026-04-25 Matchroom Boxing at The Fontainebleau"
+    ]
+   },
+   "candidate_b": {
+    "id": "03f3ac8d-2c4a-43e3-826a-2162e558b0f6",
+    "public_id": "pbe_boxofficial_fc74a8ed58aa4954b9a9211c947f8682",
+    "name": "Tim Cheatham",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "nsac"
+    ],
+    "assignments_active": 22,
+    "assignments_total": 22,
+    "scorecards": 17,
+    "judge_slots": [
+     {
+      "bout_id": "46b32cbf-31ca-4dd7-a06d-92af90e86c45",
+      "slot": 1,
+      "event_date": "2026-01-23"
+     },
+     {
+      "bout_id": "a082be38-37ab-40f6-9e44-d2918c2aa1e0",
+      "slot": 2,
+      "event_date": "2026-01-23"
+     },
+     {
+      "bout_id": "cbf74408-cd59-42a0-9754-5f62a2482dea",
+      "slot": 2,
+      "event_date": "2026-01-23"
+     },
+     {
+      "bout_id": "4240e8bd-5fe4-4246-8239-134ab33a8840",
+      "slot": 1,
+      "event_date": "2026-01-24"
+     },
+     {
+      "bout_id": "c7b258af-6975-4a0f-8238-7b38a5aea518",
+      "slot": 1,
+      "event_date": "2026-01-24"
+     },
+     {
+      "bout_id": "01f1691c-aea3-4492-96a7-cd3f07d00d81",
+      "slot": 1,
+      "event_date": "2026-02-01"
+     },
+     {
+      "bout_id": "9647614c-936e-479c-894b-0de0a395bd72",
+      "slot": 1,
+      "event_date": "2026-02-01"
+     },
+     {
+      "bout_id": "b24e4a63-ae5e-4b35-a3dc-d15c22de31bc",
+      "slot": 1,
+      "event_date": "2026-02-01"
+     },
+     {
+      "bout_id": "e1c4f00c-6b94-4aee-bcee-e9e0480bd8d1",
+      "slot": 2,
+      "event_date": "2026-02-15"
+     },
+     {
+      "bout_id": "37fc7b5e-c57c-4a33-8d8e-82559d3dff51",
+      "slot": 1,
+      "event_date": "2026-02-21"
+     },
+     {
+      "bout_id": "b5d15891-bba7-42c1-a8e8-2ae1cc2a0721",
+      "slot": 1,
+      "event_date": "2026-02-21"
+     },
+     {
+      "bout_id": "60e90e08-3e21-49e2-bc40-5afeb550cb9f",
+      "slot": 2,
+      "event_date": "2026-03-08"
+     },
+     {
+      "bout_id": "84b22c6d-8141-47c3-af6f-0db8dc54b5ba",
+      "slot": 2,
+      "event_date": "2026-03-20"
+     },
+     {
+      "bout_id": "eab050fa-97f7-41fc-9468-102b3fccfb1d",
+      "slot": 2,
+      "event_date": "2026-03-20"
+     },
+     {
+      "bout_id": "fe086b71-5086-4a2d-b4c2-a34c66ad68be",
+      "slot": 2,
+      "event_date": "2026-03-20"
+     },
+     {
+      "bout_id": "40bd1c9e-2747-48b7-add9-d5ef2a584a6b",
+      "slot": 1,
+      "event_date": "2026-04-11"
+     },
+     {
+      "bout_id": "456a99a8-d43f-419f-9939-a32d025c8f32",
+      "slot": 1,
+      "event_date": "2026-04-11"
+     },
+     {
+      "bout_id": "1d7d0a33-d659-4215-acfe-6bb4b538fb3a",
+      "slot": 2,
+      "event_date": "2026-05-10"
+     },
+     {
+      "bout_id": "374a6a84-c8a2-4b2f-9f7c-286f8ebeff12",
+      "slot": 2,
+      "event_date": "2026-05-23"
+     },
+     {
+      "bout_id": "c07e478f-c8b2-4c72-b8c5-cf65a496aa64",
+      "slot": 2,
+      "event_date": "2026-05-23"
+     },
+     {
+      "bout_id": "9bb1b923-5b5b-4a75-a70e-ec5e9193ae76",
+      "slot": 1,
+      "event_date": "2026-08-01"
+     },
+     {
+      "bout_id": "d60224a0-6a84-4c52-aea6-498029121ff7",
+      "slot": 1,
+      "event_date": "2026-08-22"
+     }
+    ],
+    "events": [
+     "2026-01-23 TKO Productions LLC d and b and a Zuffa Boxing at The Meta Apex",
+     "2026-01-24 Matchroom Boxing at The Fontainebleau",
+     "2026-02-01 TKO Productions LLC d and b and a Zuffa Boxing at The Meta Apex",
+     "2026-02-15 TKO Productions LLC d and b and a Zuffa Boxing at The Meta Apex",
+     "2026-02-21 TGB Promotions and Golden Boy Promotions at T-Mobile Arena",
+     "2026-03-08 TKO Productions LLC d and b and a Zuffa Boxing at The Meta Apex",
+     "2026-03-20 Let’s Get It On Promotions at Silver Legacy Casino",
+     "2026-04-11 DMG Boxing and Promotions Inc. at Chelsea at Cosmopolitan",
+     "2026-05-10 TKO Productions LLC d and b and a Zuffa Boxing at The Meta Apex",
+     "2026-05-23 RR Enterprise LLC dba Reid Boxing at The Meta Apex",
+     "2026-08-01 Golden Boy Promotions TGB Promotions and Top Rank at Virgin Hotel and Casino",
+     "2026-08-22 TGB Promotions and Warrior Boxing and Promotions at T-Mobile Arena"
+    ]
+   },
+   "classification": "C",
+   "reason": "surname_only",
+   "shared_commissions": [
+    "nsac"
+   ],
+   "evidence": [
+    {
+     "bout_id": "04601489-f06a-4e4a-bf00-b93beb88d44b",
+     "role": "judge",
+     "slot": 1,
+     "event_date": "2026-04-25",
+     "scorecards": 1,
+     "documents": [
+      {
+       "doc_key": "nv-results:2026:04-25-26_Boxing_REDACTED",
+       "names": [
+        {
+         "parser_version": "nsac-nevada@1.0.0",
+         "simulated": false,
+         "name": "Cheatham"
+        }
+       ],
+       "header_lists": []
+      }
+     ]
+    }
+   ],
+   "note": "a surname never merges automatically, even when a corrected parse resolves the surname to this full name; human review decides"
+  },
+  {
+   "candidate_a": {
+    "id": "19419339-61e4-4aeb-adc8-437387450592",
+    "public_id": "pbe_boxofficial_bfc5d2781d904d999cd0f00b65b539d7",
+    "name": "Cheek",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "nsac"
+    ],
+    "assignments_active": 2,
+    "assignments_total": 2,
+    "scorecards": 2,
+    "judge_slots": [
+     {
+      "bout_id": "bd27759a-9423-4b63-aa1c-1b1e12059688",
+      "slot": 1,
+      "event_date": "2026-01-24"
+     },
+     {
+      "bout_id": "edf0471d-55e6-46ff-9f6b-08ff47ca051e",
+      "slot": 1,
+      "event_date": "2026-02-21"
+     }
+    ],
+    "events": [
+     "2026-01-24 Matchroom Boxing at The Fontainebleau",
+     "2026-02-21 TGB Promotions and Golden Boy Promotions at T-Mobile Arena"
+    ]
+   },
+   "candidate_b": {
+    "id": "ed5494de-7c25-447e-a3bc-8df5f8e75036",
+    "public_id": "pbe_boxofficial_4d8d1f3804f142bf81d3a8fd02ad8088",
+    "name": "Eric Cheek",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "nsac"
+    ],
+    "assignments_active": 21,
+    "assignments_total": 21,
+    "scorecards": 19,
+    "judge_slots": [
+     {
+      "bout_id": "46b32cbf-31ca-4dd7-a06d-92af90e86c45",
+      "slot": 2,
+      "event_date": "2026-01-23"
+     },
+     {
+      "bout_id": "a082be38-37ab-40f6-9e44-d2918c2aa1e0",
+      "slot": 3,
+      "event_date": "2026-01-23"
+     },
+     {
+      "bout_id": "cbf74408-cd59-42a0-9754-5f62a2482dea",
+      "slot": 3,
+      "event_date": "2026-01-23"
+     },
+     {
+      "bout_id": "01f1691c-aea3-4492-96a7-cd3f07d00d81",
+      "slot": 2,
+      "event_date": "2026-02-01"
+     },
+     {
+      "bout_id": "b24e4a63-ae5e-4b35-a3dc-d15c22de31bc",
+      "slot": 2,
+      "event_date": "2026-02-01"
+     },
+     {
+      "bout_id": "0544e5cd-a414-483d-99a9-3dddbdb4ee44",
+      "slot": 1,
+      "event_date": "2026-03-08"
+     },
+     {
+      "bout_id": "774d85ca-eb10-4d43-ac17-e7f18acbbd81",
+      "slot": 2,
+      "event_date": "2026-03-08"
+     },
+     {
+      "bout_id": "2c1448fe-8d9f-4889-bc3e-672b54e3c348",
+      "slot": 2,
+      "event_date": "2026-03-20"
+     },
+     {
+      "bout_id": "84b22c6d-8141-47c3-af6f-0db8dc54b5ba",
+      "slot": 3,
+      "event_date": "2026-03-20"
+     },
+     {
+      "bout_id": "fe086b71-5086-4a2d-b4c2-a34c66ad68be",
+      "slot": 3,
+      "event_date": "2026-03-20"
+     },
+     {
+      "bout_id": "25c099d5-09e9-4f8f-8d83-abec2471e60b",
+      "slot": 1,
+      "event_date": "2026-03-28"
+     },
+     {
+      "bout_id": "2997caa6-3e0a-4123-88a8-908d94adedaa",
+      "slot": 2,
+      "event_date": "2026-03-28"
+     },
+     {
+      "bout_id": "690d96ae-607e-4e04-80be-32ea5a833c8b",
+      "slot": 1,
+      "event_date": "2026-03-28"
+     },
+     {
+      "bout_id": "40bd1c9e-2747-48b7-add9-d5ef2a584a6b",
+      "slot": 2,
+      "event_date": "2026-04-11"
+     },
+     {
+      "bout_id": "456a99a8-d43f-419f-9939-a32d025c8f32",
+      "slot": 2,
+      "event_date": "2026-04-11"
+     },
+     {
+      "bout_id": "76bc3baf-a42a-401a-8de2-855d8bab9e8a",
+      "slot": 2,
+      "event_date": "2026-04-25"
+     },
+     {
+      "bout_id": "0b35c866-0683-415a-a9ab-e7e63b4c9645",
+      "slot": 1,
+      "event_date": "2026-05-02"
+     },
+     {
+      "bout_id": "ac55d06a-4e9b-40b6-9e74-9acfaf2a2e3a",
+      "slot": 2,
+      "event_date": "2026-05-02"
+     },
+     {
+      "bout_id": "1d7d0a33-d659-4215-acfe-6bb4b538fb3a",
+      "slot": 3,
+      "event_date": "2026-05-10"
+     },
+     {
+      "bout_id": "274a16b2-0b59-4803-a08b-67d4e1362238",
+      "slot": 1,
+      "event_date": "2026-06-28"
+     },
+     {
+      "bout_id": "9bb1b923-5b5b-4a75-a70e-ec5e9193ae76",
+      "slot": 2,
+      "event_date": "2026-08-01"
+     }
+    ],
+    "events": [
+     "2026-01-23 TKO Productions LLC d and b and a Zuffa Boxing at The Meta Apex",
+     "2026-02-01 TKO Productions LLC d and b and a Zuffa Boxing at The Meta Apex",
+     "2026-03-08 TKO Productions LLC d and b and a Zuffa Boxing at The Meta Apex",
+     "2026-03-20 Let’s Get It On Promotions at Silver Legacy Casino",
+     "2026-03-28 TGB Promotions and Sampson Boxing at MGM Grand Garden Arena",
+     "2026-04-11 DMG Boxing and Promotions Inc. at Chelsea at Cosmopolitan",
+     "2026-04-25 Matchroom Boxing at The Fontainebleau",
+     "2026-05-02 TGB Promotions and Golden Boy Promotions and Sampson Boxing at T-Mobile Arena",
+     "2026-05-10 TKO Productions LLC d and b and a Zuffa Boxing at The Meta Apex",
+     "2026-06-28 TKO Productions LLC d and b and a Zuffa Boxing at The Cosmopolitan",
+     "2026-08-01 Golden Boy Promotions TGB Promotions and Top Rank at Virgin Hotel and Casino"
+    ]
+   },
+   "classification": "C",
+   "reason": "surname_only",
+   "shared_commissions": [
+    "nsac"
+   ],
+   "evidence": [
+    {
+     "bout_id": "bd27759a-9423-4b63-aa1c-1b1e12059688",
+     "role": "judge",
+     "slot": 1,
+     "event_date": "2026-01-24",
+     "scorecards": 1,
+     "documents": [
+      {
+       "doc_key": "nv-results:2026:01-24-26_Boxing_REDACTED",
+       "names": [
+        {
+         "parser_version": "nsac-nevada@1.0.0",
+         "simulated": false,
+         "name": "Cheek"
+        }
+       ],
+       "header_lists": []
+      }
+     ]
+    },
+    {
+     "bout_id": "edf0471d-55e6-46ff-9f6b-08ff47ca051e",
+     "role": "judge",
+     "slot": 1,
+     "event_date": "2026-02-21",
+     "scorecards": 1,
+     "documents": [
+      {
+       "doc_key": "nv-results:2026:02-21-26_Boxing_REDACTED",
+       "names": [
+        {
+         "parser_version": "nsac-nevada@1.0.0",
+         "simulated": false,
+         "name": "Cheek"
+        }
+       ],
+       "header_lists": []
+      }
+     ]
+    }
+   ],
+   "note": "a surname never merges automatically, even when a corrected parse resolves the surname to this full name; human review decides"
+  },
+  {
+   "candidate_a": {
+    "id": "eb6f25a3-3a6e-4a7d-a474-046b0ee91376",
+    "public_id": "pbe_boxofficial_151b53bd92344420983a2df7afbb729f",
+    "name": "Migliore",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "nsac"
+    ],
+    "assignments_active": 1,
+    "assignments_total": 1,
+    "scorecards": 1,
+    "judge_slots": [
+     {
+      "bout_id": "b24e4a63-ae5e-4b35-a3dc-d15c22de31bc",
+      "slot": 3,
+      "event_date": "2026-02-01"
+     }
+    ],
+    "events": [
+     "2026-02-01 TKO Productions LLC d and b and a Zuffa Boxing at The Meta Apex"
+    ]
+   },
+   "candidate_b": {
+    "id": "8b5c61b9-ce33-4565-8f34-74df4d97b98c",
+    "public_id": "pbe_boxofficial_1bc2c8d76a3545f791ce99a6366d32bb",
+    "name": "Chris Migliore",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "nsac"
+    ],
+    "assignments_active": 13,
+    "assignments_total": 13,
+    "scorecards": 11,
+    "judge_slots": [
+     {
+      "bout_id": "9ad81ea1-b5d6-4930-bcc5-f018c063349d",
+      "slot": 2,
+      "event_date": "2026-01-23"
+     },
+     {
+      "bout_id": "e01372dc-17a8-4b7c-8ade-b3ea2891a965",
+      "slot": 2,
+      "event_date": "2026-01-23"
+     },
+     {
+      "bout_id": "4ae387f6-2d5e-44f4-a5fb-58f5ab79da1d",
+      "slot": 2,
+      "event_date": "2026-01-24"
+     },
+     {
+      "bout_id": "25c099d5-09e9-4f8f-8d83-abec2471e60b",
+      "slot": 2,
+      "event_date": "2026-03-28"
+     },
+     {
+      "bout_id": "39c0c940-40df-4545-ba30-7535a8c8218c",
+      "slot": 2,
+      "event_date": "2026-04-05"
+     },
+     {
+      "bout_id": "40bd1c9e-2747-48b7-add9-d5ef2a584a6b",
+      "slot": 3,
+      "event_date": "2026-04-11"
+     },
+     {
+      "bout_id": "a65dcf79-aeee-451c-b067-4b1ea79ac228",
+      "slot": 2,
+      "event_date": "2026-04-11"
+     },
+     {
+      "bout_id": "7518ff70-fdfd-474f-8976-2b5b7be67a1b",
+      "slot": 3,
+      "event_date": "2026-04-25"
+     },
+     {
+      "bout_id": "b7cb5b1c-b226-4bbc-95f7-3c9d8ff589da",
+      "slot": 3,
+      "event_date": "2026-05-23"
+     },
+     {
+      "bout_id": "274a16b2-0b59-4803-a08b-67d4e1362238",
+      "slot": 3,
+      "event_date": "2026-06-28"
+     },
+     {
+      "bout_id": "109440b3-4b3f-4bc5-93aa-5968e2382960",
+      "slot": 3,
+      "event_date": "2026-08-01"
+     },
+     {
+      "bout_id": "eaf9bd25-57e7-4034-9e8d-ddd53af1cc53",
+      "slot": 2,
+      "event_date": "2026-08-01"
+     },
+     {
+      "bout_id": "e86f528f-b7bc-4447-8b49-50aec2df774b",
+      "slot": 2,
+      "event_date": "2026-08-22"
+     }
+    ],
+    "events": [
+     "2026-01-23 TKO Productions LLC d and b and a Zuffa Boxing at The Meta Apex",
+     "2026-01-24 Matchroom Boxing at The Fontainebleau",
+     "2026-03-28 TGB Promotions and Sampson Boxing at MGM Grand Garden Arena",
+     "2026-04-05 TKO Boxing Promotions LLC at Meta Apex",
+     "2026-04-11 DMG Boxing and Promotions Inc. at Chelsea at Cosmopolitan",
+     "2026-04-25 Matchroom Boxing at The Fontainebleau",
+     "2026-05-23 RR Enterprise LLC dba Reid Boxing at The Meta Apex",
+     "2026-06-28 TKO Productions LLC d and b and a Zuffa Boxing at The Cosmopolitan",
+     "2026-08-01 Golden Boy Promotions TGB Promotions and Top Rank at Virgin Hotel and Casino",
+     "2026-08-22 TGB Promotions and Warrior Boxing and Promotions at T-Mobile Arena"
+    ]
+   },
+   "classification": "C",
+   "reason": "surname_only",
+   "shared_commissions": [
+    "nsac"
+   ],
+   "evidence": [
+    {
+     "bout_id": "b24e4a63-ae5e-4b35-a3dc-d15c22de31bc",
+     "role": "judge",
+     "slot": 3,
+     "event_date": "2026-02-01",
+     "scorecards": 1,
+     "documents": [
+      {
+       "doc_key": "nv-results:2026:02-01-26_Boxing_REDACTED",
+       "names": [
+        {
+         "parser_version": "nsac-nevada@1.0.0",
+         "simulated": false,
+         "name": "Migliore"
+        }
+       ],
+       "header_lists": []
+      }
+     ]
+    }
+   ],
+   "note": "a surname never merges automatically, even when a corrected parse resolves the surname to this full name; human review decides"
+  },
+  {
+   "candidate_a": {
+    "id": "656f47f8-56a0-4c2a-8521-f16e79c47eba",
+    "public_id": "pbe_boxofficial_96c9dee92ded4ec1a018acb1e4de0ff0",
+    "name": "Sutherland",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "nsac"
+    ],
+    "assignments_active": 2,
+    "assignments_total": 2,
+    "scorecards": 1,
+    "judge_slots": [
+     {
+      "bout_id": "7c1cabf3-9774-4829-900e-2d7e869685f2",
+      "slot": 3,
+      "event_date": "2026-02-01"
+     },
+     {
+      "bout_id": "9647614c-936e-479c-894b-0de0a395bd72",
+      "slot": 3,
+      "event_date": "2026-02-01"
+     }
+    ],
+    "events": [
+     "2026-02-01 TKO Productions LLC d and b and a Zuffa Boxing at The Meta Apex"
+    ]
+   },
+   "candidate_b": {
+    "id": "4eadd8fc-7482-478c-aead-1b0f0cc31d2f",
+    "public_id": "pbe_boxofficial_c352648c07fc484399deea0f504fe3c5",
+    "name": "David Sutherland",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "nsac"
+    ],
+    "assignments_active": 19,
+    "assignments_total": 19,
+    "scorecards": 17,
+    "judge_slots": [
+     {
+      "bout_id": "9ad81ea1-b5d6-4930-bcc5-f018c063349d",
+      "slot": 3,
+      "event_date": "2026-01-23"
+     },
+     {
+      "bout_id": "e01372dc-17a8-4b7c-8ade-b3ea2891a965",
+      "slot": 3,
+      "event_date": "2026-01-23"
+     },
+     {
+      "bout_id": "bd27759a-9423-4b63-aa1c-1b1e12059688",
+      "slot": 3,
+      "event_date": "2026-01-24"
+     },
+     {
+      "bout_id": "37fc7b5e-c57c-4a33-8d8e-82559d3dff51",
+      "slot": 2,
+      "event_date": "2026-02-21"
+     },
+     {
+      "bout_id": "0544e5cd-a414-483d-99a9-3dddbdb4ee44",
+      "slot": 3,
+      "event_date": "2026-03-08"
+     },
+     {
+      "bout_id": "774d85ca-eb10-4d43-ac17-e7f18acbbd81",
+      "slot": 3,
+      "event_date": "2026-03-08"
+     },
+     {
+      "bout_id": "2997caa6-3e0a-4123-88a8-908d94adedaa",
+      "slot": 3,
+      "event_date": "2026-03-28"
+     },
+     {
+      "bout_id": "690d96ae-607e-4e04-80be-32ea5a833c8b",
+      "slot": 3,
+      "event_date": "2026-03-28"
+     },
+     {
+      "bout_id": "fd657feb-349c-4763-aab6-46a96668da1a",
+      "slot": 3,
+      "event_date": "2026-03-28"
+     },
+     {
+      "bout_id": "06f5486c-f845-4d2e-8778-f28aa412eabe",
+      "slot": 3,
+      "event_date": "2026-04-11"
+     },
+     {
+      "bout_id": "19665c6b-114f-4d9f-a4a3-0098c7feef97",
+      "slot": 3,
+      "event_date": "2026-04-11"
+     },
+     {
+      "bout_id": "456a99a8-d43f-419f-9939-a32d025c8f32",
+      "slot": 3,
+      "event_date": "2026-04-11"
+     },
+     {
+      "bout_id": "9b85e517-53eb-43b3-92cf-83dea87508e2",
+      "slot": 3,
+      "event_date": "2026-04-11"
+     },
+     {
+      "bout_id": "04601489-f06a-4e4a-bf00-b93beb88d44b",
+      "slot": 2,
+      "event_date": "2026-04-25"
+     },
+     {
+      "bout_id": "50c1530e-4976-4b20-9a60-32fccb1af1a6",
+      "slot": 2,
+      "event_date": "2026-05-02"
+     },
+     {
+      "bout_id": "55c75fdf-5632-452d-ac01-13fd2b2f58e7",
+      "slot": 2,
+      "event_date": "2026-05-02"
+     },
+     {
+      "bout_id": "9bb1b923-5b5b-4a75-a70e-ec5e9193ae76",
+      "slot": 3,
+      "event_date": "2026-08-01"
+     },
+     {
+      "bout_id": "a1491291-0699-42a0-8f76-639b284ac650",
+      "slot": 3,
+      "event_date": "2026-08-01"
+     },
+     {
+      "bout_id": "f815a583-6cda-4108-8e80-58a190f04090",
+      "slot": 3,
+      "event_date": "2026-08-22"
+     }
+    ],
+    "events": [
+     "2026-01-23 TKO Productions LLC d and b and a Zuffa Boxing at The Meta Apex",
+     "2026-01-24 Matchroom Boxing at The Fontainebleau",
+     "2026-02-21 TGB Promotions and Golden Boy Promotions at T-Mobile Arena",
+     "2026-03-08 TKO Productions LLC d and b and a Zuffa Boxing at The Meta Apex",
+     "2026-03-28 TGB Promotions and Sampson Boxing at MGM Grand Garden Arena",
+     "2026-04-11 DMG Boxing and Promotions Inc. at Chelsea at Cosmopolitan",
+     "2026-04-25 Matchroom Boxing at The Fontainebleau",
+     "2026-05-02 TGB Promotions and Golden Boy Promotions and Sampson Boxing at T-Mobile Arena",
+     "2026-08-01 Golden Boy Promotions TGB Promotions and Top Rank at Virgin Hotel and Casino",
+     "2026-08-22 TGB Promotions and Warrior Boxing and Promotions at T-Mobile Arena"
+    ]
+   },
+   "classification": "C",
+   "reason": "surname_only",
+   "shared_commissions": [
+    "nsac"
+   ],
+   "evidence": [
+    {
+     "bout_id": "7c1cabf3-9774-4829-900e-2d7e869685f2",
+     "role": "judge",
+     "slot": 3,
+     "event_date": "2026-02-01",
+     "scorecards": 0,
+     "documents": [
+      {
+       "doc_key": "nv-results:2026:02-01-26_Boxing_REDACTED",
+       "names": [
+        {
+         "parser_version": "nsac-nevada@1.0.0",
+         "simulated": false,
+         "name": "Sutherland"
+        }
+       ],
+       "header_lists": []
+      }
+     ]
+    },
+    {
+     "bout_id": "9647614c-936e-479c-894b-0de0a395bd72",
+     "role": "judge",
+     "slot": 3,
+     "event_date": "2026-02-01",
+     "scorecards": 1,
+     "documents": [
+      {
+       "doc_key": "nv-results:2026:02-01-26_Boxing_REDACTED",
+       "names": [
+        {
+         "parser_version": "nsac-nevada@1.0.0",
+         "simulated": false,
+         "name": "Sutherland"
+        }
+       ],
+       "header_lists": []
+      }
+     ]
+    }
+   ],
+   "note": "a surname never merges automatically, even when a corrected parse resolves the surname to this full name; human review decides"
+  },
+  {
+   "candidate_a": {
+    "id": "427e6a54-6ea1-4d44-9f60-54b926829b4b",
+    "public_id": "pbe_boxofficial_ee97d3ad537c4af38942376988d1c662",
+    "name": "Trella",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "nsac"
+    ],
+    "assignments_active": 1,
+    "assignments_total": 1,
+    "scorecards": 1,
+    "judge_slots": [
+     {
+      "bout_id": "eaf9bd25-57e7-4034-9e8d-ddd53af1cc53",
+      "slot": 3,
+      "event_date": "2026-08-01"
+     }
+    ],
+    "events": [
+     "2026-08-01 Golden Boy Promotions TGB Promotions and Top Rank at Virgin Hotel and Casino"
+    ]
+   },
+   "candidate_b": {
+    "id": "1902dc18-099b-4fd5-8c33-8147f2e3ee1e",
+    "public_id": "pbe_boxofficial_a16ea1ef3d4547a5a1de1f0d417b4e6f",
+    "name": "Don Trella",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "nsac"
+    ],
+    "assignments_active": 1,
+    "assignments_total": 1,
+    "scorecards": 1,
+    "judge_slots": [
+     {
+      "bout_id": "4ae387f6-2d5e-44f4-a5fb-58f5ab79da1d",
+      "slot": 3,
+      "event_date": "2026-01-24"
+     }
+    ],
+    "events": [
+     "2026-01-24 Matchroom Boxing at The Fontainebleau"
+    ]
+   },
+   "classification": "C",
+   "reason": "surname_only",
+   "shared_commissions": [
+    "nsac"
+   ],
+   "evidence": [
+    {
+     "bout_id": "eaf9bd25-57e7-4034-9e8d-ddd53af1cc53",
+     "role": "judge",
+     "slot": 3,
+     "event_date": "2026-08-01",
+     "scorecards": 1,
+     "documents": [
+      {
+       "doc_key": "nv-results:2026:08-01-26_Boxing_REDACTED",
+       "names": [
+        {
+         "parser_version": "nsac-nevada@1.0.0",
+         "simulated": false,
+         "name": "Trella"
+        }
+       ],
+       "header_lists": []
+      }
+     ]
+    }
+   ],
+   "note": "a surname never merges automatically, even when a corrected parse resolves the surname to this full name; human review decides"
+  }
+ ],
+ "D": [
+  {
+   "candidate_a": {
+    "id": "37564c1c-3a8f-49f2-9e91-0558bded7716",
+    "public_id": "pbe_boxofficial_77c82eeb447640ddb52c55d61eb45332",
+    "name": "Alvaro Rodriguez",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "fl-athletic-commission"
+    ],
+    "assignments_active": 29,
+    "assignments_total": 29,
+    "scorecards": 0,
+    "judge_slots": [
+     {
+      "bout_id": "48e014fa-b317-4e17-8cad-fe0957d2d75b",
+      "slot": 1,
+      "event_date": "2026-02-19"
+     },
+     {
+      "bout_id": "76813722-ce37-4207-b344-687cd7e06b5b",
+      "slot": 3,
+      "event_date": "2026-02-19"
+     },
+     {
+      "bout_id": "8635fc73-3944-4088-853d-18d0114b0f64",
+      "slot": 3,
+      "event_date": "2026-02-19"
+     },
+     {
+      "bout_id": "c3c76291-76c9-4ab1-951e-884bd78372d5",
+      "slot": 1,
+      "event_date": "2026-02-19"
+     },
+     {
+      "bout_id": "6ba7b9c1-26a4-4ea6-9003-1eb664985c8c",
+      "slot": 2,
+      "event_date": "2026-03-07"
+     },
+     {
+      "bout_id": "6cab81b0-6065-4ee8-a953-8c0db4cbb817",
+      "slot": 3,
+      "event_date": "2026-03-07"
+     },
+     {
+      "bout_id": "a2bb2000-6555-40c7-9433-3d35571bfe26",
+      "slot": 3,
+      "event_date": "2026-03-07"
+     },
+     {
+      "bout_id": "ac96188d-0744-4803-84fb-94c32f46aa31",
+      "slot": 1,
+      "event_date": "2026-03-07"
+     },
+     {
+      "bout_id": "d90fb4b2-118d-41b5-b472-61d1fd4607a6",
+      "slot": 3,
+      "event_date": "2026-03-07"
+     },
+     {
+      "bout_id": "04a63901-304c-4d1b-97e0-ba10425cd0ea",
+      "slot": 3,
+      "event_date": "2026-03-21"
+     },
+     {
+      "bout_id": "400f9a37-1540-455a-8498-84a6d48b220d",
+      "slot": 2,
+      "event_date": "2026-03-21"
+     },
+     {
+      "bout_id": "82d5de4e-40ce-40b5-8e1c-721a73ee8ce9",
+      "slot": 3,
+      "event_date": "2026-03-21"
+     },
+     {
+      "bout_id": "a3033676-ab01-42d7-94ab-91cf5d0c5ddf",
+      "slot": 1,
+      "event_date": "2026-03-21"
+     },
+     {
+      "bout_id": "ae63d656-26db-4301-a86e-fef981150456",
+      "slot": 1,
+      "event_date": "2026-03-21"
+     },
+     {
+      "bout_id": "001ae07b-d15e-4178-9fad-138169044c45",
+      "slot": 1,
+      "event_date": "2026-07-25"
+     },
+     {
+      "bout_id": "404e4341-2810-4039-a167-2391b7b7945f",
+      "slot": 2,
+      "event_date": "2026-07-25"
+     },
+     {
+      "bout_id": "85fab7b5-dfdb-4789-87ba-5aa319a2a62b",
+      "slot": 3,
+      "event_date": "2026-07-25"
+     },
+     {
+      "bout_id": "e2a2995e-211e-4a8a-aab3-1c73ad9bfefd",
+      "slot": 1,
+      "event_date": "2026-07-25"
+     },
+     {
+      "bout_id": "ec33be55-8b30-4a6e-b613-98f33d571235",
+      "slot": 2,
+      "event_date": "2026-07-25"
+     },
+     {
+      "bout_id": "f53404c6-a690-4d6b-a3c6-89e7577c7928",
+      "slot": 3,
+      "event_date": "2026-07-25"
+     },
+     {
+      "bout_id": "037ca441-d00c-493d-a113-992c3d6ab417",
+      "slot": 2,
+      "event_date": "2026-08-08"
+     },
+     {
+      "bout_id": "2f483691-422a-4fd0-a743-1b7cdffee259",
+      "slot": 3,
+      "event_date": "2026-08-08"
+     },
+     {
+      "bout_id": "486c5f25-4d50-4a7a-965f-dc93390057a5",
+      "slot": 3,
+      "event_date": "2026-08-08"
+     },
+     {
+      "bout_id": "675de0bb-fca9-43f3-86e1-40e16b080944",
+      "slot": 2,
+      "event_date": "2026-08-08"
+     },
+     {
+      "bout_id": "7e09c7d3-4687-41fa-bf52-de2e589370e5",
+      "slot": 2,
+      "event_date": "2026-08-08"
+     },
+     {
+      "bout_id": "8ef80dbd-cfcd-4b9b-86cb-87eff9d87d5a",
+      "slot": 2,
+      "event_date": "2026-08-08"
+     },
+     {
+      "bout_id": "d567462e-781f-4518-8353-d5898fb8ddcd",
+      "slot": 3,
+      "event_date": "2026-08-08"
+     },
+     {
+      "bout_id": "f75de209-fc39-45f7-8488-efac68b501a7",
+      "slot": 1,
+      "event_date": "2026-08-08"
+     },
+     {
+      "bout_id": "fb0e430a-d405-45cd-8176-18036dbde702",
+      "slot": 3,
+      "event_date": "2026-08-08"
+     }
+    ],
+    "events": [
+     "2026-02-19 Christy Martin Promotions at Hilton Hotel",
+     "2026-03-07 Mike Sawyer Promotions at Alamonte Springs",
+     "2026-03-21 Wake Up and Dream at Boys and Girls Clubs of Marion County",
+     "2026-07-25 Mike Sawyer Promotions at Ritz Theater",
+     "2026-08-08 Wake Up and Dream at Southeastern Livestock Pavilion"
+    ]
+   },
+   "candidate_b": {
+    "id": "d071c832-ce1b-4845-a98a-216a9856c0bf",
+    "public_id": "pbe_boxofficial_4d60e6027992459ab67884c71b5e955c",
+    "name": "Eliseo Rodriguez",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "fl-athletic-commission"
+    ],
+    "assignments_active": 31,
+    "assignments_total": 31,
+    "scorecards": 0,
+    "judge_slots": [
+     {
+      "bout_id": "550491a6-f2dc-4e0c-973e-7ff2d83f0124",
+      "slot": 1,
+      "event_date": "2026-01-23"
+     },
+     {
+      "bout_id": "82f6ba24-5bec-43f7-8311-19331f25a4db",
+      "slot": 2,
+      "event_date": "2026-01-23"
+     },
+     {
+      "bout_id": "95ee1336-f1fa-4229-9984-0bcb8dcafed8",
+      "slot": 2,
+      "event_date": "2026-01-23"
+     },
+     {
+      "bout_id": "f1c793a6-cb4c-48a4-91fb-be387bbe6129",
+      "slot": 1,
+      "event_date": "2026-01-23"
+     },
+     {
+      "bout_id": "74c891d1-2aaa-42b0-9260-a1393479c1cd",
+      "slot": 3,
+      "event_date": "2026-03-14"
+     },
+     {
+      "bout_id": "a12fa3a3-4fa3-46d9-8e1d-54a72723a5bc",
+      "slot": 1,
+      "event_date": "2026-03-14"
+     },
+     {
+      "bout_id": "b017bc67-48d6-4ca0-adde-2fe70a08747c",
+      "slot": 2,
+      "event_date": "2026-03-14"
+     },
+     {
+      "bout_id": "ebbf3a14-9c59-4d15-be51-8c9a34f43d6f",
+      "slot": 2,
+      "event_date": "2026-03-14"
+     },
+     {
+      "bout_id": "f218d295-cbd7-4560-b5b4-4270161a3726",
+      "slot": 3,
+      "event_date": "2026-03-14"
+     },
+     {
+      "bout_id": "0c40d8da-25e2-4e3e-bafe-183eb13add45",
+      "slot": 3,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "12420e43-bddd-4059-b61b-e59d6f0c8038",
+      "slot": 2,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "6ff609ca-2d0d-4ab0-b816-af3a0511831a",
+      "slot": 1,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "926a966f-8122-4720-a2b3-36ebf146f00e",
+      "slot": 1,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "9abd97ab-6371-4a84-a3da-c770f40d8d8a",
+      "slot": 2,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "a98d71ca-b0c1-430f-a605-7e52b65bb893",
+      "slot": 3,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "bf15753c-8c7d-4000-b70a-b79da66ee8b8",
+      "slot": 3,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "c06511c1-023a-4a1f-aef0-3f01cd701444",
+      "slot": 2,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "eb131e45-734a-4e0c-85c2-cbafb961b422",
+      "slot": 1,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "3329029e-374f-428a-8e68-c6dedf99baee",
+      "slot": 2,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "d05cea96-34f2-45dd-ada0-80d7d0531e55",
+      "slot": 2,
+      "event_date": "2026-05-09"
+     },
+     {
+      "bout_id": "284d8ad4-568a-45e3-8b97-b0f266a9ca65",
+      "slot": 1,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "2ad36d7c-75a9-4238-a749-38bccf423db1",
+      "slot": 3,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "3dab0950-d921-419a-8736-d89aa0a36581",
+      "slot": 2,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "3ed1bc53-cf3b-4d01-a098-21be8bb463de",
+      "slot": 2,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "c82288b3-7996-4b10-9af3-0c9c54638e6a",
+      "slot": 1,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "ce77e155-5da0-45d0-8d27-8f5d98470ba8",
+      "slot": 2,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "d8934f6d-9119-48ff-adc0-f5e533224550",
+      "slot": 3,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "904d0ed0-ee25-4df5-b274-fc927be739a9",
+      "slot": 3,
+      "event_date": "2026-06-28"
+     },
+     {
+      "bout_id": "969f175e-3dfb-4a10-ba41-2a8b10d81350",
+      "slot": 1,
+      "event_date": "2026-06-28"
+     },
+     {
+      "bout_id": "aa799189-9a4d-4d90-a5d1-dc47e25683e6",
+      "slot": 3,
+      "event_date": "2026-06-28"
+     },
+     {
+      "bout_id": "b191138e-d92b-441c-84f8-b47f40b4722a",
+      "slot": 2,
+      "event_date": "2026-06-28"
+     }
+    ],
+    "events": [
+     "2026-01-23 Brand Risk Promotions at Private Facility",
+     "2026-03-14 BrandRisk Entertainment at Brand Risk Building",
+     "2026-04-10 Dirty Boxing at James L. Knight Center",
+     "2026-05-08 Team Boxing League at War Memorial Auditorium",
+     "2026-05-09 Team Boxing League at War Memorial Auditorium",
+     "2026-05-16 M and R Boxing Promotions at Miccosukee Indian Gaming Resort",
+     "2026-06-28 The Heavyweight Factory Promotions at Seminole Hard Rock Hotel and Casino"
+    ]
+   },
+   "classification": "D",
+   "reason": "different_officials_sharing_a_surname"
+  },
+  {
+   "candidate_a": {
+    "id": "37564c1c-3a8f-49f2-9e91-0558bded7716",
+    "public_id": "pbe_boxofficial_77c82eeb447640ddb52c55d61eb45332",
+    "name": "Alvaro Rodriguez",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "fl-athletic-commission"
+    ],
+    "assignments_active": 29,
+    "assignments_total": 29,
+    "scorecards": 0,
+    "judge_slots": [
+     {
+      "bout_id": "48e014fa-b317-4e17-8cad-fe0957d2d75b",
+      "slot": 1,
+      "event_date": "2026-02-19"
+     },
+     {
+      "bout_id": "76813722-ce37-4207-b344-687cd7e06b5b",
+      "slot": 3,
+      "event_date": "2026-02-19"
+     },
+     {
+      "bout_id": "8635fc73-3944-4088-853d-18d0114b0f64",
+      "slot": 3,
+      "event_date": "2026-02-19"
+     },
+     {
+      "bout_id": "c3c76291-76c9-4ab1-951e-884bd78372d5",
+      "slot": 1,
+      "event_date": "2026-02-19"
+     },
+     {
+      "bout_id": "6ba7b9c1-26a4-4ea6-9003-1eb664985c8c",
+      "slot": 2,
+      "event_date": "2026-03-07"
+     },
+     {
+      "bout_id": "6cab81b0-6065-4ee8-a953-8c0db4cbb817",
+      "slot": 3,
+      "event_date": "2026-03-07"
+     },
+     {
+      "bout_id": "a2bb2000-6555-40c7-9433-3d35571bfe26",
+      "slot": 3,
+      "event_date": "2026-03-07"
+     },
+     {
+      "bout_id": "ac96188d-0744-4803-84fb-94c32f46aa31",
+      "slot": 1,
+      "event_date": "2026-03-07"
+     },
+     {
+      "bout_id": "d90fb4b2-118d-41b5-b472-61d1fd4607a6",
+      "slot": 3,
+      "event_date": "2026-03-07"
+     },
+     {
+      "bout_id": "04a63901-304c-4d1b-97e0-ba10425cd0ea",
+      "slot": 3,
+      "event_date": "2026-03-21"
+     },
+     {
+      "bout_id": "400f9a37-1540-455a-8498-84a6d48b220d",
+      "slot": 2,
+      "event_date": "2026-03-21"
+     },
+     {
+      "bout_id": "82d5de4e-40ce-40b5-8e1c-721a73ee8ce9",
+      "slot": 3,
+      "event_date": "2026-03-21"
+     },
+     {
+      "bout_id": "a3033676-ab01-42d7-94ab-91cf5d0c5ddf",
+      "slot": 1,
+      "event_date": "2026-03-21"
+     },
+     {
+      "bout_id": "ae63d656-26db-4301-a86e-fef981150456",
+      "slot": 1,
+      "event_date": "2026-03-21"
+     },
+     {
+      "bout_id": "001ae07b-d15e-4178-9fad-138169044c45",
+      "slot": 1,
+      "event_date": "2026-07-25"
+     },
+     {
+      "bout_id": "404e4341-2810-4039-a167-2391b7b7945f",
+      "slot": 2,
+      "event_date": "2026-07-25"
+     },
+     {
+      "bout_id": "85fab7b5-dfdb-4789-87ba-5aa319a2a62b",
+      "slot": 3,
+      "event_date": "2026-07-25"
+     },
+     {
+      "bout_id": "e2a2995e-211e-4a8a-aab3-1c73ad9bfefd",
+      "slot": 1,
+      "event_date": "2026-07-25"
+     },
+     {
+      "bout_id": "ec33be55-8b30-4a6e-b613-98f33d571235",
+      "slot": 2,
+      "event_date": "2026-07-25"
+     },
+     {
+      "bout_id": "f53404c6-a690-4d6b-a3c6-89e7577c7928",
+      "slot": 3,
+      "event_date": "2026-07-25"
+     },
+     {
+      "bout_id": "037ca441-d00c-493d-a113-992c3d6ab417",
+      "slot": 2,
+      "event_date": "2026-08-08"
+     },
+     {
+      "bout_id": "2f483691-422a-4fd0-a743-1b7cdffee259",
+      "slot": 3,
+      "event_date": "2026-08-08"
+     },
+     {
+      "bout_id": "486c5f25-4d50-4a7a-965f-dc93390057a5",
+      "slot": 3,
+      "event_date": "2026-08-08"
+     },
+     {
+      "bout_id": "675de0bb-fca9-43f3-86e1-40e16b080944",
+      "slot": 2,
+      "event_date": "2026-08-08"
+     },
+     {
+      "bout_id": "7e09c7d3-4687-41fa-bf52-de2e589370e5",
+      "slot": 2,
+      "event_date": "2026-08-08"
+     },
+     {
+      "bout_id": "8ef80dbd-cfcd-4b9b-86cb-87eff9d87d5a",
+      "slot": 2,
+      "event_date": "2026-08-08"
+     },
+     {
+      "bout_id": "d567462e-781f-4518-8353-d5898fb8ddcd",
+      "slot": 3,
+      "event_date": "2026-08-08"
+     },
+     {
+      "bout_id": "f75de209-fc39-45f7-8488-efac68b501a7",
+      "slot": 1,
+      "event_date": "2026-08-08"
+     },
+     {
+      "bout_id": "fb0e430a-d405-45cd-8176-18036dbde702",
+      "slot": 3,
+      "event_date": "2026-08-08"
+     }
+    ],
+    "events": [
+     "2026-02-19 Christy Martin Promotions at Hilton Hotel",
+     "2026-03-07 Mike Sawyer Promotions at Alamonte Springs",
+     "2026-03-21 Wake Up and Dream at Boys and Girls Clubs of Marion County",
+     "2026-07-25 Mike Sawyer Promotions at Ritz Theater",
+     "2026-08-08 Wake Up and Dream at Southeastern Livestock Pavilion"
+    ]
+   },
+   "candidate_b": {
+    "id": "ae7e48c5-7cbc-4444-9718-3d4f112f336a",
+    "public_id": "pbe_boxofficial_7f4ae137df97486e851a8965109bd71f",
+    "name": "Perla Rodriguez",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "fl-athletic-commission"
+    ],
+    "assignments_active": 2,
+    "assignments_total": 2,
+    "scorecards": 0,
+    "judge_slots": [
+     {
+      "bout_id": "6d640fc7-31e6-4377-9a75-5ecc564f421a",
+      "slot": 2,
+      "event_date": "2026-08-08"
+     },
+     {
+      "bout_id": "d8dc553e-d0b3-4a90-b8df-38bbf8a7dd0e",
+      "slot": 3,
+      "event_date": "2026-08-08"
+     }
+    ],
+    "events": [
+     "2026-08-08 Most Valuable Promotion at Caribe Royale"
+    ]
+   },
+   "classification": "D",
+   "reason": "different_officials_sharing_a_surname"
+  },
+  {
+   "candidate_a": {
+    "id": "37564c1c-3a8f-49f2-9e91-0558bded7716",
+    "public_id": "pbe_boxofficial_77c82eeb447640ddb52c55d61eb45332",
+    "name": "Alvaro Rodriguez",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "fl-athletic-commission"
+    ],
+    "assignments_active": 29,
+    "assignments_total": 29,
+    "scorecards": 0,
+    "judge_slots": [
+     {
+      "bout_id": "48e014fa-b317-4e17-8cad-fe0957d2d75b",
+      "slot": 1,
+      "event_date": "2026-02-19"
+     },
+     {
+      "bout_id": "76813722-ce37-4207-b344-687cd7e06b5b",
+      "slot": 3,
+      "event_date": "2026-02-19"
+     },
+     {
+      "bout_id": "8635fc73-3944-4088-853d-18d0114b0f64",
+      "slot": 3,
+      "event_date": "2026-02-19"
+     },
+     {
+      "bout_id": "c3c76291-76c9-4ab1-951e-884bd78372d5",
+      "slot": 1,
+      "event_date": "2026-02-19"
+     },
+     {
+      "bout_id": "6ba7b9c1-26a4-4ea6-9003-1eb664985c8c",
+      "slot": 2,
+      "event_date": "2026-03-07"
+     },
+     {
+      "bout_id": "6cab81b0-6065-4ee8-a953-8c0db4cbb817",
+      "slot": 3,
+      "event_date": "2026-03-07"
+     },
+     {
+      "bout_id": "a2bb2000-6555-40c7-9433-3d35571bfe26",
+      "slot": 3,
+      "event_date": "2026-03-07"
+     },
+     {
+      "bout_id": "ac96188d-0744-4803-84fb-94c32f46aa31",
+      "slot": 1,
+      "event_date": "2026-03-07"
+     },
+     {
+      "bout_id": "d90fb4b2-118d-41b5-b472-61d1fd4607a6",
+      "slot": 3,
+      "event_date": "2026-03-07"
+     },
+     {
+      "bout_id": "04a63901-304c-4d1b-97e0-ba10425cd0ea",
+      "slot": 3,
+      "event_date": "2026-03-21"
+     },
+     {
+      "bout_id": "400f9a37-1540-455a-8498-84a6d48b220d",
+      "slot": 2,
+      "event_date": "2026-03-21"
+     },
+     {
+      "bout_id": "82d5de4e-40ce-40b5-8e1c-721a73ee8ce9",
+      "slot": 3,
+      "event_date": "2026-03-21"
+     },
+     {
+      "bout_id": "a3033676-ab01-42d7-94ab-91cf5d0c5ddf",
+      "slot": 1,
+      "event_date": "2026-03-21"
+     },
+     {
+      "bout_id": "ae63d656-26db-4301-a86e-fef981150456",
+      "slot": 1,
+      "event_date": "2026-03-21"
+     },
+     {
+      "bout_id": "001ae07b-d15e-4178-9fad-138169044c45",
+      "slot": 1,
+      "event_date": "2026-07-25"
+     },
+     {
+      "bout_id": "404e4341-2810-4039-a167-2391b7b7945f",
+      "slot": 2,
+      "event_date": "2026-07-25"
+     },
+     {
+      "bout_id": "85fab7b5-dfdb-4789-87ba-5aa319a2a62b",
+      "slot": 3,
+      "event_date": "2026-07-25"
+     },
+     {
+      "bout_id": "e2a2995e-211e-4a8a-aab3-1c73ad9bfefd",
+      "slot": 1,
+      "event_date": "2026-07-25"
+     },
+     {
+      "bout_id": "ec33be55-8b30-4a6e-b613-98f33d571235",
+      "slot": 2,
+      "event_date": "2026-07-25"
+     },
+     {
+      "bout_id": "f53404c6-a690-4d6b-a3c6-89e7577c7928",
+      "slot": 3,
+      "event_date": "2026-07-25"
+     },
+     {
+      "bout_id": "037ca441-d00c-493d-a113-992c3d6ab417",
+      "slot": 2,
+      "event_date": "2026-08-08"
+     },
+     {
+      "bout_id": "2f483691-422a-4fd0-a743-1b7cdffee259",
+      "slot": 3,
+      "event_date": "2026-08-08"
+     },
+     {
+      "bout_id": "486c5f25-4d50-4a7a-965f-dc93390057a5",
+      "slot": 3,
+      "event_date": "2026-08-08"
+     },
+     {
+      "bout_id": "675de0bb-fca9-43f3-86e1-40e16b080944",
+      "slot": 2,
+      "event_date": "2026-08-08"
+     },
+     {
+      "bout_id": "7e09c7d3-4687-41fa-bf52-de2e589370e5",
+      "slot": 2,
+      "event_date": "2026-08-08"
+     },
+     {
+      "bout_id": "8ef80dbd-cfcd-4b9b-86cb-87eff9d87d5a",
+      "slot": 2,
+      "event_date": "2026-08-08"
+     },
+     {
+      "bout_id": "d567462e-781f-4518-8353-d5898fb8ddcd",
+      "slot": 3,
+      "event_date": "2026-08-08"
+     },
+     {
+      "bout_id": "f75de209-fc39-45f7-8488-efac68b501a7",
+      "slot": 1,
+      "event_date": "2026-08-08"
+     },
+     {
+      "bout_id": "fb0e430a-d405-45cd-8176-18036dbde702",
+      "slot": 3,
+      "event_date": "2026-08-08"
+     }
+    ],
+    "events": [
+     "2026-02-19 Christy Martin Promotions at Hilton Hotel",
+     "2026-03-07 Mike Sawyer Promotions at Alamonte Springs",
+     "2026-03-21 Wake Up and Dream at Boys and Girls Clubs of Marion County",
+     "2026-07-25 Mike Sawyer Promotions at Ritz Theater",
+     "2026-08-08 Wake Up and Dream at Southeastern Livestock Pavilion"
+    ]
+   },
+   "candidate_b": {
+    "id": "9d8cb5b5-8c1b-486e-a39f-c3cb78beeb47",
+    "public_id": "pbe_boxofficial_f5f03da141454f7f851d8055d53987c9",
+    "name": "Vicente Rodriguez",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "fl-athletic-commission"
+    ],
+    "assignments_active": 45,
+    "assignments_total": 45,
+    "scorecards": 0,
+    "judge_slots": [
+     {
+      "bout_id": "00d3d710-618f-43e8-bf71-d41fb0989445",
+      "slot": 3,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "0c40d8da-25e2-4e3e-bafe-183eb13add45",
+      "slot": 2,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "12420e43-bddd-4059-b61b-e59d6f0c8038",
+      "slot": 1,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "909fa12d-9e40-481c-bb21-2abde3739221",
+      "slot": 3,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "9abd97ab-6371-4a84-a3da-c770f40d8d8a",
+      "slot": 1,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "a98d71ca-b0c1-430f-a605-7e52b65bb893",
+      "slot": 2,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "af1e0781-8ef7-44f2-a7c7-053a5b09fc52",
+      "slot": 3,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "bf15753c-8c7d-4000-b70a-b79da66ee8b8",
+      "slot": 2,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "c06511c1-023a-4a1f-aef0-3f01cd701444",
+      "slot": 1,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "04c032e4-b6c4-4df6-9779-61b397e58be9",
+      "slot": 2,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "14ea0f8b-784e-414b-8c79-f583120c6e1a",
+      "slot": 2,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "183e8436-8cac-4e56-a6b0-9498a151d175",
+      "slot": 1,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "2d9c716e-26dd-4760-a3f9-efefd98282a1",
+      "slot": 3,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "40921b93-a9cf-49eb-9c10-c5856d7aeafb",
+      "slot": 2,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "50434020-4255-49dd-a905-4366e43e7d5b",
+      "slot": 3,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "5e30f6cb-209a-4a48-a131-ca4b888f162e",
+      "slot": 1,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "669ec051-c231-41f1-b158-26a424ea216d",
+      "slot": 3,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "7e8ff722-ca86-4ef1-adac-22d69c39e40e",
+      "slot": 3,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "814b8b6a-5684-4e46-aa47-938ae58c48ee",
+      "slot": 2,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "a4af0a98-8533-43c0-8ef2-b4aebda10d20",
+      "slot": 2,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "b42d1c7d-506f-466f-9b4d-4a04faac9c62",
+      "slot": 1,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "b95482fd-d3f8-4fd7-b02e-4287cb00d65b",
+      "slot": 3,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "c530daa7-76f7-40e6-b47b-342898003f43",
+      "slot": 2,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "cb59e7c3-e463-4821-9523-99ca1d95e9d2",
+      "slot": 2,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "ce372a6f-2673-46b1-bee9-46df2fbc83ed",
+      "slot": 1,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "eb8e128c-159a-4dc9-866a-d287ce35e55e",
+      "slot": 3,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "f60da017-1db2-479e-bd0d-07c271dd71ee",
+      "slot": 1,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "2ad36d7c-75a9-4238-a749-38bccf423db1",
+      "slot": 2,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "3dab0950-d921-419a-8736-d89aa0a36581",
+      "slot": 1,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "3ed1bc53-cf3b-4d01-a098-21be8bb463de",
+      "slot": 1,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "787c5429-2459-42ab-a2c7-3f006f7b07ac",
+      "slot": 3,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "89a41533-e493-42db-a3aa-c285f69181bd",
+      "slot": 3,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "ce77e155-5da0-45d0-8d27-8f5d98470ba8",
+      "slot": 3,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "d8934f6d-9119-48ff-adc0-f5e533224550",
+      "slot": 2,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "f8b09075-98b1-43d6-bd18-f50db0bcb6b4",
+      "slot": 1,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "30aaaa2e-97e2-4072-8ebd-e577ca087bf0",
+      "slot": 1,
+      "event_date": "2026-05-30"
+     },
+     {
+      "bout_id": "6ab87ab6-a6fa-4a95-9fcb-9e4bf79df235",
+      "slot": 2,
+      "event_date": "2026-05-30"
+     },
+     {
+      "bout_id": "743a5c56-4f1f-46ac-ba99-c14c9dd45c73",
+      "slot": 1,
+      "event_date": "2026-05-30"
+     },
+     {
+      "bout_id": "d2d869ca-20d7-4420-bf28-7dd5e73edacb",
+      "slot": 2,
+      "event_date": "2026-05-30"
+     },
+     {
+      "bout_id": "ed5e8e21-9603-4cd0-86e5-1b3c858da3dc",
+      "slot": 3,
+      "event_date": "2026-05-30"
+     },
+     {
+      "bout_id": "f4957d6c-36d1-4ef2-844e-9008be288815",
+      "slot": 2,
+      "event_date": "2026-06-14"
+     },
+     {
+      "bout_id": "4e963d23-5aff-4de9-8a34-290cd80a92e7",
+      "slot": 2,
+      "event_date": "2026-08-15"
+     },
+     {
+      "bout_id": "81667d3f-9338-47d2-a643-8f594a647e66",
+      "slot": 3,
+      "event_date": "2026-08-15"
+     },
+     {
+      "bout_id": "c4ec5798-f467-4612-b502-6087355cfe37",
+      "slot": 1,
+      "event_date": "2026-08-15"
+     },
+     {
+      "bout_id": "dc49a76a-c0fb-4d59-a747-8757c5d2f347",
+      "slot": 3,
+      "event_date": "2026-08-15"
+     }
+    ],
+    "events": [
+     "2026-04-10 Dirty Boxing at James L. Knight Center",
+     "2026-05-08 Team Boxing League at War Memorial Auditorium",
+     "2026-05-16 M and R Boxing Promotions at Miccosukee Indian Gaming Resort",
+     "2026-05-30 American Dream Boxing Promotion at War Memorial Auditorium",
+     "2026-06-14 Team Boxing League at War Memorial Auditorium",
+     "2026-08-15 M and R Boxing Promotions at Miccosukee Casino and Resort"
+    ]
+   },
+   "classification": "D",
+   "reason": "different_officials_sharing_a_surname"
+  },
+  {
+   "candidate_a": {
+    "id": "0f316fff-5a17-44c0-beb8-1ea09a3412dd",
+    "public_id": "pbe_boxofficial_70ec2bda7a4b4190821f23d7b416defa",
+    "name": "David Young",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "fl-athletic-commission"
+    ],
+    "assignments_active": 11,
+    "assignments_total": 11,
+    "scorecards": 0,
+    "judge_slots": [
+     {
+      "bout_id": "403b4289-2bb7-4c84-b4c0-e82cb27db6ee",
+      "slot": 3,
+      "event_date": "2026-06-13"
+     },
+     {
+      "bout_id": "8aa9f470-0f41-40de-9f98-20c8243a9eb6",
+      "slot": 1,
+      "event_date": "2026-06-13"
+     },
+     {
+      "bout_id": "a949568c-c2dc-4339-8038-49a8e2c3c9b3",
+      "slot": 2,
+      "event_date": "2026-06-13"
+     },
+     {
+      "bout_id": "b48940c2-b169-4c46-9f9e-330aa083070c",
+      "slot": 1,
+      "event_date": "2026-06-13"
+     },
+     {
+      "bout_id": "ba900f7a-b977-4b44-9eda-16601c11f3b9",
+      "slot": 2,
+      "event_date": "2026-06-13"
+     },
+     {
+      "bout_id": "c87cb7a7-9c47-4cfd-80c4-12d4814fb0c0",
+      "slot": 3,
+      "event_date": "2026-06-13"
+     },
+     {
+      "bout_id": "ca4c1878-1151-4b56-a66d-7ffe65c00e1a",
+      "slot": 3,
+      "event_date": "2026-06-13"
+     },
+     {
+      "bout_id": "037ca441-d00c-493d-a113-992c3d6ab417",
+      "slot": 3,
+      "event_date": "2026-08-08"
+     },
+     {
+      "bout_id": "675de0bb-fca9-43f3-86e1-40e16b080944",
+      "slot": 3,
+      "event_date": "2026-08-08"
+     },
+     {
+      "bout_id": "7e09c7d3-4687-41fa-bf52-de2e589370e5",
+      "slot": 3,
+      "event_date": "2026-08-08"
+     },
+     {
+      "bout_id": "8ef80dbd-cfcd-4b9b-86cb-87eff9d87d5a",
+      "slot": 3,
+      "event_date": "2026-08-08"
+     }
+    ],
+    "events": [
+     "2026-06-13 Boogieman Boxing Promotions at Robarts Arena",
+     "2026-08-08 Wake Up and Dream at Southeastern Livestock Pavilion"
+    ]
+   },
+   "candidate_b": {
+    "id": "2bf85934-426f-44b4-b04d-2c922a1a7fd1",
+    "public_id": "pbe_boxofficial_093a3e6a77d1481ebf362097ac278dd6",
+    "name": "Roark Young",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "fl-athletic-commission"
+    ],
+    "assignments_active": 4,
+    "assignments_total": 4,
+    "scorecards": 0,
+    "judge_slots": [
+     {
+      "bout_id": "70a8bbbc-2e0c-405f-86c2-0184b153a930",
+      "slot": 3,
+      "event_date": "2026-01-04"
+     },
+     {
+      "bout_id": "b2960856-6735-4690-bf0e-fc4919339fed",
+      "slot": 1,
+      "event_date": "2026-01-04"
+     },
+     {
+      "bout_id": "3ec84e21-4741-4bd3-824c-4ee511709a21",
+      "slot": 2,
+      "event_date": "2026-02-21"
+     },
+     {
+      "bout_id": "4319d6f1-7cf4-45a5-9b14-5ba099127bed",
+      "slot": 1,
+      "event_date": "2026-02-21"
+     }
+    ],
+    "events": [
+     "2026-01-04 The Heavyweight Factory at Seminole Hard Rock Hotel and Casino",
+     "2026-02-21 M and R Boxing Promotions at Reception Palace Ballrooms"
+    ]
+   },
+   "classification": "D",
+   "reason": "different_officials_sharing_a_surname"
+  },
+  {
+   "candidate_a": {
+    "id": "d071c832-ce1b-4845-a98a-216a9856c0bf",
+    "public_id": "pbe_boxofficial_4d60e6027992459ab67884c71b5e955c",
+    "name": "Eliseo Rodriguez",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "fl-athletic-commission"
+    ],
+    "assignments_active": 31,
+    "assignments_total": 31,
+    "scorecards": 0,
+    "judge_slots": [
+     {
+      "bout_id": "550491a6-f2dc-4e0c-973e-7ff2d83f0124",
+      "slot": 1,
+      "event_date": "2026-01-23"
+     },
+     {
+      "bout_id": "82f6ba24-5bec-43f7-8311-19331f25a4db",
+      "slot": 2,
+      "event_date": "2026-01-23"
+     },
+     {
+      "bout_id": "95ee1336-f1fa-4229-9984-0bcb8dcafed8",
+      "slot": 2,
+      "event_date": "2026-01-23"
+     },
+     {
+      "bout_id": "f1c793a6-cb4c-48a4-91fb-be387bbe6129",
+      "slot": 1,
+      "event_date": "2026-01-23"
+     },
+     {
+      "bout_id": "74c891d1-2aaa-42b0-9260-a1393479c1cd",
+      "slot": 3,
+      "event_date": "2026-03-14"
+     },
+     {
+      "bout_id": "a12fa3a3-4fa3-46d9-8e1d-54a72723a5bc",
+      "slot": 1,
+      "event_date": "2026-03-14"
+     },
+     {
+      "bout_id": "b017bc67-48d6-4ca0-adde-2fe70a08747c",
+      "slot": 2,
+      "event_date": "2026-03-14"
+     },
+     {
+      "bout_id": "ebbf3a14-9c59-4d15-be51-8c9a34f43d6f",
+      "slot": 2,
+      "event_date": "2026-03-14"
+     },
+     {
+      "bout_id": "f218d295-cbd7-4560-b5b4-4270161a3726",
+      "slot": 3,
+      "event_date": "2026-03-14"
+     },
+     {
+      "bout_id": "0c40d8da-25e2-4e3e-bafe-183eb13add45",
+      "slot": 3,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "12420e43-bddd-4059-b61b-e59d6f0c8038",
+      "slot": 2,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "6ff609ca-2d0d-4ab0-b816-af3a0511831a",
+      "slot": 1,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "926a966f-8122-4720-a2b3-36ebf146f00e",
+      "slot": 1,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "9abd97ab-6371-4a84-a3da-c770f40d8d8a",
+      "slot": 2,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "a98d71ca-b0c1-430f-a605-7e52b65bb893",
+      "slot": 3,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "bf15753c-8c7d-4000-b70a-b79da66ee8b8",
+      "slot": 3,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "c06511c1-023a-4a1f-aef0-3f01cd701444",
+      "slot": 2,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "eb131e45-734a-4e0c-85c2-cbafb961b422",
+      "slot": 1,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "3329029e-374f-428a-8e68-c6dedf99baee",
+      "slot": 2,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "d05cea96-34f2-45dd-ada0-80d7d0531e55",
+      "slot": 2,
+      "event_date": "2026-05-09"
+     },
+     {
+      "bout_id": "284d8ad4-568a-45e3-8b97-b0f266a9ca65",
+      "slot": 1,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "2ad36d7c-75a9-4238-a749-38bccf423db1",
+      "slot": 3,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "3dab0950-d921-419a-8736-d89aa0a36581",
+      "slot": 2,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "3ed1bc53-cf3b-4d01-a098-21be8bb463de",
+      "slot": 2,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "c82288b3-7996-4b10-9af3-0c9c54638e6a",
+      "slot": 1,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "ce77e155-5da0-45d0-8d27-8f5d98470ba8",
+      "slot": 2,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "d8934f6d-9119-48ff-adc0-f5e533224550",
+      "slot": 3,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "904d0ed0-ee25-4df5-b274-fc927be739a9",
+      "slot": 3,
+      "event_date": "2026-06-28"
+     },
+     {
+      "bout_id": "969f175e-3dfb-4a10-ba41-2a8b10d81350",
+      "slot": 1,
+      "event_date": "2026-06-28"
+     },
+     {
+      "bout_id": "aa799189-9a4d-4d90-a5d1-dc47e25683e6",
+      "slot": 3,
+      "event_date": "2026-06-28"
+     },
+     {
+      "bout_id": "b191138e-d92b-441c-84f8-b47f40b4722a",
+      "slot": 2,
+      "event_date": "2026-06-28"
+     }
+    ],
+    "events": [
+     "2026-01-23 Brand Risk Promotions at Private Facility",
+     "2026-03-14 BrandRisk Entertainment at Brand Risk Building",
+     "2026-04-10 Dirty Boxing at James L. Knight Center",
+     "2026-05-08 Team Boxing League at War Memorial Auditorium",
+     "2026-05-09 Team Boxing League at War Memorial Auditorium",
+     "2026-05-16 M and R Boxing Promotions at Miccosukee Indian Gaming Resort",
+     "2026-06-28 The Heavyweight Factory Promotions at Seminole Hard Rock Hotel and Casino"
+    ]
+   },
+   "candidate_b": {
+    "id": "ae7e48c5-7cbc-4444-9718-3d4f112f336a",
+    "public_id": "pbe_boxofficial_7f4ae137df97486e851a8965109bd71f",
+    "name": "Perla Rodriguez",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "fl-athletic-commission"
+    ],
+    "assignments_active": 2,
+    "assignments_total": 2,
+    "scorecards": 0,
+    "judge_slots": [
+     {
+      "bout_id": "6d640fc7-31e6-4377-9a75-5ecc564f421a",
+      "slot": 2,
+      "event_date": "2026-08-08"
+     },
+     {
+      "bout_id": "d8dc553e-d0b3-4a90-b8df-38bbf8a7dd0e",
+      "slot": 3,
+      "event_date": "2026-08-08"
+     }
+    ],
+    "events": [
+     "2026-08-08 Most Valuable Promotion at Caribe Royale"
+    ]
+   },
+   "classification": "D",
+   "reason": "different_officials_sharing_a_surname"
+  },
+  {
+   "candidate_a": {
+    "id": "d071c832-ce1b-4845-a98a-216a9856c0bf",
+    "public_id": "pbe_boxofficial_4d60e6027992459ab67884c71b5e955c",
+    "name": "Eliseo Rodriguez",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "fl-athletic-commission"
+    ],
+    "assignments_active": 31,
+    "assignments_total": 31,
+    "scorecards": 0,
+    "judge_slots": [
+     {
+      "bout_id": "550491a6-f2dc-4e0c-973e-7ff2d83f0124",
+      "slot": 1,
+      "event_date": "2026-01-23"
+     },
+     {
+      "bout_id": "82f6ba24-5bec-43f7-8311-19331f25a4db",
+      "slot": 2,
+      "event_date": "2026-01-23"
+     },
+     {
+      "bout_id": "95ee1336-f1fa-4229-9984-0bcb8dcafed8",
+      "slot": 2,
+      "event_date": "2026-01-23"
+     },
+     {
+      "bout_id": "f1c793a6-cb4c-48a4-91fb-be387bbe6129",
+      "slot": 1,
+      "event_date": "2026-01-23"
+     },
+     {
+      "bout_id": "74c891d1-2aaa-42b0-9260-a1393479c1cd",
+      "slot": 3,
+      "event_date": "2026-03-14"
+     },
+     {
+      "bout_id": "a12fa3a3-4fa3-46d9-8e1d-54a72723a5bc",
+      "slot": 1,
+      "event_date": "2026-03-14"
+     },
+     {
+      "bout_id": "b017bc67-48d6-4ca0-adde-2fe70a08747c",
+      "slot": 2,
+      "event_date": "2026-03-14"
+     },
+     {
+      "bout_id": "ebbf3a14-9c59-4d15-be51-8c9a34f43d6f",
+      "slot": 2,
+      "event_date": "2026-03-14"
+     },
+     {
+      "bout_id": "f218d295-cbd7-4560-b5b4-4270161a3726",
+      "slot": 3,
+      "event_date": "2026-03-14"
+     },
+     {
+      "bout_id": "0c40d8da-25e2-4e3e-bafe-183eb13add45",
+      "slot": 3,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "12420e43-bddd-4059-b61b-e59d6f0c8038",
+      "slot": 2,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "6ff609ca-2d0d-4ab0-b816-af3a0511831a",
+      "slot": 1,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "926a966f-8122-4720-a2b3-36ebf146f00e",
+      "slot": 1,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "9abd97ab-6371-4a84-a3da-c770f40d8d8a",
+      "slot": 2,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "a98d71ca-b0c1-430f-a605-7e52b65bb893",
+      "slot": 3,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "bf15753c-8c7d-4000-b70a-b79da66ee8b8",
+      "slot": 3,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "c06511c1-023a-4a1f-aef0-3f01cd701444",
+      "slot": 2,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "eb131e45-734a-4e0c-85c2-cbafb961b422",
+      "slot": 1,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "3329029e-374f-428a-8e68-c6dedf99baee",
+      "slot": 2,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "d05cea96-34f2-45dd-ada0-80d7d0531e55",
+      "slot": 2,
+      "event_date": "2026-05-09"
+     },
+     {
+      "bout_id": "284d8ad4-568a-45e3-8b97-b0f266a9ca65",
+      "slot": 1,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "2ad36d7c-75a9-4238-a749-38bccf423db1",
+      "slot": 3,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "3dab0950-d921-419a-8736-d89aa0a36581",
+      "slot": 2,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "3ed1bc53-cf3b-4d01-a098-21be8bb463de",
+      "slot": 2,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "c82288b3-7996-4b10-9af3-0c9c54638e6a",
+      "slot": 1,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "ce77e155-5da0-45d0-8d27-8f5d98470ba8",
+      "slot": 2,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "d8934f6d-9119-48ff-adc0-f5e533224550",
+      "slot": 3,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "904d0ed0-ee25-4df5-b274-fc927be739a9",
+      "slot": 3,
+      "event_date": "2026-06-28"
+     },
+     {
+      "bout_id": "969f175e-3dfb-4a10-ba41-2a8b10d81350",
+      "slot": 1,
+      "event_date": "2026-06-28"
+     },
+     {
+      "bout_id": "aa799189-9a4d-4d90-a5d1-dc47e25683e6",
+      "slot": 3,
+      "event_date": "2026-06-28"
+     },
+     {
+      "bout_id": "b191138e-d92b-441c-84f8-b47f40b4722a",
+      "slot": 2,
+      "event_date": "2026-06-28"
+     }
+    ],
+    "events": [
+     "2026-01-23 Brand Risk Promotions at Private Facility",
+     "2026-03-14 BrandRisk Entertainment at Brand Risk Building",
+     "2026-04-10 Dirty Boxing at James L. Knight Center",
+     "2026-05-08 Team Boxing League at War Memorial Auditorium",
+     "2026-05-09 Team Boxing League at War Memorial Auditorium",
+     "2026-05-16 M and R Boxing Promotions at Miccosukee Indian Gaming Resort",
+     "2026-06-28 The Heavyweight Factory Promotions at Seminole Hard Rock Hotel and Casino"
+    ]
+   },
+   "candidate_b": {
+    "id": "9d8cb5b5-8c1b-486e-a39f-c3cb78beeb47",
+    "public_id": "pbe_boxofficial_f5f03da141454f7f851d8055d53987c9",
+    "name": "Vicente Rodriguez",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "fl-athletic-commission"
+    ],
+    "assignments_active": 45,
+    "assignments_total": 45,
+    "scorecards": 0,
+    "judge_slots": [
+     {
+      "bout_id": "00d3d710-618f-43e8-bf71-d41fb0989445",
+      "slot": 3,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "0c40d8da-25e2-4e3e-bafe-183eb13add45",
+      "slot": 2,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "12420e43-bddd-4059-b61b-e59d6f0c8038",
+      "slot": 1,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "909fa12d-9e40-481c-bb21-2abde3739221",
+      "slot": 3,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "9abd97ab-6371-4a84-a3da-c770f40d8d8a",
+      "slot": 1,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "a98d71ca-b0c1-430f-a605-7e52b65bb893",
+      "slot": 2,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "af1e0781-8ef7-44f2-a7c7-053a5b09fc52",
+      "slot": 3,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "bf15753c-8c7d-4000-b70a-b79da66ee8b8",
+      "slot": 2,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "c06511c1-023a-4a1f-aef0-3f01cd701444",
+      "slot": 1,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "04c032e4-b6c4-4df6-9779-61b397e58be9",
+      "slot": 2,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "14ea0f8b-784e-414b-8c79-f583120c6e1a",
+      "slot": 2,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "183e8436-8cac-4e56-a6b0-9498a151d175",
+      "slot": 1,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "2d9c716e-26dd-4760-a3f9-efefd98282a1",
+      "slot": 3,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "40921b93-a9cf-49eb-9c10-c5856d7aeafb",
+      "slot": 2,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "50434020-4255-49dd-a905-4366e43e7d5b",
+      "slot": 3,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "5e30f6cb-209a-4a48-a131-ca4b888f162e",
+      "slot": 1,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "669ec051-c231-41f1-b158-26a424ea216d",
+      "slot": 3,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "7e8ff722-ca86-4ef1-adac-22d69c39e40e",
+      "slot": 3,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "814b8b6a-5684-4e46-aa47-938ae58c48ee",
+      "slot": 2,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "a4af0a98-8533-43c0-8ef2-b4aebda10d20",
+      "slot": 2,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "b42d1c7d-506f-466f-9b4d-4a04faac9c62",
+      "slot": 1,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "b95482fd-d3f8-4fd7-b02e-4287cb00d65b",
+      "slot": 3,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "c530daa7-76f7-40e6-b47b-342898003f43",
+      "slot": 2,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "cb59e7c3-e463-4821-9523-99ca1d95e9d2",
+      "slot": 2,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "ce372a6f-2673-46b1-bee9-46df2fbc83ed",
+      "slot": 1,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "eb8e128c-159a-4dc9-866a-d287ce35e55e",
+      "slot": 3,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "f60da017-1db2-479e-bd0d-07c271dd71ee",
+      "slot": 1,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "2ad36d7c-75a9-4238-a749-38bccf423db1",
+      "slot": 2,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "3dab0950-d921-419a-8736-d89aa0a36581",
+      "slot": 1,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "3ed1bc53-cf3b-4d01-a098-21be8bb463de",
+      "slot": 1,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "787c5429-2459-42ab-a2c7-3f006f7b07ac",
+      "slot": 3,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "89a41533-e493-42db-a3aa-c285f69181bd",
+      "slot": 3,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "ce77e155-5da0-45d0-8d27-8f5d98470ba8",
+      "slot": 3,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "d8934f6d-9119-48ff-adc0-f5e533224550",
+      "slot": 2,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "f8b09075-98b1-43d6-bd18-f50db0bcb6b4",
+      "slot": 1,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "30aaaa2e-97e2-4072-8ebd-e577ca087bf0",
+      "slot": 1,
+      "event_date": "2026-05-30"
+     },
+     {
+      "bout_id": "6ab87ab6-a6fa-4a95-9fcb-9e4bf79df235",
+      "slot": 2,
+      "event_date": "2026-05-30"
+     },
+     {
+      "bout_id": "743a5c56-4f1f-46ac-ba99-c14c9dd45c73",
+      "slot": 1,
+      "event_date": "2026-05-30"
+     },
+     {
+      "bout_id": "d2d869ca-20d7-4420-bf28-7dd5e73edacb",
+      "slot": 2,
+      "event_date": "2026-05-30"
+     },
+     {
+      "bout_id": "ed5e8e21-9603-4cd0-86e5-1b3c858da3dc",
+      "slot": 3,
+      "event_date": "2026-05-30"
+     },
+     {
+      "bout_id": "f4957d6c-36d1-4ef2-844e-9008be288815",
+      "slot": 2,
+      "event_date": "2026-06-14"
+     },
+     {
+      "bout_id": "4e963d23-5aff-4de9-8a34-290cd80a92e7",
+      "slot": 2,
+      "event_date": "2026-08-15"
+     },
+     {
+      "bout_id": "81667d3f-9338-47d2-a643-8f594a647e66",
+      "slot": 3,
+      "event_date": "2026-08-15"
+     },
+     {
+      "bout_id": "c4ec5798-f467-4612-b502-6087355cfe37",
+      "slot": 1,
+      "event_date": "2026-08-15"
+     },
+     {
+      "bout_id": "dc49a76a-c0fb-4d59-a747-8757c5d2f347",
+      "slot": 3,
+      "event_date": "2026-08-15"
+     }
+    ],
+    "events": [
+     "2026-04-10 Dirty Boxing at James L. Knight Center",
+     "2026-05-08 Team Boxing League at War Memorial Auditorium",
+     "2026-05-16 M and R Boxing Promotions at Miccosukee Indian Gaming Resort",
+     "2026-05-30 American Dream Boxing Promotion at War Memorial Auditorium",
+     "2026-06-14 Team Boxing League at War Memorial Auditorium",
+     "2026-08-15 M and R Boxing Promotions at Miccosukee Casino and Resort"
+    ]
+   },
+   "classification": "D",
+   "reason": "different_officials_sharing_a_surname"
+  },
+  {
+   "candidate_a": {
+    "id": "ae7e48c5-7cbc-4444-9718-3d4f112f336a",
+    "public_id": "pbe_boxofficial_7f4ae137df97486e851a8965109bd71f",
+    "name": "Perla Rodriguez",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "fl-athletic-commission"
+    ],
+    "assignments_active": 2,
+    "assignments_total": 2,
+    "scorecards": 0,
+    "judge_slots": [
+     {
+      "bout_id": "6d640fc7-31e6-4377-9a75-5ecc564f421a",
+      "slot": 2,
+      "event_date": "2026-08-08"
+     },
+     {
+      "bout_id": "d8dc553e-d0b3-4a90-b8df-38bbf8a7dd0e",
+      "slot": 3,
+      "event_date": "2026-08-08"
+     }
+    ],
+    "events": [
+     "2026-08-08 Most Valuable Promotion at Caribe Royale"
+    ]
+   },
+   "candidate_b": {
+    "id": "9d8cb5b5-8c1b-486e-a39f-c3cb78beeb47",
+    "public_id": "pbe_boxofficial_f5f03da141454f7f851d8055d53987c9",
+    "name": "Vicente Rodriguez",
+    "type": "judge",
+    "identity_state": "source_native",
+    "roles": [
+     "judge"
+    ],
+    "commissions": [
+     "fl-athletic-commission"
+    ],
+    "assignments_active": 45,
+    "assignments_total": 45,
+    "scorecards": 0,
+    "judge_slots": [
+     {
+      "bout_id": "00d3d710-618f-43e8-bf71-d41fb0989445",
+      "slot": 3,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "0c40d8da-25e2-4e3e-bafe-183eb13add45",
+      "slot": 2,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "12420e43-bddd-4059-b61b-e59d6f0c8038",
+      "slot": 1,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "909fa12d-9e40-481c-bb21-2abde3739221",
+      "slot": 3,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "9abd97ab-6371-4a84-a3da-c770f40d8d8a",
+      "slot": 1,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "a98d71ca-b0c1-430f-a605-7e52b65bb893",
+      "slot": 2,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "af1e0781-8ef7-44f2-a7c7-053a5b09fc52",
+      "slot": 3,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "bf15753c-8c7d-4000-b70a-b79da66ee8b8",
+      "slot": 2,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "c06511c1-023a-4a1f-aef0-3f01cd701444",
+      "slot": 1,
+      "event_date": "2026-04-10"
+     },
+     {
+      "bout_id": "04c032e4-b6c4-4df6-9779-61b397e58be9",
+      "slot": 2,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "14ea0f8b-784e-414b-8c79-f583120c6e1a",
+      "slot": 2,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "183e8436-8cac-4e56-a6b0-9498a151d175",
+      "slot": 1,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "2d9c716e-26dd-4760-a3f9-efefd98282a1",
+      "slot": 3,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "40921b93-a9cf-49eb-9c10-c5856d7aeafb",
+      "slot": 2,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "50434020-4255-49dd-a905-4366e43e7d5b",
+      "slot": 3,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "5e30f6cb-209a-4a48-a131-ca4b888f162e",
+      "slot": 1,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "669ec051-c231-41f1-b158-26a424ea216d",
+      "slot": 3,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "7e8ff722-ca86-4ef1-adac-22d69c39e40e",
+      "slot": 3,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "814b8b6a-5684-4e46-aa47-938ae58c48ee",
+      "slot": 2,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "a4af0a98-8533-43c0-8ef2-b4aebda10d20",
+      "slot": 2,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "b42d1c7d-506f-466f-9b4d-4a04faac9c62",
+      "slot": 1,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "b95482fd-d3f8-4fd7-b02e-4287cb00d65b",
+      "slot": 3,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "c530daa7-76f7-40e6-b47b-342898003f43",
+      "slot": 2,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "cb59e7c3-e463-4821-9523-99ca1d95e9d2",
+      "slot": 2,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "ce372a6f-2673-46b1-bee9-46df2fbc83ed",
+      "slot": 1,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "eb8e128c-159a-4dc9-866a-d287ce35e55e",
+      "slot": 3,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "f60da017-1db2-479e-bd0d-07c271dd71ee",
+      "slot": 1,
+      "event_date": "2026-05-08"
+     },
+     {
+      "bout_id": "2ad36d7c-75a9-4238-a749-38bccf423db1",
+      "slot": 2,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "3dab0950-d921-419a-8736-d89aa0a36581",
+      "slot": 1,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "3ed1bc53-cf3b-4d01-a098-21be8bb463de",
+      "slot": 1,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "787c5429-2459-42ab-a2c7-3f006f7b07ac",
+      "slot": 3,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "89a41533-e493-42db-a3aa-c285f69181bd",
+      "slot": 3,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "ce77e155-5da0-45d0-8d27-8f5d98470ba8",
+      "slot": 3,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "d8934f6d-9119-48ff-adc0-f5e533224550",
+      "slot": 2,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "f8b09075-98b1-43d6-bd18-f50db0bcb6b4",
+      "slot": 1,
+      "event_date": "2026-05-16"
+     },
+     {
+      "bout_id": "30aaaa2e-97e2-4072-8ebd-e577ca087bf0",
+      "slot": 1,
+      "event_date": "2026-05-30"
+     },
+     {
+      "bout_id": "6ab87ab6-a6fa-4a95-9fcb-9e4bf79df235",
+      "slot": 2,
+      "event_date": "2026-05-30"
+     },
+     {
+      "bout_id": "743a5c56-4f1f-46ac-ba99-c14c9dd45c73",
+      "slot": 1,
+      "event_date": "2026-05-30"
+     },
+     {
+      "bout_id": "d2d869ca-20d7-4420-bf28-7dd5e73edacb",
+      "slot": 2,
+      "event_date": "2026-05-30"
+     },
+     {
+      "bout_id": "ed5e8e21-9603-4cd0-86e5-1b3c858da3dc",
+      "slot": 3,
+      "event_date": "2026-05-30"
+     },
+     {
+      "bout_id": "f4957d6c-36d1-4ef2-844e-9008be288815",
+      "slot": 2,
+      "event_date": "2026-06-14"
+     },
+     {
+      "bout_id": "4e963d23-5aff-4de9-8a34-290cd80a92e7",
+      "slot": 2,
+      "event_date": "2026-08-15"
+     },
+     {
+      "bout_id": "81667d3f-9338-47d2-a643-8f594a647e66",
+      "slot": 3,
+      "event_date": "2026-08-15"
+     },
+     {
+      "bout_id": "c4ec5798-f467-4612-b502-6087355cfe37",
+      "slot": 1,
+      "event_date": "2026-08-15"
+     },
+     {
+      "bout_id": "dc49a76a-c0fb-4d59-a747-8757c5d2f347",
+      "slot": 3,
+      "event_date": "2026-08-15"
+     }
+    ],
+    "events": [
+     "2026-04-10 Dirty Boxing at James L. Knight Center",
+     "2026-05-08 Team Boxing League at War Memorial Auditorium",
+     "2026-05-16 M and R Boxing Promotions at Miccosukee Indian Gaming Resort",
+     "2026-05-30 American Dream Boxing Promotion at War Memorial Auditorium",
+     "2026-06-14 Team Boxing League at War Memorial Auditorium",
+     "2026-08-15 M and R Boxing Promotions at Miccosukee Casino and Resort"
+    ]
+   },
+   "classification": "D",
+   "reason": "different_officials_sharing_a_surname"
+  }
+ ],
+ "review_queue": [
+  {
+   "id": "e31a109e-f012-44e8-b8b9-9ab82a2203a2",
+   "raw_name": "Steven Weisfeld",
+   "namespace": "nsac.official",
+   "commission": "nsac",
+   "queue_reason": "insufficient_evidence",
+   "candidates": [
+    {
+     "id": "c337811a-d277-4ad9-8cd9-08b033d2d19c",
+     "display_name": "& Steve Weisfeld",
+     "bout_id": null,
+     "slot": null
+    }
+   ],
+   "classification": "B",
+   "reason": "name_variant:fuzzy"
+  },
+  {
+   "id": "cdc85a72-9d93-41fa-8e2b-e2732d2ce2f4",
+   "raw_name": "Chris Migliore & Ricardo Ocasio",
+   "namespace": "nsac.official",
+   "commission": "nsac",
+   "queue_reason": "insufficient_evidence",
+   "candidates": [
+    {
+     "id": "8b5c61b9-ce33-4565-8f34-74df4d97b98c",
+     "display_name": "Chris Migliore",
+     "bout_id": null,
+     "slot": null
+    }
+   ],
+   "classification": "parser_artifact_combined_names",
+   "reason": "two names read as one (the corrected parser splits them); the queue item can be dismissed by a reviewer"
+  },
+  {
+   "id": "4481a09f-1bec-4202-90d5-6ccfdfa5f0d1",
+   "raw_name": "Max DeLuca",
+   "namespace": "nsac.official",
+   "commission": "nsac",
+   "queue_reason": "insufficient_evidence",
+   "candidates": [
+    {
+     "id": "1cab8dda-1830-477f-9c22-0d089ded1635",
+     "display_name": "Max De Luca",
+     "bout_id": null,
+     "slot": null
+    }
+   ],
+   "classification": "B",
+   "reason": "name_variant:joined"
+  },
+  {
+   "id": "9c769efe-fcd5-4c32-a2d0-8f58e20e6954",
+   "raw_name": "Patrica Morse Jarman",
+   "namespace": "nsac.official",
+   "commission": "nsac",
+   "queue_reason": "insufficient_evidence",
+   "candidates": [
+    {
+     "id": "264c08d6-0209-42e3-a8a3-f46712c792f9",
+     "display_name": "Patricia Morse Jarman",
+     "bout_id": null,
+     "slot": null
+    }
+   ],
+   "classification": "B",
+   "reason": "name_variant:transliteration"
+  },
+  {
+   "id": "ca4c3902-01d0-4875-8ab4-1d203b5536d0",
+   "raw_name": "Max Deluca",
+   "namespace": "nsac.official",
+   "commission": "nsac",
+   "queue_reason": "insufficient_evidence",
+   "candidates": [
+    {
+     "id": "1cab8dda-1830-477f-9c22-0d089ded1635",
+     "display_name": "Max De Luca",
+     "bout_id": null,
+     "slot": null
+    }
+   ],
+   "classification": "B",
+   "reason": "name_variant:joined"
+  },
+  {
+   "id": "b49543ec-b5c0-4934-99fc-fd8639b1d83d",
+   "raw_name": "Ged WBO & WBA O'Connor",
+   "namespace": "fl-athletic-commission.official",
+   "commission": "fl-athletic-commission",
+   "queue_reason": "insufficient_evidence",
+   "candidates": [
+    {
+     "id": "926ad644-61eb-4bce-b082-f7e660e9e39d",
+     "display_name": "Ged O'Connor",
+     "bout_id": null,
+     "slot": null
+    }
+   ],
+   "classification": "parser_artifact_title_text",
+   "reason": "title text read into the official name (Florida layout); needs a Florida parser fix, not a merge"
+  },
+  {
+   "id": "a7cd4c25-dce1-429e-bf5b-546eb9e6bfc3",
+   "raw_name": "Braddan WBO & WBA Jackson",
+   "namespace": "fl-athletic-commission.official",
+   "commission": "fl-athletic-commission",
+   "queue_reason": "insufficient_evidence",
+   "candidates": [
+    {
+     "id": "977329c1-1564-4dbb-8168-d4fa719f8a32",
+     "display_name": "Braddan Jackson",
+     "bout_id": null,
+     "slot": null
+    }
+   ],
+   "classification": "parser_artifact_title_text",
+   "reason": "title text read into the official name (Florida layout); needs a Florida parser fix, not a merge"
+  },
+  {
+   "id": "792e6253-99c2-4514-a5c4-64a54c366b11",
+   "raw_name": "David Heavyweight DeJonge",
+   "namespace": "fl-athletic-commission.official",
+   "commission": "fl-athletic-commission",
+   "queue_reason": "insufficient_evidence",
+   "candidates": [
+    {
+     "id": "9d1478b9-89ce-4d8d-8058-164f98bff530",
+     "display_name": "David DeJonge",
+     "bout_id": null,
+     "slot": null
+    }
+   ],
+   "classification": "parser_artifact_title_text",
+   "reason": "title text read into the official name (Florida layout); needs a Florida parser fix, not a merge"
+  },
+  {
+   "id": "b5ece8be-77cc-4c71-b434-966f0fe8d62e",
+   "raw_name": "Alicia Collins",
+   "namespace": "fl-athletic-commission.official",
+   "commission": "fl-athletic-commission",
+   "queue_reason": "insufficient_evidence",
+   "candidates": [
+    {
+     "id": "0a91c868-a397-4bd1-babe-4d28aecdea8b",
+     "display_name": "Alicia Collins WBA Continental USA",
+     "bout_id": null,
+     "slot": null
+    }
+   ],
+   "classification": "B",
+   "reason": "name_variant:containment"
+  },
+  {
+   "id": "09c19ae1-d4a9-4753-8180-9ee5f84a3cb5",
+   "raw_name": "Christopher Young IBF & WBO World Middle Weight",
+   "namespace": "fl-athletic-commission.official",
+   "commission": "fl-athletic-commission",
+   "queue_reason": "insufficient_evidence",
+   "candidates": [
+    {
+     "id": "666b9889-32a7-4bb8-b1fd-88a82b3d6f55",
+     "display_name": "Christopher Young",
+     "bout_id": null,
+     "slot": null
+    }
+   ],
+   "classification": "parser_artifact_title_text",
+   "reason": "title text read into the official name (Florida layout); needs a Florida parser fix, not a merge"
+  },
+  {
+   "id": "ecdb2743-9618-40f1-be48-803b62400041",
+   "raw_name": "Lisa Giampa",
+   "namespace": "fl-athletic-commission.official",
+   "commission": "fl-athletic-commission",
+   "queue_reason": "insufficient_evidence",
+   "candidates": [
+    {
+     "id": "b61a3e91-2f06-497f-830f-39aecdd81667",
+     "display_name": "Lisa Giampa",
+     "bout_id": null,
+     "slot": null
+    }
+   ],
+   "classification": "B",
+   "reason": "name_variant:exact"
+  },
+  {
+   "id": "448d1550-6b83-46ea-8b16-1d8683619a71",
+   "raw_name": "Richard Green, Jr.",
+   "namespace": "fl-athletic-commission.official",
+   "commission": "fl-athletic-commission",
+   "queue_reason": "insufficient_evidence",
+   "candidates": [
+    {
+     "id": "b94cb475-be8e-46fd-8a1b-a7a6f46bf21f",
+     "display_name": "Richard Green",
+     "bout_id": null,
+     "slot": null
+    }
+   ],
+   "classification": "B",
+   "reason": "name_variant:containment"
+  },
+  {
+   "id": "87a4748e-37f3-418d-8867-eae973317d58",
+   "raw_name": "Richard Green, Sr.",
+   "namespace": "fl-athletic-commission.official",
+   "commission": "fl-athletic-commission",
+   "queue_reason": "insufficient_evidence",
+   "candidates": [
+    {
+     "id": "b94cb475-be8e-46fd-8a1b-a7a6f46bf21f",
+     "display_name": "Richard Green",
+     "bout_id": null,
+     "slot": null
+    }
+   ],
+   "classification": "B",
+   "reason": "name_variant:containment"
+  },
+  {
+   "id": "fb7293cf-5c2f-4644-90e6-3f0d1b1a2247",
+   "raw_name": "Manuel Marquez, Jr.",
+   "namespace": "fl-athletic-commission.official",
+   "commission": "fl-athletic-commission",
+   "queue_reason": "insufficient_evidence",
+   "candidates": [
+    {
+     "id": "de101be9-48cb-4e5d-bd4d-e914bf05a2a8",
+     "display_name": "Manuel Marquez",
+     "bout_id": null,
+     "slot": null
+    }
+   ],
+   "classification": "B",
+   "reason": "name_variant:containment"
+  },
+  {
+   "id": "474bd326-cbb4-47fc-b465-26483e10f85e",
+   "raw_name": "Mario Perez, Jr.",
+   "namespace": "fl-athletic-commission.official",
+   "commission": "fl-athletic-commission",
+   "queue_reason": "insufficient_evidence",
+   "candidates": [
+    {
+     "id": "968fafd1-0b04-479b-827d-4fd83a38c5e8",
+     "display_name": "Mario Perez",
+     "bout_id": null,
+     "slot": null
+    }
+   ],
+   "classification": "B",
+   "reason": "name_variant:containment"
+  },
+  {
+   "id": "a1ee6420-6856-4ff3-aae9-51aee62fada1",
+   "raw_name": "Michael DeJesus",
+   "namespace": "fl-athletic-commission.official",
+   "commission": "fl-athletic-commission",
+   "queue_reason": "insufficient_evidence",
+   "candidates": [
+    {
+     "id": "7833bf05-d163-4866-9722-67b480ad4c6a",
+     "display_name": "Michael De Jesus",
+     "bout_id": null,
+     "slot": null
+    }
+   ],
+   "classification": "B",
+   "reason": "name_variant:joined"
+  },
+  {
+   "id": "da0202b6-78dd-4b5d-8b23-dfed301f1325",
+   "raw_name": "Luis Pabon Rivas",
+   "namespace": "fl-athletic-commission.official",
+   "commission": "fl-athletic-commission",
+   "queue_reason": "insufficient_evidence",
+   "candidates": [
+    {
+     "id": "1e5f220d-43e9-4fe2-b094-7c53404a5991",
+     "display_name": "Luis Pabon",
+     "bout_id": null,
+     "slot": null
+    }
+   ],
+   "classification": "B",
+   "reason": "name_variant:containment"
+  },
+  {
+   "id": "8717c59c-6d7f-417b-825b-3cab0ba49c57",
+   "raw_name": "Efrain WBC Middleweight Lebron",
+   "namespace": "fl-athletic-commission.official",
+   "commission": "fl-athletic-commission",
+   "queue_reason": "insufficient_evidence",
+   "candidates": [
+    {
+     "id": "92e73bc8-bcb5-4f7e-94a3-9c1e30ec21bb",
+     "display_name": "Efrain Lebron",
+     "bout_id": null,
+     "slot": null
+    }
+   ],
+   "classification": "parser_artifact_title_text",
+   "reason": "title text read into the official name (Florida layout); needs a Florida parser fix, not a merge"
+  },
+  {
+   "id": "e4a3a793-fccf-4d96-a635-d090e44d85e7",
+   "raw_name": "Jacob Rust, Sr.",
+   "namespace": "fl-athletic-commission.official",
+   "commission": "fl-athletic-commission",
+   "queue_reason": "insufficient_evidence",
+   "candidates": [
+    {
+     "id": "86e6f192-28f8-4bf2-9f1c-f68f6cd75589",
+     "display_name": "Jacob Rust",
+     "bout_id": null,
+     "slot": null
+    }
+   ],
+   "classification": "B",
+   "reason": "name_variant:containment"
+  },
+  {
+   "id": "54fda709-c369-43a9-8391-f90dfbb79ec9",
+   "raw_name": "Luis Pabon Rivas WBA Continental Americas Lightweight",
+   "namespace": "fl-athletic-commission.official",
+   "commission": "fl-athletic-commission",
+   "queue_reason": "insufficient_evidence",
+   "candidates": [
+    {
+     "id": "1e5f220d-43e9-4fe2-b094-7c53404a5991",
+     "display_name": "Luis Pabon",
+     "bout_id": null,
+     "slot": null
+    }
+   ],
+   "classification": "parser_artifact_title_text",
+   "reason": "title text read into the official name (Florida layout); needs a Florida parser fix, not a merge"
+  },
+  {
+   "id": "1ebb3317-9af0-43d0-9db5-4117e5724b7f",
+   "raw_name": "Steven Weisfeld",
+   "namespace": "nj-sacb.official",
+   "commission": "nj-sacb",
+   "queue_reason": "insufficient_evidence",
+   "candidates": [
+    {
+     "id": "c337811a-d277-4ad9-8cd9-08b033d2d19c",
+     "display_name": "& Steve Weisfeld",
+     "bout_id": null,
+     "slot": null
+    }
+   ],
+   "classification": "B",
+   "reason": "name_variant:fuzzy"
+  },
+  {
+   "id": "6d55ce97-7326-46a7-b6cc-190bf0ca129c",
+   "raw_name": "Harvey Dock",
+   "namespace": "nj-sacb.official",
+   "commission": "nj-sacb",
+   "queue_reason": "insufficient_evidence",
+   "candidates": [
+    {
+     "id": "6aa0208e-212e-4a94-a6fe-d1467702c0f9",
+     "display_name": "Harvey Dock",
+     "bout_id": null,
+     "slot": null
+    }
+   ],
+   "classification": "B",
+   "reason": "name_variant:exact"
+  },
+  {
+   "id": "8f023853-4cd9-4a04-8f6f-7e2819b1bff3",
+   "raw_name": "Robin Taylor",
+   "namespace": "nj-sacb.official",
+   "commission": "nj-sacb",
+   "queue_reason": "insufficient_evidence",
+   "candidates": [
+    {
+     "id": "25af0f9c-1e70-4476-8966-a85d978c1fe0",
+     "display_name": "Robin Taylor",
+     "bout_id": null,
+     "slot": null
+    }
+   ],
+   "classification": "B",
+   "reason": "name_variant:exact"
+  },
+  {
+   "id": "8d855d4a-3cf7-470f-a289-3376845fcc9d",
+   "raw_name": "Glenn Feldman",
+   "namespace": "nj-sacb.official",
+   "commission": "nj-sacb",
+   "queue_reason": "insufficient_evidence",
+   "candidates": [
+    {
+     "id": "03b45cd8-28ac-4f8e-b841-efa970f20bda",
+     "display_name": "Glenn Feldman",
+     "bout_id": null,
+     "slot": null
+    }
+   ],
+   "classification": "B",
+   "reason": "name_variant:exact"
+  },
+  {
+   "id": "81ffdba2-60a1-4bfc-b010-5f7928b71cd0",
+   "raw_name": "David Feilds",
+   "namespace": "nj-sacb.official",
+   "commission": "nj-sacb",
+   "queue_reason": "insufficient_evidence",
+   "candidates": [
+    {
+     "id": "2c964488-9acf-40ae-89f5-8ebe3a748e7d",
+     "display_name": "David Fields",
+     "bout_id": null,
+     "slot": null
+    }
+   ],
+   "classification": "B",
+   "reason": "name_variant:transliteration"
+  },
+  {
+   "id": "7facfb10-c6d5-494e-b6f6-9ee878b1fac5",
+   "raw_name": "Mark Consention",
+   "namespace": "nj-sacb.official",
+   "commission": "nj-sacb",
+   "queue_reason": "insufficient_evidence",
+   "candidates": [
+    {
+     "id": "e14f2d3f-e147-4716-81a4-76664ae7c3aa",
+     "display_name": "Mark Consentino",
+     "bout_id": null,
+     "slot": null
+    }
+   ],
+   "classification": "B",
+   "reason": "name_variant:transliteration"
+  },
+  {
+   "id": "26e0bf55-3f95-4370-bc05-82d2e2663030",
+   "raw_name": "Steve Weisfeld",
+   "namespace": "nj-sacb.official",
+   "commission": "nj-sacb",
+   "queue_reason": "insufficient_evidence",
+   "candidates": [
+    {
+     "id": "c337811a-d277-4ad9-8cd9-08b033d2d19c",
+     "display_name": "& Steve Weisfeld",
+     "bout_id": null,
+     "slot": null
+    }
+   ],
+   "classification": "B",
+   "reason": "name_variant:exact"
+  },
+  {
+   "id": "f72da1ea-ff6c-4cac-a53c-ec50bad717a6",
+   "raw_name": "David Franiciosi",
+   "namespace": "nj-sacb.official",
+   "commission": "nj-sacb",
+   "queue_reason": "insufficient_evidence",
+   "candidates": [
+    {
+     "id": "b473b4c3-3538-45a0-bbaf-f66fdb0ec20b",
+     "display_name": "David Franciosi",
+     "bout_id": null,
+     "slot": null
+    }
+   ],
+   "classification": "B",
+   "reason": "name_variant:transliteration"
+  }
+ ],
+ "parser_artifacts_in_latest_parses": {
+  "promoter_fragments": [
+   {
+    "doc_key": "nv-results:2026:01-23-26_Boxing_REDACTED",
+    "parser_version": "nsac-nevada@1.0.0",
+    "simulated": false,
+    "name": "TKO Productions LLC d"
+   },
+   {
+    "doc_key": "nv-results:2026:01-23-26_Boxing_REDACTED",
+    "parser_version": "nsac-nevada@1.0.0",
+    "simulated": false,
+    "name": "b"
+   },
+   {
+    "doc_key": "nv-results:2026:01-23-26_Boxing_REDACTED",
+    "parser_version": "nsac-nevada@1.0.0",
+    "simulated": false,
+    "name": "a Zuffa Boxing"
+   },
+   {
+    "doc_key": "nv-results:2026:02-01-26_Boxing_REDACTED",
+    "parser_version": "nsac-nevada@1.0.0",
+    "simulated": false,
+    "name": "TKO Productions LLC d"
+   },
+   {
+    "doc_key": "nv-results:2026:02-01-26_Boxing_REDACTED",
+    "parser_version": "nsac-nevada@1.0.0",
+    "simulated": false,
+    "name": "b"
+   },
+   {
+    "doc_key": "nv-results:2026:02-01-26_Boxing_REDACTED",
+    "parser_version": "nsac-nevada@1.0.0",
+    "simulated": false,
+    "name": "a Zuffa Boxing"
+   },
+   {
+    "doc_key": "nv-results:2026:02-15-26_Boxing_REDACTED",
+    "parser_version": "nsac-nevada@1.0.0",
+    "simulated": false,
+    "name": "TKO Productions LLC d"
+   },
+   {
+    "doc_key": "nv-results:2026:02-15-26_Boxing_REDACTED",
+    "parser_version": "nsac-nevada@1.0.0",
+    "simulated": false,
+    "name": "b"
+   },
+   {
+    "doc_key": "nv-results:2026:02-15-26_Boxing_REDACTED",
+    "parser_version": "nsac-nevada@1.0.0",
+    "simulated": false,
+    "name": "a Zuffa Boxing"
+   },
+   {
+    "doc_key": "nv-results:2026:03-08-26_Boxing_REDACTED",
+    "parser_version": "nsac-nevada@1.0.0",
+    "simulated": false,
+    "name": "TKO Productions LLC d"
+   },
+   {
+    "doc_key": "nv-results:2026:03-08-26_Boxing_REDACTED",
+    "parser_version": "nsac-nevada@1.0.0",
+    "simulated": false,
+    "name": "b"
+   },
+   {
+    "doc_key": "nv-results:2026:03-08-26_Boxing_REDACTED",
+    "parser_version": "nsac-nevada@1.0.0",
+    "simulated": false,
+    "name": "a Zuffa Boxing"
+   },
+   {
+    "doc_key": "nv-results:2026:05-10-26_Boxing_REDACTED",
+    "parser_version": "nsac-nevada@1.0.0",
+    "simulated": false,
+    "name": "TKO Productions LLC d"
+   },
+   {
+    "doc_key": "nv-results:2026:05-10-26_Boxing_REDACTED",
+    "parser_version": "nsac-nevada@1.0.0",
+    "simulated": false,
+    "name": "b"
+   },
+   {
+    "doc_key": "nv-results:2026:05-10-26_Boxing_REDACTED",
+    "parser_version": "nsac-nevada@1.0.0",
+    "simulated": false,
+    "name": "a Zuffa Boxing"
+   },
+   {
+    "doc_key": "nv-results:2026:06-28-26_Boxing_REDACTED",
+    "parser_version": "nsac-nevada@1.0.0",
+    "simulated": false,
+    "name": "TKO Productions LLC d"
+   },
+   {
+    "doc_key": "nv-results:2026:06-28-26_Boxing_REDACTED",
+    "parser_version": "nsac-nevada@1.0.0",
+    "simulated": false,
+    "name": "b"
+   },
+   {
+    "doc_key": "nv-results:2026:06-28-26_Boxing_REDACTED",
+    "parser_version": "nsac-nevada@1.0.0",
+    "simulated": false,
+    "name": "a Zuffa Boxing"
+   }
+  ],
+  "official_names": [
+   {
+    "doc_key": "fl-results:08-08-2026-MVP_Boxing_Promotion-Results_without_med",
+    "source_bout_id": "2026-08-08|orlando|most-valuable-promotion|desley-robinson|tamm-thibeault",
+    "parser_version": "florida-athletic-commission@1.0.0",
+    "simulated": false,
+    "name": "Christopher Young IBF & WBO World Middle Weight"
+   },
+   {
+    "doc_key": "fl-results:08-29-2026-Boxlab_Promotions_Results_without_med",
+    "source_bout_id": "2026-08-28|orlando|matchroom-boxing-promotions|alex-bray|antraveous-ingram",
+    "parser_version": "florida-athletic-commission@1.0.0",
+    "simulated": false,
+    "name": "Ged WBO & WBA O'Connor"
+   },
+   {
+    "doc_key": "fl-results:08-29-2026-Boxlab_Promotions_Results_without_med",
+    "source_bout_id": "2026-08-28|orlando|matchroom-boxing-promotions|corey-marksman|christian-barreto-gonzalez",
+    "parser_version": "florida-athletic-commission@1.0.0",
+    "simulated": false,
+    "name": "Braddan WBO & WBA Jackson"
+   },
+   {
+    "doc_key": "nv-results:2026:01-23-26_Boxing_REDACTED",
+    "source_bout_id": "2026-01-23|ufc-apex|robert-owen-meriwether-iii|cesar-eric-correa",
+    "parser_version": "nsac-nevada@1.0.0",
+    "simulated": false,
+    "name": "& Cory Santos"
+   },
+   {
+    "doc_key": "nv-results:2026:01-23-26_Boxing_REDACTED",
+    "source_bout_id": "2026-01-23|ufc-apex|robert-owen-meriwether-iii|cesar-eric-correa",
+    "parser_version": "nsac-nevada@1.0.0",
+    "simulated": false,
+    "name": "& Steve Weisfeld"
+   },
+   {
+    "doc_key": "nv-results:2026:02-01-26_Boxing_REDACTED",
+    "source_bout_id": "2026-02-01|meta-apex|oscar-alan-perez|justin-kawika-viloria",
+    "parser_version": "nsac-nevada@1.0.0",
+    "simulated": false,
+    "name": "Chris Migliore & Ricardo Ocasio"
+   },
+   {
+    "doc_key": "nv-results:2026:05-23-26_Boxing_REDACTED",
+    "source_bout_id": "2026-05-23|meta-apex|anthony-proctor|ethan-stern",
+    "parser_version": "nsac-nevada@1.0.0",
+    "simulated": false,
+    "name": "& Cory Santos"
+   }
+  ]
+ },
+ "summary": {
+  "officials": 117,
+  "A": 0,
+  "A_pending": 0,
+  "B": 9,
+  "C": 5,
+  "D": 7,
+  "review_queue_pending": 28,
+  "artifact_official_names": 2,
+  "surname_only_officials": 5,
+  "duplicate_active_judge_slots": 0,
+  "promoter_fragments_in_latest_parses": 18,
+  "official_artifacts_in_latest_parses": 7
+ },
+ "simulation_errors": [],
+ "simulated_changes": []
+}

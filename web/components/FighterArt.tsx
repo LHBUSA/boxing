@@ -5,7 +5,7 @@ import type { Portrait } from "@/lib/types";
 //  - A licensed portrait (recorded license, author, source) renders as a photo
 //    with its credit line.
 //  - Otherwise: the PropBetEdge boxer silhouette. It is a generic figure in a
-//    high guard, lit from the boxer's corner under an arena spotlight, behind
+//    high guard (gloves in the corner color), lit from the boxer's corner under an arena spotlight, behind
 //    ring ropes. It never depicts a face and is never presented as a likeness.
 //  - `href` links the art to a page. The link wraps only the image, never the credit line: the
 //    credit carries its own license link, and a link inside a link is invalid HTML (it broke
@@ -18,33 +18,30 @@ function hash(s: string): number {
 }
 
 const LIGHT = {
-  red: { rim: "#ff6b6b", glow: "rgba(211,58,63,0.55)", rope: "rgba(255,120,120,0.35)" },
-  blue: { rim: "#6aa6ff", glow: "rgba(47,118,220,0.55)", rope: "rgba(120,170,255,0.35)" },
-  neutral: { rim: "#ecc85e", glow: "rgba(212,175,55,0.35)", rope: "rgba(236,200,94,0.28)" },
+  red: { rim: "#ff6b6b", glow: "rgba(211,58,63,0.55)", rope: "rgba(255,120,120,0.35)", glove: "#5a1c1f", glove2: "#2a0c0e" },
+  blue: { rim: "#6aa6ff", glow: "rgba(47,118,220,0.55)", rope: "rgba(120,170,255,0.35)", glove: "#1c3558", glove2: "#0b1626" },
+  neutral: { rim: "#ecc85e", glow: "rgba(212,175,55,0.35)", rope: "rgba(236,200,94,0.28)", glove: "#4a3a17", glove2: "#1f180a" },
 } as const;
 
 export function Silhouette({ id, corner, mirror = false }: { id: string; corner: "red" | "blue" | null; mirror?: boolean }) {
   const h = hash(id);
   const tone = LIGHT[corner ?? "neutral"];
   const k = `s${(h % 1e9).toString(36)}${mirror ? "m" : ""}`;
-  const rg = ((h >> 5) % 13) - 6;
-  const lg = ((h >> 9) % 13) - 6;
+  const rg = ((h >> 5) % 9) - 4;
+  const lg = ((h >> 9) % 9) - 4;
   const ropeTilt = ((h >> 13) % 7) - 3;
   const lightX = mirror ? 20 : 80;
+  // One boxer in a high guard: head and shoulders, forearms up, gloves in the corner color in front of the chin.
+  // Gloves are smaller than the head and tinted so they never read as extra heads.
   const figure = (
-    <>
-      <path d="M150 42 C124 42 111 62 111 90 C111 114 119 131 129 141 C131 151 129 162 125 170 C99 178 68 190 55 214 C39 244 33 300 29 380 L271 380 C267 300 261 244 245 214 C232 190 201 178 175 170 C171 162 169 151 171 141 C181 131 189 114 189 90 C189 62 176 42 150 42 Z" />
-      <path d={`M60 304 C68 254 90 ${216 + rg} 103 ${194 + rg} L125 ${199 + rg} C114 ${226 + rg} 99 264 95 310 Z`} />
-      <path d={`M240 310 C234 264 214 ${230 + lg} 199 ${206 + lg} L176 ${208 + lg} C189 ${236 + lg} 203 272 207 310 Z`} />
-      <path d={`M86 ${150 + rg} C84 ${125 + rg} 102 ${112 + rg} 119 ${116 + rg} C136 ${120 + rg} 143 ${137 + rg} 141 ${158 + rg} C139 ${181 + rg} 128 ${198 + rg} 110 ${198 + rg} C93 ${198 + rg} 87 ${177 + rg} 86 ${150 + rg} Z`} />
-      <path d={`M214 ${160 + lg} C216 ${134 + lg} 197 ${120 + lg} 179 ${124 + lg} C161 ${128 + lg} 154 ${146 + lg} 156 ${168 + lg} C158 ${192 + lg} 170 ${210 + lg} 189 ${210 + lg} C207 ${210 + lg} 213 ${188 + lg} 214 ${160 + lg} Z`} />
-    </>
+    <path d="M150 42 C128 42 115 60 115 86 C115 108 124 124 135 131 L136 150 C104 154 76 164 62 182 C46 204 40 260 36 380 L264 380 C260 260 254 204 238 182 C224 164 196 154 164 150 L165 131 C176 124 185 108 185 86 C185 60 172 42 150 42 Z" />
   );
-  const cuffs = (
-    <>
-      <path d={`M94 ${186 + rg} C102 ${192 + rg} 122 ${192 + rg} 132 ${184 + rg}`} fill="none" stroke="rgba(255,245,220,0.10)" strokeWidth="3" />
-      <path d={`M166 ${197 + lg} C176 ${205 + lg} 198 ${205 + lg} 207 ${196 + lg}`} fill="none" stroke="rgba(255,245,220,0.10)" strokeWidth="3" />
-    </>
+  const glove = (cx: number, dy: number, dir: 1 | -1, tilt: number) => (
+    <g transform={`rotate(${tilt} ${cx} ${167 + dy})`}>
+      <path d={`M${cx - 25} ${150 + dy} C${cx - 25} ${133 + dy} ${cx - 13} ${124 + dy} ${cx} ${124 + dy} C${cx + 15} ${124 + dy} ${cx + 25} ${134 + dy} ${cx + 25} ${152 + dy} L${cx + 25} ${184 + dy} C${cx + 25} ${200 + dy} ${cx + 13} ${210 + dy} ${cx} ${210 + dy} C${cx - 14} ${210 + dy} ${cx - 25} ${200 + dy} ${cx - 25} ${184 + dy} Z`} />
+      <path d={`M${cx + dir * 24} ${150 + dy} C${cx + dir * 34} ${152 + dy} ${cx + dir * 34} ${174 + dy} ${cx + dir * 24} ${178 + dy}`} strokeOpacity="0.5" />
+      <path d={`M${cx - 22} ${197 + dy} C${cx - 10} ${204 + dy} ${cx + 10} ${204 + dy} ${cx + 22} ${197 + dy}`} fill="none" stroke="rgba(255,245,220,0.16)" strokeWidth="3" />
+    </g>
   );
   return (
     <svg viewBox="0 0 300 375" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
@@ -63,6 +60,10 @@ export function Silhouette({ id, corner, mirror = false }: { id: string; corner:
           <stop offset="0.35" stopColor="#1d1813" />
           <stop offset="1" stopColor="#0a0806" />
         </linearGradient>
+        <linearGradient id={`${k}gl`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor={tone.glove} />
+          <stop offset="1" stopColor={tone.glove2} />
+        </linearGradient>
         <filter id={`${k}blur`} x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2.4" /></filter>
       </defs>
       <rect width="300" height="375" fill="#0c0a08" />
@@ -76,7 +77,14 @@ export function Silhouette({ id, corner, mirror = false }: { id: string; corner:
       <g transform={mirror ? "translate(300 0) scale(-1 1)" : undefined}>
         <g fill="none" stroke={tone.rim} strokeWidth="5" opacity="0.75" filter={`url(#${k}blur)`} transform="translate(5 -2)">{figure}</g>
         <g fill={`url(#${k}body)`}>{figure}</g>
-        <g>{cuffs}</g>
+        <g fill="#171310" stroke="rgba(255,245,220,0.05)" strokeWidth="1.5">
+          <path d={`M52 330 C54 286 70 240 100 ${204 + rg} L134 ${210 + rg} C114 244 98 290 92 336 Z`} />
+          <path d={`M248 330 C246 286 230 240 200 ${204 + lg} L166 ${210 + lg} C186 244 202 290 208 336 Z`} />
+        </g>
+        <g fill={`url(#${k}gl)`} stroke={tone.rim} strokeOpacity="0.35" strokeWidth="1.5">
+          {glove(118, rg, 1, -9)}
+          {glove(182, lg, -1, 9)}
+        </g>
       </g>
     </svg>
   );
