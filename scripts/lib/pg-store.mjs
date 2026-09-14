@@ -98,6 +98,9 @@ export function pgStore(client) {
     async recordOrgIdentityNames(p) { return (await one(client, 'select public.boxing_record_org_identity_names($1) as r', [p])).r; },
     async refreshOrgIdentityCandidates({ full = false } = {}) { return (await one(client, 'select public.boxing_refresh_org_identity_candidates_v2($1) as r', [full])).r; },
     async orgIdentityReviewSummary() { return (await one(client, 'select public.boxing_org_identity_review_summary() as r')).r; },
+    async titleChainPairs(orgSlug, limit) { return (await one(client, 'select public.boxing_title_chain_pairs($1, $2) as r', [orgSlug, limit])).r; },
+    async recordTitleAnalyses(p) { return (await one(client, 'select public.boxing_record_title_analyses($1) as r', [p])).r; },
+    async titleProposalSummary() { return (await one(client, 'select public.boxing_title_proposal_summary() as r')).r; },
     async derivedUnification(weightClassKey, gender) { return (await one(client, 'select public.boxing_derived_unification($1, $2) as r', [weightClassKey, gender])).r; },
     async titleSnapshotJson(id) { return (await one(client, 'select public.boxing_title_snapshot_json($1) as r', [id])).r; },
     async latestTitleSnapshot(orgSlug, weightClassKey, gender, kind, onOrBefore = null, exclude = null) {

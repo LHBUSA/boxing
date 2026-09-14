@@ -336,3 +336,33 @@ test('identity review by source identity: WBA ids collapse, name candidates stay
   const lanes = await store.siteTitleLanes('light_heavyweight', 'male');
   assert.equal(lanes.derived.status, 'unified');
 });
+
+test('chronological pass: months stored newest first are diffed oldest -> newest; proposals only; idempotent', async () => {
+  const { runChronologicalDiffs } = await import('../../shared/titles/chronological-diffs.mjs');
+  const post = (y, m) => `POST https://www.wbaboxing.com/wba-ranking dates=${y}:${m}:`;
+  site.set(post(2025, 12), wbaRankingHtml({ label: 'DECEMBER 2025', date: 'December 31st, 2025', lhwRegular: 'SYNTH NEWREG' }));
+  site.set(post(2025, 11), wbaRankingHtml({ label: 'NOVEMBER 2025', date: 'November 30th, 2025', lhwRegular: 'SYNTH OLDREG' }));
+  // the month selector on the WBA page lists both months
+  site.set('https://www.wbaboxing.com/wba-ranking', wbaRankingHtml({ label: 'DECEMBER 2025', date: 'December 31st, 2025' }) + wbaRankingHtml({ label: 'NOVEMBER 2025', date: 'November 30th, 2025' }));
+  const stored = await run('wba', { mode: 'backfill', months: [{ y: 2025, m: 12 }, { y: 2025, m: 11 }] });
+  assert.deepEqual(Object.keys(stored.metrics.months), ['2025-12', '2025-11']);
+  const noDiff = await n(`public.boxing_title_event_proposals p where p.holder_source_name = 'SYNTH NEWREG'`);
+  assert.equal(noDiff, 0, 'stored newest first: the December snapshot had no earlier month to compare with');
+  const eventsBefore = await n('public.boxing_title_events');
+  const first = await runChronologicalDiffs(store, { bodies: ['wba'] });
+  assert.ok(first.wba.diffs > 0 && !first.wba.stalled, JSON.stringify(first));
+  const [p] = await q(`select p.change_type, p.previous_holder_source_name, p.holder_source_name, s1.as_of::text prev_on, s2.as_of::text cur_on
+    from public.boxing_title_event_proposals p join public.boxing_title_snapshot_diffs d on d.id = p.diff_id
+    join public.boxing_title_status_snapshots s1 on s1.id = d.previous_snapshot_id join public.boxing_title_status_snapshots s2 on s2.id = d.current_snapshot_id
+    where p.holder_source_name = 'SYNTH NEWREG' and s1.document_kind = 'wba_ranking'`);
+  assert.deepEqual([p.change_type, p.previous_holder_source_name, p.prev_on, p.cur_on], ['holder_changed', 'SYNTH OLDREG', '2025-11-30', '2025-12-31']);
+  const [rk] = await q(`select d.ranking_changes from public.boxing_title_snapshot_diffs d join public.boxing_title_status_snapshots s on s.id = d.current_snapshot_id
+    join public.boxing_weight_classes wc on wc.id = s.weight_class_id where s.as_of = '2025-12-31' and s.document_kind = 'wba_ranking' and wc.class_key = 'light_heavyweight'`);
+  assert.ok(Array.isArray(rk.ranking_changes));
+  assert.equal(await n('public.boxing_title_events'), eventsBefore, 'proposals never write title events');
+  const again = await runChronologicalDiffs(store, { bodies: ['wba'] });
+  assert.deepEqual([again.wba.pairs, again.wba.diffs], [0, 0]);
+  const summary = await store.titleProposalSummary();
+  assert.ok(summary.by_body.wba.consecutive >= 1);
+  assert.equal(summary.title_events_from_proposals, 0);
+});
