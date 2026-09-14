@@ -40,8 +40,19 @@ export function parseSuperseded(adapter, state) {
   return stored !== adapter.version && (adapter.supersedesParserVersions ?? []).includes(stored);
 }
 
+// A connection reset before any response (tn.gov drops reused connections: "fetch failed") is retried twice, a few
+// seconds apart; an HTTP error status is an answer and is never retried.
+export async function fetchWithRetry(fetchImpl, url, init, { retryDelaysMs = [2000, 5000] } = {}) {
+  for (let attempt = 0; ; attempt++) {
+    try { return await fetchImpl(url, init); } catch (err) {
+      if (attempt >= retryDelaysMs.length) throw err;
+      await sleep(retryDelaysMs[attempt]);
+    }
+  }
+}
+
 async function fetchOk(fetchImpl, url, { binary = false } = {}) {
-  const res = await fetchImpl(url, { headers: { 'user-agent': USER_AGENT, accept: binary ? 'application/pdf,*/*' : 'text/html,text/calendar,*/*' } });
+  const res = await fetchWithRetry(fetchImpl, url, { headers: { 'user-agent': USER_AGENT, accept: binary ? 'application/pdf,*/*' : 'text/html,text/calendar,*/*' } });
   if (!res.ok) throw Object.assign(new Error(`http_${res.status} ${url}`), { httpStatus: res.status });
   return { body: binary ? new Uint8Array(await res.arrayBuffer()) : await res.text(), lastModified: res.headers.get('last-modified'), contentType: res.headers.get('content-type') };
 }

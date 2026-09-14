@@ -44,3 +44,19 @@ test('staging wrangler config: daily cron, staging-only target, default environm
   assert.match(staging, /BOXING_SUPABASE_REF = "wpaxofilvbsjyrxrwjhg"/);
   assert.doesNotMatch(toml, /tkmlnhmylqnttmnsnief|rlfyavnhbngwbldebrid|boxrec|compubox/i);
 });
+
+test('a connection reset is retried twice; an HTTP error status is returned, never retried', async () => {
+  const { fetchWithRetry } = await import('../../../shared/commissions/run.mjs');
+  let calls = 0;
+  const flaky = async () => { calls += 1; if (calls < 3) throw new TypeError('fetch failed'); return new Response('ok', { status: 200 }); };
+  assert.equal((await fetchWithRetry(flaky, 'https://example.test/', {}, { retryDelaysMs: [0, 0] })).status, 200);
+  assert.equal(calls, 3);
+  calls = 0;
+  const down = async () => { calls += 1; throw new TypeError('fetch failed'); };
+  await assert.rejects(fetchWithRetry(down, 'https://example.test/', {}, { retryDelaysMs: [0, 0] }), /fetch failed/);
+  assert.equal(calls, 3);
+  calls = 0;
+  const notFound = async () => { calls += 1; return new Response('no', { status: 404 }); };
+  assert.equal((await fetchWithRetry(notFound, 'https://example.test/', {}, { retryDelaysMs: [0, 0] })).status, 404);
+  assert.equal(calls, 1);
+});
