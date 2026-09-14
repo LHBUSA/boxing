@@ -29,7 +29,7 @@ export async function backfillIdentityNames(store, { bodies = IDENTITY_BODIES, b
 
 export async function refreshIdentityCandidates(store, opts = {}) {
   const names = await backfillIdentityNames(store, opts);
-  const refreshed = await store.refreshOrgIdentityCandidates();
+  const refreshed = await store.refreshOrgIdentityCandidates({ full: Boolean(opts.full) });
   const summary = await store.orgIdentityReviewSummary();
   return { names, refreshed, summary };
 }
