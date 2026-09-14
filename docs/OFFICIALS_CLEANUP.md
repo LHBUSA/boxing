@@ -1,7 +1,8 @@
 # Officials cleanup: parser artifacts and duplicate candidates
 
-Status 2026-09-14: protection deployed in code; staging data **not yet** changed. Cleanup waits for the
-first natural commission run (cron `40 11 * * *`, Worker `boxing-commissions-staging`).
+Status 2026-09-14 12:00Z: protection deployed; the first natural commission run happened (11:40Z) but did **not**
+re-parse Nevada (see below), so no Category A item exists yet and staging officials data is unchanged. The next natural
+run is 2026-09-15 11:40Z; Category A is applied only after a stored corrected Nevada parse exists.
 
 ## What went wrong
 
@@ -78,3 +79,29 @@ pwsh scripts/staging/verify-staging.ps1
 * Plan: A 0, A_pending 2 (`& Cory Santos`, `& Steve Weisfeld`: renames), B 7, C 5, D 7.
 * Still open outside this cleanup: Florida title text inside official names (`Ged WBO & WBA O'Connor`,
   `Efrain WBC Middleweight Lebron`, ...) needs a Florida parser fix; it is not a merge.
+
+## Natural run 2026-09-14 11:40Z (Worker boxing-commissions-staging 6b079bc7, cron `40 11 * * *`)
+
+Snapshots: `reviews/officials/2026-09-14-pre-run` (11:19Z) and `reviews/officials/2026-09-14-after-run` (11:44Z), both from
+`officials-cleanup.ps1 -RunMetrics -Plan` (read only).
+
+| adapter | status | listed | fetched | changed | superseded re-parse | officials kept | held | review items |
+|---|---|---|---|---|---|---|---|---|
+| nsac-nevada@1.0.2 | ok (should have been partial) | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| florida-athletic-commission@1.0.2 | partial | 16 | 1 | 0 | 0 | 0 | 0 | 0 |
+| nj-sacb@1.1.1 | partial | 1 | 1 | 1 | 1 | 17 | 0 | 8 identity |
+
+* Nevada: at 11:40:24 the 2026 results index answered 200 with a body that carried no result links (stored as listing
+  revision 2, sha `da3425bd`); the page served before and after is the normal one (sha `f27876cc`, 40 documents, also
+  from Cloudflare's network). Nothing was listed, so no superseded document was re-parsed. Fix: an official index that
+  parses to zero documents now marks the run partial (`metrics.empty_indexes`).
+* Florida: the listing links `08-30-2026-TBL_Promotions_results_without_med` (with a soft hyphen in the file name); every
+  URL variant returns an HTML page with status 200. Recorded before as a parse failure; now `not_a_pdf` (source-side).
+* New Jersey: the 09-04 sheet re-parsed with 1.1.1; 17 officials kept by continuity, 0 held, 0 new officials.
+* Officials before → after: 117 → 117; active assignments 1,391 → 1,391; scorecards 180 → 180; duplicate active judge
+  slots 0 → 0; pending official review items 28 → 28; parser-artifact names `& Cory Santos`, `& Steve Weisfeld` (Nevada)
+  remain; malformed Nevada promoter names (3) and event names (6) remain; malformed New Jersey judge names: none.
+* Plan after the run: A 0, A_pending 0 (no simulation), B 9, C 5, D 7. Nothing to apply.
+* Known gap: Ruiz vs Knyba (NJ 09-04) has judges in slots 2 and 3 and the referee; slot 1 (Glenn Feldman) stays in
+  review (`insufficient_evidence`), so none of its three published cards is stored. Thresholds are not lowered.
+

@@ -3,7 +3,7 @@
 // SAME code path as the boxing-commissions Worker (guardedPostgrestStore +
 // runCommissionIngest). Run via scripts/staging/commissions-ingest.ps1.
 //
-//   node scripts/commissions/ingest-once.mjs <nevada|florida|new_jersey> [--backfill --year=2026] [--replay-odds] [--coverage-only]
+//   node scripts/commissions/ingest-once.mjs <nevada|florida|new_jersey|missouri> [--backfill --year=2026] [--replay-odds] [--coverage-only]
 //
 // Prints metrics only; never prints credentials.
 

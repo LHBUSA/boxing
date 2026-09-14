@@ -168,3 +168,55 @@ export const NJ_BOUTS = [
   { n: 3, rds: 6, division: 'Middleweight (165 lbs.)', a: { name: 'Rae Typo', id: 'PA 999005', home: 'Camden, NJ', weight: 165 }, b: { name: 'Sid Other', id: 'PA 999006', home: 'Trenton, NJ', weight: 164.5 },
     result: ['Ray Typoe – Winner Unanimous Decision'], referee: 'Referee Jerseyone', judges: 'Judge Ajersey (60-54), Judge Bjersey (60-54), Judge Cjersey (59-55)' },
 ];
+
+// ---------------------------------------------------------------- Missouri
+// Geometry mirrors the Missouri Office of Athletics Word-export sheets reviewed on 2026-09-14. Every name,
+// federal id, date of birth and record below is FAKE.
+// bouts: [{ n, section, rds, a: { name, from, wgt, rslt, comment }, b: {...} }]
+export function missouriPages({ title = 'MISSOURI PROFESSIONAL BOXING AND AMATEUR KICKBOXING SHOW RESULTS', date = '9/5/26', venue = 'Synthetic Hall', city = 'CITY: Synthetic City, MO',
+  promoter = 'Synthetic Boxing Promotions', eventNo = '26-999', referees = [['Rex Refone', '1 3'], ['Ray Reftwo', '2 4']], judges = [['Jan Alpha', ''], ['Joe Bravo', ''], ['Kim Charlie', '']], bouts = [] } = {}) {
+  const items = [
+    it('BOUTS', 692, 532), it(title, 61, 528),
+    it('MISSOURI OFFICE OF ATHLETICS', 84, 517), it('PROMOTER', 242, 517), it(promoter, 306, 517),
+    it('3605 MISSOURI BOULEVARD', 93, 506), it('ANNOUNCER', 242, 506), it('Ann Ouncer', 306, 506),
+    it('(573) 555-0100 OFFICE', 102, 486), it('TIMEKEEPER', 242, 486), it('DOCTOR', 242, 476), it('Dr. Syn Thetic', 306, 476),
+    it('DATE', 58, 466), it('LOCATION', 148, 466), it(date, 58, 456), it(venue, 104, 456), it('EXECUTIVE DIRECTOR', 242, 456), it('Ex Director', 391, 456),
+    it('ATTENDANCE', 58, 446), it('321', 126, 446), it('EVENT #', 242, 446), it(eventNo, 409, 446), it(city, 58, 435), it('INSPECTORS: In Spector, Two Spector', 158, 435),
+    it('BOUT', 60, 425), it('AGE', 98, 425), it('NAME', 153, 425), it('FROM', 241, 425), it('WGT', 303, 425), it('FED ID', 340, 425), it('RDS', 385, 425),
+    it('DOB', 423, 425), it('RECORD', 463, 425), it('RSLT', 510, 425), it('COMMENTS', 611, 425),
+  ];
+  let ry = 517;
+  for (const [name, list] of referees) { items.push(it('REFEREE', 504, ry), it(name, 549, ry)); if (list) items.push(it(list, 689, ry)); ry -= 10; }
+  let jy = 486;
+  for (const [name, list] of judges) { items.push(it('JUDGE', 504, jy), it(name, 549, jy)); if (list) items.push(it(list, 689, jy)); jy -= 10; }
+  const pages = [{ page: 1, width: 792, height: 612, items }];
+  let y = 405;
+  for (const b of bouts) {
+    if (y < 80) { pages.push({ page: pages.length + 1, width: 792, height: 612, items: [] }); y = 532; }
+    const target = pages.at(-1).items;
+    const row = (c, rowY, first) => {
+      if (first) target.push(it(String(b.n), 69, rowY), it(String(b.rds), 383, rowY));
+      target.push(it('31', 95, rowY), it(c.name, 126, rowY), it(c.from, 212, rowY), it(String(c.wgt), 302, rowY), it('123456', 333, rowY), it('1/1/95', 414, rowY), it('3-1', 459, rowY));
+      if (c.rslt) target.push(it(c.rslt, 509, rowY));
+      if (c.comment) target.push(it(c.comment, 540, rowY));
+    };
+    if (b.section) target.push(it(b.section, 58, y));
+    row(b.a, y - 10, true);
+    if (b.section) target.push(it(b.section, 58, y - 20));
+    row(b.b, y - (b.section ? 30 : 20), false);
+    y -= b.section ? 52 : 40;
+  }
+  return pages;
+}
+
+export const MISSOURI_BOUTS = [
+  { n: 1, section: 'AMATEUR KICKBOXING', rds: 3, a: { name: 'Kick Syntheticone', from: 'Columbia, MO', wgt: 160.2, rslt: 'Lost', comment: '30 Days Susp Concussion' }, b: { name: 'Kick Synthetictwo', from: 'Sedalia, MO', wgt: 166.8, rslt: 'Won', comment: 'By Unanimous Decision 30 30 30' } },
+  { n: 2, section: 'PROFESSIONAL BOXING', rds: 4, a: { name: 'Alpha Synthetic', from: 'St. Louis, MO', wgt: 156.9, rslt: 'Lost', comment: '36 39 37, 30 Days Suspension Cut Over Eye' }, b: { name: 'Bravo Synthetic', from: 'Independence, MO', wgt: 153.9, rslt: 'Won', comment: 'By Split Decision 40 37 39' } },
+  { n: 3, section: 'PROFESSIONAL BOXING', rds: 6, a: { name: 'Charlie Synthetic', from: 'Columbia, MO', wgt: 157.8, rslt: 'Won', comment: 'By TKO 1:56 of the 4 round' }, b: { name: 'Delta Synthetic', from: 'Macon, MO', wgt: 167.8, rslt: 'Lost', comment: 'Indefinite Susp, No Skills' } },
+  { n: 4, section: 'PROFESSIONAL BOXING EXHIBITION', rds: 3, a: { name: 'Echo Synthetic', from: 'Rolla, MO', wgt: 181.2, rslt: '', comment: 'Exhibition Only' }, b: { name: 'Foxtrot Synthetic', from: 'Hannibal, MO', wgt: 201, rslt: '', comment: 'Exhibition Only' } },
+];
+
+export const MISSOURI_INDEX_HTML = "<Table width='100%'><tr><th scope='col'>Date</td><th scope='col'>Last Modified</th></tr>"
+  + "<TR><td><a target='_blank' href='boards/athletics/boxingresults/2026-09-05%20BOXAKICKRES%20Synthetic%20City%20Synthetic%20Boxing.pdf'>2026-09-05 BOXAKICKRES Synthetic City Synthetic Boxing</a></td><td><font size='-2'><i>9/7/2026</i></font></td></TR>"
+  + "<TR><td><a target='_blank' href='boards/athletics/boxingresults/2026-09-04%20KICKBOXRES%20Synthetic%20City%20Kick.pdf'>2026-09-04 KICKBOXRES Synthetic City Kick</a></td><td><font size='-2'><i>9/6/2026</i></font></td></TR>"
+  + "<TR><td><a target='_blank' href='boards/athletics/boxingresults/2026-09-03%20AKICKRES%20Synthetic%20City%20Am.pdf'>2026-09-03 AKICKRES Synthetic City Am</a></td><td><font size='-2'><i>9/5/2026</i></font></td></TR></Table>";

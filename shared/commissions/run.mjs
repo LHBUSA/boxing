@@ -1,4 +1,4 @@
-// Commission ingestion runs (Nevada, Florida, New Jersey; Texas is disabled).
+// Commission ingestion runs (Nevada, Florida, New Jersey, Missouri; Texas is disabled).
 //
 // Gates (fail closed): COMMISSION_INGEST_ENABLED="true"; verified boxing write
 // target; adapter.remote.enabled; source row approved_ingest + enabled +
@@ -20,11 +20,12 @@ import { NEVADA, parseCalendar, parseNevadaResults, parseResultsIndex, resultsIn
 import { FLORIDA, parseFloridaResults, parseResultsListing, parseUpcoming } from '../adapters/commissions/florida.mjs';
 import { NEW_JERSEY, isOfficialNjUrl, parseNjResults, parseNjSchedule } from '../adapters/commissions/new-jersey.mjs';
 import { TEXAS } from '../adapters/commissions/texas.mjs';
+import { MISSOURI, parseMissouriIndex, parseMissouriResults } from '../adapters/commissions/missouri.mjs';
 import { SPORT } from '../adapters/commissions/contract.mjs';
 import { extractPositionedText, sha256Bytes } from '../adapters/commissions/pdf.mjs';
 import { assertMinimized } from '../adapters/commissions/minimize.mjs';
 
-export const COMMISSION_ADAPTERS = Object.freeze({ nevada: NEVADA, florida: FLORIDA, new_jersey: NEW_JERSEY, texas: TEXAS });
+export const COMMISSION_ADAPTERS = Object.freeze({ nevada: NEVADA, florida: FLORIDA, new_jersey: NEW_JERSEY, missouri: MISSOURI, texas: TEXAS });
 export const USER_AGENT = 'PropBetEdge-Boxing/1.0 (+https://propbetedge.ai; official commission records; low-rate)';
 const DAY = 86_400_000;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -40,7 +41,7 @@ export function parseSuperseded(adapter, state) {
 async function fetchOk(fetchImpl, url, { binary = false } = {}) {
   const res = await fetchImpl(url, { headers: { 'user-agent': USER_AGENT, accept: binary ? 'application/pdf,*/*' : 'text/html,text/calendar,*/*' } });
   if (!res.ok) throw Object.assign(new Error(`http_${res.status} ${url}`), { httpStatus: res.status });
-  return { body: binary ? new Uint8Array(await res.arrayBuffer()) : await res.text(), lastModified: res.headers.get('last-modified') };
+  return { body: binary ? new Uint8Array(await res.arrayBuffer()) : await res.text(), lastModified: res.headers.get('last-modified'), contentType: res.headers.get('content-type') };
 }
 
 const summarize = (parsed) => ({ classification: parsed.classification, events: parsed.events.length, bouts: parsed.bouts.length,
@@ -77,6 +78,9 @@ export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = 
       else if (k === 'skipped') { metrics.apply.skipped_reasons ??= {}; for (const x of v) metrics.apply.skipped_reasons[x.reason] = (metrics.apply.skipped_reasons[x.reason] ?? 0) + 1; }
     }
   };
+  // an official index that parses to zero result documents is never a quiet success (2026-09-14: the Nevada 2026
+  // index answered 200 with a page carrying no result links, and the run reported ok with nothing listed)
+  const noteEmptyIndex = (docKey) => { (metrics.empty_indexes ??= []).push(docKey); };
   const reject = (reasons) => { for (const r of reasons) metrics.rejected_reasons[r] = (metrics.rejected_reasons[r] ?? 0) + 1; };
 
   // Records a listing/feed fetch as a document revision (changed only when content hash differs).
@@ -106,6 +110,15 @@ export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = 
       return;
     }
     metrics.documents_fetched += 1;
+    // a listed document that is not a PDF (a site error page served with 200) is a source-side fault, not a parse failure
+    // (checked for the real PDF extractor; tests inject a synthetic extractor and synthetic bytes)
+    const magic = String.fromCharCode(...fetched.body.slice(0, 5));
+    if (extract === extractPositionedText && magic !== '%PDF-') {
+      metrics.documents_not_pdf = (metrics.documents_not_pdf ?? 0) + 1;
+      await store.recordDocumentFetch({ source_key: adapter.sourceKey, doc_key: ref.doc_key, url: ref.url, kind: 'results', sport_hint: ref.sport_hint, status: 'error',
+        error: `not_a_pdf: ${String(fetched.contentType ?? 'unknown content type').slice(0, 60)}`, fetched_at: now });
+      return;
+    }
     const sha = await sha256Bytes(fetched.body);
     // unchanged content is not re-parsed, unless the previous attempt failed (fixed parser)
     if (state?.current_sha256 === sha && state.status !== 'error' && !parserOutdated && (!state.parser_version || state.parser_version === adapter.version)) {
@@ -161,6 +174,7 @@ export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = 
         const idx = await fetchOk(fetchImpl, resultsIndexUrl(y));
         await recordListing(`nv-results-index:${y}`, resultsIndexUrl(y), 'listing', idx.body, idx.lastModified);
         const refs = parseResultsIndex(idx.body, { year: y });
+        if (!refs.length) noteEmptyIndex(`nv-results-index:${y}`);
         metrics.documents_listed += refs.length;
         for (const ref of refs) {
           if (ref.sport_hint !== SPORT.BOXING) { metrics.documents_skipped += 1; reject([`listing_not_boxing:${ref.sport_hint}`]); continue; }
@@ -178,7 +192,9 @@ export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = 
       }
       const listing = await fetchOk(fetchImpl, FLORIDA.resultsUrl);
       await recordListing('fl-results:listing', FLORIDA.resultsUrl, 'listing', listing.body, listing.lastModified);
-      const refs = parseResultsListing(listing.body).filter((r) => r.event_date && (mode === 'backfill'
+      const listed = parseResultsListing(listing.body);
+      if (!listed.length) noteEmptyIndex('fl-results:listing');
+      const refs = listed.filter((r) => r.event_date && (mode === 'backfill'
         ? (years ?? [new Date(now).getUTCFullYear()]).includes(Number(r.event_date.slice(0, 4)))
         : Date.parse(`${r.event_date}T00:00:00Z`) >= nowMs - 60 * DAY));
       metrics.documents_listed += refs.length;
@@ -190,6 +206,7 @@ export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = 
       const page = await fetchOk(fetchImpl, NEW_JERSEY.scheduleUrl);
       const rev = await recordListing('nj-schedule', NEW_JERSEY.scheduleUrl, 'schedule', page.body, page.lastModified);
       const parsed = parseNjSchedule(page.body, { capturedAt: now });
+      if (!parsed.documents.length) noteEmptyIndex('nj-schedule');
       reject(parsed.rejected.map((r) => r.reason.split(':').slice(0, 2).join(':')));
       const events = parsed.events.filter((e) => (mode === 'backfill' ? (years ?? [new Date(now).getUTCFullYear()]).includes(Number(e.event_date.slice(0, 4))) : Date.parse(`${e.event_date}T00:00:00Z`) >= nowMs - 60 * DAY));
       metrics.events_observed += events.length;
@@ -200,12 +217,26 @@ export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = 
         if (!isOfficialNjUrl(d.url)) { metrics.documents_skipped += 1; reject(['third_party_document_ignored']); continue; }
         await processDocument(d, (r, pages, o) => parseNjResults(r, pages, { capturedAt: now, scheduleEvents: events, ...o }));
       }
+    } else if (adapterKey === 'missouri') {
+      const index = await fetchOk(fetchImpl, MISSOURI.resultsUrl);
+      await recordListing('mo-results:index', MISSOURI.resultsUrl, 'listing', index.body, index.lastModified);
+      const indexed = parseMissouriIndex(index.body);
+      if (!indexed.length) noteEmptyIndex('mo-results:index');
+      const refs = indexed.filter((r) => r.event_date && (mode === 'backfill'
+        ? (years ?? [new Date(now).getUTCFullYear()]).includes(Number(r.event_date.slice(0, 4)))
+        : Date.parse(`${r.event_date}T00:00:00Z`) >= nowMs - 60 * DAY));
+      metrics.documents_listed += refs.length;
+      for (const ref of refs) {
+        // file-name codes name the sports on the sheet; a boxing code (or none) lets the document decide
+        if (![SPORT.UNKNOWN, SPORT.BOXING].includes(ref.sport_hint)) { metrics.documents_skipped += 1; reject([`listing_not_boxing:${ref.sport_hint}`]); continue; }
+        await processDocument(ref, (r, pages, o) => parseMissouriResults(r, pages, { capturedAt: now, ...o }));
+      }
     }
   } catch (err) {
     status = 'failed';
     metrics.error = String(err?.message ?? err).slice(0, 300);
   }
-  if (status === 'ok' && (metrics.http_errors || metrics.parse_failures || metrics.apply.identity_unresolved)) status = 'partial';
+  if (status === 'ok' && (metrics.http_errors || metrics.parse_failures || metrics.documents_not_pdf || metrics.empty_indexes?.length || metrics.apply.identity_unresolved)) status = 'partial';
   await store.finishRun(runId, { status, metrics, observed: metrics.events_observed + metrics.bouts_observed, canonicalWrites: (metrics.apply.results_created ?? 0) + (metrics.apply.events_created ?? 0),
     reviewItems: metrics.apply.identity_unresolved ?? 0, errors: metrics.http_errors + metrics.parse_failures + (status === 'failed' ? 1 : 0), assertions: status === 'failed' ? { error: metrics.error } : {} });
   if (prov?.invocation_id && store.recordWorkerInvocation) {

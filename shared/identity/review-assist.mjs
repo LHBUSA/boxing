@@ -27,7 +27,7 @@ async function storedBoutIndex(store, sourceKey) {
 }
 
 // Returns { generated_at, items: [...], summary }
-export async function buildIdentityReviewReport(store, { sourceKeys = ['nsac_nevada', 'florida_athletic_commission', 'nj_sacb'], now = new Date().toISOString() } = {}) {
+export async function buildIdentityReviewReport(store, { sourceKeys = ['nsac_nevada', 'florida_athletic_commission', 'nj_sacb', 'mo_office_of_athletics'], now = new Date().toISOString() } = {}) {
   const backlog = await store.identityReviewBacklog(sourceKeys);
   const indexes = new Map();
   const items = [];
