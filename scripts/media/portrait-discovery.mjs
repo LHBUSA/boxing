@@ -83,7 +83,11 @@ export function datePatterns(iso) {
 
 // A record-table row (or bullet line) naming one of our opponents on our bout date.
 export function findBoutEvidence(wikitext, bouts) {
-  const rows = String(wikitext ?? '').split(/\n\|-|\n\*/);
+  // only rows of wiki tables (the professional boxing record), never infobox or prose chunks
+  const rows = [];
+  for (const table of String(wikitext ?? '').matchAll(/\{\|[\s\S]*?\n\|\}/g)) {
+    for (const row of table[0].split(/\n\|-[^\n]*/).slice(1)) if (row.length <= 1200) rows.push(row);
+  }
   for (const b of bouts) {
     if (!b.date) continue;
     const dates = datePatterns(b.date);
@@ -124,6 +128,9 @@ export function assessImage(meta, info, fighter) {
   if (ownWork && orgAccount && !vrt) flags.push('own_work_by_organization_account_without_vrt');
   if (/youtube/i.test(`${credit} ${description}`) && !categories.some((c) => /license review|reviewed|YouTube CC-BY/i.test(c))) flags.push('youtube_transfer_without_license_review');
   if (/flickr/i.test(`${credit} ${description}`) && !categories.some((c) => /reviewed|license review|FlickreviewR/i.test(c))) flags.push('flickr_transfer_without_review');
+  // a fight, ceremony or group photo may crop to someone else: a portrait must plausibly show one person
+  const subjectText = fold(`${info.name ?? ''} ${meta.ObjectName?.value ?? ''} ${description}`).replace(/[_]/g, ' ');
+  if (/\bvs?\.?\s|\bversus\b|\s(and|y|e|with|con|against|contra)\s|\s&\s|\bbout\b|\bfight\b|\bmedal|\bmedalha|\bpodium\b|\bceremony\b|\bpress conference\b|\bteam\b|\s(et|entre|und|gegen)\s|\bdesfile\b|\bparade\b|\bdefeating\b|\bdelegac|\bdelegation\b|\btour preliminaire\b/.test(subjectText)) flags.push('may_show_more_than_one_person');
   const surnames = tokens(fighter.name).filter((w) => w.length >= 3 && !SUFFIX.has(w)).slice(-2);
   const namesBoxer = surnames.some((s) => fold(`${description} ${categories.join(' ')}`).includes(s));
   return { state: flags.length ? 'review_required' : 'approvable', reason: flags.join(',') || null, license, license_url: meta.LicenseUrl?.value ?? null, author, credit, description: description.slice(0, 300),
@@ -148,7 +155,8 @@ async function discover(f) {
   if (!qids.size) return { ...rec, status: 'no_wikidata_candidate' };
   const ents = await getJson(`https://www.wikidata.org/w/api.php?action=wbgetentities&format=json&maxlag=5&props=claims|sitelinks|labels&languages=en&ids=${[...qids].slice(0, 50).join('|')}`);
   const claimIds = (e, p) => (e.claims?.[p] ?? []).map((c) => c.mainsnak?.datavalue?.value?.id ?? c.mainsnak?.datavalue?.value).filter(Boolean);
-  const boxers = Object.values(ents.entities ?? {}).filter((e) => claimIds(e, 'P106').includes('Q11338576') || claimIds(e, 'P641').includes('Q32112'));
+  // a PERSON (P31 human) who boxes; fight articles ("A vs. B", sport boxing) are not boxers
+  const boxers = Object.values(ents.entities ?? {}).filter((e) => claimIds(e, 'P31').includes('Q5') && (claimIds(e, 'P106').includes('Q11338576') || claimIds(e, 'P641').includes('Q32112')));
   if (!boxers.length) return { ...rec, status: 'no_boxer_item', searched_items: qids.size };
   const candidates = [];
   for (const e of boxers) {
@@ -183,7 +191,7 @@ async function discover(f) {
     const pageInfo = q.query?.pages?.[0];
     const info = pageInfo?.imageinfo?.[0];
     if (!info) { images.push({ file, state: 'rejected', reason: 'file_not_found' }); continue; }
-    const a = assessImage(info.extmetadata ?? {}, info, f);
+    const a = assessImage(info.extmetadata ?? {}, { ...info, name: file }, f);
     if (via === 'commons_category_of_item' && a.state === 'approvable') {
       // not the item's chosen image: approvable only as a single-subject file whose description names the boxer in full
       const label = fold(item.label ?? '').replace(/\s*\(.*\)$/, '');

@@ -66,11 +66,11 @@ for (const { r, img, identityEvidence } of plan.import) {
   mkdirSync(join(mediaDir, hex), { recursive: true });
   const base = sharp(bytes, { failOn: 'none' }).rotate();
   const jpeg = { quality: 82, mozjpeg: true };
-  await base.clone().resize({ width: 768, height: 768, fit: 'cover', position: 'attention' }).jpeg(jpeg).toFile(join(mediaDir, `${hex}.jpg`));
+  await base.clone().resize({ width: 768, height: 768, fit: 'cover', position: 'north' }).jpeg(jpeg).toFile(join(mediaDir, `${hex}.jpg`));
   const hero = await base.clone().resize({ width: 1600, withoutEnlargement: true }).jpeg(jpeg).toFile(join(mediaDir, hex, 'hero.jpg'));
-  await base.clone().resize({ width: 1200, height: 675, fit: 'cover', position: 'attention' }).jpeg(jpeg).toFile(join(mediaDir, hex, 'wide.jpg'));
-  await base.clone().resize({ width: 512, height: 512, fit: 'cover', position: 'attention' }).jpeg(jpeg).toFile(join(mediaDir, hex, 'square.jpg'));
-  await base.clone().resize({ width: 160, height: 160, fit: 'cover', position: 'attention' }).jpeg(jpeg).toFile(join(mediaDir, hex, 'avatar.jpg'));
+  await base.clone().resize({ width: 1200, height: 675, fit: 'cover', position: 'north' }).jpeg(jpeg).toFile(join(mediaDir, hex, 'wide.jpg'));
+  await base.clone().resize({ width: 512, height: 512, fit: 'cover', position: 'north' }).jpeg(jpeg).toFile(join(mediaDir, hex, 'square.jpg'));
+  await base.clone().resize({ width: 160, height: 160, fit: 'cover', position: 'north' }).jpeg(jpeg).toFile(join(mediaDir, hex, 'avatar.jpg'));
   const entry = {
     public_id: r.public_id, name: r.name, file: `${hex}.jpg`, width: 768, height: 768,
     license: img.license, license_url: img.license_url, author: img.author, credit: img.credit || `Wikimedia Commons: ${img.file}`,
