@@ -5,17 +5,19 @@ import { fmtDate } from "@/lib/format";
 import { fighterPath } from "@/lib/slug";
 import type { RankingEntry } from "@/lib/types";
 import { Note, SecHead, Unavailable } from "@/components/fight";
-import { DOC_LABEL, Holder, asOfText, docDate } from "@/components/titles";
+import { BODY_SITE, DOC_LABEL, Holder, OFFICIAL_PAGE, OfficialLink, asOfText, docDate } from "@/components/titles";
 
 export const revalidate = 1800;
 export const metadata: Metadata = { title: "Rankings", description: "WBA, IBF and WBO rankings kept separate by body and division, each from the body's own dated document. No universal ranking." };
 
 const day = (ts: string | null | undefined) => (ts ? fmtDate(ts.slice(0, 10)) : "Date not on record");
 const titleCase = (s: string) => s.toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase());
-const notRated = (e: RankingEntry) => Boolean(e.metadata?.not_rated || (e.is_vacant && !e.source_name));
+const notRated = (e: RankingEntry) => Boolean(e.metadata?.not_rated || (e.is_vacant && !e.source_name && !e.metadata?.name_not_printed));
 
 function Who({ e }: { e: RankingEntry }) {
   if (notRated(e)) return <span>{e.metadata?.slot_text ?? "NOT RATED"}</span>;
+  // the body printed this position without a name: a display phrase only, never an identity
+  if (e.metadata?.name_not_printed) return <span className="dim" title={e.metadata.source_fighter_id ? `Name not printed by the source (source profile id ${e.metadata.source_fighter_id})` : "Name not printed by the source"}>Name not printed by source</span>;
   if (e.public_id && e.display_name) return <Link href={fighterPath({ public_id: e.public_id, name: e.display_name })}>{e.display_name}</Link>;
   // not yet tied to a PropBetEdge fighter: as printed by the body, never matched by name
   return <span className="lane__asprinted" title="As printed by the body; identity under review">{e.source_name}</span>;
@@ -56,7 +58,7 @@ export default async function RankingsPage({ searchParams }: { searchParams: Pro
       <header className="page-hero">
         <div className="eyebrow">Rankings · by sanctioning body</div>
         <h1>Every body ranks its own.</h1>
-        <p>The WBC, WBA, IBF and WBO each publish separate rankings. PropBetEdge shows each body's own list, dated to its document, and never blends them into a universal ranking.</p>
+        <p>The WBC, WBA, IBF and WBO each publish their own rankings. PropBetEdge shows each body&apos;s list as that body published it, dated to its document and linked to the official source. These are the bodies&apos; rankings, never blended into a universal one.</p>
       </header>
       <div className="filters">
         <div className="seg">{orgs.map((o) => <Link key={o.slug} className={o.slug === org.slug ? "is-on" : ""} href={link({ org: o.slug })}>{o.short_name}</Link>)}</div>
@@ -81,12 +83,13 @@ export default async function RankingsPage({ searchParams }: { searchParams: Pro
         ) : body?.state === "not_licensed" ? (
           <div className="lane lane--not_licensed">
             <div className="lane__closed">
-              <b>Not licensed · source unavailable</b>
-              <span>PropBetEdge has no permission to collect {org.short_name} rankings, so no {org.short_name} list is shown and no ranks are taken from other sources. Each other body's list is under its own tab.</span>
+              <b>Not collected</b>
+              <span>PropBetEdge does not collect {org.short_name} rankings, so no {org.short_name} list is shown and no ranks are taken from other sources.</span>
+              <OfficialLink href={BODY_SITE[org.slug]} label={`${org.name} official site`} />
             </div>
           </div>
         ) : !snap ? (
-          <Note title="No snapshot yet" pending>No {org.short_name} {div.name.toLowerCase()} document has been stored. A list appears here with its document date once collected.</Note>
+          <Note title="Not collected yet" pending>No {org.short_name} {div.name.toLowerCase()} list is stored yet. The {org.name} publishes its rankings on its own site. <OfficialLink href={BODY_SITE[org.slug]} label="Official site" /></Note>
         ) : (
           <>
             <div className="rk__champs" aria-label={`${org.short_name} champions`}>
@@ -129,7 +132,7 @@ export default async function RankingsPage({ searchParams }: { searchParams: Pro
                 </div>
               </div>
             ) : null}
-            <p className="fine mt-2">Source: {org.name}, official {DOC_LABEL[rec?.document_kind ?? ""] ?? "document"}. Facts only; regional tags are the body's own.{body?.previous ? ` Movement compares with the ${day(body.previous.effective_on ?? body.previous.published_on)} list, for fighters on record only.` : ""}</p>
+            <p className="fine mt-2">Source: {org.name}, official {DOC_LABEL[rec?.document_kind ?? ""] ?? "document"}. <OfficialLink href={OFFICIAL_PAGE[rec?.document_kind ?? ""] ?? BODY_SITE[org.slug]} label="Official source" /> Regional tags are the body&apos;s own.{body?.previous ? ` Movement compares with the ${day(body.previous.effective_on ?? body.previous.published_on)} list, for fighters on record only.` : ""}</p>
           </>
         )}
       </section>
@@ -146,9 +149,9 @@ export default async function RankingsPage({ searchParams }: { searchParams: Pro
         <SecHead kicker="Coverage" title="Snapshots on Record" />
         <div className="tiles">{orgs.map((o) => (
           <div className="tile" key={o.slug}>
-            <b className={o.slug === "wbc" ? "is-na" : ""}>{o.slug === "wbc" ? "Not licensed" : stored(o.slug)}</b>
+            <b className={stored(o.slug) ? "" : "is-na"}>{stored(o.slug) || "None yet"}</b>
             <span>{o.short_name} snapshots</span>
-            <small>{o.slug === "wbc" ? "Source unavailable" : o.display_allowed ? "Official source" : "Under source review"}</small>
+            <small>{o.display_allowed ? "Official source" : "Under source review"}</small>
           </div>
         ))}</div>
       </section>

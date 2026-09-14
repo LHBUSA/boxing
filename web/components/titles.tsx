@@ -2,7 +2,7 @@
 // with that body and its document; nothing is merged across bodies or resolved between a body's own documents.
 
 import Link from "next/link";
-import type { TitleBeltStatus, TitleDocument, TitleLane } from "@/lib/types";
+import type { TitleBeltStatus, TitleDocument, TitleLane, TitleLanes } from "@/lib/types";
 import { fmtDate } from "@/lib/format";
 import { fighterPath } from "@/lib/slug";
 
@@ -14,13 +14,27 @@ export const DOC_LABEL: Record<string, string> = {
   wbo_champions: "WBO champions page",
 };
 
-const BODY_HOME: Record<string, string> = { wba: "wbaboxing.com", ibf: "ibf-usba-boxing.com", wbo: "wboboxing.com" };
+// the public page of each body where a reader finds the underlying fact (PropBetEdge links back; it does not republish)
+export const OFFICIAL_PAGE: Record<string, string> = {
+  wba_ranking: "https://www.wbaboxing.com/wba-ranking",
+  wba_champions: "https://www.wbaboxing.com/current-wba-champions",
+  ibf_rating: "https://www.ibf-usba-boxing.com/ratings/",
+  wbo_ratings: "https://wboboxing.com/rankings/",
+  wbo_champions: "https://wboboxing.com/male-champions/",
+};
+export const BODY_SITE: Record<string, string> = {
+  wbc: "https://wbcboxing.com/", wba: "https://www.wbaboxing.com/", ibf: "https://www.ibf-usba-boxing.com/", wbo: "https://wboboxing.com/",
+};
+export function OfficialLink({ href, label }: { href: string | null | undefined; label: string }) {
+  if (!href) return null;
+  return <a className="link-gold lane__official" href={href} target="_blank" rel="noopener noreferrer">{label} ↗</a>;
+}
 const day = (ts: string | null | undefined) => (ts ? fmtDate(ts.slice(0, 10)) : "never");
 // collection is monthly; a lane is stale once a full cycle plus two weeks has passed without a successful check
 const STALE_DAYS = 45;
 
 export function Freshness({ lane, today }: { lane: TitleLane; today: string }) {
-  if (lane.state === "not_licensed") return <span className="tag tag--pending">Source unavailable</span>;
+  if (lane.state === "not_licensed") return <span className="tag tag--pending">Not collected</span>;
   const ok = lane.freshness?.last_ok_at ?? null;
   const age = ok ? Math.floor((Date.parse(`${today}T12:00:00Z`) - Date.parse(ok)) / 86_400_000) : null;
   if (!ok) return <span className="tag tag--pending">Not yet checked</span>;
@@ -45,6 +59,7 @@ export function BeltRows({ doc }: { doc: TitleDocument }) {
         <li key={i}>
           <span className="eyebrow eyebrow--dim">{b.designation ?? b.tier ?? "Champion"}{b.status === "in_recess" ? " · in recess" : ""}</span>
           <b><Holder belt={b} /></b>
+          {b.honorific && /[A-Z]/.test(b.honorific) ? <span className="fine">Also printed: {b.honorific}</span> : null}
           {b.reign_start ? <span className="fine">Since {fmtDate(b.reign_start.on)}{b.reign_start.basis ? ` (${b.reign_start.basis.replace(/_/g, " ")})` : ""}</span> : null}
           {b.mandatory ? <span className="fine">Mandatory, as printed: {b.mandatory.as_printed}</span> : null}
         </li>
@@ -71,6 +86,33 @@ const beltLabel = (key: string) => {
   return tier === "world" ? "World title" : `${tier.charAt(0).toUpperCase()}${tier.slice(1)} title`;
 };
 
+const DERIVED_STATE: Record<string, string> = {
+  resolved: "holder identified", no_document: "no document stored", document_stale: "document out of date",
+  body_documents_disagree: "its own documents disagree", no_primary_belt_listed: "no primary belt listed",
+  primary_belt_vacant: "primary belt vacant", primary_belt_unknown: "holder not stated", primary_belt_in_recess: "champion in recess",
+  holder_identity_unresolved: "holder identity under review",
+};
+
+export function DerivedStrip({ derived, bodies }: { derived: TitleLanes["derived"]; bodies: TitleLane[] }) {
+  const name = (slug: string) => bodies.find((l) => l.body === slug)?.short_name ?? slug.toUpperCase();
+  const headline = derived.status === "undisputed" ? "Undisputed"
+    : derived.status === "unified" ? "Unified"
+    : derived.status === "none" ? "No unified champion" : "Not determined";
+  return (
+    <div className="derived mt-2">
+      <span className="tag">PropBetEdge-derived</span>
+      <span>
+        <b>{headline}.</b>{" "}
+        {derived.holders.filter((h) => h.state !== "single").map((h) => (
+          <span key={h.fighter}><Link className="gold" href={fighterPath({ public_id: h.fighter, name: h.display_name })}>{h.display_name}</Link> holds the primary belt of {h.bodies.map(name).join(", ")}. </span>
+        ))}
+        {!derived.complete ? <>Not every body can be counted: {derived.bodies.filter((b) => b.state !== "resolved").map((b) => `${name(b.body)} (${DERIVED_STATE[b.state] ?? b.state.replace(/_/g, " ")})`).join("; ")}. </> : null}
+        Our own calculation from each body&apos;s primary champion, never a body&apos;s own &quot;unified&quot; or &quot;undisputed&quot; wording. PropBetEdge does not award or recognise titles.
+      </span>
+    </div>
+  );
+}
+
 export function LaneCard({ lane, today, division }: { lane: TitleLane; today: string; division: string }) {
   const [primary, ...others] = [...lane.documents].sort((a, b) => DOC_ORDER.indexOf(a.document_kind) - DOC_ORDER.indexOf(b.document_kind));
   return (
@@ -82,11 +124,16 @@ export function LaneCard({ lane, today, division }: { lane: TitleLane; today: st
 
       {lane.state === "not_licensed" ? (
         <div className="lane__closed">
-          <b>Not licensed</b>
-          <span>PropBetEdge has no permission to collect {lane.short_name} data, so this lane holds no {lane.short_name} champion or ranking. It is closed on purpose, not missing.</span>
+          <b>Not collected</b>
+          <span>PropBetEdge does not collect {lane.short_name} documents, so this lane holds no {lane.short_name} champion or ranking.</span>
+          <OfficialLink href={BODY_SITE[lane.body]} label={`${lane.name} official site`} />
         </div>
       ) : lane.state === "no_snapshot" || !primary ? (
-        <div className="lane__closed"><b>No snapshot yet</b><span>The {lane.short_name} source is approved but no {division.toLowerCase()} document has been stored.</span></div>
+        <div className="lane__closed">
+          <b>Not collected yet</b>
+          <span>No {lane.short_name} {division.toLowerCase()} document is stored yet. The {lane.name} publishes its own champions and ratings.</span>
+          <OfficialLink href={BODY_SITE[lane.body]} label={`${lane.name} official site`} />
+        </div>
       ) : (
         <>
           <div className="lane__doc">
@@ -131,7 +178,9 @@ export function LaneCard({ lane, today, division }: { lane: TitleLane; today: st
         </details>
       ) : null}
 
-      {lane.state !== "not_licensed" ? <p className="fine lane__attr">Source: {lane.name} ({BODY_HOME[lane.body] ?? "official site"}). Facts only.</p> : null}
+      {primary ? (
+        <p className="fine lane__attr">Source: {lane.name}. <OfficialLink href={OFFICIAL_PAGE[primary.document_kind] ?? BODY_SITE[lane.body]} label="Official source" /></p>
+      ) : null}
     </article>
   );
 }

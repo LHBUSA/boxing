@@ -313,13 +313,22 @@ export interface TitleLane {
   conflicts_within_body: { belt: string; left_document: string; left: string | null; right_document: string; right: string | null; same_surname: boolean }[];
   claims_by_other_bodies: { by: string; document_kind: string; as_of: string | null; says: string | null; blank: boolean; native_text: string | null }[];
 }
+// PropBetEdge-derived (pbe_undisputed@1): never a sanctioning-body designation
+export interface DerivedUnification {
+  rule: string;
+  label: string;
+  status: "undisputed" | "unified" | "incomplete" | "none";
+  complete: boolean;
+  holders: { fighter: string; display_name: string; bodies: string[]; state: "undisputed" | "unified" | "single" }[];
+  bodies: { body: string; state: string; document_kind: string | null; as_of: string | null; tier: string | null; holder_as_printed: string | null; fighter: string | null }[];
+}
 export interface TitleLanes {
   division: { class_key: string; name: string; max_lb: number | null } | null;
   lanes: TitleLane[];
-  derived: { rule: string; label: string; status: "not_derivable" | "pending_complete_holdings"; reason: string | null };
+  derived: DerivedUnification;
 }
 
-export interface RankingEntry { position: number; rank: number; rank_label: string | null; public_id: string | null; display_name: string | null; source_name?: string | null; designation: string | null; mandatory: boolean | null; is_vacant: boolean | null; is_champion: boolean | null; metadata?: { regional_label?: string | null; country?: string | null; country_label?: string | null; not_rated?: boolean; slot_text?: string | null; outside_numbered_list?: boolean } | null }
+export interface RankingEntry { position: number; rank: number; rank_label: string | null; public_id: string | null; display_name: string | null; source_name?: string | null; designation: string | null; mandatory: boolean | null; is_vacant: boolean | null; is_champion: boolean | null; metadata?: { regional_label?: string | null; country?: string | null; country_label?: string | null; not_rated?: boolean; slot_text?: string | null; name_not_printed?: boolean; source_fighter_id?: string | null; outside_numbered_list?: boolean } | null }
 export interface RankingsData {
   board: { organizations: SanctioningBody[]; divisions: Division[]; snapshots: { organization_slug: string; class_key: string; published_on: string | null; effective_on: string | null; stored?: number }[] };
   snapshot: RankingSnapshotView | null;

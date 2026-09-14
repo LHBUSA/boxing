@@ -1,5 +1,10 @@
 # Titles + Rankings intelligence: source research and dry run (2026-09-14)
 
+> **Superseded where it concerns the WBC (owner decisions later on 2026-09-14).** The WBC is approved for ingestion
+> like the other three bodies; no separate permission is required, and the permission draft is not a blocker. WBA, IBF
+> and WBO were approved the same day. Current state and operations: [TITLES_RANKINGS_INGESTION.md](TITLES_RANKINGS_INGESTION.md).
+> This file is kept as the research record.
+
 **Status: research and dry run only.**
 - Nothing was written to staging or production. No sanctioning-body adapter is enabled; `shared/adapters/rankings/registry.mjs` still throws.
 - WBC was not inspected beyond `robots.txt`, one status probe of its home page, and search-engine snippets.

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { gateway } from "@/lib/gateway";
 import { todayUtc } from "@/lib/gateway";
 import { Note, SecHead, Unavailable } from "@/components/fight";
-import { LaneCard } from "@/components/titles";
+import { DerivedStrip, LaneCard } from "@/components/titles";
 
 export const revalidate = 1800;
 export const metadata: Metadata = { title: "World Title Map", description: "Boxing's world titles division by division in four separate lanes: WBC, WBA, IBF and WBO, each from its own official documents, with source dates and disagreements shown." };
@@ -14,16 +14,16 @@ const TIERS: [string, string][] = [
   ["Regular", "WBA world title that can coexist with a super champion."],
   ["Interim", "Placeholder while the full champion is out. Never counts toward undisputed."],
   ["Franchise", "WBC designation excusing mandatory defences. Tracked separately."],
-  ["Undisputed", "PropBetEdge-derived only from every body's own official holdings (rule pbe_undisputed@1). Not derivable while any body's statement is unavailable."],
+  ["Undisputed / unified", "PropBetEdge-derived (rule pbe_undisputed@1): one identified boxer holding the primary belt of all four bodies (undisputed) or of two or three (unified). A body's own wording is never used."],
 ];
 
 // Each body's own title vocabulary, as published on its site (source review 2026-09-14, docs/TITLES_RANKINGS_SOURCES_2026-09-14.md).
 // Reference text only: no champion is derived from it.
 const BODIES: { short: string; labels: string[]; status: string }[] = [
-  { short: "WBC", labels: ["Champion", "Interim Champion", "Franchise Champion", "Champion in Recess", "Champion Emeritus", "Silver"], status: "Not licensed. No WBC data is collected; labels listed for reference." },
-  { short: "WBA", labels: ["Super Champion", "World Champion", "Interim Champion", "Gold", "Champion in Recess", "Vacant"], status: "Official ranking and champions pages, collected with attribution." },
-  { short: "IBF", labels: ["Champion", "Interim Champion", "Title Vacant"], status: "Official monthly ratings, collected with attribution back to 2005." },
-  { short: "WBO", labels: ["Super Champion", "Champion", "Interim Champion", "Vacant"], status: "Official ratings PDF and champions page, collected with attribution." },
+  { short: "WBC", labels: ["Champion", "Interim Champion", "Franchise Champion", "Champion in Recess", "Emeritus Champion", "Silver"], status: "Official source approved; WBC documents not collected yet. Labels from public WBC references, still to be confirmed against WBC documents." },
+  { short: "WBA", labels: ["Super Champion", "World Champion", "Interim Champion", "Gold Champion", "Champion in Recess", "Vacant"], status: "Official ranking and champions pages, with attribution and links back." },
+  { short: "IBF", labels: ["Champion", "Interim Champion", "Title Vacant"], status: "Official monthly ratings back to 2005, with attribution and links back." },
+  { short: "WBO", labels: ["Super Champion", "Champion", "Interim Champion", "Vacant"], status: "Official ratings and champions page back to 2000, with attribution and links back." },
 ];
 
 export default async function TitlesPage({ searchParams }: { searchParams: Promise<{ division?: string; gender?: string }> }) {
@@ -43,7 +43,7 @@ export default async function TitlesPage({ searchParams }: { searchParams: Promi
       <header className="page-hero">
         <div className="eyebrow">World Title Map · four sanctioning bodies</div>
         <h1>Four belts. <span className="gold" style={{ fontStyle: "italic" }}>Never merged.</span></h1>
-        <p>Boxing has no single champion per division. The WBC, WBA, IBF and WBO each crown their own, sometimes several at once. Each lane below shows one body's own official documents with their dates. When a body's documents disagree, both versions are shown.</p>
+        <p>Boxing has no single champion per division. The WBC, WBA, IBF and WBO each crown their own, sometimes several at once. Each lane shows one body&apos;s own official documents, in its own words, with their dates and a link to the official source. When a body&apos;s documents disagree, both versions are shown. PropBetEdge organizes and links; the bodies award the titles.</p>
       </header>
       <div className="filters">
         <div className="seg"><Link className={gender === "male" ? "is-on" : ""} href={link(sel.class_key, "male")}>Men</Link><Link className={gender === "female" ? "is-on" : ""} href={link(sel.class_key, "female")}>Women</Link></div>
@@ -56,10 +56,7 @@ export default async function TitlesPage({ searchParams }: { searchParams: Promi
         {lanes ? (
           <>
             <div className="belts">{lanes.lanes.map((l) => <LaneCard key={l.body} lane={l} today={today} division={sel.name} />)}</div>
-            <div className="derived mt-2">
-              <span className="tag">PropBetEdge-derived</span>
-              <span><b>Undisputed: {lanes.derived.status === "not_derivable" ? "not derivable" : "pending complete holdings"}.</b> {lanes.derived.reason ? `${lanes.derived.reason.replace(/^own statement unavailable/, "One body's own statement is unavailable")}. ` : ""}PropBetEdge does not call anyone undisputed from three bodies or from other bodies' claims.</span>
-            </div>
+            <DerivedStrip derived={lanes.derived} bodies={lanes.lanes} />
           </>
         ) : (
           <Note title="Title lanes unavailable" pending>The title lanes for {sel.name.toLowerCase()} did not load. Nothing is shown rather than a guessed view.</Note>
