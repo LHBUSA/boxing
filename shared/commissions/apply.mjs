@@ -113,6 +113,11 @@ export async function applyCommissionParsed(store, adapter, parsed, { now = new 
       summary.graph_decisions[k] = (summary.graph_decisions[k] ?? 0) + n;
     }
     for (const u of card.unresolved ?? []) if (u.review_item_id) summary.review_items.push(u.review_item_id);
+    for (const c of card.official_continuity ?? []) {
+      const k = c.action === 'keep' ? 'officials_kept_on_reparse' : 'officials_held_for_review';
+      summary[k] = (summary[k] ?? 0) + 1;
+      if (c.review_item_id) summary.review_items.push(c.review_item_id);
+    }
     if (!bouts.length) continue;
 
     const ids = await store.boutsForProviderEvents(`${namespace}.bout`, bouts.map((b) => b.source_bout_id));
@@ -153,7 +158,8 @@ export async function applyCommissionParsed(store, adapter, parsed, { now = new 
 
       const officials = officialsByBout.get(boutId) ?? [];
       const cards = (b.judges ?? []).filter((j) => j.a_total != null && j.b_total != null).map((j) => {
-        const o = officials.find((x) => x.role === 'judge' && (x.slot === j.slot || x.display_name === j.name));
+        const active = officials.filter((x) => x.role === 'judge' && ['assigned', 'worked'].includes(x.state));
+        const o = active.find((x) => x.slot === j.slot) ?? active.find((x) => x.display_name === j.name);
         return o ? { judge_id: o.official_id, slot: j.slot, a_total: j.a_total, b_total: j.b_total, rounds: [], score_basis: 'unknown' } : null;
       });
       const deductions = (b.deductions ?? []).filter((d) => d.side && fighter[d.side]).map((d) => ({ fighter_id: fighter[d.side], round: d.round, points: d.points,

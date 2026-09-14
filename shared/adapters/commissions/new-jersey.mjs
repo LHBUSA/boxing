@@ -35,6 +35,8 @@ export const NEW_JERSEY = Object.freeze({
   key: 'new_jersey',
   sourceKey: 'nj_sacb',
   version: 'nj-sacb@1.1.1',
+  // stored parses re-parsed by forward runs: 1.1.0 kept "& Name" judges and split "Jr. (57-57)"
+  supersedesParserVersions: ['nj-sacb@1.1.0'],
   jurisdiction: { code: 'US-NJ', name: 'New Jersey' },
   commission: { slug: 'nj-sacb', name: 'New Jersey State Athletic Control Board', jurisdiction: 'New Jersey', country_code: 'US' },
   scheduleUrl: 'https://www.njoag.gov/about/divisions-and-offices/state-athletic-control-board-home/event-schedule/',

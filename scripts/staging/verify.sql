@@ -281,6 +281,19 @@ begin
   results := results || jsonb_build_object('check', 'no_possible_duplicate_canonical_bouts', 'ok', n = 0,
     'detail', n || ' same-pair bouts within a day that are not a distinct repeat pairing on one card');
 
+  -- officials canonicalization (migration 0024)
+  select count(*) into n from pg_trigger where tgname = 'boxing_append_only_row'
+    and tgrelid in ('public.boxing_official_canonicalizations'::regclass, 'public.boxing_official_aliases'::regclass);
+  results := results || jsonb_build_object('check', 'official_canonicalizations_and_aliases_append_only', 'ok', n = 2, 'detail', n || ' of 2 append-only triggers');
+  select count(*) into n from (select 1 from public.boxing_bout_officials where assignment_state in ('assigned','worked') and role = 'judge' and slot is not null
+    group by bout_id, slot having count(*) > 1) d;
+  results := results || jsonb_build_object('check', 'no_duplicate_active_judge_slots', 'ok', n = 0, 'detail', n || ' bout/slot pairs with two active judges');
+  select count(*) into n from public.boxing_officials o join public.boxing_officials t on t.id = o.merged_into_id where t.merged_into_id is not null;
+  results := results || jsonb_build_object('check', 'merged_officials_resolve_to_a_canonical_official', 'ok', n = 0, 'detail', n || ' merge chains');
+  select count(*) into n from public.boxing_scorecards_current s
+    where not exists (select 1 from public.boxing_bout_officials bo where bo.bout_id = s.bout_id and bo.official_id = s.judge_id and bo.assignment_state in ('assigned','worked'));
+  results := results || jsonb_build_object('check', 'current_scorecards_have_an_active_judge_assignment', 'ok', n = 0, 'detail', n || ' current scorecards without an active assignment of their judge');
+
   select count(*) into n from public.boxing_fighters;
   results := results || jsonb_build_object('check', 'verification_left_no_residue', 'ok', n = n_fighters_before and not exists (select 1 from public.boxing_sources where source_key = 'staging_verify_probe'),
     'detail', n || ' fighters after checks, ' || n_fighters_before || ' before');

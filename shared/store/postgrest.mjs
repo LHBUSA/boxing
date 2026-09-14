@@ -94,6 +94,8 @@ export function postgrestStore({ url, serviceKey, fetchImpl = fetch }) {
     recordRegulatoryAction: (p) => rpc("boxing_record_regulatory_action", { p: p }),
     recordPointDeduction: (p) => rpc("boxing_record_point_deduction", { p: p }),
     boutOutcomeState: (p) => rpc("boxing_bout_outcome_state", { p_bout: p }),
+    officialCleanupEvidence: () => rpc("boxing_official_cleanup_evidence", {}),
+    applyOfficialCanonicalization: (p) => rpc("boxing_apply_official_canonicalization", { p: p }),
     officialCandidates: (keys, namespace, externalId) => rpc("boxing_official_candidates", { p_keys: keys, p_namespace: namespace, p_external_id: externalId }),
     // --- newsroom
     newsContext: (p) => rpc("boxing_news_context", { p_news_event: p }),

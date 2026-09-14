@@ -33,6 +33,29 @@ export function resolveOfficial(obs, { mapped = null, candidates = [] }, { commi
   return { outcome: 'created', verification_state: 'verified', confidence: 100, method: 'no_candidates' };
 }
 
+// Correction-aware slot continuity for a commission's own result sheet. A re-parse of a
+// document (newer parser, same bout) that names the official already holding that role/slot:
+//   no active occupant                                    -> resolve (normal resolver)
+//   same name after normalization ("& Cory Santos" and
+//     "Cory Santos" normalize identically)                 -> keep    (occupant stays; no resolver call,
+//                                                                      no second official, no second active judge)
+//   a different name ("Cheek" -> "Eric Cheek")            -> hold    (occupant stays; a review item records the
+//                                                                      conflict; nothing is re-pointed)
+// A surname never proves identity, so a different name is never an automatic replacement.
+export function slotContinuity(incoming, occupant) {
+  if (!occupant) return { action: 'resolve' };
+  const name = normalizedAlias(incoming.display_name);
+  if (name && name === normalizedAlias(occupant.display_name)) return { action: 'keep', reason: 'same_name_after_normalization', official_id: occupant.official_id };
+  return { action: 'hold', reason: 'reparse_names_a_different_official_in_held_slot', official_id: occupant.official_id };
+}
+
+// The official actively holding this role (referee) or role + slot (judge) on a card-state bout.
+export function activeOccupant(stateBout, o) {
+  if (!stateBout) return null;
+  return (stateBout.officials ?? []).find((x) => ['assigned', 'worked'].includes(x.state) && x.role === o.role
+    && (o.role === 'referee' || (x.slot != null && o.slot != null && Number(x.slot) === Number(o.slot)))) ?? null;
+}
+
 export async function ingestOfficial(store, { sourceKey, namespace, official, commissionId = null, commissionAuthoritative = false }) {
   const keys = nameKeys(official.display_name, { lookup: true });
   const retrieved = await store.officialCandidates(keys, namespace, official.external_id ?? null);

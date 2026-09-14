@@ -29,6 +29,14 @@ export const USER_AGENT = 'PropBetEdge-Boxing/1.0 (+https://propbetedge.ai; offi
 const DAY = 86_400_000;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+// true when the document's current stored parse came from a parser version the adapter lists in
+// supersedesParserVersions (null = a revision recorded before parser versions were stored)
+export function parseSuperseded(adapter, state) {
+  if (!(state?.current_revision > 0)) return false;
+  const stored = state.parser_version ?? null;
+  return stored !== adapter.version && (adapter.supersedesParserVersions ?? []).includes(stored);
+}
+
 async function fetchOk(fetchImpl, url, { binary = false } = {}) {
   const res = await fetchImpl(url, { headers: { 'user-agent': USER_AGENT, accept: binary ? 'application/pdf,*/*' : 'text/html,text/calendar,*/*' } });
   if (!res.ok) throw Object.assign(new Error(`http_${res.status} ${url}`), { httpStatus: res.status });
@@ -84,8 +92,12 @@ export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = 
     const state = (await store.documentState(adapter.sourceKey, [ref.doc_key]))[ref.doc_key];
     const recent = ref.event_date && Math.abs(nowMs - Date.parse(`${ref.event_date}T00:00:00Z`)) <= 45 * DAY;
     const staleCheck = !state?.last_checked_at || nowMs - Date.parse(state.last_checked_at) >= 7 * DAY;
-    if (mode !== 'backfill' && state?.current_revision > 0 && state.status !== 'error' && !(recent && staleCheck)) { metrics.documents_skipped += 1; return; }
+    // a stored parse the adapter explicitly declares superseded (a reviewed parser fix) is re-checked and
+    // re-parsed in forward mode too, still within the per-run cap; undeclared older versions are left alone
+    const parserOutdated = parseSuperseded(adapter, state);
+    if (mode !== 'backfill' && state?.current_revision > 0 && state.status !== 'error' && !(recent && staleCheck) && !parserOutdated) { metrics.documents_skipped += 1; return; }
     if (metrics.documents_fetched >= cap) { metrics.documents_skipped += 1; return; }
+    if (parserOutdated) metrics.documents_parser_superseded = (metrics.documents_parser_superseded ?? 0) + 1;
     if (metrics.documents_fetched > 0 && pause > 0) await sleep(pause);
     let fetched;
     try { fetched = await fetchOk(fetchImpl, ref.url, { binary: true }); } catch (err) {
@@ -96,7 +108,7 @@ export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = 
     metrics.documents_fetched += 1;
     const sha = await sha256Bytes(fetched.body);
     // unchanged content is not re-parsed, unless the previous attempt failed (fixed parser)
-    if (state?.current_sha256 === sha && state.status !== 'error' && (!state.parser_version || state.parser_version === adapter.version)) {
+    if (state?.current_sha256 === sha && state.status !== 'error' && !parserOutdated && (!state.parser_version || state.parser_version === adapter.version)) {
       metrics.documents_unchanged += 1;
       await store.recordDocumentFetch({ source_key: adapter.sourceKey, doc_key: ref.doc_key, url: ref.url, kind: 'results', sport_hint: ref.sport_hint, sha256: sha, http_last_modified: fetched.lastModified, fetched_at: now, ingest_run_id: runId });
       return;

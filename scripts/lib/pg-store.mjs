@@ -136,6 +136,12 @@ export function pgStore(client) {
     async boutOutcomeState(p) {
       return (await one(client, "select public.boxing_bout_outcome_state($1) as r", [p])).r;
     },
+    async officialCleanupEvidence() {
+      return (await one(client, "select public.boxing_official_cleanup_evidence() as r")).r;
+    },
+    async applyOfficialCanonicalization(p) {
+      return (await one(client, "select public.boxing_apply_official_canonicalization($1) as r", [p])).r;
+    },
     async officialCandidates(keys, namespace, externalId) {
       return (await one(client, "select public.boxing_official_candidates($1, $2, $3) as r", [keys, namespace, externalId])).r;
     },

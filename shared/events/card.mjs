@@ -22,7 +22,7 @@
 
 import { contentHash, dedupeKey } from '../canonical.mjs';
 import { ingestIdentity } from '../identity/pipeline.mjs';
-import { ingestOfficial } from './officials.mjs';
+import { activeOccupant, ingestOfficial, slotContinuity } from './officials.mjs';
 import { normalizedAlias } from '../identity/normalize.mjs';
 import { resolveAndRecordAppearance } from '../identity/appearance.mjs';
 
@@ -249,6 +249,7 @@ export async function applyCardDocument(store, doc, { now = new Date().toISOStri
   }
 
   const unresolved = [];
+  const officialContinuity = [];
   const officialsInDocument = new Map();
   const fightersInDocument = new Map();
   const fighterNamespace = `${doc.namespace}.fighter`;
@@ -328,7 +329,28 @@ export async function applyCardDocument(store, doc, { now = new Date().toISOStri
       }
       if (Array.isArray(b.officials)) {
         rb.resolvedOfficials = [];
+        // the commission's own sheet, re-parsed: officials already holding a role/slot on this bout
+        const stateBout = doc.officials_authority === 'commission' && b.external_id
+          ? state.bouts?.find((s) => s.external_ids.includes(`${doc.namespace}.bout:${b.external_id}`)) : null;
         for (const o of b.officials) {
+          const continuity = slotContinuity(o, activeOccupant(stateBout, o));
+          if (continuity.action === 'keep') {
+            rb.resolvedOfficials.push({ official_id: continuity.official_id, role: o.role, slot: o.slot ?? null });
+            officialContinuity.push({ bout_id: stateBout.bout_id, role: o.role, slot: o.slot ?? null, name: o.display_name, ...continuity });
+            continue;
+          }
+          if (continuity.action === 'hold') {
+            const occupant = activeOccupant(stateBout, o);
+            rb.resolvedOfficials.push({ official_id: continuity.official_id, role: o.role, slot: o.slot ?? null });
+            const r = await store.applyOfficialDecision({
+              source_key: doc.source_key,
+              identity: { display_name: o.display_name, namespace: `${doc.namespace}.official`, official_type: o.role === 'referee' ? 'referee' : 'judge', commission_id: resolved.commission_id ?? state.commission_id ?? null },
+              decision: { outcome: 'review', reason: continuity.reason, candidates: [{ id: occupant.official_id, display_name: occupant.display_name, bout_id: stateBout.bout_id, bout_external_id: b.external_id, role: o.role, slot: o.slot ?? null }] },
+              normalized_name: normalizedAlias(o.display_name), keys: [],
+            });
+            officialContinuity.push({ bout_id: stateBout.bout_id, role: o.role, slot: o.slot ?? null, name: o.display_name, occupant: occupant.display_name, review_item_id: r.review_item_id ?? null, ...continuity });
+            continue;
+          }
           // within ONE card document the same official name is the same person (assignments are written after resolution)
           const cacheKey = `${o.role === 'referee' ? 'referee' : 'judge'}|${o.external_id ?? normalizedAlias(o.display_name)}`;
           const { result } = officialsInDocument.get(cacheKey) ?? await ingestOfficial(store, { sourceKey: doc.source_key, namespace: `${doc.namespace}.official`,
@@ -387,6 +409,6 @@ export async function applyCardDocument(store, doc, { now = new Date().toISOStri
   // source bout ids for this card: added bouts, and bouts matched by id or by exact pairing
   const bout_links = [...matches, ...[...boutIds].filter(([ref]) => String(ref).startsWith('ext:')).map(([ref, bout_id]) => ({ external_id: String(ref).slice(4), bout_id, matched_by: 'added' }))];
   if (crossSource?.status === 'not_attached') review.push({ reason: `cross_source_event_${crossSource.reason}`, candidates: crossSource.candidates });
-  return { status: 'applied', event_id: eventId, event_created: ev.created, changes: applied, news, unresolved, review, bout_links, identity_graph: identityGraph,
+  return { status: 'applied', event_id: eventId, event_created: ev.created, changes: applied, news, unresolved, review, bout_links, identity_graph: identityGraph, official_continuity: officialContinuity,
     cross_source: crossSource, event_fields_deferred: Boolean(state.defer_event_fields), observation_id: observation.id };
 }

@@ -21,6 +21,8 @@ export const NEVADA = Object.freeze({
   key: 'nevada',
   sourceKey: 'nsac_nevada',
   version: 'nsac-nevada@1.0.2',
+  // stored parses re-parsed by forward runs: 1.0.0/1.0.1 split "d/b/a" promoters and kept "& Name" officials
+  supersedesParserVersions: [null, 'nsac-nevada@1.0.0', 'nsac-nevada@1.0.1'],
   jurisdiction: { code: 'US-NV', name: 'Nevada' },
   commission: { slug: 'nsac', name: 'Nevada State Athletic Commission', jurisdiction: 'Nevada', country_code: 'US' },
   base: 'https://boxing.nv.gov',
@@ -125,6 +127,15 @@ export function splitPromoters(raw) {
     .map((x) => x.replaceAll(DBA, 'd/b/a').replace(/[|\s]+$/, '').trim()).filter(Boolean);
 }
 
+// Header officials list ("Judges: A, B, C & D", "Referees: A & B"). "&" separates names
+// exactly like a comma (nsac-nevada@1.0.0 kept "& Cory Santos" as a name); a generational
+// suffix after a comma stays with its name.
+export function splitOfficialNames(raw) {
+  return String(raw ?? '').split(/\s*,\s*(?:&\s*)?|\s+&\s+/)
+    .map((x) => x.trim().replace(/^&\s*/, '').replace(/,$/, '').replace(/(?<!\b(?:jr|sr))\.$/i, '').trim()).filter(Boolean)
+    .reduce((acc, part) => { if (/^(jr|sr|ii|iii|iv)\.?$/i.test(part) && acc.length) acc[acc.length - 1] += `, ${part}`; else acc.push(part); return acc; }, []);
+}
+
 export function venueKey(name) {
   const stop = new Set(['the', 'at', 'of', 'las', 'vegas', 'reno', 'hotel', 'casino', 'resort', 'arena', 'center', 'centre', 'events', 'event', 'a', 'caesars', 'rewards', 'destination', 'collection', 'by', 'curio', 'hilton']);
   return slug(name).split('-').filter((t) => t && !stop.has(t));
@@ -176,7 +187,7 @@ function headerFields(page) {
     if (i < 0) return [];
     let v = text[i].slice(label.length + 1);
     for (let j = i + 1; j < text.length && !/^[A-Z][A-Za-z ]+:/.test(text[j]); j++) v += ` ${text[j]}`;
-    return v.split(/\s+[I|]\s+[A-Z][A-Za-z ]+:/)[0].replace(/\s*\|\s*$/, '').split(',').map((x) => x.trim().replace(/[,.]$/, '')).filter(Boolean);
+    return splitOfficialNames(v.split(/\s+[I|]\s+[A-Z][A-Za-z ]+:/)[0].replace(/\s*\|\s*$/, ''));
   };
   const promoters = splitPromoters(all.match(/Promoters?:\s*([^\n]+?)(?:\s+Matchmakers?:.*)?(?:\n|$)/)?.[1]);
   const month = dm ? MONTHS[dm[1].toLowerCase()] : null;
