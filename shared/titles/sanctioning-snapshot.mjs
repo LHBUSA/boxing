@@ -54,7 +54,7 @@ export function wbaRankingSnapshots(parsed, meta) {
     division: { key: d.division.weight_class_key, native_label: d.division.native_label, limit_text: d.division.limit_text },
     titles: d.champions.flatMap((c) => (c.designations.length ? c.designations : [{ native: null, tier: null, status: 'unknown', known: false }])
       .map((des) => titleFrom('wba', d.division.weight_class_key, { ...c, designation: des }))),
-    ranking: { entries: d.entries.map((e) => ({ ...e, is_vacant: false })), outside_numbered_list: [], champions_listed_outside_numbers: true },
+    ranking: { entries: d.entries.map((e) => ({ ...e, is_vacant: Boolean(e.not_rated) })), outside_numbered_list: [], champions_listed_outside_numbers: true },
     claims_about_other_bodies: [...d.champions.flatMap((c) => c.claims_about_other_bodies.map((x) => ({ ...x, source_name: c.source_name, vacant: false, where: 'champion row' }))),
       ...d.claims_about_other_bodies.map((x) => ({ ...x, where: 'other organizations line' }))],
   }));

@@ -109,6 +109,7 @@ export function parseWboHistoryHtml(html) {
       : { division: { ...divisionOf('wbo', label), limit_text: head.slice(label.length).trim() || null }, entries: [], outside_numbered_list: [], claims_about_other_bodies: [], champions: [] };
     for (const r of t[1].matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/g)) {
       const cells = [...r[1].matchAll(/<td[^>]*>([\s\S]*?)<\/td>/g)].map((c) => cell(c[1]));
+      if (cells.length === 3 && cells[0] === '**' && !cells[1] && !cells[2]) continue; // empty placeholder row after the list
       if (cells.length === 3 && cells[0] !== 'Title') {
         const t2 = trailing(`${cells[1]}${cells[2] ? ` (${cells[2]})` : ''}`);
         if (/^\d{1,2}$/.test(cells[0])) d.entries.push({ position: Number(cells[0]), rank_label: cells[0], source_name: t2.name, country: t2.country, regional_label: t2.notes.join(' ') || null });

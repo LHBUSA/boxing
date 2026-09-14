@@ -192,7 +192,7 @@ export async function persistSnapshot(store, snap, { body, kind, sourceKey, runI
   return { ...r, analysis };
 }
 
-export async function persistRanking(store, snap, { body, kind, sourceKey, retrievedAt, documentSha256, identities, metrics, asOf, publishedOn, asOfLabel }) {
+export async function persistRanking(store, snap, { body, kind, sourceKey, retrievedAt, documentSha256, identities, metrics, asOf, publishedOn, asOfLabel, request = null }) {
   const doc = toRankingDocument(snap, { sourceKey });
   const last = doc.entries.length;
   const outside = (snap.ranking.outside_numbered_list ?? []).map((e, i) => ({ position: last + i + 1, rank_label: '**', source_name: e.source_name, nationality: e.country ?? null, designation: e.regional_label ?? null, outside: true }));
@@ -209,7 +209,7 @@ export async function persistRanking(store, snap, { body, kind, sourceKey, retri
         not_rated: Boolean(src.not_rated), outside_numbered_list: e.rank_label === '**' };
     },
     sourceRecord: { document_kind: kind, as_of_label: asOfLabel, division_native_label: snap.division.native_label, division_limit_text: snap.division.limit_text ?? null,
-      retrieved_at: retrievedAt, document_sha256: documentSha256, parser_version: PARSER_VERSIONS[kind], champions_listed_outside_numbers: true, attribution: body.toUpperCase() },
+      retrieved_at: retrievedAt, document_sha256: documentSha256, parser_version: PARSER_VERSIONS[kind], champions_listed_outside_numbers: true, attribution: body.toUpperCase(), request },
   });
   metrics.ranking_snapshots ??= {};
   metrics.ranking_snapshots[r.status] = (metrics.ranking_snapshots[r.status] ?? 0) + 1;
@@ -227,7 +227,8 @@ async function collectWba(ctx, { month = null }) {
   const [labelMonth, labelYear] = parsed.as_of_label.split(' ');
   const asOf = monthEnd(Number(labelYear), MONTH_NAMES.findIndex((n) => n.toUpperCase() === labelMonth) + 1);
   const sha = await sha256Bytes(res.bytes);
-  const meta = { sourceUrl: month ? `${URLS.wbaRanking} (month ${month.y}-${String(month.m).padStart(2, '0')})` : URLS.wbaRanking, retrievedAt: res.retrievedAt, contentSha256: sha };
+  // the same page URL for current and history: a label in the URL would make an identical list hash as a new revision
+  const meta = { sourceUrl: URLS.wbaRanking, retrievedAt: res.retrievedAt, contentSha256: sha };
   const snaps = wbaRankingSnapshots(parsed, meta);
   let champions = null;
   if (!month) {
@@ -236,7 +237,8 @@ async function collectWba(ctx, { month = null }) {
   }
   for (const s of snaps) {
     if (!s.division.key) { await holdUnknownDivision(store, { body: 'wba', kind: 'wba_ranking', sourceKey, nativeLabel: s.division.native_label, limitText: s.division.limit_text, metrics }); continue; }
-    const common = { body: 'wba', sourceKey, runId, retrievedAt: res.retrievedAt, documentSha256: sha, identities, metrics, asOf, publishedOn: parsed.published_on, asOfLabel: parsed.as_of_label };
+    const common = { body: 'wba', sourceKey, runId, retrievedAt: res.retrievedAt, documentSha256: sha, identities, metrics, asOf, publishedOn: parsed.published_on, asOfLabel: parsed.as_of_label,
+      request: month ? `POST dates=${month.y}:${month.m}:` : 'GET' };
     await persistSnapshot(store, s, { ...common, kind: 'wba_ranking', divisionNativeLabel: s.division.native_label, pairWith: [{ kind: 'wba_champions' }] });
     await persistRanking(store, s, { ...common, kind: 'wba_ranking' });
   }
@@ -330,7 +332,9 @@ export function monthsBetween(from, to) {
 }
 
 // extractPdfText is injectable for tests (synthetic documents); the default reads the PDF text layer with unpdf
-export async function runSanctioningCollection(store, env, { body, mode = 'current', fetchImpl = fetch, sleep = defaultSleep, months = null, maxRequests = null, now = new Date().toISOString(), provenance = null, extractPdfText = pdfText } = {}) {
+// retryFailed: months (or IBF divisions) with a recorded failure or refusal are skipped by a normal pass, so a chunked
+// backfill moves forward; a later pass with retryFailed re-reads them (after a review, or a parser fix)
+export async function runSanctioningCollection(store, env, { body, mode = 'current', fetchImpl = fetch, sleep = defaultSleep, months = null, maxRequests = null, now = new Date().toISOString(), provenance = null, extractPdfText = pdfText, retryFailed = false } = {}) {
   if (!['wba', 'ibf', 'wbo'].includes(body)) return { status: 'blocked', reason: `${body}: no approved collector (WBC is not licensed)` };
   if (env.TITLES_INGEST_ENABLED !== 'true') return { status: 'disabled', reason: 'TITLES_INGEST_ENABLED is not "true"' };
   if (!store?.writeTarget?.verified) return { status: 'blocked', reason: 'store has no verified boxing write target' };
@@ -347,7 +351,8 @@ export async function runSanctioningCollection(store, env, { body, mode = 'curre
   try {
     if (body === 'ibf') {
       const job = mode === 'backfill' ? 'ibf-history-2005-2026' : null;
-      const done = job ? new Set((await store.backfillCheckpoint(sourceKey, job)).completed ?? []) : new Set();
+      const cp = job ? await store.backfillCheckpoint(sourceKey, job) : null;
+      const done = new Set([...(cp?.completed ?? []), ...(retryFailed ? [] : (cp?.failures ?? []).map((f) => f.slug).filter(Boolean))]);
       for (const slug of Object.keys(DIVISIONS.ibf)) {
         if (done.has(slug)) continue;
         if (budget()) { status = 'partial'; metrics.stopped = 'request budget'; break; }
@@ -366,7 +371,8 @@ export async function runSanctioningCollection(store, env, { body, mode = 'curre
       else await collectWbo(ctx, {});
     } else {
       const job = `${body}-history`;
-      const done = new Set((await store.backfillCheckpoint(sourceKey, job)).completed ?? []);
+      const cp = await store.backfillCheckpoint(sourceKey, job);
+      const done = new Set([...(cp.completed ?? []), ...(retryFailed ? [] : (cp.failures ?? []).map((f) => f.month).filter(Boolean))]);
       let list = (months ?? []).filter((mo) => !done.has(`${mo.y}-${String(mo.m).padStart(2, '0')}`));
       if (body === 'wba' && list.length) {
         const listed = wbaListedMonths((await request(URLS.wbaRanking)).text);

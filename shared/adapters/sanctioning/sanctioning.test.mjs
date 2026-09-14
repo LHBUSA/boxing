@@ -5,7 +5,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { parseWbaChampionsPage, parseWbaRankingPage } from './wba.mjs';
 import { parseIbfRecord } from './ibf.mjs';
-import { parseWboChampionsPage, parseWboRatingsText } from './wbo.mjs';
+import { parseWboChampionsPage, parseWboHistoryHtml, parseWboRatingsText } from './wbo.mjs';
 import { designationOf, divisionOf } from './vocabulary.mjs';
 import { parseDivisionLabel } from '../../rankings/import.mjs';
 import { divisionLanes, ibfSnapshot, intraBodyConflicts, mandatoryStatement, titleStatusChanges, toRankingDocument, wbaChampionsSnapshot, wbaRankingSnapshots,
@@ -82,6 +82,17 @@ test('IBF older records follow the IBF page: printed NOT RATED, only 15 slots sh
   assert.deepEqual(snap.titles.map((t) => [t.status, t.holder]), [['unknown', null]]);
   assert.ok(snap.warnings.some((w) => /slots past 15/.test(w)));
   assert.deepEqual(titleStatusChanges({ titles: snap.titles }, { titles: [{ ...snap.titles[0], status: 'held', holder: { source_name: 'Synth Later' } }] }).title_changes, [], 'not stated -> held proposes nothing');
+});
+
+test('WBA prints an unfilled position as one wide "NOT RATED" cell; WBO history ends a list with an empty ** row', () => {
+  const html = WBA_RANKING.replace(rankRow(1, 'SYNTH DELTA', 21, '', 'RUS'), '<tr><td class="text-center"><p>\n1 </p></td><td colspan="3"><p>\nNOT RATED </p></td></tr>');
+  assert.notEqual(html, WBA_RANKING, 'fixture row 1 replaced');
+  const d = parseWbaRankingPage(html).divisions[0];
+  assert.deepEqual(d.entries.map((e) => [e.position, e.source_name, Boolean(e.not_rated)]), [[1, null, true], [2, 'SYNTH ECHO', false]]);
+  assert.equal(wbaRankingSnapshots(parseWbaRankingPage(html), { sourceUrl: 'x', retrievedAt: 'x', contentSha256: 'x' })[0].ranking.entries[0].is_vacant, true);
+  const wbo = parseWboHistoryHtml('<h1>WORLD BOXING ORGANIZATION MALE RANKING AUGUST 2026</h1><table class="ranking table"><tr><td class="title-weight text-center">BANTAMWEIGHT (118 lbs)</td></tr>'
+    + '<tr><td>1</td><td>SYNTH ONE</td><td>USA</td></tr><tr><td>**</td><td></td><td></td></tr></table>');
+  assert.deepEqual([wbo.divisions[0].entries.length, wbo.divisions[0].outside_numbered_list.length], [1, 0]);
 });
 
 const WBO_TEXT = `WBO MALE\nWORLD\nRATINGS\nAs of August 28, 2026\n=====PAGE=====\nLT. HEAVYWEIGHT\n(175 lbs) (79.38 kgs)\n1. Synth Delta (RUS)\n2. Synth Echo (Int-Cont) (AUS)

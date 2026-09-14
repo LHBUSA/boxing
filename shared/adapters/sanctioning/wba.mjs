@@ -56,6 +56,11 @@ export function parseWbaRankingPage(html) {
     for (const row of [...rankTable.matchAll(/<tr>([\s\S]*?)<\/tr>/g)].map((r) => r[1])) {
       if (/otherorgs/.test(row)) continue;
       const cells = [...row.matchAll(/<td[^>]*>([\s\S]*?)<\/td>/g)].map((c) => c[1]);
+      // an unfilled position is printed as one wide cell: "1 | NOT RATED" (colspan=3)
+      if (cells.length === 2 && /^\d+$/.test(decode(cells[0])) && /^not\s+rated$/i.test(decode(cells[1]))) {
+        entries.push({ position: Number(decode(cells[0])), rank_label: decode(cells[0]), source_name: null, not_rated: true, wba_id: null, regional_label: null, country: null });
+        continue;
+      }
       if (cells.length < 4 || !/^\d+$/.test(decode(cells[0]))) continue;
       entries.push({ position: Number(decode(cells[0])), rank_label: decode(cells[0]), source_name: decode(cells[1]) || null,
         wba_id: cells[1].match(/wba-boxer-profile\/\?id=(\d+)/)?.[1] ?? null, regional_label: decode(cells[2]) || null, country: countryCode(decode(cells[3])) ?? (decode(cells[3]) || null) });
