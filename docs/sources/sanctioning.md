@@ -1,5 +1,7 @@
 # Sanctioning-body source map (rankings + champions)
 
+> Superseded for current posture by `docs/TITLES_RANKINGS_SOURCES_2026-09-14.md` (fresh robots/terms check, dry-run parsers, model and UI contract). Note: on 2026-09-14 the WBC home page answered 200 to our user agent; its robots.txt content signals and AI-crawler disallows still make it reference only.
+
 Checked 2026-09-13. Read-only: public pages, robots.txt, and one site-internal JSON endpoint the IBF page calls itself. Full detail is in `sanctioning.json`.
 
 | Body | Current rankings source | Format | Divisions / ranks | Date label seen | History | robots.txt | Automation | Recommended state |
