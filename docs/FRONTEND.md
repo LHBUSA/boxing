@@ -25,12 +25,20 @@ server:
 | `/scorecards`, `/scorecards/[slug]` | Scorecard Center (decision filters, widest spread); decision page: official card, panel spread, judges with Judge DNA, provenance |
 | `/officials`, `/officials/[slug]` | Judge/Referee DNA directory; profile with metric tiles (samples), card-by-card panel plot, result mix, assignments |
 | `/titles`, `/rankings` | Four-body belt lanes per division, and body/division rankings. Both show a "records pending source clearance" state until data is cleared. |
-| `/promoters`, `/promoters/[key]` | Promoters exactly as listed on official sheets |
-| `/methodology` | Sources, verified record, DNA/officials, matchups/markets, media rules |
+| `/promoters`, `/promoters/[key]` | Promotions as listed on official sheets: cards-by-month timeline, appearances (never affiliation) |
+| `/judges`, `/referees` | Officials boards split by role (the `/officials` board remains) |
+| `/news` | Boxing Desk: verified wire (official results, scorecards posted, missed weight, card changes) grouped by card |
+| `/odds` | Odds Terminal: matched markets only, capture counts by week, match states; never raw provider data |
+| `/videos` | Video Desk: approved official-channel embeds (poster-first); registry state until channels are enabled |
+| `/hall-of-fame` | Recognized institutions' induction records (IBHOF via Wikidata), class-at-a-time, institution category labels |
+| `/history` | Decade-first view of the Hall graph; eras and lineage only with documented rules |
+| `/methodology` | Sources, verified record, DNA/officials, matchups/markets, media, Fight Week rule, sourced bios and Hall policy |
 
-Navigation lists only usable surfaces (`web/lib/nav.ts`). Odds and News stay out
-of navigation until matched markets and published articles exist. Market state
-is shown in context on fight pages and Fight Week.
+Navigation is data-aware (`web/lib/nav.ts` registry + `web/lib/availability.ts`). Primary: Fight Week, Events,
+Fighters, Titles, Rankings, Odds, News. More: Promotions, Videos, Scorecards, Judges, Referees, History, Hall of Fame,
+Methodology. A route enters navigation only when the gateway returns real data for it (Odds: a matched market;
+News: a wire item; Videos: a published video; History/Hall: a Hall total above zero). Free/Pro design:
+`docs/FREE_PRO_ARCHITECTURE.md` (nothing locked today).
 
 ## Media
 

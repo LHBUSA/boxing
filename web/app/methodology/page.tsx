@@ -35,6 +35,16 @@ export default async function MethodologyPage() {
       "Without an approved photo, the page uses the PropBetEdge silhouette. It is never a likeness and never a generated face.",
       "Official videos embed only from YouTube channels whose identity is verified and whose rights review is approved.",
     ]],
+    ["Fight Week and cards", "Multi-card by design", [
+      "A fight week is every card inside one Monday–Sunday week. The featured card is chosen by a fixed rule: title bouts on record, then verified bouts, then the longest scheduled headline bout, then a verified venue, then the earliest date. No promotion is favoured by name.",
+      "Every card lists its own promotion, commission, venue, bout sheet, title stakes, officials, broadcast, market and video state; anything not on record says so.",
+      "'What could break the read' lists the limits of the evidence (thin verified history, scale or officials not yet recorded, unverified physicals, no matched market). It is not a prediction.",
+    ]],
+    ["Biography, history and Halls of Fame", "Sourced, never written from memory", [
+      "Age, height and nationality marked Wikidata come from the boxer's Wikidata item, used only after identity is proven: that item's Wikipedia boxing record lists a bout on our verified record. Dates of birth are never shown; age is derived.",
+      "Hall of Fame pages show recognized institutions' own induction records (year and the institution's category label) as structured on Wikidata (CC0) and spot-checked against the institution. PropBetEdge does not keep a Hall of Fame, and no biography text or Hall photography is reproduced.",
+      "History is decade-first because decades are objective. Eras, title lineage and historic media are added only with a documented rule and a cleared source.",
+    ]],
   ];
   return (
     <div className="wrap page">
