@@ -127,7 +127,8 @@ function identityCache(store, org) {
       const fighter = resolved.get(key);
       if (fighter) { metrics.identities_resolved = (metrics.identities_resolved ?? 0) + 1; return { fighter_id: fighter, normalized }; }
       metrics.identities_held = (metrics.identities_held ?? 0) + 1;
-      if (!held.has(key)) { held.add(key); await store.holdOrgIdentity({ organization_slug: org, source_name: name, normalized_name: normalized, country, org_boxer_id: orgBoxerId, document_kind: kind }); }
+      // keyed by the printed name too, so every spelling reaches the printed-name map (0037) even when its review row exists
+      if (!held.has(`${key}|${name}`)) { held.add(`${key}|${name}`); await store.holdOrgIdentity({ organization_slug: org, source_name: name, normalized_name: normalized, country, org_boxer_id: orgBoxerId, document_kind: kind }); }
       return { fighter_id: null, normalized };
     },
   };
@@ -433,6 +434,10 @@ export async function runSanctioningCollection(store, env, { body, mode = 'curre
     metrics.error_code = err?.code ?? null;
   }
   if (status === 'ok' && (metrics.refused?.length || metrics.month_failures?.length || metrics.http_errors)) status = 'partial';
+  // review units follow the new review rows (one decision per source identity, not per month)
+  if (status !== 'failed' && metrics.identities_held && store.refreshOrgIdentityCandidates) {
+    try { metrics.identity_candidates = await store.refreshOrgIdentityCandidates(); } catch (err) { metrics.identity_candidates_error = String(err?.message ?? err).slice(0, 200); }
+  }
   await store.finishRun(runId, { status, metrics, observed: metrics.documents, canonicalWrites: 0, reviewItems: metrics.identities_held ?? 0, errors: (metrics.http_errors ?? 0) + (status === 'failed' ? 1 : 0),
     assertions: status === 'failed' ? { error: metrics.error } : {} });
   return { runId, status, metrics };

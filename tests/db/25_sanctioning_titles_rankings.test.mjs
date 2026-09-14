@@ -282,3 +282,57 @@ test('WBO current: token read from the rankings page, PDF + champions page confl
   assert.deepEqual(Object.keys(hist.metrics.months), ['2026-07']);
   assert.match(hist.metrics.month_failures[0].error, /asked for 2026-6, page says 2026-05/, 'a page for the wrong month is refused, not stored');
 });
+
+test('identity review by source identity: WBA ids collapse, name candidates stay review units, one decision reaches every stored month; derived only from resolved primaries', async () => {
+  const { refreshIdentityCandidates } = await import('../../shared/titles/identity-candidates.mjs');
+  const first = await refreshIdentityCandidates(store);
+  assert.ok(first.names.ibf.inserted >= 0);
+  const s = first.summary;
+  assert.ok(s.wba.candidates < s.wba.review_rows || s.wba.candidates === s.wba.review_rows);
+  const [ids] = await q(`select count(distinct r.org_boxer_id) n from public.boxing_org_identity_reviews r join public.boxing_organizations o on o.id = r.organization_id where o.slug = 'wba' and r.org_boxer_id is not null`);
+  assert.equal(await n(`public.boxing_org_identity_candidates c join public.boxing_organizations o on o.id = c.organization_id where o.slug = 'wba' and c.cluster_key like 'id:%'`), Number(ids.n),
+    'one WBA candidate per WBA boxer id');
+  // the same WBA id printed twice with a spelling change (same surname) stays one proven source identity
+  await q(`insert into public.boxing_org_identity_reviews (organization_id, source_name, normalized_name, country, org_boxer_id, first_seen_snapshot_kind)
+    select id, 'SYNTHE ALPHA', 'synthe alpha', 'RUS', '11', 'wba_ranking' from public.boxing_organizations where slug = 'wba'`);
+  // a name printed with two countries is a review candidate with conflicting evidence, never merged on the name
+  await q(`insert into public.boxing_org_identity_reviews (organization_id, source_name, normalized_name, country, org_boxer_id, first_seen_snapshot_kind)
+    select id, v.n, 'synth twin', v.c, null, 'ibf_rating' from public.boxing_organizations, (values ('Synth Twin', 'USA'), ('Synth Twin', 'MEX')) v(n, c) where slug = 'ibf'`);
+  await store.refreshOrgIdentityCandidates();
+  const [alpha] = await q(`select c.state, c.review_rows, c.ambiguity from public.boxing_org_identity_candidates c where c.cluster_key = 'id:11'`);
+  assert.deepEqual([alpha.state, alpha.review_rows], ['source_identity_proven', 2]);
+  const [twin] = await q(`select c.id, c.state, c.ambiguity from public.boxing_org_identity_candidates c where c.cluster_key = 'name:synth twin'`);
+  assert.deepEqual([twin.state, twin.ambiguity], ['ambiguous', ['countries_differ']]);
+  const [f] = await q(`insert into public.boxing_fighters (display_name, normalized_name, identity_state) values ('Synth Next', 'synth next', 'verified') returning id`);
+  await assert.rejects(q(`insert into public.boxing_org_identity_candidate_decisions (candidate_id, decision, fighter_id, reviewer, review_note) values ($1, 'matched', $2, 'Pat Reviewer', 'Same boxer in both IBF records per dossier.')`, [twin.id, f.id]),
+    /ambiguous/, 'an ambiguous candidate needs the member rows named');
+  const [nextCand] = await q(`select c.id from public.boxing_org_identity_candidates c join public.boxing_organizations o on o.id = c.organization_id where o.slug = 'ibf' and c.cluster_key = 'name:synth next'`);
+  await assert.rejects(q(`insert into public.boxing_org_identity_candidate_decisions (candidate_id, decision, fighter_id, reviewer, review_note) values ($1, 'matched', $2, 'automated matcher', 'name and country agree across the history')`, [nextCand.id, f.id]),
+    /check|violat/i, 'no automated reviewer');
+  const beforeDecision = await store.siteBodyRankings('ibf', 'heavyweight', 'male', '2026-05-31');
+  assert.ok(beforeDecision.snapshot.entries.every((e) => !e.public_id));
+  await q(`insert into public.boxing_org_identity_candidate_decisions (candidate_id, decision, fighter_id, reviewer, review_note) values ($1, 'matched', $2, 'Pat Reviewer', 'IBF record checked against the reviewed dossier for this boxer.')`, [nextCand.id, f.id]);
+  // one decision reaches every stored month that printed this identity: the May ranking and the August champion record
+  const may = await store.siteBodyRankings('ibf', 'heavyweight', 'male', '2026-05-31');
+  assert.ok(may.snapshot.entries.some((e) => e.source_name === 'Synth Next' && e.public_id), JSON.stringify(may.snapshot.entries.slice(0, 2)));
+  const aug = await store.siteBodyRankings('ibf', 'heavyweight', 'male', '2026-08-31');
+  assert.equal(aug.champions.belts[0].holder.identity_state, 'resolved');
+  assert.equal(await n(`public.boxing_ranking_entries where fighter_id is not null and source_name = 'Synth Next'`), 0, 'stored history is not rewritten; resolution is read-time');
+  // a name the WBA did not print never resolves, even when that WBA boxer id is decided
+  const [cand4060] = await q(`select count(*)::int n from public.boxing_org_identity_candidates where cluster_key = 'id:4060'`);
+  assert.equal(cand4060.n, 0);
+  const lhwMarch = await store.siteBodyRankings('wba', 'light_heavyweight', 'male', '2026-03-31');
+  assert.ok(lhwMarch.snapshot.entries.some((e) => e.metadata.name_not_printed && !e.public_id));
+
+  // derived: IBF light heavyweight champion "Synth Alpha" (KGZ) decided to the fighter WBA id 11 already resolves to
+  const [alphaFighter] = await q(`select fighter_id from public.boxing_org_identity_decisions order by seq limit 1`);
+  const [ibfAlpha] = await q(`select c.id from public.boxing_org_identity_candidates c join public.boxing_organizations o on o.id = c.organization_id where o.slug = 'ibf' and c.cluster_key = 'name:synth alpha'`);
+  await q(`insert into public.boxing_org_identity_candidate_decisions (candidate_id, decision, fighter_id, reviewer, review_note) values ($1, 'matched', $2, 'Pat Reviewer', 'IBF champion record matches the reviewed dossier (same boxer as WBA id 11).')`, [ibfAlpha.id, alphaFighter.fighter_id]);
+  const derived = await store.derivedUnification('light_heavyweight', 'male');
+  const byBody = Object.fromEntries(derived.bodies.map((b) => [b.body, b.state]));
+  assert.deepEqual([byBody.wba, byBody.ibf, byBody.wbc], ['resolved', 'resolved', 'no_document']);
+  assert.equal(byBody.wbo, 'body_documents_disagree', 'a body whose own documents disagree on the primary belt does not count');
+  assert.deepEqual([derived.status, derived.complete, derived.holders.map((h) => [h.bodies, h.state])], ['unified', false, [[['ibf', 'wba'], 'unified']]]);
+  const lanes = await store.siteTitleLanes('light_heavyweight', 'male');
+  assert.equal(lanes.derived.status, 'unified');
+});
