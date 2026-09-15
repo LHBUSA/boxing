@@ -7,6 +7,8 @@
 import { contentHash } from '../canonical.mjs';
 import { applyCardDocument } from '../events/card.mjs';
 import { recordRegulatoryAction, recordResult, recordScorecards, recordWeighIn } from '../events/outcomes.mjs';
+import { titlesFromRemarks } from './title-remarks.mjs';
+import { parseDivisionLabel } from '../rankings/import.mjs';
 import { assertMinimized } from '../adapters/commissions/minimize.mjs';
 
 export const COMMISSION_NAMESPACES = Object.freeze({ nsac_nevada: 'nsac', florida_athletic_commission: 'fl-athletic-commission', nj_sacb: 'nj-sacb', mo_office_of_athletics: 'mo-office-of-athletics', pa_state_athletic_commission: 'pa-state-athletic-commission', tn_athletic_commission: 'tn-athletic-commission', tdlr_texas: 'tdlr' });
@@ -66,6 +68,20 @@ export function divisionFacts(raw) {
   return { contracted_weight_lb: contracted, weight_class_contradicted: true };
 }
 
+// the division is the sheet's own; without one (Nevada prints none), the division the remark itself names. A remark naming a
+// different division from the sheet is left out rather than guessed.
+function titlesForBout(b) {
+  const sheet = divisionFacts(b.division_raw).weight_class_key ?? null;
+  const out = new Map();
+  for (const remark of b.title_remarks ?? []) {
+    const named = parseDivisionLabel(remark).weight_class_key;
+    const key = sheet ?? named;
+    if (!key || (sheet && named && named !== sheet)) continue;
+    for (const t of titlesFromRemarks([remark])) out.set(`${t.organization_slug}:${t.tier}:${key}`, { ...t, weight_class_key: key, gender: 'male' });
+  }
+  return out.size ? { titles: [...out.values()] } : {};
+}
+
 export function cardDocumentFor(adapter, ev, bouts) {
   const namespace = COMMISSION_NAMESPACES[adapter.sourceKey];
   const doc = {
@@ -80,6 +96,9 @@ export function cardDocumentFor(adapter, ev, bouts) {
     bouts: bouts.map((b) => ({
       external_id: b.source_bout_id, bout_order: b.bout_order ?? null, scheduled_rounds: b.scheduled_rounds ?? null,
       ...divisionFacts(b.division_raw),
+      // belts the commission's own remark states unambiguously (shared/commissions/title-remarks.mjs); only when the division is
+      // known, and only as additions: a bout without such a remark carries no titles key, so nothing is removed
+      ...titlesForBout(b),
       status: b.result?.resolved ? 'complete' : ev.status === 'cancelled' ? 'cancelled' : 'scheduled',
       fighter_a: { display_name: b.fighter_a.display_name, hometown: b.fighter_a.hometown ?? null },
       fighter_b: { display_name: b.fighter_b.display_name, hometown: b.fighter_b.hometown ?? null },
@@ -167,19 +186,19 @@ export async function applyCommissionParsed(store, adapter, parsed, { now = new 
       const deductions = (b.deductions ?? []).filter((d) => d.side && fighter[d.side]).map((d) => ({ fighter_id: fighter[d.side], round: d.round, points: d.points,
         reason_public: d.reason_raw ? String(d.reason_raw).slice(0, 280) : null }));
       if (cards.length && cards.every(Boolean)) {
-        const s = await recordScorecards(store, { bout_id: boutId, source_key: adapter.sourceKey, source_url: b.source_url, cards, deductions }, { now });
+        const s = await recordScorecards(store, { bout_id: boutId, source_key: adapter.sourceKey, source_url: b.source_url, cards, deductions, observation_id: card.observation_id }, { now });
         summary.scorecards_written += s.written.filter((w) => w.status !== 'duplicate').length;
         countNews(s.news);
       } else if (deductions.length && /^https:/.test(b.source_url)) {
         const referee = officials.find((x) => x.role === 'referee');
-        for (const d of deductions) await store.recordPointDeduction({ ...d, bout_id: boutId, source_key: adapter.sourceKey, source_url: b.source_url, referee_official_id: referee?.official_id ?? null });
+        for (const d of deductions) await store.recordPointDeduction({ ...d, bout_id: boutId, source_key: adapter.sourceKey, source_url: b.source_url, referee_official_id: referee?.official_id ?? null, observation_id: card.observation_id });
       }
 
       for (const side of ['a', 'b']) {
         const w = b[`fighter_${side}`]?.weight_lb;
         if (w == null || !fighter[side] || !/^https:/.test(b.source_url)) continue;
         const r = await recordWeighIn(store, { bout_id: boutId, fighter_id: fighter[side], source_key: adapter.sourceKey, source_url: b.source_url,
-          weigh_in_kind: 'official', attempt_no: 1, official_weight_lb: w, source_unit: 'lb', source_weight_raw: String(w), verification_state: 'verified' }, { now });
+          weigh_in_kind: 'official', attempt_no: 1, official_weight_lb: w, source_unit: 'lb', source_weight_raw: String(w), verification_state: 'verified', observation_id: card.observation_id }, { now });
         if (r.status !== 'duplicate') summary.weigh_ins += 1;
         countNews(r.news);
       }
@@ -189,7 +208,7 @@ export async function applyCommissionParsed(store, adapter, parsed, { now = new 
         const to = s.duration_days != null ? addDays(ev.event_date, s.duration_days) : null;
         const r = await recordRegulatoryAction(store, { source_key: adapter.sourceKey, action_key: `${b.source_bout_id}|${s.side}|suspension`, action_type: 'suspension',
           status: to && to < now.slice(0, 10) ? 'expired' : 'active', fighter_id: fighter[s.side], bout_id: boutId, commission_slug: adapter.commission.slug,
-          effective_from: ev.event_date, effective_to: to, reason_public: null, source_url: b.source_url }, { now });
+          effective_from: ev.event_date, effective_to: to, reason_public: null, source_url: b.source_url, observation_id: card.observation_id }, { now });
         if (r.status !== 'duplicate') summary.suspensions += 1;
         countNews(r.news);
       }

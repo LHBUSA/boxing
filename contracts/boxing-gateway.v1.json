@@ -77,6 +77,9 @@
     "siteRankingBoard",
     "siteTitleLanes",
     "siteBodyRankings",
+    "truthIndex",
+    "truthEvent",
+    "truthBout",
     "siteCoverage",
     "siteScorecards",
     "siteScorecard",
@@ -241,6 +244,33 @@
       "method": "GET",
       "path": "/internal/v1/site/bouts/:ref",
       "summary": "Site bout: corners with verified record entering and current Fight DNA, result revisions, scorecards, card, and the one-bout market summary when matched.",
+      "params": {
+        "ref": "hex suffix of the bout public id (12..32)"
+      },
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/truth",
+      "summary": "Event truth index (investigator): graph counts, change-ledger counts by type, graph assertions, recent events.",
+      "params": {},
+      "query": {
+        "limit": "1..200 recent events, default 60"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/truth/events/:ref",
+      "summary": "Event truth (investigator): event, source identities, organizations, every bout with corners (including replaced), current result and counts, card history, change ledger; each lane with its source.",
+      "params": {
+        "ref": "hex suffix of the event public id (12..32)"
+      },
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/truth/bouts/:ref",
+      "summary": "Bout truth (investigator): corners with source identities and appearance decisions, titles and each sanctioning body’s own statement, every result and scorecard revision, officials, weigh-ins, regulatory actions, card history, change ledger, news; each lane with its source.",
       "params": {
         "ref": "hex suffix of the bout public id (12..32)"
       },

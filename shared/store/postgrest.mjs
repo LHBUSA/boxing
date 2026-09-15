@@ -87,6 +87,9 @@ export function postgrestStore({ url, serviceKey, fetchImpl = fetch }) {
     titleChainPairs: (orgSlug, limit) => rpc('boxing_title_chain_pairs', { p_org_slug: orgSlug, p_limit: limit }),
     recordTitleAnalyses: (p) => rpc('boxing_record_title_analyses', { p }),
     titleProposalSummary: () => rpc('boxing_title_proposal_summary', {}),
+    truthIndex: (limit = 60) => rpc('boxing_truth_index', { p_limit: limit }),
+    truthEvent: (ref) => rpc('boxing_truth_event', { p_ref: ref }),
+    truthBout: (ref) => rpc('boxing_truth_bout', { p_ref: ref }),
     derivedUnification: (weightClassKey, gender) => rpc('boxing_derived_unification', { p_weight_class_key: weightClassKey, p_gender: gender }),
     titleSnapshotJson: (id) => rpc('boxing_title_snapshot_json', { p_snapshot: id }),
     latestTitleSnapshot: (orgSlug, weightClassKey, gender, kind, onOrBefore = null, exclude = null) =>

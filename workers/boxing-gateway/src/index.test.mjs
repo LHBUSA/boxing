@@ -35,6 +35,9 @@ function fakeStore() {
     siteFighter: async (ref) => ({ fighter: { public_id: `pbe_boxer_${ref}` } }),
     siteTitleBoard: async () => ({ divisions: [], organizations: [] }),
     siteRankingBoard: async () => ({ divisions: [], organizations: [], snapshots: [] }),
+    truthIndex: async (limit) => ({ counts: { events: 1 }, assertions: { failures: 0, checks: [] }, recent_events: [], limit }),
+    truthEvent: async (ref) => ({ event: { public_id: `pbe_boxevent_${ref}` }, bouts: [], card_history: [], ledger: [] }),
+    truthBout: async (ref) => ({ bout: { public_id: `pbe_boxbout_${ref}` }, corners: [{ source_identities: [], identities: [{ source_ref: 'nsac:x', fighter_id: 'x' }] }] }),
     siteTitleLanes: async (wc) => ({ division: { class_key: wc }, lanes: [
       { body: 'wbc', state: 'not_licensed', note: 'Source not licensed', documents: [], conflicts_within_body: [], claims_by_other_bodies: [{ by: 'wba', says: 'X', native_text: 'X' }] },
       { body: 'wba', state: 'current', documents: [{ document_kind: 'wba_ranking', belts: [{ holder: { name: 'A', fighter: 'pbe_boxer_a', fighter_id: ID } }] }], conflicts_within_body: [], claims_by_other_bodies: [] }],
@@ -71,7 +74,8 @@ test('contract file is generated from the route table and is current', () => {
     '/internal/v1/site/fighters/:ref', '/internal/v1/site/titles', '/internal/v1/site/rankings', '/internal/v1/site/coverage',
     '/internal/v1/site/scorecards', '/internal/v1/site/scorecards/:ref', '/internal/v1/site/officials', '/internal/v1/site/officials/:ref',
     '/internal/v1/site/market-index', '/internal/v1/site/videos', '/internal/v1/site/promoters', '/internal/v1/site/promoters/:key',
-    '/internal/v1/site/fighters/:ref/context', '/internal/v1/site/bouts/:ref/context', '/internal/v1/site/hall-of-fame', '/internal/v1/site/eras', '/internal/v1/site/wire'];
+    '/internal/v1/site/fighters/:ref/context', '/internal/v1/site/bouts/:ref/context', '/internal/v1/site/hall-of-fame', '/internal/v1/site/eras', '/internal/v1/site/wire',
+    '/internal/v1/site/truth', '/internal/v1/site/truth/events/:ref', '/internal/v1/site/truth/bouts/:ref'];
   assert.deepEqual(ROUTES.map((r) => r.path).sort(), required.sort());
   assert.ok(onDisk.routes.every((r) => r.method === 'GET'));
 });
@@ -108,7 +112,8 @@ test('route handlers can reach only read methods', async () => {
     '/internal/v1/site/scorecards?decision=split&sort=spread', '/internal/v1/site/scorecards/0123456789ab', '/internal/v1/site/officials?role=judge&q=cheek',
     '/internal/v1/site/officials/0123456789ab', '/internal/v1/site/market-index', '/internal/v1/site/videos?type=weigh_in', '/internal/v1/site/promoters',
     '/internal/v1/site/promoters/matchroom-boxing-promotions', '/internal/v1/site/fighters/0123456789ab/context', '/internal/v1/site/bouts/0123456789ab/context',
-    "/internal/v1/site/hall-of-fame?category=Men's%20Modern%20Boxers&year=2020", '/internal/v1/site/eras', '/internal/v1/site/wire?limit=10'];
+    "/internal/v1/site/hall-of-fame?category=Men's%20Modern%20Boxers&year=2020", '/internal/v1/site/eras', '/internal/v1/site/wire?limit=10',
+    '/internal/v1/site/truth?limit=5', '/internal/v1/site/truth/events/0123456789ab', '/internal/v1/site/truth/bouts/0123456789ab'];
   for (const p of paths) {
     const res = await w.fetch(req(p), env);
     assert.equal(res.status, 200, p);

@@ -42,7 +42,7 @@ export async function recordResult(store, input, { now = new Date().toISOString(
 }
 
 // cards: [{ judge_id, scorer_role?, slot?, a_total, b_total, rounds: [{round,a,b,deduction?}], score_basis? }]
-export async function recordScorecards(store, { bout_id: boutId, source_key: sourceKey, source_url: sourceUrl, cards, deductions = [], stopped_round: stoppedRound = null, change_reason: changeReason = null }, { now = new Date().toISOString() } = {}) {
+export async function recordScorecards(store, { bout_id: boutId, source_key: sourceKey, source_url: sourceUrl, cards, deductions = [], stopped_round: stoppedRound = null, change_reason: changeReason = null, observation_id: observationId = null }, { now = new Date().toISOString() } = {}) {
   const state = await store.boutOutcomeState(boutId);
   const a = state.participants.find((p) => p.side === 'a')?.fighter_id;
   const b = state.participants.find((p) => p.side === 'b')?.fighter_id;
@@ -54,11 +54,11 @@ export async function recordScorecards(store, { bout_id: boutId, source_key: sou
     const r = await store.recordScorecard({
       bout_id: boutId, judge_id: c.judge_id, fighter_a_id: a, fighter_b_id: b, fighter_a_total: c.a_total, fighter_b_total: c.b_total,
       decision_for_id: decisionFor, source_key: sourceKey, source_url: sourceUrl, scorer_role: c.scorer_role ?? 'judge', slot: c.slot ?? null,
-      score_basis: c.score_basis ?? 'unknown', rounds: c.rounds ?? [], change_reason: changeReason,
+      score_basis: c.score_basis ?? 'unknown', rounds: c.rounds ?? [], change_reason: changeReason, observation_id: observationId,
     });
     written.push({ judge_id: c.judge_id, ...r });
   }
-  for (const d of deductions) await store.recordPointDeduction({ ...d, bout_id: boutId, source_key: sourceKey, source_url: sourceUrl });
+  for (const d of deductions) await store.recordPointDeduction({ observation_id: observationId, ...d, bout_id: boutId, source_key: sourceKey, source_url: sourceUrl });
 
   const changed = written.filter((w) => w.status !== 'duplicate');
   if (!changed.length) return { written, problems, news: null };

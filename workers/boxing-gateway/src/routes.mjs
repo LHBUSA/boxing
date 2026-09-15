@@ -9,7 +9,7 @@ export const API_VERSION = 'boxing-gateway@1';
 export const READ_METHODS = Object.freeze([
   'getFighter', 'fighterDnaLatest', 'cardState', 'gatewayBout', 'gatewayMatchup', 'gatewayOddsSummary', 'gatewayModels',
   'titleSummary', 'titleReigns', 'titleMapFacts', 'rankingSnapshotAsOf', 'gatewayOfficial', 'officialDnaLatest',
-  'siteHome', 'siteEvents', 'siteEvent', 'siteBout', 'siteFighters', 'siteFighter', 'siteTitleBoard', 'siteRankingBoard', 'siteTitleLanes', 'siteBodyRankings', 'siteCoverage',
+  'siteHome', 'siteEvents', 'siteEvent', 'siteBout', 'siteFighters', 'siteFighter', 'siteTitleBoard', 'siteRankingBoard', 'siteTitleLanes', 'siteBodyRankings', 'truthIndex', 'truthEvent', 'truthBout', 'siteCoverage',
   'siteScorecards', 'siteScorecard', 'siteOfficials', 'siteOfficial', 'siteMarketIndex', 'siteVideos', 'sitePromoters', 'sitePromoter',
   'siteFighterContext', 'siteBoutContext', 'siteHallOfFame', 'siteHistory', 'siteWire',
 ]);
@@ -149,6 +149,21 @@ const SITE_ROUTES = [
     path: '/internal/v1/site/bouts/:ref', summary: 'Site bout: corners with verified record entering and current Fight DNA, result revisions, scorecards, card, and the one-bout market summary when matched.',
     params: { ref: 'hex suffix of the bout public id (12..32)' },
     handler: async (s, { ref }) => { need(SITE_REF.test(ref), 'bad bout ref'); return siteBout(s, ref); },
+  },
+  {
+    path: '/internal/v1/site/truth', summary: 'Event truth index (investigator): graph counts, change-ledger counts by type, graph assertions, recent events.',
+    query: { limit: '1..200 recent events, default 60' },
+    handler: async (s, _p, q) => s.truthIndex(intIn(q, 'limit', 60, 1, 200)),
+  },
+  {
+    path: '/internal/v1/site/truth/events/:ref', summary: 'Event truth (investigator): event, source identities, organizations, every bout with corners (including replaced), current result and counts, card history, change ledger; each lane with its source.',
+    params: { ref: 'hex suffix of the event public id (12..32)' },
+    handler: async (s, { ref }) => { need(SITE_REF.test(ref), 'bad event ref'); return s.truthEvent(ref); },
+  },
+  {
+    path: '/internal/v1/site/truth/bouts/:ref', summary: 'Bout truth (investigator): corners with source identities and appearance decisions, titles and each sanctioning body’s own statement, every result and scorecard revision, officials, weigh-ins, regulatory actions, card history, change ledger, news; each lane with its source.',
+    params: { ref: 'hex suffix of the bout public id (12..32)' },
+    handler: async (s, { ref }) => { need(SITE_REF.test(ref), 'bad bout ref'); return s.truthBout(ref); },
   },
   {
     path: '/internal/v1/site/fighters', summary: 'Site fighter directory page with verified records; optional name search.',

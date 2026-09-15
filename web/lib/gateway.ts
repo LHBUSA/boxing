@@ -1,5 +1,6 @@
 import "server-only";
 import type { BoutContext, ErasData, FighterContext, HallOfFamePage, WireItem } from "./types-os";
+import type { TruthBout, TruthEvent, TruthIndex } from "./types-truth";
 import type { BoutDetail, Coverage, EventDetail, EventsPage, FighterDetail, FightersPage, HomeData, MarketIndex, OfficialDetail, OfficialsPage, PromoterDetail, PromotersPage, RankingsData, ScorecardDetail, ScorecardsPage, TitlesData, VideoDesk } from "./types";
 
 // The ONLY data path of this site: server -> boxing-gateway (bearer token) -> Boxing Core.
@@ -50,6 +51,10 @@ export const gateway = {
     read<EventsPage>(`site/events${q({ scope, commission: opts.commission, limit: opts.limit, offset: opts.offset, today: todayUtc() })}`),
   event: (ref: string) => read<EventDetail>(`site/events/${ref}`),
   bout: (ref: string) => read<BoutDetail>(`site/bouts/${ref}`),
+  // investigator reads (Event Truth V1): short revalidate, they exist to inspect the stored graph
+  truthIndex: (limit = 60) => read<TruthIndex>(`site/truth${q({ limit })}`, 60),
+  truthEvent: (ref: string) => read<TruthEvent>(`site/truth/events/${ref}`, 60),
+  truthBout: (ref: string) => read<TruthBout>(`site/truth/bouts/${ref}`, 60),
   fighters: (opts: { q?: string | null; limit?: number; offset?: number } = {}) =>
     read<FightersPage>(`site/fighters${q({ q: opts.q, limit: opts.limit, offset: opts.offset })}`),
   fighter: (ref: string) => read<FighterDetail>(`site/fighters/${ref}`),

@@ -355,6 +355,17 @@ main { flex: 1; position: relative; z-index: 1; }
 .tbl td { padding: 12px 10px; border-bottom: 1px solid var(--line); vertical-align: middle; font-size: 14px; }
 .tbl tr:hover td { background: rgba(255, 245, 220, 0.02); }
 .tbl .r { text-align: right; }
+/* Event Truth investigator */
+.truth-lane { margin-top: 28px; }
+.truth-lane h3 { font: 700 13px/1.3 var(--f-data); letter-spacing: 0.08em; text-transform: uppercase; color: var(--paper); margin-bottom: 10px; }
+.truth-src { display: inline-flex; flex-wrap: wrap; gap: 4px 8px; align-items: center; }
+.truth-tbl td { font-size: 13px; vertical-align: top; }
+.truth-tbl td .fine { display: inline; }
+.truth-kv { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; }
+@media (min-width: 640px) { .truth-kv { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.truth-kv > div { padding: 10px 12px; border: 1px solid var(--line); border-radius: var(--r-2); min-width: 0; overflow-wrap: anywhere; }
+.truth-kv b { display: block; font: 600 11px/1.3 var(--f-data); letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); margin-bottom: 2px; }
+
 .rchip { display: inline-grid; place-items: center; min-width: 26px; height: 24px; padding: 0 6px; border-radius: 6px; font: 800 11.5px/1 var(--f-data); background: rgba(255, 245, 220, 0.06); color: var(--dim); }
 .rchip--w { background: rgba(212, 175, 55, 0.2); color: var(--gold-bright); }
 .rchip--l { background: rgba(211, 58, 63, 0.18); color: #ff9a9a; }
