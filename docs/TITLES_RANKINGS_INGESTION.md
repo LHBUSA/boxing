@@ -118,13 +118,13 @@ passes use `-RetryFailedBefore <time>` so each earlier failure is re-read once.
 
 ## Append-only staging history (kept, not cleaned)
 
-There are 116 ranking revisions on staging:
-- 99 have identical entries and differ only because an early WBA history URL carried a month label that entered the
-  hash.
-- 14 add a printed rank-1 slot that an earlier parser dropped.
-- 1 is a WBA July 2011 division printed twice.
-- 1 is the IBF 2005-12 "NOT RATED" correction.
-- 1 is a same-day dual list.
+There are 116 ranking revisions on staging, classified from the stored entries:
+- 93 (WBA) have identical entries. They differ only because an early WBA history URL carried a month label that
+  entered the hash.
+- 17 (WBA) add a printed rank-1 slot that an earlier parser dropped.
+- 5 (WBA) have different content after parser changes: 2011-07 super featherweight (division printed twice),
+  2012-12 flyweight, and 2026-03/04/05 bridgerweight.
+- 1 (IBF) is the 2005-12 heavyweight correction, where "NOT RATED" had been read as a name.
 
 Every one keeps the database note "source republished with different content", which is inaccurate for parser-driven
 revisions. As-of reads were verified to return the non-superseded revision in all 116 cases.
