@@ -29,6 +29,18 @@ export const DIVISIONS = Object.freeze({
     LIGHTWEIGHT: 'lightweight', 'JR. LIGHTWEIGHT': 'super_featherweight', FEATHERWEIGHT: 'featherweight', 'JR. FEATHERWEIGHT': 'super_bantamweight',
     BANTAMWEIGHT: 'bantamweight', 'JR. BANTAMWEIGHT': 'super_flyweight', FLYWEIGHT: 'flyweight', 'JR. FLYWEIGHT': 'light_flyweight', 'MINI-FLYWEIGHT': 'minimumweight', MINIMUMWEIGHT: 'minimumweight',
   },
+  // WBC ratings PDF division headers as printed (September 2026), and the Spanish division names on its champions grid
+  wbc: {
+    HEAVYWEIGHT: 'heavyweight', BRIDGERWEIGHT: 'bridgerweight', CRUISERWEIGHT: 'cruiserweight', 'LT. HEAVYWEIGHT': 'light_heavyweight',
+    SUPERMIDDLEWEIGHT: 'super_middleweight', MIDDLEWEIGHT: 'middleweight', SUPERWELTERWEIGHT: 'super_welterweight', WELTERWEIGHT: 'welterweight',
+    SUPERLIGHTWEIGHT: 'super_lightweight', LIGHTWEIGHT: 'lightweight', SUPERFEATHERWEIGHT: 'super_featherweight', FEATHERWEIGHT: 'featherweight',
+    SUPERBANTAMWEIGHT: 'super_bantamweight', BANTAMWEIGHT: 'bantamweight', SUPERFLYWEIGHT: 'super_flyweight', FLYWEIGHT: 'flyweight',
+    'LT. FLYWEIGHT': 'light_flyweight', STRAWWEIGHT: 'minimumweight',
+    Completo: 'heavyweight', bridger: 'bridgerweight', Crucero: 'cruiserweight', Semicompleto: 'light_heavyweight', Supermedio: 'super_middleweight',
+    Medio: 'middleweight', Superwelter: 'super_welterweight', Welter: 'welterweight', Superligero: 'super_lightweight', Ligero: 'lightweight',
+    Superpluma: 'super_featherweight', Pluma: 'featherweight', Supergallo: 'super_bantamweight', Gallo: 'bantamweight', Supermosca: 'super_flyweight',
+    Mosca: 'flyweight', Minimosca: 'light_flyweight', Paja: 'minimumweight',
+  },
 });
 
 // designation -> { tier: lineage of that body's belt, status: holder status, honorific? }
@@ -48,11 +60,13 @@ export const DESIGNATIONS = Object.freeze({
     // a WBO world champion carrying the WBO "Super Champion" honorific: same lineage, not a separate belt
     'SUP. CHAMPION': D('world', 'champion', { honorific: 'super_champion' }), 'SUPER CHAMPION': D('world', 'champion', { honorific: 'super_champion' }),
   },
-  // reference only (search-engine snippets of WBC pages; no WBC page is parsed): Champion, Interim Champion,
-  // Champion in Recess, Franchise Champion, Emeritus Champion, Silver
+  // WBC ratings PDF title lines as printed (September 2026 document): CHAMPION, INTERIM CHAMPION, CHAMPION IN RECESS,
+  // WBC SILVER CHAMPION, WBC INT. CHAMPION. FRANCHISE CHAMPION and EMERITUS CHAMPION are known WBC labels not seen in a
+  // stored document yet. "CAMPEONES DEL MUNDO" is the champions grid heading on the main ratings page. Never mapped onto
+  // another body's vocabulary.
   wbc: {
     CHAMPION: D('world'), 'INTERIM CHAMPION': D('interim'), 'CHAMPION IN RECESS': D(null, 'in_recess'), 'FRANCHISE CHAMPION': D('franchise'),
-    'EMERITUS CHAMPION': D('emeritus'), SILVER: D('silver'),
+    'EMERITUS CHAMPION': D('emeritus'), 'WBC SILVER CHAMPION': D('silver'), 'WBC INT. CHAMPION': D('international'), 'CAMPEONES DEL MUNDO': D('world'),
   },
 });
 

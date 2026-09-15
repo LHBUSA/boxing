@@ -195,3 +195,22 @@ test('vocabulary: bodies stay distinct; unknown labels are kept and flagged; abb
     assert.equal(parseDivisionLabel(label).weight_class_key, key, label);
   }
 });
+
+
+test('WBC ratings PDF from positions: title lines as printed, rows paired by height, split tags joined, blanks kept, stray text ignored', async () => {
+  const { parseWbcRatingsPages, parseWbcChampionsPage, wbcRatingsLinks } = await import('./wbc.mjs');
+  const { wbcRatingsPages, wbcMainRatingsHtml, WBC_PDF_URL } = await import('../../../tests/fixtures/sanctioning/synthetic.mjs');
+  const r = parseWbcRatingsPages(wbcRatingsPages());
+  assert.deepEqual([r.month, r.as_of_label, r.divisions.length, r.divisions.filter((d) => d.problems.length).length], ['2026-09', 'SEPTEMBER 2026', 18, 0]);
+  const lhw = r.divisions.find((d) => d.division.weight_class_key === 'light_heavyweight');
+  assert.deepEqual([lhw.division.native_label, lhw.division.limit_text], ['LT. HEAVYWEIGHT', '(175-79.379)']);
+  assert.deepEqual(lhw.champions.map((c) => [c.designation.native, c.designation.tier, c.source_name, c.vacant]),
+    [['CHAMPION', 'world', 'SYNTH WBCCHAMP', false], ['INTERIM CHAMPION', 'interim', 'SYNTH INTERIMWBC', false], ['WBC SILVER CHAMPION', 'silver', null, true]]);
+  assert.equal(lhw.champions[0].won_title_on, '2024-06-25');
+  assert.deepEqual(lhw.entries[1], { position: 2, rank_label: '2', source_name: 'Synth Wbcrated Two', country: 'US', country_label: 'US', regional_label: 'USWBC' });
+  assert.equal(designationOf('wbc', 'WBC INT. CHAMPION').tier, 'international', 'not forced into another body\'s tier');
+  assert.equal(designationOf('wbc', 'SILVER').known, false, 'only labels the WBC documents print');
+  const ch = parseWbcChampionsPage(wbcMainRatingsHtml());
+  assert.deepEqual([ch.cards.length, ch.cards.find((c) => c.division.native_label === 'Supermosca').vacant], [18, true], 'men\'s grid only');
+  assert.deepEqual(wbcRatingsLinks(wbcMainRatingsHtml()), [WBC_PDF_URL], 'the female PDF is not the men\'s ratings');
+});

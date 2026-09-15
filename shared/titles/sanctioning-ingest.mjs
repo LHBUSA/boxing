@@ -17,16 +17,20 @@ import { parseWbaChampionsPage, parseWbaRankingPage } from '../adapters/sanction
 import { parseIbfResponse } from '../adapters/sanctioning/ibf.mjs';
 import { parseWboChampionsPage, parseWboHistoryHtml, parseWboRatingsText } from '../adapters/sanctioning/wbo.mjs';
 import { DIVISIONS } from '../adapters/sanctioning/vocabulary.mjs';
-import { ibfSnapshot, intraBodyConflicts, titleStatusChanges, toRankingDocument, wbaChampionsSnapshot, wbaRankingSnapshots, wboChampionsSnapshot,
-  wboRatingsSnapshots } from './sanctioning-snapshot.mjs';
+import { ibfSnapshot, intraBodyConflicts, titleStatusChanges, toRankingDocument, wbaChampionsSnapshot, wbaRankingSnapshots, wbcChampionsSnapshot, wbcRatingsSnapshots,
+  wboChampionsSnapshot, wboRatingsSnapshots } from './sanctioning-snapshot.mjs';
+import { parseWbcChampionsPage, parseWbcRatingsPages, wbcRatingsLinks } from '../adapters/sanctioning/wbc.mjs';
 
 export const TITLES_WORKER = 'boxing-rankings';
 export const USER_AGENT = 'PropBetEdge-Boxing/1.0 (+https://propbetedge.ai; official sanctioning-body records; low-rate)';
-export const PARSER_VERSIONS = Object.freeze({ wba_ranking: 'wba-ranking@1.0.0', wba_champions: 'wba-champions@1.0.0', ibf_rating: 'ibf-rating@1.0.0', wbo_ratings: 'wbo-ratings@1.0.0', wbo_champions: 'wbo-champions@1.0.0' });
-export const MIN_INTERVAL_MS = Object.freeze({ wba: 5000, ibf: 11000, wbo: 5000 });
+export const PARSER_VERSIONS = Object.freeze({ wba_ranking: 'wba-ranking@1.0.0', wba_champions: 'wba-champions@1.0.0', ibf_rating: 'ibf-rating@1.0.0', wbo_ratings: 'wbo-ratings@1.0.0', wbo_champions: 'wbo-champions@1.0.0',
+  wbc_ratings: 'wbc-ratings-pdf@1.0.0', wbc_champions: 'wbc-champions@1.0.0' });
+export const MIN_INTERVAL_MS = Object.freeze({ wba: 5000, ibf: 11000, wbo: 5000, wbc: 5000 });
 export const URLS = Object.freeze({
   wbaRanking: 'https://www.wbaboxing.com/wba-ranking', wbaChampions: 'https://www.wbaboxing.com/current-wba-champions',
   ibfFilter: 'https://www.ibf-usba-boxing.com/wp-json/ratings/v1/filter', wboRankings: 'https://wboboxing.com/rankings/', wboChampions: 'https://wboboxing.com/male-champions/',
+  // WBC public pages that link the month's ratings PDF (the Spanish main ratings page also carries the champions grid)
+  wbcMainRatings: 'https://wbcboxing.com/main-ratings-es/', wbcLinkPages: ['https://wbcboxing.com/main-ratings-es/', 'https://wbcboxing.com/en/main-ratings/', 'https://wbcboxing.com/en/championsratings/'],
 });
 const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
@@ -96,10 +100,35 @@ export function checkWboChampions(parsed) {
   return parsed;
 }
 // the only link accepted is the one the rankings page publishes; a token is never built or guessed
+export function checkWbcRatings(parsed, { expectMonth = null } = {}) {
+  if (!parsed.month) throw new StructureError('wbc ratings: no "RATINGS AS OF <MONTH> <YEAR>" label');
+  if (expectMonth && parsed.month !== expectMonth) throw new StructureError(`wbc ratings: expected ${expectMonth}, document says ${parsed.month}`);
+  if (parsed.divisions.length < 15) throw new StructureError(`wbc ratings: ${parsed.divisions.length} division pages`);
+  if (parsed.divisions.filter((d) => d.problems.length).length > 3) throw new StructureError(`wbc ratings: ${parsed.divisions.filter((d) => d.problems.length).length} division pages without a clean numbered list`);
+  return parsed;
+}
+export function checkWbcChampions(parsed) {
+  if (parsed.cards.length < 15) throw new StructureError(`wbc champions grid: ${parsed.cards.length} cards`);
+  return parsed;
+}
+
 export function wboPdfLink(html) {
   const links = [...new Set([...String(html).matchAll(/(?:https:\/\/wboboxing\.com\/)?(wborankings\/report\/[A-Za-z0-9=+/]+\/RankingReportMale)/g)].map((m) => m[1]))];
   if (links.length !== 1) throw new StructureError(`wbo rankings page: ${links.length} male report links`);
   return `https://wboboxing.com/${links[0]}`;
+}
+
+// text items with their positions, one array per page (the WBC ratings PDF is laid out, not in reading order)
+async function pdfItems(bytes) {
+  const { getDocumentProxy } = await import('unpdf');
+  const pdf = await getDocumentProxy(new Uint8Array(bytes));
+  const pages = [];
+  for (let p = 1; p <= pdf.numPages; p++) {
+    const tc = await (await pdf.getPage(p)).getTextContent();
+    pages.push({ items: tc.items.filter((i) => typeof i.str === 'string').map((i) => ({ s: i.str, x: Math.round(i.transform[4]), y: Math.round(i.transform[5]) })) });
+  }
+  await pdf.destroy?.();
+  return pages;
 }
 
 async function pdfText(bytes) {
@@ -219,7 +248,8 @@ export async function persistRanking(store, snap, { body, kind, sourceKey, retri
     entryMetadata: (e) => {
       const src = byPosition.get(e.position) ?? {};
       return { regional_label: src.regional_label ?? null, country: src.country ?? null, country_label: src.country_label ?? null, org_boxer_id: src.wba_id ?? null,
-        not_rated: Boolean(src.not_rated), slot_text: src.slot_text ?? null, name_not_printed: Boolean(src.name_not_printed), outside_numbered_list: e.rank_label === '**' };
+        not_rated: Boolean(src.not_rated), slot_text: src.slot_text ?? null, name_not_printed: Boolean(src.name_not_printed), printed_blank: Boolean(src.printed_blank),
+        outside_numbered_list: e.rank_label === '**' };
     },
     sourceRecord: { document_kind: kind, as_of_label: asOfLabel, division_native_label: snap.division.native_label, division_limit_text: snap.division.limit_text ?? null,
       retrieved_at: retrievedAt, document_sha256: documentSha256, parser_version: PARSER_VERSIONS[kind], champions_listed_outside_numbers: true, attribution: body.toUpperCase(), request },
@@ -292,6 +322,50 @@ async function processIbfRecords(ctx, slug, json, { latestOnly }) {
   metrics.documents = (metrics.documents ?? 0) + pick.length;
 }
 
+// WBC: one ratings PDF per month (only the current month is linked publicly), plus the champions grid on the main ratings
+// page for the current run. The PDF's own "RATINGS AS OF" label dates it; its URL comes from a public link, never a guess.
+async function collectWbc(ctx, { pdfUrl = null, champions = true }) {
+  const { request, store, sourceKey, runId, identities, metrics } = ctx;
+  let page = null;
+  let link = pdfUrl;
+  if (!link || champions) {
+    page = await request(URLS.wbcMainRatings);
+    const links = wbcRatingsLinks(page.text);
+    if (!pdfUrl && links.length !== 1) throw new StructureError(`wbc main ratings page: ${links.length} men's ratings PDF links`);
+    link = pdfUrl ?? links[0];
+  }
+  const res = await request(link, { accept: 'application/pdf,*/*', binary: true });
+  if (String.fromCharCode(...res.bytes.slice(0, 5)) !== '%PDF-') throw new StructureError(`wbc ratings: not a PDF (${res.contentType})`);
+  const parsed = checkWbcRatings(parseWbcRatingsPages(await ctx.extractPdfItems(res.bytes)));
+  const [y, m] = parsed.month.split('-').map(Number);
+  const asOf = monthEnd(y, m);
+  const sha = await sha256Bytes(res.bytes);
+  const snaps = wbcRatingsSnapshots(parsed, { sourceUrl: link, retrievedAt: res.retrievedAt, contentSha256: sha, asOf });
+  const duplicated = listedTwice(snaps, metrics, 'wbc_ratings');
+  for (const s of snaps) {
+    if (duplicated(s)) continue;
+    if (!s.division.key) { await holdUnknownDivision(store, { body: 'wbc', kind: 'wbc_ratings', sourceKey, nativeLabel: s.division.native_label, limitText: s.division.limit_text, metrics }); continue; }
+    const common = { body: 'wbc', kind: 'wbc_ratings', sourceKey, runId, retrievedAt: res.retrievedAt, documentSha256: sha, identities, metrics, asOf, publishedOn: null, asOfLabel: parsed.as_of_label };
+    await persistSnapshot(store, s, { ...common, divisionNativeLabel: s.division.native_label, pairWith: [{ kind: 'wbc_champions' }] });
+    // a page whose numbers and names do not pair cleanly keeps its title lines but never becomes a ranking
+    if (s.problems.length) { (metrics.refused ??= []).push({ kind: 'wbc_ratings', division: s.division.native_label, reason: 'ranking_rows_not_paired', detail: s.problems.join('; ').slice(0, 200) }); continue; }
+    await persistRanking(store, s, common);
+  }
+  metrics.documents = (metrics.documents ?? 0) + 1;
+  if (champions && page) {
+    const cparsed = checkWbcChampions(parseWbcChampionsPage(page.text));
+    const meta = { sourceUrl: URLS.wbcMainRatings, retrievedAt: page.retrievedAt, contentSha256: await sha256Bytes(page.bytes) };
+    for (const key of [...new Set(cparsed.cards.map((c) => c.division.weight_class_key).filter(Boolean))]) {
+      const native = cparsed.cards.find((c) => c.division.weight_class_key === key).division.native_label;
+      const s = { ...wbcChampionsSnapshot(cparsed, meta, key), division: { key, native_label: native, limit_text: null } };
+      await persistSnapshot(store, s, { body: 'wbc', kind: 'wbc_champions', sourceKey, runId, retrievedAt: meta.retrievedAt, documentSha256: meta.contentSha256, identities, metrics,
+        asOf: meta.retrievedAt.slice(0, 10), publishedOn: null, asOfLabel: null, divisionNativeLabel: native, pairWith: [{ kind: 'wbc_ratings' }] });
+    }
+    metrics.documents += 1;
+  }
+  return parsed.month;
+}
+
 async function collectWbo(ctx, { month = null }) {
   const { request, store, sourceKey, runId, identities, metrics } = ctx;
   let parsed; let res; let sourceUrl; let asOf; let asOfLabel = null;
@@ -359,9 +433,8 @@ export function monthsBetween(from, to) {
 // re-reads only failures recorded before that time, so a chunked retry pass reads each old failure once.
 const skipByFailure = (failures, key, retryFailed) => new Set(failures.filter((f) => f[key]).filter((f) => retryFailed === false || retryFailed == null
   || (typeof retryFailed === 'string' && f.at && f.at >= retryFailed)).map((f) => f[key]));
-export async function runSanctioningCollection(store, env, { body, mode = 'current', fetchImpl = fetch, sleep = defaultSleep, months = null, maxRequests = null, now = new Date().toISOString(), provenance = null, extractPdfText = pdfText, retryFailed = false } = {}) {
-  if (body === 'wbc') return { status: 'blocked', reason: 'wbc: approved source; no collector or parser built yet' };
-  if (!['wba', 'ibf', 'wbo'].includes(body)) return { status: 'blocked', reason: `${body}: no collector` };
+export async function runSanctioningCollection(store, env, { body, mode = 'current', fetchImpl = fetch, sleep = defaultSleep, months = null, maxRequests = null, now = new Date().toISOString(), provenance = null, extractPdfText = pdfText, extractPdfItems = pdfItems, retryFailed = false, documents = null } = {}) {
+  if (!['wba', 'ibf', 'wbo', 'wbc'].includes(body)) return { status: 'blocked', reason: `${body}: no collector` };
   if (env.TITLES_INGEST_ENABLED !== 'true') return { status: 'disabled', reason: 'TITLES_INGEST_ENABLED is not "true"' };
   if (!store?.writeTarget?.verified) return { status: 'blocked', reason: 'store has no verified boxing write target' };
   const sourceKey = `${body}_official`;
@@ -371,11 +444,42 @@ export async function runSanctioningCollection(store, env, { body, mode = 'curre
   const metrics = { body, mode, requests: 0, documents: 0 };
   const runId = await store.startRun({ worker: TITLES_WORKER, sourceKey, adapterVersion: PARSER_VERSIONS[`${body}_${body === 'wba' ? 'ranking' : body === 'ibf' ? 'rating' : 'ratings'}`], provenance });
   const request = politeClient(fetchImpl, { minIntervalMs: MIN_INTERVAL_MS[body], metrics, sleep });
-  const ctx = { request, store: writer, sourceKey, runId, identities: identityCache(writer, body), metrics, extractPdfText };
+  const ctx = { request, store: writer, sourceKey, runId, identities: identityCache(writer, body), metrics, extractPdfText, extractPdfItems };
   const budget = () => maxRequests != null && metrics.requests >= maxRequests;
   let status = 'ok';
   try {
-    if (body === 'ibf') {
+    if (body === 'wbc' && mode === 'current') {
+      metrics.months = { [await collectWbc(ctx, {})]: 1 };
+    } else if (body === 'wbc') {
+      // history: every men's ratings PDF linked from the WBC's public ratings pages (or operator-supplied public URLs);
+      // a link that no longer resolves is a source-access gap, recorded and skipped
+      const job = 'wbc-history';
+      const cp = await store.backfillCheckpoint(sourceKey, job);
+      const done = new Set([...(cp.completed ?? []), ...(retryFailed === true ? [] : skipByFailure(cp.failures ?? [], 'url', retryFailed))]);
+      let urls = documents;
+      if (!urls) {
+        urls = [];
+        for (const pageUrl of URLS.wbcLinkPages) { if (budget()) break; urls.push(...wbcRatingsLinks((await request(pageUrl)).text)); }
+        urls = [...new Set(urls)];
+      }
+      metrics.documents_linked = urls.length;
+      for (const url of urls) {
+        if (done.has(url)) continue;
+        if (budget()) { status = 'partial'; metrics.stopped = 'request budget'; break; }
+        try {
+          const refusedBefore = metrics.refused?.length ?? 0;
+          const month = await collectWbc(ctx, { pdfUrl: url, champions: false });
+          (metrics.months ??= {})[month] = 1;
+          const refused = (metrics.refused ?? []).slice(refusedBefore);
+          if (refused.length) await store.backfillCheckpoint(sourceKey, job, { failure: [{ url, month, at: new Date().toISOString(), refused: refused.length, reasons: [...new Set(refused.map((x) => x.reason))] }] });
+          else await store.backfillCheckpoint(sourceKey, job, { completed: url, cursor: { last_url: url, month, at: new Date().toISOString() } });
+        } catch (err) {
+          if (!(err instanceof StructureError) && !err.httpStatus) throw err;
+          await store.backfillCheckpoint(sourceKey, job, { failure: [{ url, at: new Date().toISOString(), error: String(err.message).slice(0, 200), access_gap: Boolean(err.httpStatus) }] });
+          (metrics.document_failures ??= []).push({ url, error: String(err.message).slice(0, 120) });
+        }
+      }
+    } else if (body === 'ibf') {
       const job = mode === 'backfill' ? 'ibf-history-2005-2026' : null;
       const cp = job ? await store.backfillCheckpoint(sourceKey, job) : null;
       const done = new Set([...(cp?.completed ?? []), ...(retryFailed === true ? [] : skipByFailure(cp?.failures ?? [], 'slug', retryFailed))]);
@@ -433,7 +537,7 @@ export async function runSanctioningCollection(store, env, { body, mode = 'curre
     metrics.error = String(err?.message ?? err).slice(0, 300);
     metrics.error_code = err?.code ?? null;
   }
-  if (status === 'ok' && (metrics.refused?.length || metrics.month_failures?.length || metrics.http_errors)) status = 'partial';
+  if (status === 'ok' && (metrics.refused?.length || metrics.month_failures?.length || metrics.document_failures?.length || metrics.http_errors)) status = 'partial';
   // review units follow the new review rows (one decision per source identity, not per month)
   if (status !== 'failed' && metrics.identities_held && store.refreshOrgIdentityCandidates) {
     try { metrics.identity_candidates = await store.refreshOrgIdentityCandidates(); } catch (err) { metrics.identity_candidates_error = String(err?.message ?? err).slice(0, 200); }

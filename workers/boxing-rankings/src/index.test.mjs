@@ -7,13 +7,11 @@ const TOKEN = 'r'.repeat(40);
 const env = { BOXING_INTERNAL_TOKEN: TOKEN };
 const auth = { authorization: `Bearer ${TOKEN}`, 'content-type': 'application/json' };
 
-test('WBC has no collector (not licensed); WBA, IBF and WBO are approved collectors', async () => {
-  assert.equal(rankingAdapters.wbc.state, 'approved_no_collector');
-  await assert.rejects(() => rankingAdapters.wbc.fetchDocuments(), /adapter_disabled/);
-  assert.deepEqual(['wba', 'ibf', 'wbo'].map((b) => rankingAdapters[b].state), ['approved', 'approved', 'approved']);
+test('WBC, WBA, IBF and WBO are approved collectors', async () => {
+  assert.deepEqual(['wbc', 'wba', 'ibf', 'wbo'].map((b) => rankingAdapters[b].state), ['approved', 'approved', 'approved', 'approved']);
 });
 
-test('scheduled collection is off by default; when on it collects WBA, WBO, IBF and records WBC as blocked', async () => {
+test('scheduled collection is off by default; when on it collects WBA, WBO, IBF and WBC', async () => {
   const runs = [];
   const collected = [];
   const store = { startRun: async (r) => { runs.push(['start', r.sourceKey]); return 'run'; }, finishRun: async (id, r) => runs.push(['finish', r.status]) };
@@ -22,8 +20,8 @@ test('scheduled collection is off by default; when on it collects WBA, WBO, IBF 
   await worker.scheduled({ scheduledTime: Date.parse('2026-09-20T14:25:00Z'), cron: '25 14 20 * *' }, { ...env });
   assert.deepEqual([runs.length, collected.length], [0, 0]);
   await worker.scheduled({ scheduledTime: Date.parse('2026-09-20T14:25:00Z'), cron: '25 14 20 * *' }, { ...env, TITLES_INGEST_ENABLED: 'true' });
-  assert.deepEqual(collected, [['wba', 'current', 'scheduled'], ['wbo', 'current', 'scheduled'], ['ibf', 'current', 'scheduled']]);
-  assert.deepEqual(runs, [['start', 'wbc_official'], ['finish', 'blocked']]);
+  assert.deepEqual(collected, [['wba', 'current', 'scheduled'], ['wbo', 'current', 'scheduled'], ['ibf', 'current', 'scheduled'], ['wbc', 'current', 'scheduled']]);
+  assert.deepEqual(runs, [], 'no approved body is left without a collector');
 });
 
 test('title map route validates input and returns the derived map', async () => {

@@ -1,13 +1,13 @@
 # One guarded sanctioning-body collection against Boxing STAGING only (WBA, IBF, WBO; WBC is not licensed).
 #
-#   pwsh scripts/staging/titles-collect.ps1 -Body wba
+#   pwsh scripts/staging/titles-collect.ps1 -Body wba        (wbc: current ratings PDF + champions list; -Backfill = every publicly linked ratings PDF)
 #   pwsh scripts/staging/titles-collect.ps1 -Body ibf -Backfill
 #   pwsh scripts/staging/titles-collect.ps1 -Body wbo -Backfill -From 2000-01 -To 2026-08 [-MaxRequests 60]
 #
 # Verifies the project is propbetedge-boxing-staging, reads the service-role key from the Management API into THIS
 # process only, runs scripts/titles/collect-once.mjs (same code path as the boxing-rankings Worker), then clears it.
 
-param([Parameter(Mandatory = $true)][ValidateSet('wba', 'ibf', 'wbo')][string]$Body, [switch]$Backfill, [string]$From = '', [string]$To = '', [int]$MaxRequests = 0, [switch]$RetryFailed, [string]$RetryFailedBefore = '')
+param([Parameter(Mandatory = $true)][ValidateSet('wba', 'ibf', 'wbo', 'wbc')][string]$Body, [switch]$Backfill, [string]$From = '', [string]$To = '', [int]$MaxRequests = 0, [switch]$RetryFailed, [string]$RetryFailedBefore = '')
 $ErrorActionPreference = 'Stop'
 $root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 Import-Module (Join-Path $PSScriptRoot 'BoxingSupabase.psm1') -Force

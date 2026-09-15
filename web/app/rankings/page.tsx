@@ -15,6 +15,7 @@ const titleCase = (s: string) => s.toLowerCase().replace(/\b\w/g, (c) => c.toUpp
 const notRated = (e: RankingEntry) => Boolean(e.metadata?.not_rated || (e.is_vacant && !e.source_name && !e.metadata?.name_not_printed));
 
 function Who({ e }: { e: RankingEntry }) {
+  if (e.metadata?.printed_blank) return <span>Position left blank by source</span>;
   if (notRated(e)) return <span>{e.metadata?.slot_text ?? "NOT RATED"}</span>;
   // the body printed this position without a name: a display phrase only, never an identity
   if (e.metadata?.name_not_printed) return <span className="dim" title={e.metadata.source_fighter_id ? `Name not printed by the source (source profile id ${e.metadata.source_fighter_id})` : "Name not printed by the source"}>Name not printed by source</span>;

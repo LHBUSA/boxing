@@ -85,3 +85,50 @@ export function wboHistoryHtml({ month = 'JULY', year = 2026 } = {}) {
     + '<table class="ranking other-org table table-sm"><tr><td>WBA</td><td>SYNTH ALPHA</td></tr><tr><td>IBF</td><td></td></tr><tr><td>WBC</td><td>VACANT</td></tr></table>';
   return `<h1>WORLD BOXING ORGANIZATION MALE RANKING ${month} ${year}</h1>${WBO_LABELS.map(table).join('')}`;
 }
+
+
+// WBC: the ratings PDF as positioned text items per page (the layout reviewed on 2026-09-15) and the main ratings page with
+// its men's champions grid and PDF link. Invented names.
+export const WBC_PDF_URL = 'https://wbcboxing.com/mailing/2026/WBC_RATINGS_SEPTEMBER_2026.pdf';
+const WBC_PAGES = [['HEAVYWEIGHT', '(+224 - +101.605)', 'Completo'], ['BRIDGERWEIGHT.-', '(224-101.605)', 'bridger'], ['CRUISERWEIGHT.-', '(200-90.719)', 'Crucero'],
+  ['LT. HEAVYWEIGHT.-', '(175-79.379)', 'Semicompleto'], ['SUPERMIDDLEWEIGHT.-', '(168-76.204)', 'Supermedio'], ['MIDDLEWEIGHT.-', '(160-72.575)', 'Medio'],
+  ['SUPERWELTERWEIGHT.-', '(154-69.853)', 'Superwelter'], ['WELTERWEIGHT.-', '(147-66.678)', 'Welter'], ['SUPERLIGHTWEIGHT.-', '(140-63.503)', 'Superligero'],
+  ['LIGHTWEIGHT.-', '(135-61.235)', 'Ligero'], ['SUPERFEATHERWEIGHT.-', '(130-58.967)', 'Superpluma'], ['FEATHERWEIGHT.-', '(126-57.153)', 'Pluma'],
+  ['SUPERBANTAMWEIGHT.-', '(122-55.338)', 'Supergallo'], ['BANTAMWEIGHT.-', '(118-53.524)', 'Gallo'], ['SUPERFLYWEIGHT.-', '(115-52.163)', 'Supermosca'],
+  ['FLYWEIGHT.-', '(112-50.802)', 'Mosca'], ['LT. FLYWEIGHT.-', '(108-48.988)', 'Minimosca'], ['STRAWWEIGHT.-', '(105-47.627)', 'Paja']];
+export function wbcRatingsPages({ month = 'SEPTEMBER 2026', lhwChampion = 'SYNTH WBCCHAMP', extraTitleLine = null } = {}) {
+  const cover = { items: [{ s: 'WORLD BOXING COUNCIL', x: 200, y: 700 }, { s: `RATINGS AS OF ${month} / CLASIFICACIONES`, x: 120, y: 650 }] };
+  const pages = WBC_PAGES.map(([label, limit], k) => {
+    const items = [{ s: `RATINGS AS OF ${month} / CLASIFICACIONES DEL MES`, x: 90, y: 780 }, { s: `${label} ${limit}`, x: 75, y: 760 }, { s: 'Contenders:', x: 187, y: 503 }, { s: '↑↓', x: 380, y: 502 }];
+    const lhw = label.startsWith('LT. HEAVYWEIGHT');
+    const titles = lhw
+      ? [`CHAMPION: ${lhwChampion} (MEXICO)`, 'WON TITLE: June 25, 2024', 'LAST DEFENCE: November 22, 2025', 'LAST COMPULSORY: November 22, 2025', 'INTERIM CHAMPION: SYNTH INTERIMWBC (GB)',
+        'WBC SILVER CHAMPION: VACANT', 'WBC INT. CHAMPION:', 'IBF CHAMPION: Synth Alpha (Kyrgyzstan)', 'WBO CHAMPÌON: Synth Alpha (Russia)']
+      : [`CHAMPION: SYNTH WBCFILL${k} (US)`, 'WON TITLE: January 10, 2026', 'WBC SILVER CHAMPION:', 'IBF CHAMPION:', 'WBO CHAMPION: VACANT'];
+    if (extraTitleLine && k === 0) titles.push(extraTitleLine);
+    // scrambled order, as the text layer delivers it
+    titles.map((s, i) => ({ s, x: 75, y: 697 - i * 12 })).reverse().forEach((t) => items.push(t));
+    if (label.startsWith('CRUISERWEIGHT')) items.push({ s: 'WBO CHAMPION: Synth Stray (US)', x: 166, y: 500 });
+    for (let i = 0; i < 40; i++) {
+      const y = 489 - i * 11 - (i >= 15 ? 11 : 0);
+      items.push({ s: String(i + 1), x: i < 9 ? 67 : 64, y });
+      if (label.startsWith('BRIDGERWEIGHT') && i >= 10) continue;
+      const name = lhw && i === 1 ? 'Synth Wbcrated Two (US)' : lhw && i === 0 ? 'Synth Alpha (Russia) *CBP/P' : `Synth Wbc${k}r${i} (US)`;
+      items.push({ s: name, x: 75, y: y - 1 });
+      if (lhw && i === 1) items.push({ s: 'USWBC', x: 175, y: y - 1 });
+    }
+    items.push({ s: 'Continental Federations Champions:', x: 403, y: 420 }, { s: 'Murat Synth (Russia) *NA WBA', x: 405, y: 300 }, { s: 'www.wbcboxing.com', x: 256, y: 22 });
+    return { items: items.sort(() => 0) };
+  });
+  return [cover, ...pages];
+}
+export function wbcMainRatingsHtml({ lhwChampion = 'SYNTH OTHERWBC', pdfUrl = WBC_PDF_URL } = {}) {
+  const li = ([, , division], k) => {
+    const name = division === 'Semicompleto' ? lhwChampion : division === 'Supermosca' ? 'Vacant' : `SYNTH WBCFILL${k}`;
+    return `<li id="eg-41-post-id-${k}" class="filterall eg-tyler-wrapper filter-${division.toLowerCase()} eg-post-id-${k}"><div class="esg-entry-cover"><div class="esg-bottom"><a class="eg-tyler-element-3 eg-post-${k}" href="https://wbcboxing.com/en/div${k}/">${name}</a></div>`
+      + `<div class="esg-bottom"><a class="eg-tyler-element-9 eg-post-${k}" href="https://wbcboxing.com/en/div${k}/"><a class="eg-tyler-element-9" href="https://wbcboxing.com/categoria/${division.toLowerCase()}/" title="View all posts in ${division}" rel="category tag">${division}</a></a></div></div></li>`;
+  };
+  return `<h2>CAMPEONES DEL MUNDO</h2><article class="myportfolio-container" data-alias="champions-man-es"><article class="esg-filters"></article><ul>${WBC_PAGES.map(li).join('')}</ul></article>`
+    + `<a href="${pdfUrl}">DESCARGAR RATINGS</a><article data-alias="champions-woman-es"><ul><li class="filter-completo"><a class="eg-tyler-element-3">SYNTH WOMAN</a><a rel="category tag">Completo</a></li></ul></article>`
+    + '<a href="https://wbcboxing.com/mailing/2026/WBC_RATINGS_FEMALE_SEPTEMBER__2026.pdf">DESCARGAR RATINGS</a>';
+}

@@ -12,6 +12,8 @@ export const DOC_LABEL: Record<string, string> = {
   ibf_rating: "IBF ratings",
   wbo_ratings: "WBO ratings PDF",
   wbo_champions: "WBO champions page",
+  wbc_ratings: "WBC ratings PDF",
+  wbc_champions: "WBC champions list",
 };
 
 // the public page of each body where a reader finds the underlying fact (PropBetEdge links back; it does not republish)
@@ -21,6 +23,8 @@ export const OFFICIAL_PAGE: Record<string, string> = {
   ibf_rating: "https://www.ibf-usba-boxing.com/ratings/",
   wbo_ratings: "https://wboboxing.com/rankings/",
   wbo_champions: "https://wboboxing.com/male-champions/",
+  wbc_ratings: "https://wbcboxing.com/en/main-ratings/",
+  wbc_champions: "https://wbcboxing.com/en/main-ratings/",
 };
 export const BODY_SITE: Record<string, string> = {
   wbc: "https://wbcboxing.com/", wba: "https://www.wbaboxing.com/", ibf: "https://www.ibf-usba-boxing.com/", wbo: "https://wboboxing.com/",
@@ -80,7 +84,7 @@ export function docDate(doc: TitleDocument) {
   return asOfText(doc.as_of_label) ?? (doc.published_on ? `Published ${fmtDate(doc.published_on)}` : `Read ${day(doc.retrieved_at)}`);
 }
 // the body's dated ranking document leads; its champions page follows
-const DOC_ORDER = ["wba_ranking", "ibf_rating", "wbo_ratings", "wba_champions", "wbo_champions"];
+const DOC_ORDER = ["wbc_ratings", "wba_ranking", "ibf_rating", "wbo_ratings", "wbc_champions", "wba_champions", "wbo_champions"];
 const beltLabel = (key: string) => {
   const tier = key.split("|")[0];
   return tier === "world" ? "World title" : `${tier.charAt(0).toUpperCase()}${tier.slice(1)} title`;

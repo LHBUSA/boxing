@@ -291,7 +291,7 @@ export interface TitleBeltStatus {
   mandatory: { as_printed: string; challenger: string | null; status_as_printed: string | null; due_on: string | null; basis: string | null } | null;
 }
 export interface TitleDocument {
-  document_kind: "wba_ranking" | "wba_champions" | "ibf_rating" | "wbo_ratings" | "wbo_champions";
+  document_kind: "wba_ranking" | "wba_champions" | "ibf_rating" | "wbo_ratings" | "wbo_champions" | "wbc_ratings" | "wbc_champions";
   source_url: string;
   published_on: string | null;
   as_of: string | null;
@@ -328,7 +328,7 @@ export interface TitleLanes {
   derived: DerivedUnification;
 }
 
-export interface RankingEntry { position: number; rank: number; rank_label: string | null; public_id: string | null; display_name: string | null; source_name?: string | null; designation: string | null; mandatory: boolean | null; is_vacant: boolean | null; is_champion: boolean | null; metadata?: { regional_label?: string | null; country?: string | null; country_label?: string | null; not_rated?: boolean; slot_text?: string | null; name_not_printed?: boolean; source_fighter_id?: string | null; outside_numbered_list?: boolean } | null }
+export interface RankingEntry { position: number; rank: number; rank_label: string | null; public_id: string | null; display_name: string | null; source_name?: string | null; designation: string | null; mandatory: boolean | null; is_vacant: boolean | null; is_champion: boolean | null; metadata?: { regional_label?: string | null; country?: string | null; country_label?: string | null; not_rated?: boolean; slot_text?: string | null; name_not_printed?: boolean; printed_blank?: boolean; source_fighter_id?: string | null; outside_numbered_list?: boolean } | null }
 export interface RankingsData {
   board: { organizations: SanctioningBody[]; divisions: Division[]; snapshots: { organization_slug: string; class_key: string; published_on: string | null; effective_on: string | null; stored?: number }[] };
   snapshot: RankingSnapshotView | null;

@@ -20,7 +20,7 @@ const TIERS: [string, string][] = [
 // Each body's own title vocabulary, as published on its site (source review 2026-09-14, docs/TITLES_RANKINGS_SOURCES_2026-09-14.md).
 // Reference text only: no champion is derived from it.
 const BODIES: { short: string; labels: string[]; status: string }[] = [
-  { short: "WBC", labels: ["Champion", "Interim Champion", "Franchise Champion", "Champion in Recess", "Emeritus Champion", "Silver"], status: "Official source approved; WBC documents not collected yet. Labels from public WBC references, still to be confirmed against WBC documents." },
+  { short: "WBC", labels: ["Champion", "Interim Champion", "Champion in Recess", "WBC Silver Champion", "WBC Int. Champion"], status: "Official monthly ratings PDF and champions list, with attribution and links back. Labels as printed in the ratings." },
   { short: "WBA", labels: ["Super Champion", "World Champion", "Interim Champion", "Gold Champion", "Champion in Recess", "Vacant"], status: "Official ranking and champions pages, with attribution and links back." },
   { short: "IBF", labels: ["Champion", "Interim Champion", "Title Vacant"], status: "Official monthly ratings back to 2005, with attribution and links back." },
   { short: "WBO", labels: ["Super Champion", "Champion", "Interim Champion", "Vacant"], status: "Official ratings and champions page back to 2000, with attribution and links back." },

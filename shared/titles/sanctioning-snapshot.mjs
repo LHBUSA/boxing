@@ -102,6 +102,35 @@ export function wboRatingsSnapshots(parsed, meta) {
   }));
 }
 
+// WBC ratings PDF: the WBC's own title lines per division, its numbered list (blank positions kept), and its lines about
+// other bodies as claims. WON TITLE / LAST DEFENCE are attached by the parser only when one full champion is printed;
+// LAST COMPULSORY is a past event and stays a printed warning.
+export function wbcRatingsSnapshots(parsed, meta) {
+  return parsed.divisions.map((d) => ({
+    snapshot: snapshotHeader('wbc', 'ratings', { ...meta, asOfLabel: parsed.as_of_label }),
+    division: { key: d.division.weight_class_key, native_label: d.division.native_label, limit_text: d.division.limit_text },
+    titles: d.champions.map((c) => titleFrom('wbc', d.division.weight_class_key, c, {
+      reign_start: c.won_title_on ? { on: c.won_title_on, basis: 'WBC ratings "WON TITLE"' } : null,
+      last_defense_on: c.last_defence_on ?? null,
+    })),
+    ranking: { entries: d.entries.map((e) => ({ ...e, is_vacant: Boolean(e.not_rated) })), outside_numbered_list: [], champions_listed_outside_numbers: true },
+    claims_about_other_bodies: d.claims_about_other_bodies.map((x) => ({ ...x, where: 'ratings title block' })),
+    warnings: [
+      ...(d.printed['LAST COMPULSORY'] ? [`LAST COMPULSORY as printed: ${d.printed['LAST COMPULSORY']}`] : []),
+      ...(d.champions.filter((c) => c.designation.native?.toUpperCase() === 'CHAMPION').length > 1 ? ['several CHAMPION lines: WON TITLE / LAST DEFENCE not attached'] : []),
+    ],
+    problems: d.problems,
+  }));
+}
+
+export function wbcChampionsSnapshot(parsed, meta, divisionKey) {
+  return {
+    snapshot: snapshotHeader('wbc', 'champions', meta),
+    division: { key: divisionKey },
+    titles: parsed.cards.filter((c) => c.division.weight_class_key === divisionKey).map((c) => titleFrom('wbc', divisionKey, c)),
+  };
+}
+
 export function wboChampionsSnapshot(parsed, meta, divisionKey) {
   return {
     snapshot: snapshotHeader('wbo', 'champions', meta),

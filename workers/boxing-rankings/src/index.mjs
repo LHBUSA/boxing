@@ -7,7 +7,7 @@
 //   GET  /internal/v1/title-map?weight_class=&gender=&as_of=
 //
 // scheduled(): TITLES_INGEST_ENABLED must be "true". Collects the current WBA, WBO and IBF documents (owner approvals
-// 2026-09-14) through runSanctioningCollection, one body after another; records a blocked run for any approved body without a collector yet (the WBC, 2026-09-14).
+// 2026-09-14) through runSanctioningCollection, one body after another; records a blocked run for any approved body without a collector.
 
 import { guardedPostgrestStore } from '../../../shared/store/target-guard.mjs';
 import { runSanctioningCollection } from '../../../shared/titles/sanctioning-ingest.mjs';

@@ -6,7 +6,8 @@ import assert from 'node:assert/strict';
 import { freshDatabase } from '../helpers/db.mjs';
 import { pgStore } from '../../scripts/lib/pg-store.mjs';
 import { runSanctioningCollection } from '../../shared/titles/sanctioning-ingest.mjs';
-import { IBF_HEAVYWEIGHT_HISTORY, IBF_SLUGS, champRow, fifteen, ibfRecord, wbaDivision, wbaChampionsHtml, wbaRankingHtml, wboChampionsHtml, wboHistoryHtml, wboRankingsPage, wboRatingsText } from '../fixtures/sanctioning/synthetic.mjs';
+import { IBF_HEAVYWEIGHT_HISTORY, IBF_SLUGS, champRow, fifteen, ibfRecord, wbaDivision, wbaChampionsHtml, wbaRankingHtml, wboChampionsHtml, wboHistoryHtml, wboRankingsPage, wboRatingsText,
+  WBC_PDF_URL, wbcMainRatingsHtml, wbcRatingsPages } from '../fixtures/sanctioning/synthetic.mjs';
 
 let db;
 let store;
@@ -22,7 +23,8 @@ const fakeFetch = async (url, init = {}) => {
   if (v === undefined) return new Response('not found', { status: 404 });
   return typeof v === 'function' ? v() : respond(v.body ?? v, v.type);
 };
-const run = (body, opts = {}) => runSanctioningCollection(store, ENV, { body, fetchImpl: fakeFetch, sleep: noSleep, extractPdfText: async () => site.get('pdf-text'), ...opts });
+const run = (body, opts = {}) => runSanctioningCollection(store, ENV, { body, fetchImpl: fakeFetch, sleep: noSleep, extractPdfText: async () => site.get('pdf-text'),
+  extractPdfItems: async () => site.get('wbc-pdf-items'), ...opts });
 
 before(async () => {
   db = await freshDatabase('sanctioning');
@@ -42,12 +44,10 @@ before(async () => {
 });
 after(async () => { await db?.close(); });
 
-test('sources: WBC, WBA, IBF, WBO approved with recorded reviews; WBC has no collector yet; vocabulary seeded', async () => {
+test('sources: WBC, WBA, IBF, WBO approved with recorded reviews; vocabulary seeded', async () => {
   const rows = await q(`select source_key, enabled, access_mode, redistribution_allowed from public.boxing_sources where source_key in ('wbc_official','wba_official','ibf_official','wbo_official') order by 1`);
   assert.deepEqual(rows.map((r) => [r.source_key, r.enabled, r.access_mode, r.redistribution_allowed]),
     [['ibf_official', true, 'approved_ingest', false], ['wba_official', true, 'approved_ingest', false], ['wbc_official', true, 'approved_ingest', false], ['wbo_official', true, 'approved_ingest', false]]);
-  const wbc = await run('wbc');
-  assert.deepEqual([wbc.status, /no collector/.test(wbc.reason)], ['blocked', true], 'approved, but nothing is fetched without a built collector');
   assert.equal(await n(`public.boxing_source_rights_reviews r join public.boxing_sources s on s.id = r.source_id where s.source_key = 'wbc_official' and r.decision = 'approved_with_restrictions'`), 1);
   assert.ok(await n(`public.boxing_org_designations where review_state = 'seeded'`) >= 15);
   // the ordinary source gate now admits WBC; an unknown WBC division still goes to review instead of being stored
@@ -365,4 +365,60 @@ test('chronological pass: months stored newest first are diffed oldest -> newest
   const summary = await store.titleProposalSummary();
   assert.ok(summary.by_body.wba.consecutive >= 1);
   assert.equal(summary.title_events_from_proposals, 0);
+});
+
+
+test('WBC current: public ratings PDF rebuilt from positions, champions grid, conflicts kept, claims, blank positions; history link gaps recorded', async () => {
+  site.set('https://wbcboxing.com/main-ratings-es/', wbcMainRatingsHtml());
+  site.set(WBC_PDF_URL, { body: '%PDF-1.7 synthetic', type: 'application/pdf' });
+  site.set('wbc-pdf-items', wbcRatingsPages());
+  const r = await run('wbc');
+  assert.equal(r.status, 'ok', JSON.stringify(r.metrics));
+  assert.deepEqual([r.metrics.requests, Object.keys(r.metrics.months)], [2, ['2026-09']]);
+  const kinds = await q(`select s.document_kind, count(*)::int n from public.boxing_title_status_snapshots s join public.boxing_organizations o on o.id = s.organization_id where o.slug = 'wbc' group by 1 order by 1`);
+  assert.deepEqual(kinds.map((k) => [k.document_kind, k.n]), [['wbc_champions', 18], ['wbc_ratings', 18]]);
+  const lhw = await q(`select e.designation_native, e.tier, e.holder_status, e.holder_source_name, e.holder_country, e.reign_start_on::text, e.last_defense_on::text
+    from public.boxing_title_status_entries e join public.boxing_title_status_snapshots s on s.id = e.snapshot_id join public.boxing_weight_classes wc on wc.id = s.weight_class_id
+    where s.document_kind = 'wbc_ratings' and wc.class_key = 'light_heavyweight' order by e.seq`);
+  assert.deepEqual(lhw.map((e) => [e.designation_native, e.tier, e.holder_status, e.holder_source_name, e.reign_start_on]),
+    [['CHAMPION', 'world', 'held', 'SYNTH WBCCHAMP', '2024-06-25'], ['INTERIM CHAMPION', 'interim', 'held', 'SYNTH INTERIMWBC', null], ['WBC SILVER CHAMPION', 'silver', 'vacant', null, null]],
+    'WBC words as printed; a blank WBC INT. CHAMPION line states nothing');
+  const claims = await q(`select ao.slug, c.claimed_holder_source_name, c.native_text from public.boxing_title_claims c join public.boxing_title_status_snapshots s on s.id = c.snapshot_id
+    join public.boxing_organizations ao on ao.id = c.about_organization_id join public.boxing_weight_classes wc on wc.id = s.weight_class_id where s.document_kind = 'wbc_ratings' and wc.class_key = 'light_heavyweight' order by 1`);
+  assert.deepEqual(claims.map((c) => [c.slug, c.claimed_holder_source_name]), [['ibf', 'Synth Alpha'], ['wbo', 'Synth Alpha']], '"WBO CHAMPÌON" (printed with an accent) is still the WBC line about the WBO');
+  const conflicts = await q(`select c.left_value, c.right_value from public.boxing_title_conflicts c join public.boxing_organizations o on o.id = c.organization_id where o.slug = 'wbc'`);
+  assert.deepEqual(conflicts.map((c) => [c.left_value, c.right_value].sort()).sort(), [['VACANT', 'synth wbcfill14'], ['synth otherwbc', 'synth wbcchamp']],
+    'the WBC PDF and champions grid disagree (a different holder; vacant against a named holder): both kept');
+  const rank = await store.siteBodyRankings('wbc', 'light_heavyweight', 'male', '2026-09-30');
+  assert.equal(rank.state, 'current');
+  assert.deepEqual(rank.snapshot.entries.slice(0, 2).map((e) => [e.position, e.source_name, e.metadata.regional_label]), [[1, 'Synth Alpha', '*CBP/P'], [2, 'Synth Wbcrated Two', 'USWBC']]);
+  assert.equal(rank.champions.document_kind, 'wbc_ratings');
+  const bridger = await store.siteBodyRankings('wbc', 'bridgerweight', 'male', '2026-09-30');
+  assert.deepEqual([bridger.snapshot.entries.length, bridger.snapshot.entries.filter((e) => e.metadata.printed_blank).length], [40, 30]);
+  const cruiser = await store.siteBodyRankings('wbc', 'cruiserweight', 'male', '2026-09-30');
+  assert.ok(!cruiser.snapshot.entries.some((e) => /Stray/.test(e.source_name ?? '')), 'off-column text is not a ranking row');
+  const lanes = await store.siteTitleLanes('light_heavyweight', 'male');
+  const wbcLane = lanes.lanes.find((l) => l.body === 'wbc');
+  assert.deepEqual([wbcLane.state, wbcLane.documents.length, wbcLane.conflicts_within_body.length], ['current', 2, 1]);
+  assert.notEqual(lanes.derived.status, 'undisputed');
+  assert.equal(lanes.derived.bodies.find((b) => b.body === 'wbc').state, 'body_documents_disagree');
+  const again = await run('wbc');
+  assert.deepEqual([again.metrics.status_snapshots.duplicate, again.metrics.ranking_snapshots.duplicate], [36, 18], 'an unchanged month writes nothing');
+
+  // an unknown WBC title line is held for review, never mapped onto another body's word
+  site.set('wbc-pdf-items', wbcRatingsPages({ extraTitleLine: 'WBC DIAMOND CHAMPION: SYNTH SPARKLE (US)' }));
+  const odd = await run('wbc');
+  assert.ok(odd.metrics.refused.some((x) => x.reason === 'unknown_designation_pending_review'), JSON.stringify(odd.metrics.refused));
+  assert.equal(await n(`public.boxing_org_designations d join public.boxing_organizations o on o.id = d.organization_id where o.slug = 'wbc' and d.native_label = 'WBC DIAMOND CHAMPION' and d.review_state = 'pending_review'`), 1);
+
+  // history: a linked older PDF that no longer resolves is a source-access gap, not a failure of the run
+  const gone = 'https://wbcboxing.com/mailing/2024/ratings_pdf/WBC_RATINGS_AUGUST_2024.pdf';
+  const hist = await run('wbc', { mode: 'backfill', documents: [gone] });
+  assert.equal(hist.status, 'partial');
+  const cp = await store.backfillCheckpoint('wbc_official', 'wbc-history');
+  assert.ok(cp.failures.some((f) => f.url === gone && f.access_gap === true));
+  // candidates and the chronological pass include the WBC like the other bodies
+  const { refreshIdentityCandidates } = await import('../../shared/titles/identity-candidates.mjs');
+  const idr = await refreshIdentityCandidates(store);
+  assert.ok(idr.summary.wbc.review_rows > 0 && idr.summary.wbc.candidates > 0);
 });
