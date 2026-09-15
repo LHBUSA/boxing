@@ -389,8 +389,8 @@ test('WBC current: public ratings PDF rebuilt from positions, champions grid, co
   const conflicts = await q(`select c.left_value, c.right_value from public.boxing_title_conflicts c join public.boxing_organizations o on o.id = c.organization_id where o.slug = 'wbc'`);
   assert.deepEqual(conflicts.map((c) => [c.left_value, c.right_value].sort()).sort(), [['VACANT', 'synth wbcfill14'], ['synth otherwbc', 'synth wbcchamp']],
     'the WBC PDF and champions grid disagree (a different holder; vacant against a named holder): both kept');
-  const rank = await store.siteBodyRankings('wbc', 'light_heavyweight', 'male', '2026-09-30');
-  assert.equal(rank.state, 'current');
+  const rank = await store.siteBodyRankings('wbc', 'light_heavyweight', 'male', '2026-09-15');
+  assert.equal(rank.state, 'current', 'a mid-month read shows the list of that month (stored with the month-end date)');
   assert.deepEqual(rank.snapshot.entries.slice(0, 2).map((e) => [e.position, e.source_name, e.metadata.regional_label]), [[1, 'Synth Alpha', '*CBP/P'], [2, 'Synth Wbcrated Two', 'USWBC']]);
   assert.equal(rank.champions.document_kind, 'wbc_ratings');
   const bridger = await store.siteBodyRankings('wbc', 'bridgerweight', 'male', '2026-09-30');
