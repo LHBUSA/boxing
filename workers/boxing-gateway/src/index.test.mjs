@@ -58,6 +58,12 @@ function fakeStore() {
     siteHallOfFame: async () => ({ rows: [] }),
     siteHistory: async () => ({ decades: [] }),
     siteWire: async () => [],
+    archiveIndex: async () => ({ rules: {}, assertions: { failures: 0, checks: [] }, result_classes: [], jurisdictions: [] }),
+    archiveCard: async (ref) => ({ event: { global_event_id: `pbe_boxevent_${ref}` }, bouts: [], derived: {} }),
+    archiveDivision: async (key, gender, from, to) => ({ weight_class: key, gender, from, to, bodies: [] }),
+    archiveMeetings: async (a, b) => ({ a, b, meetings: [], common_opponents: [] }),
+    fighterPassport: async (ref, asOf) => ({ global_fighter_id: `pbe_boxer_${ref}`, as_of: asOf, names: [], bouts: [] }),
+    sourceRegistry: async (key) => [{ source_key: key ?? 'nsac_nevada', lanes: [] }],
   };
   const writes = Object.fromEntries(['recordResult', 'writeMetricSnapshots', 'ingestMarketSnapshot', 'applyDecision', 'publishArticle']
     .map((m) => [m, async () => { calls.push(m); }]));
@@ -75,7 +81,9 @@ test('contract file is generated from the route table and is current', () => {
     '/internal/v1/site/scorecards', '/internal/v1/site/scorecards/:ref', '/internal/v1/site/officials', '/internal/v1/site/officials/:ref',
     '/internal/v1/site/market-index', '/internal/v1/site/videos', '/internal/v1/site/promoters', '/internal/v1/site/promoters/:key',
     '/internal/v1/site/fighters/:ref/context', '/internal/v1/site/bouts/:ref/context', '/internal/v1/site/hall-of-fame', '/internal/v1/site/eras', '/internal/v1/site/wire',
-    '/internal/v1/site/truth', '/internal/v1/site/truth/events/:ref', '/internal/v1/site/truth/bouts/:ref'];
+    '/internal/v1/site/truth', '/internal/v1/site/truth/events/:ref', '/internal/v1/site/truth/bouts/:ref',
+    '/internal/v1/site/archive', '/internal/v1/site/archive/sources', '/internal/v1/site/archive/cards/:ref',
+    '/internal/v1/site/archive/divisions/:key', '/internal/v1/site/archive/meetings/:a/:b', '/internal/v1/site/passport/:ref'];
   assert.deepEqual(ROUTES.map((r) => r.path).sort(), required.sort());
   assert.ok(onDisk.routes.every((r) => r.method === 'GET'));
 });

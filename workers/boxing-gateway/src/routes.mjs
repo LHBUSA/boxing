@@ -12,6 +12,7 @@ export const READ_METHODS = Object.freeze([
   'siteHome', 'siteEvents', 'siteEvent', 'siteBout', 'siteFighters', 'siteFighter', 'siteTitleBoard', 'siteRankingBoard', 'siteTitleLanes', 'siteBodyRankings', 'truthIndex', 'truthEvent', 'truthBout', 'siteCoverage',
   'siteScorecards', 'siteScorecard', 'siteOfficials', 'siteOfficial', 'siteMarketIndex', 'siteVideos', 'sitePromoters', 'sitePromoter',
   'siteFighterContext', 'siteBoutContext', 'siteHallOfFame', 'siteHistory', 'siteWire',
+  'archiveIndex', 'archiveCard', 'archiveDivision', 'archiveMeetings', 'fighterPassport', 'sourceRegistry',
 ]);
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
@@ -164,6 +165,54 @@ const SITE_ROUTES = [
     path: '/internal/v1/site/truth/bouts/:ref', summary: 'Bout truth (investigator): corners with source identities and appearance decisions, titles and each sanctioning body’s own statement, every result and scorecard revision, officials, weigh-ins, regulatory actions, card history, change ledger, news; each lane with its source.',
     params: { ref: 'hex suffix of the bout public id (12..32)' },
     handler: async (s, { ref }) => { need(SITE_REF.test(ref), 'bad bout ref'); return s.truthBout(ref); },
+  },
+  {
+    path: '/internal/v1/site/archive', summary: 'Global boxing history index: rule versions, the result-class ontology, archive assertions, registered jurisdictions, registry counts and what is on record.',
+    handler: async (s) => s.archiveIndex(),
+  },
+  {
+    path: '/internal/v1/site/archive/sources', summary: 'Source and provenance registry: per source, the rights review, every data lane with availability, rights scope, jurisdiction, coverage, acquisition, cadence, completeness and confidence, plus stored coverage and parser lineage.',
+    query: { source_key: 'one registered source key (optional)' },
+    handler: async (s, _p, q) => {
+      const key = q.get('source_key');
+      need(key == null || SLUG.test(key), 'bad source_key');
+      return s.sourceRegistry(key ?? null);
+    },
+  },
+  {
+    path: '/internal/v1/site/archive/cards/:ref', summary: 'Historical card: the event, venue and commission with jurisdiction, every bout in sheet order with corners, weights against the class limit in force, the classified result with the source text kept, judges'
+      + ' cards checked against the stated decision, officials, deductions, knockdown lane state, titles linked and as printed, provenance per lane, and PropBetEdge-derived card statistics.',
+    params: { ref: 'hex suffix of the event public id (12..32)' },
+    handler: async (s, { ref }) => { need(SITE_REF.test(ref), 'bad event ref'); return s.archiveCard(ref); },
+  },
+  {
+    path: '/internal/v1/site/archive/divisions/:key', summary: 'Division history: class definitions with their basis, each body’s native labels, each body’s own month-by-month statements collapsed into runs, title bouts on record and bouts by year.',
+    params: { key: 'weight class key (e.g. super_welterweight)' },
+    query: { gender: 'male | female, default male', from: 'YYYY-MM-DD', to: 'YYYY-MM-DD' },
+    handler: async (s, { key }, q) => {
+      need(SLUG.test(key), 'bad weight class key');
+      const from = q.get('from');
+      const to = q.get('to');
+      need(from == null || DATE.test(from), 'from must be YYYY-MM-DD');
+      need(to == null || DATE.test(to), 'to must be YYYY-MM-DD');
+      return s.archiveDivision(key, gender(q), from ?? null, to ?? null);
+    },
+  },
+  {
+    path: '/internal/v1/site/archive/meetings/:a/:b', summary: 'Two fighters: every meeting on record and their common opponents with each result, joined by canonical id only.',
+    params: { a: 'hex suffix of a fighter public id (12..32)', b: 'hex suffix of a fighter public id (12..32)' },
+    handler: async (s, { a, b }) => { need(SITE_REF.test(a) && SITE_REF.test(b), 'bad fighter ref'); return s.archiveMeetings(a, b); },
+  },
+  {
+    path: '/internal/v1/site/passport/:ref', summary: 'Fighter passport: canonical id, every name with its kind and source, source ids, sourced attributes, the record derived from bouts on record (with its coverage basis), bouts, divisions, titles, opponents, officials faced and geography; as-of reconstruction supported.',
+    params: { ref: 'hex suffix of the fighter public id (12..32)' },
+    query: { as_of: 'YYYY-MM-DD: reconstruct the passport as it stood before this date' },
+    handler: async (s, { ref }, q) => {
+      need(SITE_REF.test(ref), 'bad fighter ref');
+      const d = q.get('as_of');
+      need(d == null || DATE.test(d), 'as_of must be YYYY-MM-DD');
+      return s.fighterPassport(ref, d ?? null);
+    },
   },
   {
     path: '/internal/v1/site/fighters', summary: 'Site fighter directory page with verified records; optional name search.',

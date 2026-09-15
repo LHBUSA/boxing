@@ -104,6 +104,14 @@ export function pgStore(client) {
     async truthIndex(limit = 60) { return (await one(client, 'select public.boxing_truth_index($1) as r', [limit])).r; },
     async truthEvent(ref) { return (await one(client, 'select public.boxing_truth_event($1) as r', [ref])).r; },
     async truthBout(ref) { return (await one(client, 'select public.boxing_truth_bout($1) as r', [ref])).r; },
+    async archiveIndex() { return (await one(client, 'select public.boxing_archive_index() as r')).r; },
+    async archiveCard(ref) { return (await one(client, 'select public.boxing_archive_card($1) as r', [ref])).r; },
+    async archiveDivision(classKey, gender = 'male', from = null, to = null) {
+      return (await one(client, 'select public.boxing_archive_division($1, $2, $3::date, $4::date) as r', [classKey, gender, from, to])).r;
+    },
+    async archiveMeetings(a, b) { return (await one(client, 'select public.boxing_archive_meetings($1, $2) as r', [a, b])).r; },
+    async fighterPassport(ref, asOf = null) { return (await one(client, 'select public.boxing_fighter_passport($1, $2::date) as r', [ref, asOf])).r; },
+    async sourceRegistry(sourceKey = null) { return (await one(client, 'select public.boxing_source_registry_json($1) as r', [sourceKey])).r; },
     async derivedUnification(weightClassKey, gender) { return (await one(client, 'select public.boxing_derived_unification($1, $2) as r', [weightClassKey, gender])).r; },
     async titleSnapshotJson(id) { return (await one(client, 'select public.boxing_title_snapshot_json($1) as r', [id])).r; },
     async latestTitleSnapshot(orgSlug, weightClassKey, gender, kind, onOrBefore = null, exclude = null) {

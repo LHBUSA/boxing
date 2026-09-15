@@ -90,6 +90,12 @@ export function postgrestStore({ url, serviceKey, fetchImpl = fetch }) {
     truthIndex: (limit = 60) => rpc('boxing_truth_index', { p_limit: limit }),
     truthEvent: (ref) => rpc('boxing_truth_event', { p_ref: ref }),
     truthBout: (ref) => rpc('boxing_truth_bout', { p_ref: ref }),
+    archiveIndex: () => rpc('boxing_archive_index', {}),
+    archiveCard: (ref) => rpc('boxing_archive_card', { p_ref: ref }),
+    archiveDivision: (classKey, gender = 'male', from = null, to = null) => rpc('boxing_archive_division', { p_class: classKey, p_gender: gender, p_from: from, p_to: to }),
+    archiveMeetings: (a, b) => rpc('boxing_archive_meetings', { p_a: a, p_b: b }),
+    fighterPassport: (ref, asOf = null) => rpc('boxing_fighter_passport', { p_ref: ref, p_as_of: asOf }),
+    sourceRegistry: (sourceKey = null) => rpc('boxing_source_registry_json', { p_source_key: sourceKey }),
     derivedUnification: (weightClassKey, gender) => rpc('boxing_derived_unification', { p_weight_class_key: weightClassKey, p_gender: gender }),
     titleSnapshotJson: (id) => rpc('boxing_title_snapshot_json', { p_snapshot: id }),
     latestTitleSnapshot: (orgSlug, weightClassKey, gender, kind, onOrBefore = null, exclude = null) =>

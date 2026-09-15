@@ -93,7 +93,13 @@
     "siteBoutContext",
     "siteHallOfFame",
     "siteHistory",
-    "siteWire"
+    "siteWire",
+    "archiveIndex",
+    "archiveCard",
+    "archiveDivision",
+    "archiveMeetings",
+    "fighterPassport",
+    "sourceRegistry"
   ],
   "routes": [
     {
@@ -275,6 +281,65 @@
         "ref": "hex suffix of the bout public id (12..32)"
       },
       "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/archive",
+      "summary": "Global boxing history index: rule versions, the result-class ontology, archive assertions, registered jurisdictions, registry counts and what is on record.",
+      "params": {},
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/archive/sources",
+      "summary": "Source and provenance registry: per source, the rights review, every data lane with availability, rights scope, jurisdiction, coverage, acquisition, cadence, completeness and confidence, plus stored coverage and parser lineage.",
+      "params": {},
+      "query": {
+        "source_key": "one registered source key (optional)"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/archive/cards/:ref",
+      "summary": "Historical card: the event, venue and commission with jurisdiction, every bout in sheet order with corners, weights against the class limit in force, the classified result with the source text kept, judges cards checked against the stated decision, officials, deductions, knockdown lane state, titles linked and as printed, provenance per lane, and PropBetEdge-derived card statistics.",
+      "params": {
+        "ref": "hex suffix of the event public id (12..32)"
+      },
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/archive/divisions/:key",
+      "summary": "Division history: class definitions with their basis, each body’s native labels, each body’s own month-by-month statements collapsed into runs, title bouts on record and bouts by year.",
+      "params": {
+        "key": "weight class key (e.g. super_welterweight)"
+      },
+      "query": {
+        "gender": "male | female, default male",
+        "from": "YYYY-MM-DD",
+        "to": "YYYY-MM-DD"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/archive/meetings/:a/:b",
+      "summary": "Two fighters: every meeting on record and their common opponents with each result, joined by canonical id only.",
+      "params": {
+        "a": "hex suffix of a fighter public id (12..32)",
+        "b": "hex suffix of a fighter public id (12..32)"
+      },
+      "query": {}
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/passport/:ref",
+      "summary": "Fighter passport: canonical id, every name with its kind and source, source ids, sourced attributes, the record derived from bouts on record (with its coverage basis), bouts, divisions, titles, opponents, officials faced and geography; as-of reconstruction supported.",
+      "params": {
+        "ref": "hex suffix of the fighter public id (12..32)"
+      },
+      "query": {
+        "as_of": "YYYY-MM-DD: reconstruct the passport as it stood before this date"
+      }
     },
     {
       "method": "GET",

@@ -1,0 +1,1728 @@
+{
+  "generated_at": "2026-09-15T22:35:34.995Z",
+  "basis": "Local disposable PostgreSQL, full migration chain (0001-0043). Facts exported read-only from Boxing staging; no hosted project was written.",
+  "ingest": {
+    "bouts_linked": 10,
+    "results_created": 10,
+    "scorecards_written": 15,
+    "weigh_ins": 20,
+    "identity_unresolved": 0,
+    "body_documents": {
+      "created": 1083
+    }
+  },
+  "card": {
+    "event": {
+      "name": "TGB Promotions and Sampson Boxing at MGM Grand Garden Arena",
+      "venue": {
+        "city": "Las Vegas",
+        "name": "MGM Grand Garden Arena",
+        "region": "NV",
+        "source": {
+          "url": "https://boxing.nv.gov/uploadedFiles/boxingnvgov/content/results/2026_Results/03-28-26_Boxing_REDACTED.pdf",
+          "source_key": "nsac_nevada",
+          "observation": null,
+          "source_kind": "commission",
+          "parser_version": null
+        },
+        "aliases": [],
+        "country_code": "US",
+        "jurisdiction": {
+          "code": "US-NV",
+          "kind": "subdivision",
+          "name": "Nevada",
+          "registered": true,
+          "country_code": "US",
+          "global_jurisdiction_id": "pbe_boxjurisdiction_b50555485b6d4e3aaf2d3a1586f5374f"
+        },
+        "global_venue_id": "pbe_boxvenue_b73bed9fb5614ef88646d4f3e0ba8544"
+      },
+      "source": {
+        "url": "https://boxing.nv.gov/uploadedFiles/boxingnvgov/content/results/2026_Results/03-28-26_Boxing_REDACTED.pdf",
+        "source_key": "nsac_nevada",
+        "observation": null,
+        "source_kind": "commission",
+        "parser_version": null
+      },
+      "status": "complete",
+      "start_at": "2026-03-28T16:00:00-05:00",
+      "broadcast": {
+        "lane": "no_approved_source_states_it",
+        "notes": null
+      },
+      "commission": {
+        "name": "Nevada State Athletic Commission",
+        "slug": "nsac",
+        "jurisdiction": {
+          "code": "US-NV",
+          "kind": "subdivision",
+          "name": "Nevada",
+          "registered": true,
+          "country_code": "US",
+          "global_jurisdiction_id": "pbe_boxjurisdiction_b50555485b6d4e3aaf2d3a1586f5374f"
+        },
+        "global_commission_id": "pbe_boxcommission_aa2471fc346549979be146e427188bac"
+      },
+      "event_date": "2026-03-28",
+      "organizations": [],
+      "global_event_id": "pbe_boxevent_d5287ee6c07f45ea8daf535f46e8c829",
+      "source_event_ids": [
+        {
+          "id": "2026-03-28|grand-garden",
+          "namespace": "nsac.event",
+          "verification_state": "verified"
+        }
+      ],
+      "promoters_as_printed": [
+        "TGB Promotions & Sampson Boxing"
+      ]
+    },
+    "derived": {
+      "rule": "pbe_card_stats@1",
+      "bouts": 10,
+      "label": "PropBetEdge-derived from the stored official record above",
+      "stoppages": 5,
+      "with_result": 10,
+      "judges_cards": 15,
+      "rounds_fought": 58.6,
+      "stoppage_rate": 0.5,
+      "by_result_code": {
+        "MD": 1,
+        "UD": 3,
+        "TKO": 5,
+        "SPLIT_DRAW": 1
+      },
+      "mean_card_margin": 3.33,
+      "rounds_scheduled": 86,
+      "mean_panel_spread": 3.2,
+      "rounds_fought_basis": "decisions and draws count every scheduled round; stoppages count completed rounds plus the elapsed share of the last; stoppages without a stated round and time are left out",
+      "bouts_with_linked_titles": 1,
+      "bouts_with_title_remarks": 5,
+      "panels_with_disagreement": 2,
+      "stoppages_without_round_or_time": 1
+    },
+    "bouts": [
+      {
+        "order": 1,
+        "corners": [
+          "a: Sebastian Alexander Fundora (pbe_boxer_2d467e9f265c498f96d2d00c061cea6d)",
+          "b: Keith Fitzgerald Thurman (pbe_boxer_b5dfb11d2bcf482cb25ef2909cd7b2e7)"
+        ],
+        "scheduled_rounds": 12,
+        "result": "TKO",
+        "flags": [],
+        "source_text": "Fundora won by TKO 1:17 of round 6",
+        "round": 6,
+        "time": "1:17",
+        "decision_check": "not_a_decision",
+        "judges": [],
+        "referee": "Thomas Taylor",
+        "weight_class": "super_welterweight",
+        "weight_class_basis": "title_at_stake",
+        "weights": [
+          "a: 153.6",
+          "b: 152.6"
+        ],
+        "weight_observations": [
+          "class_limit_is_present_day_reference"
+        ],
+        "titles_linked": [
+          "wbc:world:super_welterweight"
+        ],
+        "title_remarks": [
+          {
+            "as_printed": "Fundora retains WBC Super Welterweight Title",
+            "action": "retained",
+            "division": "super_welterweight",
+            "belts": [
+              "WBC/world"
+            ]
+          }
+        ],
+        "knockdowns": "source_does_not_publish",
+        "provenance": {
+          "source": "nsac_nevada",
+          "document": "nv-results:2026:03-28-26_Boxing_REDACTED",
+          "result_observation": "a1ae7771"
+        }
+      },
+      {
+        "order": 2,
+        "corners": [
+          "a: Yoenis Tellez Silega (pbe_boxer_5e22039eb902461998476bdcd92cc520)",
+          "b: Brian Marino Mendoza (pbe_boxer_8bfd2969fd9f4a2692ed53922ca7ec05)"
+        ],
+        "scheduled_rounds": 10,
+        "result": "UD",
+        "flags": [],
+        "source_text": "Tellez won by unanimous decision",
+        "round": null,
+        "time": null,
+        "decision_check": "consistent",
+        "judges": [
+          "Eric Cheek 98-92",
+          "Patricia Morse Jarman 97-93",
+          "David Sutherland 97-93"
+        ],
+        "referee": "Harvey Dock",
+        "weight_class": null,
+        "weight_class_basis": null,
+        "weights": [
+          "a: 153.8",
+          "b: 153.2"
+        ],
+        "weight_observations": [
+          "weight_class_not_stated_by_source"
+        ],
+        "titles_linked": [],
+        "title_remarks": [
+          {
+            "as_printed": "Tellez wins WBA Continental North America Gold Title",
+            "action": "won",
+            "division": null,
+            "belts": [
+              "WBA/continental/gold"
+            ]
+          }
+        ],
+        "knockdowns": "source_does_not_publish",
+        "provenance": {
+          "source": "nsac_nevada",
+          "document": "nv-results:2026:03-28-26_Boxing_REDACTED",
+          "result_observation": "c9544b66"
+        }
+      },
+      {
+        "order": 3,
+        "corners": [
+          "a: Yoenli Feliciano Hernandez Martinez (pbe_boxer_c851c57ca3e34da2843974ce0fbdb6f2)",
+          "b: Terrell Maurice Gausha (pbe_boxer_89e8420a71384e6981b759ea537895fe)"
+        ],
+        "scheduled_rounds": 10,
+        "result": "TKO",
+        "flags": [],
+        "source_text": "Hernandez won by TKO 1:17 of round 4",
+        "round": 4,
+        "time": "1:17",
+        "decision_check": "not_a_decision",
+        "judges": [],
+        "referee": "Allen Huggins",
+        "weight_class": "middleweight",
+        "weight_class_basis": "title_remark_as_printed",
+        "weights": [
+          "a: 158.4",
+          "b: 160.8 (+0.8 over)"
+        ],
+        "weight_observations": [
+          "official_weight_above_class_limit_without_stated_contract",
+          "class_limit_is_present_day_reference"
+        ],
+        "titles_linked": [],
+        "title_remarks": [
+          {
+            "as_printed": "Hernandez wins WBA Continental Latin America & NABO Middleweight Titles",
+            "action": "won",
+            "division": "middleweight",
+            "belts": [
+              "WBA/continental",
+              "NABO/regional"
+            ]
+          }
+        ],
+        "knockdowns": "source_does_not_publish",
+        "provenance": {
+          "source": "nsac_nevada",
+          "document": "nv-results:2026:03-28-26_Boxing_REDACTED",
+          "result_observation": "1afd54b4"
+        }
+      },
+      {
+        "order": 4,
+        "corners": [
+          "a: Gurgen Hovhannisyan (pbe_boxer_2371c1e3e6d04977ac56af655e6f570d)",
+          "b: Cesar Navarro (pbe_boxer_2716447bdf72404d8b4e32d5e8e7a408)"
+        ],
+        "scheduled_rounds": 10,
+        "result": "TKO",
+        "flags": [
+          "stoppage_round_not_stated",
+          "source_text_incomplete"
+        ],
+        "source_text": "Hovhannisyan won by TKO 2:45 of",
+        "round": null,
+        "time": "2:45",
+        "decision_check": "not_a_decision",
+        "judges": [],
+        "referee": "Robert Hoyle",
+        "weight_class": null,
+        "weight_class_basis": null,
+        "weights": [
+          "a: 281.4",
+          "b: 210.2"
+        ],
+        "weight_observations": [
+          "weight_class_not_stated_by_source"
+        ],
+        "titles_linked": [],
+        "title_remarks": [
+          {
+            "as_printed": "Hovhannisyan wins WBA Continental North America Title",
+            "action": "won",
+            "division": null,
+            "belts": [
+              "WBA/continental"
+            ]
+          }
+        ],
+        "knockdowns": "source_does_not_publish",
+        "provenance": {
+          "source": "nsac_nevada",
+          "document": "nv-results:2026:03-28-26_Boxing_REDACTED",
+          "result_observation": "5235d981"
+        }
+      },
+      {
+        "order": 5,
+        "corners": [
+          "a: Elijah Lorenzo Garcia (pbe_boxer_e6b6309974f042c88ee13be64b1e9c42)",
+          "b: Kevin Darryl Newman II (pbe_boxer_8c06a819ef5248648d968f797dc520e1)"
+        ],
+        "scheduled_rounds": 10,
+        "result": "MD",
+        "flags": [],
+        "source_text": "Newman won by majority decision",
+        "round": null,
+        "time": null,
+        "decision_check": "consistent",
+        "judges": [
+          "Kermit Bayless 95-95",
+          "Eric Cheek 92-98",
+          "David Sutherland 94-96"
+        ],
+        "referee": "Harvey Dock",
+        "weight_class": null,
+        "weight_class_basis": null,
+        "weights": [
+          "a: 171.4",
+          "b: 171.4"
+        ],
+        "weight_observations": [
+          "weight_class_not_stated_by_source"
+        ],
+        "titles_linked": [],
+        "title_remarks": [],
+        "knockdowns": "source_does_not_publish",
+        "provenance": {
+          "source": "nsac_nevada",
+          "document": "nv-results:2026:03-28-26_Boxing_REDACTED",
+          "result_observation": "8ae4f203"
+        }
+      },
+      {
+        "order": 6,
+        "corners": [
+          "a: Brayan Alonso Gonzalez Sanchez (pbe_boxer_61c84d5a812649b096aa1dfa7cb214c7)",
+          "b: Brandon Medina Guerrero (pbe_boxer_67b9923243984bce90c1d1dd4da74afa)"
+        ],
+        "scheduled_rounds": 6,
+        "result": "TKO",
+        "flags": [],
+        "source_text": "B. Gonzalez won by TKO 1:57 of round 5",
+        "round": 5,
+        "time": "1:57",
+        "decision_check": "not_a_decision",
+        "judges": [],
+        "referee": "Allen Huggins",
+        "weight_class": null,
+        "weight_class_basis": null,
+        "weights": [
+          "a: 125",
+          "b: 124.6"
+        ],
+        "weight_observations": [
+          "weight_class_not_stated_by_source"
+        ],
+        "titles_linked": [],
+        "title_remarks": [],
+        "knockdowns": "source_does_not_publish",
+        "provenance": {
+          "source": "nsac_nevada",
+          "document": "nv-results:2026:03-28-26_Boxing_REDACTED",
+          "result_observation": "0745635d"
+        }
+      },
+      {
+        "order": 7,
+        "corners": [
+          "a: Kaipo Ethan Gallegos (pbe_boxer_f35530e2528841b6b105f0b1ee2e5f23)",
+          "b: Julian Gonzalez Sanchez (pbe_boxer_5e457a605eae4fde9194194dd052c965)"
+        ],
+        "scheduled_rounds": 10,
+        "result": "UD",
+        "flags": [],
+        "source_text": "Gallegos won by unanimous decision",
+        "round": null,
+        "time": null,
+        "decision_check": "consistent",
+        "judges": [
+          "Patricia Morse Jarman 97-92",
+          "Chris Migliore 98-91",
+          "Cory Santos 97-92"
+        ],
+        "referee": "Robert Hoyle",
+        "weight_class": null,
+        "weight_class_basis": null,
+        "weights": [
+          "a: 134.8",
+          "b: 134.2"
+        ],
+        "weight_observations": [
+          "weight_class_not_stated_by_source"
+        ],
+        "titles_linked": [],
+        "title_remarks": [
+          {
+            "as_printed": "Gallegos wins WBA Continental Americas Youth Title",
+            "action": "won",
+            "division": null,
+            "belts": [
+              "WBA/continental/youth"
+            ]
+          }
+        ],
+        "knockdowns": "source_does_not_publish",
+        "provenance": {
+          "source": "nsac_nevada",
+          "document": "nv-results:2026:03-28-26_Boxing_REDACTED",
+          "result_observation": "d2305da3"
+        }
+      },
+      {
+        "order": 8,
+        "corners": [
+          "a: Aldo Blancas Arellano (pbe_boxer_6e3b2a534c1b4043b0f22dc797f88419)",
+          "b: Jamal Dontay Johnson (pbe_boxer_e185a108100d422091010625e28f0517)"
+        ],
+        "scheduled_rounds": 4,
+        "result": "TKO",
+        "flags": [],
+        "source_text": "Blancas won by TKO 0:17 of round 2",
+        "round": 2,
+        "time": "0:17",
+        "decision_check": "not_a_decision",
+        "judges": [],
+        "referee": "Thomas Taylor",
+        "weight_class": null,
+        "weight_class_basis": null,
+        "weights": [
+          "a: 141.6",
+          "b: 140.8"
+        ],
+        "weight_observations": [
+          "weight_class_not_stated_by_source"
+        ],
+        "titles_linked": [],
+        "title_remarks": [],
+        "knockdowns": "source_does_not_publish",
+        "provenance": {
+          "source": "nsac_nevada",
+          "document": "nv-results:2026:03-28-26_Boxing_REDACTED",
+          "result_observation": "d1a7cd06"
+        }
+      },
+      {
+        "order": 9,
+        "corners": [
+          "a: Robert Joseph Guerrero Jr. (pbe_boxer_4d6a606c754941d4bc2422ee10f64b9c)",
+          "b: Rigoberto Rivera (pbe_boxer_43de730bd7cd45e4a2342e18e19377b3)"
+        ],
+        "scheduled_rounds": 4,
+        "result": "UD",
+        "flags": [],
+        "source_text": "Guerrero won by unanimous decision",
+        "round": null,
+        "time": null,
+        "decision_check": "consistent",
+        "judges": [
+          "Lisa Giampa 39-36",
+          "John McCarthy 38-37",
+          "David Sutherland 39-36"
+        ],
+        "referee": "Allen Huggins",
+        "weight_class": null,
+        "weight_class_basis": null,
+        "weights": [
+          "a: 134.6",
+          "b: 134.2"
+        ],
+        "weight_observations": [
+          "weight_class_not_stated_by_source"
+        ],
+        "titles_linked": [],
+        "title_remarks": [],
+        "knockdowns": "source_does_not_publish",
+        "provenance": {
+          "source": "nsac_nevada",
+          "document": "nv-results:2026:03-28-26_Boxing_REDACTED",
+          "result_observation": "102d8070"
+        }
+      },
+      {
+        "order": 10,
+        "corners": [
+          "a: Cristian Cangelosi (pbe_boxer_467b006802a0411795ba20a94c8261ac)",
+          "b: Miguel Angel Hernandez (pbe_boxer_c5e3ccac459c4a01b307efd65285e3f7)"
+        ],
+        "scheduled_rounds": 10,
+        "result": "SPLIT_DRAW",
+        "flags": [],
+        "source_text": "Split draw",
+        "round": null,
+        "time": null,
+        "decision_check": "consistent",
+        "judges": [
+          "Eric Cheek 96-94",
+          "Chris Migliore 94-96",
+          "Cory Santos 95-95"
+        ],
+        "referee": "Robert Hoyle",
+        "weight_class": null,
+        "weight_class_basis": null,
+        "weights": [
+          "a: 154.8",
+          "b: 155.2"
+        ],
+        "weight_observations": [
+          "weight_class_not_stated_by_source"
+        ],
+        "titles_linked": [],
+        "title_remarks": [],
+        "knockdowns": "source_does_not_publish",
+        "provenance": {
+          "source": "nsac_nevada",
+          "document": "nv-results:2026:03-28-26_Boxing_REDACTED",
+          "result_observation": "92a9f030"
+        }
+      }
+    ],
+    "coverage": {
+      "note": "Lanes marked not_provided are absent from the source, not zero.",
+      "lanes": {
+        "bouts": "provided",
+        "events": "provided",
+        "judges": "provided",
+        "venues": "provided",
+        "results": "provided",
+        "referees": "provided",
+        "promoters": "provided",
+        "weigh_ins": "provided",
+        "knockdowns": "not_provided",
+        "broadcasters": "not_provided",
+        "upcoming_cards": "partial",
+        "titles_at_stake": "provided",
+        "fighter_identity": "partial",
+        "point_deductions": "provided",
+        "scorecard_rounds": "not_provided",
+        "scorecard_totals": "partial",
+        "stoppage_round_time": "provided"
+      }
+    }
+  },
+  "passport": {
+    "current": {
+      "rule": "pbe_fighter_passport@1",
+      "as_of": null,
+      "bouts": [
+        {
+          "time": "1:17",
+          "round": 6,
+          "venue": {
+            "city": "Las Vegas",
+            "name": "MGM Grand Garden Arena",
+            "jurisdiction": {
+              "code": "US-NV",
+              "kind": "subdivision",
+              "name": "Nevada",
+              "registered": true,
+              "country_code": "US",
+              "global_jurisdiction_id": "pbe_boxjurisdiction_b50555485b6d4e3aaf2d3a1586f5374f"
+            },
+            "global_venue_id": "pbe_boxvenue_b73bed9fb5614ef88646d4f3e0ba8544"
+          },
+          "result": "W",
+          "source": {
+            "url": "https://boxing.nv.gov/uploadedFiles/boxingnvgov/content/results/2026_Results/03-28-26_Boxing_REDACTED.pdf",
+            "source_key": "nsac_nevada",
+            "observation": null,
+            "source_kind": "commission",
+            "parser_version": null
+          },
+          "titles": [
+            {
+              "tier": "world",
+              "status": "contested",
+              "organization": "wbc"
+            }
+          ],
+          "opponent": {
+            "display_name": "Keith Fitzgerald Thurman",
+            "global_fighter_id": "pbe_boxer_b5dfb11d2bcf482cb25ef2909cd7b2e7"
+          },
+          "commission": "nsac",
+          "event_date": "2026-03-28",
+          "event_name": "TGB Promotions and Sampson Boxing at MGM Grand Garden Arena",
+          "weight_class": "super_welterweight",
+          "classification": "TKO",
+          "global_bout_id": "pbe_boxbout_5e33d66fa0fe42f5a31ecc43c3ac4102",
+          "global_event_id": "pbe_boxevent_d5287ee6c07f45ea8daf535f46e8c829",
+          "scheduled_rounds": 12,
+          "competition_class": "professional",
+          "official_weight_lb": 153.6
+        }
+      ],
+      "names": [
+        {
+          "kind": "alias:name",
+          "name": "Sebastian Alexander Fundora",
+          "source_key": "nsac_nevada",
+          "verification_state": "verified"
+        },
+        {
+          "kind": "source_label:wikidata.item",
+          "name": "Sebastian Fundora",
+          "source_key": "wikidata",
+          "verification_state": "verified"
+        }
+      ],
+      "career": {
+        "amateur": {
+          "note": "Amateur and Olympic careers are a separate lane with no approved source yet; never merged into the professional record.",
+          "status": "not_modeled",
+          "bouts_on_record": 0
+        },
+        "exhibition": {
+          "bouts_on_record": 0
+        },
+        "professional": {
+          "record_basis": "Derived from canonical bouts on record from approved sources only. Not a complete career record unless the coverage below says so.",
+          "wins_by_code": {
+            "TKO": 1
+          },
+          "losses_by_code": {},
+          "record_on_file": {
+            "D": 0,
+            "L": 0,
+            "W": 1,
+            "NC": 0,
+            "ND": 0
+          },
+          "bouts_on_record": 1,
+          "last_bout_on_record": "2026-03-28",
+          "bouts_without_result": 0,
+          "first_bout_on_record": "2026-03-28",
+          "latest_record_printed_by_a_source": null
+        }
+      },
+      "coverage": {
+        "sources": [
+          "nsac_nevada"
+        ]
+      },
+      "nickname": {
+        "basis": "no approved source states one",
+        "value": null
+      },
+      "divisions": [
+        {
+          "last": "2026-03-28",
+          "bouts": 1,
+          "first": "2026-03-28",
+          "weight_class": "super_welterweight"
+        }
+      ],
+      "geography": {
+        "venues": 1,
+        "jurisdictions": [
+          "US-NV"
+        ]
+      },
+      "opponents": [
+        {
+          "results": [
+            "W"
+          ],
+          "meetings": 1,
+          "display_name": "Keith Fitzgerald Thurman",
+          "global_fighter_id": "pbe_boxer_b5dfb11d2bcf482cb25ef2909cd7b2e7"
+        }
+      ],
+      "attributes": {
+        "sex": null,
+        "claims": [
+          {
+            "value": "Tehachapi, CA",
+            "attribute": "hometown",
+            "source_key": "nsac_nevada"
+          }
+        ],
+        "stance": null,
+        "reach_cm": null,
+        "height_cm": null,
+        "nationality": null,
+        "birth_country": null,
+        "date_of_birth": {
+          "value": null,
+          "policy": "not stored (owner rule)"
+        },
+        "hometown_as_printed": "Tehachapi, CA"
+      },
+      "source_ids": [
+        {
+          "id": "Q110977051",
+          "rule": "wikidata_boxer_item_with_wikipedia_record_row_of_our_bout@1",
+          "namespace": "wikidata.item",
+          "confidence": 95,
+          "source_key": "wikidata",
+          "verification_state": "verified"
+        }
+      ],
+      "title_bouts": 1,
+      "display_name": "Sebastian Alexander Fundora",
+      "temporal_rule": "Bouts before the as-of date only; a result revision after the first counts only once captured before the as-of date.",
+      "identity_state": "source_native",
+      "merged_records": 0,
+      "officials_faced": [
+        {
+          "name": "Thomas Taylor",
+          "role": "referee",
+          "bouts": 1,
+          "global_official_id": "pbe_boxofficial_7fbe658dc3ad429bb5c19acf1c4a6bd4"
+        }
+      ],
+      "global_fighter_id": "pbe_boxer_2d467e9f265c498f96d2d00c061cea6d",
+      "body_statements_resolved_to_fighter": 0
+    },
+    "as_of_fight_day": {
+      "rule": "pbe_fighter_passport@1",
+      "as_of": "2026-03-28",
+      "bouts": [],
+      "names": [
+        {
+          "kind": "alias:name",
+          "name": "Sebastian Alexander Fundora",
+          "source_key": "nsac_nevada",
+          "verification_state": "verified"
+        },
+        {
+          "kind": "source_label:wikidata.item",
+          "name": "Sebastian Fundora",
+          "source_key": "wikidata",
+          "verification_state": "verified"
+        }
+      ],
+      "career": {
+        "amateur": {
+          "note": "Amateur and Olympic careers are a separate lane with no approved source yet; never merged into the professional record.",
+          "status": "not_modeled",
+          "bouts_on_record": 0
+        },
+        "exhibition": {
+          "bouts_on_record": 0
+        },
+        "professional": {
+          "record_basis": "Derived from canonical bouts on record from approved sources only. Not a complete career record unless the coverage below says so.",
+          "wins_by_code": {},
+          "losses_by_code": {},
+          "record_on_file": {
+            "D": 0,
+            "L": 0,
+            "W": 0,
+            "NC": 0,
+            "ND": 0
+          },
+          "bouts_on_record": 0,
+          "last_bout_on_record": null,
+          "bouts_without_result": 0,
+          "first_bout_on_record": null,
+          "latest_record_printed_by_a_source": null
+        }
+      },
+      "coverage": {
+        "sources": []
+      },
+      "nickname": {
+        "basis": "no approved source states one",
+        "value": null
+      },
+      "divisions": [],
+      "geography": {
+        "venues": 0,
+        "jurisdictions": []
+      },
+      "opponents": [],
+      "attributes": {
+        "sex": null,
+        "claims": [
+          {
+            "value": "Tehachapi, CA",
+            "attribute": "hometown",
+            "source_key": "nsac_nevada"
+          }
+        ],
+        "stance": null,
+        "reach_cm": null,
+        "height_cm": null,
+        "nationality": null,
+        "birth_country": null,
+        "date_of_birth": {
+          "value": null,
+          "policy": "not stored (owner rule)"
+        },
+        "hometown_as_printed": "Tehachapi, CA"
+      },
+      "source_ids": [
+        {
+          "id": "Q110977051",
+          "rule": "wikidata_boxer_item_with_wikipedia_record_row_of_our_bout@1",
+          "namespace": "wikidata.item",
+          "confidence": 95,
+          "source_key": "wikidata",
+          "verification_state": "verified"
+        }
+      ],
+      "title_bouts": 0,
+      "display_name": "Sebastian Alexander Fundora",
+      "temporal_rule": "Bouts before the as-of date only; a result revision after the first counts only once captured before the as-of date.",
+      "identity_state": "source_native",
+      "merged_records": 0,
+      "officials_faced": [],
+      "global_fighter_id": "pbe_boxer_2d467e9f265c498f96d2d00c061cea6d",
+      "body_statements_resolved_to_fighter": 0
+    }
+  },
+  "division": {
+    "weight_class": "super_welterweight",
+    "definitions": [
+      {
+        "note": "Present-day reference limit. Not evidence of the limit in force on any historical date.",
+        "basis": "pbe_modern_reference",
+        "limit_lb": 154,
+        "valid_to": null,
+        "valid_from": null,
+        "native_label": "Super welterweight",
+        "organization": null
+      }
+    ],
+    "title_bouts_on_record": [
+      {
+        "date": "2026-03-28",
+        "bout": "pbe_boxbout_5e33d66fa0fe42f5a31ecc43c3ac4102",
+        "result": "TKO"
+      }
+    ],
+    "bodies": [
+      {
+        "organization": "wbc",
+        "documents": 2,
+        "first_document_on": "2026-09-15",
+        "last_document_on": "2026-09-30",
+        "runs": 4,
+        "distinct_holders": 4,
+        "primary_runs_sample": [
+          "2026-09-15..2026-09-30 Sebastian Fundora [world] (2 statements)"
+        ]
+      },
+      {
+        "organization": "wba",
+        "documents": 288,
+        "first_document_on": "2000-01-31",
+        "last_document_on": "2026-09-14",
+        "runs": 51,
+        "distinct_holders": 35,
+        "primary_runs_sample": [
+          "2013-01-31..2015-11-30 FLOYD MAYWEATHER JR [super] (30 statements)",
+          "2016-05-31..2018-03-31 ERISLANDY LARA [super] (23 statements)",
+          "2018-04-30..2019-04-30 JARRETT HURD [super] (13 statements)",
+          "2019-05-31..2019-12-31 JULIAN WILLIAMS [super] (8 statements)",
+          "2020-01-31..2020-08-31 JEISON MANUEL ROSARIO [super] (8 statements)",
+          "2020-09-30..2024-02-29 JERMELL CHARLO [super] (42 statements)"
+        ]
+      },
+      {
+        "organization": "ibf",
+        "documents": 246,
+        "first_document_on": "2005-12-01",
+        "last_document_on": "2026-08-31",
+        "runs": 17,
+        "distinct_holders": 12,
+        "primary_runs_sample": [
+          "2019-05-01..2019-12-01 Julian Williams [world] (8 statements)",
+          "2020-01-01..2020-08-01 Jeison Rosario [world] (8 statements)",
+          "2020-09-01..2023-10-31 Jermell Charlo [world] (38 statements)",
+          "2023-11-30..2024-02-29 vacant [world] (4 statements)",
+          "2024-03-31..2025-12-31 Bakhram Murtazaliev [world] (22 statements)",
+          "2026-01-31..2026-08-31 Josh Kelly [world] (8 statements)"
+        ]
+      },
+      {
+        "organization": "wbo",
+        "documents": 308,
+        "first_document_on": "2000-01-31",
+        "last_document_on": "2026-09-14",
+        "runs": 43,
+        "distinct_holders": 30,
+        "primary_runs_sample": [
+          "2022-05-31..2023-09-30 JERMELL CHARLO [world] (17 statements)",
+          "2023-10-31..2024-03-31 TIM TSZYU [world] (6 statements)",
+          "2024-04-30..2025-04-30 SEBASTIAN FUNDORA [world] (13 statements)",
+          "2025-05-31..2025-07-31 vacant [world] (3 statements)",
+          "2025-08-31..2026-05-31 XANDER ZAYAS [world] (10 statements)",
+          "2026-06-30..2026-09-14 JARON ENNIS [world] (5 statements)"
+        ]
+      }
+    ]
+  },
+  "registry": [
+    {
+      "source_key": "florida_athletic_commission",
+      "access_mode": "approved_ingest",
+      "enabled": true,
+      "lanes": 13,
+      "lanes_by_availability": {
+        "provided": 9,
+        "unverified": 4
+      },
+      "rights_scope_gaps": [],
+      "stored": {
+        "bouts": 0,
+        "events": 0,
+        "event_dates": {
+          "to": null,
+          "from": null
+        },
+        "result_rows": 0,
+        "scorecard_rows": 0,
+        "title_documents": 0,
+        "fighter_identities": 0,
+        "title_document_dates": {
+          "to": null,
+          "from": null
+        }
+      },
+      "parser_lineage": []
+    },
+    {
+      "source_key": "mo_office_of_athletics",
+      "access_mode": "approved_ingest",
+      "enabled": true,
+      "lanes": 10,
+      "lanes_by_availability": {
+        "provided": 9,
+        "partial": 1
+      },
+      "rights_scope_gaps": [],
+      "stored": {
+        "bouts": 0,
+        "events": 0,
+        "event_dates": {
+          "to": null,
+          "from": null
+        },
+        "result_rows": 0,
+        "scorecard_rows": 0,
+        "title_documents": 0,
+        "fighter_identities": 0,
+        "title_document_dates": {
+          "to": null,
+          "from": null
+        }
+      },
+      "parser_lineage": []
+    },
+    {
+      "source_key": "nj_sacb",
+      "access_mode": "approved_ingest",
+      "enabled": true,
+      "lanes": 13,
+      "lanes_by_availability": {
+        "provided": 13
+      },
+      "rights_scope_gaps": [
+        "bouts",
+        "judges",
+        "referees",
+        "results",
+        "scorecard_totals",
+        "stoppage_round_time",
+        "suspensions",
+        "titles_at_stake",
+        "weigh_ins"
+      ],
+      "stored": {
+        "bouts": 0,
+        "events": 0,
+        "event_dates": {
+          "to": null,
+          "from": null
+        },
+        "result_rows": 0,
+        "scorecard_rows": 0,
+        "title_documents": 0,
+        "fighter_identities": 0,
+        "title_document_dates": {
+          "to": null,
+          "from": null
+        }
+      },
+      "parser_lineage": []
+    },
+    {
+      "source_key": "nsac_nevada",
+      "access_mode": "approved_ingest",
+      "enabled": true,
+      "lanes": 17,
+      "lanes_by_availability": {
+        "provided": 11,
+        "not_provided": 3,
+        "partial": 3
+      },
+      "rights_scope_gaps": [],
+      "stored": {
+        "bouts": 10,
+        "events": 1,
+        "event_dates": {
+          "to": "2026-03-28",
+          "from": "2026-03-28"
+        },
+        "result_rows": 10,
+        "scorecard_rows": 15,
+        "title_documents": 0,
+        "fighter_identities": 0,
+        "title_document_dates": {
+          "to": null,
+          "from": null
+        }
+      },
+      "parser_lineage": [
+        "nsac-nevada@1.0.0"
+      ]
+    },
+    {
+      "source_key": "pa_state_athletic_commission",
+      "access_mode": "approved_ingest",
+      "enabled": true,
+      "lanes": 9,
+      "lanes_by_availability": {
+        "provided": 8,
+        "partial": 1
+      },
+      "rights_scope_gaps": [],
+      "stored": {
+        "bouts": 0,
+        "events": 0,
+        "event_dates": {
+          "to": null,
+          "from": null
+        },
+        "result_rows": 0,
+        "scorecard_rows": 0,
+        "title_documents": 0,
+        "fighter_identities": 0,
+        "title_document_dates": {
+          "to": null,
+          "from": null
+        }
+      },
+      "parser_lineage": []
+    },
+    {
+      "source_key": "tdlr_texas",
+      "access_mode": "reference_only",
+      "enabled": false,
+      "lanes": 8,
+      "lanes_by_availability": {
+        "not_permitted": 8
+      },
+      "rights_scope_gaps": [],
+      "stored": {
+        "bouts": 0,
+        "events": 0,
+        "event_dates": {
+          "to": null,
+          "from": null
+        },
+        "result_rows": 0,
+        "scorecard_rows": 0,
+        "title_documents": 0,
+        "fighter_identities": 0,
+        "title_document_dates": {
+          "to": null,
+          "from": null
+        }
+      },
+      "parser_lineage": []
+    },
+    {
+      "source_key": "tn_athletic_commission",
+      "access_mode": "approved_ingest",
+      "enabled": true,
+      "lanes": 10,
+      "lanes_by_availability": {
+        "provided": 10
+      },
+      "rights_scope_gaps": [],
+      "stored": {
+        "bouts": 0,
+        "events": 0,
+        "event_dates": {
+          "to": null,
+          "from": null
+        },
+        "result_rows": 0,
+        "scorecard_rows": 0,
+        "title_documents": 0,
+        "fighter_identities": 0,
+        "title_document_dates": {
+          "to": null,
+          "from": null
+        }
+      },
+      "parser_lineage": []
+    },
+    {
+      "source_key": "compubox",
+      "access_mode": "blocked",
+      "enabled": false,
+      "lanes": 2,
+      "lanes_by_availability": {
+        "not_permitted": 2
+      },
+      "rights_scope_gaps": [],
+      "stored": {
+        "bouts": 0,
+        "events": 0,
+        "event_dates": {
+          "to": null,
+          "from": null
+        },
+        "result_rows": 0,
+        "scorecard_rows": 0,
+        "title_documents": 0,
+        "fighter_identities": 0,
+        "title_document_dates": {
+          "to": null,
+          "from": null
+        }
+      },
+      "parser_lineage": []
+    },
+    {
+      "source_key": "the_odds_api",
+      "access_mode": "approved_ingest",
+      "enabled": true,
+      "lanes": 3,
+      "lanes_by_availability": {
+        "not_provided": 2,
+        "provided": 1
+      },
+      "rights_scope_gaps": [],
+      "stored": {
+        "bouts": 0,
+        "events": 0,
+        "event_dates": {
+          "to": null,
+          "from": null
+        },
+        "result_rows": 0,
+        "scorecard_rows": 0,
+        "title_documents": 0,
+        "fighter_identities": 0,
+        "title_document_dates": {
+          "to": null,
+          "from": null
+        }
+      },
+      "parser_lineage": []
+    },
+    {
+      "source_key": "wikidata",
+      "access_mode": "approved_ingest",
+      "enabled": true,
+      "lanes": 3,
+      "lanes_by_availability": {
+        "partial": 1,
+        "provided": 2
+      },
+      "rights_scope_gaps": [],
+      "stored": {
+        "bouts": 0,
+        "events": 0,
+        "event_dates": {
+          "to": null,
+          "from": null
+        },
+        "result_rows": 0,
+        "scorecard_rows": 0,
+        "title_documents": 0,
+        "fighter_identities": 7,
+        "title_document_dates": {
+          "to": null,
+          "from": null
+        }
+      },
+      "parser_lineage": []
+    },
+    {
+      "source_key": "promoter_boxxer",
+      "access_mode": "blocked",
+      "enabled": false,
+      "lanes": 2,
+      "lanes_by_availability": {
+        "not_permitted": 2
+      },
+      "rights_scope_gaps": [],
+      "stored": {
+        "bouts": 0,
+        "events": 0,
+        "event_dates": {
+          "to": null,
+          "from": null
+        },
+        "result_rows": 0,
+        "scorecard_rows": 0,
+        "title_documents": 0,
+        "fighter_identities": 0,
+        "title_document_dates": {
+          "to": null,
+          "from": null
+        }
+      },
+      "parser_lineage": []
+    },
+    {
+      "source_key": "promoter_queensberry",
+      "access_mode": "blocked",
+      "enabled": false,
+      "lanes": 2,
+      "lanes_by_availability": {
+        "not_permitted": 2
+      },
+      "rights_scope_gaps": [],
+      "stored": {
+        "bouts": 0,
+        "events": 0,
+        "event_dates": {
+          "to": null,
+          "from": null
+        },
+        "result_rows": 0,
+        "scorecard_rows": 0,
+        "title_documents": 0,
+        "fighter_identities": 0,
+        "title_document_dates": {
+          "to": null,
+          "from": null
+        }
+      },
+      "parser_lineage": []
+    },
+    {
+      "source_key": "promoter_top_rank",
+      "access_mode": "blocked",
+      "enabled": false,
+      "lanes": 2,
+      "lanes_by_availability": {
+        "not_permitted": 2
+      },
+      "rights_scope_gaps": [],
+      "stored": {
+        "bouts": 0,
+        "events": 0,
+        "event_dates": {
+          "to": null,
+          "from": null
+        },
+        "result_rows": 0,
+        "scorecard_rows": 0,
+        "title_documents": 0,
+        "fighter_identities": 0,
+        "title_document_dates": {
+          "to": null,
+          "from": null
+        }
+      },
+      "parser_lineage": []
+    },
+    {
+      "source_key": "boxrec",
+      "access_mode": "blocked",
+      "enabled": false,
+      "lanes": 4,
+      "lanes_by_availability": {
+        "not_permitted": 4
+      },
+      "rights_scope_gaps": [],
+      "stored": {
+        "bouts": 0,
+        "events": 0,
+        "event_dates": {
+          "to": null,
+          "from": null
+        },
+        "result_rows": 0,
+        "scorecard_rows": 0,
+        "title_documents": 0,
+        "fighter_identities": 0,
+        "title_document_dates": {
+          "to": null,
+          "from": null
+        }
+      },
+      "parser_lineage": []
+    },
+    {
+      "source_key": "ibf_official",
+      "access_mode": "approved_ingest",
+      "enabled": true,
+      "lanes": 2,
+      "lanes_by_availability": {
+        "provided": 2
+      },
+      "rights_scope_gaps": [],
+      "stored": {
+        "bouts": 0,
+        "events": 0,
+        "event_dates": {
+          "to": null,
+          "from": null
+        },
+        "result_rows": 0,
+        "scorecard_rows": 0,
+        "title_documents": 246,
+        "fighter_identities": 0,
+        "title_document_dates": {
+          "to": "2026-08-31",
+          "from": "2005-12-01"
+        }
+      },
+      "parser_lineage": [
+        "ibf-rating@1.0.0"
+      ]
+    },
+    {
+      "source_key": "wba_official",
+      "access_mode": "approved_ingest",
+      "enabled": true,
+      "lanes": 3,
+      "lanes_by_availability": {
+        "partial": 1,
+        "provided": 2
+      },
+      "rights_scope_gaps": [],
+      "stored": {
+        "bouts": 0,
+        "events": 0,
+        "event_dates": {
+          "to": null,
+          "from": null
+        },
+        "result_rows": 0,
+        "scorecard_rows": 0,
+        "title_documents": 527,
+        "fighter_identities": 0,
+        "title_document_dates": {
+          "to": "2026-09-14",
+          "from": "2000-01-31"
+        }
+      },
+      "parser_lineage": [
+        "wba-ranking@1.0.0",
+        "wba-champions@1.0.0"
+      ]
+    },
+    {
+      "source_key": "wbc_official",
+      "access_mode": "approved_ingest",
+      "enabled": true,
+      "lanes": 2,
+      "lanes_by_availability": {
+        "provided": 2
+      },
+      "rights_scope_gaps": [],
+      "stored": {
+        "bouts": 0,
+        "events": 0,
+        "event_dates": {
+          "to": null,
+          "from": null
+        },
+        "result_rows": 0,
+        "scorecard_rows": 0,
+        "title_documents": 2,
+        "fighter_identities": 0,
+        "title_document_dates": {
+          "to": "2026-09-30",
+          "from": "2026-09-15"
+        }
+      },
+      "parser_lineage": [
+        "wbc-champions@1.0.0",
+        "wbc-ratings-pdf@1.0.0"
+      ]
+    },
+    {
+      "source_key": "wbo_official",
+      "access_mode": "approved_ingest",
+      "enabled": true,
+      "lanes": 2,
+      "lanes_by_availability": {
+        "provided": 2
+      },
+      "rights_scope_gaps": [],
+      "stored": {
+        "bouts": 0,
+        "events": 0,
+        "event_dates": {
+          "to": null,
+          "from": null
+        },
+        "result_rows": 0,
+        "scorecard_rows": 0,
+        "title_documents": 308,
+        "fighter_identities": 0,
+        "title_document_dates": {
+          "to": "2026-09-14",
+          "from": "2000-01-31"
+        }
+      },
+      "parser_lineage": [
+        "wbo-ratings@1.0.0",
+        "wbo-champions@1.0.0"
+      ]
+    }
+  ],
+  "index": {
+    "rules": {
+      "card": "pbe_archive_card@1",
+      "weights": "pbe_weight_class_as_of@1",
+      "division": "pbe_archive_division@1",
+      "meetings": "pbe_meetings@1",
+      "passport": "pbe_fighter_passport@1",
+      "title_runs": "pbe_title_runs@1",
+      "title_remarks": "pbe_title_remark_ontology@1",
+      "result_ontology": "pbe_result_ontology@1"
+    },
+    "coverage": {
+      "bouts": 10,
+      "events": 1,
+      "fighters": 20,
+      "last_event_on": "2026-03-28",
+      "first_event_on": "2026-03-28",
+      "title_documents": 1083,
+      "venue_countries": [
+        "US"
+      ]
+    },
+    "registry": {
+      "lanes": 107,
+      "sources": 18,
+      "by_availability": {
+        "partial": 7,
+        "provided": 71,
+        "unverified": 4,
+        "not_provided": 5,
+        "not_permitted": 20
+      }
+    },
+    "assertions": {
+      "rule": "pbe_archive_assertions@1",
+      "checks": [
+        {
+          "count": 0,
+          "sample": [],
+          "severity": "failure",
+          "assertion": "decision_contradicts_judges_cards"
+        },
+        {
+          "count": 0,
+          "sample": [],
+          "severity": "failure",
+          "assertion": "enabled_source_without_registry_lanes"
+        },
+        {
+          "count": 0,
+          "sample": [],
+          "severity": "failure",
+          "assertion": "result_unclassified_with_a_stated_method"
+        },
+        {
+          "count": 0,
+          "sample": [],
+          "severity": "failure",
+          "assertion": "result_without_ontology_code"
+        },
+        {
+          "count": 0,
+          "sample": [],
+          "severity": "failure",
+          "assertion": "weight_definition_overlap"
+        },
+        {
+          "count": 0,
+          "sample": [],
+          "severity": "info",
+          "assertion": "amateur_or_exhibition_bouts"
+        },
+        {
+          "count": 0,
+          "sample": [],
+          "severity": "info",
+          "assertion": "commissions_without_registered_jurisdiction"
+        },
+        {
+          "count": 0,
+          "sample": [],
+          "severity": "info",
+          "assertion": "decision_type_not_stated"
+        },
+        {
+          "count": 9,
+          "sample": [
+            "nj_sacb:bouts",
+            "nj_sacb:results",
+            "nj_sacb:stoppage_round_time",
+            "nj_sacb:scorecard_totals",
+            "nj_sacb:judges"
+          ],
+          "severity": "info",
+          "assertion": "lanes_with_rights_review_scope_gap"
+        },
+        {
+          "count": 1,
+          "sample": [
+            "79f7b855-a1bd-48f7-8cb6-4017bbdc248a"
+          ],
+          "severity": "info",
+          "assertion": "result_source_text_incomplete"
+        },
+        {
+          "count": 0,
+          "sample": [],
+          "severity": "info",
+          "assertion": "results_overturned"
+        },
+        {
+          "count": 1,
+          "sample": [
+            "79f7b855-a1bd-48f7-8cb6-4017bbdc248a"
+          ],
+          "severity": "info",
+          "assertion": "stoppage_round_not_stated"
+        }
+      ],
+      "failures": 0
+    },
+    "jurisdictions": [
+      {
+        "code": "GB",
+        "kind": "country",
+        "name": "United Kingdom",
+        "global_jurisdiction_id": "pbe_boxjurisdiction_fceb579e61b74595bd42c4f73c5cd4e3"
+      },
+      {
+        "code": "US",
+        "kind": "country",
+        "name": "United States",
+        "global_jurisdiction_id": "pbe_boxjurisdiction_303d3d14e63d4c6099423d235f7da5c5"
+      },
+      {
+        "code": "US-CA",
+        "kind": "subdivision",
+        "name": "California",
+        "global_jurisdiction_id": "pbe_boxjurisdiction_83790579348342a1afeac07cc9e9ad7e"
+      },
+      {
+        "code": "US-FL",
+        "kind": "subdivision",
+        "name": "Florida",
+        "global_jurisdiction_id": "pbe_boxjurisdiction_f7982798f1d44520af556356e752f5e0"
+      },
+      {
+        "code": "US-MO",
+        "kind": "subdivision",
+        "name": "Missouri",
+        "global_jurisdiction_id": "pbe_boxjurisdiction_858a5a3fd90e43e5b33219b813243140"
+      },
+      {
+        "code": "US-NJ",
+        "kind": "subdivision",
+        "name": "New Jersey",
+        "global_jurisdiction_id": "pbe_boxjurisdiction_04b25befb49a4b1c80a8a99c652af4bb"
+      },
+      {
+        "code": "US-NV",
+        "kind": "subdivision",
+        "name": "Nevada",
+        "global_jurisdiction_id": "pbe_boxjurisdiction_b50555485b6d4e3aaf2d3a1586f5374f"
+      },
+      {
+        "code": "US-NY",
+        "kind": "subdivision",
+        "name": "New York",
+        "global_jurisdiction_id": "pbe_boxjurisdiction_dba34a3a92134d5b9827aef5977ebd3c"
+      },
+      {
+        "code": "US-PA",
+        "kind": "subdivision",
+        "name": "Pennsylvania",
+        "global_jurisdiction_id": "pbe_boxjurisdiction_e2e3739d993f45f5b6cc83a9eb6ce0bc"
+      },
+      {
+        "code": "US-TN",
+        "kind": "subdivision",
+        "name": "Tennessee",
+        "global_jurisdiction_id": "pbe_boxjurisdiction_4d5239cf3b924dee9272cc570b48ed2d"
+      },
+      {
+        "code": "US-TX",
+        "kind": "subdivision",
+        "name": "Texas",
+        "global_jurisdiction_id": "pbe_boxjurisdiction_e036213a6b744099a9077bafb7ca4060"
+      }
+    ],
+    "result_classes": [
+      {
+        "code": "DEC",
+        "label": "Decision (type not stated)",
+        "family": "decision",
+        "counts_in_professional_record": true
+      },
+      {
+        "code": "MD",
+        "label": "Majority decision",
+        "family": "decision",
+        "counts_in_professional_record": true
+      },
+      {
+        "code": "REF_DEC",
+        "label": "Referee decision",
+        "family": "decision",
+        "counts_in_professional_record": true
+      },
+      {
+        "code": "SD",
+        "label": "Split decision",
+        "family": "decision",
+        "counts_in_professional_record": true
+      },
+      {
+        "code": "UD",
+        "label": "Unanimous decision",
+        "family": "decision",
+        "counts_in_professional_record": true
+      },
+      {
+        "code": "DQ",
+        "label": "Disqualification",
+        "family": "disqualification",
+        "counts_in_professional_record": true
+      },
+      {
+        "code": "DRAW",
+        "label": "Unanimous draw",
+        "family": "draw",
+        "counts_in_professional_record": true
+      },
+      {
+        "code": "DRAW_UNSPECIFIED",
+        "label": "Draw (type not stated)",
+        "family": "draw",
+        "counts_in_professional_record": true
+      },
+      {
+        "code": "MAJORITY_DRAW",
+        "label": "Majority draw",
+        "family": "draw",
+        "counts_in_professional_record": true
+      },
+      {
+        "code": "SPLIT_DRAW",
+        "label": "Split draw",
+        "family": "draw",
+        "counts_in_professional_record": true
+      },
+      {
+        "code": "TECHNICAL_DRAW",
+        "label": "Technical draw",
+        "family": "draw",
+        "counts_in_professional_record": true
+      },
+      {
+        "code": "EXHIBITION",
+        "label": "Exhibition",
+        "family": "exhibition",
+        "counts_in_professional_record": false
+      },
+      {
+        "code": "NWS",
+        "label": "Newspaper decision",
+        "family": "newspaper_decision",
+        "counts_in_professional_record": false
+      },
+      {
+        "code": "NC",
+        "label": "No contest",
+        "family": "no_contest",
+        "counts_in_professional_record": true
+      },
+      {
+        "code": "ND",
+        "label": "No decision",
+        "family": "no_decision",
+        "counts_in_professional_record": true
+      },
+      {
+        "code": "KO",
+        "label": "Knockout",
+        "family": "stoppage",
+        "counts_in_professional_record": true
+      },
+      {
+        "code": "RTD",
+        "label": "Corner retirement",
+        "family": "stoppage",
+        "counts_in_professional_record": true
+      },
+      {
+        "code": "TKO",
+        "label": "Technical knockout",
+        "family": "stoppage",
+        "counts_in_professional_record": true
+      },
+      {
+        "code": "TD",
+        "label": "Technical decision",
+        "family": "technical_decision",
+        "counts_in_professional_record": true
+      },
+      {
+        "code": "UNCLASSIFIED",
+        "label": "Unclassified",
+        "family": "unclassified",
+        "counts_in_professional_record": false
+      },
+      {
+        "code": "WALKOVER",
+        "label": "Walkover",
+        "family": "walkover",
+        "counts_in_professional_record": false
+      }
+    ],
+    "results_by_code": {
+      "MD": 1,
+      "UD": 3,
+      "TKO": 5,
+      "SPLIT_DRAW": 1
+    }
+  }
+}
