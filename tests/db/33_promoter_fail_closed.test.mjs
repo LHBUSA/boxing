@@ -71,10 +71,6 @@ const setSource = async (id, patch) => q(`update public.boxing_sources set enabl
 before(async () => {
   db = await freshDatabase('promoter_fail_closed');
   store = pgStore(db.client);
-  // 0047 makes creating a fighter an approved-lane decision, and the promoters ship as a scope gap: that gate has its
-  // own suite (35_fighter_identity_lane). These tests are about the COLLECTOR, so the lane is opened here exactly as
-  // the owner would open it, and the collector is then measured against an approved source.
-  for (const k of ['promoter_pbc', 'promoter_matchroom']) await setSourceLane(db.client, k, 'fighter_identity', 'covered_by_rights_review');
 });
 after(async () => { await db?.close(); });
 

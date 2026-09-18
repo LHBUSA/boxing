@@ -283,6 +283,9 @@ export async function applyCardDocument(store, doc, { now = new Date().toISOStri
         sourceKey: doc.source_key, accessMode: src.access_mode, namespace: fighterNamespace,
         record: { external_id: f.external_id ?? null, display_name: f.display_name, dob: f.dob ?? null, nationality: f.nationality ?? [], hometown: f.hometown ?? null },
         payload: { event: doc.external_id, bout: b.external_id ?? null, side, ...f },
+        // provenance: every identity observation carries the page the name was reported on, which is
+        // what the evidence gate traces back to when it decides whether a person may become canonical
+        sourceUrl: doc.source_url ?? null,
       });
       if (docKey && !cached && ['matched', 'created'].includes(result.outcome)) fightersInDocument.set(docKey, { result });
       if (['matched', 'created'].includes(result.outcome)) corners[side] = result.fighter_id;

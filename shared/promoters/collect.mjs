@@ -80,7 +80,7 @@ export function cardDelta(previous, current) {
 }
 
 // The write plan: what canonicalization WOULD do, resolved against the live graph, writing nothing.
-export async function planCanonicalization(store, observation, { namespace, mayCreateFighters = null }) {
+export async function planCanonicalization(store, observation, { namespace }) {
   const doc = upcomingCardDocument(observation, { namespace });
   const plan = { event: null, venue: null, fighters: [], bouts: [], titles: { resolved: 0, unresolved: 0 }, broadcaster: observation.broadcaster ?? null, problems: [] };
 
@@ -110,11 +110,6 @@ export async function planCanonicalization(store, observation, { namespace, mayC
         .catch((err) => ({ decision: { outcome: 'error', reason: err.message } }));
       const d = r.decision ?? {};
       const entry = { name, outcome: d.outcome ?? 'unresolved', fighter_id: d.fighter_id ?? null, reason: d.reason ?? null, candidates: d.candidates?.length ?? 0 };
-      // the plan must not promise a fighter the identity lane would refuse: an apply downgrades this corner to review
-      if (mayCreateFighters === false && entry.outcome !== 'matched') {
-        entry.identity_lane = 'refused';
-        entry.reason = entry.reason ?? 'fighter_identity_lane_not_approved';
-      }
       seen.set(name, entry);
       plan.fighters.push(entry);
       corners.push(entry);
@@ -154,7 +149,7 @@ export async function collectPromoterCards(store, {
     // actually written? Whether an individual source is enabled and approved is the registry gate's job below, which
     // reports it per source with a reason — folding the two together would hide which of them refused.
     const declarationsMissing = Object.entries(ready?.data_half ?? {})
-      .filter(([, d]) => d.schedule_lanes_covered !== 7 || d.fighter_identity === 'not_declared')
+      .filter(([, d]) => d.schedule_lanes_covered !== 7 || d.non_schedule_lanes_open > 0)
       .map(([k]) => k);
     const halfApplied = ready?.error || !ready?.schema_half_complete || declarationsMissing.length > 0;
     if (!dryRun && halfApplied) {
@@ -171,9 +166,10 @@ export async function collectPromoterCards(store, {
   for (const key of sources) {
     const adapter = ADAPTERS[key];
     if (!adapter) { receipt.sources.push({ source_key: key, error: 'no adapter' }); continue; }
-    // whether this source may mint a canonical fighter at all (migration 0047); null when the database cannot say
-    const mayCreateFighters = receipt.lane_ready?.data_half?.[key]?.may_create_fighters ?? null;
-    const out = { source_key: key, may_create_fighters: mayCreateFighters, lane: adapter.descriptor.lane, parser_version: adapter.descriptor.version, list_url: adapter.listUrl, candidates: [], events: [] };
+    // whether this source may contribute profile CONTENT (bios, physicals). Creating the person is not gated on it:
+    // a name on a traceable card is a fact, and migration 0047 judges it on evidence.
+    const mayStoreProfile = receipt.lane_ready?.data_half?.[key]?.may_store_profile_content ?? null;
+    const out = { source_key: key, may_store_profile_content: mayStoreProfile, lane: adapter.descriptor.lane, parser_version: adapter.descriptor.version, list_url: adapter.listUrl, candidates: [], events: [] };
 
     // The registry decides whether a source may be collected at all, and it is asked BEFORE the first request. A source
     // that is disabled, not approved for ingest, or whose rights review is not approved costs us nothing: no fetch, no
@@ -220,7 +216,7 @@ export async function collectPromoterCards(store, {
           continue;
         }
         const fingerprint = cardFingerprint(obs);
-        const { plan } = await planCanonicalization(store, obs, { namespace: adapter.descriptor.namespace, mayCreateFighters });
+        const { plan } = await planCanonicalization(store, obs, { namespace: adapter.descriptor.namespace });
         const event = {
           url: c.url, event_name: obs.event_name, date: obs.scheduled_date, venue: obs.venue?.name ?? null, city: obs.venue?.city ?? null,
           country: obs.venue?.country_code ?? null, broadcaster: obs.broadcaster, promoter: obs.promoter,
@@ -255,13 +251,13 @@ export function summarizeReceipt(receipt) {
     bouts_accepted: 0, bouts_refused: 0, placeholder_slots_refused: 0, fighters: 0,
     duplicates_suppressed: { events: 0, bouts: 0, fighters: 0 },
     start_times: { corroborated: 0, structured: 0, visible_preferred: 0, unresolved: 0, none: 0, conflicts_recorded: 0 },
-    identity: { corners_refused_by_lane: 0, sources_that_may_not_create: [] },
+    content: { sources_that_may_not_store_profiles: [] },
     rights: { lane_refusals: 0, sources_failed: [] },
     planned_writes: 0, actual_writes: 0,
   };
   for (const src of receipt.sources ?? []) {
     if (src.error) s.rights.sources_failed.push(`${src.source_key}: ${src.error}`);
-    if (src.may_create_fighters === false) s.identity.sources_that_may_not_create.push(src.source_key);
+    if (src.may_store_profile_content === false) s.content.sources_that_may_not_store_profiles.push(src.source_key);
     s.cards_discovered += src.discovered ?? 0;
     for (const e of src.events ?? []) {
       // a card the contract refused is a rejection; a page we could not fetch is an upstream outage, not our verdict
@@ -275,7 +271,6 @@ export function summarizeReceipt(receipt) {
         if (/opponent not announced|corner is not named/.test(p)) s.placeholder_slots_refused++;
       }
       s.fighters += e.plan?.fighters?.length ?? 0;
-      s.identity.corners_refused_by_lane += (e.plan?.fighters ?? []).filter((f) => f.identity_lane === 'refused').length;
       if (e.plan?.event?.action === 'would_match') s.duplicates_suppressed.events++;
       s.duplicates_suppressed.bouts += (e.plan?.bouts ?? []).filter((b) => b.action === 'would_match').length;
       s.duplicates_suppressed.fighters += (e.plan?.fighters ?? []).filter((f) => f.outcome === 'matched').length;
@@ -283,7 +278,7 @@ export function summarizeReceipt(receipt) {
       if (basis in s.start_times) s.start_times[basis]++;
       if (e.source_time_conflict) s.start_times.conflicts_recorded++;
       s.planned_writes += (e.plan?.bouts ?? []).filter((b) => b.action === 'would_insert').length
-        + (e.plan?.fighters ?? []).filter((f) => f.outcome !== 'matched' && f.identity_lane !== 'refused').length
+        + (e.plan?.fighters ?? []).filter((f) => f.outcome !== 'matched').length
         + (e.plan?.event?.action === 'would_insert' ? 1 : 0);
       s.actual_writes += e.applied?.changes?.length ?? 0;
       s.rights.lane_refusals += e.applied?.lane_refusals?.length ?? 0;

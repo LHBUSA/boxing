@@ -20,13 +20,21 @@ lane gate).
 * **A title we do not model.** British, Commonwealth, International and Intercontinental belts stay unresolved with the
   source's exact wording; an eliminator is not a title at stake.
 
-* **A canonical fighter.** Creating a boxer is a rights decision, not a side effect of reading a card (migration 0047).
-  The source must hold `fighter_identity` as `covered_by_rights_review`; **undeclared refuses exactly like forbidden**,
-  because the 0045 write gate is a deny-list and an undeclared lane would otherwise fall straight through it. Both
-  promoters ship as `review_scope_gap`: their rights review approved announced schedule facts and said nothing about
-  minting people. A refused corner is downgraded to identity **review**, not lost — the observation is kept, the event
-  still writes, and a human can approve the person. Until the owner closes that gap, a promoter card writes its event
-  and venue but no bouts, because a bout needs both corners resolved.
+## Facts are not content
+
+Owner decision 2026-09-18 (revised). Public factual information may enter the canonical truth system when it has
+sufficient source evidence and provenance. Rights restrictions apply to expressive or licensed material, not to the
+underlying facts. This line is system-wide — there is no promoter-specific exception.
+
+**Facts, judged on evidence** (migration 0047): fighter names and canonical identities, bouts, dates, venues,
+participants, results, withdrawals, cancellations and card changes. Creating a person requires name quality, an
+attributable observation, an event association (or two independent sources), and no ambiguous collision. Insufficient
+evidence is a downgrade to **review** — the observation, its timestamp and its reason are kept and a human decides.
+
+**Content, judged on rights** (unchanged, still refused at write time): article text and excerpts, biographies and
+promotional descriptions, images, video and graphics, paywalled or credential-restricted material, licensed feeds. A
+source whose `fighter_attributes` lane is closed creates the **name and nothing else** — the minimum canonical identity
+— and contributes nothing to a profile.
 
 ## Run order — the only approved sequence
 
@@ -36,10 +44,10 @@ lane gate).
    service-role key or writes anything, and `boxing_promoter_lane_ready()` is its single authority. It asserts:
    * **the schema half** — `boxing_event_discovery_candidates`, `boxing_source_capabilities_current`,
      `boxing_record_event_candidate`, `boxing_event_priority`, `boxing_pro_coverage_health`, `boxing_lane_rights_state`,
-     the `boxing_bouts_lane_gate` trigger, and `boxing_fighter_identity_lane_allows_create`;
+     the `boxing_bouts_lane_gate` trigger, and `boxing_identity_evidence`, `boxing_identity_name_quality`;
    * **the data half** — `promoter_pbc` and `promoter_matchroom` `enabled` + `approved_ingest` + `approved`, all seven
      schedule lanes `covered_by_rights_review`, no non-schedule lane escaped `not_permitted`, and `fighter_identity`
-     declared one way or the other.
+     declared one way or the other, and the content lanes still closed.
 
    Both halves matter because a half-applied 0046 **fails open**: the runtime binds to the schema half while the lane
    state reads `not_declared`, which the deny-list waves through. The collector refuses an apply on a half-applied
