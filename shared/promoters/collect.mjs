@@ -167,6 +167,9 @@ export async function collectPromoterCards(store, {
         country: obs.venue?.country_code ?? null, broadcaster: obs.broadcaster, promoter: obs.promoter,
         published_start_local: obs.published_start_local ?? null, published_utc_offset: obs.published_utc_offset ?? null,
         scheduled_start_at: obs.scheduled_start_at ?? null, start_basis: obs.start_basis ?? null,
+        // every assertion the page made about the start, and the disagreement if it made two that differ
+        published_start_line: obs.published_start_line ?? null, start_assertions: obs.start_assertions ?? null,
+        source_time_conflict: obs.source_time_conflict ?? null,
         announced_bouts: obs.bouts.length, fingerprint, parser_problems: parsed.problems, plan,
       };
       if (!dryRun) {

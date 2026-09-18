@@ -13,6 +13,7 @@ import { join, dirname } from 'node:path';
 import { parsePbcSchedule, parsePbcEvent, parsePbcStart, parsePbcLocation } from './pbc.mjs';
 import { parseMatchroomEvents, parseMatchroomEvent, parseMatchroomDate, parseMatchroomLocation } from './matchroom.mjs';
 import { parseTitleLine, roundsFromText, divisionFromText } from './titles.mjs';
+import { resolveAnnouncedStart, wallClockToUtc, parseVisibleStarts, ianaZone } from './time.mjs';
 import { cardFingerprint, cardDelta } from '../../promoters/collect.mjs';
 
 const dir = join(dirname(fileURLToPath(import.meta.url)), '../../../tests/fixtures/promoters');
@@ -41,10 +42,11 @@ test('PBC event: the announced card, its distances, its titles, and what it refu
   assert.equal(o.venue.country_code, 'US');
   assert.equal(o.broadcaster, 'DAZN');
   assert.equal(o.promoter, 'Premier Boxing Champions');
-  // the published broadcast start, its offset, and the instant that follows from them — never a ring walk
+  // the published broadcast start — never a ring walk. The page asserts it twice and the two assertions disagree; the
+  // contradiction rule is tested on its own below, this just pins what the card resolves to.
   assert.equal(o.published_start_local, '20:00');
   assert.equal(o.published_utc_offset, '-05:00');
-  assert.equal(o.scheduled_start_at, '2026-09-20T01:00:00.000Z');
+  assert.equal(o.scheduled_start_at, '2026-09-20T00:00:00.000Z');
   assert.match(o.start_basis, /broadcast start/);
 
   assert.equal(o.bouts.length, 4);
@@ -63,7 +65,116 @@ test('PBC event: the announced card, its distances, its titles, and what it refu
   const ambiguous = o.bouts.find((b) => b.fighter_a.name === 'Daniel Blancas');
   assert.equal(ambiguous.scheduled_rounds, null);
   assert.ok(problems.some((p) => /distance announced ambiguously/.test(p)));
-  assert.ok(problems.every((p) => p.length < 120), 'a refusal quotes the phrase, never the article text');
+  assert.ok(problems.filter((p) => /^bout /.test(p)).every((p) => p.length < 120), 'a refusal quotes the phrase, never the article text');
+});
+
+test('named zones resolve through the IANA database, so the announced date decides the offset', () => {
+  // Nothing here is arithmetic on a fixed table: the same wall clock in the same zone lands on a different instant
+  // either side of a daylight saving change, because the platform applies that zone's rules for that calendar date.
+  assert.equal(wallClockToUtc('2026-09-19', 20, 0, 'America/New_York'), '2026-09-20T00:00:00.000Z', 'September ET is daylight time');
+  assert.equal(wallClockToUtc('2026-09-19', 17, 0, 'America/Los_Angeles'), '2026-09-20T00:00:00.000Z', 'September PT is daylight time');
+  assert.equal(wallClockToUtc('2026-10-17', 20, 0, 'America/New_York'), '2026-10-18T00:00:00.000Z', 'US daylight saving is still running in October');
+  assert.equal(wallClockToUtc('2026-10-17', 17, 0, 'America/Los_Angeles'), '2026-10-18T00:00:00.000Z');
+  // 1 November 2026 is the day US daylight saving ends: the same 8pm is an hour later in UTC than it was in October
+  assert.equal(wallClockToUtc('2026-11-01', 20, 0, 'America/New_York'), '2026-11-02T01:00:00.000Z');
+  assert.equal(wallClockToUtc('2027-01-16', 20, 0, 'America/New_York'), '2027-01-17T01:00:00.000Z', 'winter ET is standard time');
+  assert.equal(wallClockToUtc('2027-01-16', 17, 0, 'America/Los_Angeles'), '2027-01-17T01:00:00.000Z', 'winter PT is standard time');
+  assert.notEqual(wallClockToUtc('2026-10-17', 20, 0, 'America/New_York').slice(11), wallClockToUtc('2026-11-01', 20, 0, 'America/New_York').slice(11),
+    'the October offset must not be reused once the clocks have gone back');
+  // the UK moves on its own dates, and a card there is resolved in its own zone
+  assert.equal(wallClockToUtc('2026-09-19', 20, 0, 'Europe/London'), '2026-09-19T19:00:00.000Z');
+  assert.equal(wallClockToUtc('2027-01-16', 20, 0, 'Europe/London'), '2027-01-16T20:00:00.000Z');
+
+  assert.equal(ianaZone('ET'), 'America/New_York');
+  assert.equal(ianaZone('Pacific'), 'America/Los_Angeles');
+  assert.equal(ianaZone('AEST'), null, 'a zone we do not model is not guessed at');
+  assert.deepEqual(parseVisibleStarts('8pm ET/5pm PT').map((p) => [p.printed, p.hour, p.zone]),
+    [['8pm ET', 20, 'America/New_York'], ['5pm PT', 17, 'America/Los_Angeles']]);
+  assert.deepEqual(parseVisibleStarts('first bell 7.30pm GMT').map((p) => [p.hour, p.minute, p.zone]), [[19, 30, 'Europe/London']]);
+});
+
+test('a source that contradicts itself: the printed times win, and the disagreement is recorded', () => {
+  // PBC publishes this September card twice. Its JSON-LD carries "2026-09-19T20:00:00-05:00", which is 01:00Z — but
+  // -05:00 is not Eastern on 19 September. The page also prints "8pm ET / 5pm PT", two independent representations that
+  // resolve to the same instant, 00:00Z. Malformed metadata is not privileged over the clearer published evidence.
+  const r = resolveAnnouncedStart({ date: '2026-09-19', jsonLdValue: '2026-09-19T20:00:00-05:00', jsonLdInstant: '2026-09-20T01:00:00.000Z',
+    visibleLine: 'SAT, SEP 19, 2026 8pm ET Eastern Time / 5pm PT Pacific Time' });
+  assert.equal(r.basis, 'visible_preferred');
+  assert.equal(r.scheduled_start_at, '2026-09-20T00:00:00.000Z');
+  assert.notEqual(r.scheduled_start_at, '2026-09-20T01:00:00.000Z', 'the malformed instant is not what gets stored');
+  assert.equal(r.conflict.code, 'source_time_conflict');
+  assert.equal(r.conflict.json_ld, '2026-09-19T20:00:00-05:00', 'the raw assertion is kept, not discarded');
+  assert.equal(r.conflict.json_ld_instant, '2026-09-20T01:00:00.000Z');
+  assert.equal(r.conflict.visible_instant, '2026-09-20T00:00:00.000Z');
+  assert.equal(r.conflict.chosen, 'visible');
+  assert.equal(r.conflict.corroborating_representations.length, 2, 'ET and PT corroborate each other');
+  // both readings survive on the observation as separate assertions
+  assert.deepEqual(r.assertions.map((a) => a.kind), ['structured', 'visible', 'visible']);
+  assert.equal(r.assertions.filter((a) => a.kind === 'visible').every((a) => a.instant === '2026-09-20T00:00:00.000Z'), true);
+
+  const { observation: o, problems } = parsePbcEvent(fixture('pbc-event.html'), { url: 'https://www.premierboxingchampions.com/isaac-cruz-vs-nestor-bravo', capturedAt: NOW });
+  assert.equal(o.scheduled_date, '2026-09-19', 'the announced calendar date is unaffected');
+  assert.equal(o.scheduled_start_at, '2026-09-20T00:00:00.000Z');
+  assert.match(o.published_start_line, /8pm ET.*5pm PT/, 'the printed line is retained verbatim');
+  assert.equal(o.source_time_conflict.json_ld, '2026-09-19T20:00:00-05:00');
+  assert.ok(problems.some((p) => /^start time:/.test(p)));
+});
+
+test('the same code resolves a different card on a different date with that date\'s own offset', () => {
+  // October: US daylight saving has not ended, so 8pm ET is still -04:00. Nothing about September is carried over.
+  const { observation: o } = parsePbcEvent(fixture('pbc-event-october.html'), { url: 'https://www.premierboxingchampions.com/fight-night-october-17-2026', capturedAt: NOW });
+  assert.equal(o.scheduled_date, '2026-10-17');
+  assert.equal(o.published_utc_offset, '-05:00', 'the same malformed structured offset');
+  assert.equal(o.scheduled_start_at, '2026-10-18T00:00:00.000Z');
+  assert.equal(o.source_time_conflict.json_ld_instant, '2026-10-18T01:00:00.000Z');
+  assert.equal(o.venue.city, 'Las Vegas');
+  assert.equal(o.bouts[0].fighter_a.name, 'Sebastian Fundora');
+  assert.equal(o.bouts[0].division, 'super_welterweight');
+});
+
+test('when the source does not contradict itself, the structured time is used unchanged', () => {
+  const only = resolveAnnouncedStart({ date: '2026-09-19', jsonLdValue: '2026-09-19T20:00:00-04:00', jsonLdInstant: '2026-09-20T00:00:00.000Z', visibleLine: null });
+  assert.equal(only.basis, 'structured');
+  assert.equal(only.scheduled_start_at, '2026-09-20T00:00:00.000Z');
+  assert.equal(only.conflict, null);
+
+  const agreeing = resolveAnnouncedStart({ date: '2026-09-19', jsonLdValue: '2026-09-19T20:00:00-04:00', jsonLdInstant: '2026-09-20T00:00:00.000Z', visibleLine: '8pm ET / 5pm PT' });
+  assert.equal(agreeing.basis, 'corroborated');
+  assert.equal(agreeing.scheduled_start_at, '2026-09-20T00:00:00.000Z');
+  assert.equal(agreeing.conflict, null, 'agreement is not a conflict');
+
+  const printedOnly = resolveAnnouncedStart({ date: '2026-09-19', jsonLdValue: null, jsonLdInstant: null, visibleLine: 'first bell 7.30pm GMT' });
+  assert.equal(printedOnly.basis, 'visible');
+  assert.equal(printedOnly.scheduled_start_at, '2026-09-19T18:30:00.000Z');
+
+  assert.equal(resolveAnnouncedStart({ date: '2026-09-19' }).scheduled_start_at, null, 'no published start means none is invented');
+});
+
+test('an unresolvable contradiction fails closed on the instant, and keeps everything the source said', () => {
+  // the structured timestamp is contradicted but nothing corroborates a replacement: no canonical instant is claimed
+  const unknown = resolveAnnouncedStart({ date: '2026-09-19', jsonLdValue: '2026-09-19T20:00:00-05:00', jsonLdInstant: '2026-09-20T01:00:00.000Z',
+    visibleLine: 'SAT, SEP 19, 2026 8:00 PM AEST' });
+  assert.equal(unknown.scheduled_start_at, null);
+  assert.equal(unknown.basis, 'unresolved');
+  assert.match(unknown.conflict.reason, /timezone is not recognised/);
+  assert.equal(unknown.conflict.visible_line, 'SAT, SEP 19, 2026 8:00 PM AEST', 'the printed line is still kept');
+  assert.equal(unknown.conflict.json_ld, '2026-09-19T20:00:00-05:00', 'so is the structured one');
+
+  // the printed representations disagree with EACH OTHER: neither is corroborated, so neither is chosen
+  const disagreeing = resolveAnnouncedStart({ date: '2026-09-19', jsonLdValue: '2026-09-19T20:00:00-05:00', jsonLdInstant: '2026-09-20T01:00:00.000Z',
+    visibleLine: '8pm ET / 6pm PT' });
+  assert.equal(disagreeing.scheduled_start_at, null);
+  assert.equal(disagreeing.basis, 'unresolved');
+  assert.equal(disagreeing.conflict.derived.length, 2);
+
+  // the card, its date and its bouts survive: only the exact UTC instant is withheld
+  const { observation: o } = parsePbcEvent(fixture('pbc-event.html').replace(/8pm[\s\S]*?Pacific Time<\/span>/, '8:00 PM AEST'),
+    { url: 'https://www.premierboxingchampions.com/isaac-cruz-vs-nestor-bravo', capturedAt: NOW });
+  assert.equal(o.scheduled_start_at, null);
+  assert.equal(o.scheduled_date, '2026-09-19', 'the announced date still stands');
+  assert.equal(o.published_start_local, '20:00', 'the raw published time is still stored');
+  assert.equal(o.bouts.length, 4, 'the announced card is unaffected');
+  assert.ok(o.published_start_line.includes('AEST'), 'and the source receipt still shows what was printed');
 });
 
 test('Matchroom listing: each tile keeps its own date, pairing and venue', () => {

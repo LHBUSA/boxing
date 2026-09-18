@@ -25,6 +25,8 @@ const fixtures = join(ROOT, 'tests/fixtures/promoters');
 const FIXTURE = {
   [PBC.scheduleUrl]: 'pbc-schedule.html',
   'https://www.premierboxingchampions.com/fight-night-september-19-2026': 'pbc-event.html',
+  // a second, later card: its UTC instant has to be resolved from its own date, not copied from the September one
+  'https://www.premierboxingchampions.com/fight-night-october-17-2026': 'pbc-event-october.html',
   [MATCHROOM.eventsUrl]: 'matchroom-events.html',
   'https://www.matchroomboxing.com/events/hedges-vs-brown/': 'matchroom-event.html',
 };

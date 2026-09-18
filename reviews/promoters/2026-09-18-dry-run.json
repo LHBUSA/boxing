@@ -1,6 +1,6 @@
 {
  "rule": "pbe_promoter_collect@1",
- "generated_at": "2026-09-18T14:49:32.075Z",
+ "generated_at": "2026-09-18T15:56:00.238Z",
  "dry_run": true,
  "sources": [
   {
@@ -48,11 +48,47 @@
      "promoter": "Premier Boxing Champions",
      "published_start_local": "20:00",
      "published_utc_offset": "-05:00",
-     "scheduled_start_at": "2026-09-20T01:00:00.000Z",
-     "start_basis": "broadcast start published by the promoter",
+     "scheduled_start_at": "2026-09-20T00:00:00.000Z",
+     "start_basis": "broadcast start published by the promoter (visible_preferred)",
+     "published_start_line": "Fight Night SAT , SEP 19, 2026 8pm ET Eastern Time / 5pm PT Pacific Time Pechanga Arena, San Diego, California LIVE ON",
+     "start_assertions": [
+      {
+       "kind": "structured",
+       "raw": "2026-09-19T20:00:00-05:00",
+       "instant": "2026-09-20T01:00:00.000Z"
+      },
+      {
+       "kind": "visible",
+       "raw": "8pm ET",
+       "zone": "America/New_York",
+       "zone_label": "ET",
+       "instant": "2026-09-20T00:00:00.000Z"
+      },
+      {
+       "kind": "visible",
+       "raw": "5pm PT",
+       "zone": "America/Los_Angeles",
+       "zone_label": "PT",
+       "instant": "2026-09-20T00:00:00.000Z"
+      }
+     ],
+     "source_time_conflict": {
+      "code": "source_time_conflict",
+      "reason": "the structured timestamp disagrees with the printed times; ET and PT independently resolve to the same instant, so the printed times were used",
+      "json_ld": "2026-09-19T20:00:00-05:00",
+      "json_ld_instant": "2026-09-20T01:00:00.000Z",
+      "visible_line": "Fight Night SAT , SEP 19, 2026 8pm ET Eastern Time / 5pm PT Pacific Time Pechanga Arena, San Diego, California LIVE ON",
+      "visible_instant": "2026-09-20T00:00:00.000Z",
+      "corroborating_representations": [
+       "8pm ET (America/New_York)",
+       "5pm PT (America/Los_Angeles)"
+      ],
+      "chosen": "visible"
+     },
      "announced_bouts": 4,
      "fingerprint": "602aa8fcf1199672dea772ef2ba6256bf464aa1971af78f0df2cd3b6c26ccf1d",
      "parser_problems": [
+      "start time: the structured timestamp disagrees with the printed times; ET and PT independently resolve to the same instant, so the printed times were used",
       "bout 3: distance announced ambiguously (\"eight or 10-round\")"
      ],
      "plan": {
@@ -182,7 +218,157 @@
     },
     {
      "url": "https://www.premierboxingchampions.com/fight-night-october-17-2026",
-     "error": "event fetch 404"
+     "event_name": "Sebastian Fundora vs Ermal Hadribeaj",
+     "date": "2026-10-17",
+     "venue": "The Chelsea at The Cosmopolitan of Las Vegas",
+     "city": "Las Vegas",
+     "country": "US",
+     "broadcaster": "DAZN",
+     "promoter": "Premier Boxing Champions",
+     "published_start_local": "20:00",
+     "published_utc_offset": "-05:00",
+     "scheduled_start_at": "2026-10-18T00:00:00.000Z",
+     "start_basis": "broadcast start published by the promoter (visible_preferred)",
+     "published_start_line": "Fight Night SAT , OCT 17, 2026 8pm ET Eastern Time / 5pm PT Pacific Time The Chelsea at The Cosmopolitan of Las Vegas, Las Vegas, NV LIVE ON",
+     "start_assertions": [
+      {
+       "kind": "structured",
+       "raw": "2026-10-17T20:00:00-05:00",
+       "instant": "2026-10-18T01:00:00.000Z"
+      },
+      {
+       "kind": "visible",
+       "raw": "8pm ET",
+       "zone": "America/New_York",
+       "zone_label": "ET",
+       "instant": "2026-10-18T00:00:00.000Z"
+      },
+      {
+       "kind": "visible",
+       "raw": "5pm PT",
+       "zone": "America/Los_Angeles",
+       "zone_label": "PT",
+       "instant": "2026-10-18T00:00:00.000Z"
+      }
+     ],
+     "source_time_conflict": {
+      "code": "source_time_conflict",
+      "reason": "the structured timestamp disagrees with the printed times; ET and PT independently resolve to the same instant, so the printed times were used",
+      "json_ld": "2026-10-17T20:00:00-05:00",
+      "json_ld_instant": "2026-10-18T01:00:00.000Z",
+      "visible_line": "Fight Night SAT , OCT 17, 2026 8pm ET Eastern Time / 5pm PT Pacific Time The Chelsea at The Cosmopolitan of Las Vegas, Las Vegas, NV LIVE ON",
+      "visible_instant": "2026-10-18T00:00:00.000Z",
+      "corroborating_representations": [
+       "8pm ET (America/New_York)",
+       "5pm PT (America/Los_Angeles)"
+      ],
+      "chosen": "visible"
+     },
+     "announced_bouts": 3,
+     "fingerprint": "402700e0131d6eb644e9239e5f5cded0c37b67e6942be4c27d43a96a03dc43d2",
+     "parser_problems": [
+      "start time: the structured timestamp disagrees with the printed times; ET and PT independently resolve to the same instant, so the printed times were used"
+     ],
+     "plan": {
+      "event": {
+       "action": "would_insert",
+       "name": "Sebastian Fundora vs Ermal Hadribeaj",
+       "date": "2026-10-17",
+       "cross_source_candidates": 0
+      },
+      "venue": {
+       "action": "would_match_or_insert",
+       "name": "The Chelsea at The Cosmopolitan of Las Vegas",
+       "city": "Las Vegas",
+       "country": "US"
+      },
+      "fighters": [
+       {
+        "name": "Sebastian Fundora",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Ermal Hadribeaj",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Brandon Figueroa",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Tomoki Kameda",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Jermall Charlo",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Koen Mazoudier",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       }
+      ],
+      "bouts": [
+       {
+        "source_bout_id": "fight-night-october-17-2026|1|sebastian-fundora|ermal-hadribeaj",
+        "order": 1,
+        "segment": "main_event",
+        "pairing": "Sebastian Fundora vs Ermal Hadribeaj",
+        "division": "super_welterweight",
+        "scheduled_rounds": null,
+        "titles": [
+         "wbc:super"
+        ],
+        "action": "would_insert"
+       },
+       {
+        "source_bout_id": "fight-night-october-17-2026|2|brandon-figueroa|tomoki-kameda",
+        "order": 2,
+        "segment": "co_main",
+        "pairing": "Brandon Figueroa vs Tomoki Kameda",
+        "division": "featherweight",
+        "scheduled_rounds": null,
+        "titles": [
+         "wba:world"
+        ],
+        "action": "would_insert"
+       },
+       {
+        "source_bout_id": "fight-night-october-17-2026|3|jermall-charlo|koen-mazoudier",
+        "order": 3,
+        "segment": "undercard",
+        "pairing": "Jermall Charlo vs Koen Mazoudier",
+        "division": "super_middleweight",
+        "scheduled_rounds": 10,
+        "titles": [],
+        "action": "would_insert"
+       }
+      ],
+      "titles": {
+       "resolved": 2,
+       "unresolved": 0
+      },
+      "broadcaster": "DAZN",
+      "problems": []
+     }
     }
    ],
    "discovered": 2
@@ -244,32 +430,6 @@
      "headline": "Smith vs Puello",
      "source_url": "https://www.matchroomboxing.com/events/smith-vs-puello/",
      "confidence": "medium"
-    },
-    {
-     "source_key": "promoter_matchroom",
-     "external_key": "https://www.matchroomboxing.com/events/monte-carlo-showdown-vii/",
-     "discovered_name": "TBC vs TBC",
-     "probable_date": null,
-     "probable_city": "Monte Carlo",
-     "probable_country": "MC",
-     "probable_promoter": "Matchroom Boxing",
-     "probable_broadcaster": null,
-     "headline": "TBC vs TBC",
-     "source_url": "https://www.matchroomboxing.com/events/monte-carlo-showdown-vii/",
-     "confidence": "medium"
-    },
-    {
-     "source_key": "promoter_matchroom",
-     "external_key": "https://www.matchroomboxing.com/events/taylor-vs-pili/",
-     "discovered_name": "Taylor vs Pili",
-     "probable_date": null,
-     "probable_city": "Dublin",
-     "probable_country": "IE",
-     "probable_promoter": "Matchroom Boxing",
-     "probable_broadcaster": null,
-     "headline": "Taylor vs Pili",
-     "source_url": "https://www.matchroomboxing.com/events/taylor-vs-pili/",
-     "confidence": "medium"
     }
    ],
    "events": [
@@ -286,6 +446,9 @@
      "published_utc_offset": null,
      "scheduled_start_at": null,
      "start_basis": null,
+     "published_start_line": null,
+     "start_assertions": null,
+     "source_time_conflict": null,
      "announced_bouts": 8,
      "fingerprint": "b32a43144bbcb480d4a51001e7474d9fee1347ea62c4dc7c4951a7025ca20402",
      "parser_problems": [
@@ -510,26 +673,472 @@
     },
     {
      "url": "https://www.matchroomboxing.com/events/jones-vs-sanchez/",
-     "error": "event fetch 404"
+     "event_name": "Jones vs Sanchez",
+     "date": "2026-10-02",
+     "venue": "Caribe Royale Orlando",
+     "city": null,
+     "country": "US",
+     "broadcaster": "DAZN",
+     "promoter": "Matchroom Boxing",
+     "published_start_local": null,
+     "published_utc_offset": null,
+     "scheduled_start_at": null,
+     "start_basis": null,
+     "published_start_line": null,
+     "start_assertions": null,
+     "source_time_conflict": null,
+     "announced_bouts": 1,
+     "fingerprint": "9fbb92cc64eb0b36c6ace8f6a61e3a1df43b9296ddae4cb20d823a9cf3b340d1",
+     "parser_problems": [],
+     "plan": {
+      "event": {
+       "action": "would_insert",
+       "name": "Jones vs Sanchez",
+       "date": "2026-10-02",
+       "cross_source_candidates": 0
+      },
+      "venue": {
+       "action": "would_match_or_insert",
+       "name": "Caribe Royale Orlando",
+       "city": null,
+       "country": "US"
+      },
+      "fighters": [
+       {
+        "name": "Omari Jones",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Alan Sanchez",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       }
+      ],
+      "bouts": [
+       {
+        "source_bout_id": "jones-vs-sanchez|1|omari-jones|alan-sanchez",
+        "order": 1,
+        "segment": "main_event",
+        "pairing": "Omari Jones vs Alan Sanchez",
+        "division": null,
+        "scheduled_rounds": null,
+        "titles": [],
+        "action": "would_insert"
+       }
+      ],
+      "titles": {
+       "resolved": 0,
+       "unresolved": 0
+      },
+      "broadcaster": "DAZN",
+      "problems": []
+     }
     },
     {
      "url": "https://www.matchroomboxing.com/events/whittaker-vs-wallace/",
-     "error": "event fetch 404"
+     "event_name": "Whittaker vs Wallace",
+     "date": "2026-10-03",
+     "venue": "Utilita Arena",
+     "city": "Birmingham",
+     "country": "GB",
+     "broadcaster": "DAZN",
+     "promoter": "Matchroom Boxing",
+     "published_start_local": null,
+     "published_utc_offset": null,
+     "scheduled_start_at": null,
+     "start_basis": null,
+     "published_start_line": null,
+     "start_assertions": null,
+     "source_time_conflict": null,
+     "announced_bouts": 6,
+     "fingerprint": "61516af042ec63eb31d13a4ab1c2d2fef5d1fa07aec26e59a0bdf805bae363f9",
+     "parser_problems": [
+      "bout 5: a corner is not named",
+      "bout 7: a corner is not named"
+     ],
+     "plan": {
+      "event": {
+       "action": "would_insert",
+       "name": "Whittaker vs Wallace",
+       "date": "2026-10-03",
+       "cross_source_candidates": 0
+      },
+      "venue": {
+       "action": "would_match_or_insert",
+       "name": "Utilita Arena",
+       "city": "Birmingham",
+       "country": "GB"
+      },
+      "fighters": [
+       {
+        "name": "Ben Whittaker",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Conor Wallace",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Bilal Fawaz",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Eithan James",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Sean Bruce",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Hamza Uddin",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Ibraheem Sulaimaan",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Sonny Hardy",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Aaron Bowen",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Klint Baptiste",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Harley Burrows",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "TBC",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       }
+      ],
+      "bouts": [
+       {
+        "source_bout_id": "whittaker-vs-wallace|1|ben-whittaker|conor-wallace",
+        "order": 1,
+        "segment": "main_event",
+        "pairing": "Ben Whittaker vs Conor Wallace",
+        "division": null,
+        "scheduled_rounds": null,
+        "titles": [],
+        "action": "would_insert"
+       },
+       {
+        "source_bout_id": "whittaker-vs-wallace|2|bilal-fawaz|eithan-james",
+        "order": 2,
+        "segment": "undercard",
+        "pairing": "Bilal Fawaz vs Eithan James",
+        "division": null,
+        "scheduled_rounds": null,
+        "titles": [],
+        "action": "would_insert"
+       },
+       {
+        "source_bout_id": "whittaker-vs-wallace|3|sean-bruce|hamza-uddin",
+        "order": 3,
+        "segment": "undercard",
+        "pairing": "Sean Bruce vs Hamza Uddin",
+        "division": null,
+        "scheduled_rounds": null,
+        "titles": [],
+        "action": "would_insert"
+       },
+       {
+        "source_bout_id": "whittaker-vs-wallace|4|ibraheem-sulaimaan|sonny-hardy",
+        "order": 4,
+        "segment": "undercard",
+        "pairing": "Ibraheem Sulaimaan vs Sonny Hardy",
+        "division": null,
+        "scheduled_rounds": null,
+        "titles": [],
+        "action": "would_insert"
+       },
+       {
+        "source_bout_id": "whittaker-vs-wallace|6|aaron-bowen|klint-baptiste",
+        "order": 6,
+        "segment": "undercard",
+        "pairing": "Aaron Bowen vs Klint Baptiste",
+        "division": null,
+        "scheduled_rounds": null,
+        "titles": [],
+        "action": "would_insert"
+       },
+       {
+        "source_bout_id": "whittaker-vs-wallace|8|harley-burrows|tbc",
+        "order": 8,
+        "segment": "undercard",
+        "pairing": "Harley Burrows vs TBC",
+        "division": null,
+        "scheduled_rounds": null,
+        "titles": [],
+        "action": "would_insert"
+       }
+      ],
+      "titles": {
+       "resolved": 0,
+       "unresolved": 0
+      },
+      "broadcaster": "DAZN",
+      "problems": []
+     }
     },
     {
      "url": "https://www.matchroomboxing.com/events/smith-vs-puello/",
-     "error": "event fetch 404"
-    },
-    {
-     "url": "https://www.matchroomboxing.com/events/monte-carlo-showdown-vii/",
-     "error": "event fetch 404"
-    },
-    {
-     "url": "https://www.matchroomboxing.com/events/taylor-vs-pili/",
-     "error": "event fetch 404"
+     "event_name": "Smith vs Puello",
+     "date": "2026-10-24",
+     "venue": "Utilita Arena",
+     "city": "Sheffield",
+     "country": "GB",
+     "broadcaster": "DAZN",
+     "promoter": "Matchroom Boxing",
+     "published_start_local": null,
+     "published_utc_offset": null,
+     "scheduled_start_at": null,
+     "start_basis": null,
+     "published_start_line": null,
+     "start_assertions": null,
+     "source_time_conflict": null,
+     "announced_bouts": 7,
+     "fingerprint": "e20bf55023575c126ec4c2f9c1708162e6e76542ef42fdf95356b9a8df8ed875",
+     "parser_problems": [],
+     "plan": {
+      "event": {
+       "action": "would_insert",
+       "name": "Smith vs Puello",
+       "date": "2026-10-24",
+       "cross_source_candidates": 0
+      },
+      "venue": {
+       "action": "would_match_or_insert",
+       "name": "Utilita Arena",
+       "city": "Sheffield",
+       "country": "GB"
+      },
+      "fighters": [
+       {
+        "name": "Dalton Smith",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Alberto Puello",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Giorgio Visioli",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Maxi Hughes",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Leo Atang",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "TBC",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Aqib Fiaz",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Jordan Flynn",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Shannon Ryan",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Emma Dolan",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Joe Hayden",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Will Harrison",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Connor Mitchell",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       }
+      ],
+      "bouts": [
+       {
+        "source_bout_id": "smith-vs-puello|1|dalton-smith|alberto-puello",
+        "order": 1,
+        "segment": "main_event",
+        "pairing": "Dalton Smith vs Alberto Puello",
+        "division": "super_lightweight",
+        "scheduled_rounds": null,
+        "titles": [
+         "wbc:super"
+        ],
+        "action": "would_insert"
+       },
+       {
+        "source_bout_id": "smith-vs-puello|2|giorgio-visioli|maxi-hughes",
+        "order": 2,
+        "segment": "undercard",
+        "pairing": "Giorgio Visioli vs Maxi Hughes",
+        "division": "lightweight",
+        "scheduled_rounds": null,
+        "titles": [],
+        "action": "would_insert"
+       },
+       {
+        "source_bout_id": "smith-vs-puello|3|leo-atang|tbc",
+        "order": 3,
+        "segment": "undercard",
+        "pairing": "Leo Atang vs TBC",
+        "division": null,
+        "scheduled_rounds": null,
+        "titles": [],
+        "action": "would_insert"
+       },
+       {
+        "source_bout_id": "smith-vs-puello|4|aqib-fiaz|jordan-flynn",
+        "order": 4,
+        "segment": "undercard",
+        "pairing": "Aqib Fiaz vs Jordan Flynn",
+        "division": null,
+        "scheduled_rounds": null,
+        "titles": [],
+        "action": "would_insert"
+       },
+       {
+        "source_bout_id": "smith-vs-puello|5|shannon-ryan|emma-dolan",
+        "order": 5,
+        "segment": "undercard",
+        "pairing": "Shannon Ryan vs Emma Dolan",
+        "division": "super_flyweight",
+        "scheduled_rounds": null,
+        "titles": [],
+        "action": "would_insert"
+       },
+       {
+        "source_bout_id": "smith-vs-puello|6|joe-hayden|will-harrison",
+        "order": 6,
+        "segment": "undercard",
+        "pairing": "Joe Hayden vs Will Harrison",
+        "division": null,
+        "scheduled_rounds": null,
+        "titles": [],
+        "action": "would_insert"
+       },
+       {
+        "source_bout_id": "smith-vs-puello|7|connor-mitchell|tbc",
+        "order": 7,
+        "segment": "undercard",
+        "pairing": "Connor Mitchell vs TBC",
+        "division": null,
+        "scheduled_rounds": null,
+        "titles": [],
+        "action": "would_insert"
+       }
+      ],
+      "titles": {
+       "resolved": 1,
+       "unresolved": 4
+      },
+      "broadcaster": "DAZN",
+      "problems": []
+     }
     }
    ],
-   "discovered": 6
+   "discovered": 17
   }
  ]
 }

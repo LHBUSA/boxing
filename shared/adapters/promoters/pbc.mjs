@@ -14,6 +14,7 @@
 //                             .fight-headline "A vs B", a broadcast link, and one description line per bout
 
 import { parseTitleLine, roundsFromText, divisionFromText } from './titles.mjs';
+import { resolveAnnouncedStart } from './time.mjs';
 
 export const PBC = Object.freeze({
   sourceKey: 'promoter_pbc',
@@ -52,6 +53,15 @@ export function parsePbcLocation(name) {
   return { name: parts[0] ?? null, city: parts[1] ?? null, region: parts[2] ?? null };
 }
 
+// The human-facing start line the event page prints in its header. Screen-reader spans repeat the zone in words
+// ("ET" then "Eastern Time"), so both forms end up in the text and either resolves to the same zone.
+export function parsePbcVisibleLine(html) {
+  const header = /<div class="fight-night-header[^"]*"[^>]*>([\s\S]*?)<\/div>\s*<\/div>/.exec(html)?.[1]
+    ?? /<h1[^>]*>[\s\S]{0,200}?<\/h1>([\s\S]{0,600})/.exec(html)?.[1] ?? null;
+  const line = text(header ?? "");
+  return /\d\s*(a\.?m\.?|p\.?m\.?|:\d{2})/i.test(line) ? line : null;
+}
+
 function jsonLdEvents(html) {
   const out = [];
   for (const m of strip(html).matchAll(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/gi)) {
@@ -84,13 +94,17 @@ export function parsePbcSchedule(html) {
 }
 
 // /<event-slug> -> one announced card in the promoter contract's shape
-export function parsePbcEvent(html, { url, capturedAt }) {
+export function parsePbcEvent(html, { url, capturedAt, visibleStartHint = null }) {
   const doc = strip(html);
   const problems = [];
   const node = jsonLdEvents(doc)[0] ?? null;
   const start = parsePbcStart(node?.startDate);
   const loc = parsePbcLocation(node?.location?.name);
   if (!start.date) problems.push("no event date in the page's structured data");
+  // the page's own header line: "SAT, SEP 19, 2026 · 8pm ET / 5pm PT · Pechanga Arena, San Diego, California"
+  const visibleLine = parsePbcVisibleLine(doc) ?? visibleStartHint;
+  const announced = resolveAnnouncedStart({ date: start.date, jsonLdValue: node?.startDate ?? null, jsonLdInstant: start.start_utc, visibleLine });
+  if (announced.conflict) problems.push(`start time: ${announced.conflict.reason}`);
 
   const bouts = [];
   for (const m of doc.matchAll(/<div class="fight-row row (field_bouts|field_co_billed_bouts)-(\d+)"([\s\S]*?)(?=<!--END: Fight Row-->)/g)) {
@@ -142,12 +156,15 @@ export function parsePbcEvent(html, { url, capturedAt }) {
       source_event_id: url.split("/").filter(Boolean).pop(),
       event_name: text(node?.name ?? "").split(",")[0].trim() || `Premier Boxing Champions at ${loc.name ?? "venue to be confirmed"}`,
       scheduled_date: start.date,
-      // the published broadcast start: the source's own local time and offset, and the UTC instant that follows from
-      // them. It is a broadcast start, not a ring walk, and the UI must say so.
-      scheduled_start_at: start.start_utc,
+      // The published BROADCAST START, never a ring walk. Every assertion the page makes is kept, and when the machine
+      // timestamp disagrees with the printed times the disagreement is recorded rather than silently corrected.
+      scheduled_start_at: announced.scheduled_start_at,
       published_start_local: start.local_time,
       published_utc_offset: start.utc_offset,
-      start_basis: start.start_utc ? "broadcast start published by the promoter" : null,
+      published_start_line: visibleLine,
+      start_basis: announced.scheduled_start_at ? `broadcast start published by the promoter (${announced.basis})` : null,
+      start_assertions: announced.assertions,
+      source_time_conflict: announced.conflict,
       venue: loc.name ? { name: loc.name, city: loc.city, region: loc.region, country_code: loc.region ? "US" : null } : null,
       broadcaster,
       promoter: PBC.promoter,

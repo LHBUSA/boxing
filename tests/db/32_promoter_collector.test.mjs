@@ -81,6 +81,8 @@ test('real run: both cards canonicalize, with the source as the provenance of ev
   assert.equal(sd.venue, 'Pechanga Arena');
   assert.equal(sd.country_code, 'US');
   assert.equal(sd.event_date, '2026-09-19');
+  // the instant that is actually persisted is the corroborated one (8pm ET = 5pm PT), not the page's malformed -05:00
+  assert.equal(new Date(sd.start_at).toISOString(), '2026-09-20T00:00:00.000Z');
   const mr = await one(`select e.event_date::text, v.name venue, v.country_code from public.boxing_events e join public.boxing_venues v on v.id = e.venue_id where v.city = 'Manchester'`);
   assert.equal(mr.venue, 'Co-op Live');
   assert.equal(mr.country_code, 'GB');
