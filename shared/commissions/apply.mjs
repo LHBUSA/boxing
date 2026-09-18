@@ -7,6 +7,7 @@
 import { contentHash } from '../canonical.mjs';
 import { applyCardDocument } from '../events/card.mjs';
 import { recordRegulatoryAction, recordResult, recordScorecards, recordWeighIn } from '../events/outcomes.mjs';
+import { withLaneGate } from '../events/rights.mjs';
 import { titlesFromRemarks } from './title-remarks.mjs';
 import { parseDivisionLabel } from '../rankings/import.mjs';
 import { assertMinimized } from '../adapters/commissions/minimize.mjs';
@@ -114,6 +115,13 @@ export function cardDocumentFor(adapter, ev, bouts) {
 }
 
 // parsed: ParsedDocument (contract.mjs). Returns counts + review items.
+// a lane the source's recorded rights review does not cover: counted, never written, never a run failure
+function countLaneRefusal(summary, r) {
+  summary.lane_refusals ??= {};
+  const k = r.lane ?? 'unknown';
+  summary.lane_refusals[k] = (summary.lane_refusals[k] ?? 0) + 1;
+}
+
 export async function applyCommissionParsed(store, adapter, parsed, { now = new Date().toISOString(), changeReason = null, graphResolve = true } = {}) {
   const summary = { events: 0, events_created: 0, bouts_in_documents: parsed.bouts.length, bouts_linked: 0, results_created: 0, results_revised: 0, results_duplicate: 0,
     scorecards_written: 0, weigh_ins: 0, suspensions: 0, identity_unresolved: 0, review_items: [], news: {}, skipped: [] };
@@ -173,6 +181,7 @@ export async function applyCommissionParsed(store, adapter, parsed, { now = new 
         }, { now });
         if (r.status === 'created') summary.results_created += 1;
         else if (r.status === 'revised') summary.results_revised += 1;
+        else if (r.status === 'refused') countLaneRefusal(summary, r);
         else summary.results_duplicate += 1;
         countNews(r.news);
       }
@@ -187,11 +196,16 @@ export async function applyCommissionParsed(store, adapter, parsed, { now = new 
         reason_public: d.reason_raw ? String(d.reason_raw).slice(0, 280) : null }));
       if (cards.length && cards.every(Boolean)) {
         const s = await recordScorecards(store, { bout_id: boutId, source_key: adapter.sourceKey, source_url: b.source_url, cards, deductions, observation_id: card.observation_id }, { now });
-        summary.scorecards_written += s.written.filter((w) => w.status !== 'duplicate').length;
+        summary.scorecards_written += s.written.filter((w) => !['duplicate', 'refused'].includes(w.status)).length;
+        for (const w of s.written) if (w.status === 'refused') countLaneRefusal(summary, w);
         countNews(s.news);
       } else if (deductions.length && /^https:/.test(b.source_url)) {
         const referee = officials.find((x) => x.role === 'referee');
-        for (const d of deductions) await store.recordPointDeduction({ ...d, bout_id: boutId, source_key: adapter.sourceKey, source_url: b.source_url, referee_official_id: referee?.official_id ?? null, observation_id: card.observation_id });
+        for (const d of deductions) {
+          const dr = await withLaneGate(() => store.recordPointDeduction({ ...d, bout_id: boutId, source_key: adapter.sourceKey, source_url: b.source_url,
+            referee_official_id: referee?.official_id ?? null, observation_id: card.observation_id }));
+          if (dr?.status === 'refused') countLaneRefusal(summary, dr);
+        }
       }
 
       for (const side of ['a', 'b']) {
@@ -199,7 +213,8 @@ export async function applyCommissionParsed(store, adapter, parsed, { now = new 
         if (w == null || !fighter[side] || !/^https:/.test(b.source_url)) continue;
         const r = await recordWeighIn(store, { bout_id: boutId, fighter_id: fighter[side], source_key: adapter.sourceKey, source_url: b.source_url,
           weigh_in_kind: 'official', attempt_no: 1, official_weight_lb: w, source_unit: 'lb', source_weight_raw: String(w), verification_state: 'verified', observation_id: card.observation_id }, { now });
-        if (r.status !== 'duplicate') summary.weigh_ins += 1;
+        if (r.status === 'refused') countLaneRefusal(summary, r);
+        else if (r.status !== 'duplicate') summary.weigh_ins += 1;
         countNews(r.news);
       }
 
@@ -209,7 +224,8 @@ export async function applyCommissionParsed(store, adapter, parsed, { now = new 
         const r = await recordRegulatoryAction(store, { source_key: adapter.sourceKey, action_key: `${b.source_bout_id}|${s.side}|suspension`, action_type: 'suspension',
           status: to && to < now.slice(0, 10) ? 'expired' : 'active', fighter_id: fighter[s.side], bout_id: boutId, commission_slug: adapter.commission.slug,
           effective_from: ev.event_date, effective_to: to, reason_public: null, source_url: b.source_url, observation_id: card.observation_id }, { now });
-        if (r.status !== 'duplicate') summary.suspensions += 1;
+        if (r.status === 'refused') countLaneRefusal(summary, r);
+        else if (r.status !== 'duplicate') summary.suspensions += 1;
         countNews(r.news);
       }
     }

@@ -25,6 +25,7 @@ import { ingestIdentity } from '../identity/pipeline.mjs';
 import { activeOccupant, ingestOfficial, slotContinuity } from './officials.mjs';
 import { normalizedAlias } from '../identity/normalize.mjs';
 import { resolveAndRecordAppearance } from '../identity/appearance.mjs';
+import { laneRefusal } from './rights.mjs';
 
 const ACTIVE = new Set(['scheduled', 'confirmed']);
 
@@ -372,18 +373,36 @@ export async function applyCardDocument(store, doc, { now = new Date().toISOStri
   const boutIds = new Map();
   const applied = [];
   const news = [];
+  const laneRefusals = [];
   for (const c of changes) {
     let boutId = c.bout_ref && !String(c.bout_ref).startsWith('ext:') && !String(c.bout_ref).startsWith('pair:') ? c.bout_ref : boutIds.get(c.bout_ref) ?? null;
     if (c.change_type === 'bout_added') {
-      boutId = await store.addBout({ source_key: doc.source_key, event_id: eventId, source_url: doc.source_url ?? null,
-        ...c.after_state, external_namespace: c.after_state.external_id ? `${doc.namespace}.bout` : null });
+      try {
+        boutId = await store.addBout({ source_key: doc.source_key, event_id: eventId, source_url: doc.source_url ?? null,
+          ...c.after_state, external_namespace: c.after_state.external_id ? `${doc.namespace}.bout` : null });
+      } catch (err) {
+        // the source's rights review does not cover this lane: skip the bout, keep the rest of the card, write nothing
+        const refusal = laneRefusal(err);
+        if (!refusal) throw err;
+        laneRefusals.push({ ...refusal, bout: c.after_state?.external_id ?? c.bout_ref });
+        continue;
+      }
       boutIds.set(c.bout_ref, boutId);
     }
     const changeKey = await dedupeKey('card_change', eventId, c.change_type === 'bout_added' ? c.bout_ref : boutId, c.change_type, c.before_state, c.after_state);
-    const r = await store.applyCardChange({
-      source_key: doc.source_key, event_id: eventId, bout_id: boutId, change_type: c.change_type, before_state: c.before_state,
-      after_state: c.after_state, effective_at: now, source_url: doc.source_url ?? null, observation_id: observation.id, change_key: changeKey,
-    });
+    let r;
+    try {
+      r = await store.applyCardChange({
+        source_key: doc.source_key, event_id: eventId, bout_id: boutId, change_type: c.change_type, before_state: c.before_state,
+        after_state: c.after_state, effective_at: now, source_url: doc.source_url ?? null, observation_id: observation.id, change_key: changeKey,
+      });
+    } catch (err) {
+      // an official, title or bout lane the source's rights review does not cover: skip this change, keep the card
+      const refusal = laneRefusal(err);
+      if (!refusal) throw err;
+      laneRefusals.push({ ...refusal, change_type: c.change_type, bout: boutId ?? c.bout_ref });
+      continue;
+    }
     if (!r.applied) continue;
     applied.push({ ...c, bout_id: boutId, change_id: r.change_id });
 
@@ -412,5 +431,6 @@ export async function applyCardDocument(store, doc, { now = new Date().toISOStri
   const bout_links = [...matches, ...[...boutIds].filter(([ref]) => String(ref).startsWith('ext:')).map(([ref, bout_id]) => ({ external_id: String(ref).slice(4), bout_id, matched_by: 'added' }))];
   if (crossSource?.status === 'not_attached') review.push({ reason: `cross_source_event_${crossSource.reason}`, candidates: crossSource.candidates });
   return { status: 'applied', event_id: eventId, event_created: ev.created, changes: applied, news, unresolved, review, bout_links, identity_graph: identityGraph, official_continuity: officialContinuity,
-    cross_source: crossSource, event_fields_deferred: Boolean(state.defer_event_fields), observation_id: observation.id };
+    cross_source: crossSource, event_fields_deferred: Boolean(state.defer_event_fields), observation_id: observation.id,
+    ...(laneRefusals.length ? { lane_refusals: laneRefusals } : {}) };
 }

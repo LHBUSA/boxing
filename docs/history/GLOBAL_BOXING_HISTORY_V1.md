@@ -93,7 +93,7 @@ which joins the rights review, the declared lanes, the **live** stored coverage 
 
 | # | Risk | Severity | Detail | Action |
 |---|---|---|---|---|
-| 1 | **New Jersey result parsing exceeds its recorded rights review** | High | The 2026-09-13 review permits schedule facts; `nj-sacb@1.1.x` parses results, judges' totals and suspensions. No later review widens it. | Owner re-review of NJ before any further NJ ingest. Flagged in the registry as `review_scope_gap` and counted by the assertions. |
+| 1 | **New Jersey result parsing exceeds its recorded rights review** | High | The 2026-09-13 review permits schedule facts; `nj-sacb@1.1.x` parses results, judges' totals and suspensions. No later review widens it. | **Closed 2026-09-15 by owner decision** (migration 0045): those lanes are `unresolved` / `review_scope_gap` and now fail closed at write time; the parser and the rows already stored are untouched. Re-open only after a recorded review. See `MODEL_SCOPE_GATE.md`. |
 | 2 | WBC approval rests on an owner decision against a `use=reference` robots signal | Medium | Owner ruled no separate permission is required; robots also disallows AI crawlers by name. Collection uses normal unauthenticated HTTP, facts only. | Keep the decision recorded; re-review 2026-12-14. |
 | 3 | Wikidata DOB | Medium | Wikidata is approved for identity including DOB, but the standing owner rule is that DOB is never stored. | Rule wins: the passport returns `date_of_birth: null, policy: not stored (owner rule)`. Confirm or lift. |
 | 4 | Commission database rights for commercial display | Medium | Never legally reviewed for any commission. | Legal review before launch. |
@@ -280,8 +280,10 @@ knockdown, no confirmed title reign. Each is a source gap named in [E](#e-missin
 ## O. Model isolation and temporal integrity <a id="o-isolation"></a>
 
 - Fight DNA reads **every** professional bout through `boxing_fighter_history_as_of` / `boxing_matchup_inputs`. A
-  historical backfill would therefore flow into the existing lineage silently. **Prerequisite before any history ingest:**
-  a `model_scope` gate (per source, or per bout) plus a proof that DNA snapshots are byte-identical before and after.
+  historical backfill would therefore flow into the existing lineage silently. **This is now gated in the database**
+  (migration 0044, `docs/history/MODEL_SCOPE_GATE.md`): bouts carry `model_scope`, archive rows cannot be written until a
+  runtime flag is enabled, that flag cannot be enabled while any consumer is unreviewed, the model boundary defaults to
+  current scope only, and 100,000 archive bouts are proven to leave every current model input byte-identical.
   Nothing in 0043 touches a model object, and the slice test asserts that: every archive function is non-volatile, writes
   nothing, and never references `boxing_models`, `boxing_model_outputs`, metric snapshots, matchup snapshots or intel runs.
 - Any predictive use of history starts a separate lineage (`pbe-boxing-model-v2-history`) with its own feature contract,

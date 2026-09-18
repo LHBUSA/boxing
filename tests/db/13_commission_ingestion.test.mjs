@@ -115,17 +115,16 @@ test('New Jersey: official schedule only; third-party linked sites never become 
   assert.equal(await count(`boxing_source_documents where url like '%boxrec%'`), 0);
   assert.equal(await count(`boxing_source_documents d join public.boxing_sources s on s.id = d.source_id where s.source_key = 'nj_sacb' and d.kind = 'results' and d.status = 'parsed'`), 1, 'official SACB result document parsed');
   assert.ok(!requested.some((u) => u.includes('boxrec')), 'third-party result link never fetched');
+  // Owner decision 2026-09-15 (migration 0045): the recorded NJ rights review covers schedule facts only, so the bout,
+  // result, official, weigh-in and suspension lanes fail closed at write time. The parser is untouched and the result
+  // document is still fetched and parsed — nothing downstream of the closed lanes is written.
   const njBouts = await q(`select b.id from public.boxing_bouts b join public.boxing_sources s on s.id = b.source_id where s.source_key = 'nj_sacb'`);
-  assert.equal(njBouts.length, 3);
-  const njResults = await q(`select r.outcome, r.method from public.boxing_bout_results_current r join public.boxing_sources s on s.id = r.source_id where s.source_key = 'nj_sacb' order by r.method`);
-  assert.deepEqual(njResults.map((x) => [x.outcome, x.method]), [['win', 'DECISION'], ['win', 'TKO']], 'the typo-winner bout records no result');
-  assert.equal(await count(`boxing_regulatory_actions x join public.boxing_sources s on s.id = x.source_id where s.source_key = 'nj_sacb'`), 1);
-  // "Middleweight (165 lbs.)": the number is the contract; nobody missed the 160 lb class limit
-  const weighIns = await q(`select w.status, w.contracted_weight_lb from public.boxing_weigh_ins w join public.boxing_sources s on s.id = w.source_id where s.source_key = 'nj_sacb' order by w.official_weight_lb`);
-  assert.ok(weighIns.every((w) => w.status === 'made_weight'), JSON.stringify(weighIns));
+  assert.equal(njBouts.length, 0, 'the bout lane is outside the recorded NJ rights review');
+  assert.equal(await count(`boxing_bout_results r join public.boxing_sources s on s.id = r.source_id where s.source_key = 'nj_sacb'`), 0);
+  assert.equal(await count(`boxing_regulatory_actions x join public.boxing_sources s on s.id = x.source_id where s.source_key = 'nj_sacb'`), 0);
+  assert.equal(await count(`boxing_weigh_ins w join public.boxing_sources s on s.id = w.source_id where s.source_key = 'nj_sacb'`), 0);
   assert.equal(await count(`boxing_news_events where event_type = 'WEIGHT_MISSED'`), 0);
-  const contradicted = await one(`select b.contracted_weight_lb, b.weight_class_id from public.boxing_bouts b where b.contracted_weight_lb = 165`);
-  assert.deepEqual([Number(contradicted.contracted_weight_lb), contradicted.weight_class_id], [165, null], 'a contradictory label yields no class');
+  assert.equal((await one(`select public.boxing_lane_rights_state((select id from public.boxing_sources where source_key = 'nj_sacb'), 'results') s`)).s, 'review_scope_gap');
   const ev = await q(`select e.event_date::text, e.status from public.boxing_events e join public.boxing_sources s on s.id = e.source_id where s.source_key = 'nj_sacb' order by 1`);
   assert.deepEqual(ev.map((e) => [e.event_date, e.status]), [['2026-09-04', 'complete'], ['2026-09-12', 'scheduled'], ['2026-11-07', 'cancelled']]);
   assert.equal(await count(`boxing_events where name ilike '%knuckle%' or name ilike '%cage%'`), 0);

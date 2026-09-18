@@ -5,6 +5,7 @@
 import { dedupeKey } from '../canonical.mjs';
 import { checkResultAgainstCards, classifyDecision, validateScorecard } from './decisions.mjs';
 import { assessWeighIn, isCatchweight, weighInNewsType } from './weighins.mjs';
+import { withLaneGate } from './rights.mjs';
 
 const newsBase = (type, { key, boutId, eventId, fighterIds = [], sourceKey, sourceUrl, now, review = false, facts, supersedes = null, observedKey }) => ({
   contract_version: '1.1.0', event_type: type, dedupe_key: key, supersedes_dedupe_key: supersedes, bout_id: boutId, event_id: eventId,
@@ -19,8 +20,8 @@ export async function recordResult(store, input, { now = new Date().toISOString(
   const cardProblems = checkResultAgainstCards(
     { outcome: input.outcome, winner_side: input.winner_id ? sides[input.winner_id] : null, method: input.method, decision_type: input.decision_type },
     state.scorecards);
-  const r = await store.recordResult(input);
-  if (r.status === 'duplicate') return { ...r, problems: cardProblems, news: null };
+  const r = await withLaneGate(() => store.recordResult(input));
+  if (r.status === 'refused' || r.status === 'duplicate') return { ...r, problems: cardProblems, news: null };
 
   const prev = r.previous;
   const overturned = Boolean(prev) && (input.result_state === 'overturned' || prev.outcome !== input.outcome || prev.winner_id !== (input.winner_id ?? null));
@@ -51,14 +52,16 @@ export async function recordScorecards(store, { bout_id: boutId, source_key: sou
   const written = [];
   for (const c of cards) {
     const decisionFor = Number(c.a_total) > Number(c.b_total) ? a : Number(c.b_total) > Number(c.a_total) ? b : null;
-    const r = await store.recordScorecard({
+    const r = await withLaneGate(() => store.recordScorecard({
       bout_id: boutId, judge_id: c.judge_id, fighter_a_id: a, fighter_b_id: b, fighter_a_total: c.a_total, fighter_b_total: c.b_total,
       decision_for_id: decisionFor, source_key: sourceKey, source_url: sourceUrl, scorer_role: c.scorer_role ?? 'judge', slot: c.slot ?? null,
       score_basis: c.score_basis ?? 'unknown', rounds: c.rounds ?? [], change_reason: changeReason, observation_id: observationId,
-    });
+    }));
     written.push({ judge_id: c.judge_id, ...r });
   }
-  for (const d of deductions) await store.recordPointDeduction({ observation_id: observationId, ...d, bout_id: boutId, source_key: sourceKey, source_url: sourceUrl });
+  for (const d of deductions) {
+    await withLaneGate(() => store.recordPointDeduction({ observation_id: observationId, ...d, bout_id: boutId, source_key: sourceKey, source_url: sourceUrl }));
+  }
 
   const changed = written.filter((w) => w.status !== 'duplicate');
   if (!changed.length) return { written, problems, news: null };
@@ -88,8 +91,8 @@ export async function recordWeighIn(store, input, { now = new Date().toISOString
     problems.push(`source status ${input.status} disagrees with arithmetic ${assessed.status}`);
   }
   const row = { ...input, contracted_weight_lb: contracted, status: assessed.status, miss_lb: assessed.miss_lb };
-  const r = await store.recordWeighIn(row);
-  if (r.status === 'duplicate') return { ...r, problems, news: null };
+  const r = await withLaneGate(() => store.recordWeighIn(row));
+  if (r.status === 'refused' || r.status === 'duplicate') return { ...r, problems, news: null };
   const type = weighInNewsType({ weigh_in_kind: row.weigh_in_kind ?? 'official', verification_state: row.verification_state ?? 'unverified', status: row.status });
   if (!type) return { ...r, problems, news: null };
   const key = await dedupeKey('weigh_in', input.bout_id, input.fighter_id, row.weigh_in_kind ?? 'official', row.attempt_no ?? 1, type, row.official_weight_lb, row.verification_state);
@@ -109,8 +112,8 @@ export async function recordWeighIn(store, input, { now = new Date().toISOString
 }
 
 export async function recordRegulatoryAction(store, input, { now = new Date().toISOString() } = {}) {
-  const r = await store.recordRegulatoryAction(input);
-  if (r.status === 'duplicate' || input.action_type !== 'suspension') return { ...r, news: null };
+  const r = await withLaneGate(() => store.recordRegulatoryAction(input));
+  if (r.status === 'refused' || r.status === 'duplicate' || input.action_type !== 'suspension') return { ...r, news: null };
   const key = await dedupeKey('regulatory', input.action_key, r.action_id);
   const news = newsBase('SUSPENSION_POSTED', {
     key, boutId: input.bout_id ?? null, eventId: null, fighterIds: [input.fighter_id], sourceKey: input.source_key, sourceUrl: input.source_url,
