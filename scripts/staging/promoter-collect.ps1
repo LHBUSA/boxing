@@ -44,7 +44,7 @@ select s.source_key,
        s.access_mode,
        s.rights_state,
        coalesce((select count(*) from public.boxing_source_capabilities_current c
-                  where c.source_id = s.id and c.lane in ('events','upcoming_cards','bouts')
+                  where c.source_id = s.id and c.lane in ('events','upcoming_cards','bouts','venues','promoters','broadcasters','titles_at_stake')
                     and c.rights_scope = 'covered_by_rights_review'), 0)::text as schedule_lanes,
        coalesce((select count(*) from public.boxing_source_capabilities_current c
                   where c.source_id = s.id and c.lane in ('results','photos','video','article_text')
@@ -62,7 +62,7 @@ foreach ($key in $expected) {
   if ($row.enabled -ne 'true') { $failures += "$key : disabled" }
   if ($row.access_mode -ne 'approved_ingest') { $failures += "$key : access_mode=$($row.access_mode), expected approved_ingest" }
   if ($row.rights_state -ne 'approved') { $failures += "$key : rights_state=$($row.rights_state), expected approved" }
-  if ([int]$row.schedule_lanes -lt 3) { $failures += "$key : only $($row.schedule_lanes)/3 schedule lanes covered by the rights review" }
+  if ([int]$row.schedule_lanes -lt 7) { $failures += "$key : only $($row.schedule_lanes)/7 schedule lanes covered by the rights review" }
   if ([int]$row.leaked_lanes -gt 0) { $failures += "$key : $($row.leaked_lanes) non-schedule lane(s) are not marked not_permitted" }
 }
 # The single authority on whether BOTH halves of 0046 are present. A half-applied database fails open: the code binds to
@@ -75,7 +75,8 @@ Write-Host ("lane readiness: schema half {0}, data half {1}" -f `
   $(if ($ready.data_half_complete) { 'present' } else { 'INCOMPLETE' }))
 foreach ($p in $ready.schema_half.PSObject.Properties) { if (-not $p.Value) { $failures += "schema half: $($p.Name) missing" } }
 foreach ($p in $ready.data_half.PSObject.Properties) {
-  Write-Host ("  {0}: fighter_identity={1} may_create_fighters={2}" -f $p.Name, $p.Value.fighter_identity, $p.Value.may_create_fighters)
+  Write-Host ("  {0}: schedule lanes {1}/7, content lanes open {2}, fighter_attributes={3}, may store profile content={4}" -f `
+    $p.Name, $p.Value.schedule_lanes_covered, $p.Value.non_schedule_lanes_open, $p.Value.fighter_attributes, $p.Value.may_store_profile_content)
 }
 if (-not $ready.ready) { $failures += 'boxing_promoter_lane_ready() reports the promoter lane is NOT ready' }
 

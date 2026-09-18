@@ -9,7 +9,11 @@
 # name before every request (BoxingSupabase.psm1). Applied versions are
 # recorded in supabase_migrations.schema_migrations so the Supabase CLI agrees.
 
-param([ValidateSet('proof', 'apply')][string]$Mode = 'proof', [switch]$FullChain)
+#   pwsh scripts/staging/apply-migrations.ps1 -Mode apply -Only 20260915000044   # exactly one migration
+#
+# -Only applies a single version and nothing else. Use it whenever a migration has to be verified on its own before the
+# next one lands, or when one of them takes a lock worth scheduling (0044 rewrites nothing but does hold boxing_bouts).
+param([ValidateSet('proof', 'apply')][string]$Mode = 'proof', [switch]$FullChain, [string]$Only = '')
 $ErrorActionPreference = 'Stop'
 $root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 Import-Module (Join-Path $PSScriptRoot 'BoxingSupabase.psm1') -Force
@@ -36,9 +40,18 @@ if ($Mode -eq 'proof') {
   exit 0
 }
 
+if ($Only) {
+  if (-not ($files | Where-Object { $_.Name.Substring(0, 14) -eq $Only })) { throw "no migration file for version $Only" }
+  if ($applied -contains $Only) { Write-Host "skip $Only (already applied)"; exit 0 }
+  # every earlier migration must already be applied: the chain is a prefix, never a set with holes in it
+  $earlier = @($files | Where-Object { $_.Name.Substring(0, 14) -lt $Only -and $applied -notcontains $_.Name.Substring(0, 14) })
+  if ($earlier.Count) { throw "cannot apply $Only : $($earlier.Count) earlier migration(s) are still pending [$(($earlier | ForEach-Object Name) -join ', ')]" }
+}
+
 foreach ($f in $files) {
   $version = $f.Name.Substring(0, 14)
   $name = $f.BaseName.Substring(15)
+  if ($Only -and $version -ne $Only) { continue }
   if ($applied -contains $version) { Write-Host "skip $($f.Name) (already applied)"; continue }
   $sql = & $strip (Get-Content $f.FullName -Raw -Encoding UTF8)
   $record = "insert into supabase_migrations.schema_migrations (version, name, statements) values ('$version', '$name', array[]::text[]);"
