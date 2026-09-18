@@ -181,8 +181,10 @@ returns jsonb language sql stable set search_path = '' as $$
       (select count(*) from b) bouts,
       (select bool_or(competition_class = 'professional') from b) professional,
       (select bool_or(competition_class in ('amateur','exhibition')) from b) amateur,
+      -- a world title is the body's primary lane; interim, silver, gold and the rest are titles but not world titles
       (select count(*) from public.boxing_bout_titles bt join b on b.id = bt.bout_id join public.boxing_titles t on t.id = bt.title_id
-       join public.boxing_organizations o on o.id = t.organization_id where bt.at_stake and o.slug in ('wbc','wba','ibf','wbo')) world_title_bouts,
+       join public.boxing_organizations o on o.id = t.organization_id
+       where bt.at_stake and o.slug in ('wbc','wba','ibf','wbo') and t.tier in ('world','super','regular')) world_title_bouts,
       (select count(*) from public.boxing_bout_titles bt join b on b.id = bt.bout_id where bt.at_stake) title_bouts,
       (select count(*) from public.boxing_event_organizations eo join public.boxing_organizations o on o.id = eo.organization_id
        where eo.event_id = p_event and eo.role = 'broadcaster') broadcasters,
@@ -191,16 +193,22 @@ returns jsonb language sql stable set search_path = '' as $$
   select jsonb_build_object(
     'rule', 'pbe_event_priority@1',
     'event', (select public_id from e), 'event_date', (select event_date from e), 'days_out', (select days_out from facts),
+    -- Operational queue order. A major professional broadcast card is P0 even when it also carries a world title: the
+    -- title is kept as a fact and still earns its weight in the score, it just does not outrank the broadcast tier.
+    -- An event with no bouts has no classification evidence, so it is unclassified — never presumed professional.
     'tier', case
       when (select days_out from facts) < 0 then 'past'
-      when (select world_title_bouts from facts) > 0 then 'P1_world_title'
-      when (select title_bouts from facts) > 0 then 'P2_other_title'
-      when (select broadcasters from facts) > 0 or (select has_broadcast_note from facts) then 'P0_major_broadcast'
+      when coalesce((select bouts from facts), 0) = 0 then 'P4_unclassified'
+      when coalesce((select professional from facts), false)
+        and ((select broadcasters from facts) > 0 or (select has_broadcast_note from facts)) then 'P0_major_broadcast'
+      when coalesce((select professional from facts), false) and (select world_title_bouts from facts) > 0 then 'P1_world_title'
+      when coalesce((select professional from facts), false) and (select title_bouts from facts) > 0 then 'P2_other_title'
       when coalesce((select professional from facts), false) then 'P3_professional'
       when coalesce((select amateur from facts), false) then 'P5_amateur_or_exhibition'
       else 'P4_unclassified' end,
+    'world_title', (select world_title_bouts from facts) > 0,
     'score', greatest(0,
-      case when coalesce((select professional from facts), true) then 40 else 0 end
+      case when coalesce((select professional from facts), false) then 40 else 0 end
       + case when coalesce((select amateur from facts), false) and not coalesce((select professional from facts), false) then -30 else 0 end
       + (select world_title_bouts from facts) * 25 + (select title_bouts from facts) * 10
       + case when (select broadcasters from facts) > 0 or (select has_broadcast_note from facts) then 20 else 0 end

@@ -1,0 +1,535 @@
+{
+ "rule": "pbe_promoter_collect@1",
+ "generated_at": "2026-09-18T14:49:32.075Z",
+ "dry_run": true,
+ "sources": [
+  {
+   "source_key": "promoter_pbc",
+   "lane": "schedule",
+   "parser_version": "pbc-schedule@1.0.0",
+   "list_url": "https://www.premierboxingchampions.com/schedule/",
+   "candidates": [
+    {
+     "source_key": "promoter_pbc",
+     "external_key": "https://www.premierboxingchampions.com/fight-night-september-19-2026",
+     "discovered_name": "Isaac Cruz vs Nestor Bravo",
+     "probable_date": "2026-09-19",
+     "probable_city": "San Diego",
+     "probable_country": "US",
+     "probable_promoter": "Premier Boxing Champions",
+     "probable_broadcaster": null,
+     "headline": "Isaac Cruz vs Nestor Bravo · Jesus Ramos vs Meiirim Nursultanov · Daniel Blancas vs Sergio Jimenez · Marco Verde vs Guillermo Hernandez",
+     "source_url": "https://www.premierboxingchampions.com/fight-night-september-19-2026",
+     "confidence": "high"
+    },
+    {
+     "source_key": "promoter_pbc",
+     "external_key": "https://www.premierboxingchampions.com/fight-night-october-17-2026",
+     "discovered_name": "Sebastian Fundora vs Ermal Hadribeaj",
+     "probable_date": "2026-10-17",
+     "probable_city": "Las Vegas",
+     "probable_country": "US",
+     "probable_promoter": "Premier Boxing Champions",
+     "probable_broadcaster": null,
+     "headline": "Sebastian Fundora vs Ermal Hadribeaj · Brandon Figueroa vs Tomoki Kameda · Jermall Charlo vs Koen Mazoudier",
+     "source_url": "https://www.premierboxingchampions.com/fight-night-october-17-2026",
+     "confidence": "high"
+    }
+   ],
+   "events": [
+    {
+     "url": "https://www.premierboxingchampions.com/fight-night-september-19-2026",
+     "event_name": "Isaac Cruz vs Nestor Bravo",
+     "date": "2026-09-19",
+     "venue": "Pechanga Arena",
+     "city": "San Diego",
+     "country": "US",
+     "broadcaster": "DAZN",
+     "promoter": "Premier Boxing Champions",
+     "published_start_local": "20:00",
+     "published_utc_offset": "-05:00",
+     "scheduled_start_at": "2026-09-20T01:00:00.000Z",
+     "start_basis": "broadcast start published by the promoter",
+     "announced_bouts": 4,
+     "fingerprint": "602aa8fcf1199672dea772ef2ba6256bf464aa1971af78f0df2cd3b6c26ccf1d",
+     "parser_problems": [
+      "bout 3: distance announced ambiguously (\"eight or 10-round\")"
+     ],
+     "plan": {
+      "event": {
+       "action": "would_insert",
+       "name": "Isaac Cruz vs Nestor Bravo",
+       "date": "2026-09-19",
+       "cross_source_candidates": 0
+      },
+      "venue": {
+       "action": "would_match_or_insert",
+       "name": "Pechanga Arena",
+       "city": "San Diego",
+       "country": "US"
+      },
+      "fighters": [
+       {
+        "name": "Isaac Cruz",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Nestor Bravo",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Jesus Ramos",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Meiirim Nursultanov",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Daniel Blancas",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Sergio Jimenez",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Marco Verde",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Guillermo Hernandez",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       }
+      ],
+      "bouts": [
+       {
+        "source_bout_id": "fight-night-september-19-2026|1|isaac-cruz|nestor-bravo",
+        "order": 1,
+        "segment": "main_event",
+        "pairing": "Isaac Cruz vs Nestor Bravo",
+        "division": "super_lightweight",
+        "scheduled_rounds": 12,
+        "titles": [
+         "wbc:interim"
+        ],
+        "action": "would_insert"
+       },
+       {
+        "source_bout_id": "fight-night-september-19-2026|2|jesus-ramos|meiirim-nursultanov",
+        "order": 2,
+        "segment": "co_main",
+        "pairing": "Jesus Ramos vs Meiirim Nursultanov",
+        "division": "middleweight",
+        "scheduled_rounds": null,
+        "titles": [
+         "wbc:interim"
+        ],
+        "action": "would_insert"
+       },
+       {
+        "source_bout_id": "fight-night-september-19-2026|3|daniel-blancas|sergio-jimenez",
+        "order": 3,
+        "segment": "undercard",
+        "pairing": "Daniel Blancas vs Sergio Jimenez",
+        "division": "super_middleweight",
+        "scheduled_rounds": null,
+        "titles": [],
+        "action": "would_insert"
+       },
+       {
+        "source_bout_id": "fight-night-september-19-2026|4|marco-verde|guillermo-hernandez",
+        "order": 4,
+        "segment": "undercard",
+        "pairing": "Marco Verde vs Guillermo Hernandez",
+        "division": "middleweight",
+        "scheduled_rounds": 8,
+        "titles": [],
+        "action": "would_insert"
+       }
+      ],
+      "titles": {
+       "resolved": 2,
+       "unresolved": 0
+      },
+      "broadcaster": "DAZN",
+      "problems": []
+     }
+    },
+    {
+     "url": "https://www.premierboxingchampions.com/fight-night-october-17-2026",
+     "error": "event fetch 404"
+    }
+   ],
+   "discovered": 2
+  },
+  {
+   "source_key": "promoter_matchroom",
+   "lane": "schedule",
+   "parser_version": "matchroom-events@1.0.0",
+   "list_url": "https://www.matchroomboxing.com/events/",
+   "candidates": [
+    {
+     "source_key": "promoter_matchroom",
+     "external_key": "https://www.matchroomboxing.com/events/hedges-vs-brown/",
+     "discovered_name": "Hedges vs Brown",
+     "probable_date": null,
+     "probable_city": "Manchester",
+     "probable_country": "GB",
+     "probable_promoter": "Matchroom Boxing",
+     "probable_broadcaster": null,
+     "headline": "Hedges vs Brown",
+     "source_url": "https://www.matchroomboxing.com/events/hedges-vs-brown/",
+     "confidence": "medium"
+    },
+    {
+     "source_key": "promoter_matchroom",
+     "external_key": "https://www.matchroomboxing.com/events/jones-vs-sanchez/",
+     "discovered_name": "Jones vs Sanchez",
+     "probable_date": null,
+     "probable_city": null,
+     "probable_country": "US",
+     "probable_promoter": "Matchroom Boxing",
+     "probable_broadcaster": null,
+     "headline": "Jones vs Sanchez",
+     "source_url": "https://www.matchroomboxing.com/events/jones-vs-sanchez/",
+     "confidence": "medium"
+    },
+    {
+     "source_key": "promoter_matchroom",
+     "external_key": "https://www.matchroomboxing.com/events/whittaker-vs-wallace/",
+     "discovered_name": "Whittaker vs Wallace",
+     "probable_date": null,
+     "probable_city": "Birmingham",
+     "probable_country": "GB",
+     "probable_promoter": "Matchroom Boxing",
+     "probable_broadcaster": null,
+     "headline": "Whittaker vs Wallace",
+     "source_url": "https://www.matchroomboxing.com/events/whittaker-vs-wallace/",
+     "confidence": "medium"
+    },
+    {
+     "source_key": "promoter_matchroom",
+     "external_key": "https://www.matchroomboxing.com/events/smith-vs-puello/",
+     "discovered_name": "Smith vs Puello",
+     "probable_date": null,
+     "probable_city": "Sheffield",
+     "probable_country": "GB",
+     "probable_promoter": "Matchroom Boxing",
+     "probable_broadcaster": null,
+     "headline": "Smith vs Puello",
+     "source_url": "https://www.matchroomboxing.com/events/smith-vs-puello/",
+     "confidence": "medium"
+    },
+    {
+     "source_key": "promoter_matchroom",
+     "external_key": "https://www.matchroomboxing.com/events/monte-carlo-showdown-vii/",
+     "discovered_name": "TBC vs TBC",
+     "probable_date": null,
+     "probable_city": "Monte Carlo",
+     "probable_country": "MC",
+     "probable_promoter": "Matchroom Boxing",
+     "probable_broadcaster": null,
+     "headline": "TBC vs TBC",
+     "source_url": "https://www.matchroomboxing.com/events/monte-carlo-showdown-vii/",
+     "confidence": "medium"
+    },
+    {
+     "source_key": "promoter_matchroom",
+     "external_key": "https://www.matchroomboxing.com/events/taylor-vs-pili/",
+     "discovered_name": "Taylor vs Pili",
+     "probable_date": null,
+     "probable_city": "Dublin",
+     "probable_country": "IE",
+     "probable_promoter": "Matchroom Boxing",
+     "probable_broadcaster": null,
+     "headline": "Taylor vs Pili",
+     "source_url": "https://www.matchroomboxing.com/events/taylor-vs-pili/",
+     "confidence": "medium"
+    }
+   ],
+   "events": [
+    {
+     "url": "https://www.matchroomboxing.com/events/hedges-vs-brown/",
+     "event_name": "Hedges vs Brown",
+     "date": "2026-09-19",
+     "venue": "Co-op Live",
+     "city": "Manchester",
+     "country": "GB",
+     "broadcaster": "DAZN",
+     "promoter": "Matchroom Boxing",
+     "published_start_local": null,
+     "published_utc_offset": null,
+     "scheduled_start_at": null,
+     "start_basis": null,
+     "announced_bouts": 8,
+     "fingerprint": "b32a43144bbcb480d4a51001e7474d9fee1347ea62c4dc7c4951a7025ca20402",
+     "parser_problems": [
+      "bout 5: opponent not announced (TBD)"
+     ],
+     "plan": {
+      "event": {
+       "action": "would_insert",
+       "name": "Hedges vs Brown",
+       "date": "2026-09-19",
+       "cross_source_candidates": 0
+      },
+      "venue": {
+       "action": "would_match_or_insert",
+       "name": "Co-op Live",
+       "city": "Manchester",
+       "country": "GB"
+      },
+      "fighters": [
+       {
+        "name": "John Hedges",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Pat Brown",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Shabaz Masoud",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Ckari Mansilla",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Kieron Conway",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Mark Jeffers",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Joe Howarth",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Cory O'Regan",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Tom Rafferty",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Liam Walsh",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Garan Croft",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Mohammed Graich",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Jack Power",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Victor Ionascu",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Emily Whitworth",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       },
+       {
+        "name": "Beata Dudek",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0
+       }
+      ],
+      "bouts": [
+       {
+        "source_bout_id": "hedges-vs-brown|1|john-hedges|pat-brown",
+        "order": 1,
+        "segment": "main_event",
+        "pairing": "John Hedges vs Pat Brown",
+        "division": "cruiserweight",
+        "scheduled_rounds": null,
+        "titles": [],
+        "action": "would_insert"
+       },
+       {
+        "source_bout_id": "hedges-vs-brown|2|shabaz-masoud|ckari-mansilla",
+        "order": 2,
+        "segment": "undercard",
+        "pairing": "Shabaz Masoud vs Ckari Mansilla",
+        "division": "featherweight",
+        "scheduled_rounds": null,
+        "titles": [],
+        "action": "would_insert"
+       },
+       {
+        "source_bout_id": "hedges-vs-brown|3|kieron-conway|mark-jeffers",
+        "order": 3,
+        "segment": "undercard",
+        "pairing": "Kieron Conway vs Mark Jeffers",
+        "division": "super_middleweight",
+        "scheduled_rounds": null,
+        "titles": [],
+        "action": "would_insert"
+       },
+       {
+        "source_bout_id": "hedges-vs-brown|4|joe-howarth|cory-o-regan",
+        "order": 4,
+        "segment": "undercard",
+        "pairing": "Joe Howarth vs Cory O'Regan",
+        "division": null,
+        "scheduled_rounds": null,
+        "titles": [],
+        "action": "would_insert"
+       },
+       {
+        "source_bout_id": "hedges-vs-brown|6|tom-rafferty|liam-walsh",
+        "order": 6,
+        "segment": "undercard",
+        "pairing": "Tom Rafferty vs Liam Walsh",
+        "division": null,
+        "scheduled_rounds": null,
+        "titles": [],
+        "action": "would_insert"
+       },
+       {
+        "source_bout_id": "hedges-vs-brown|7|garan-croft|mohammed-graich",
+        "order": 7,
+        "segment": "undercard",
+        "pairing": "Garan Croft vs Mohammed Graich",
+        "division": null,
+        "scheduled_rounds": null,
+        "titles": [],
+        "action": "would_insert"
+       },
+       {
+        "source_bout_id": "hedges-vs-brown|8|jack-power|victor-ionascu",
+        "order": 8,
+        "segment": "undercard",
+        "pairing": "Jack Power vs Victor Ionascu",
+        "division": null,
+        "scheduled_rounds": null,
+        "titles": [],
+        "action": "would_insert"
+       },
+       {
+        "source_bout_id": "hedges-vs-brown|9|emily-whitworth|beata-dudek",
+        "order": 9,
+        "segment": "undercard",
+        "pairing": "Emily Whitworth vs Beata Dudek",
+        "division": null,
+        "scheduled_rounds": null,
+        "titles": [],
+        "action": "would_insert"
+       }
+      ],
+      "titles": {
+       "resolved": 0,
+       "unresolved": 7
+      },
+      "broadcaster": "DAZN",
+      "problems": []
+     }
+    },
+    {
+     "url": "https://www.matchroomboxing.com/events/jones-vs-sanchez/",
+     "error": "event fetch 404"
+    },
+    {
+     "url": "https://www.matchroomboxing.com/events/whittaker-vs-wallace/",
+     "error": "event fetch 404"
+    },
+    {
+     "url": "https://www.matchroomboxing.com/events/smith-vs-puello/",
+     "error": "event fetch 404"
+    },
+    {
+     "url": "https://www.matchroomboxing.com/events/monte-carlo-showdown-vii/",
+     "error": "event fetch 404"
+    },
+    {
+     "url": "https://www.matchroomboxing.com/events/taylor-vs-pili/",
+     "error": "event fetch 404"
+    }
+   ],
+   "discovered": 6
+  }
+ ]
+}
