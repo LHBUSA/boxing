@@ -46,11 +46,10 @@ source whose `fighter_attributes` lane is closed creates the **name and nothing 
      `boxing_record_event_candidate`, `boxing_event_priority`, `boxing_pro_coverage_health`, `boxing_lane_rights_state`,
      the `boxing_bouts_lane_gate` trigger, and `boxing_identity_evidence`, `boxing_identity_name_quality`;
    * **the data half** — `promoter_pbc` and `promoter_matchroom` `enabled` + `approved_ingest` + `approved`, all seven
-     schedule lanes `covered_by_rights_review`, no non-schedule lane escaped `not_permitted`, and `fighter_identity`
-     declared one way or the other, and the content lanes still closed.
+     schedule lanes `covered_by_rights_review`, and no content or non-schedule lane escaped `not_permitted`.
 
-   Both halves matter because a half-applied 0046 **fails open**: the runtime binds to the schema half while the lane
-   state reads `not_declared`, which the deny-list waves through. The collector refuses an apply on a half-applied
+   Both halves matter because a half-applied 0046 **fails open**: the runtime binds to the schema half while the content
+   lanes read `not_declared`, which the deny-list waves through. The collector refuses an apply on a half-applied
    database; a dry run is allowed to proceed and reports what it found. If any of this is false the run **STOPS**. The
    fix is the migration or the rights review — never a flag on the collector.
 4. **Dry-run the collector** (`scripts/staging/promoter-collect.ps1`, no `-Apply`): fetch, parse, plan, write nothing.
