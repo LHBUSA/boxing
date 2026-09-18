@@ -10,8 +10,14 @@
 #   service-role key still works. Keys are fetched at run time and never
 #   printed or stored.
 #
-# The expected table list is derived from a LOCAL apply of the same
-# migrations (BOXING_TEST_DATABASE_URL), so staging must match the repo.
+# The expected table list is derived from a LOCAL replay of exactly the
+# migration versions recorded in STAGING's own ledger
+# (supabase_migrations.schema_migrations), so the verifier answers "does
+# staging match the chain it has applied?", not "does staging already match
+# every migration committed to the repo?". A migration that is committed but
+# deliberately not yet applied is a pending rollout, reported separately, and
+# never counted as drift. Migration-ledger drift itself fails the run before a
+# single check is evaluated.
 
 $ErrorActionPreference = 'Stop'
 $root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
@@ -21,9 +27,30 @@ $ref = $cfg.project_ref
 $project = Assert-BoxingStagingProject -Ref $ref
 Write-Host "target: $($project.name) ($ref)"
 
-$expected = node (Join-Path $PSScriptRoot 'expected-tables.mjs')
-$tables = $expected | ConvertFrom-Json
-if ($tables.Count -lt 40) { throw "could not derive expected table list from a local apply" }
+# ---- migration ledger: what this database has actually applied
+$ledgerRows = @(Invoke-BoxingStagingSql -Ref $ref -Sql 'select version, name from supabase_migrations.schema_migrations order by version')
+$applied = @($ledgerRows | ForEach-Object { $_.version })
+if (-not $applied.Count) { throw 'migration ledger drift: staging records no applied migration, so there is nothing to verify against' }
+$repoFiles = @(Get-ChildItem (Join-Path $root 'supabase/migrations') -Filter '*.sql' |
+  Where-Object { $_.Name -match '^\d{14}_[a-z0-9_]+\.sql$' } | Sort-Object Name)
+$repoVersions = @($repoFiles | ForEach-Object { $_.Name.Substring(0, 14) })
+$pending = @($repoVersions | Where-Object { $applied -notcontains $_ })
+# a version recorded under a different name than the repo file is a swapped or renamed migration
+foreach ($row in $ledgerRows) {
+  $file = $repoFiles | Where-Object { $_.Name.Substring(0, 14) -eq $row.version } | Select-Object -First 1
+  if ($file -and $row.name -and $file.BaseName.Substring(15) -ne $row.name) {
+    throw "migration ledger drift: version $($row.version) is recorded as '$($row.name)' but the repo has '$($file.BaseName.Substring(15))'"
+  }
+}
+
+# ---- expected schema: replay EXACTLY that applied set on a disposable local database
+$expectedJson = & node (Join-Path $PSScriptRoot 'expected-tables.mjs') "--versions=$($applied -join ',')"
+if ($LASTEXITCODE -ne 0) { throw "expected-schema replay failed (exit $LASTEXITCODE): see the message above" }
+$expected = $expectedJson | ConvertFrom-Json
+$tables = @($expected.tables)
+if ($tables.Count -lt 40) { throw 'could not derive expected table list from the local replay' }
+Write-Host ("repo_head: {0}  staging_applied_through: {1}  pending: [{2}]" -f $expected.head, ($applied | Select-Object -Last 1), ($pending -join ', '))
+Write-Host ("expected schema replayed from {0} applied migration(s): {1} boxing_* tables" -f $applied.Count, $tables.Count)
 $arrayLiteral = "array[" + (($tables | ForEach-Object { "'$_'" }) -join ',') + "]::text[]"
 $sql = (Get-Content (Join-Path $PSScriptRoot 'verify.sql') -Raw -Encoding UTF8).Replace(':expected_tables', $arrayLiteral)
 $sqlResults = (Invoke-BoxingStagingSql -Ref $ref -Sql $sql).results
