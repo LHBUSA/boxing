@@ -42,8 +42,8 @@ function Side({ d, c, side, ctx }: { d: BoutDetail; c: CornerDetail | undefined;
   const won = d.bout.result?.winner_side === side;
   return (
     <div className={`faceoff__side faceoff__side--${side}`}>
-      <div style={{ width: "100%", display: "grid", justifyItems: side === "a" ? "start" : "end" }}>
-        <FighterArt name={corner.name} id={corner.public_id} corner={corner.corner ?? (side === "a" ? "red" : "blue")} portrait={corner.portrait} side={side} href={fighterPath(corner)} />
+      <div className={`faceoff__art faceoff__art--${side}`}>
+        <FighterArt name={corner.name} id={corner.public_id} corner={corner.corner ?? (side === "a" ? "red" : "blue")} portrait={corner.portrait} side={side} href={fighterPath(corner)} variant="hero" priority />
       </div>
       <div>
         <div className="faceoff__sub">

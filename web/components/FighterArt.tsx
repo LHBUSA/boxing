@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Portrait } from "@/lib/types";
+import { portraitAsset, type ArtVariant } from "@/lib/media";
 
 // Fighter imagery, rights-aware.
 //  - A licensed portrait (recorded license, author, source) renders as a photo
@@ -90,21 +91,29 @@ export function Silhouette({ id, corner, mirror = false }: { id: string; corner:
   );
 }
 
-export function FighterArt({ name, id, corner = null, portrait = null, side = "a", variant = "card", className = "", credit = true, href }: {
-  name: string; id: string; corner?: "red" | "blue" | null; portrait?: Portrait | null; side?: "a" | "b"; variant?: "card" | "thumb"; className?: string; credit?: boolean; href?: string;
+export function FighterArt({ name, id, corner = null, portrait = null, side = "a", variant = "card", className = "", credit = true, href, priority = false }: {
+  name: string; id: string; corner?: "red" | "blue" | null; portrait?: Portrait | null; side?: "a" | "b"; variant?: ArtVariant; className?: string; credit?: boolean; href?: string; priority?: boolean;
 }) {
   const tone = corner ?? (side === "a" ? "red" : "blue");
-  const cls = `fart fart--${tone}${variant === "thumb" ? " fart--thumb" : ""} ${className}`;
-  if (portrait && variant !== "thumb") {
+  const shape = variant === "thumb" ? " fart--thumb" : variant === "avatar" ? " fart--avatar" : variant === "square" ? " fart--square"
+    : variant === "wide" ? " fart--wide" : variant === "hero" ? " fart--hero" : "";
+  const cls = `fart fart--${tone}${shape} ${className}`;
+  // an approved portrait renders in every shape, using the crop made for that shape (lib/media.ts)
+  const asset = portraitAsset(portrait, variant);
+  if (asset) {
     // eslint-disable-next-line @next/next/no-img-element
-    const img = <img src={portrait.src} alt={name} width={portrait.width ?? 800} height={portrait.height ?? 1000} loading="lazy" decoding="async"
-      style={portrait.focus ? { objectPosition: portrait.focus } : undefined} />;
+    const img = <img src={asset.src} srcSet={asset.srcSet} sizes={asset.sizes} alt={name} width={asset.width} height={asset.height}
+      loading={priority ? "eager" : "lazy"} fetchPriority={priority ? "high" : undefined} decoding="async"
+      style={asset.focus ? { objectPosition: asset.focus } : undefined} />;
+    // a credit line cannot live inside a card that is itself a link (invalid HTML, broke hydration), so small shapes
+    // carry their credit through the card's own PhotoCredits line instead
+    const showCredit = credit && variant !== "thumb" && variant !== "avatar";
     return (
       <figure className={cls} style={{ margin: 0 }}>
         {href ? <Link href={href} className="fart__hit">{img}</Link> : img}
-        {credit ? (
+        {showCredit ? (
           <figcaption className="fart__credit">
-            Photo: {portrait.credit} · <a href={portrait.license_url ?? portrait.source_url} target="_blank" rel="noopener noreferrer">{portrait.license}</a>
+            Photo: {asset.credit} · <a href={asset.license_url ?? asset.source_url} target="_blank" rel="noopener noreferrer">{asset.license}</a>
           </figcaption>
         ) : null}
       </figure>

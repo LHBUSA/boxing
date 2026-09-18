@@ -92,9 +92,11 @@ export const surname = (name: string) => {
 
 /* ------------------------------------------------------------------ poster (hero) */
 
-export function PosterCard({ bout, event, recA, recB, eyebrow, badge, actions, foot }: {
+export function PosterCard({ bout, event, recA, recB, eyebrow, badge, actions, foot, priority = false }: {
   bout: BoutCompact; event: { public_id: string; name: string; date: string } & Partial<EventSummary>;
   recA?: RecordSummary | null; recB?: RecordSummary | null; eyebrow: string; badge?: ReactNode; actions?: ReactNode; foot?: ReactNode;
+  /** the one poster above the fold on a page loads eagerly; everything else stays lazy */
+  priority?: boolean;
 }) {
   const a = bout.a;
   const b = bout.b;
@@ -104,8 +106,8 @@ export function PosterCard({ bout, event, recA, recB, eyebrow, badge, actions, f
     <article className="poster">
       <div className="poster__top"><span className="eyebrow">{eyebrow}</span>{badge}</div>
       <Link href={boutPath(bout)} className="poster__stage" aria-label={`${a?.name} vs ${b?.name}`}>
-        <FighterArt name={a?.name ?? "Corner A"} id={a?.public_id ?? "a"} corner={a?.corner ?? "red"} portrait={a?.portrait} side="a" credit={false} />
-        <FighterArt name={b?.name ?? "Corner B"} id={b?.public_id ?? "b"} corner={b?.corner ?? "blue"} portrait={b?.portrait} side="b" credit={false} />
+        <FighterArt name={a?.name ?? "Corner A"} id={a?.public_id ?? "a"} corner={a?.corner ?? "red"} portrait={a?.portrait} side="a" credit={false} variant="hero" priority={priority} />
+        <FighterArt name={b?.name ?? "Corner B"} id={b?.public_id ?? "b"} corner={b?.corner ?? "blue"} portrait={b?.portrait} side="b" credit={false} variant="hero" priority={priority} />
         <span className="poster__vs">vs</span>
         <span className="poster__names">
           <span>
@@ -144,8 +146,8 @@ export function MatchupCard({ bout, event }: { bout: BoutCompact; event?: { publ
     <Link href={boutPath(bout)} className="mcard">
       {a?.portrait || b?.portrait ? (
         <div className="mcard__art">
-          <FighterArt name={a?.name ?? "A"} id={a?.public_id ?? "a"} corner={a?.corner ?? "red"} portrait={a?.portrait} side="a" credit={false} />
-          <FighterArt name={b?.name ?? "B"} id={b?.public_id ?? "b"} corner={b?.corner ?? "blue"} portrait={b?.portrait} side="b" credit={false} />
+          <FighterArt name={a?.name ?? "A"} id={a?.public_id ?? "a"} corner={a?.corner ?? "red"} portrait={a?.portrait} side="a" credit={false} variant="square" />
+          <FighterArt name={b?.name ?? "B"} id={b?.public_id ?? "b"} corner={b?.corner ?? "blue"} portrait={b?.portrait} side="b" credit={false} variant="square" />
           <span className="mcard__vs">vs</span>
         </div>
       ) : (

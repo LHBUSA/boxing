@@ -248,7 +248,8 @@ export interface FightersPage {
   total: number;
   limit: number;
   offset: number;
-  rows: { public_id: string; name: string; record: { bouts: number; wins: number; losses: number; draws: number; no_contests: number }; upcoming: number; last_date: IsoDate | null; division: { class_key: string; class_name: string } | null; commissions: string[] }[];
+  // boxing_site_fighters returns an approved portrait per row (migration 0023); the directory renders it
+  rows: { public_id: string; name: string; record: { bouts: number; wins: number; losses: number; draws: number; no_contests: number }; upcoming: number; last_date: IsoDate | null; division: { class_key: string; class_name: string } | null; commissions: string[]; portrait: Portrait | null }[];
 }
 
 export interface SanctioningBody {

@@ -42,11 +42,11 @@ export default async function FightersPage({ searchParams }: { searchParams: Pro
           <div className="tier"><h3>Most verified bouts</h3></div>
           <div className="mgrid mgrid--3">
             {top.map((f) => (
-              <Link key={f.public_id} href={fighterPath(f)} className="mcard" style={{ gridTemplateColumns: "120px minmax(0,1fr)" }}>
-                <FighterArt name={f.name} id={f.public_id} corner={null} side="a" />
-                <div className="mcard__body" style={{ alignContent: "center" }}>
+              <Link key={f.public_id} href={fighterPath(f)} className="mcard mcard--roster">
+                <FighterArt name={f.name} id={f.public_id} portrait={f.portrait} corner={null} side="a" variant="square" credit={false} />
+                <div className="mcard__body">
                   <span className="mcard__n">{f.name}</span>
-                  <span className="mono" style={{ fontSize: 22, fontWeight: 700, color: "var(--paper)" }}>{fmtRecord(f.record)}</span>
+                  <span className="roster__rec mono">{fmtRecord(f.record)}</span>
                   <span className="mcard__meta"><span>{plural(f.record.bouts, "verified bout")}</span><span>{f.division?.class_name ?? ""}</span></span>
                 </div>
               </Link>
@@ -57,13 +57,30 @@ export default async function FightersPage({ searchParams }: { searchParams: Pro
       {rest.length ? (
         <>
           <div className="tier"><h3>{q ? "Results" : "All boxers"}</h3></div>
-          <div className="tbl-wrap">
+          {/* phones get fighter rows; the six-column table would have to scroll sideways to be read */}
+          <div className="roster-list only-narrow">
+            {rest.map((f) => (
+              <Link key={f.public_id} href={fighterPath(f)} className="rrow">
+                <span className="namecell__art"><FighterArt name={f.name} id={f.public_id} portrait={f.portrait} variant="thumb" corner={null} credit={false} /></span>
+                <span>
+                  <span className="rrow__n">{f.name}</span>
+                  <span className="rrow__m">
+                    <span>{plural(f.record.bouts, "bout")}</span>
+                    {f.division?.class_name ? <span>{f.division.class_name}</span> : null}
+                    {f.last_date ? <span>{fmtDate(f.last_date)}</span> : null}
+                  </span>
+                </span>
+                <span className="rrow__r">{fmtRecord(f.record)}</span>
+              </Link>
+            ))}
+          </div>
+          <div className="tbl-wrap only-wide">
             <table className="tbl">
               <thead><tr><th>Boxer</th><th>Verified record</th><th className="r">Bouts</th><th>Last bout</th><th>Division</th><th>Commissions</th></tr></thead>
               <tbody>
                 {rest.map((f) => (
                   <tr key={f.public_id}>
-                    <td><Link href={fighterPath(f)} style={{ display: "flex", alignItems: "center", gap: 10, color: "var(--paper)", fontWeight: 600 }}><span style={{ width: 34, flexShrink: 0 }}><FighterArt name={f.name} id={f.public_id} variant="thumb" corner={null} /></span>{f.name}</Link></td>
+                    <td><Link href={fighterPath(f)} className="namecell"><span className="namecell__art"><FighterArt name={f.name} id={f.public_id} portrait={f.portrait} variant="thumb" corner={null} credit={false} /></span>{f.name}</Link></td>
                     <td className="mono">{fmtRecord(f.record)}</td>
                     <td className="r mono">{f.record.bouts}</td>
                     <td className="mono dim">{f.last_date ? fmtDate(f.last_date) : "—"}</td>

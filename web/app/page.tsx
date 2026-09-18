@@ -95,6 +95,7 @@ export default async function Home() {
           </div>
           {hero?.e.headline ? (
             <PosterCard
+              priority
               bout={heroDetail?.ok ? heroDetail.data.bout : hero.e.headline}
               event={hero.e}
               recA={heroDetail?.ok ? heroDetail.data.corners.a?.record_all : null}

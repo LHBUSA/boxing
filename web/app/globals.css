@@ -164,6 +164,33 @@ main { flex: 1; position: relative; z-index: 1; }
 .fart__credit a { text-decoration: underline; text-underline-offset: 2px; }
 .fart--thumb { aspect-ratio: 1; border-radius: 10px; }
 .fart--thumb::after { background: none; }
+/* Shapes. Each renders the crop built for it (lib/media.ts), so an approved portrait is never stretched into another
+   aspect and a 40px row does not download a 768px card. */
+.fart--avatar { aspect-ratio: 1; border-radius: 999px; }
+.fart--avatar::after { background: none; }
+.fart--square { aspect-ratio: 1; border-radius: var(--r-2); }
+.fart--wide { aspect-ratio: 16 / 9; }
+.fart--hero { aspect-ratio: 4 / 5; border-radius: var(--r-3); }
+/* a focus-cropped derivative is already centred; only the stored original still needs its curated focus point */
+.fart--hero > img, .fart--hero .fart__hit > img, .fart--square > img, .fart--avatar > img, .fart--thumb > img, .fart--wide > img { object-position: 50% 50%; }
+
+/* ---------------------------------------------------------------- Roster (fighter cards + phone rows) */
+.mcard--roster { grid-template-columns: 96px minmax(0, 1fr); align-items: center; }
+.mcard--roster .mcard__body { align-content: center; }
+.roster__rec { font-size: 22px; font-weight: 700; color: var(--paper); }
+.namecell { display: flex; align-items: center; gap: 10px; color: var(--paper); font-weight: 600; }
+.namecell__art { width: 34px; flex-shrink: 0; }
+.roster-list { display: grid; gap: 8px; }
+.rrow { display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 10px 12px; border: 1px solid var(--line); border-radius: var(--r-2); background: var(--ink-2); }
+.rrow__n { display: block; color: var(--paper); font-weight: 600; overflow-wrap: anywhere; }
+.rrow__m { display: flex; gap: 10px; flex-wrap: wrap; font: 500 12px/1.4 var(--f-data); color: var(--faint); margin-top: 3px; }
+.rrow__r { font: 700 15px/1 var(--f-data); color: var(--paper); text-align: right; white-space: nowrap; }
+.faceoff__art { width: 100%; display: grid; }
+.faceoff__art--a { justify-items: start; }
+.faceoff__art--b { justify-items: end; }
+.only-narrow { display: block; }
+.only-wide { display: none; }
+@media (min-width: 768px) { .only-narrow { display: none; } .only-wide { display: block; } }
 
 /* ---------------------------------------------------------------- Poster (two-fighter hero card) */
 .poster { position: relative; border-radius: var(--r-4); overflow: hidden; border: 1px solid rgba(212, 175, 55, 0.28); background: linear-gradient(180deg, #1b1611, #0d0a08); box-shadow: var(--sh-3); }

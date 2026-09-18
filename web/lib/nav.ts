@@ -44,5 +44,6 @@ export const SITE = {
   name: "PropBetEdge Boxing",
   description: "Boxing fight intelligence: every card on official record, fighter dossiers, judges' scorecards, officials, Fight DNA, titles, Hall of Fame and markets.",
   url: BASE_URL,
-  mark: "https://propbetedge.ai/logo/pbe-mark-160.png",
+  // stored locally like every other asset: no page depends on another origin to draw its own brand
+  mark: "/brand/pbe-mark-160.png",
 };
