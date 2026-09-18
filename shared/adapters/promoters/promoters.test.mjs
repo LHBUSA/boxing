@@ -14,6 +14,7 @@ import { parsePbcSchedule, parsePbcEvent, parsePbcStart, parsePbcLocation } from
 import { parseMatchroomEvents, parseMatchroomEvent, parseMatchroomDate, parseMatchroomLocation } from './matchroom.mjs';
 import { parseTitleLine, roundsFromText, divisionFromText } from './titles.mjs';
 import { resolveAnnouncedStart, wallClockToUtc, parseVisibleStarts, ianaZone } from './time.mjs';
+import { isPlaceholderName } from './names.mjs';
 import { cardFingerprint, cardDelta } from '../../promoters/collect.mjs';
 
 const dir = join(dirname(fileURLToPath(import.meta.url)), '../../../tests/fixtures/promoters');
@@ -211,6 +212,49 @@ test('Matchroom event: the whole announced card, with the unannounced opponent r
   assert.equal(o.bouts.length, 8, 'eight announced pairings; the TBD slot is not one');
   assert.ok(problems.some((p) => /opponent not announced/i.test(p)));
   assert.ok(!o.bouts.some((b) => /tbd/i.test(b.fighter_b.name)));
+});
+
+test('an announced slot is never a fighter, however the promoter spells it', () => {
+  // Matchroom writes "TBC", PBC writes "TBD", others spell it out. All of them mean the opponent is not signed.
+  for (const p of ['TBD', 'TBA', 'TBC', 'tbc', 'T.B.C.', 'To Be Announced', 'To Be Confirmed', 'To Be Determined',
+    'Opponent TBC', 'Opponent TBD', 'Opponent TBA', 'opponent to be confirmed', 'TBC Opponent', 'Opponent', '  ', '']) {
+    assert.equal(isPlaceholderName(p), true, `${JSON.stringify(p)} is an announced slot, not a fighter`);
+  }
+  // a name is a name, even when those letters appear inside it
+  for (const n of ['Harley Burrows', 'Tbarek Ali', 'Atba Mensah', 'Tba Ndiaye', 'Tomoki Kameda', "Cory O'Regan", 'Jean-Pierre Tbc']) {
+    assert.equal(isPlaceholderName(n), false, `${n} is a real name`);
+  }
+});
+
+test('every placeholder spelling is refused by both adapters, and creates no fighter', () => {
+  const variants = ['TBD', 'TBA', 'TBC', 'To Be Announced', 'To Be Confirmed', 'To Be Determined', 'Opponent TBC'];
+
+  for (const v of variants) {
+    // PBC: the last bout's opponent is replaced with the placeholder
+    const { observation: o, problems } = parsePbcEvent(fixture('pbc-event.html').replaceAll('Guillermo Hernandez', v),
+      { url: 'https://www.premierboxingchampions.com/isaac-cruz-vs-nestor-bravo', capturedAt: NOW });
+    assert.equal(o.bouts.length, 3, `PBC "${v}": the incomplete slot is not a bout`);
+    assert.ok(!o.bouts.some((b) => [b.fighter_a.name, b.fighter_b.name].some((n) => isPlaceholderName(n))), `PBC "${v}": no placeholder fighter`);
+    assert.ok(problems.some((p) => /opponent not announced/.test(p)), `PBC "${v}": the refusal is recorded`);
+    assert.ok(o.bouts.some((b) => b.fighter_a.name === 'Isaac Cruz'), `PBC "${v}": the rest of the card stands`);
+
+    // Matchroom: the fixture's own unsigned slot, spelled every way the promoters spell it
+    const tiles = parseMatchroomEvents(fixture('matchroom-events.html'));
+    const m = parseMatchroomEvent(fixture('matchroom-event.html').replace('>TBD<', `>${v}<`),
+      { url: 'https://www.matchroomboxing.com/events/hedges-vs-brown/', capturedAt: NOW, venueHint: tiles.find((t) => t.slug === 'hedges-vs-brown').venue });
+    assert.equal(m.observation.bouts.length, 8, `Matchroom "${v}": eight real pairings, and the slot is not one`);
+    assert.ok(!m.observation.bouts.some((b) => [b.fighter_a.name, b.fighter_b.name].some((n) => isPlaceholderName(n))), `Matchroom "${v}": no placeholder fighter`);
+    assert.ok(m.problems.some((p) => /opponent not announced/.test(p)), `Matchroom "${v}": the refusal is recorded`);
+    // the named corner of the incomplete slot is not smuggled in on its own either
+    assert.ok(!m.observation.bouts.some((b) => b.fighter_a.name === 'Alfie Middlemiss'), `Matchroom "${v}": the half-announced bout is dropped whole`);
+  }
+
+  // and a real name in that slot is a real bout: the rule refuses slots, not fighters
+  const tiles = parseMatchroomEvents(fixture('matchroom-events.html'));
+  const named = parseMatchroomEvent(fixture('matchroom-event.html').replace('>TBD<', '>Tbarek Ali<'),
+    { url: 'https://www.matchroomboxing.com/events/hedges-vs-brown/', capturedAt: NOW, venueHint: tiles.find((t) => t.slug === 'hedges-vs-brown').venue });
+  assert.equal(named.observation.bouts.length, 9);
+  assert.ok(named.observation.bouts.some((b) => b.fighter_b.name === 'Tbarek Ali'));
 });
 
 test('titles: a world lane resolves, a regional or national belt stays unresolved with its exact wording', () => {

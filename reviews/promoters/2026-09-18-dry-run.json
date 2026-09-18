@@ -1,6 +1,6 @@
 {
  "rule": "pbe_promoter_collect@1",
- "generated_at": "2026-09-18T15:56:00.238Z",
+ "generated_at": "2026-09-18T16:34:05.971Z",
  "dry_run": true,
  "sources": [
   {
@@ -755,11 +755,12 @@
      "published_start_line": null,
      "start_assertions": null,
      "source_time_conflict": null,
-     "announced_bouts": 6,
-     "fingerprint": "61516af042ec63eb31d13a4ab1c2d2fef5d1fa07aec26e59a0bdf805bae363f9",
+     "announced_bouts": 5,
+     "fingerprint": "af96e36f4b5a4468aa13981155f6e19e23d92da356da2493054d42c6749788c6",
      "parser_problems": [
       "bout 5: a corner is not named",
-      "bout 7: a corner is not named"
+      "bout 7: a corner is not named",
+      "bout 8: opponent not announced (TBC)"
      ],
      "plan": {
       "event": {
@@ -844,20 +845,6 @@
         "fighter_id": null,
         "reason": "no_candidates",
         "candidates": 0
-       },
-       {
-        "name": "Harley Burrows",
-        "outcome": "unresolved",
-        "fighter_id": null,
-        "reason": "no_candidates",
-        "candidates": 0
-       },
-       {
-        "name": "TBC",
-        "outcome": "unresolved",
-        "fighter_id": null,
-        "reason": "no_candidates",
-        "candidates": 0
        }
       ],
       "bouts": [
@@ -910,16 +897,6 @@
         "scheduled_rounds": null,
         "titles": [],
         "action": "would_insert"
-       },
-       {
-        "source_bout_id": "whittaker-vs-wallace|8|harley-burrows|tbc",
-        "order": 8,
-        "segment": "undercard",
-        "pairing": "Harley Burrows vs TBC",
-        "division": null,
-        "scheduled_rounds": null,
-        "titles": [],
-        "action": "would_insert"
        }
       ],
       "titles": {
@@ -946,9 +923,12 @@
      "published_start_line": null,
      "start_assertions": null,
      "source_time_conflict": null,
-     "announced_bouts": 7,
-     "fingerprint": "e20bf55023575c126ec4c2f9c1708162e6e76542ef42fdf95356b9a8df8ed875",
-     "parser_problems": [],
+     "announced_bouts": 5,
+     "fingerprint": "d68082bbc2931f0228228baa10028aace6b989a6564ac80b7a46c49510327889",
+     "parser_problems": [
+      "bout 3: opponent not announced (TBC)",
+      "bout 7: opponent not announced (TBC)"
+     ],
      "plan": {
       "event": {
        "action": "would_insert",
@@ -986,20 +966,6 @@
        },
        {
         "name": "Maxi Hughes",
-        "outcome": "unresolved",
-        "fighter_id": null,
-        "reason": "no_candidates",
-        "candidates": 0
-       },
-       {
-        "name": "Leo Atang",
-        "outcome": "unresolved",
-        "fighter_id": null,
-        "reason": "no_candidates",
-        "candidates": 0
-       },
-       {
-        "name": "TBC",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
@@ -1046,13 +1012,6 @@
         "fighter_id": null,
         "reason": "no_candidates",
         "candidates": 0
-       },
-       {
-        "name": "Connor Mitchell",
-        "outcome": "unresolved",
-        "fighter_id": null,
-        "reason": "no_candidates",
-        "candidates": 0
        }
       ],
       "bouts": [
@@ -1074,16 +1033,6 @@
         "segment": "undercard",
         "pairing": "Giorgio Visioli vs Maxi Hughes",
         "division": "lightweight",
-        "scheduled_rounds": null,
-        "titles": [],
-        "action": "would_insert"
-       },
-       {
-        "source_bout_id": "smith-vs-puello|3|leo-atang|tbc",
-        "order": 3,
-        "segment": "undercard",
-        "pairing": "Leo Atang vs TBC",
-        "division": null,
         "scheduled_rounds": null,
         "titles": [],
         "action": "would_insert"
@@ -1113,16 +1062,6 @@
         "order": 6,
         "segment": "undercard",
         "pairing": "Joe Hayden vs Will Harrison",
-        "division": null,
-        "scheduled_rounds": null,
-        "titles": [],
-        "action": "would_insert"
-       },
-       {
-        "source_bout_id": "smith-vs-puello|7|connor-mitchell|tbc",
-        "order": 7,
-        "segment": "undercard",
-        "pairing": "Connor Mitchell vs TBC",
         "division": null,
         "scheduled_rounds": null,
         "titles": [],

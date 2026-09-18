@@ -15,6 +15,7 @@
 
 import { parseTitleLine, roundsFromText, divisionFromText } from './titles.mjs';
 import { resolveAnnouncedStart } from './time.mjs';
+import { isPlaceholderName, placeholderRefusal } from './names.mjs';
 
 export const PBC = Object.freeze({
   sourceKey: 'promoter_pbc',
@@ -119,8 +120,8 @@ export function parsePbcEvent(html, { url, capturedAt, visibleStartHint = null }
     if (!pair) { problems.push(`bout ${order}: pairing not stated as "A vs B"`); continue; }
     const nameA = pair[1].trim();
     const nameB = pair[2].trim();
-    if (/^(tbd|tba|to be announced)$/i.test(nameA) || /^(tbd|tba|to be announced)$/i.test(nameB)) {
-      problems.push(`bout ${order}: opponent not announced`);
+    if (isPlaceholderName(nameA) || isPlaceholderName(nameB)) {
+      problems.push(placeholderRefusal(order, nameA, nameB));
       continue;
     }
     // the single description line the card prints for this bout: read for distance, division and title only

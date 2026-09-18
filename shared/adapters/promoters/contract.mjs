@@ -22,6 +22,7 @@
 //     in the same venue city with one candidate; commission event facts win
 
 import { assertMinimized } from '../commissions/minimize.mjs';
+import { isPlaceholderName } from './names.mjs';
 
 export const UPCOMING_EVENT_STATUSES = Object.freeze(['announced', 'scheduled', 'postponed', 'cancelled', 'complete']);
 export const UPCOMING_BOUT_STATUSES = Object.freeze(['announced', 'scheduled', 'replaced', 'cancelled', 'postponed', 'complete']);
@@ -34,7 +35,9 @@ export function validateUpcomingCard(obs) {
   if (obs?.source_url && !/^https:\/\//.test(obs.source_url)) problems.push('source_url must be https');
   for (const [i, b] of (obs?.bouts ?? []).entries()) {
     if (!b.source_bout_id) problems.push(`bout ${i}: missing source_bout_id`);
+    // an announced slot is not a name: an adapter must drop the bout, never pass "TBC" down as a fighter
     if (!b.fighter_a?.name || !b.fighter_b?.name) problems.push(`bout ${i}: both fighters must be named explicitly`);
+    else if (isPlaceholderName(b.fighter_a.name) || isPlaceholderName(b.fighter_b.name)) problems.push(`bout ${i}: an unannounced opponent is not a fighter`);
     if (b.status && !UPCOMING_BOUT_STATUSES.includes(b.status)) problems.push(`bout ${i}: status ${b.status} not allowed`);
     for (const t of b.titles ?? []) if (!t.organization_slug || !t.tier || !t.source_native_label) problems.push(`bout ${i}: a title needs organization, tier and the source's own label`);
   }

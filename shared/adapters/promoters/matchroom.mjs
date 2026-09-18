@@ -12,9 +12,10 @@
 //                             with span.first-name + span.last-name, p.championship (title line)
 //                             section.undercard         div.fight * N, each with div.boxer-1 / div.boxer-2 and an
 //                             .additional-information title line when the bout carries one
-// A pairing is only a bout when BOTH sides are named: "TBD" is an announced slot, not a fight.
+// A pairing is only a bout when BOTH sides are named: "TBC" is an announced slot, not a fight.
 
 import { parseTitleLine } from './titles.mjs';
+import { isPlaceholderName, placeholderRefusal } from './names.mjs';
 
 export const MATCHROOM = Object.freeze({
   sourceKey: 'promoter_matchroom',
@@ -28,7 +29,6 @@ export const MATCHROOM = Object.freeze({
 const MONTHS = { january: 1, february: 2, march: 3, april: 4, may: 5, june: 6, july: 7, august: 8, september: 9, october: 10, november: 11, december: 12 };
 const strip = (html) => html.replace(/<script[\s\S]*?<\/script>/gi, '').replace(/<style[\s\S]*?<\/style>/gi, '').replace(/<svg[\s\S]*?<\/svg>/gi, '');
 const text = (s) => s.replace(/<[^>]+>/g, " ").replace(/&amp;/g, "&").replace(/&#0?39;|&apos;|&rsquo;/g, "'").replace(/&nbsp;/g, " ").replace(/&[a-z]+;/g, " ").replace(/\s+/g, " ").trim();
-const TBA = /^(tbd|tba|to be (announced|confirmed))$/i;
 
 // "Shabaz Masoud W 15 KO 4 L 0 D 0" -> "Shabaz Masoud" (the printed record is not ours to take)
 function boxerName(block) {
@@ -104,7 +104,7 @@ export function parseMatchroomEvent(html, { url, capturedAt, venueHint = null })
     const nameA = boxerName(a);
     const nameB = boxerName(b);
     if (!nameA || !nameB) { problems.push(`bout ${order}: a corner is not named`); return; }
-    if (TBA.test(nameA) || TBA.test(nameB)) { problems.push(`bout ${order}: opponent not announced (${TBA.test(nameA) ? nameA : nameB})`); return; }
+    if (isPlaceholderName(nameA) || isPlaceholderName(nameB)) { problems.push(placeholderRefusal(order, nameA, nameB)); return; }
     const parsed = parseTitleLine(titleLine);
     if (titleLine && !parsed.titles.length && !parsed.unresolved.length) problems.push(`bout ${order}: title line not understood: ${titleLine}`);
     bouts.push({
