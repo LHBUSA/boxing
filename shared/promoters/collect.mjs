@@ -147,6 +147,10 @@ export async function collectPromoterCards(store, {
         probable_broadcaster: c.probable_broadcaster, headline: c.headline, source_url: c.url, confidence: c.confidence,
       };
       out.candidates.push(candidate);
+      // a candidate says "we may be missing this card"; it never becomes a fight
+      if (!dryRun && store.recordEventCandidate) {
+        candidate.recorded = await store.recordEventCandidate(candidate).catch((err) => ({ error: err.message }));
+      }
       await sleepImpl(adapter.minIntervalMs);
       const evRes = await fetchImpl(c.url, { headers: { 'user-agent': UA } });
       if (!evRes.ok) { out.events.push({ url: c.url, error: `event fetch ${evRes.status}` }); continue; }

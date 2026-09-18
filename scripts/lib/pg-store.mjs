@@ -104,6 +104,8 @@ export function pgStore(client) {
     async truthIndex(limit = 60) { return (await one(client, 'select public.boxing_truth_index($1) as r', [limit])).r; },
     async truthEvent(ref) { return (await one(client, 'select public.boxing_truth_event($1) as r', [ref])).r; },
     async truthBout(ref) { return (await one(client, 'select public.boxing_truth_bout($1) as r', [ref])).r; },
+    async recordEventCandidate(p) { return (await one(client, 'select public.boxing_record_event_candidate($1) as r', [p])).r; },
+    async proCoverageHealth(days = 14) { return (await one(client, 'select public.boxing_pro_coverage_health($1) as r', [days])).r; },
     async archiveIndex() { return (await one(client, 'select public.boxing_archive_index() as r')).r; },
     async archiveCard(ref) { return (await one(client, 'select public.boxing_archive_card($1) as r', [ref])).r; },
     async archiveDivision(classKey, gender = 'male', from = null, to = null) {
