@@ -112,6 +112,26 @@ export async function expectPgError(fn, { code, match } = {}) {
   return err;
 }
 
+// Move one (source, lane) to a rights scope. Capability rows are append-only and a row stays current until another
+// SUPERSEDES it, so the change has to point at the row it replaces — inserting without supersedes_id would leave two
+// current rows for the lane and the gate would have nothing definite to read. Passing rightsScope = null withdraws the
+// declaration entirely by superseding it with 'not_applicable'.
+export async function setSourceLane(client, sourceKey, lane, rightsScope) {
+  const { rows: [src] } = await client.query('select id from public.boxing_sources where source_key = $1', [sourceKey]);
+  if (!src) throw new Error(`no such source: ${sourceKey}`);
+  const { rows: [prior] } = await client.query(
+    'select id from public.boxing_source_capabilities_current where source_id = $1 and lane = $2', [src.id, lane]);
+  await client.query(
+    `insert into public.boxing_source_capabilities (source_id, lane, availability, rights_scope, coverage_basis,
+       acquisition_method, cadence, completeness, confidence, notes, evidence, recorded_by, supersedes_id)
+     values ($1, $2, $3, $4, 'source_index_documented', 'html', 'daily', 'partial', 'high', 'test fixture', '{}'::jsonb, 'test', $5)`,
+    // the table's own check ties these together: only a not_permitted scope may claim not_permitted availability
+    [src.id, lane,
+      rightsScope === 'covered_by_rights_review' ? 'provided' : rightsScope === 'not_permitted' ? 'not_permitted' : 'unresolved',
+      rightsScope ?? 'not_applicable', prior?.id ?? null]);
+  return src.id;
+}
+
 // Runs fn as `role` inside a transaction that is always rolled back.
 export async function asRole(client, role, fn) {
   await client.query('begin');

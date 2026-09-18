@@ -65,6 +65,20 @@ foreach ($key in $expected) {
   if ([int]$row.schedule_lanes -lt 3) { $failures += "$key : only $($row.schedule_lanes)/3 schedule lanes covered by the rights review" }
   if ([int]$row.leaked_lanes -gt 0) { $failures += "$key : $($row.leaked_lanes) non-schedule lane(s) are not marked not_permitted" }
 }
+# The single authority on whether BOTH halves of 0046 are present. A half-applied database fails open: the code binds to
+# the schema half while the lane state reads 'not_declared', which the 0045 deny-list waves through. 0047 adds this
+# function; if it is missing, 0047 is not applied and we stop for that reason alone.
+$readyRows = Invoke-BoxingStagingSql -Ref $ref -Sql "select public.boxing_promoter_lane_ready(array[$wanted])::text as r"
+$ready = $readyRows[0].r | ConvertFrom-Json
+Write-Host ("lane readiness: schema half {0}, data half {1}" -f `
+  $(if ($ready.schema_half_complete) { 'present' } else { 'INCOMPLETE' }),
+  $(if ($ready.data_half_complete) { 'present' } else { 'INCOMPLETE' }))
+foreach ($p in $ready.schema_half.PSObject.Properties) { if (-not $p.Value) { $failures += "schema half: $($p.Name) missing" } }
+foreach ($p in $ready.data_half.PSObject.Properties) {
+  Write-Host ("  {0}: fighter_identity={1} may_create_fighters={2}" -f $p.Name, $p.Value.fighter_identity, $p.Value.may_create_fighters)
+}
+if (-not $ready.ready) { $failures += 'boxing_promoter_lane_ready() reports the promoter lane is NOT ready' }
+
 if ($failures.Count) {
   Write-Host ''
   Write-Host 'STOP: the promoter source registry is not in the expected state. Do not force the collector past it.' -ForegroundColor Red

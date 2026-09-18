@@ -1,10 +1,11 @@
 {
  "rule": "pbe_promoter_collect@1",
- "generated_at": "2026-09-18T17:13:07.820Z",
+ "generated_at": "2026-09-18T19:20:58.074Z",
  "dry_run": true,
  "sources": [
   {
    "source_key": "promoter_pbc",
+   "may_create_fighters": false,
    "lane": "schedule",
    "parser_version": "pbc-schedule@1.0.0",
    "list_url": "https://www.premierboxingchampions.com/schedule/",
@@ -86,10 +87,10 @@
       "chosen": "visible"
      },
      "announced_bouts": 4,
-     "fingerprint": "602aa8fcf1199672dea772ef2ba6256bf464aa1971af78f0df2cd3b6c26ccf1d",
+     "fingerprint": "98e54b29d5c89713b0319cb1210520d159852cc51c46a83f49dfa991b06c8e00",
      "parser_problems": [
       "start time: the structured timestamp disagrees with the printed times; ET and PT independently resolve to the same instant, so the printed times were used",
-      "bout 3: distance announced ambiguously (\"eight or 10-round\")"
+      "bout 2: distance announced ambiguously (\"eight or 10-round\")"
      ],
      "plan": {
       "event": {
@@ -110,56 +111,64 @@
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Nestor Bravo",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
-       },
-       {
-        "name": "Jesus Ramos",
-        "outcome": "unresolved",
-        "fighter_id": null,
-        "reason": "no_candidates",
-        "candidates": 0
-       },
-       {
-        "name": "Meiirim Nursultanov",
-        "outcome": "unresolved",
-        "fighter_id": null,
-        "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Daniel Blancas",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Sergio Jimenez",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Marco Verde",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Guillermo Hernandez",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
+       },
+       {
+        "name": "Eumir Marcial",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0,
+        "identity_lane": "refused"
+       },
+       {
+        "name": "Omar Ulises Huerta",
+        "outcome": "unresolved",
+        "fighter_id": null,
+        "reason": "no_candidates",
+        "candidates": 0,
+        "identity_lane": "refused"
        }
       ],
       "bouts": [
@@ -176,21 +185,9 @@
         "action": "would_insert"
        },
        {
-        "source_bout_id": "fight-night-september-19-2026|2|jesus-ramos|meiirim-nursultanov",
+        "source_bout_id": "fight-night-september-19-2026|2|daniel-blancas|sergio-jimenez",
         "order": 2,
         "segment": "co_main",
-        "pairing": "Jesus Ramos vs Meiirim Nursultanov",
-        "division": "middleweight",
-        "scheduled_rounds": null,
-        "titles": [
-         "wbc:interim"
-        ],
-        "action": "would_insert"
-       },
-       {
-        "source_bout_id": "fight-night-september-19-2026|3|daniel-blancas|sergio-jimenez",
-        "order": 3,
-        "segment": "undercard",
         "pairing": "Daniel Blancas vs Sergio Jimenez",
         "division": "super_middleweight",
         "scheduled_rounds": null,
@@ -198,10 +195,20 @@
         "action": "would_insert"
        },
        {
-        "source_bout_id": "fight-night-september-19-2026|4|marco-verde|guillermo-hernandez",
-        "order": 4,
+        "source_bout_id": "fight-night-september-19-2026|3|marco-verde|guillermo-hernandez",
+        "order": 3,
         "segment": "undercard",
         "pairing": "Marco Verde vs Guillermo Hernandez",
+        "division": "middleweight",
+        "scheduled_rounds": 8,
+        "titles": [],
+        "action": "would_insert"
+       },
+       {
+        "source_bout_id": "fight-night-september-19-2026|4|eumir-marcial|omar-ulises-huerta",
+        "order": 4,
+        "segment": "undercard",
+        "pairing": "Eumir Marcial vs Omar Ulises Huerta",
         "division": "middleweight",
         "scheduled_rounds": 8,
         "titles": [],
@@ -209,7 +216,7 @@
        }
       ],
       "titles": {
-       "resolved": 2,
+       "resolved": 1,
        "unresolved": 0
       },
       "broadcaster": "DAZN",
@@ -288,42 +295,48 @@
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Ermal Hadribeaj",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Brandon Figueroa",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Tomoki Kameda",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Jermall Charlo",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Koen Mazoudier",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        }
       ],
       "bouts": [
@@ -375,6 +388,7 @@
   },
   {
    "source_key": "promoter_matchroom",
+   "may_create_fighters": false,
    "lane": "schedule",
    "parser_version": "matchroom-events@1.0.0",
    "list_url": "https://www.matchroomboxing.com/events/",
@@ -383,7 +397,7 @@
      "source_key": "promoter_matchroom",
      "external_key": "https://www.matchroomboxing.com/events/hedges-vs-brown/",
      "discovered_name": "Hedges vs Brown",
-     "probable_date": null,
+     "probable_date": "2026-09-19",
      "probable_city": "Manchester",
      "probable_country": "GB",
      "probable_promoter": "Matchroom Boxing",
@@ -396,7 +410,7 @@
      "source_key": "promoter_matchroom",
      "external_key": "https://www.matchroomboxing.com/events/jones-vs-sanchez/",
      "discovered_name": "Jones vs Sanchez",
-     "probable_date": null,
+     "probable_date": "2026-10-02",
      "probable_city": null,
      "probable_country": "US",
      "probable_promoter": "Matchroom Boxing",
@@ -409,7 +423,7 @@
      "source_key": "promoter_matchroom",
      "external_key": "https://www.matchroomboxing.com/events/whittaker-vs-wallace/",
      "discovered_name": "Whittaker vs Wallace",
-     "probable_date": null,
+     "probable_date": "2026-10-03",
      "probable_city": "Birmingham",
      "probable_country": "GB",
      "probable_promoter": "Matchroom Boxing",
@@ -422,7 +436,7 @@
      "source_key": "promoter_matchroom",
      "external_key": "https://www.matchroomboxing.com/events/smith-vs-puello/",
      "discovered_name": "Smith vs Puello",
-     "probable_date": null,
+     "probable_date": "2026-10-24",
      "probable_city": "Sheffield",
      "probable_country": "GB",
      "probable_promoter": "Matchroom Boxing",
@@ -473,112 +487,128 @@
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Pat Brown",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Shabaz Masoud",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Ckari Mansilla",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Kieron Conway",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Mark Jeffers",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Joe Howarth",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Cory O'Regan",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Tom Rafferty",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Liam Walsh",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Garan Croft",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Mohammed Graich",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Jack Power",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Victor Ionascu",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Emily Whitworth",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Beata Dudek",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        }
       ],
       "bouts": [
@@ -709,14 +739,16 @@
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Alan Sanchez",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        }
       ],
       "bouts": [
@@ -781,70 +813,80 @@
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Conor Wallace",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Bilal Fawaz",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Eithan James",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Sean Bruce",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Hamza Uddin",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Ibraheem Sulaimaan",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Sonny Hardy",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Aaron Bowen",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Klint Baptiste",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        }
       ],
       "bouts": [
@@ -948,70 +990,80 @@
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Alberto Puello",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Giorgio Visioli",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Maxi Hughes",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Aqib Fiaz",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Jordan Flynn",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Shannon Ryan",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Emma Dolan",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Joe Hayden",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        },
        {
         "name": "Will Harrison",
         "outcome": "unresolved",
         "fighter_id": null,
         "reason": "no_candidates",
-        "candidates": 0
+        "candidates": 0,
+        "identity_lane": "refused"
        }
       ],
       "bouts": [
@@ -1080,6 +1132,43 @@
    "discovered": 17
   }
  ],
+ "lane_ready": {
+  "ready": true,
+  "data_half": {
+   "promoter_pbc": {
+    "enabled": true,
+    "access_mode": "approved_ingest",
+    "rights_state": "approved",
+    "fighter_identity": "review_scope_gap",
+    "may_create_fighters": false,
+    "schedule_lanes_covered": 7,
+    "non_schedule_lanes_open": 0
+   },
+   "promoter_matchroom": {
+    "enabled": true,
+    "access_mode": "approved_ingest",
+    "rights_state": "approved",
+    "fighter_identity": "review_scope_gap",
+    "may_create_fighters": false,
+    "schedule_lanes_covered": 7,
+    "non_schedule_lanes_open": 0
+   }
+  },
+  "schema_half": {
+   "event_priority": true,
+   "coverage_health": true,
+   "capabilities_view": true,
+   "lane_rights_state": true,
+   "bouts_lane_trigger": true,
+   "identity_lane_gate": true,
+   "record_event_candidate": true,
+   "discovery_candidates_table": true
+  },
+  "sources_found": 2,
+  "sources_expected": 2,
+  "data_half_complete": true,
+  "schema_half_complete": true
+ },
  "summary": {
   "cards_discovered": 19,
   "cards_accepted": 6,
@@ -1103,11 +1192,18 @@
    "none": 4,
    "conflicts_recorded": 2
   },
+  "identity": {
+   "corners_refused_by_lane": 52,
+   "sources_that_may_not_create": [
+    "promoter_pbc",
+    "promoter_matchroom"
+   ]
+  },
   "rights": {
    "lane_refusals": 0,
    "sources_failed": []
   },
-  "planned_writes": 84,
+  "planned_writes": 32,
   "actual_writes": 0
  }
 }

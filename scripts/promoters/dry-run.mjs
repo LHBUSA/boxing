@@ -7,7 +7,7 @@
 //   node scripts/promoters/dry-run.mjs --live               # fetch the real pages instead (still writes nothing)
 //
 // Nothing here writes to staging or production. The same collector runs for real, without --dry-run, once the
-// natural-run gate opens and migrations 0042-0046 are applied.
+// natural-run gate opens and migrations 0042-0047 are applied.
 
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -70,6 +70,7 @@ try {
   console.log(`fighters   ${s.fighters} planned`);
   console.log(`duplicates suppressed: ${s.duplicates_suppressed.events} events, ${s.duplicates_suppressed.bouts} bouts, ${s.duplicates_suppressed.fighters} fighters`);
   console.log(`start time corroborated ${s.start_times.corroborated}  structured ${s.start_times.structured}  printed-preferred ${s.start_times.visible_preferred}  unresolved ${s.start_times.unresolved}  none published ${s.start_times.none}  conflicts recorded ${s.start_times.conflicts_recorded}`);
+  console.log(`identity   corners the fighter_identity lane would refuse: ${s.identity.corners_refused_by_lane}${s.identity.sources_that_may_not_create.length ? `  (may not mint fighters: ${s.identity.sources_that_may_not_create.join(", ")})` : ""}`);
   console.log(`rights     lane refusals ${s.rights.lane_refusals}${s.rights.sources_failed.length ? `  source failures: ${s.rights.sources_failed.join('; ')}` : ''}`);
   console.log(`writes     planned ${s.planned_writes}  ACTUAL ${s.actual_writes}`);
   console.log(`\ndry run: ${receipt.dry_run}; nothing was written anywhere.`);

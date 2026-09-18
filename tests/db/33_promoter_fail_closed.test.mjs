@@ -14,7 +14,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { join, dirname } from 'node:path';
-import { freshDatabase } from '../helpers/db.mjs';
+import { freshDatabase, setSourceLane, expectPgError } from '../helpers/db.mjs';
 import { pgStore } from '../../scripts/lib/pg-store.mjs';
 import { collectPromoterCards } from '../../shared/promoters/collect.mjs';
 import { validateUpcomingCard } from '../../shared/adapters/promoters/contract.mjs';
@@ -71,6 +71,10 @@ const setSource = async (id, patch) => q(`update public.boxing_sources set enabl
 before(async () => {
   db = await freshDatabase('promoter_fail_closed');
   store = pgStore(db.client);
+  // 0047 makes creating a fighter an approved-lane decision, and the promoters ship as a scope gap: that gate has its
+  // own suite (35_fighter_identity_lane). These tests are about the COLLECTOR, so the lane is opened here exactly as
+  // the owner would open it, and the collector is then measured against an approved source.
+  for (const k of ['promoter_pbc', 'promoter_matchroom']) await setSourceLane(db.client, k, 'fighter_identity', 'covered_by_rights_review');
 });
 after(async () => { await db?.close(); });
 
@@ -154,20 +158,23 @@ test('the schedule lane must be covered, every other lane must stay refused, and
     returning id`, [src.id, priorBouts.id]);
   assert.equal((await q(`select id from public.boxing_source_capabilities_current where source_id = $1 and lane = 'bouts'`, [src.id])).length, 1,
     'exactly one capability row may be current for a lane, or the gate has nothing definite to read');
-  const before = await counts();
-  const receipt = await collectPromoterCards(store, opts()).catch((e) => ({ threw: e.message }));
-  const now = await counts();
-  assert.equal(now.bouts, before.bouts, 'not one bout is written once the bouts lane is refused');
-  assert.equal(now.participants, before.participants, 'and no participants');
-  assert.equal(now.bout_titles, before.bout_titles, 'and no titles');
-  // the refusal has to be visible: either counted as a lane refusal, or the whole card rejected with the reason
+  // Two independent defences, and both must hold.
+  //
+  // First: the readiness check sees a schedule lane that is no longer covered and refuses the apply before a single
+  // fetch. That is the half-apply guard doing its job — an incomplete data half is exactly what it exists to catch.
+  const receipt = await writesNothing('withdrawn bouts lane', () => collectPromoterCards(store, opts()).catch((e) => ({ threw: e.message })));
   assert.ok(!receipt.threw, `a lane refusal must not abort the run: ${receipt.threw}`);
-  const events = receipt.sources.flatMap((s) => s.events);
-  const refusals = events.flatMap((e) => e.applied?.lane_refusals ?? []);
-  const rejected = events.filter((e) => e.rejected);
-  assert.ok(refusals.length > 0 || rejected.length > 0,
-    `the refusal must be visible in the receipt, never silent: ${JSON.stringify(events.map((e) => ({ r: e.rejected, err: e.error, a: e.applied })))}`);
-  assert.equal(receipt.summary.rights.lane_refusals, refusals.length);
+  assert.match(receipt.error, /data half is incomplete for promoter_pbc/);
+  assert.equal(receipt.summary.actual_writes, 0);
+  assert.equal(receipt.lane_ready.data_half.promoter_pbc.schedule_lanes_covered, 6, 'six of seven schedule lanes remain');
+
+  // Second, and independently: even if a run somehow got past that, the BX140 write-time trigger refuses the insert
+  // itself. Proved directly against the table, so it does not depend on the collector reaching it.
+  const evt = await one(`insert into public.boxing_events (source_id, external_event_id, name, event_date, status, source_url)
+    values ($1, 'lane-gate-probe', 'Lane Gate Probe', current_date + 5, 'scheduled', 'https://www.premierboxingchampions.com/x') returning id`, [src.id]);
+  await expectPgError(() => q(`insert into public.boxing_bouts (event_id, source_id, external_bout_id, scheduled_rounds, status)
+    values ($1, $2, 'lane-gate-bout', 10, 'scheduled')`, [evt.id, src.id]),
+  { code: 'BX140', match: /lane_not_rights_approved: bouts/ });
 
   // restore the lane by superseding the withdrawal
   await q(`insert into public.boxing_source_capabilities (source_id, lane, availability, rights_scope, coverage_basis,
@@ -177,9 +184,25 @@ test('the schedule lane must be covered, every other lane must stay refused, and
 });
 
 test('a lookup failure inside the store never leaves a half-written card behind', async () => {
-  const broken = { ...store, sourceEventIds: async () => { throw new Error('connection reset'); } };
-  const r = await writesNothing('store read failure', () => collectPromoterCards(broken, opts()).catch((e) => ({ threw: e.message })));
-  if (!r.threw) assert.equal(r.summary.actual_writes, 0);
+  // A failed dedupe lookup must not read as "we have never seen this card" — that is how a duplicate event is written.
+  // A discovery candidate IS still recorded, and that is deliberate: a candidate says "we may be missing this card" and
+  // needs the source to be registered, not to hold any writing lane. Nothing canonical may appear.
+  const canonical = async () => one(`select
+    (select count(*)::int from public.boxing_events) events,
+    (select count(*)::int from public.boxing_bouts) bouts,
+    (select count(*)::int from public.boxing_fighters) fighters,
+    (select count(*)::int from public.boxing_bout_participants) participants,
+    (select count(*)::int from public.boxing_venues) venues`);
+  for (const method of ['sourceEventIds', 'eventCrossSourceCandidates']) {
+    const broken = { ...store, [method]: async () => { throw new Error('connection reset'); } };
+    const before = await canonical();
+    const r = await collectPromoterCards(broken, opts()).catch((e) => ({ threw: e.message }));
+    assert.deepEqual(await canonical(), before, `${method}: a failed read wrote canonical data`);
+    assert.ok(!r.threw, `${method}: the run must survive — ${r.threw}`);
+    assert.equal(r.summary.actual_writes, 0);
+    assert.equal(r.summary.cards_rejected, 2, `${method}: both cards are abandoned rather than written blind`);
+    assert.ok(r.sources[0].events.every((e) => /lookup failed/.test(e.error)), JSON.stringify(r.sources[0].events));
+  }
 });
 
 test('an unparseable page is a skipped card, not a partial write', async () => {

@@ -47,6 +47,25 @@ export function parseMatchroomDate(line) {
   return `${m[3]}-${String(month).padStart(2, "0")}-${String(Number(m[1])).padStart(2, "0")}`;
 }
 
+// The listing tile prints a day and month with no year: "19 Sep". The year is not stated anywhere on the tile, so it is
+// inferred as the next occurrence on or after today — a listing of upcoming events never advertises a past date. The
+// result is a PROBABLE date used only to reconcile a discovery candidate against a canonical event and to raise the
+// missing-card alert; the authoritative date always comes from the event page, which states the year outright.
+export function matchroomTileDate(dayText, now = new Date().toISOString()) {
+  const m = /(\d{1,2})\s+([A-Za-z]{3,})/.exec(dayText ?? '');
+  if (!m) return null;
+  const month = MONTHS[Object.keys(MONTHS).find((k) => k.startsWith(m[2].toLowerCase().slice(0, 3))) ?? ''];
+  if (!month) return null;
+  const day = Number(m[1]);
+  const today = String(now).slice(0, 10);
+  for (const year of [Number(today.slice(0, 4)), Number(today.slice(0, 4)) + 1]) {
+    const iso = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    // a real calendar day, and not already past
+    if (new Date(`${iso}T00:00:00Z`).toISOString().slice(0, 10) === iso && iso >= today) return iso;
+  }
+  return null;
+}
+
 // The listing tile states the venue structurally: <span class="location">Co-op Live, Manchester, UK</span>.
 // The event page itself states it only inside promotional headlines, which are not ours to read as data.
 const COUNTRY = { uk: "GB", "united kingdom": "GB", england: "GB", scotland: "GB", wales: "GB", ireland: "IE", usa: "US", us: "US", "united states": "US",

@@ -11,7 +11,7 @@ import { upcomingCardDocument, validateUpcomingCard } from '../adapters/promoter
 import { applyCardDocument } from '../events/card.mjs';
 import { resolveOnly } from '../identity/pipeline.mjs';
 import { PBC, parsePbcSchedule, parsePbcEvent } from '../adapters/promoters/pbc.mjs';
-import { MATCHROOM, parseMatchroomEvents, parseMatchroomEvent } from '../adapters/promoters/matchroom.mjs';
+import { MATCHROOM, parseMatchroomEvents, parseMatchroomEvent, matchroomTileDate } from '../adapters/promoters/matchroom.mjs';
 
 const UA = 'PropBetEdge-Boxing-schedule/1.0 (https://propbetedge.ai; announced card facts; low rate)';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -33,8 +33,10 @@ export const ADAPTERS = Object.freeze({
     descriptor: MATCHROOM,
     minIntervalMs: 3_000,
     listUrl: MATCHROOM.eventsUrl,
-    discover: (html) => parseMatchroomEvents(html).map((t) => ({
-      external_key: t.url, url: t.url, discovered_name: t.headline ?? t.slug, probable_date: null, probable_city: t.venue?.city ?? null,
+    // the tile prints "19 Sep" with no year; the inferred date is probable only, and the event page still decides
+    discover: (html, { now } = {}) => parseMatchroomEvents(html).map((t) => ({
+      external_key: t.url, url: t.url, discovered_name: t.headline ?? t.slug, probable_date: matchroomTileDate(t.day_text, now),
+      probable_city: t.venue?.city ?? null,
       probable_country: t.venue?.country_code ?? null, probable_broadcaster: null, headline: t.headline,
       confidence: 'medium', venue: t.venue, day_text: t.day_text,
     })),
@@ -78,14 +80,18 @@ export function cardDelta(previous, current) {
 }
 
 // The write plan: what canonicalization WOULD do, resolved against the live graph, writing nothing.
-export async function planCanonicalization(store, observation, { namespace }) {
+export async function planCanonicalization(store, observation, { namespace, mayCreateFighters = null }) {
   const doc = upcomingCardDocument(observation, { namespace });
   const plan = { event: null, venue: null, fighters: [], bouts: [], titles: { resolved: 0, unresolved: 0 }, broadcaster: observation.broadcaster ?? null, problems: [] };
 
-  // does this exact source event id already exist, and is there a same-date, same-city event to attach to?
-  const known = await store.sourceEventIds(`${namespace}.event`, [doc.external_id]).catch(() => ({}));
+  // Does this exact source event id already exist, and is there a same-date, same-city event to attach to?
+  // A lookup that FAILS is not the same answer as "nothing found": treating a dead connection as "we have never seen
+  // this card" is how a duplicate event gets written. The card is abandoned instead, and the caller records why.
+  const known = await store.sourceEventIds(`${namespace}.event`, [doc.external_id])
+    .catch((err) => { throw new Error(`existing-event lookup failed, so the card cannot be deduplicated: ${err.message}`); });
   const crossSource = doc.venue?.city
-    ? await store.eventCrossSourceCandidates({ event_date: doc.event_date, city: doc.venue.city, source_key: doc.source_key }).catch(() => [])
+    ? await store.eventCrossSourceCandidates({ event_date: doc.event_date, city: doc.venue.city, source_key: doc.source_key })
+      .catch((err) => { throw new Error(`cross-source event lookup failed, so the card cannot be attached safely: ${err.message}`); })
     : [];
   plan.event = known?.[doc.external_id]
     ? { action: 'would_match', reason: 'same source event id', event_id: known[doc.external_id] }
@@ -104,6 +110,11 @@ export async function planCanonicalization(store, observation, { namespace }) {
         .catch((err) => ({ decision: { outcome: 'error', reason: err.message } }));
       const d = r.decision ?? {};
       const entry = { name, outcome: d.outcome ?? 'unresolved', fighter_id: d.fighter_id ?? null, reason: d.reason ?? null, candidates: d.candidates?.length ?? 0 };
+      // the plan must not promise a fighter the identity lane would refuse: an apply downgrades this corner to review
+      if (mayCreateFighters === false && entry.outcome !== 'matched') {
+        entry.identity_lane = 'refused';
+        entry.reason = entry.reason ?? 'fighter_identity_lane_not_approved';
+      }
       seen.set(name, entry);
       plan.fighters.push(entry);
       corners.push(entry);
@@ -131,10 +142,38 @@ export async function collectPromoterCards(store, {
   horizon.setUTCDate(horizon.getUTCDate() + windowDays);
   const receipt = { rule: 'pbe_promoter_collect@1', generated_at: now, dry_run: dryRun, sources: [] };
 
+  // Migration 0046 has two halves and a half-applied database fails OPEN: the code binds to the schema half while the
+  // lane state stays 'not_declared', which 0045's deny-list waves through. Before any write, both halves must be
+  // present. A dry run is allowed to proceed on a half-applied database — it writes nothing and the receipt reports the
+  // state — but an apply is refused outright.
+  const known = sources.filter((k) => ADAPTERS[k]);
+  if (known.length && typeof store.promoterLaneReady === 'function') {
+    const ready = await store.promoterLaneReady(known).catch((err) => ({ error: err.message }));
+    receipt.lane_ready = ready;
+    // Only the half-apply question is answered here: are the schema objects present, and were the lane declarations
+    // actually written? Whether an individual source is enabled and approved is the registry gate's job below, which
+    // reports it per source with a reason — folding the two together would hide which of them refused.
+    const declarationsMissing = Object.entries(ready?.data_half ?? {})
+      .filter(([, d]) => d.schedule_lanes_covered !== 7 || d.fighter_identity === 'not_declared')
+      .map(([k]) => k);
+    const halfApplied = ready?.error || !ready?.schema_half_complete || declarationsMissing.length > 0;
+    if (!dryRun && halfApplied) {
+      receipt.error = ready?.error
+        ? `promoter lane readiness could not be established: ${ready.error}`
+        : !ready.schema_half_complete
+          ? `promoter lane is not ready: the schema half of migration 0046/0047 is incomplete — ${JSON.stringify(ready.schema_half)}`
+          : `promoter lane is not ready: the data half is incomplete for ${declarationsMissing.join(', ')} — lane declarations are missing, so the rights gate would fail open`;
+      receipt.summary = summarizeReceipt(receipt);
+      return receipt;
+    }
+  }
+
   for (const key of sources) {
     const adapter = ADAPTERS[key];
     if (!adapter) { receipt.sources.push({ source_key: key, error: 'no adapter' }); continue; }
-    const out = { source_key: key, lane: adapter.descriptor.lane, parser_version: adapter.descriptor.version, list_url: adapter.listUrl, candidates: [], events: [] };
+    // whether this source may mint a canonical fighter at all (migration 0047); null when the database cannot say
+    const mayCreateFighters = receipt.lane_ready?.data_half?.[key]?.may_create_fighters ?? null;
+    const out = { source_key: key, may_create_fighters: mayCreateFighters, lane: adapter.descriptor.lane, parser_version: adapter.descriptor.version, list_url: adapter.listUrl, candidates: [], events: [] };
 
     // The registry decides whether a source may be collected at all, and it is asked BEFORE the first request. A source
     // that is disabled, not approved for ingest, or whose rights review is not approved costs us nothing: no fetch, no
@@ -153,7 +192,7 @@ export async function collectPromoterCards(store, {
 
     const listRes = await fetchImpl(adapter.listUrl, { headers: { 'user-agent': UA } });
     if (!listRes.ok) { out.error = `list fetch ${listRes.status}`; receipt.sources.push(out); continue; }
-    const discovered = adapter.discover(await listRes.text());
+    const discovered = adapter.discover(await listRes.text(), { now });
     out.discovered = discovered.length;
 
     for (const c of discovered.slice(0, maxEvents)) {
@@ -181,7 +220,7 @@ export async function collectPromoterCards(store, {
           continue;
         }
         const fingerprint = cardFingerprint(obs);
-        const { plan } = await planCanonicalization(store, obs, { namespace: adapter.descriptor.namespace });
+        const { plan } = await planCanonicalization(store, obs, { namespace: adapter.descriptor.namespace, mayCreateFighters });
         const event = {
           url: c.url, event_name: obs.event_name, date: obs.scheduled_date, venue: obs.venue?.name ?? null, city: obs.venue?.city ?? null,
           country: obs.venue?.country_code ?? null, broadcaster: obs.broadcaster, promoter: obs.promoter,
@@ -216,11 +255,13 @@ export function summarizeReceipt(receipt) {
     bouts_accepted: 0, bouts_refused: 0, placeholder_slots_refused: 0, fighters: 0,
     duplicates_suppressed: { events: 0, bouts: 0, fighters: 0 },
     start_times: { corroborated: 0, structured: 0, visible_preferred: 0, unresolved: 0, none: 0, conflicts_recorded: 0 },
+    identity: { corners_refused_by_lane: 0, sources_that_may_not_create: [] },
     rights: { lane_refusals: 0, sources_failed: [] },
     planned_writes: 0, actual_writes: 0,
   };
   for (const src of receipt.sources ?? []) {
     if (src.error) s.rights.sources_failed.push(`${src.source_key}: ${src.error}`);
+    if (src.may_create_fighters === false) s.identity.sources_that_may_not_create.push(src.source_key);
     s.cards_discovered += src.discovered ?? 0;
     for (const e of src.events ?? []) {
       // a card the contract refused is a rejection; a page we could not fetch is an upstream outage, not our verdict
@@ -234,6 +275,7 @@ export function summarizeReceipt(receipt) {
         if (/opponent not announced|corner is not named/.test(p)) s.placeholder_slots_refused++;
       }
       s.fighters += e.plan?.fighters?.length ?? 0;
+      s.identity.corners_refused_by_lane += (e.plan?.fighters ?? []).filter((f) => f.identity_lane === 'refused').length;
       if (e.plan?.event?.action === 'would_match') s.duplicates_suppressed.events++;
       s.duplicates_suppressed.bouts += (e.plan?.bouts ?? []).filter((b) => b.action === 'would_match').length;
       s.duplicates_suppressed.fighters += (e.plan?.fighters ?? []).filter((f) => f.outcome === 'matched').length;
@@ -241,7 +283,7 @@ export function summarizeReceipt(receipt) {
       if (basis in s.start_times) s.start_times[basis]++;
       if (e.source_time_conflict) s.start_times.conflicts_recorded++;
       s.planned_writes += (e.plan?.bouts ?? []).filter((b) => b.action === 'would_insert').length
-        + (e.plan?.fighters ?? []).filter((f) => f.outcome !== 'matched').length
+        + (e.plan?.fighters ?? []).filter((f) => f.outcome !== 'matched' && f.identity_lane !== 'refused').length
         + (e.plan?.event?.action === 'would_insert' ? 1 : 0);
       s.actual_writes += e.applied?.changes?.length ?? 0;
       s.rights.lane_refusals += e.applied?.lane_refusals?.length ?? 0;

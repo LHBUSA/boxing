@@ -7,7 +7,7 @@
 
 import { after, before, test } from 'node:test';
 import assert from 'node:assert/strict';
-import { freshDatabase, expectPgError } from '../helpers/db.mjs';
+import { freshDatabase, expectPgError, setSourceLane } from '../helpers/db.mjs';
 import { pgStore } from '../../scripts/lib/pg-store.mjs';
 import { applyCardDocument } from '../../shared/events/card.mjs';
 
@@ -29,6 +29,9 @@ const card = (over = {}) => ({
 before(async () => {
   db = await freshDatabase('promoter_schedule');
   store = pgStore(db.client);
+  // 0047 makes minting a fighter an approved-lane decision and ships the promoters as a scope gap; that gate has its own
+  // suite (35_fighter_identity_lane). This file is about the SCHEDULE lane, so the identity lane is opened here.
+  for (const k of ['promoter_pbc', 'promoter_matchroom']) await setSourceLane(db.client, k, 'fighter_identity', 'covered_by_rights_review');
 });
 after(async () => { await db?.close(); });
 

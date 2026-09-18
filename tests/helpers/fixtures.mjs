@@ -16,12 +16,28 @@ export async function testSource(client, key = `test_source_${randomUUID().slice
     persistence_allowed: true,
     ...overrides,
   };
-  return one(client,
+  delete o.fighter_identity;
+  const src = await one(client,
     `insert into public.boxing_sources
        (source_key, source_name, source_kind, access_mode, rights_state, enabled, persistence_allowed, reviewed_at, reviewed_by)
      values ($1, $1, $2, $3, $4, $5, $6, now(), 'test harness')
      returning *`,
     [key, o.source_kind, o.access_mode, o.rights_state, o.enabled, o.persistence_allowed]);
+
+  // Migration 0047 makes creating a canonical fighter an allow-listed act: a source must hold the fighter_identity lane
+  // under an approved rights review, and an undeclared lane refuses. This helper's whole claim is "an approved ingesting
+  // source", so it declares the lane to match that claim. Pass fighter_identity: null to build a source that may ingest
+  // but may not mint people — the state the promoters ship in.
+  const scope = overrides.fighter_identity === undefined ? 'covered_by_rights_review' : overrides.fighter_identity;
+  if (scope) {
+    await client.query(
+      `insert into public.boxing_source_capabilities (source_id, lane, availability, rights_scope, coverage_basis,
+         acquisition_method, cadence, completeness, confidence, notes, evidence, recorded_by)
+       values ($1, 'fighter_identity', 'provided', $2, 'source_index_documented', 'html', 'daily', 'partial', 'high',
+               'test harness', '{}'::jsonb, 'test harness')`,
+      [src.id, scope]);
+  }
+  return src;
 }
 
 export async function fighter(client, displayName, extra = {}) {
