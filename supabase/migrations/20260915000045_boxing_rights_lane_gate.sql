@@ -75,9 +75,12 @@ cross join lateral (select unnest(array['bouts','results','stoppage_round_time',
 where s.source_key = 'nj_sacb'
   and not exists (select 1 from public.boxing_source_capabilities_current c where c.source_id = s.id and c.lane = l.lane);
 
+-- Appending to rights_note must not append twice on a chain rerun: the note is written once and the guard is the note's
+-- own text, so a second pass is a no-op rather than a silently duplicated sentence.
 update public.boxing_sources set rights_note = coalesce(rights_note || ' | ', '')
   || 'Scope 2026-09-15: schedule facts only. Result, official, scorecard, weigh-in and suspension lanes are unresolved and fail closed until re-reviewed.'
-where source_key = 'nj_sacb';
+where source_key = 'nj_sacb'
+  and coalesce(rights_note, '') not like '%Scope 2026-09-15: schedule facts only.%';
 
 -- 2 -------------------------------------------------------------------------------------------------------------------
 create or replace function public.boxing_lane_rights_state(p_source uuid, p_lane text)
@@ -92,7 +95,9 @@ declare
   v_lane text := tg_argv[0];
   v_state text;
 begin
-  if tg_argv[1] is not null and to_jsonb(new) ->> tg_argv[1] is distinct from tg_argv[2] then
+  -- optional second lane selected by a column value:
+  --   (default_lane, column_name, column_value, lane_to_use_when_the_column_equals_that_value)
+  if tg_argv[1] is not null and to_jsonb(new) ->> tg_argv[1] is not distinct from tg_argv[2] then
     v_lane := tg_argv[3];
   end if;
   v_state := public.boxing_lane_rights_state(new.source_id, v_lane);

@@ -1,6 +1,6 @@
 {
  "rule": "pbe_promoter_collect@1",
- "generated_at": "2026-09-18T16:34:05.971Z",
+ "generated_at": "2026-09-18T17:13:07.820Z",
  "dry_run": true,
  "sources": [
   {
@@ -1079,5 +1079,35 @@
    ],
    "discovered": 17
   }
- ]
+ ],
+ "summary": {
+  "cards_discovered": 19,
+  "cards_accepted": 6,
+  "cards_rejected": 0,
+  "cards_unreachable": 0,
+  "cards_skipped": 0,
+  "bouts_accepted": 26,
+  "bouts_refused": 7,
+  "placeholder_slots_refused": 6,
+  "fighters": 52,
+  "duplicates_suppressed": {
+   "events": 0,
+   "bouts": 0,
+   "fighters": 0
+  },
+  "start_times": {
+   "corroborated": 0,
+   "structured": 0,
+   "visible_preferred": 2,
+   "unresolved": 0,
+   "none": 4,
+   "conflicts_recorded": 2
+  },
+  "rights": {
+   "lane_refusals": 0,
+   "sources_failed": []
+  },
+  "planned_writes": 84,
+  "actual_writes": 0
+ }
 }

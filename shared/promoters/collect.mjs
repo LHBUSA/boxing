@@ -135,6 +135,22 @@ export async function collectPromoterCards(store, {
     const adapter = ADAPTERS[key];
     if (!adapter) { receipt.sources.push({ source_key: key, error: 'no adapter' }); continue; }
     const out = { source_key: key, lane: adapter.descriptor.lane, parser_version: adapter.descriptor.version, list_url: adapter.listUrl, candidates: [], events: [] };
+
+    // The registry decides whether a source may be collected at all, and it is asked BEFORE the first request. A source
+    // that is disabled, not approved for ingest, or whose rights review is not approved costs us nothing: no fetch, no
+    // discovery candidate, no row. This holds in dry runs too — whether we may read a promoter's pages is a rights
+    // question, not a write question, and a lookup that fails is treated as "not permitted", never as permission.
+    if (typeof store.source === 'function') {
+      const src = await store.source(key).catch((err) => ({ lookup_error: err.message }));
+      const refusal = src?.lookup_error ? `registry lookup failed: ${src.lookup_error}`
+        : !src ? 'not registered'
+        : !src.enabled ? 'disabled in the source registry'
+        : src.access_mode !== 'approved_ingest' ? `access_mode is ${src.access_mode}, not approved_ingest`
+        : src.rights_state !== 'approved' ? `rights_state is ${src.rights_state}, not approved`
+        : null;
+      if (refusal) { out.error = `source not collectable: ${refusal}`; receipt.sources.push(out); continue; }
+    }
+
     const listRes = await fetchImpl(adapter.listUrl, { headers: { 'user-agent': UA } });
     if (!listRes.ok) { out.error = `list fetch ${listRes.status}`; receipt.sources.push(out); continue; }
     const discovered = adapter.discover(await listRes.text());
@@ -152,34 +168,85 @@ export async function collectPromoterCards(store, {
         candidate.recorded = await store.recordEventCandidate(candidate).catch((err) => ({ error: err.message }));
       }
       await sleepImpl(adapter.minIntervalMs);
-      const evRes = await fetchImpl(c.url, { headers: { 'user-agent': UA } });
-      if (!evRes.ok) { out.events.push({ url: c.url, error: `event fetch ${evRes.status}` }); continue; }
-      const parsed = adapter.parseEvent(await evRes.text(), { url: c.url, capturedAt: now, venueHint: c.venue ?? null });
-      const obs = parsed.observation;
-      if (!obs.scheduled_date || obs.scheduled_date < today || obs.scheduled_date > horizon.toISOString().slice(0, 10)) {
-        out.events.push({ url: c.url, skipped: obs.scheduled_date ? 'outside the window' : 'no date on the page', date: obs.scheduled_date ?? null });
-        continue;
+      // One card cannot take down the pass. A page that fails to fetch, fails to parse, or violates the card contract is
+      // recorded as a rejected card and the run moves on to the next one: a broken October page must never cost us
+      // tomorrow's card. Nothing is written for a card that lands here.
+      try {
+        const evRes = await fetchImpl(c.url, { headers: { 'user-agent': UA } });
+        if (!evRes.ok) { out.events.push({ url: c.url, error: `event fetch ${evRes.status}` }); continue; }
+        const parsed = adapter.parseEvent(await evRes.text(), { url: c.url, capturedAt: now, venueHint: c.venue ?? null });
+        const obs = parsed.observation;
+        if (!obs.scheduled_date || obs.scheduled_date < today || obs.scheduled_date > horizon.toISOString().slice(0, 10)) {
+          out.events.push({ url: c.url, skipped: obs.scheduled_date ? 'outside the window' : 'no date on the page', date: obs.scheduled_date ?? null });
+          continue;
+        }
+        const fingerprint = cardFingerprint(obs);
+        const { plan } = await planCanonicalization(store, obs, { namespace: adapter.descriptor.namespace });
+        const event = {
+          url: c.url, event_name: obs.event_name, date: obs.scheduled_date, venue: obs.venue?.name ?? null, city: obs.venue?.city ?? null,
+          country: obs.venue?.country_code ?? null, broadcaster: obs.broadcaster, promoter: obs.promoter,
+          published_start_local: obs.published_start_local ?? null, published_utc_offset: obs.published_utc_offset ?? null,
+          scheduled_start_at: obs.scheduled_start_at ?? null, start_basis: obs.start_basis ?? null,
+          // every assertion the page made about the start, and the disagreement if it made two that differ
+          published_start_line: obs.published_start_line ?? null, start_assertions: obs.start_assertions ?? null,
+          source_time_conflict: obs.source_time_conflict ?? null,
+          announced_bouts: obs.bouts.length, fingerprint, parser_problems: parsed.problems, plan,
+        };
+        if (!dryRun) {
+          const doc = upcomingCardDocument(obs, { namespace: adapter.descriptor.namespace });
+          const applied = await applyCardDocument(store, doc, { now });
+          event.applied = { status: applied.status, changes: applied.changes?.map((x) => x.change_type) ?? [], unresolved: applied.unresolved?.length ?? 0, lane_refusals: applied.lane_refusals ?? [] };
+        }
+        out.events.push(event);
+      } catch (err) {
+        out.events.push({ url: c.url, rejected: true, error: err.message, date: null });
       }
-      const fingerprint = cardFingerprint(obs);
-      const { plan } = await planCanonicalization(store, obs, { namespace: adapter.descriptor.namespace });
-      const event = {
-        url: c.url, event_name: obs.event_name, date: obs.scheduled_date, venue: obs.venue?.name ?? null, city: obs.venue?.city ?? null,
-        country: obs.venue?.country_code ?? null, broadcaster: obs.broadcaster, promoter: obs.promoter,
-        published_start_local: obs.published_start_local ?? null, published_utc_offset: obs.published_utc_offset ?? null,
-        scheduled_start_at: obs.scheduled_start_at ?? null, start_basis: obs.start_basis ?? null,
-        // every assertion the page made about the start, and the disagreement if it made two that differ
-        published_start_line: obs.published_start_line ?? null, start_assertions: obs.start_assertions ?? null,
-        source_time_conflict: obs.source_time_conflict ?? null,
-        announced_bouts: obs.bouts.length, fingerprint, parser_problems: parsed.problems, plan,
-      };
-      if (!dryRun) {
-        const doc = upcomingCardDocument(obs, { namespace: adapter.descriptor.namespace });
-        const applied = await applyCardDocument(store, doc, { now });
-        event.applied = { status: applied.status, changes: applied.changes?.map((x) => x.change_type) ?? [], unresolved: applied.unresolved?.length ?? 0, lane_refusals: applied.lane_refusals ?? [] };
-      }
-      out.events.push(event);
     }
     receipt.sources.push(out);
   }
+  receipt.summary = summarizeReceipt(receipt);
   return receipt;
+}
+
+// What the run actually did, in the terms the gate is judged on. Every number here is derived from the receipt itself,
+// so it cannot claim something the events do not show — and actual_writes is 0 for a dry run by construction.
+export function summarizeReceipt(receipt) {
+  const s = {
+    cards_discovered: 0, cards_accepted: 0, cards_rejected: 0, cards_unreachable: 0, cards_skipped: 0,
+    bouts_accepted: 0, bouts_refused: 0, placeholder_slots_refused: 0, fighters: 0,
+    duplicates_suppressed: { events: 0, bouts: 0, fighters: 0 },
+    start_times: { corroborated: 0, structured: 0, visible_preferred: 0, unresolved: 0, none: 0, conflicts_recorded: 0 },
+    rights: { lane_refusals: 0, sources_failed: [] },
+    planned_writes: 0, actual_writes: 0,
+  };
+  for (const src of receipt.sources ?? []) {
+    if (src.error) s.rights.sources_failed.push(`${src.source_key}: ${src.error}`);
+    s.cards_discovered += src.discovered ?? 0;
+    for (const e of src.events ?? []) {
+      // a card the contract refused is a rejection; a page we could not fetch is an upstream outage, not our verdict
+      if (e.rejected) { s.cards_rejected++; continue; }
+      if (e.error) { s.cards_unreachable++; continue; }
+      if (e.skipped) { s.cards_skipped++; continue; }
+      s.cards_accepted++;
+      s.bouts_accepted += e.plan?.bouts?.length ?? 0;
+      for (const p of e.parser_problems ?? []) {
+        if (/^bout /.test(p)) s.bouts_refused++;
+        if (/opponent not announced|corner is not named/.test(p)) s.placeholder_slots_refused++;
+      }
+      s.fighters += e.plan?.fighters?.length ?? 0;
+      if (e.plan?.event?.action === 'would_match') s.duplicates_suppressed.events++;
+      s.duplicates_suppressed.bouts += (e.plan?.bouts ?? []).filter((b) => b.action === 'would_match').length;
+      s.duplicates_suppressed.fighters += (e.plan?.fighters ?? []).filter((f) => f.outcome === 'matched').length;
+      const basis = /\(([a-z_]+)\)\s*$/.exec(e.start_basis ?? '')?.[1] ?? (e.scheduled_start_at ? 'structured' : 'none');
+      if (basis in s.start_times) s.start_times[basis]++;
+      if (e.source_time_conflict) s.start_times.conflicts_recorded++;
+      s.planned_writes += (e.plan?.bouts ?? []).filter((b) => b.action === 'would_insert').length
+        + (e.plan?.fighters ?? []).filter((f) => f.outcome !== 'matched').length
+        + (e.plan?.event?.action === 'would_insert' ? 1 : 0);
+      s.actual_writes += e.applied?.changes?.length ?? 0;
+      s.rights.lane_refusals += e.applied?.lane_refusals?.length ?? 0;
+    }
+  }
+  if (receipt.dry_run) s.actual_writes = 0;
+  return s;
 }

@@ -63,6 +63,15 @@ try {
       if (e.parser_problems.length) console.log(`    refused: ${e.parser_problems.join(' ; ')}`);
     }
   }
+  const s = receipt.summary;
+  console.log(`\n--- receipt summary -----------------------------------------------`);
+  console.log(`cards      discovered ${s.cards_discovered}  accepted ${s.cards_accepted}  rejected ${s.cards_rejected}  unreachable ${s.cards_unreachable}  outside window ${s.cards_skipped}`);
+  console.log(`bouts      accepted ${s.bouts_accepted}  refused ${s.bouts_refused}  (unannounced slots ${s.placeholder_slots_refused})`);
+  console.log(`fighters   ${s.fighters} planned`);
+  console.log(`duplicates suppressed: ${s.duplicates_suppressed.events} events, ${s.duplicates_suppressed.bouts} bouts, ${s.duplicates_suppressed.fighters} fighters`);
+  console.log(`start time corroborated ${s.start_times.corroborated}  structured ${s.start_times.structured}  printed-preferred ${s.start_times.visible_preferred}  unresolved ${s.start_times.unresolved}  none published ${s.start_times.none}  conflicts recorded ${s.start_times.conflicts_recorded}`);
+  console.log(`rights     lane refusals ${s.rights.lane_refusals}${s.rights.sources_failed.length ? `  source failures: ${s.rights.sources_failed.join('; ')}` : ''}`);
+  console.log(`writes     planned ${s.planned_writes}  ACTUAL ${s.actual_writes}`);
   console.log(`\ndry run: ${receipt.dry_run}; nothing was written anywhere.`);
 } finally {
   await db.close();

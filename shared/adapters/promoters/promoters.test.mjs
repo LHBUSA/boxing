@@ -15,6 +15,7 @@ import { parseMatchroomEvents, parseMatchroomEvent, parseMatchroomDate, parseMat
 import { parseTitleLine, roundsFromText, divisionFromText } from './titles.mjs';
 import { resolveAnnouncedStart, wallClockToUtc, parseVisibleStarts, ianaZone } from './time.mjs';
 import { isPlaceholderName } from './names.mjs';
+import { parseName } from '../../identity/normalize.mjs';
 import { cardFingerprint, cardDelta } from '../../promoters/collect.mjs';
 
 const dir = join(dirname(fileURLToPath(import.meta.url)), '../../../tests/fixtures/promoters');
@@ -214,6 +215,37 @@ test('Matchroom event: the whole announced card, with the unannounced opponent r
   assert.ok(!o.bouts.some((b) => /tbd/i.test(b.fighter_b.name)));
 });
 
+test('every start-time path: an explicit offset, a named zone, a date with no time, and nothing guessed', () => {
+  // an explicit numeric offset is arithmetic on what the source published, including Z
+  assert.equal(parsePbcStart('2026-09-19T20:00:00-04:00').start_utc, '2026-09-20T00:00:00.000Z');
+  assert.equal(parsePbcStart('2026-09-19T20:00:00Z').start_utc, '2026-09-19T20:00:00.000Z');
+  assert.equal(parsePbcStart('2026-09-19T20:00:00+01:00').start_utc, '2026-09-19T19:00:00.000Z');
+  // no offset published means no instant is claimed, but the announced day still stands
+  assert.equal(parsePbcStart('2026-09-19T20:00:00').start_utc, null);
+  assert.equal(parsePbcStart('2026-09-19T20:00:00').date, '2026-09-19');
+  // a date with no time at all: a start is never invented
+  const dateOnly = resolveAnnouncedStart({ date: '2026-09-19', jsonLdValue: '09/19/2026', jsonLdInstant: null, visibleLine: 'Pechanga Arena, San Diego' });
+  assert.equal(dateOnly.scheduled_start_at, null);
+  assert.equal(dateOnly.basis, 'none');
+  assert.equal(dateOnly.conflict, null, 'saying nothing about the time is not a conflict');
+
+  // the instant never moves the announced calendar date: a late US card is the next day in UTC and stays on its own date
+  const late = parsePbcEvent(fixture('pbc-event.html'), { url: 'https://www.premierboxingchampions.com/x', capturedAt: NOW }).observation;
+  assert.equal(late.scheduled_date, '2026-09-19');
+  assert.equal(late.scheduled_start_at.slice(0, 10), '2026-09-20', 'the UTC instant is the next day, and that is fine');
+  // a UK evening is the same UTC day; neither case is allowed to rewrite scheduled_date
+  assert.equal(resolveAnnouncedStart({ date: '2026-09-19', visibleLine: 'first bell 8pm GMT' }).scheduled_start_at, '2026-09-19T19:00:00.000Z');
+
+  // the conversion is deterministic: the same inputs give the same answer every time, whatever the machine's own zone
+  for (let i = 0; i < 5; i++) assert.equal(wallClockToUtc('2026-09-19', 20, 0, 'America/New_York'), '2026-09-20T00:00:00.000Z');
+  assert.equal(wallClockToUtc('2026-09-19', 20, 0, null), null, 'no zone means no instant');
+  assert.equal(wallClockToUtc('nonsense', 20, 0, 'America/New_York'), null);
+  // a zone we do not model is refused, never guessed at
+  assert.equal(parseVisibleStarts('8pm AEST').length, 0);
+  assert.equal(parseVisibleStarts('8pm CET').length, 0);
+  assert.equal(parseVisibleStarts('doors open, no time given').length, 0);
+});
+
 test('an announced slot is never a fighter, however the promoter spells it', () => {
   // Matchroom writes "TBC", PBC writes "TBD", others spell it out. All of them mean the opponent is not signed.
   for (const p of ['TBD', 'TBA', 'TBC', 'tbc', 'T.B.C.', 'To Be Announced', 'To Be Confirmed', 'To Be Determined',
@@ -255,6 +287,34 @@ test('every placeholder spelling is refused by both adapters, and creates no fig
     { url: 'https://www.matchroomboxing.com/events/hedges-vs-brown/', capturedAt: NOW, venueHint: tiles.find((t) => t.slug === 'hedges-vs-brown').venue });
   assert.equal(named.observation.bouts.length, 9);
   assert.ok(named.observation.bouts.some((b) => b.fighter_b.name === 'Tbarek Ali'));
+});
+
+test('placeholder detection never collides with a real name, and never merges two fighters', () => {
+  // names that sit close to the placeholder vocabulary, or that normalization could damage
+  const real = ['Tbarek Ali', 'Atba Mensah', 'Tba Ndiaye', "Cory O'Regan", "D'Angelo Tbc", 'Jean-Pierre Mbeki',
+    'Julio César Chávez Jr.', 'Floyd Mayweather Sr.', 'Chris Eubank Jr', 'George Foreman III',
+    'José  Ramírez', '  Naoya   Inoue  ', 'Bakhodir Jalolov', 'Oleksandr Usyk', 'Saul Alvarez'];
+  for (const n of real) assert.equal(isPlaceholderName(n), false, `${n} is a real name`);
+
+  // normalization keeps distinct people distinct: no two of these share a full key
+  const keys = real.map((n) => parseName(n).full);
+  assert.equal(new Set(keys).size, keys.length, `two names normalized to the same key: ${JSON.stringify(keys)}`);
+
+  // and it does not mangle the forms that matter
+  assert.equal(parseName("Cory O'Regan").full, 'cory oregan', 'an apostrophe is dropped, not split');
+  assert.equal(parseName('Jean-Pierre Mbeki').full, 'jean pierre mbeki', 'a hyphen is a separator');
+  assert.equal(parseName('  Naoya   Inoue  ').full, 'naoya inoue', 'repeated whitespace collapses');
+  assert.equal(parseName('José Ramírez').full, 'jose ramirez', 'accents fold');
+  assert.equal(parseName('Julio César Chávez Jr.').suffix, 'jr');
+  assert.equal(parseName('Julio César Chávez Jr.').full, 'julio cesar chavez', 'the suffix is held separately, not glued on');
+  assert.equal(parseName('George Foreman III').suffix, 'iii');
+  assert.notEqual(parseName('Julio César Chávez Jr.').suffix, parseName('Julio César Chávez').suffix,
+    'a junior and his father are not the same normalized person');
+  // the raw string is never replaced
+  assert.equal(parseName("Cory O'Regan").raw, "Cory O'Regan");
+
+  // a card carrying all of them plans one fighter entry per distinct person
+  assert.equal(new Set(real.map((n) => parseName(n).full + '|' + (parseName(n).suffix ?? ''))).size, real.length);
 });
 
 test('titles: a world lane resolves, a regional or national belt stays unresolved with its exact wording', () => {

@@ -67,6 +67,52 @@ test('an announced card writes through the schedule lane; a result from the same
     [bout.id, winner]), { code: 'BX140', match: /lane_not_rights_approved: results/ });
 });
 
+test('replaying the rights-lane scope note does not append it twice', async () => {
+  // Migration 0045 appends a scope sentence to nj_sacb.rights_note. Appending is the one shape in the chain that
+  // silently drifts on a rerun, so the statement carries its own guard and this pins it.
+  const note = async () => (await one(`select rights_note from public.boxing_sources where source_key = 'nj_sacb'`)).rights_note;
+  const sentence = 'Scope 2026-09-15: schedule facts only.';
+  const first = await note();
+  assert.equal(first.split(sentence).length - 1, 1, 'the sentence is present exactly once after the chain runs');
+
+  const replay = `update public.boxing_sources set rights_note = coalesce(rights_note || ' | ', '')
+    || 'Scope 2026-09-15: schedule facts only. Result, official, scorecard, weigh-in and suspension lanes are unresolved and fail closed until re-reviewed.'
+    where source_key = 'nj_sacb' and coalesce(rights_note, '') not like '%Scope 2026-09-15: schedule facts only.%'`;
+  await q(replay);
+  await q(replay);
+  assert.equal(await note(), first, 'replaying the statement changes nothing');
+});
+
+test('the lane gate charges an official to the lane that actually covers them', async () => {
+  // boxing_lane_rights_guard takes (default_lane, column, value, lane_when_equal). The officials trigger is declared
+  // ('referees','role','judge','judges'), so a judge must be charged to the JUDGES lane and everyone else to REFEREES.
+  // Getting this backwards is invisible while both lanes sit in the same state, and silently mis-gates the moment they
+  // do not — so it is pinned here with one lane open and the other closed.
+  const src = await one(`select id from public.boxing_sources where source_key = 'promoter_matchroom'`);
+  const open = async (lane, scope) => {
+    const prior = await one(`select id from public.boxing_source_capabilities_current where source_id = $1 and lane = $2`, [src.id, lane]);
+    await q(`insert into public.boxing_source_capabilities (source_id, lane, availability, rights_scope, coverage_basis,
+      acquisition_method, cadence, completeness, confidence, notes, evidence, recorded_by, supersedes_id)
+      values ($1, $2, 'provided', $3, 'source_index_documented', 'html', 'daily', 'partial', 'high', 'test: lane state', '{}'::jsonb, 'test', $4)`,
+    [src.id, lane, scope, prior?.id ?? null]);
+  };
+  await open('judges', 'covered_by_rights_review');   // judges permitted
+  await open('referees', 'not_permitted');            // referees refused
+
+  const bout = await one(`select id from public.boxing_bouts limit 1`);
+  const official = await one(`insert into public.boxing_officials (display_name, official_type) values ('Lane Test Official', 'judge') returning id`);
+  const insert = (role) => q(`insert into public.boxing_bout_officials (bout_id, official_id, role, source_id, source_url)
+    values ($1, $2, $3, $4, 'https://www.matchroomboxing.com/x/')`, [bout.id, official.id, role, src.id]);
+
+  await insert('judge');  // charged to the open judges lane -> permitted
+  await expectPgError(() => insert('referee'), { code: 'BX140', match: /lane_not_rights_approved: referees/ });
+
+  // put both lanes back where the rights review left them
+  await open('judges', 'not_permitted');
+  await open('referees', 'not_permitted');
+  await q(`delete from public.boxing_bout_officials where official_id = $1`, [official.id]);
+});
+
 test('a discovered card is a candidate, never a fight; a match to an existing event does not duplicate it', async () => {
   const eventsBefore = (await one(`select count(*)::int c from public.boxing_events`)).c;
   const r = (await one(`select public.boxing_record_event_candidate($1) r`, [{
