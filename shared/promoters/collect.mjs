@@ -7,6 +7,7 @@
 // and the rights check, and writes NOTHING: the same code runs for real once the gate opens.
 
 import { createHash } from 'node:crypto';
+import { contentHash } from '../canonical.mjs';
 import { upcomingCardDocument, validateUpcomingCard } from '../adapters/promoters/contract.mjs';
 import { applyCardDocument } from '../events/card.mjs';
 import { resolveOnly } from '../identity/pipeline.mjs';
@@ -100,26 +101,75 @@ export async function planCanonicalization(store, observation, { namespace }) {
       : { action: 'would_insert', name: doc.name, date: doc.event_date, cross_source_candidates: crossSource.length };
   plan.venue = doc.venue ? { action: 'would_match_or_insert', name: doc.venue.name, city: doc.venue.city, country: doc.venue.country_code } : { action: 'unavailable', reason: 'venue not stated by the source' };
 
+  // The plan must see what the APPLY path sees, or it lies about a rerun. Two kinds of established evidence exist
+  // before any scoring happens: the source's own identifier mapped to a canonical fighter, and the resolution this
+  // exact identity payload received last time. Both are read here, in one batch per card, keyed exactly as
+  // shared/events/card.mjs and boxing_apply_identity_decision key them — the same record, the same payload shape, the
+  // same content hash. Scoring is the fallback, not the first move.
+  const fighterNamespace = `${namespace}.fighter`;
+  const identityOf = (f) => ({ external_id: f.external_id ?? null, display_name: f.display_name, dob: f.dob ?? null, nationality: f.nationality ?? [], hometown: f.hometown ?? null });
+  const corner = (b, side) => ({ record: identityOf(b[side]), payload: { event: doc.external_id, bout: b.external_id ?? null, side: side === 'fighter_a' ? 'a' : 'b', ...b[side] } });
+
+  const cornersByKey = new Map();
+  for (const b of doc.bouts) {
+    for (const side of ['fighter_a', 'fighter_b']) {
+      const c = corner(b, side);
+      c.hash = await contentHash(c.payload);
+      c.externalKey = c.record.external_id ? `${fighterNamespace}:${c.record.external_id}` : null;
+      cornersByKey.set(`${b.external_id}|${side}`, c);
+    }
+  }
+  const allCorners = [...cornersByKey.values()];
+  const externalIds = [...new Set(allCorners.map((c) => c.record.external_id).filter(Boolean))];
+  const [nativeMap, priorMap] = await Promise.all([
+    externalIds.length && typeof store.fighterIdentityMap === 'function'
+      ? store.fighterIdentityMap(fighterNamespace, externalIds).catch(() => ({})) : Promise.resolve({}),
+    typeof store.priorIdentityResolutions === 'function'
+      ? store.priorIdentityResolutions({ source_key: doc.source_key, content_hashes: allCorners.map((c) => c.hash) }).catch(() => ({})) : Promise.resolve({}),
+  ]);
+
   const seen = new Map();
   for (const b of doc.bouts) {
     const corners = [];
     for (const side of ['fighter_a', 'fighter_b']) {
-      const name = b[side].display_name;
-      if (seen.has(name)) { corners.push(seen.get(name)); continue; }
-      const r = await resolveOnly(store, { display_name: name }, { namespace: `${namespace}.fighter` })
-        .catch((err) => ({ decision: { outcome: 'error', reason: err.message } }));
-      const d = r.decision ?? {};
-      const entry = { name, outcome: d.outcome ?? 'unresolved', fighter_id: d.fighter_id ?? null, reason: d.reason ?? null, candidates: d.candidates?.length ?? 0 };
-      seen.set(name, entry);
+      const c = cornersByKey.get(`${b.external_id}|${side}`);
+      const name = c.record.display_name;
+      const cacheKey = c.record.external_id ? `id:${c.record.external_id}` : `name:${name}`;
+      if (seen.has(cacheKey)) { corners.push(seen.get(cacheKey)); continue; }
+
+      // 1. the source's own identifier, already mapped to a canonical fighter
+      const native = c.record.external_id ? nativeMap?.[c.record.external_id] ?? null : null;
+      // 2. the decision this identical payload received last time
+      const prior = priorMap?.[`${c.externalKey ?? ''}|${c.hash}`] ?? null;
+
+      let entry;
+      if (native) {
+        entry = { name, outcome: 'matched', fighter_id: native, reason: 'source_native_mapping', basis: 'external_id', candidates: 0 };
+      } else if (prior && ['matched', 'created'].includes(prior.outcome) && prior.fighter_id) {
+        // 'created' last time means this payload already produced that person; a rerun matches them, it does not re-create
+        entry = { name, outcome: 'matched', fighter_id: prior.fighter_id, reason: 'prior_resolution', basis: 'observation_replay', candidates: 0 };
+      } else if (prior && prior.outcome === 'review') {
+        // an unresolved collision stays unresolved: a replay never auto-resolves what a human was asked to decide
+        entry = { name, outcome: 'review', fighter_id: null, reason: prior.reason ?? 'insufficient_evidence', basis: 'prior_review', candidates: 1 };
+      } else {
+        // 3. nothing established: score it, with the whole record rather than a bare name
+        const r = await resolveOnly(store, c.record, { namespace: fighterNamespace })
+          .catch((err) => ({ decision: { outcome: 'error', reason: err.message } }));
+        const d = r.decision ?? {};
+        entry = { name, outcome: d.outcome ?? 'unresolved', fighter_id: d.fighter_id ?? null, reason: d.reason ?? null, basis: 'evidence', candidates: d.candidates?.length ?? 0 };
+      }
+      seen.set(cacheKey, entry);
       plan.fighters.push(entry);
       corners.push(entry);
     }
     const blocked = corners.some((c) => c.outcome === 'review' || c.outcome === 'error');
+    // a bout whose corners are both already canonical, on an event we already hold, is not work: it is already there
+    const present = !blocked && plan.event.action === 'would_match' && corners.every((c) => c.outcome === 'matched');
     plan.bouts.push({
       source_bout_id: b.external_id, order: b.bout_order, segment: b.card_segment, pairing: `${b[`fighter_a`].display_name} vs ${b.fighter_b.display_name}`,
       division: b.weight_class_key ?? null, scheduled_rounds: b.scheduled_rounds ?? null,
       titles: (b.titles ?? []).map((t) => `${t.organization_slug}:${t.tier}`),
-      action: blocked ? 'would_hold_for_identity_review' : 'would_insert',
+      action: blocked ? 'would_hold_for_identity_review' : present ? 'already_present' : 'would_insert',
     });
     plan.titles.resolved += (b.titles ?? []).length;
   }
@@ -252,6 +302,7 @@ export function summarizeReceipt(receipt) {
     duplicates_suppressed: { events: 0, bouts: 0, fighters: 0 },
     start_times: { corroborated: 0, structured: 0, visible_preferred: 0, unresolved: 0, none: 0, conflicts_recorded: 0 },
     content: { sources_that_may_not_store_profiles: [] },
+    identity_reviews_predicted: 0,
     rights: { lane_refusals: 0, sources_failed: [] },
     planned_writes: 0, actual_writes: 0,
   };
@@ -271,14 +322,16 @@ export function summarizeReceipt(receipt) {
         if (/opponent not announced|corner is not named/.test(p)) s.placeholder_slots_refused++;
       }
       s.fighters += e.plan?.fighters?.length ?? 0;
+      s.identity_reviews_predicted += (e.plan?.fighters ?? []).filter((f) => f.outcome === 'review').length;
       if (e.plan?.event?.action === 'would_match') s.duplicates_suppressed.events++;
-      s.duplicates_suppressed.bouts += (e.plan?.bouts ?? []).filter((b) => b.action === 'would_match').length;
+      s.duplicates_suppressed.bouts += (e.plan?.bouts ?? []).filter((b) => b.action === 'already_present').length;
       s.duplicates_suppressed.fighters += (e.plan?.fighters ?? []).filter((f) => f.outcome === 'matched').length;
       const basis = /\(([a-z_]+)\)\s*$/.exec(e.start_basis ?? '')?.[1] ?? (e.scheduled_start_at ? 'structured' : 'none');
       if (basis in s.start_times) s.start_times[basis]++;
       if (e.source_time_conflict) s.start_times.conflicts_recorded++;
+      // a corner under review is a queue item, not a planned write: nothing canonical comes of it
       s.planned_writes += (e.plan?.bouts ?? []).filter((b) => b.action === 'would_insert').length
-        + (e.plan?.fighters ?? []).filter((f) => f.outcome !== 'matched').length
+        + (e.plan?.fighters ?? []).filter((f) => !['matched', 'review', 'error'].includes(f.outcome)).length
         + (e.plan?.event?.action === 'would_insert' ? 1 : 0);
       s.actual_writes += e.applied?.changes?.length ?? 0;
       s.rights.lane_refusals += e.applied?.lane_refusals?.length ?? 0;

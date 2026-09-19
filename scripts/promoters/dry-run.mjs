@@ -72,6 +72,7 @@ try {
   console.log(`start time corroborated ${s.start_times.corroborated}  structured ${s.start_times.structured}  printed-preferred ${s.start_times.visible_preferred}  unresolved ${s.start_times.unresolved}  none published ${s.start_times.none}  conflicts recorded ${s.start_times.conflicts_recorded}`);
   console.log(`content    profile content (bios, physicals) refused for: ${s.content.sources_that_may_not_store_profiles.join(", ") || "no source"}  — names are facts and are not gated by this`);
   console.log(`rights     lane refusals ${s.rights.lane_refusals}${s.rights.sources_failed.length ? `  source failures: ${s.rights.sources_failed.join('; ')}` : ''}`);
+  console.log(`identity   ${s.identity_reviews_predicted} corner(s) would go to the identity review queue`);
   console.log(`writes     planned ${s.planned_writes}  ACTUAL ${s.actual_writes}`);
   console.log(`\ndry run: ${receipt.dry_run}; nothing was written anywhere.`);
 } finally {
