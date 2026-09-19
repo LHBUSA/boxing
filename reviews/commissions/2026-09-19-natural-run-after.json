@@ -1,0 +1,793 @@
+{
+  "slot": "2026-09-19T11:40:00Z",
+  "invocations": [
+    {
+      "invocation_id": "06f5fed0-d100-4eb2-9f36-77ef701d6b9a:nevada",
+      "worker_name": "boxing-commissions-staging",
+      "worker_version": "b451ad9b-3990-4438-897a-bfa6cc0bc8ad",
+      "trigger_type": "scheduled",
+      "cron": "40 11 * * *",
+      "scheduled_for": "2026-09-19 11:40:07+00",
+      "runtime": "cloudflare-workers",
+      "outcome": "ran",
+      "ingest_run_id": "f7e50c23-5760-41f4-9e5b-213508c732e0",
+      "detail": {
+        "status": "partial",
+        "adapter": "nevada"
+      },
+      "started_at": "2026-09-19 11:40:19.885+00",
+      "completed_at": "2026-09-19 11:41:58.36275+00"
+    },
+    {
+      "invocation_id": "06f5fed0-d100-4eb2-9f36-77ef701d6b9a:florida",
+      "worker_name": "boxing-commissions-staging",
+      "worker_version": "b451ad9b-3990-4438-897a-bfa6cc0bc8ad",
+      "trigger_type": "scheduled",
+      "cron": "40 11 * * *",
+      "scheduled_for": "2026-09-19 11:40:07+00",
+      "runtime": "cloudflare-workers",
+      "outcome": "ran",
+      "ingest_run_id": "c49f8208-8364-4824-a843-c4c1cdb8a373",
+      "detail": {
+        "status": "partial",
+        "adapter": "florida"
+      },
+      "started_at": "2026-09-19 11:41:58.384+00",
+      "completed_at": "2026-09-19 11:42:04.321521+00"
+    },
+    {
+      "invocation_id": "06f5fed0-d100-4eb2-9f36-77ef701d6b9a:new_jersey",
+      "worker_name": "boxing-commissions-staging",
+      "worker_version": "b451ad9b-3990-4438-897a-bfa6cc0bc8ad",
+      "trigger_type": "scheduled",
+      "cron": "40 11 * * *",
+      "scheduled_for": "2026-09-19 11:40:07+00",
+      "runtime": "cloudflare-workers",
+      "outcome": "failed",
+      "ingest_run_id": "6f43b7c9-2c42-4516-a29a-982a9a9398ac",
+      "detail": {
+        "status": "failed",
+        "adapter": "new_jersey"
+      },
+      "started_at": "2026-09-19 11:42:04.347+00",
+      "completed_at": "2026-09-19 11:42:15.712335+00"
+    },
+    {
+      "invocation_id": "06f5fed0-d100-4eb2-9f36-77ef701d6b9a:missouri",
+      "worker_name": "boxing-commissions-staging",
+      "worker_version": "b451ad9b-3990-4438-897a-bfa6cc0bc8ad",
+      "trigger_type": "scheduled",
+      "cron": "40 11 * * *",
+      "scheduled_for": "2026-09-19 11:40:07+00",
+      "runtime": "cloudflare-workers",
+      "outcome": "ran",
+      "ingest_run_id": "15b6968f-2b63-452f-b905-770f3b31b6f0",
+      "detail": {
+        "status": "ok",
+        "adapter": "missouri"
+      },
+      "started_at": "2026-09-19 11:42:15.731+00",
+      "completed_at": "2026-09-19 11:42:22.942823+00"
+    },
+    {
+      "invocation_id": "06f5fed0-d100-4eb2-9f36-77ef701d6b9a:pennsylvania",
+      "worker_name": "boxing-commissions-staging",
+      "worker_version": "b451ad9b-3990-4438-897a-bfa6cc0bc8ad",
+      "trigger_type": "scheduled",
+      "cron": "40 11 * * *",
+      "scheduled_for": "2026-09-19 11:40:07+00",
+      "runtime": "cloudflare-workers",
+      "outcome": "ran",
+      "ingest_run_id": "81f66020-caca-4b35-96b3-54c42f30ad51",
+      "detail": {
+        "status": "ok",
+        "adapter": "pennsylvania"
+      },
+      "started_at": "2026-09-19 11:42:22.96+00",
+      "completed_at": "2026-09-19 11:42:24.187395+00"
+    },
+    {
+      "invocation_id": "06f5fed0-d100-4eb2-9f36-77ef701d6b9a:tennessee",
+      "worker_name": "boxing-commissions-staging",
+      "worker_version": "b451ad9b-3990-4438-897a-bfa6cc0bc8ad",
+      "trigger_type": "scheduled",
+      "cron": "40 11 * * *",
+      "scheduled_for": "2026-09-19 11:40:07+00",
+      "runtime": "cloudflare-workers",
+      "outcome": "ran",
+      "ingest_run_id": "2400a9af-d229-442c-a834-880cdb687725",
+      "detail": {
+        "status": "ok",
+        "adapter": "tennessee"
+      },
+      "started_at": "2026-09-19 11:42:24.206+00",
+      "completed_at": "2026-09-19 11:42:24.884991+00"
+    }
+  ],
+  "runs": [
+    {
+      "id": "f7e50c23-5760-41f4-9e5b-213508c732e0",
+      "source_key": "nsac_nevada",
+      "trigger_type": "scheduled",
+      "worker_name": "boxing-commissions-staging",
+      "worker_version": "b451ad9b-3990-4438-897a-bfa6cc0bc8ad",
+      "invocation_id": "06f5fed0-d100-4eb2-9f36-77ef701d6b9a",
+      "scheduled_for": "2026-09-19 11:40:07+00",
+      "source_version": "nsac-nevada@1.0.2",
+      "status": "partial",
+      "started_at": "2026-09-19 11:40:20.164323+00",
+      "completed_at": "2026-09-19 11:41:58.277+00",
+      "metrics": {
+        "mode": "forward",
+        "apply": {
+          "news": {
+            "EVENT_ADDED": 3
+          },
+          "events": 15,
+          "weigh_ins": 0,
+          "suspensions": 0,
+          "bouts_linked": 91,
+          "review_items": [
+            "fb8affec-e0fa-4de4-bc4a-1ee805133ab0",
+            "ae18ff21-eca8-4377-b1b6-424a43d636d8",
+            "c273a178-925a-45be-99f9-10d4bb73e852",
+            "abf4f097-5b16-4c3e-92ad-9103ab846eff",
+            "c380599d-6f7d-48fc-82b0-8891a63e7136"
+          ],
+          "events_created": 3,
+          "graph_decisions": {
+            "C:review": 5
+          },
+          "results_created": 0,
+          "results_revised": 0,
+          "skipped_reasons": {
+            "bout_not_created_identity_unresolved": 5
+          },
+          "results_duplicate": 90,
+          "bouts_in_documents": 96,
+          "scorecards_written": 0,
+          "graph_bindings_used": 1,
+          "identity_unresolved": 16,
+          "officials_held_for_review": 1,
+          "officials_kept_on_reparse": 226
+        },
+        "adapter": "nevada",
+        "http_errors": 0,
+        "bouts_observed": 96,
+        "parse_failures": 0,
+        "events_observed": 18,
+        "documents_listed": 40,
+        "rejected_reasons": {
+          "listing_not_boxing:mma": 19,
+          "not_professional_boxing": 1005,
+          "listing_not_boxing:power_slap": 4
+        },
+        "documents_changed": 12,
+        "documents_fetched": 12,
+        "documents_skipped": 28,
+        "documents_rejected": 0,
+        "documents_unchanged": 0,
+        "documents_parser_pending": 0,
+        "documents_parser_superseded": 12
+      }
+    },
+    {
+      "id": "c49f8208-8364-4824-a843-c4c1cdb8a373",
+      "source_key": "florida_athletic_commission",
+      "trigger_type": "scheduled",
+      "worker_name": "boxing-commissions-staging",
+      "worker_version": "b451ad9b-3990-4438-897a-bfa6cc0bc8ad",
+      "invocation_id": "06f5fed0-d100-4eb2-9f36-77ef701d6b9a",
+      "scheduled_for": "2026-09-19 11:40:07+00",
+      "source_version": "florida-athletic-commission@1.0.2",
+      "status": "partial",
+      "started_at": "2026-09-19 11:41:58.51984+00",
+      "completed_at": "2026-09-19 11:42:04.238+00",
+      "metrics": {
+        "mode": "forward",
+        "apply": {
+          "events": 7,
+          "weigh_ins": 0,
+          "suspensions": 0,
+          "bouts_linked": 0,
+          "review_items": [],
+          "events_created": 0,
+          "results_created": 0,
+          "results_revised": 0,
+          "skipped_reasons": {},
+          "results_duplicate": 0,
+          "bouts_in_documents": 0,
+          "scorecards_written": 0,
+          "graph_bindings_used": 0,
+          "identity_unresolved": 0
+        },
+        "adapter": "florida",
+        "http_errors": 0,
+        "bouts_observed": 0,
+        "parse_failures": 0,
+        "events_observed": 7,
+        "documents_listed": 16,
+        "rejected_reasons": {
+          "listing_not_boxing:other": 1,
+          "not_professional_boxing:mma": 2,
+          "listing_not_boxing:bare_knuckle": 2,
+          "listing_not_boxing:karate_combat": 1,
+          "not_professional_boxing:bare_knuckle": 1
+        },
+        "documents_changed": 0,
+        "documents_fetched": 1,
+        "documents_not_pdf": 1,
+        "documents_skipped": 15,
+        "documents_rejected": 0,
+        "documents_unchanged": 0,
+        "documents_parser_pending": 0
+      }
+    },
+    {
+      "id": "6f43b7c9-2c42-4516-a29a-982a9a9398ac",
+      "source_key": "nj_sacb",
+      "trigger_type": "scheduled",
+      "worker_name": "boxing-commissions-staging",
+      "worker_version": "b451ad9b-3990-4438-897a-bfa6cc0bc8ad",
+      "invocation_id": "06f5fed0-d100-4eb2-9f36-77ef701d6b9a",
+      "scheduled_for": "2026-09-19 11:40:07+00",
+      "source_version": "nj-sacb@1.1.1",
+      "status": "failed",
+      "started_at": "2026-09-19 11:42:04.500947+00",
+      "completed_at": "2026-09-19 11:42:15.626+00",
+      "metrics": {
+        "mode": "forward",
+        "apply": {
+          "events": 9,
+          "weigh_ins": 0,
+          "suspensions": 0,
+          "bouts_linked": 0,
+          "review_items": [],
+          "events_created": 0,
+          "results_created": 0,
+          "results_revised": 0,
+          "skipped_reasons": {},
+          "results_duplicate": 0,
+          "bouts_in_documents": 0,
+          "scorecards_written": 0,
+          "graph_bindings_used": 0,
+          "identity_unresolved": 0
+        },
+        "error": "postgrest POST rpc/boxing_record_regulatory_action failed: lane_not_rights_approved: suspensions is review_scope_gap for source nj_sacb",
+        "adapter": "new_jersey",
+        "http_errors": 0,
+        "bouts_observed": 8,
+        "parse_failures": 0,
+        "events_observed": 10,
+        "documents_listed": 1,
+        "rejected_reasons": {
+          "not_professional_boxing:mma": 39,
+          "not_professional_boxing:unknown": 1,
+          "not_professional_boxing:kickboxing": 5,
+          "not_professional_boxing:bare_knuckle": 2
+        },
+        "documents_changed": 1,
+        "documents_fetched": 1,
+        "documents_skipped": 0,
+        "documents_rejected": 0,
+        "documents_unchanged": 0,
+        "documents_parser_pending": 0,
+        "documents_parser_superseded": 1
+      }
+    },
+    {
+      "id": "15b6968f-2b63-452f-b905-770f3b31b6f0",
+      "source_key": "mo_office_of_athletics",
+      "trigger_type": "scheduled",
+      "worker_name": "boxing-commissions-staging",
+      "worker_version": "b451ad9b-3990-4438-897a-bfa6cc0bc8ad",
+      "invocation_id": "06f5fed0-d100-4eb2-9f36-77ef701d6b9a",
+      "scheduled_for": "2026-09-19 11:40:07+00",
+      "source_version": "mo-athletics@1.0.0",
+      "status": "ok",
+      "started_at": "2026-09-19 11:42:15.870103+00",
+      "completed_at": "2026-09-19 11:42:22.858+00",
+      "metrics": {
+        "mode": "forward",
+        "apply": {},
+        "adapter": "missouri",
+        "http_errors": 0,
+        "bouts_observed": 0,
+        "parse_failures": 0,
+        "events_observed": 0,
+        "documents_listed": 6,
+        "rejected_reasons": {
+          "listing_not_boxing:kickboxing": 6
+        },
+        "documents_changed": 0,
+        "documents_fetched": 0,
+        "documents_skipped": 6,
+        "documents_rejected": 0,
+        "documents_unchanged": 0,
+        "documents_parser_pending": 0
+      }
+    },
+    {
+      "id": "81f66020-caca-4b35-96b3-54c42f30ad51",
+      "source_key": "pa_state_athletic_commission",
+      "trigger_type": "scheduled",
+      "worker_name": "boxing-commissions-staging",
+      "worker_version": "b451ad9b-3990-4438-897a-bfa6cc0bc8ad",
+      "invocation_id": "06f5fed0-d100-4eb2-9f36-77ef701d6b9a",
+      "scheduled_for": "2026-09-19 11:40:07+00",
+      "source_version": "pa-sac@1.0.0",
+      "status": "ok",
+      "started_at": "2026-09-19 11:42:23.098258+00",
+      "completed_at": "2026-09-19 11:42:24.099+00",
+      "metrics": {
+        "mode": "forward",
+        "apply": {},
+        "adapter": "pennsylvania",
+        "http_errors": 0,
+        "bouts_observed": 0,
+        "parse_failures": 0,
+        "events_observed": 0,
+        "documents_listed": 15,
+        "rejected_reasons": {
+          "listing_not_boxing:mma": 4,
+          "listing_not_boxing:muay_thai": 1,
+          "listing_not_boxing:kickboxing": 1
+        },
+        "documents_changed": 0,
+        "documents_fetched": 0,
+        "documents_skipped": 15,
+        "documents_rejected": 0,
+        "documents_unchanged": 0,
+        "documents_parser_pending": 0
+      }
+    },
+    {
+      "id": "2400a9af-d229-442c-a834-880cdb687725",
+      "source_key": "tn_athletic_commission",
+      "trigger_type": "scheduled",
+      "worker_name": "boxing-commissions-staging",
+      "worker_version": "b451ad9b-3990-4438-897a-bfa6cc0bc8ad",
+      "invocation_id": "06f5fed0-d100-4eb2-9f36-77ef701d6b9a",
+      "scheduled_for": "2026-09-19 11:40:07+00",
+      "source_version": "tn-athletic@1.0.0",
+      "status": "ok",
+      "started_at": "2026-09-19 11:42:24.348346+00",
+      "completed_at": "2026-09-19 11:42:24.792+00",
+      "metrics": {
+        "mode": "forward",
+        "apply": {},
+        "adapter": "tennessee",
+        "http_errors": 0,
+        "bouts_observed": 0,
+        "parse_failures": 0,
+        "events_observed": 0,
+        "documents_listed": 4,
+        "rejected_reasons": {
+          "listing_not_boxing:mma": 1,
+          "listing_not_boxing:kickboxing": 1
+        },
+        "documents_changed": 0,
+        "documents_fetched": 0,
+        "documents_skipped": 4,
+        "documents_rejected": 0,
+        "documents_unchanged": 0,
+        "index_dates_unreadable": 0,
+        "documents_parser_pending": 0
+      }
+    }
+  ],
+  "other": {
+    "texas_runs": 0,
+    "revisions_since_slot": [
+      {
+        "doc": "nv-calendar:professional",
+        "parser": null,
+        "revision": 8
+      },
+      {
+        "doc": "fl-upcoming:professional",
+        "parser": null,
+        "revision": 6
+      },
+      {
+        "doc": "fl-results:listing",
+        "parser": null,
+        "revision": 6
+      },
+      {
+        "doc": "nj-schedule",
+        "parser": null,
+        "revision": 8
+      },
+      {
+        "doc": "mo-results:index",
+        "parser": null,
+        "revision": 6
+      },
+      {
+        "doc": "pa-results:index",
+        "parser": null,
+        "revision": 6
+      },
+      {
+        "doc": "tn-results:events",
+        "parser": null,
+        "revision": 5
+      }
+    ],
+    "queue_items_since_slot": {},
+    "human_decisions_since_slot": 0,
+    "decisions_since_slot_by_version": {},
+    "non_scheduled_runs_since_baseline": 0,
+    "event_identities_first_seen_since_slot": [
+      {
+        "date": "2026-11-14",
+        "name": "Joey Gilbert Promotions at Silver Legacy Reno - A Caesars Rewards Destination",
+        "source": "nsac_nevada"
+      },
+      {
+        "date": "2026-10-17",
+        "name": "TGB Promotions at The Cosmopolitan of Las Vegas",
+        "source": "nsac_nevada"
+      },
+      {
+        "date": "2026-11-10",
+        "name": "TheBag2 LLC at Silverton Casino Lodge",
+        "source": "nsac_nevada"
+      }
+    ]
+  },
+  "baseline_taken_at": "2026-09-18T07:08:17.108698-05:00",
+  "snapshot": {
+    "global": {
+      "bouts": 715,
+      "events": 216,
+      "fighters": 1764,
+      "officials": 182,
+      "queue_resolver_versions": {
+        "boxing-identity-resolver@1.0.0": 629
+      },
+      "bout_identity_collisions": 0,
+      "possible_duplicate_bouts": 0,
+      "same_day_same_pair_bouts": 20,
+      "duplicate_active_referees": 0,
+      "event_identity_collisions": 0,
+      "decision_resolver_versions": {
+        "boxing-identity-graph@1.0.0": 254,
+        "boxing-identity-graph@1.1.0": 797,
+        "human-review:boxing-identity-review-workbench@1.0.0": 14
+      },
+      "duplicate_active_judge_slots": 0
+    },
+    "sources": {
+      "nj_sacb": {
+        "bouts": 59,
+        "events": 20,
+        "documents": {
+          "parsed": 10
+        },
+        "result_rows": 57,
+        "suspensions": 77,
+        "observations": 279,
+        "review_pending": 17,
+        "bout_identities": 59,
+        "decisions_human": 0,
+        "results_current": 57,
+        "review_resolved": 6,
+        "decisions_resolver": 29,
+        "document_revisions": 17,
+        "scorecards_current": 27,
+        "documents_with_revisions": 1,
+        "official_assignments_active": 189
+      },
+      "nsac_nevada": {
+        "bouts": 115,
+        "events": 21,
+        "documents": {
+          "parsed": 19
+        },
+        "result_rows": 113,
+        "suspensions": 0,
+        "observations": 465,
+        "review_pending": 19,
+        "bout_identities": 115,
+        "decisions_human": 0,
+        "results_current": 113,
+        "review_resolved": 7,
+        "decisions_resolver": 33,
+        "document_revisions": 30,
+        "scorecards_current": 156,
+        "documents_with_revisions": 2,
+        "official_assignments_active": 297
+      },
+      "mo_office_of_athletics": {
+        "bouts": 28,
+        "events": 8,
+        "documents": {
+          "parsed": 9,
+          "rejected": 1
+        },
+        "result_rows": 24,
+        "suspensions": 10,
+        "observations": 123,
+        "review_pending": 13,
+        "bout_identities": 28,
+        "decisions_human": 0,
+        "results_current": 24,
+        "review_resolved": 4,
+        "decisions_resolver": 19,
+        "document_revisions": 15,
+        "scorecards_current": 0,
+        "documents_with_revisions": 1,
+        "official_assignments_active": 103
+      },
+      "tn_athletic_commission": {
+        "bouts": 153,
+        "events": 99,
+        "documents": {
+          "parsed": 103,
+          "rejected": 17
+        },
+        "result_rows": 152,
+        "suspensions": 114,
+        "observations": 1621,
+        "review_pending": 361,
+        "bout_identities": 153,
+        "decisions_human": 0,
+        "results_current": 152,
+        "review_resolved": 0,
+        "decisions_resolver": 681,
+        "document_revisions": 129,
+        "scorecards_current": 98,
+        "documents_with_revisions": 2,
+        "official_assignments_active": 266
+      },
+      "florida_athletic_commission": {
+        "bouts": 271,
+        "events": 41,
+        "documents": {
+          "error": 1,
+          "parsed": 36,
+          "rejected": 11
+        },
+        "result_rows": 285,
+        "suspensions": 125,
+        "observations": 1145,
+        "review_pending": 89,
+        "bout_identities": 271,
+        "decisions_human": 14,
+        "results_current": 265,
+        "review_resolved": 32,
+        "decisions_resolver": 202,
+        "document_revisions": 57,
+        "scorecards_current": 0,
+        "documents_with_revisions": 2,
+        "official_assignments_active": 906
+      },
+      "pa_state_athletic_commission": {
+        "bouts": 74,
+        "events": 23,
+        "documents": {
+          "parsed": 24,
+          "rejected": 11
+        },
+        "result_rows": 71,
+        "suspensions": 33,
+        "observations": 430,
+        "review_pending": 78,
+        "bout_identities": 74,
+        "decisions_human": 0,
+        "results_current": 71,
+        "review_resolved": 0,
+        "decisions_resolver": 87,
+        "document_revisions": 40,
+        "scorecards_current": 0,
+        "documents_with_revisions": 1,
+        "official_assignments_active": 54
+      }
+    },
+    "taken_at": "2026-09-19T07:05:55.499497-05:00"
+  },
+  "deltas": {
+    "nj_sacb": {
+      "bouts": 0,
+      "events": 0,
+      "documents": {
+        "before": {
+          "parsed": 10
+        },
+        "after": {
+          "parsed": 10
+        }
+      },
+      "result_rows": 0,
+      "suspensions": 0,
+      "observations": 0,
+      "review_pending": 0,
+      "bout_identities": 0,
+      "decisions_human": 0,
+      "results_current": 0,
+      "review_resolved": 0,
+      "decisions_resolver": 0,
+      "document_revisions": 1,
+      "scorecards_current": 0,
+      "documents_with_revisions": 0,
+      "official_assignments_active": 0
+    },
+    "nsac_nevada": {
+      "bouts": 0,
+      "events": 3,
+      "documents": {
+        "before": {
+          "parsed": 19
+        },
+        "after": {
+          "parsed": 19
+        }
+      },
+      "result_rows": 0,
+      "suspensions": 0,
+      "observations": 3,
+      "review_pending": 0,
+      "bout_identities": 0,
+      "decisions_human": 0,
+      "results_current": 0,
+      "review_resolved": 0,
+      "decisions_resolver": 0,
+      "document_revisions": 1,
+      "scorecards_current": 0,
+      "documents_with_revisions": 0,
+      "official_assignments_active": 0
+    },
+    "mo_office_of_athletics": {
+      "bouts": 0,
+      "events": 0,
+      "documents": {
+        "before": {
+          "parsed": 9,
+          "rejected": 1
+        },
+        "after": {
+          "parsed": 9,
+          "rejected": 1
+        }
+      },
+      "result_rows": 0,
+      "suspensions": 0,
+      "observations": 0,
+      "review_pending": 0,
+      "bout_identities": 0,
+      "decisions_human": 0,
+      "results_current": 0,
+      "review_resolved": 0,
+      "decisions_resolver": 0,
+      "document_revisions": 1,
+      "scorecards_current": 0,
+      "documents_with_revisions": 0,
+      "official_assignments_active": 0
+    },
+    "tn_athletic_commission": {
+      "bouts": 0,
+      "events": 0,
+      "documents": {
+        "before": {
+          "parsed": 103,
+          "rejected": 17
+        },
+        "after": {
+          "parsed": 103,
+          "rejected": 17
+        }
+      },
+      "result_rows": 0,
+      "suspensions": 0,
+      "observations": 0,
+      "review_pending": 0,
+      "bout_identities": 0,
+      "decisions_human": 0,
+      "results_current": 0,
+      "review_resolved": 0,
+      "decisions_resolver": 0,
+      "document_revisions": 1,
+      "scorecards_current": 0,
+      "documents_with_revisions": 0,
+      "official_assignments_active": 0
+    },
+    "florida_athletic_commission": {
+      "bouts": 0,
+      "events": 0,
+      "documents": {
+        "before": {
+          "error": 1,
+          "parsed": 36,
+          "rejected": 11
+        },
+        "after": {
+          "error": 1,
+          "parsed": 36,
+          "rejected": 11
+        }
+      },
+      "result_rows": 0,
+      "suspensions": 0,
+      "observations": 0,
+      "review_pending": 0,
+      "bout_identities": 0,
+      "decisions_human": 0,
+      "results_current": 0,
+      "review_resolved": 0,
+      "decisions_resolver": 0,
+      "document_revisions": 2,
+      "scorecards_current": 0,
+      "documents_with_revisions": 0,
+      "official_assignments_active": 0
+    },
+    "pa_state_athletic_commission": {
+      "bouts": 0,
+      "events": 0,
+      "documents": {
+        "before": {
+          "parsed": 24,
+          "rejected": 11
+        },
+        "after": {
+          "parsed": 24,
+          "rejected": 11
+        }
+      },
+      "result_rows": 0,
+      "suspensions": 0,
+      "observations": 0,
+      "review_pending": 0,
+      "bout_identities": 0,
+      "decisions_human": 0,
+      "results_current": 0,
+      "review_resolved": 0,
+      "decisions_resolver": 0,
+      "document_revisions": 1,
+      "scorecards_current": 0,
+      "documents_with_revisions": 0,
+      "official_assignments_active": 0
+    }
+  },
+  "global_before": {
+    "bouts": 700,
+    "events": 209,
+    "fighters": 1731,
+    "officials": 182,
+    "queue_resolver_versions": {
+      "boxing-identity-resolver@1.0.0": 626
+    },
+    "bout_identity_collisions": 0,
+    "possible_duplicate_bouts": 0,
+    "same_day_same_pair_bouts": 20,
+    "duplicate_active_referees": 0,
+    "event_identity_collisions": 0,
+    "decision_resolver_versions": {
+      "boxing-identity-graph@1.0.0": 254,
+      "boxing-identity-graph@1.1.0": 797,
+      "human-review:boxing-identity-review-workbench@1.0.0": 14
+    },
+    "duplicate_active_judge_slots": 0
+  },
+  "global_after": {
+    "bouts": 715,
+    "events": 216,
+    "fighters": 1764,
+    "officials": 182,
+    "queue_resolver_versions": {
+      "boxing-identity-resolver@1.0.0": 629
+    },
+    "bout_identity_collisions": 0,
+    "possible_duplicate_bouts": 0,
+    "same_day_same_pair_bouts": 20,
+    "duplicate_active_referees": 0,
+    "event_identity_collisions": 0,
+    "decision_resolver_versions": {
+      "boxing-identity-graph@1.0.0": 254,
+      "boxing-identity-graph@1.1.0": 797,
+      "human-review:boxing-identity-review-workbench@1.0.0": 14
+    },
+    "duplicate_active_judge_slots": 0
+  }
+}
