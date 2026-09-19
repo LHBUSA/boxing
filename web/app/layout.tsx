@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono, Playfair_Display } from "next/font/google";
 import { Suspense } from "react";
 import { Arena, Footer, Header, Wire } from "@/components/Shell";
+import { NetworkAnalytics } from "@/components/NetworkAnalytics";
 import { SITE } from "@/lib/nav";
 import { INDEXABLE } from "@/lib/posture";
 import "./globals.css";
@@ -27,6 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${playfair.variable} ${inter.variable} ${mono.variable}`}>
       <body>
+        <NetworkAnalytics surface="boxing" />
         <a href="#main" className="skip">Skip to content</a>
         <Arena />
         <Header />
