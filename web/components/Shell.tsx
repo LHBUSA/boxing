@@ -2,7 +2,7 @@ import Link from "next/link";
 import { gateway, todayUtc } from "@/lib/gateway";
 import { daysBetween, fmtDateShort, methodLabel, shortEventName, winnerLoser } from "@/lib/format";
 import { eventPath } from "@/lib/slug";
-import { MORE_NAV, NETWORK, PRIMARY_NAV, SITE, filterNav } from "@/lib/nav";
+import { MORE_NAV, NETWORK, NETWORK_LINKS, PRIMARY_NAV, SITE, filterNav } from "@/lib/nav";
 import { navAvailability } from "@/lib/availability";
 import { DesktopNav, MobileNav } from "./Nav";
 
@@ -131,6 +131,7 @@ export async function Footer() {
           </div>
           <div>
             <h4>PropBetEdge</h4>
+            {NETWORK_LINKS.map((l) => <a key={l.key} href={l.href}>{l.label}</a>)}
             {NETWORK.map((s) => <a key={s.key} href={s.href}>{s.label}</a>)}
           </div>
         </div>

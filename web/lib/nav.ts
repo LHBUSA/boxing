@@ -29,6 +29,11 @@ export const MORE_NAV: NavItem[] = [
   { key: "methodology", label: "Methodology", href: "/methodology", blurb: "Sources, verified records and how we measure" },
 ];
 
+// Network destinations that are not sports. First-party PropBetEdge links: canonical, same-tab.
+export const NETWORK_LINKS = [
+  { key: "learn", label: "Learn", href: "https://learn.propbetedge.ai/" },
+];
+
 export const NETWORK = [
   { key: "mlb", label: "MLB", href: "https://mlb.propbetedge.ai/" },
   { key: "nfl", label: "NFL", href: "https://nfl.propbetedge.ai/" },
