@@ -41,6 +41,7 @@ export const NETWORK = [
   { key: "nba", label: "NBA", href: "https://nba.propbetedge.ai/" },
   { key: "wnba", label: "WNBA", href: "https://wnba.propbetedge.ai/" },
   { key: "nhl", label: "NHL", href: "https://nhl.propbetedge.ai/" },
+  { key: "tennis", label: "Tennis", href: "https://tennis.propbetedge.ai/" },
 ];
 
 export const filterNav = (items: NavItem[], available: Set<NavKey>) => items.filter((n) => available.has(n.key));
