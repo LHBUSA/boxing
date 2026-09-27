@@ -69,6 +69,10 @@ export default async function Home() {
       <section className="hero">
         <div className="wrap hero__grid">
           <div>
+            <div className="open-build">
+              <span className="open-build__badge"><i aria-hidden="true" />OPEN BUILD</span>
+              <span className="open-build__copy">Real data · live systems · daily updates</span>
+            </div>
             <div className="eyebrow" style={{ display: "flex", alignItems: "center", gap: 10 }}><RingGlyph /> This week in boxing</div>
             {fw ? (
               <>
@@ -81,6 +85,7 @@ export default async function Home() {
                 <p className="hero__lede">Boxing from the official record up: cards, fighters, judges&apos; scorecards, officials, titles, markets and history.</p>
               </>
             )}
+            <p className="open-build__note">Follow along as PropBetEdge Boxing is built in public. The records, cards, scorecards and intelligence are real; the product is still being finished.</p>
             <div className="hero__cta">
               <Link className="btn btn--gold" href="/fight-week">Enter Fight Week →</Link>
               <Link className="btn" href="/scorecards">Scorecard Center</Link>
