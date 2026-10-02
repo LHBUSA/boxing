@@ -87,10 +87,13 @@ export function checkIbfResponse(json, { slug }) {
   if (!Array.isArray(json) || !json.length) throw new StructureError(`ibf ${slug}: not a non-empty array`);
   for (const r of json) {
     for (const k of ['title', 'rating_month', 'post_date', 'ratings', 'champ', 'wba', 'wbc', 'wbo']) if (!(k in r)) throw new StructureError(`ibf ${slug}: record without ${k}`);
-    if (!/^\d{8}$/.test(String(r.rating_month))) throw new StructureError(`ibf ${slug}: rating_month ${r.rating_month}`);
   }
   return json;
 }
+// A record whose rating_month is not YYYYMMDD cannot be dated, so it is refused on its own (the 08/2026 middleweight
+// record was published on 2026-09-08 with rating_month "" and no champion); the division's other records and the other
+// divisions still load. A layout change (a missing field) still fails the whole response above.
+export const ibfDatedRecords = (json) => json.filter((r) => /^\d{8}$/.test(String(r.rating_month)));
 export function checkWboRatings(parsed) {
   if (!parsed.as_of && !parsed.month) throw new StructureError('wbo ratings: no date');
   if (parsed.divisions.length < 15) throw new StructureError(`wbo ratings: ${parsed.divisions.length} divisions`);
@@ -309,7 +312,12 @@ async function collectWba(ctx, { month = null }) {
 
 async function processIbfRecords(ctx, slug, json, { latestOnly }) {
   const { store, sourceKey, runId, identities, metrics } = ctx;
-  const records = parseIbfResponse(checkIbfResponse(json, { slug }), { weightSlug: slug }).sort((a, b) => a.results_month_end.localeCompare(b.results_month_end));
+  const checked = checkIbfResponse(json, { slug });
+  const dated = ibfDatedRecords(checked);
+  for (const r of checked.filter((x) => !dated.includes(x))) {
+    (metrics.refused ??= []).push({ kind: 'ibf_rating', division: slug, reason: 'record_without_rating_month', detail: String(r.title ?? '').slice(0, 120) });
+  }
+  const records = parseIbfResponse(dated, { weightSlug: slug }).sort((a, b) => a.results_month_end.localeCompare(b.results_month_end));
   const pick = latestOnly ? records.slice(-1) : records;
   for (const rec of pick) {
     if (!rec.division.weight_class_key) { await holdUnknownDivision(store, { body: 'ibf', kind: 'ibf_rating', sourceKey, nativeLabel: slug, limitText: rec.division.label_as_printed, metrics }); continue; }

@@ -30,7 +30,7 @@ if (-not $CoverageOnly) {
 try {
   $env:SUPABASE_URL = "https://$ref.supabase.co"
   $env:SUPABASE_SERVICE_ROLE_KEY = $service
-  $env:BOXING_ENVIRONMENT = 'staging'
+  $env:BOXING_ENVIRONMENT = 'production'
   $env:BOXING_SUPABASE_REF = $ref
   if ($oddsKey) { $env:ODDS_API_KEY = $oddsKey }
   $nodeArgs = @((Join-Path $root 'scripts/odds/capture-once.mjs'))

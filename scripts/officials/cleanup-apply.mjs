@@ -21,7 +21,7 @@ if (!actor || !process.argv.includes('--confirm-staging')) {
 }
 const out = arg('out') ?? '.';
 const store = guardedPostgrestStore(process.env);
-if (store.writeTarget.environment !== 'staging') throw new Error(`refusing non-staging target ${store.writeTarget.ref}`);
+if (store.writeTarget.environment !== 'production') throw new Error(`refusing non-Boxing-database target ${store.writeTarget.ref}`);
 console.error(`target: ${store.writeTarget.projectName} (${store.writeTarget.ref}, ${store.writeTarget.environment})`);
 
 const before = await store.officialCleanupEvidence();

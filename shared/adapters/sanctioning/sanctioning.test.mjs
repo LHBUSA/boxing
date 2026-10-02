@@ -245,3 +245,13 @@ test('WBC ratings page, 2026-10 redesign: men\'s champion cards only (not the ma
   assert.equal(feed.cards[0].division_page, 'https://wbcboxing.com/ratings/varonil/completo/');
   assert.deepEqual(wbcRatingsLinks(wbcRatingsFeedHtml()), [WBC_PDF_URL]);
 });
+
+test('IBF: a record published without a rating month is refused on its own; a missing field still fails the response', async () => {
+  const { checkIbfResponse, ibfDatedRecords } = await import('../../titles/sanctioning-ingest.mjs');
+  const { ibfRecord } = await import('../../../tests/fixtures/sanctioning/synthetic.mjs');
+  const good = ibfRecord({ title: 'IBF: MIDDLEWEIGHT (160 LBS) &#8211; 07/2026', rating_month: '20260731' });
+  const undated = ibfRecord({ title: 'IBF: MIDDLEWEIGHT (160 LBS) &#8211; 08/2026', rating_month: '', champ: '' });
+  assert.deepEqual(ibfDatedRecords(checkIbfResponse([good, undated], { slug: 'middleweight' })), [good]);
+  const { wbo, ...missing } = good;
+  assert.throws(() => checkIbfResponse([missing], { slug: 'middleweight' }), /record without wbo/);
+});

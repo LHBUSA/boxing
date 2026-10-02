@@ -26,7 +26,7 @@ if (-not $CoverageOnly) {
   try {
     $env:SUPABASE_URL = "https://$ref.supabase.co"
     $env:SUPABASE_SERVICE_ROLE_KEY = $service
-    $env:BOXING_ENVIRONMENT = 'staging'
+    $env:BOXING_ENVIRONMENT = 'production'
     $env:BOXING_SUPABASE_REF = $ref
     node (Join-Path $root 'scripts/intel/dna-once.mjs') $tmp
     if ($LASTEXITCODE -ne 0) { throw "dna-once exited $LASTEXITCODE" }

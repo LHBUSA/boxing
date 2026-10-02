@@ -21,7 +21,7 @@ if (-not $service) { throw 'service_role key not available' }
 try {
   $env:SUPABASE_URL = "https://$ref.supabase.co"
   $env:SUPABASE_SERVICE_ROLE_KEY = $service
-  $env:BOXING_ENVIRONMENT = 'staging'
+  $env:BOXING_ENVIRONMENT = 'production'
   $env:BOXING_SUPABASE_REF = $ref
   $nodeArgs = @((Join-Path $root 'scripts/sanctioning/discover-once.mjs'), "--window=$WindowDays")
   if ($Apply) { $nodeArgs += '--apply' }
