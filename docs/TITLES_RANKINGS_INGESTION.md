@@ -117,12 +117,16 @@ rewritten, and the review queue should use the consecutive ones.
 WBC history discovery reads the three public ratings pages for linked PDFs (`titles-collect.ps1 -Body wbc -Backfill`); a dead link is recorded with `access_gap: true`. WBA/WBO/IBF ran in foreground, checkpointed chunks, because the host is memory-constrained; background runs were killed twice. Retry
 passes use `-RetryFailedBefore <time>` so each earlier failure is re-read once.
 
-| Body | Months with stored documents | Range | Months still open (only the affected divisions) |
-|---|---|---|---|
-| IBF | 248 | 2005-12 to 2026-08 | 0 |
-| WBA | 311 (every month the WBA lists) | 2000-01 to 2026-08 | 189: 172 lone "unified/undisputed" phrase; 15 division listed twice; 3 `UNKNOWN` division (one month has both of the last two) |
-| WBO | 306 | 2000-01 to 2026-08 | 14 unavailable: 12 with no ratings published, 1 with one division, 1 without a numbered list |
-| WBC | 1 (2026-09) | current month only | **source-access gap**: the WBC links only the current month's PDF. The two older men's PDFs linked anywhere on the site (May 2020 from a news post, August 2024 from `/en/championsratings/`) return 404, and no file names are guessed. History grows from the monthly collection |
+Coverage as of 2026-10-02 (staging; `scripts/staging/titles-report.sql` `months_by_body`). The four bodies do NOT have equal depth, and the product says so:
+
+| Body | History available from | Months with stored documents | Last month | Months still open (only the affected divisions) |
+|---|---|---|---|---|
+| WBA | 2000-01 | 312 (every month the WBA lists) | 2026-09 | 189: 172 lone "unified/undisputed" phrase; 15 division listed twice; 3 `UNKNOWN` division (one month has both of the last two). The 2026-09-20 scheduled run failed on the 2026-09-30 header redesign (fixed in wba-ranking@1.0.1) |
+| WBO | 2000-01 | 307 | 2026-09 | 14 unavailable: 12 with no ratings published, 1 with one division, 1 without a numbered list |
+| IBF | 2005-12 | 248 | 2026-08 | 0 |
+| WBC | 2026-09 | 2 (2026-09, 2026-10) | 2026-10 | **source-access gap, not a rights gap**: the WBC links only the current month's PDF. The two older men's PDFs linked anywhere on the site (May 2020 from a news post, August 2024 from `/en/championsratings/`) return 404, and no file names are guessed. History grows by one month per monthly collection. Proof: `reviews/titles/2026-10-02-wbc-current-month-proof.json` |
+
+WBC history never blocks the rest of the product: the WBC lane shows its own months and its start date (2026-09).
 
 ## Append-only staging history (kept, not cleaned)
 

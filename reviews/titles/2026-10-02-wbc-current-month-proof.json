@@ -1,0 +1,357 @@
+{
+  "proof": "WBC current-month collection on Boxing STAGING (wpaxofilvbsjyrxrwjhg)",
+  "taken": "2026-10-02",
+  "main": "e60821f",
+  "command": "pwsh scripts/staging/titles-collect.ps1 -Body wbc",
+  "source_pages": {
+    "ratings_page": "https://wbcboxing.com/ratings/ (https://wbcboxing.com/main-ratings-es/ answers 301 to it)",
+    "men_pdf_linked_on_page": "https://wbcboxing.com/mailing/2026/WBC_RATINGS_OCTUBRE_2026.pdf",
+    "female_pdf_ignored": "https://wbcboxing.com/mailing/2026/WBC_RATINGS_FEMALE_SEPTEMBER__2026.pdf"
+  },
+  "collector_result": {
+    "body": "wbc",
+    "status": "partial",
+    "runId": "149310b8-675b-4104-a582-168e315f52fe",
+    "reason": null,
+    "metrics": {
+      "body": "wbc",
+      "mode": "current",
+      "requests": 2,
+      "documents": 2,
+      "identities_held": 778,
+      "status_snapshots": {
+        "created": 35,
+        "refused": 1
+      },
+      "proposals": 8,
+      "conflicts": 1,
+      "ranking_snapshots": {
+        "created": 18
+      },
+      "refused": [
+        {
+          "kind": "wbc_champions",
+          "division": "Bridger",
+          "reason": "unknown_division_pending_review",
+          "labels": "Bridger"
+        }
+      ],
+      "identity_candidates": {
+        "full": false,
+        "members": 18459,
+        "touched": 37,
+        "candidates": 17557
+      },
+      "months_captured": 1,
+      "first_month": "2026-10",
+      "last_month": "2026-10"
+    }
+  },
+  "staging_evidence": {
+    "run": {
+      "id": "149310b8-675b-4104-a582-168e315f52fe",
+      "status": "partial",
+      "trigger": "manual",
+      "started_at": "2026-10-02T16:24:34.866951-05:00",
+      "finished_at": "2026-10-02T16:26:29.23-05:00",
+      "worker_version": "git:e60821f79efb02b9f9275f0e648c59b51ad1914c"
+    },
+    "conflicts_new": [
+      {
+        "belt": "world|belt",
+        "left": "ricardo sandoval",
+        "right": "ricardo rafael sandoval",
+        "division": "flyweight"
+      }
+    ],
+    "proposals_new": [
+      {
+        "type": "belt_listed",
+        "division": "bridgerweight"
+      },
+      {
+        "type": "holder_changed",
+        "division": "cruiserweight"
+      },
+      {
+        "type": "belt_no_longer_listed",
+        "division": "cruiserweight"
+      },
+      {
+        "type": "belt_no_longer_listed",
+        "division": "middleweight"
+      },
+      {
+        "type": "belt_no_longer_listed",
+        "division": "middleweight"
+      },
+      {
+        "type": "filled",
+        "division": "super_flyweight"
+      },
+      {
+        "type": "filled",
+        "division": "light_flyweight"
+      },
+      {
+        "type": "holder_changed",
+        "division": "cruiserweight"
+      }
+    ],
+    "wbc_months_now": [
+      "2026-09",
+      "2026-10"
+    ],
+    "pending_divisions": [
+      "Bridger"
+    ],
+    "ranking_snapshots": [
+      {
+        "blank": 0,
+        "entries": 40,
+        "division": "bantamweight",
+        "source_url": "https://wbcboxing.com/mailing/2026/WBC_RATINGS_OCTUBRE_2026.pdf",
+        "effective_on": "2026-10-31",
+        "max_position": 40,
+        "positions_contiguous": true
+      },
+      {
+        "blank": 11,
+        "entries": 40,
+        "division": "bridgerweight",
+        "source_url": "https://wbcboxing.com/mailing/2026/WBC_RATINGS_OCTUBRE_2026.pdf",
+        "effective_on": "2026-10-31",
+        "max_position": 40,
+        "positions_contiguous": true
+      },
+      {
+        "blank": 0,
+        "entries": 40,
+        "division": "cruiserweight",
+        "source_url": "https://wbcboxing.com/mailing/2026/WBC_RATINGS_OCTUBRE_2026.pdf",
+        "effective_on": "2026-10-31",
+        "max_position": 40,
+        "positions_contiguous": true
+      },
+      {
+        "blank": 0,
+        "entries": 40,
+        "division": "featherweight",
+        "source_url": "https://wbcboxing.com/mailing/2026/WBC_RATINGS_OCTUBRE_2026.pdf",
+        "effective_on": "2026-10-31",
+        "max_position": 40,
+        "positions_contiguous": true
+      },
+      {
+        "blank": 0,
+        "entries": 40,
+        "division": "flyweight",
+        "source_url": "https://wbcboxing.com/mailing/2026/WBC_RATINGS_OCTUBRE_2026.pdf",
+        "effective_on": "2026-10-31",
+        "max_position": 40,
+        "positions_contiguous": true
+      },
+      {
+        "blank": 0,
+        "entries": 40,
+        "division": "heavyweight",
+        "source_url": "https://wbcboxing.com/mailing/2026/WBC_RATINGS_OCTUBRE_2026.pdf",
+        "effective_on": "2026-10-31",
+        "max_position": 40,
+        "positions_contiguous": true
+      },
+      {
+        "blank": 0,
+        "entries": 40,
+        "division": "light_flyweight",
+        "source_url": "https://wbcboxing.com/mailing/2026/WBC_RATINGS_OCTUBRE_2026.pdf",
+        "effective_on": "2026-10-31",
+        "max_position": 40,
+        "positions_contiguous": true
+      },
+      {
+        "blank": 0,
+        "entries": 40,
+        "division": "light_heavyweight",
+        "source_url": "https://wbcboxing.com/mailing/2026/WBC_RATINGS_OCTUBRE_2026.pdf",
+        "effective_on": "2026-10-31",
+        "max_position": 40,
+        "positions_contiguous": true
+      },
+      {
+        "blank": 0,
+        "entries": 40,
+        "division": "lightweight",
+        "source_url": "https://wbcboxing.com/mailing/2026/WBC_RATINGS_OCTUBRE_2026.pdf",
+        "effective_on": "2026-10-31",
+        "max_position": 40,
+        "positions_contiguous": true
+      },
+      {
+        "blank": 0,
+        "entries": 40,
+        "division": "middleweight",
+        "source_url": "https://wbcboxing.com/mailing/2026/WBC_RATINGS_OCTUBRE_2026.pdf",
+        "effective_on": "2026-10-31",
+        "max_position": 40,
+        "positions_contiguous": true
+      },
+      {
+        "blank": 0,
+        "entries": 40,
+        "division": "minimumweight",
+        "source_url": "https://wbcboxing.com/mailing/2026/WBC_RATINGS_OCTUBRE_2026.pdf",
+        "effective_on": "2026-10-31",
+        "max_position": 40,
+        "positions_contiguous": true
+      },
+      {
+        "blank": 0,
+        "entries": 40,
+        "division": "super_bantamweight",
+        "source_url": "https://wbcboxing.com/mailing/2026/WBC_RATINGS_OCTUBRE_2026.pdf",
+        "effective_on": "2026-10-31",
+        "max_position": 40,
+        "positions_contiguous": true
+      },
+      {
+        "blank": 0,
+        "entries": 40,
+        "division": "super_featherweight",
+        "source_url": "https://wbcboxing.com/mailing/2026/WBC_RATINGS_OCTUBRE_2026.pdf",
+        "effective_on": "2026-10-31",
+        "max_position": 40,
+        "positions_contiguous": true
+      },
+      {
+        "blank": 0,
+        "entries": 40,
+        "division": "super_flyweight",
+        "source_url": "https://wbcboxing.com/mailing/2026/WBC_RATINGS_OCTUBRE_2026.pdf",
+        "effective_on": "2026-10-31",
+        "max_position": 40,
+        "positions_contiguous": true
+      },
+      {
+        "blank": 0,
+        "entries": 40,
+        "division": "super_lightweight",
+        "source_url": "https://wbcboxing.com/mailing/2026/WBC_RATINGS_OCTUBRE_2026.pdf",
+        "effective_on": "2026-10-31",
+        "max_position": 40,
+        "positions_contiguous": true
+      },
+      {
+        "blank": 0,
+        "entries": 40,
+        "division": "super_middleweight",
+        "source_url": "https://wbcboxing.com/mailing/2026/WBC_RATINGS_OCTUBRE_2026.pdf",
+        "effective_on": "2026-10-31",
+        "max_position": 40,
+        "positions_contiguous": true
+      },
+      {
+        "blank": 0,
+        "entries": 40,
+        "division": "super_welterweight",
+        "source_url": "https://wbcboxing.com/mailing/2026/WBC_RATINGS_OCTUBRE_2026.pdf",
+        "effective_on": "2026-10-31",
+        "max_position": 40,
+        "positions_contiguous": true
+      },
+      {
+        "blank": 0,
+        "entries": 40,
+        "division": "welterweight",
+        "source_url": "https://wbcboxing.com/mailing/2026/WBC_RATINGS_OCTUBRE_2026.pdf",
+        "effective_on": "2026-10-31",
+        "max_position": 40,
+        "positions_contiguous": true
+      }
+    ],
+    "title_events_written": 0,
+    "ranking_entry_identity": {
+      "unresolved": 720
+    },
+    "status_snapshots_by_kind": {
+      "wbc_ratings": 18,
+      "wbc_champions": 17
+    },
+    "claims_about_other_bodies": {
+      "ibf": 17,
+      "wbo": 17
+    },
+    "super_welterweight_titles": [
+      {
+        "kind": "wbc_champions",
+        "tier": "world",
+        "holder": "Sebastian Fundora",
+        "status": "held",
+        "identity": "held",
+        "designation": "CAMPEONES DEL MUNDO"
+      },
+      {
+        "kind": "wbc_ratings",
+        "tier": "world",
+        "holder": "SEBASTIAN FUNDORA",
+        "status": "held",
+        "identity": "held",
+        "designation": "CHAMPION"
+      },
+      {
+        "kind": "wbc_ratings",
+        "tier": "interim",
+        "holder": "VERGIL ORTIZ Jr.",
+        "status": "held",
+        "identity": "held",
+        "designation": "INTERIM CHAMPION"
+      },
+      {
+        "kind": "wbc_ratings",
+        "tier": "silver",
+        "holder": "Ermal Hadribeaj",
+        "status": "held",
+        "identity": "held",
+        "designation": "WBC SILVER CHAMPION"
+      },
+      {
+        "kind": "wbc_ratings",
+        "tier": "international",
+        "holder": "Uisma Lima",
+        "status": "held",
+        "identity": "held",
+        "designation": "WBC INT. CHAMPION"
+      }
+    ],
+    "title_entries_by_designation": {
+      "CHAMPION / held": 18,
+      "INTERIM CHAMPION / held": 7,
+      "WBC INT. CHAMPION / held": 14,
+      "CAMPEONES DEL MUNDO / held": 17,
+      "WBC INT. CHAMPION / vacant": 1,
+      "WBC SILVER CHAMPION / held": 11,
+      "WBC SILVER CHAMPION / vacant": 3,
+      "CHAMPION IN RECESS / in_recess": 1
+    }
+  },
+  "checks": {
+    "ratings_page_resolves": true,
+    "pdf_link_from_public_page_not_guessed": true,
+    "divisions_parsed": 18,
+    "every_list_positions_1_to_40_contiguous": true,
+    "printed_blank_positions_kept": 11,
+    "champions_grid_cards_stored": 17,
+    "champions_card_held_for_review": "Bridger (native label not yet approved; bridgerweight PDF page stored normally)",
+    "claims_about_other_bodies_kept_as_claims": {
+      "ibf": 17,
+      "wbo": 17
+    },
+    "title_events_written": 0,
+    "ranking_identities_resolved_by_name": 0,
+    "source_document_body_stored": false
+  },
+  "notes": [
+    "Only normalized facts, source URLs, hashes and parser versions are stored; no WBC HTML or PDF body is copied into any table.",
+    "The 2026-09-20 scheduled WBC run (Worker 71dd1a1f) is still recorded as running with empty metrics: the shared cron invocation died inside WBC. Left as recorded; the Worker now runs one body per cron slot (74b13a8a)."
+  ]
+}
