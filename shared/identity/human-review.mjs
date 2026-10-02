@@ -320,7 +320,11 @@ const REVIEWER_DECISIONS = new Set(['approve_match', 'approve_distinct', 'hold',
 
 // Records the human decisions in an approved batch file. Every recorded entry needs
 // reviewer_decision and a reviewer_note; the reviewer identity is passed explicitly.
-export async function applyApprovedBatch(store, batch, { reviewer, reviewedAt = new Date().toISOString() } = {}) {
+// replay (owner directive 2026-10-02): re-records a human decision that was already applied on another database, keeping
+// the ORIGINAL reviewer and review date, never a new sign-off. { from, replayedAt, fighterMap: { <old fighter id>: <new> },
+// seqs: { <entry_id>: <latest decision seq on this database> } }. A matched decision whose proposed boxer has no
+// remap is held (status replay_held_no_unique_remap), never guessed; the evidence records replayed_from/replayed_at.
+export async function applyApprovedBatch(store, batch, { reviewer, reviewedAt = new Date().toISOString(), replay = null } = {}) {
   if (!reviewer || /(resolver|claude|gpt|openai|anthropic|\bbot\b|automat|script|system)/i.test(reviewer)) {
     throw new Error('a named human reviewer is required');
   }
@@ -354,6 +358,9 @@ export async function applyApprovedBatch(store, batch, { reviewer, reviewedAt = 
     // one new boxer per group: the earliest member creates it, later members are matched to it
     let groupFighter = null;
     if (g && decision === 'created' && groupCreated.has(g.group_id)) { decision = 'matched'; groupFighter = groupCreated.get(g.group_id); }
+    const oldFighter = e.proposed_boxer?.fighter_id ?? null;
+    const replayFighter = replay && decision === 'matched' && !groupFighter ? (replay.fighterMap?.[oldFighter] ?? null) : null;
+    if (replay && decision === 'matched' && !groupFighter && !replayFighter) { results.push({ entry_id: e.entry_id, status: 'replay_held_no_unique_remap', original_fighter_id: oldFighter }); continue; }
     // the reviewed evidence described a BLOCKED bout; if that bout became canonical since, the evidence is stale
     if (decision !== 'review') {
       const boutNs = e.appearance.namespace.replace(/\.fighter$/, '.bout');
@@ -362,13 +369,15 @@ export async function applyApprovedBatch(store, batch, { reviewer, reviewedAt = 
     }
     const evidence = { shown_to_reviewer: e.evidence, danger: e.danger, workbench_recommendation: { recommendation: e.recommendation, why: e.recommendation_why },
       reviewer_decision: e.reviewer_decision, rejected_candidate: e.reviewer_decision === 'reject_candidate' ? e.proposed_boxer : null, workbench_version: batch.workbench_version,
-      ...(g ? { group: { group_id: g.group_id, members: g.members, basis: g.basis, ...(groupFighter ? { matched_to_boxer_created_by_this_group: groupFighter } : {}) } } : {}) };
+      ...(g ? { group: { group_id: g.group_id, members: g.members, basis: g.basis, ...(groupFighter ? { matched_to_boxer_created_by_this_group: groupFighter } : {}) } } : {}),
+      ...(replay ? { replay: { replayed_from: replay.from, replayed_at: replay.replayedAt, original_reviewed_at: reviewedAt, original_fighter_id: oldFighter,
+        remap: replayFighter ? replay.remapBasis?.[oldFighter] ?? null : null } } : {}) };
     const r = await store.recordAppearanceDecision({
       source_key: e.source_key, namespace: e.appearance.namespace, bout_external_id: e.appearance.bout_external_id, side: e.appearance.side,
       observed_name: e.appearance.display_name, hometown: e.evidence.city_hometown.observed ?? null, decision, tier: 'C',
-      fighter_id: decision === 'matched' ? (groupFighter ?? e.proposed_boxer.fighter_id) : null, confidence: 100, evidence, evidence_hash: await contentHash(evidence),
+      fighter_id: decision === 'matched' ? (groupFighter ?? replayFighter ?? e.proposed_boxer.fighter_id) : null, confidence: 100, evidence, evidence_hash: await contentHash(evidence),
       resolver_version: `human-review:${batch.workbench_version}`, decided_by: `reviewer:${reviewer}`, reviewer, reviewed_at: reviewedAt,
-      review_note: e.reviewer_note, review_batch: batch.batch_id, supersedes_seq: e.appearance.latest_decision_seq,
+      review_note: e.reviewer_note, review_batch: batch.batch_id, supersedes_seq: replay ? (replay.seqs?.[e.entry_id] ?? null) : e.appearance.latest_decision_seq,
       index: buildIndex(toIdentity({ display_name: e.appearance.display_name }, e.appearance.namespace), { evidence: { nameLevel: 'exact' } }),
     });
     if (g && decision === 'created' && r.fighter_id) groupCreated.set(g.group_id, r.fighter_id);

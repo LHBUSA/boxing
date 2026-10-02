@@ -1,0 +1,36 @@
+# Sets boxing-news-production Worker secrets without writing any secret to
+# disk or printing it. The Boxing database project is verified first. No provider key.
+#
+#   pwsh scripts/staging/set-news-worker-secrets.ps1
+
+$ErrorActionPreference = 'Stop'
+$root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
+Import-Module (Join-Path $PSScriptRoot 'BoxingSupabase.psm1') -Force
+$cfg = Get-Content (Join-Path $root 'production/boxing-production.json') -Raw | ConvertFrom-Json
+$ref = $cfg.project_ref
+$project = Assert-BoxingProject -Ref $ref
+Write-Host "target verified: $($project.name) ($ref)"
+
+$tokenFile = 'D:\Workers\secrets\boxing-news-production-internal-token'
+if (-not (Test-Path $tokenFile)) {
+  $bytes = [byte[]]::new(36); [System.Security.Cryptography.RandomNumberGenerator]::Fill($bytes)
+  [IO.File]::WriteAllText($tokenFile, [Convert]::ToBase64String($bytes).Replace('+', '-').Replace('/', '_').TrimEnd('='))
+}
+$keys = Invoke-SbApi -Path "/projects/$ref/api-keys?reveal=true"
+$service = ($keys | Where-Object { $_.name -eq 'service_role' }).api_key
+if (-not $service) { throw 'missing service_role key' }
+$payload = @{
+  SUPABASE_URL = "https://$ref.supabase.co"
+  SUPABASE_SERVICE_ROLE_KEY = $service
+  BOXING_INTERNAL_TOKEN = (Get-Content $tokenFile -Raw).Trim()
+} | ConvertTo-Json -Compress
+try {
+  Push-Location (Join-Path $root 'workers/boxing-news')
+  $out = $payload | npx --yes wrangler@4 secret bulk --env production 2>&1 | Out-String
+  $out = $out.Replace($service, '<redacted>')
+  Write-Host ($out -split "`n" | Where-Object { $_ -match 'secret|Success|✨|ERROR|error' } | Out-String)
+  if ($LASTEXITCODE -ne 0) { throw "wrangler secret bulk exited $LASTEXITCODE" }
+} finally {
+  Pop-Location
+  Remove-Variable payload, service, keys -ErrorAction SilentlyContinue
+}

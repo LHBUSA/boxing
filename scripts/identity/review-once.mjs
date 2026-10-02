@@ -4,6 +4,7 @@
 //
 //   node scripts/identity/review-once.mjs propose --batch=001 --size=10 [--sources=<source_key,...>] --out=<dir>   (read-only)
 //   node scripts/identity/review-once.mjs apply --file=<batch.json> --reviewer=<human name>
+//   node scripts/identity/review-once.mjs replay --file=<batch.json> --remap=<remap.json> --reviewer=<original human> --reviewed-at=<original time>
 //   node scripts/identity/review-once.mjs dryrun --batch=002 --out=<dir>                  (read-only resolver projection)
 //   node scripts/identity/review-once.mjs metrics                                      (read-only + stored-odds replay)
 //   node scripts/identity/review-once.mjs manifest --name=<id> [--sources=<source_key,...>] [--batches=<batch.json,...>] --out=<dir>   (read-only)
@@ -56,9 +57,13 @@ if (command === 'propose') {
     writeFileSync(join(out, `identity-review-batch-${batchId}.md`), batchMarkdown(proposal));
     console.log(`wrote ${join(out, `identity-review-batch-${batchId}`)}.{json,md}`);
   }
-} else if (command === 'apply') {
+} else if (command === 'apply' || command === 'replay') {
   const batch = JSON.parse(readFileSync(arg('file'), 'utf8'));
-  const results = await applyApprovedBatch(store, batch, { reviewer: arg('reviewer') });
+  // replay: a batch already applied elsewhere, with the ORIGINAL reviewer and review date, and a remap file
+  // (scripts/staging/identity-replay.ps1) that maps each proposed boxer only when exactly one source appearance matches
+  const replay = command === 'replay' ? { ...JSON.parse(readFileSync(arg('remap'), 'utf8')), replayedAt: new Date().toISOString() } : null;
+  if (replay && !arg('reviewed-at')) throw new Error('replay needs --reviewed-at=<original review time>');
+  const results = await applyApprovedBatch(store, batch, { reviewer: arg('reviewer'), ...(replay ? { reviewedAt: arg('reviewed-at'), replay } : {}) });
   console.log(JSON.stringify({ applied: results }, null, 1));
   // a human batch materializes exactly its reviewed bindings: only the documents that carry them,
   // and the graph resolver makes no new decision (its proposals are reviewed as the next batch)

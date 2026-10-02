@@ -10,7 +10,7 @@
 //   POST /internal/v1/articles/:id/publish      only succeeds for approved + validated articles
 //   GET  /internal/v1/wire?limit=               published articles (no fact blocks exposed)
 
-import { postgrestStore } from '../../../shared/store/postgrest.mjs';
+import { guardedPostgrestStore } from '../../../shared/store/target-guard.mjs';
 import { processPending } from '../../../shared/news/pipeline.mjs';
 
 const json = (body, status = 200) => new Response(JSON.stringify(body), {
@@ -46,7 +46,8 @@ export async function runNewsroom(store, env, { limit = 25 } = {}) {
   };
 }
 
-export function createWorker({ makeStore = (env) => postgrestStore({ url: env.SUPABASE_URL, serviceKey: env.SUPABASE_SERVICE_ROLE_KEY }) } = {}) {
+// the store only exists for the one Boxing database (shared/store/target-guard.mjs); any other target throws
+export function createWorker({ makeStore = (env) => guardedPostgrestStore(env) } = {}) {
   return {
     async fetch(request, env) {
       const url = new URL(request.url);

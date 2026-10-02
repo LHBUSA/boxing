@@ -27,3 +27,15 @@ test('review requires decision and actor; wire needs auth', async () => {
   const bad = await w.fetch(new Request(`https://n.internal/internal/v1/articles/${id}/review`, { method: 'POST', headers: auth, body: JSON.stringify({ decision: 'approved' }) }), env);
   assert.equal(bad.status, 400);
 });
+
+test('production wrangler config: Boxing database only, generation on, auto-publish OFF (drafts wait for review)', async () => {
+  const { readFileSync } = await import('node:fs');
+  const toml = readFileSync(new URL('../wrangler.toml', import.meta.url), 'utf8');
+  const split = toml.search(/^\[env\.production\]$/m);
+  assert.ok(split > 0);
+  assert.match(toml.slice(0, split), /crons = \[\]/);
+  const prod = toml.slice(split);
+  assert.match(prod, /BOXING_SUPABASE_REF = "lobcdprmoiosbjanheeo"/);
+  assert.match(prod, /NEWS_AUTOPUBLISH_ENABLED = "false"/);
+  assert.doesNotMatch(toml, /tkmlnhmylqnttmnsnief|rlfyavnhbngwbldebrid|wpaxofilvbsjyrxrwjhg/);
+});

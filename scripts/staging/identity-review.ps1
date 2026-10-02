@@ -10,7 +10,7 @@
 # Verifies the project is propbetedge-boxing-production; the service-role key lives in
 # THIS process only. No external source is contacted (stored observations only).
 
-param([switch]$DryRun, [switch]$Propose, [string]$Batch = '001', [int]$Size = 10, [string]$Sources = '', [string]$OutDir = '', [string]$Apply = '', [string]$Reviewer = '', [switch]$Metrics, [string]$Manifest = '', [string]$Batches = '')
+param([switch]$DryRun, [switch]$Propose, [string]$Batch = '001', [int]$Size = 10, [string]$Sources = '', [string]$OutDir = '', [string]$Apply = '', [string]$Reviewer = '', [switch]$Metrics, [string]$Manifest = '', [string]$Batches = '', [string]$Replay = '', [string]$ReviewedAt = '', [string]$RemapOut = '', [switch]$RemapOnly)
 $ErrorActionPreference = 'Stop'
 $root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 Import-Module (Join-Path $PSScriptRoot 'BoxingSupabase.psm1') -Force
@@ -35,6 +35,17 @@ try {
     node @nodeArgs
   }
   if ($Apply) { node $script apply "--file=$Apply" "--reviewer=$Reviewer" }
+  # replay a batch already applied on the deleted staging database: remap (read-only), then record with the ORIGINAL
+  # reviewer and review time (-Reviewer, -ReviewedAt); -RemapOnly stops after writing the remap for inspection
+  if ($Replay) {
+    if (-not $RemapOut) { throw '-Replay needs -RemapOut <file>' }
+    node (Join-Path $root 'scripts/identity/replay-remap.mjs') "--file=$Replay" '--from=staging wpaxofilvbsjyrxrwjhg (deleted 2026-10-02)' "--out=$RemapOut"
+    if ($LASTEXITCODE -ne 0) { throw "replay-remap exited $LASTEXITCODE" }
+    if (-not $RemapOnly) {
+      if (-not $Reviewer -or -not $ReviewedAt) { throw '-Replay needs -Reviewer and -ReviewedAt (the original human and time)' }
+      node $script replay "--file=$Replay" "--remap=$RemapOut" "--reviewer=$Reviewer" "--reviewed-at=$ReviewedAt"
+    }
+  }
   if ($DryRun) {
     $nodeArgs = @($script, 'dryrun', "--batch=$Batch")
     if ($OutDir) { $nodeArgs += "--out=$OutDir" }

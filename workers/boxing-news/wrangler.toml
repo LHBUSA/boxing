@@ -1,4 +1,4 @@
-# boxing-news — fact-driven Boxing Wire. NOT DEPLOYED.
+# boxing-news — fact-driven Boxing Wire. Top-level (default) environment: NOT DEPLOYED, no cron.
 # NEWSROOM_ENABLED gates generation; NEWS_AUTOPUBLISH_ENABLED separately gates
 # publishing approved articles (both false). Sensitive and low-confidence
 # items always wait for a named human reviewer regardless of these flags.
@@ -10,12 +10,33 @@ compatibility_date = "2026-09-01"
 workers_dev = false
 
 [triggers]
-crons = ["*/10 * * * *"]
+crons = []
 
 [vars]
 NEWSROOM_ENABLED = "false"
 NEWS_AUTOPUBLISH_ENABLED = "false"
 
 [observability]
+enabled = true
+head_sampling_rate = 1
+
+# [env.production] -> Worker "boxing-news-production", writes ONLY to the Boxing database lobcdprmoiosbjanheeo
+# (shared/store/target-guard.mjs). PREVIEW: generation on, auto-publish OFF, so articles stay drafts for review and
+# nothing reaches the public wire until a human approves it. No routes, no workers.dev. Template prose, no paid API.
+[env.production]
+name = "boxing-news-production"
+workers_dev = false
+
+[env.production.triggers]
+crons = ["*/10 * * * *"]
+
+[env.production.vars]
+BOXING_WORKER_NAME = "boxing-news-production"
+BOXING_ENVIRONMENT = "production"
+BOXING_SUPABASE_REF = "lobcdprmoiosbjanheeo"
+NEWSROOM_ENABLED = "true"
+NEWS_AUTOPUBLISH_ENABLED = "false"
+
+[env.production.observability]
 enabled = true
 head_sampling_rate = 1
