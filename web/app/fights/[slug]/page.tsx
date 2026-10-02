@@ -54,8 +54,9 @@ function Side({ d, c, side, ctx }: { d: BoutDetail; c: CornerDetail | undefined;
         </div>
         <h2 className="faceoff__name mt-1"><Link href={fighterPath(corner)}>{corner.name}</Link></h2>
         <div className="faceoff__sub mt-1">
-          <span className="faceoff__rec">{c.record_all.bouts ? fmtRecord(c.record_all) : "0-0"}</span>
-          <span>verified · {plural(c.record_all.bouts, "bout")}</span>
+          {/* no verified bout is not a 0-0 record: the boxer's bouts may sit outside the commissions PropBetEdge reads */}
+          {c.record_all.bouts ? <><span className="faceoff__rec">{fmtRecord(c.record_all)}</span><span>verified · {plural(c.record_all.bouts, "bout")}</span></>
+            : <span title="Verified records cover the commissions PropBetEdge reads, not a full career">No verified bouts on record yet</span>}
         </div>
         {c.recent_entering.length ? <div className="faceoff__sub mt-1"><FormStrip results={c.recent_entering.map((x) => x.result)} /></div> : null}
         {ctx?.hall_of_fame?.length ? <div className="faceoff__sub mt-1">{ctx.hall_of_fame.map((h) => <Link key={h.institution_slug + h.year} href="/hall-of-fame" className="tag tag--gold">{h.institution.replace("International Boxing Hall of Fame", "IBHOF")} · {h.year}</Link>)}</div> : null}
