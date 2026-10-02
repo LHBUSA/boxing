@@ -22,13 +22,13 @@
 $ErrorActionPreference = 'Stop'
 $root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 Import-Module (Join-Path $PSScriptRoot 'BoxingSupabase.psm1') -Force
-$cfg = Get-Content (Join-Path $root 'staging/boxing-staging.json') -Raw | ConvertFrom-Json
+$cfg = Get-Content (Join-Path $root 'production/boxing-production.json') -Raw | ConvertFrom-Json
 $ref = $cfg.project_ref
-$project = Assert-BoxingStagingProject -Ref $ref
+$project = Assert-BoxingProject -Ref $ref
 Write-Host "target: $($project.name) ($ref)"
 
 # ---- migration ledger: what this database has actually applied
-$ledgerRows = @(Invoke-BoxingStagingSql -Ref $ref -Sql 'select version, name from supabase_migrations.schema_migrations order by version')
+$ledgerRows = @(Invoke-BoxingSql -Ref $ref -Sql 'select version, name from supabase_migrations.schema_migrations order by version')
 $applied = @($ledgerRows | ForEach-Object { $_.version })
 if (-not $applied.Count) { throw 'migration ledger drift: staging records no applied migration, so there is nothing to verify against' }
 $repoFiles = @(Get-ChildItem (Join-Path $root 'supabase/migrations') -Filter '*.sql' |
@@ -53,7 +53,7 @@ Write-Host ("repo_head: {0}  staging_applied_through: {1}  pending: [{2}]" -f $e
 Write-Host ("expected schema replayed from {0} applied migration(s): {1} boxing_* tables" -f $applied.Count, $tables.Count)
 $arrayLiteral = "array[" + (($tables | ForEach-Object { "'$_'" }) -join ',') + "]::text[]"
 $sql = (Get-Content (Join-Path $PSScriptRoot 'verify.sql') -Raw -Encoding UTF8).Replace(':expected_tables', $arrayLiteral)
-$sqlResults = (Invoke-BoxingStagingSql -Ref $ref -Sql $sql).results
+$sqlResults = (Invoke-BoxingSql -Ref $ref -Sql $sql).results
 if ($sqlResults -is [string]) { $sqlResults = $sqlResults | ConvertFrom-Json }
 
 # ---- HTTP layer

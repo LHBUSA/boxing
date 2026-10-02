@@ -4,7 +4,7 @@
 #   pwsh scripts/staging/promoter-collect.ps1 -Apply          # canonicalize the announced cards
 #   pwsh scripts/staging/promoter-collect.ps1 -Apply -Out reviews/promoters/2026-09-19-applied.json
 #
-# Verifies the project is propbetedge-boxing-staging, reads the service-role key from the Management API into THIS
+# Verifies the project is propbetedge-boxing-production, reads the service-role key from the Management API into THIS
 # process only, runs the same collector the dry run and the tests exercise, then clears it.
 #
 # The schedule lane is the only lane these sources hold: migration 0045's gate refuses results, officials, scorecards,
@@ -14,9 +14,9 @@ param([switch]$Apply, [string]$Sources = 'promoter_pbc,promoter_matchroom', [int
 $ErrorActionPreference = 'Stop'
 $root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 Import-Module (Join-Path $PSScriptRoot 'BoxingSupabase.psm1') -Force
-$cfg = Get-Content (Join-Path $root 'staging/boxing-staging.json') -Raw | ConvertFrom-Json
+$cfg = Get-Content (Join-Path $root 'production/boxing-production.json') -Raw | ConvertFrom-Json
 $ref = $cfg.project_ref
-$project = Assert-BoxingStagingProject -Ref $ref
+$project = Assert-BoxingProject -Ref $ref
 Write-Host "target verified: $($project.name) ($ref)"
 
 # ---- source registry gate: the collector never forces itself past the state migration 0046 actually left behind.
@@ -25,7 +25,7 @@ Write-Host "target verified: $($project.name) ($ref)"
 # the rights review, never a flag on the collector.
 $wanted = ($Sources -split ',' | ForEach-Object { "'" + $_.Trim() + "'" }) -join ','
 # the schedule lane's own objects must exist before the lane can be asserted at all
-$shape = Invoke-BoxingStagingSql -Ref $ref -Sql @'
+$shape = Invoke-BoxingSql -Ref $ref -Sql @'
 select to_regclass('public.boxing_sources')::text as sources,
        to_regclass('public.boxing_source_capabilities_current')::text as capabilities,
        to_regclass('public.boxing_event_discovery_candidates')::text as candidates
@@ -51,7 +51,7 @@ select s.source_key,
                     and c.rights_scope <> 'not_permitted'), 0)::text as leaked_lanes
 from public.boxing_sources s where s.source_key in ($wanted) order by s.source_key
 "@
-$gate = Invoke-BoxingStagingSql -Ref $ref -Sql $gateSql
+$gate = Invoke-BoxingSql -Ref $ref -Sql $gateSql
 $expected = ($Sources -split ',' | ForEach-Object { $_.Trim() })
 $failures = @()
 foreach ($key in $expected) {
@@ -68,7 +68,7 @@ foreach ($key in $expected) {
 # The single authority on whether BOTH halves of 0046 are present. A half-applied database fails open: the code binds to
 # the schema half while the lane state reads 'not_declared', which the 0045 deny-list waves through. 0047 adds this
 # function; if it is missing, 0047 is not applied and we stop for that reason alone.
-$readyRows = Invoke-BoxingStagingSql -Ref $ref -Sql "select public.boxing_promoter_lane_ready(array[$wanted])::text as r"
+$readyRows = Invoke-BoxingSql -Ref $ref -Sql "select public.boxing_promoter_lane_ready(array[$wanted])::text as r"
 $ready = $readyRows[0].r | ConvertFrom-Json
 Write-Host ("lane readiness: schema half {0}, data half {1}" -f `
   $(if ($ready.schema_half_complete) { 'present' } else { 'INCOMPLETE' }),

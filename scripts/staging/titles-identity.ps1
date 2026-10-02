@@ -2,16 +2,16 @@
 #
 #   pwsh scripts/staging/titles-identity.ps1 [-Batch 2000]
 #
-# Verifies the project is propbetedge-boxing-staging, reads the service-role key from the Management API into THIS
+# Verifies the project is propbetedge-boxing-production, reads the service-role key from the Management API into THIS
 # process only, runs scripts/titles/identity-candidates.mjs, then clears it.
 
 param([int]$Batch = 2000)
 $ErrorActionPreference = 'Stop'
 $root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 Import-Module (Join-Path $PSScriptRoot 'BoxingSupabase.psm1') -Force
-$cfg = Get-Content (Join-Path $root 'staging/boxing-staging.json') -Raw | ConvertFrom-Json
+$cfg = Get-Content (Join-Path $root 'production/boxing-production.json') -Raw | ConvertFrom-Json
 $ref = $cfg.project_ref
-$project = Assert-BoxingStagingProject -Ref $ref
+$project = Assert-BoxingProject -Ref $ref
 Write-Host "target verified: $($project.name) ($ref)"
 $keys = Invoke-SbApi -Path "/projects/$ref/api-keys?reveal=true"
 $service = ($keys | Where-Object { $_.name -eq 'service_role' }).api_key

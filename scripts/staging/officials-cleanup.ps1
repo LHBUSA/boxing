@@ -14,9 +14,9 @@ param([switch]$Evidence, [switch]$Plan, [switch]$SimulateParse, [switch]$ApplyCa
 $ErrorActionPreference = 'Stop'
 $root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 Import-Module (Join-Path $PSScriptRoot 'BoxingSupabase.psm1') -Force
-$cfg = Get-Content (Join-Path $root 'staging/boxing-staging.json') -Raw | ConvertFrom-Json
+$cfg = Get-Content (Join-Path $root 'production/boxing-production.json') -Raw | ConvertFrom-Json
 $ref = $cfg.project_ref
-$project = Assert-BoxingStagingProject -Ref $ref
+$project = Assert-BoxingProject -Ref $ref
 Write-Host "target verified: $($project.name) ($ref)"
 New-Item -ItemType Directory -Force $OutDir | Out-Null
 $evidencePath = Join-Path $OutDir 'officials-evidence.json'
@@ -25,7 +25,7 @@ if ($RunMetrics) {
   $sinceIso = if ($Since) { ([datetimeoffset]::Parse($Since)).ToUniversalTime().ToString('o') } else { [datetimeoffset]::UtcNow.AddHours(-36).ToString('o') }
   $sql = (Get-Content (Join-Path $root 'scripts/officials/run-metrics.sql') -Raw) -replace '(?m)^--.*$', ''
   $sql = $sql.Replace(':since', "'$sinceIso'::timestamptz")
-  $rows = Invoke-BoxingStagingSql -Ref $ref -Sql $sql
+  $rows = Invoke-BoxingSql -Ref $ref -Sql $sql
   $metricsPath = Join-Path $OutDir 'run-metrics.json'
   [IO.File]::WriteAllText($metricsPath, $rows[0].metrics, (New-Object System.Text.UTF8Encoding $false))
   Write-Host "run metrics (since $sinceIso): $metricsPath"
@@ -33,7 +33,7 @@ if ($RunMetrics) {
 if ($Evidence -or $Plan) {
   $body = (Get-Content (Join-Path $root 'scripts/officials/cleanup-evidence.sql') -Raw) -replace '(?m)^--.*$', ''
   $body = $body.Trim().TrimEnd(';')
-  $rows = Invoke-BoxingStagingSql -Ref $ref -Sql ("select ((" + $body + "))::text as evidence")
+  $rows = Invoke-BoxingSql -Ref $ref -Sql ("select ((" + $body + "))::text as evidence")
   [IO.File]::WriteAllText($evidencePath, $rows[0].evidence, (New-Object System.Text.UTF8Encoding $false))
   Write-Host "evidence: $evidencePath"
 }

@@ -1,9 +1,9 @@
 # boxing-rankings — title graph, ranking snapshots and sanctioning-body collection.
 #
 # Top-level (default) environment: NOT DEPLOYED, collection OFF, no cron.
-# [env.staging] -> Worker "boxing-rankings-staging", writes ONLY to Supabase wpaxofilvbsjyrxrwjhg
+# [env.production] -> Worker "boxing-rankings-production", writes ONLY to Supabase lobcdprmoiosbjanheeo
 # (shared/store/target-guard.mjs). No routes, no workers.dev.
-#   secrets (wrangler secret put ... --env staging): SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, BOXING_INTERNAL_TOKEN
+#   secrets (wrangler secret put ... --env production): SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, BOXING_INTERNAL_TOKEN
 #
 # Sources (owner approvals 2026-09-14): WBA /wba-ranking + /current-wba-champions, IBF ratings JSON (Crawl-delay 10),
 # WBO ratings PDF (token from /rankings/ each run) + /male-champions/; (owner approval 2026-09-15) WBC public ratings
@@ -28,26 +28,26 @@ TITLES_INGEST_ENABLED = "false"
 enabled = true
 head_sampling_rate = 1
 
-[env.staging]
-name = "boxing-rankings-staging"
+[env.production]
+name = "boxing-rankings-production"
 workers_dev = false
 
-[env.staging.triggers]
+[env.production.triggers]
 crons = ["25 14 20 * *", "35 14 20 * *", "45 14 20 * *", "55 14 20 * *"]
 
 # PDF text extraction (WBO, WBC) plus identity-candidate matching is CPU-heavy; the default 30 s budget is not enough
-[env.staging.limits]
+[env.production.limits]
 cpu_ms = 300000
 
-[env.staging.version_metadata]
+[env.production.version_metadata]
 binding = "CF_VERSION_METADATA"
 
-[env.staging.vars]
-BOXING_WORKER_NAME = "boxing-rankings-staging"
-BOXING_ENVIRONMENT = "staging"
-BOXING_SUPABASE_REF = "wpaxofilvbsjyrxrwjhg"
-TITLES_INGEST_ENABLED = "true"
+[env.production.vars]
+BOXING_WORKER_NAME = "boxing-rankings-production"
+BOXING_ENVIRONMENT = "production"
+BOXING_SUPABASE_REF = "lobcdprmoiosbjanheeo"
+TITLES_INGEST_ENABLED = "false"
 
-[env.staging.observability]
+[env.production.observability]
 enabled = true
 head_sampling_rate = 1

@@ -1,4 +1,4 @@
-# Natural cron verification for boxing-commissions-staging (read-only; never invokes the Worker).
+# Natural cron verification for boxing-commissions-production (read-only; never invokes the Worker).
 #
 #   pwsh scripts/staging/natural-run-check.ps1 -Snapshot -Out <file.json>                     # counts before the slot
 #   pwsh scripts/staging/natural-run-check.ps1 -Check -Baseline <file.json> -Slot 2026-09-15T11:40:00Z -Out <file.json>
@@ -10,14 +10,14 @@ param([switch]$Snapshot, [switch]$Check, [string]$Baseline = '', [string]$Slot =
 $ErrorActionPreference = 'Stop'
 $root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 Import-Module (Join-Path $PSScriptRoot 'BoxingSupabase.psm1') -Force
-$cfg = Get-Content (Join-Path $root 'staging/boxing-staging.json') -Raw | ConvertFrom-Json
+$cfg = Get-Content (Join-Path $root 'production/boxing-production.json') -Raw | ConvertFrom-Json
 $ref = $cfg.project_ref
-$project = Assert-BoxingStagingProject -Ref $ref
+$project = Assert-BoxingProject -Ref $ref
 Write-Host "target verified: $($project.name) ($ref)"
 
 function Get-Snapshot {
   $sql = Get-Content (Join-Path $PSScriptRoot 'natural-run-snapshot.sql') -Raw -Encoding UTF8
-  (Invoke-BoxingStagingSql -Ref $ref -Sql $sql).snapshot
+  (Invoke-BoxingSql -Ref $ref -Sql $sql).snapshot
 }
 
 if ($Snapshot) {
@@ -31,20 +31,20 @@ if ($Check) {
   $since = ([datetime]::Parse($Slot).ToUniversalTime().AddMinutes(-1)).ToString('yyyy-MM-ddTHH:mm:ssZ')
   $before = Get-Content $Baseline -Raw | ConvertFrom-Json
   $baselineAt = ([datetime]$before.taken_at).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ')
-  $invocations = Invoke-BoxingStagingSql -Ref $ref -Sql @"
+  $invocations = Invoke-BoxingSql -Ref $ref -Sql @"
 select invocation_id, worker_name, worker_version, trigger_type, cron, scheduled_for, runtime, outcome, ingest_run_id, detail, started_at, completed_at
 from public.boxing_worker_invocations
 where worker = 'boxing-commissions' and trigger_type = 'scheduled' and scheduled_for >= '$since' and scheduled_for < '$since'::timestamptz + interval '10 minutes'
 order by started_at
 "@
-  $runs = Invoke-BoxingStagingSql -Ref $ref -Sql @"
+  $runs = Invoke-BoxingSql -Ref $ref -Sql @"
 select r.id, s.source_key, r.trigger_type, r.worker_name, r.worker_version, r.invocation_id, r.scheduled_for, r.source_version, r.status,
   r.started_at, r.completed_at, r.metrics
 from public.boxing_ingest_runs r join public.boxing_sources s on s.id = r.source_id
 where r.worker = 'boxing-commissions' and r.trigger_type = 'scheduled' and r.scheduled_for >= '$since' and r.scheduled_for < '$since'::timestamptz + interval '10 minutes'
 order by r.started_at
 "@
-  $other = Invoke-BoxingStagingSql -Ref $ref -Sql @"
+  $other = Invoke-BoxingSql -Ref $ref -Sql @"
 select jsonb_build_object(
   'non_scheduled_runs_since_baseline', (select count(*) from public.boxing_ingest_runs r where r.worker = 'boxing-commissions' and r.started_at >= '$baselineAt' and coalesce(r.trigger_type, '') <> 'scheduled'),
   'texas_runs', (select count(*) from public.boxing_ingest_runs r join public.boxing_sources s on s.id = r.source_id where s.source_key = 'tdlr_texas'),

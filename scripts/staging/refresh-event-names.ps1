@@ -10,9 +10,9 @@ param([Parameter(Mandatory = $true)][string]$Adapter, [string]$OutDir = '.', [sw
 $ErrorActionPreference = 'Stop'
 $root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 Import-Module (Join-Path $PSScriptRoot 'BoxingSupabase.psm1') -Force
-$cfg = Get-Content (Join-Path $root 'staging/boxing-staging.json') -Raw | ConvertFrom-Json
+$cfg = Get-Content (Join-Path $root 'production/boxing-production.json') -Raw | ConvertFrom-Json
 $ref = $cfg.project_ref
-$project = Assert-BoxingStagingProject -Ref $ref
+$project = Assert-BoxingProject -Ref $ref
 Write-Host "target verified: $($project.name) ($ref)"
 New-Item -ItemType Directory -Force $OutDir | Out-Null
 $derivedPath = Join-Path $OutDir "event-names-$Adapter-derived.json"
@@ -39,7 +39,7 @@ join public.boxing_events e on e.id = i.event_id
 join public.boxing_sources s on s.source_key = d->>'source_key'
 where e.name is distinct from d->>'name'
 "@
-  $rows = Invoke-BoxingStagingSql -Ref $ref -Sql $sql
+  $rows = Invoke-BoxingSql -Ref $ref -Sql $sql
   [IO.File]::WriteAllText($diffPath, $rows[0].diff, (New-Object System.Text.UTF8Encoding $false))
   $diff = $rows[0].diff | ConvertFrom-Json
   Write-Host "differing names: $($diff.Count) -> $diffPath"

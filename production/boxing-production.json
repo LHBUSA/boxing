@@ -1,0 +1,20 @@
+{
+  "purpose": "PropBetEdge Boxing database - the ONE Boxing Supabase project (owner topology 2026-10-02). Rebuilt from the migration chain and re-collected sources; never cloned.",
+  "project_name": "propbetedge-boxing-production",
+  "project_ref": "lobcdprmoiosbjanheeo",
+  "organization_id": "hckxwtehexilsrxpglqw",
+  "region": "us-east-2",
+  "secrets": "DB password in D:\Workers\secrets\boxing-production-db.env (outside git). API keys are fetched at use time, never stored in the repo. Worker internal tokens: D:\Workers\secrets\boxing-<worker>-production-internal-token.",
+  "never_target": [
+    "tkmlnhmylqnttmnsnief (PROPBETEDGE: NFL + UFC)",
+    "rlfyavnhbngwbldebrid (LHBUSA's Project: MLB + PropTech + identity/billing)",
+    "wpaxofilvbsjyrxrwjhg (deleted Boxing staging, 2026-10-02; never restore)"
+  ],
+  "workers": {
+    "boxing-gateway-production": "workers/boxing-gateway --env production; workers.dev; read-only; bearer token",
+    "boxing-rankings-production": "workers/boxing-rankings --env production; cron 20th 14:25/35/45/55Z; TITLES_INGEST_ENABLED gates writes",
+    "boxing-commissions-production": "workers/boxing-commissions --env production; cron 40 11 * * *; COMMISSION_INGEST_ENABLED gates writes",
+    "boxing-odds-production": "workers/boxing-odds --env production; cron */15; ODDS_CAPTURE_ENABLED gates capture"
+  },
+  "rule": "No new billable resource without explicit owner cost approval (CLAUDE.md)."
+}

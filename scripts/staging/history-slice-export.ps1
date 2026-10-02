@@ -14,16 +14,16 @@
 $ErrorActionPreference = 'Stop'
 $root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 Import-Module (Join-Path $PSScriptRoot 'BoxingSupabase.psm1') -Force
-$cfg = Get-Content (Join-Path $root 'staging/boxing-staging.json') -Raw | ConvertFrom-Json
+$cfg = Get-Content (Join-Path $root 'production/boxing-production.json') -Raw | ConvertFrom-Json
 $ref = $cfg.project_ref
-$project = Assert-BoxingStagingProject -Ref $ref
+$project = Assert-BoxingProject -Ref $ref
 Write-Host "target verified (read-only): $($project.name) ($ref)"
 $out = Join-Path $root 'tests/fixtures/history'
 New-Item -ItemType Directory -Force $out | Out-Null
 $sheetUrl = 'https://boxing.nv.gov/uploadedFiles/boxingnvgov/content/results/2026_Results/03-28-26_Boxing_REDACTED.pdf'
 
 function Save($name, $sql) {
-  $r = Invoke-BoxingStagingSql -Ref $ref -Sql $sql
+  $r = Invoke-BoxingSql -Ref $ref -Sql $sql
   $json = $r[0].r | ConvertTo-Json -Depth 30 -Compress
   Set-Content -Path (Join-Path $out $name) -Value $json -Encoding UTF8
   Write-Host "wrote tests/fixtures/history/$name ($((Get-Item (Join-Path $out $name)).Length) bytes)"

@@ -7,16 +7,16 @@
 #   pwsh scripts/staging/identity-review.ps1 -Metrics                                     # queue, blocked bouts, counts, DNA coverage, stored-odds replay
 #   pwsh scripts/staging/identity-review.ps1 -Manifest <name> [-Sources ...] [-Batches <batch.json,...>] -OutDir <dir>   # read-only: ranked review manifest (advice only)
 #
-# Verifies the project is propbetedge-boxing-staging; the service-role key lives in
+# Verifies the project is propbetedge-boxing-production; the service-role key lives in
 # THIS process only. No external source is contacted (stored observations only).
 
 param([switch]$DryRun, [switch]$Propose, [string]$Batch = '001', [int]$Size = 10, [string]$Sources = '', [string]$OutDir = '', [string]$Apply = '', [string]$Reviewer = '', [switch]$Metrics, [string]$Manifest = '', [string]$Batches = '')
 $ErrorActionPreference = 'Stop'
 $root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 Import-Module (Join-Path $PSScriptRoot 'BoxingSupabase.psm1') -Force
-$cfg = Get-Content (Join-Path $root 'staging/boxing-staging.json') -Raw | ConvertFrom-Json
+$cfg = Get-Content (Join-Path $root 'production/boxing-production.json') -Raw | ConvertFrom-Json
 $ref = $cfg.project_ref
-$project = Assert-BoxingStagingProject -Ref $ref
+$project = Assert-BoxingProject -Ref $ref
 Write-Host "target verified: $($project.name) ($ref)"
 if ($Apply -and -not $Reviewer) { throw '-Reviewer "<human name>" is required with -Apply' }
 $keys = Invoke-SbApi -Path "/projects/$ref/api-keys?reveal=true"
@@ -70,5 +70,5 @@ select jsonb_build_object(
     'metrics_source_unavailable', (select count(distinct metric_key) from latest where status = 'source_unavailable'))
 )::text as m
 "@
-  (Invoke-BoxingStagingSql -Ref $ref -Sql $sql).m
+  (Invoke-BoxingSql -Ref $ref -Sql $sql).m
 }

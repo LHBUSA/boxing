@@ -4,16 +4,16 @@
 #   pwsh scripts/staging/titles-collect.ps1 -Body ibf -Backfill
 #   pwsh scripts/staging/titles-collect.ps1 -Body wbo -Backfill -From 2000-01 -To 2026-08 [-MaxRequests 60]
 #
-# Verifies the project is propbetedge-boxing-staging, reads the service-role key from the Management API into THIS
+# Verifies the project is propbetedge-boxing-production, reads the service-role key from the Management API into THIS
 # process only, runs scripts/titles/collect-once.mjs (same code path as the boxing-rankings Worker), then clears it.
 
 param([Parameter(Mandatory = $true)][ValidateSet('wba', 'ibf', 'wbo', 'wbc')][string]$Body, [switch]$Backfill, [string]$From = '', [string]$To = '', [int]$MaxRequests = 0, [switch]$RetryFailed, [string]$RetryFailedBefore = '')
 $ErrorActionPreference = 'Stop'
 $root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 Import-Module (Join-Path $PSScriptRoot 'BoxingSupabase.psm1') -Force
-$cfg = Get-Content (Join-Path $root 'staging/boxing-staging.json') -Raw | ConvertFrom-Json
+$cfg = Get-Content (Join-Path $root 'production/boxing-production.json') -Raw | ConvertFrom-Json
 $ref = $cfg.project_ref
-$project = Assert-BoxingStagingProject -Ref $ref
+$project = Assert-BoxingProject -Ref $ref
 Write-Host "target verified: $($project.name) ($ref)"
 $keys = Invoke-SbApi -Path "/projects/$ref/api-keys?reveal=true"
 $service = ($keys | Where-Object { $_.name -eq 'service_role' }).api_key

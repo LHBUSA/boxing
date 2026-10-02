@@ -3,18 +3,19 @@
 // A collection Worker may only write to a Supabase project on the boxing
 // allow-list, and only when its declared environment and project ref agree
 // with the URL it was given. Production PropBetEdge projects of other sports
-// are refused by name. There is no boxing production project yet, so the
-// allow-list holds staging only; adding production is a reviewed code change.
+// are refused by name. The allow-list is exactly the one Boxing database (owner topology 2026-10-02); the deleted
+// staging project is a dead target. Changing the list is a reviewed code change.
 
 import { postgrestStore } from './postgrest.mjs';
 
 export const BOXING_SUPABASE_TARGETS = Object.freeze({
-  wpaxofilvbsjyrxrwjhg: Object.freeze({ projectName: 'propbetedge-boxing-staging', environment: 'staging' }),
+  lobcdprmoiosbjanheeo: Object.freeze({ projectName: 'propbetedge-boxing-production', environment: 'production' }),
 });
 
 export const FORBIDDEN_SUPABASE_REFS = Object.freeze({
   tkmlnhmylqnttmnsnief: 'PropBetEdge NFL + UFC production',
   rlfyavnhbngwbldebrid: 'PropBetEdge MLB + PropTech production',
+  wpaxofilvbsjyrxrwjhg: 'deleted Boxing staging project (2026-10-02, never restore)',
 });
 
 export class WriteTargetError extends Error {

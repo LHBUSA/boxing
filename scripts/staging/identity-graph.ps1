@@ -4,7 +4,7 @@
 #   pwsh scripts/staging/identity-graph.ps1 -Report -OutDir <dir>
 #   pwsh scripts/staging/identity-graph.ps1 -Reapply nevada,florida
 #
-# Verifies the project is propbetedge-boxing-staging, reads the service-role key
+# Verifies the project is propbetedge-boxing-production, reads the service-role key
 # into THIS process only, runs scripts/identity/graph-once.mjs, then clears it.
 # No external source is contacted: stored official observations only.
 
@@ -12,9 +12,9 @@ param([switch]$Summary, [switch]$Report, [string]$OutDir = '', [string[]]$Reappl
 $ErrorActionPreference = 'Stop'
 $root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 Import-Module (Join-Path $PSScriptRoot 'BoxingSupabase.psm1') -Force
-$cfg = Get-Content (Join-Path $root 'staging/boxing-staging.json') -Raw | ConvertFrom-Json
+$cfg = Get-Content (Join-Path $root 'production/boxing-production.json') -Raw | ConvertFrom-Json
 $ref = $cfg.project_ref
-$project = Assert-BoxingStagingProject -Ref $ref
+$project = Assert-BoxingProject -Ref $ref
 Write-Host "target verified: $($project.name) ($ref)"
 $keys = Invoke-SbApi -Path "/projects/$ref/api-keys?reveal=true"
 $service = ($keys | Where-Object { $_.name -eq 'service_role' }).api_key

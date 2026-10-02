@@ -1,11 +1,10 @@
 # boxing-gateway — read-only internal API over Boxing Core.
 # GET only, bearer-token protected, no cron, no collection, no writes.
 #
-# Top-level (default) environment: NOT DEPLOYED. There is no boxing production
-# Supabase project; the store is built only for a target on the allow-list in
-# shared/store/target-guard.mjs (staging only).
+# Top-level (default) environment: NOT DEPLOYED. The store is built only for the
+# one Boxing database on the allow-list in shared/store/target-guard.mjs.
 #
-# [env.staging] -> Worker "boxing-gateway-staging" on workers.dev. Its only
+# [env.production] -> Worker "boxing-gateway-production" on workers.dev. Its only
 # consumer is the Boxing frontend's SERVER (Next.js route handlers / server
 # components on Vercel preview); the token never reaches a browser. /health is
 # the only unauthenticated path.
@@ -21,15 +20,15 @@ workers_dev = false
 enabled = true
 head_sampling_rate = 1
 
-[env.staging]
-name = "boxing-gateway-staging"
+[env.production]
+name = "boxing-gateway-production"
 workers_dev = true
 
-[env.staging.vars]
-BOXING_WORKER_NAME = "boxing-gateway-staging"
-BOXING_ENVIRONMENT = "staging"
-BOXING_SUPABASE_REF = "wpaxofilvbsjyrxrwjhg"
+[env.production.vars]
+BOXING_WORKER_NAME = "boxing-gateway-production"
+BOXING_ENVIRONMENT = "production"
+BOXING_SUPABASE_REF = "lobcdprmoiosbjanheeo"
 
-[env.staging.observability]
+[env.production.observability]
 enabled = true
 head_sampling_rate = 1

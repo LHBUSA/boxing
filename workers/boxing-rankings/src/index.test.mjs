@@ -29,11 +29,11 @@ test('scheduled collection is off by default; when on, each cron slot collects o
   assert.deepEqual(runs, [], 'no approved body is left without a collector');
 });
 
-test('wrangler staging crons are exactly the per-body slots', async () => {
+test('wrangler production crons are exactly the per-body slots', async () => {
   const { readFile } = await import('node:fs/promises');
   const { BODY_BY_CRON } = await import('../../../shared/adapters/rankings/registry.mjs');
   const toml = await readFile(new URL('../wrangler.toml', import.meta.url), 'utf8');
-  const crons = JSON.parse(toml.match(/\[env\.staging\.triggers\]\s*crons = (\[[^\]]*\])/)[1]);
+  const crons = JSON.parse(toml.match(/\[env\.production\.triggers\]\s*crons = (\[[^\]]*\])/)[1]);
   assert.deepEqual(crons, Object.keys(BODY_BY_CRON));
 });
 

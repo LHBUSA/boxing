@@ -1,18 +1,20 @@
-# Boxing STAGING Supabase management helpers.
+# Boxing Supabase management helpers. The one Boxing database is propbetedge-boxing-production
+# (lobcdprmoiosbjanheeo, owner topology 2026-10-02); the scripts/staging/ directory name is historical.
 #
 # Safety rules (enforced in code, not convention):
 #   * the Supabase CLI access token is read from Windows Credential Manager and
 #     never printed, logged or written to disk
 #   * every project-scoped call re-resolves the target project by ref and
-#     refuses unless its NAME is exactly 'propbetedge-boxing-staging'
+#     refuses unless its NAME is exactly 'propbetedge-boxing-production'
 #   * the known non-boxing projects (UFC/NFL production, MLB/PropTech) are
 #     refused by ref before any request is sent
-#   * the DB password lives only in D:\Workers\secrets\boxing-staging-db.env
+#   * the DB password lives only in D:\Workers\secrets\boxing-production-db.env
 
-$script:BoxingProjectName = 'propbetedge-boxing-staging'
+$script:BoxingProjectName = 'propbetedge-boxing-production'
 $script:ForbiddenRefs = @(
   'tkmlnhmylqnttmnsnief', # PROPBETEDGE: NFL + UFC production
-  'rlfyavnhbngwbldebrid'  # MLB + PropTech
+  'rlfyavnhbngwbldebrid', # MLB + PropTech
+  'wpaxofilvbsjyrxrwjhg'  # deleted Boxing staging (2026-10-02, never restore)
 )
 $script:Api = 'https://api.supabase.com/v1'
 
@@ -46,7 +48,7 @@ function Invoke-SbApi {
   }
 }
 
-function Assert-BoxingStagingProject {
+function Assert-BoxingProject {
   param([Parameter(Mandatory)][string]$Ref)
   if ($script:ForbiddenRefs -contains $Ref) { throw "REFUSED: $Ref is a non-boxing project" }
   $p = Invoke-SbApi -Path "/projects/$Ref"
@@ -54,10 +56,10 @@ function Assert-BoxingStagingProject {
   return $p
 }
 
-function Invoke-BoxingStagingSql {
+function Invoke-BoxingSql {
   param([Parameter(Mandatory)][string]$Ref, [Parameter(Mandatory)][string]$Sql)
-  $null = Assert-BoxingStagingProject -Ref $Ref
+  $null = Assert-BoxingProject -Ref $Ref
   return Invoke-SbApi -Method POST -Path "/projects/$Ref/database/query" -Body @{ query = $Sql }
 }
 
-Export-ModuleMember -Function Get-SbToken, Invoke-SbApi, Assert-BoxingStagingProject, Invoke-BoxingStagingSql
+Export-ModuleMember -Function Get-SbToken, Invoke-SbApi, Assert-BoxingProject, Invoke-BoxingSql

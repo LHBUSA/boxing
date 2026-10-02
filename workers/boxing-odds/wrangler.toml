@@ -1,12 +1,11 @@
 # boxing-odds — scheduled boxing market capture.
 #
-# Top-level (default) environment: NOT DEPLOYED and capture OFF. There is no
-# boxing production Supabase project; the write-target allow-list in
-# shared/store/target-guard.mjs contains staging only.
+# Top-level (default) environment: NOT DEPLOYED and capture OFF. The write-target
+# allow-list in shared/store/target-guard.mjs holds only the one Boxing database.
 #
-# [env.staging] -> Worker "boxing-odds-staging", writes ONLY to Supabase
-# wpaxofilvbsjyrxrwjhg (propbetedge-boxing-staging). No routes, no workers.dev.
-#   secrets (wrangler secret put ... --env staging):
+# [env.production] -> Worker "boxing-odds-production", writes ONLY to Supabase
+# lobcdprmoiosbjanheeo (propbetedge-boxing-production). No routes, no workers.dev.
+#   secrets (wrangler secret put ... --env production):
 #     SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, ODDS_API_KEY, BOXING_INTERNAL_TOKEN
 #
 # Capture gates (all must pass): ODDS_CAPTURE_ENABLED="true", verified write
@@ -38,27 +37,27 @@ ODDS_DAILY_BUDGET = "600"
 enabled = true
 head_sampling_rate = 1
 
-[env.staging]
-name = "boxing-odds-staging"
+[env.production]
+name = "boxing-odds-production"
 workers_dev = false
 
-[env.staging.triggers]
+[env.production.triggers]
 crons = ["*/15 * * * *"]
 
-[env.staging.version_metadata]
+[env.production.version_metadata]
 binding = "CF_VERSION_METADATA"
 
-[env.staging.vars]
-BOXING_WORKER_NAME = "boxing-odds-staging"
-BOXING_ENVIRONMENT = "staging"
-BOXING_SUPABASE_REF = "wpaxofilvbsjyrxrwjhg"
-ODDS_CAPTURE_ENABLED = "true"
+[env.production.vars]
+BOXING_WORKER_NAME = "boxing-odds-production"
+BOXING_ENVIRONMENT = "production"
+BOXING_SUPABASE_REF = "lobcdprmoiosbjanheeo"
+ODDS_CAPTURE_ENABLED = "false"
 ODDS_REGION_PLAN = "us=h2h,totals;us2=h2h;uk=h2h;eu=h2h;au=h2h"
 ODDS_MIN_REMAINING = "20000"
 ODDS_MAX_RUN_COST = "8"
 ODDS_MONTHLY_BUDGET = "8000"
 ODDS_DAILY_BUDGET = "600"
 
-[env.staging.observability]
+[env.production.observability]
 enabled = true
 head_sampling_rate = 1

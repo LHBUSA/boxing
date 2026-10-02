@@ -9,7 +9,7 @@ import { decideCadence, parseRegionPlan, planCost, tierFor } from '../../../shar
 const TOKEN = 't'.repeat(40);
 const KEY = 'k'.repeat(32);
 const APPROVED = { enabled: true, access_mode: 'approved_ingest', rights_state: 'approved', persistence_allowed: true, latest_rights_review_id: 'r-1' };
-const STAGING = { SUPABASE_URL: 'https://wpaxofilvbsjyrxrwjhg.supabase.co', SUPABASE_SERVICE_ROLE_KEY: 's', BOXING_ENVIRONMENT: 'staging', BOXING_SUPABASE_REF: 'wpaxofilvbsjyrxrwjhg' };
+const BOXING_DB = { SUPABASE_URL: 'https://lobcdprmoiosbjanheeo.supabase.co', SUPABASE_SERVICE_ROLE_KEY: 's', BOXING_ENVIRONMENT: 'production', BOXING_SUPABASE_REF: 'lobcdprmoiosbjanheeo' };
 const ON = { ODDS_CAPTURE_ENABLED: 'true', ODDS_API_KEY: KEY, ODDS_REGION_PLAN: 'us=h2h' };
 
 function fakeStore({ source = APPROVED, state = { last_capture_at: null, credits_24h: 0, credits_30d: 0, next_commence_times: [] }, verified = true } = {}) {
@@ -47,18 +47,19 @@ test('capture is disabled by default and touches nothing', async () => {
   assert.equal(store.runs.length, 0);
 });
 
-test('write target: only the boxing staging project is accepted', () => {
-  assert.deepEqual(assertBoxingWriteTarget(STAGING), { ref: 'wpaxofilvbsjyrxrwjhg', projectName: 'propbetedge-boxing-staging', environment: 'staging' });
+test('write target: only the one Boxing database is accepted; the deleted staging project is refused', () => {
+  assert.deepEqual(assertBoxingWriteTarget(BOXING_DB), { ref: 'lobcdprmoiosbjanheeo', projectName: 'propbetedge-boxing-production', environment: 'production' });
   const refuse = (env, re) => assert.throws(() => assertBoxingWriteTarget(env), re);
-  refuse({ ...STAGING, SUPABASE_URL: 'https://tkmlnhmylqnttmnsnief.supabase.co', BOXING_SUPABASE_REF: 'tkmlnhmylqnttmnsnief' }, /NFL \+ UFC production/);
-  refuse({ ...STAGING, SUPABASE_URL: 'https://rlfyavnhbngwbldebrid.supabase.co', BOXING_SUPABASE_REF: 'rlfyavnhbngwbldebrid' }, /MLB \+ PropTech production/);
-  refuse({ ...STAGING, SUPABASE_URL: 'https://abcdefghijklmnopqrst.supabase.co', BOXING_SUPABASE_REF: 'abcdefghijklmnopqrst' }, /not on the boxing write allow-list/);
-  refuse({ ...STAGING, BOXING_ENVIRONMENT: 'production' }, /BOXING_ENVIRONMENT/);
-  refuse({ ...STAGING, BOXING_SUPABASE_REF: undefined }, /BOXING_SUPABASE_REF/);
-  refuse({ ...STAGING, SUPABASE_URL: 'http://wpaxofilvbsjyrxrwjhg.supabase.co' }, /https/);
-  refuse({ ...STAGING, SUPABASE_URL: 'https://wpaxofilvbsjyrxrwjhg.supabase.co.evil.example' }, /https:\/\/<ref>/);
+  refuse({ ...BOXING_DB, SUPABASE_URL: 'https://tkmlnhmylqnttmnsnief.supabase.co', BOXING_SUPABASE_REF: 'tkmlnhmylqnttmnsnief' }, /NFL \+ UFC production/);
+  refuse({ ...BOXING_DB, SUPABASE_URL: 'https://rlfyavnhbngwbldebrid.supabase.co', BOXING_SUPABASE_REF: 'rlfyavnhbngwbldebrid' }, /MLB \+ PropTech production/);
+  refuse({ ...BOXING_DB, SUPABASE_URL: 'https://abcdefghijklmnopqrst.supabase.co', BOXING_SUPABASE_REF: 'abcdefghijklmnopqrst' }, /not on the boxing write allow-list/);
+  refuse({ ...BOXING_DB, BOXING_ENVIRONMENT: 'staging' }, /BOXING_ENVIRONMENT/);
+  refuse({ ...BOXING_DB, SUPABASE_URL: 'https://wpaxofilvbsjyrxrwjhg.supabase.co', BOXING_SUPABASE_REF: 'wpaxofilvbsjyrxrwjhg', BOXING_ENVIRONMENT: 'staging' }, /deleted Boxing staging/);
+  refuse({ ...BOXING_DB, BOXING_SUPABASE_REF: undefined }, /BOXING_SUPABASE_REF/);
+  refuse({ ...BOXING_DB, SUPABASE_URL: 'http://lobcdprmoiosbjanheeo.supabase.co' }, /https/);
+  refuse({ ...BOXING_DB, SUPABASE_URL: 'https://lobcdprmoiosbjanheeo.supabase.co.evil.example' }, /https:\/\/<ref>/);
   refuse({}, /SUPABASE_URL/);
-  assert.equal(guardedPostgrestStore(STAGING, { fetchImpl: neverFetch }).writeTarget.ref, 'wpaxofilvbsjyrxrwjhg');
+  assert.equal(guardedPostgrestStore(BOXING_DB, { fetchImpl: neverFetch }).writeTarget.ref, 'lobcdprmoiosbjanheeo');
 });
 
 test('a store without a verified write target never captures', async () => {
@@ -71,7 +72,7 @@ test('a store without a verified write target never captures', async () => {
 
 test('the worker refuses to build a store for a non-boxing Supabase target', async () => {
   const worker = createWorker({ fetchImpl: neverFetch });
-  const env = { ...ON, ...STAGING, BOXING_INTERNAL_TOKEN: TOKEN, SUPABASE_URL: 'https://tkmlnhmylqnttmnsnief.supabase.co', BOXING_SUPABASE_REF: 'tkmlnhmylqnttmnsnief' };
+  const env = { ...ON, ...BOXING_DB, BOXING_INTERNAL_TOKEN: TOKEN, SUPABASE_URL: 'https://tkmlnhmylqnttmnsnief.supabase.co', BOXING_SUPABASE_REF: 'tkmlnhmylqnttmnsnief' };
   const res = await worker.fetch(new Request('https://odds.internal/internal/v1/odds/capture?force=true', { method: 'POST', headers: { authorization: `Bearer ${TOKEN}` } }), env);
   assert.equal(res.status, 503);
   assert.equal((await res.json()).error, 'write_target_refused');
@@ -135,17 +136,17 @@ test('cadence tiers and budget fallback', () => {
   assert.equal(planCost(parseRegionPlan({ ODDS_REGION_PLAN: 'us=h2h,totals;us2=h2h;uk=h2h;eu=h2h;au=h2h' })), 6);
 });
 
-test('staging wrangler config: staging-only writes, default environment off', () => {
+test('production wrangler config: writes only to the Boxing database, capture off until enabled, default environment off', () => {
   const toml = readFileSync(new URL('../wrangler.toml', import.meta.url), 'utf8');
-  const split = toml.search(/^\[env\.staging\]$/m);
+  const split = toml.search(/^\[env\.production\]$/m);
   const top = toml.slice(0, split);
   assert.match(top, /ODDS_CAPTURE_ENABLED = "false"/);
   assert.match(top, /crons = \[\]/);
-  const staging = toml.slice(split);
-  assert.match(staging, /name = "boxing-odds-staging"/);
-  assert.match(staging, /BOXING_SUPABASE_REF = "wpaxofilvbsjyrxrwjhg"/);
-  assert.match(staging, /BOXING_ENVIRONMENT = "staging"/);
-  assert.doesNotMatch(toml, /tkmlnhmylqnttmnsnief|rlfyavnhbngwbldebrid/);
+  const prod = toml.slice(split);
+  assert.match(prod, /name = "boxing-odds-production"/);
+  assert.match(prod, /BOXING_SUPABASE_REF = "lobcdprmoiosbjanheeo"/);
+  assert.match(prod, /BOXING_ENVIRONMENT = "production"/);
+  assert.doesNotMatch(toml, /tkmlnhmylqnttmnsnief|rlfyavnhbngwbldebrid|wpaxofilvbsjyrxrwjhg/);
   assert.doesNotMatch(toml, /^\s*routes?\s*=/m);
 });
 

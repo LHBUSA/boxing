@@ -1,21 +1,21 @@
-# Sets boxing-odds-staging Worker secrets without writing any secret to disk
+# Sets boxing-odds-production Worker secrets without writing any secret to disk
 # or printing it. Staging project is verified first.
 #
 #   pwsh scripts/staging/set-odds-worker-secrets.ps1
 #
-# SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY: propbetedge-boxing-staging only.
+# SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY: propbetedge-boxing-production only.
 # ODDS_API_KEY: the existing PropBetEdge key (no second key is created).
-# BOXING_INTERNAL_TOKEN: generated once into D:\Workers\secrets\boxing-odds-staging-internal-token.
+# BOXING_INTERNAL_TOKEN: generated once into D:\Workers\secrets\boxing-odds-production-internal-token.
 
 $ErrorActionPreference = 'Stop'
 $root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 Import-Module (Join-Path $PSScriptRoot 'BoxingSupabase.psm1') -Force
-$cfg = Get-Content (Join-Path $root 'staging/boxing-staging.json') -Raw | ConvertFrom-Json
+$cfg = Get-Content (Join-Path $root 'production/boxing-production.json') -Raw | ConvertFrom-Json
 $ref = $cfg.project_ref
-$project = Assert-BoxingStagingProject -Ref $ref
+$project = Assert-BoxingProject -Ref $ref
 Write-Host "target verified: $($project.name) ($ref)"
 
-$tokenFile = 'D:\Workers\secrets\boxing-odds-staging-internal-token'
+$tokenFile = 'D:\Workers\secrets\boxing-odds-production-internal-token'
 if (-not (Test-Path $tokenFile)) {
   $bytes = [byte[]]::new(36); [System.Security.Cryptography.RandomNumberGenerator]::Fill($bytes)
   [IO.File]::WriteAllText($tokenFile, [Convert]::ToBase64String($bytes).Replace('+', '-').Replace('/', '_').TrimEnd('='))
@@ -33,7 +33,7 @@ $payload = @{
 } | ConvertTo-Json -Compress
 try {
   Push-Location (Join-Path $root 'workers/boxing-odds')
-  $out = $payload | npx --yes wrangler@4 secret bulk --env staging 2>&1 | Out-String
+  $out = $payload | npx --yes wrangler@4 secret bulk --env production 2>&1 | Out-String
   foreach ($s in @($service, $odds)) { $out = $out.Replace($s, '<redacted>') }
   Write-Host ($out -split "`n" | Where-Object { $_ -match 'secret|Success|✨|ERROR|error' } | Out-String)
   if ($LASTEXITCODE -ne 0) { throw "wrangler secret bulk exited $LASTEXITCODE" }

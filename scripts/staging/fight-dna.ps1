@@ -10,14 +10,14 @@ param([switch]$CoverageOnly)
 $ErrorActionPreference = 'Stop'
 $root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 Import-Module (Join-Path $PSScriptRoot 'BoxingSupabase.psm1') -Force
-$cfg = Get-Content (Join-Path $root 'staging/boxing-staging.json') -Raw | ConvertFrom-Json
+$cfg = Get-Content (Join-Path $root 'production/boxing-production.json') -Raw | ConvertFrom-Json
 $ref = $cfg.project_ref
-$project = Assert-BoxingStagingProject -Ref $ref
+$project = Assert-BoxingProject -Ref $ref
 Write-Host "target verified: $($project.name) ($ref)"
 
 if (-not $CoverageOnly) {
-  $fighters = @(Invoke-BoxingStagingSql -Ref $ref -Sql "select distinct public.boxing_canonical_fighter_id(p.fighter_id)::text id from public.boxing_bout_participants p where p.participant_status in ('scheduled','confirmed')" | ForEach-Object { $_.id })
-  $officials = @(Invoke-BoxingStagingSql -Ref $ref -Sql "select distinct bo.official_id::text id from public.boxing_bout_officials bo" | ForEach-Object { $_.id })
+  $fighters = @(Invoke-BoxingSql -Ref $ref -Sql "select distinct public.boxing_canonical_fighter_id(p.fighter_id)::text id from public.boxing_bout_participants p where p.participant_status in ('scheduled','confirmed')" | ForEach-Object { $_.id })
+  $officials = @(Invoke-BoxingSql -Ref $ref -Sql "select distinct bo.official_id::text id from public.boxing_bout_officials bo" | ForEach-Object { $_.id })
   $tmp = [System.IO.Path]::GetTempFileName()
   @{ fighters = $fighters; officials = $officials } | ConvertTo-Json -Depth 3 | Set-Content -Path $tmp -Encoding utf8
   $keys = Invoke-SbApi -Path "/projects/$ref/api-keys?reveal=true"
@@ -51,4 +51,4 @@ select jsonb_build_object(
   'source_unavailable_metrics', (select coalesce(jsonb_agg(distinct metric_key order by metric_key), '[]'::jsonb) from latest where status = 'source_unavailable')
 )::text as c
 "@
-(Invoke-BoxingStagingSql -Ref $ref -Sql $coverage).c
+(Invoke-BoxingSql -Ref $ref -Sql $coverage).c

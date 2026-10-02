@@ -2,7 +2,7 @@
 #
 #   pwsh scripts/staging/capture-odds.ps1 [-Force] [-CoverageOnly]
 #
-# Verifies the project is propbetedge-boxing-staging (never UFC/NFL/MLB), reads
+# Verifies the project is propbetedge-boxing-production (never UFC/NFL/MLB), reads
 # the service-role key from the Management API and ODDS_API_KEY from
 # D:\Workers\secrets\ufc-propbetedge.env into THIS process environment only,
 # runs scripts/odds/capture-once.mjs (same code path as the Worker), then
@@ -12,9 +12,9 @@ param([switch]$Force, [switch]$CoverageOnly)
 $ErrorActionPreference = 'Stop'
 $root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 Import-Module (Join-Path $PSScriptRoot 'BoxingSupabase.psm1') -Force
-$cfg = Get-Content (Join-Path $root 'staging/boxing-staging.json') -Raw | ConvertFrom-Json
+$cfg = Get-Content (Join-Path $root 'production/boxing-production.json') -Raw | ConvertFrom-Json
 $ref = $cfg.project_ref
-$project = Assert-BoxingStagingProject -Ref $ref
+$project = Assert-BoxingProject -Ref $ref
 Write-Host "target verified: $($project.name) ($ref)"
 
 $keys = Invoke-SbApi -Path "/projects/$ref/api-keys?reveal=true"

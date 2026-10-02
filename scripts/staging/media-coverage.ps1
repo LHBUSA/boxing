@@ -10,9 +10,9 @@ param([string]$Out = "")
 $ErrorActionPreference = 'Stop'
 $root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 Import-Module (Join-Path $PSScriptRoot 'BoxingSupabase.psm1') -Force
-$cfg = Get-Content (Join-Path $root 'staging/boxing-staging.json') -Raw | ConvertFrom-Json
+$cfg = Get-Content (Join-Path $root 'production/boxing-production.json') -Raw | ConvertFrom-Json
 $ref = $cfg.project_ref
-$project = Assert-BoxingStagingProject -Ref $ref
+$project = Assert-BoxingProject -Ref $ref
 Write-Host "target verified (read-only): $($project.name) ($ref)"
 if (-not $Out) { $Out = Join-Path $root "reviews/media/$(Get-Date -Format 'yyyy-MM-dd')-coverage.json" }
 
@@ -70,7 +70,7 @@ select jsonb_build_object(
 ) r
 "@
 
-$data = (Invoke-BoxingStagingSql -Ref $ref -Sql $sql)[0].r
+$data = (Invoke-BoxingSql -Ref $ref -Sql $sql)[0].r
 New-Item -ItemType Directory -Force (Split-Path $Out) | Out-Null
 $data | ConvertTo-Json -Depth 10 | Set-Content -Path $Out -Encoding UTF8
 $o = $data.overall; $v = $data.by_visibility; $g = $data.gaps

@@ -34,15 +34,15 @@ test('worker refuses non-boxing Supabase targets and requires the token', async 
   assert.equal((await res.json()).error, 'write_target_refused');
 });
 
-test('staging wrangler config: daily cron, staging-only target, default environment off', () => {
+test('production wrangler config: daily cron, Boxing database only, default environment off', () => {
   const toml = readFileSync(new URL('../wrangler.toml', import.meta.url), 'utf8');
-  const split = toml.search(/^\[env\.staging\]$/m);
+  const split = toml.search(/^\[env\.production\]$/m);
   assert.match(toml.slice(0, split), /COMMISSION_INGEST_ENABLED = "false"/);
   assert.match(toml.slice(0, split), /crons = \[\]/);
-  const staging = toml.slice(split);
-  assert.match(staging, /crons = \["40 11 \* \* \*"\]/);
-  assert.match(staging, /BOXING_SUPABASE_REF = "wpaxofilvbsjyrxrwjhg"/);
-  assert.doesNotMatch(toml, /tkmlnhmylqnttmnsnief|rlfyavnhbngwbldebrid|boxrec|compubox/i);
+  const prod = toml.slice(split);
+  assert.match(prod, /crons = \["40 11 \* \* \*"\]/);
+  assert.match(prod, /BOXING_SUPABASE_REF = "lobcdprmoiosbjanheeo"/);
+  assert.doesNotMatch(toml, /tkmlnhmylqnttmnsnief|rlfyavnhbngwbldebrid|wpaxofilvbsjyrxrwjhg|boxrec|compubox/i);
 });
 
 test('a connection reset is retried twice; an HTTP error status is returned, never retried', async () => {
