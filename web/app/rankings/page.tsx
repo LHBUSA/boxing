@@ -5,10 +5,10 @@ import { fmtDate } from "@/lib/format";
 import { fighterPath } from "@/lib/slug";
 import type { RankingEntry } from "@/lib/types";
 import { Note, SecHead, Unavailable } from "@/components/fight";
-import { BODY_SITE, DOC_LABEL, Holder, OFFICIAL_PAGE, OfficialLink, asOfText, docDate } from "@/components/titles";
+import { BODY_SITE, DOC_LABEL, Holder, MoveTag, OFFICIAL_PAGE, OfficialLink, asOfText, docDate, movement } from "@/components/titles";
 
 export const revalidate = 1800;
-export const metadata: Metadata = { title: "Rankings", description: "WBA, IBF and WBO rankings kept separate by body and division, each from the body's own dated document. No universal ranking." };
+export const metadata: Metadata = { title: "Rankings", description: "WBC, WBA, IBF and WBO rankings kept separate by body and division, each from the body's own dated document. No universal ranking." };
 
 const day = (ts: string | null | undefined) => (ts ? fmtDate(ts.slice(0, 10)) : "Date not on record");
 const titleCase = (s: string) => s.toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase());
@@ -22,15 +22,6 @@ function Who({ e }: { e: RankingEntry }) {
   if (e.public_id && e.display_name) return <Link href={fighterPath({ public_id: e.public_id, name: e.display_name })}>{e.display_name}</Link>;
   // not yet tied to a PropBetEdge fighter: as printed by the body, never matched by name
   return <span className="lane__asprinted" title="As printed by the body; identity under review">{e.source_name}</span>;
-}
-
-// movement only between entries tied to the same PropBetEdge fighter; names are never compared
-function Movement({ e, previous }: { e: RankingEntry; previous: RankingEntry[] | undefined }) {
-  if (!previous || !e.public_id) return null;
-  const was = previous.find((p) => p.public_id === e.public_id && !p.metadata?.outside_numbered_list && p.rank_label !== "**");
-  if (!was) return <span className="tag">New</span>;
-  const d = was.position - e.position;
-  return d ? <span className={`tag${d > 0 ? " tag--gold" : ""}`}>{d > 0 ? `Up ${d}` : `Down ${-d}`}</span> : null;
 }
 
 export default async function RankingsPage({ searchParams }: { searchParams: Promise<{ org?: string; division?: string; gender?: string }> }) {
@@ -112,7 +103,7 @@ export default async function RankingsPage({ searchParams }: { searchParams: Pro
                   <span className="rk__tags">
                     {e.metadata?.regional_label ? <span className="tag">{e.metadata.regional_label}</span> : null}
                     {e.mandatory ? <span className="tag">Mandatory</span> : null}
-                    <Movement e={e} previous={body?.previous?.entries} />
+                    <MoveTag move={movement(e, body?.previous?.entries)} />
                   </span>
                 </div>
               ))}
@@ -133,7 +124,7 @@ export default async function RankingsPage({ searchParams }: { searchParams: Pro
                 </div>
               </div>
             ) : null}
-            <p className="fine mt-2">Source: {org.name}, official {DOC_LABEL[rec?.document_kind ?? ""] ?? "document"}. <OfficialLink href={OFFICIAL_PAGE[rec?.document_kind ?? ""] ?? BODY_SITE[org.slug]} label="Official source" /> Regional tags are the body&apos;s own.{body?.previous ? ` Movement compares with the ${day(body.previous.effective_on ?? body.previous.published_on)} list, for fighters on record only.` : ""}</p>
+            <p className="fine mt-2">Source: {org.name}, official {DOC_LABEL[rec?.document_kind ?? ""] ?? "document"}. <OfficialLink href={OFFICIAL_PAGE[rec?.document_kind ?? ""] ?? BODY_SITE[org.slug]} label="Official source" /> Regional tags are the body&apos;s own.{body?.previous ? ` Movement compares with the ${day(body.previous.effective_on ?? body.previous.published_on)} list, matched on a PropBetEdge fighter or the body's own boxer id; names are never compared.` : ""}</p>
           </>
         )}
       </section>

@@ -46,7 +46,7 @@ binding = "CF_VERSION_METADATA"
 BOXING_WORKER_NAME = "boxing-rankings-production"
 BOXING_ENVIRONMENT = "production"
 BOXING_SUPABASE_REF = "lobcdprmoiosbjanheeo"
-TITLES_INGEST_ENABLED = "false"
+TITLES_INGEST_ENABLED = "true"
 
 [env.production.observability]
 enabled = true

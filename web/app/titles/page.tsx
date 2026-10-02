@@ -3,7 +3,9 @@ import Link from "next/link";
 import { gateway } from "@/lib/gateway";
 import { todayUtc } from "@/lib/gateway";
 import { Note, SecHead, Unavailable } from "@/components/fight";
-import { DerivedStrip, LaneCard } from "@/components/titles";
+import { DerivedStrip, LaneCard, RankedList } from "@/components/titles";
+
+const ORDER = ["wbc", "wba", "ibf", "wbo"];
 
 export const revalidate = 1800;
 export const metadata: Metadata = { title: "World Title Map", description: "Boxing's world titles division by division in four separate lanes: WBC, WBA, IBF and WBO, each from its own official documents, with source dates and disagreements shown." };
@@ -33,9 +35,14 @@ export default async function TitlesPage({ searchParams }: { searchParams: Promi
   if (!base.ok) return <Unavailable what="The World Title Map" />;
   const divisions = base.data.board.divisions.filter((d) => gender === "female" || d.gender_scope !== "female");
   const sel = divisions.find((d) => d.class_key === sp.division) ?? divisions.find((d) => d.class_key === "welterweight") ?? divisions[0];
-  const res = await gateway.titles(sel.class_key, gender);
+  const [res, ...ranked] = await Promise.all([
+    gateway.titles(sel.class_key, gender),
+    ...ORDER.map((o) => gateway.rankings(o, sel.class_key, gender)),
+  ]);
   const board = res.ok ? res.data.board : base.data.board;
   const lanes = res.ok ? res.data.lanes : null;
+  const rankingsOf = (body: string) => { const r = ranked[ORDER.indexOf(body)]; return r?.ok ? r.data.body : null; };
+  const ordered = lanes ? [...lanes.lanes].sort((a, b) => ORDER.indexOf(a.body) - ORDER.indexOf(b.body)) : [];
   const link = (division: string, g = gender) => `/titles?${new URLSearchParams({ division, ...(g === "female" ? { gender: g } : {}) })}`;
   const today = todayUtc();
   return (
@@ -55,7 +62,19 @@ export default async function TitlesPage({ searchParams }: { searchParams: Promi
         <SecHead kicker={`${sel.max_lb ? `${sel.max_lb} lb · ${sel.max_kg} kg` : "No upper limit"} · WBC | WBA | IBF | WBO`} title={sel.name}>{sel.notes ?? undefined}</SecHead>
         {lanes ? (
           <>
-            <div className="belts">{lanes.lanes.map((l) => <LaneCard key={l.body} lane={l} today={today} division={sel.name} />)}</div>
+            <nav className="tm-tabs" aria-label="Sanctioning bodies">
+              {ordered.map((l) => <a key={l.body} href={`#lane-${l.body}`}>{l.short_name}</a>)}
+            </nav>
+            <div className="tm-cols">
+              {ordered.map((l) => (
+                <div className="tm-col" id={`lane-${l.body}`} key={l.body}>
+                  <LaneCard lane={l} today={today} division={sel.name} />
+                  {l.state !== "not_licensed" ? (
+                    <RankedList body={rankingsOf(l.body)} href={`/rankings?${new URLSearchParams({ org: l.body, division: sel.class_key, ...(gender === "female" ? { gender } : {}) })}`} />
+                  ) : null}
+                </div>
+              ))}
+            </div>
             <DerivedStrip derived={lanes.derived} bodies={lanes.lanes} />
           </>
         ) : (

@@ -496,6 +496,34 @@ main { flex: 1; position: relative; z-index: 1; }
 .lane__conflicts { display: grid; gap: 4px; }
 .lane__conflicts li strong { font: 600 12.5px/1.5 var(--f-ui); color: var(--paper-2); }
 .lane__attr { margin-top: auto; }
+/* Title Map V2: each body's column = its belts, then its own numbered ranking. Desktop compares four columns side by
+   side; phones get a body tab bar and one column per screen (horizontal snap), never four squeezed columns. */
+.tm-tabs { display: none; }
+.tm-cols { display: grid; gap: 12px; }
+.tm-col { display: flex; flex-direction: column; gap: 10px; min-width: 0; scroll-margin-top: calc(var(--hdr) + 12px); }
+.tm-rank { padding: 12px 14px 10px; border-radius: var(--r-3); border: 1px solid var(--line); background: rgba(16, 13, 10, 0.6); display: grid; gap: 8px; }
+.tm-rank__head { display: grid; gap: 2px; }
+.tm-rank__list { display: grid; }
+.tm-rank__list li { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; gap: 8px; align-items: baseline; padding: 6px 0; border-top: 1px solid var(--line); font-size: 13.5px; }
+.tm-rank__list li:first-child { border-top: 0; }
+.tm-rank__list li.is-nr .tm-rank__who { color: var(--subtle); font-style: italic; }
+.tm-rank__pos { font: 700 13px/1 var(--f-data); color: var(--gold); text-align: right; }
+.tm-rank__who { min-width: 0; overflow-wrap: anywhere; color: var(--paper-2); }
+.tm-rank__foot:empty { display: none; }
+.tm-rank__none { padding: 0 4px; }
+.mv { font: 700 11px/1 var(--f-data); color: var(--faint); white-space: nowrap; }
+.mv--up { color: var(--pos); }
+.mv--down { color: var(--red-bright); }
+.mv--new { color: var(--gold); letter-spacing: 0.06em; }
+@media (min-width: 640px) and (max-width: 999px) { .tm-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1000px) { .tm-cols { grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: start; } }
+@media (max-width: 639px) {
+  .tm-tabs { display: flex; gap: 6px; position: sticky; top: var(--hdr); z-index: 5; padding: 8px 0; background: var(--ink); }
+  .tm-tabs a { flex: 1; text-align: center; padding: 9px 0; border-radius: var(--r-2); border: 1px solid var(--line-2); font: 700 13px/1 var(--f-ui); color: var(--paper); letter-spacing: 0.04em; }
+  .tm-cols { grid-auto-flow: column; grid-auto-columns: 100%; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; gap: 16px; scrollbar-width: none; }
+  .tm-cols::-webkit-scrollbar { display: none; }
+  .tm-col { scroll-snap-align: start; }
+}
 .derived { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; padding: 12px 14px; border-radius: var(--r-2); border: 1px solid var(--line); background: rgba(255, 245, 220, 0.025); font-size: 13.5px; color: var(--dim); }
 .derived b { color: var(--paper); }
 .rk__champs { display: grid; gap: 10px; margin-bottom: 14px; }

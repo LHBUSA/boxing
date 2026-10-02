@@ -9,7 +9,7 @@
 //
 // Required env: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, BOXING_ENVIRONMENT,
 // BOXING_SUPABASE_REF, ODDS_API_KEY (unless --coverage-only). Plan and budget
-// vars default to workers/boxing-odds/wrangler.toml [env.staging].
+// vars default to workers/boxing-odds/wrangler.toml [env.production].
 // Prints metrics only; never prints credentials.
 
 import { readFileSync } from 'node:fs';
@@ -20,8 +20,8 @@ import { guardedPostgrestStore } from '../../shared/store/target-guard.mjs';
 
 const args = new Set(process.argv.slice(2));
 const toml = readFileSync(new URL('../../workers/boxing-odds/wrangler.toml', import.meta.url), 'utf8');
-const stagingVars = Object.fromEntries([...toml.slice(toml.search(/^\[env\.staging\.vars\]$/m)).split(/\n\[/)[0].matchAll(/^([A-Z_]+) = "([^"]*)"$/gm)].map((m) => [m[1], m[2]]));
-const env = { ...stagingVars, ...process.env };
+const workerVars = Object.fromEntries([...toml.slice(toml.search(/^\[env\.production\.vars\]$/m)).split(/\n\[/)[0].matchAll(/^([A-Z_]+) = "([^"]*)"$/gm)].map((m) => [m[1], m[2]]));
+const env = { ...workerVars, ...process.env };
 
 const store = guardedPostgrestStore(env);
 console.log(`target: ${store.writeTarget.projectName} (${store.writeTarget.ref}, ${store.writeTarget.environment})`);

@@ -2,7 +2,7 @@
 // with that body and its document; nothing is merged across bodies or resolved between a body's own documents.
 
 import Link from "next/link";
-import type { TitleBeltStatus, TitleDocument, TitleLane, TitleLanes } from "@/lib/types";
+import type { BodyRankings, RankingEntry, TitleBeltStatus, TitleDocument, TitleLane, TitleLanes } from "@/lib/types";
 import { fmtDate } from "@/lib/format";
 import { fighterPath } from "@/lib/slug";
 
@@ -23,8 +23,8 @@ export const OFFICIAL_PAGE: Record<string, string> = {
   ibf_rating: "https://www.ibf-usba-boxing.com/ratings/",
   wbo_ratings: "https://wboboxing.com/rankings/",
   wbo_champions: "https://wboboxing.com/male-champions/",
-  wbc_ratings: "https://wbcboxing.com/en/main-ratings/",
-  wbc_champions: "https://wbcboxing.com/en/main-ratings/",
+  wbc_ratings: "https://wbcboxing.com/ratings/",
+  wbc_champions: "https://wbcboxing.com/ratings/",
 };
 export const BODY_SITE: Record<string, string> = {
   wbc: "https://wbcboxing.com/", wba: "https://www.wbaboxing.com/", ibf: "https://www.ibf-usba-boxing.com/", wbo: "https://wboboxing.com/",
@@ -69,6 +69,80 @@ export function BeltRows({ doc }: { doc: TitleDocument }) {
         </li>
       ))}
     </ul>
+  );
+}
+
+// --- rankings beside the belts (Title Map V2) -------------------------------------------------------------------------
+
+const notRated = (e: RankingEntry) => Boolean(e.metadata?.not_rated || (e.is_vacant && !e.source_name && !e.metadata?.name_not_printed));
+export const numberedEntries = (entries: RankingEntry[] | undefined) =>
+  (entries ?? []).filter((e) => !e.metadata?.outside_numbered_list && e.rank_label !== "**");
+
+export function RankedName({ e }: { e: RankingEntry }) {
+  if (e.metadata?.printed_blank) return <span className="dim">Position left blank by source</span>;
+  if (notRated(e)) return <span className="dim">{e.metadata?.slot_text ?? "NOT RATED"}</span>;
+  // the body printed this position without a name: a display phrase only, never an identity
+  if (e.metadata?.name_not_printed) return <span className="dim" title="Name not printed by the source">Name not printed by source</span>;
+  if (e.public_id && e.display_name) return <Link href={fighterPath({ public_id: e.public_id, name: e.display_name })}>{e.display_name}</Link>;
+  // not yet tied to a PropBetEdge fighter: as printed by the body, never matched by name
+  return <span className="lane__asprinted" title="As printed by the body; identity under review">{e.source_name}</span>;
+}
+
+// Movement between two consecutive lists of the SAME body, matched only on an identity that is not a name: the
+// PropBetEdge fighter, or the body's own boxer id printed in both lists (WBA). Printed names are never compared, so a
+// list without either shows no movement rather than a guessed one.
+export type Move = { kind: "up" | "down"; n: number } | { kind: "same" } | { kind: "new" } | null;
+export function movement(e: RankingEntry, previous: RankingEntry[] | undefined): Move {
+  if (!previous?.length) return null;
+  const key = (x: RankingEntry) => (x.public_id ? `p:${x.public_id}` : x.metadata?.source_fighter_id ? `s:${x.metadata.source_fighter_id}` : null);
+  const k = key(e);
+  if (!k) return null;
+  const was = numberedEntries(previous).find((p) => key(p) === k);
+  if (!was) return { kind: "new" };
+  const d = was.position - e.position;
+  return d > 0 ? { kind: "up", n: d } : d < 0 ? { kind: "down", n: -d } : { kind: "same" };
+}
+export function MoveTag({ move }: { move: Move }) {
+  if (!move) return null;
+  if (move.kind === "new") return <span className="mv mv--new" title="Not in this body's previous list">NEW</span>;
+  if (move.kind === "same") return <span className="mv" title="Same position as the previous list">—</span>;
+  return <span className={`mv mv--${move.kind}`} title={`${move.kind === "up" ? "Up" : "Down"} ${move.n} since the previous list`}>{move.kind === "up" ? "↑" : "↓"} {move.n}</span>;
+}
+
+// "History from 2000-01 · 312 lists": the depth of this body's stored record for the division, so a shallow lane (the
+// WBC links only its current PDF) never looks as deep as the others
+export function HistoryDepth({ history }: { history: BodyRankings["history"] }) {
+  const months = [...new Set((history ?? []).map((h) => (h.effective_on ?? h.published_on ?? "").slice(0, 7)).filter(Boolean))].sort();
+  if (!months.length) return <span className="fine">No stored lists yet</span>;
+  return <span className="fine" title="Months with a stored list from this body for this division">History from {months[0]} · {months.length} {months.length === 1 ? "list" : "lists"}</span>;
+}
+
+export function RankedList({ body, limit = 15, href }: { body: BodyRankings | null; limit?: number; href: string }) {
+  const snap = body?.snapshot ?? null;
+  if (!snap) return <p className="fine tm-rank__none">No ranking list stored yet.</p>;
+  const all = numberedEntries(snap.entries);
+  const prev = body?.previous?.entries;
+  const anyMove = all.some((e) => movement(e, prev));
+  return (
+    <div className="tm-rank">
+      <div className="tm-rank__head">
+        <span className="eyebrow eyebrow--dim">Ranking · {asOfText(body?.source_record?.as_of_label, snap.effective_on ?? snap.published_on) ?? "undated"}</span>
+        <HistoryDepth history={body?.history} />
+      </div>
+      <ol className="tm-rank__list">
+        {all.slice(0, limit).map((e) => (
+          <li key={`${e.position}-${e.rank_label}`} className={notRated(e) || e.metadata?.printed_blank ? "is-nr" : ""}>
+            <span className="tm-rank__pos">{e.rank_label ?? e.rank}</span>
+            <span className="tm-rank__who"><RankedName e={e} />{e.metadata?.country ? <span className="fine"> · {e.metadata.country_label ?? e.metadata.country}</span> : null}</span>
+            <MoveTag move={movement(e, prev)} />
+          </li>
+        ))}
+      </ol>
+      <p className="fine tm-rank__foot">
+        {all.length > limit ? <Link className="link-gold" href={href}>All {all.length} positions →</Link> : null}
+        {prev?.length && !anyMove ? <span> Movement appears once ranked fighters are identified; names are never compared.</span> : null}
+      </p>
+    </div>
   );
 }
 

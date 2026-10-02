@@ -1,7 +1,7 @@
-# Sets boxing-commissions-production Worker secrets without writing any secret to
+# Sets boxing-rankings-production Worker secrets without writing any secret to
 # disk or printing it. The Boxing database project is verified first. No provider key.
 #
-#   pwsh scripts/staging/set-commissions-worker-secrets.ps1
+#   pwsh scripts/staging/set-rankings-worker-secrets.ps1
 
 $ErrorActionPreference = 'Stop'
 $root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
@@ -11,7 +11,7 @@ $ref = $cfg.project_ref
 $project = Assert-BoxingProject -Ref $ref
 Write-Host "target verified: $($project.name) ($ref)"
 
-$tokenFile = 'D:\Workers\secrets\boxing-commissions-production-internal-token'
+$tokenFile = 'D:\Workers\secrets\boxing-rankings-production-internal-token'
 if (-not (Test-Path $tokenFile)) {
   $bytes = [byte[]]::new(36); [System.Security.Cryptography.RandomNumberGenerator]::Fill($bytes)
   [IO.File]::WriteAllText($tokenFile, [Convert]::ToBase64String($bytes).Replace('+', '-').Replace('/', '_').TrimEnd('='))
@@ -25,7 +25,7 @@ $payload = @{
   BOXING_INTERNAL_TOKEN = (Get-Content $tokenFile -Raw).Trim()
 } | ConvertTo-Json -Compress
 try {
-  Push-Location (Join-Path $root 'workers/boxing-commissions')
+  Push-Location (Join-Path $root 'workers/boxing-rankings')
   $out = $payload | npx --yes wrangler@4 secret bulk --env production 2>&1 | Out-String
   $out = $out.Replace($service, '<redacted>')
   Write-Host ($out -split "`n" | Where-Object { $_ -match 'secret|Success|✨|ERROR|error' } | Out-String)
