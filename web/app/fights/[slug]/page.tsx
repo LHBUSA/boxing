@@ -6,6 +6,8 @@ import { gateway, optional } from "@/lib/gateway";
 import { cityLine, divisionLabel, fmtDate, fmtLb, fmtRecord, methodLabel, plural } from "@/lib/format";
 import { boutPath, eventPath, fighterPath, parseRef, refOf } from "@/lib/slug";
 import { fightRead, pathsToVictory, readLimits, whatMatters } from "@/lib/matchup";
+import { compareMatchup, COMPARE_RULE } from "@/lib/edges";
+import { MatchupComparisons } from "@/components/dna";
 import { FighterArt } from "@/components/FighterArt";
 import { JsonLd } from "@/components/JsonLd";
 import { boutJsonLd } from "@/lib/seo";
@@ -192,6 +194,10 @@ export default async function FightPage({ params }: Props) {
               {complete ? `Current profiles, including this result${later ? ` and ${plural(later, "later bout")}` : ""}; not a pre-fight snapshot.` : "Current profiles from verified bouts."}
             </SecHead>
             <DnaBars a={A?.dna ?? []} b={B?.dna ?? []} aName={aName} bName={bName} />
+            <div className="mt-4">
+              <SecHead kicker={`Descriptive · ${COMPARE_RULE} · not a probability`} title="Matchup Comparisons" />
+              <MatchupComparisons rows={compareMatchup(A?.dna ?? [], B?.dna ?? [])} aName={aName} bName={bName} />
+            </div>
           </div>
           <div>
             <SecHead kicker="Tendencies, not picks" title="Paths to Victory" />

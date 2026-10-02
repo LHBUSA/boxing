@@ -10,6 +10,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { fighterJsonLd } from "@/lib/seo";
 import { Crumbs, DnaBars, FormStrip, Note, RChip, SecHead, Unavailable } from "@/components/fight";
 import type { FighterBout } from "@/lib/types";
+import { DnaModules } from "@/components/dna";
 
 export const revalidate = 300;
 type Props = { params: Promise<{ slug: string }> };
@@ -138,6 +139,11 @@ export default async function FighterPage({ params }: Props) {
           </section>
         </div>
       </div>
+
+      <section className="mt-4">
+        <SecHead kicker="PropBetEdge-derived · every value with its sample, cutoff and definition version" title="Fight DNA, Full Profile" />
+        <DnaModules metrics={d.dna} name={f.name} />
+      </section>
 
       <section>
         <SecHead kicker="Chronological · newest first" title="Verified Fight History" />
