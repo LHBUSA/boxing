@@ -1,0 +1,7421 @@
+{
+  "rule": "identity-priority@1 (read-only; decides nothing)",
+  "generated_at": "2026-10-02T17:53:32.943665-05:00",
+  "p0_commission": [
+    {
+      "namespace": "matchroom.fighter",
+      "event_date": null,
+      "name_as_printed": "Jordan Orozco"
+    },
+    {
+      "namespace": "matchroom.fighter",
+      "event_date": null,
+      "name_as_printed": "Diego Nieves"
+    },
+    {
+      "namespace": "matchroom.fighter",
+      "event_date": null,
+      "name_as_printed": "Ronny Alvarez"
+    },
+    {
+      "namespace": "matchroom.fighter",
+      "event_date": null,
+      "name_as_printed": "Omari Jones"
+    },
+    {
+      "namespace": "matchroom.fighter",
+      "event_date": null,
+      "name_as_printed": "Angel Hernandez"
+    }
+  ],
+  "p0_sanctioning": [
+    {
+      "body": "wbo",
+      "titles": "world",
+      "country": "KAZ",
+      "best_rank": 1,
+      "name_as_printed": "Zhanibek Alimkhanuly"
+    },
+    {
+      "body": "ibf",
+      "titles": "world",
+      "country": "MEX",
+      "best_rank": null,
+      "name_as_printed": "Jose Salas Reyes"
+    },
+    {
+      "body": "ibf",
+      "titles": "world",
+      "country": "USA",
+      "best_rank": null,
+      "name_as_printed": "Angelo Leo"
+    },
+    {
+      "body": "ibf",
+      "titles": "world",
+      "country": "HRV",
+      "best_rank": null,
+      "name_as_printed": "Filip Hrgovic"
+    },
+    {
+      "body": "ibf",
+      "titles": "world",
+      "country": "JPN",
+      "best_rank": null,
+      "name_as_printed": "Naoya Inoue"
+    },
+    {
+      "body": "ibf",
+      "titles": "world",
+      "country": "THA",
+      "best_rank": null,
+      "name_as_printed": "Thanongsak Simsri"
+    },
+    {
+      "body": "ibf",
+      "titles": "world",
+      "country": "JPN",
+      "best_rank": null,
+      "name_as_printed": "Masamichi Yabuki"
+    },
+    {
+      "body": "ibf",
+      "titles": "world",
+      "country": "KGZ",
+      "best_rank": null,
+      "name_as_printed": "Dmitrii Bivol"
+    },
+    {
+      "body": "ibf",
+      "titles": "world",
+      "country": "PHL",
+      "best_rank": null,
+      "name_as_printed": "Pedro Taduran"
+    },
+    {
+      "body": "ibf",
+      "titles": "world",
+      "country": "AUS",
+      "best_rank": null,
+      "name_as_printed": "Andrew Moloney"
+    },
+    {
+      "body": "ibf",
+      "titles": "world",
+      "country": "CUB",
+      "best_rank": null,
+      "name_as_printed": "Osleys Iglesias"
+    },
+    {
+      "body": "ibf",
+      "titles": "world",
+      "country": "MEX",
+      "best_rank": null,
+      "name_as_printed": "Emanuel Navarrete"
+    },
+    {
+      "body": "wba",
+      "titles": "regular",
+      "country": "RUS",
+      "best_rank": null,
+      "name_as_printed": "MURAT GASSIEV"
+    },
+    {
+      "body": "wba",
+      "titles": "super",
+      "country": "IRL",
+      "best_rank": null,
+      "name_as_printed": "ANTHONY CACACE"
+    },
+    {
+      "body": "wba",
+      "titles": "regular",
+      "country": "GBR",
+      "best_rank": null,
+      "name_as_printed": "JACK CATTERALL"
+    },
+    {
+      "body": "wba",
+      "titles": "regular",
+      "country": "AUS",
+      "best_rank": null,
+      "name_as_printed": "JAI OPETAIA"
+    },
+    {
+      "body": "wba",
+      "titles": "regular",
+      "country": "MEX",
+      "best_rank": null,
+      "name_as_printed": "JAIME MUNGUIA"
+    },
+    {
+      "body": "wba",
+      "titles": "regular",
+      "country": "USA",
+      "best_rank": null,
+      "name_as_printed": "GARY ANTUANNE RUSSELL"
+    },
+    {
+      "body": "wba",
+      "titles": "interim",
+      "country": "USA",
+      "best_rank": null,
+      "name_as_printed": "GARY ANTONIO RUSSELL"
+    },
+    {
+      "body": "wba",
+      "titles": "interim",
+      "country": "VEN",
+      "best_rank": null,
+      "name_as_printed": "ALBERT RAMIREZ"
+    },
+    {
+      "body": "wba",
+      "titles": "regular",
+      "country": "JPN",
+      "best_rank": null,
+      "name_as_printed": "DAIYA KIRA"
+    },
+    {
+      "body": "wba",
+      "titles": "regular",
+      "country": "USA",
+      "best_rank": null,
+      "name_as_printed": "ERISLANDY LARA"
+    },
+    {
+      "body": "wba",
+      "titles": "super",
+      "country": "JPN",
+      "best_rank": null,
+      "name_as_printed": "NAOYA INOUE"
+    },
+    {
+      "body": "wba",
+      "titles": "super",
+      "country": "PUR",
+      "best_rank": null,
+      "name_as_printed": "OSCAR COLLAZO"
+    },
+    {
+      "body": "wba",
+      "titles": "regular",
+      "country": "USA",
+      "best_rank": null,
+      "name_as_printed": "JARON ENNIS"
+    },
+    {
+      "body": "wba",
+      "titles": "regular",
+      "country": "USA",
+      "best_rank": null,
+      "name_as_printed": "RICARDO RAFAEL SANDOVAL"
+    },
+    {
+      "body": "wba",
+      "titles": "regular",
+      "country": "JPN",
+      "best_rank": null,
+      "name_as_printed": "RIKU MASUDA"
+    },
+    {
+      "body": "wba",
+      "titles": "regular",
+      "country": "RUS",
+      "best_rank": null,
+      "name_as_printed": "ELNUR SAMEDOV"
+    },
+    {
+      "body": "wba",
+      "titles": "super",
+      "country": "RUS",
+      "best_rank": null,
+      "name_as_printed": "DMITRY BIVOL"
+    },
+    {
+      "body": "wba",
+      "titles": "regular",
+      "country": "USA",
+      "best_rank": null,
+      "name_as_printed": "BRANDON FIGUEROA"
+    },
+    {
+      "body": "wba",
+      "titles": "regular",
+      "country": "CRC",
+      "best_rank": null,
+      "name_as_printed": "DAVID JIMENEZ"
+    },
+    {
+      "body": "wba",
+      "titles": "super",
+      "country": "USA",
+      "best_rank": null,
+      "name_as_printed": "JESSE RODRIGUEZ"
+    },
+    {
+      "body": "wba",
+      "titles": "regular",
+      "country": "JPN",
+      "best_rank": null,
+      "name_as_printed": "TAKESHI ISHII"
+    },
+    {
+      "body": "wba",
+      "titles": "super",
+      "country": "USA",
+      "best_rank": null,
+      "name_as_printed": "TEOFIMO LOPEZ"
+    },
+    {
+      "body": "wba",
+      "titles": "interim",
+      "country": "USA",
+      "best_rank": null,
+      "name_as_printed": "ABRAHAM R PEREZ"
+    },
+    {
+      "body": "wba",
+      "titles": "regular/super",
+      "country": "USA",
+      "best_rank": null,
+      "name_as_printed": "DAVID BENAVIDEZ"
+    },
+    {
+      "body": "wbc",
+      "titles": "interim",
+      "country": "GB",
+      "best_rank": null,
+      "name_as_printed": "RYAN GARNER"
+    },
+    {
+      "body": "wbc",
+      "titles": "world",
+      "country": "JAPAN",
+      "best_rank": null,
+      "name_as_printed": "SHOKICHI IWATA"
+    },
+    {
+      "body": "wbc",
+      "titles": "world",
+      "country": "DOM. R.",
+      "best_rank": null,
+      "name_as_printed": "CARLOS ADAMES"
+    },
+    {
+      "body": "wbc",
+      "titles": "interim",
+      "country": "US",
+      "best_rank": null,
+      "name_as_printed": "VERGIL ORTIZ Jr."
+    },
+    {
+      "body": "wbc",
+      "titles": "world",
+      "country": "SOUTH AFRICA",
+      "best_rank": null,
+      "name_as_printed": "SIYAKHOLWA KUSE"
+    },
+    {
+      "body": "wbc",
+      "titles": "interim",
+      "country": "CUBA",
+      "best_rank": null,
+      "name_as_printed": "JADIER HERRERA"
+    },
+    {
+      "body": "wbc",
+      "titles": "interim",
+      "country": "GUATEMALA",
+      "best_rank": null,
+      "name_as_printed": "LESTER MARTINEZ"
+    },
+    {
+      "body": "wbc",
+      "titles": "world",
+      "country": "Japan",
+      "best_rank": null,
+      "name_as_printed": "TAKUMA INOUE"
+    },
+    {
+      "body": "wbc",
+      "titles": "world",
+      "country": "CAMEROON/CANADA",
+      "best_rank": null,
+      "name_as_printed": "CHRISTIAN MBILLI"
+    },
+    {
+      "body": "wbc",
+      "titles": "interim",
+      "country": "MEXICO",
+      "best_rank": null,
+      "name_as_printed": "ISAAC CRUZ JR"
+    },
+    {
+      "body": "wbc",
+      "titles": "world",
+      "country": "GERMANY",
+      "best_rank": null,
+      "name_as_printed": "AGIT KABAYEL"
+    },
+    {
+      "body": "wbc",
+      "titles": "world",
+      "country": "JAPAN",
+      "best_rank": null,
+      "name_as_printed": "NAOYA INOUE"
+    },
+    {
+      "body": "wbc",
+      "titles": "world",
+      "country": "GB",
+      "best_rank": null,
+      "name_as_printed": "DALTON SMITH"
+    },
+    {
+      "body": "wbc",
+      "titles": "world",
+      "country": "South Africa",
+      "best_rank": null,
+      "name_as_printed": "RICARDO MALAJIKA"
+    },
+    {
+      "body": "wbc",
+      "titles": "interim",
+      "country": "GB",
+      "best_rank": null,
+      "name_as_printed": "GALAL YAFAI"
+    },
+    {
+      "body": "wbc",
+      "titles": "world",
+      "country": null,
+      "best_rank": null,
+      "name_as_printed": "O’Shaquie Foster"
+    },
+    {
+      "body": "wbc",
+      "titles": "world",
+      "country": "US/MEXICO",
+      "best_rank": null,
+      "name_as_printed": "RICARDO RAFAEL SANDOVAL"
+    },
+    {
+      "body": "wbc",
+      "titles": "world",
+      "country": null,
+      "best_rank": null,
+      "name_as_printed": "Ricardo Sandoval"
+    },
+    {
+      "body": "wbc",
+      "titles": "world",
+      "country": "BELGIUM",
+      "best_rank": null,
+      "name_as_printed": "RYAD MERHY"
+    },
+    {
+      "body": "wbc",
+      "titles": "world",
+      "country": "US",
+      "best_rank": null,
+      "name_as_printed": "RYAN GARCIA"
+    },
+    {
+      "body": "wbc",
+      "titles": "world",
+      "country": "US",
+      "best_rank": null,
+      "name_as_printed": "DAVID BENAVIDEZ"
+    },
+    {
+      "body": "wbc",
+      "titles": "world",
+      "country": "US",
+      "best_rank": null,
+      "name_as_printed": "SEBASTIAN FUNDORA"
+    },
+    {
+      "body": "wbc",
+      "titles": "world",
+      "country": "POLAND",
+      "best_rank": null,
+      "name_as_printed": "MICHAL CIESLAK"
+    },
+    {
+      "body": "wbc",
+      "titles": "world",
+      "country": "MEXICO",
+      "best_rank": null,
+      "name_as_printed": "WILLIAM ZEPEDA"
+    },
+    {
+      "body": "wbc",
+      "titles": "interim",
+      "country": "US",
+      "best_rank": null,
+      "name_as_printed": "JESUS RAMOS"
+    },
+    {
+      "body": "wbc",
+      "titles": "world",
+      "country": "US",
+      "best_rank": null,
+      "name_as_printed": "BRUCE CARRINGTON"
+    },
+    {
+      "body": "wbc",
+      "titles": "world",
+      "country": "US",
+      "best_rank": null,
+      "name_as_printed": "O'SHAQUIE FOSTER"
+    },
+    {
+      "body": "wbo",
+      "titles": "world",
+      "country": null,
+      "best_rank": null,
+      "name_as_printed": "Daniel Dubois"
+    },
+    {
+      "body": "wbo",
+      "titles": "world",
+      "country": "JPN",
+      "best_rank": null,
+      "name_as_printed": "NAOYA INOUE"
+    },
+    {
+      "body": "wbo",
+      "titles": "interim",
+      "country": "GBR",
+      "best_rank": null,
+      "name_as_printed": "CALLUM SMITH"
+    },
+    {
+      "body": "wbo",
+      "titles": "world",
+      "country": "USA",
+      "best_rank": null,
+      "name_as_printed": "SHAKUR STEVENSON"
+    },
+    {
+      "body": "wbo",
+      "titles": "world",
+      "country": "USA",
+      "best_rank": null,
+      "name_as_printed": "DAVID BENAVIDEZ"
+    },
+    {
+      "body": "wbo",
+      "titles": "world",
+      "country": "PRI",
+      "best_rank": null,
+      "name_as_printed": "OSCAR COLLAZO"
+    },
+    {
+      "body": "wbo",
+      "titles": "world",
+      "country": "MEX",
+      "best_rank": null,
+      "name_as_printed": "EMANUEL NAVARRETE"
+    },
+    {
+      "body": "wbo",
+      "titles": "world",
+      "country": "RUS",
+      "best_rank": null,
+      "name_as_printed": "DMITRII BIVOL"
+    },
+    {
+      "body": "wbo",
+      "titles": "world",
+      "country": "JPN",
+      "best_rank": null,
+      "name_as_printed": "KENSHIRO TERAJI"
+    },
+    {
+      "body": "wbo",
+      "titles": "world",
+      "country": "USA",
+      "best_rank": null,
+      "name_as_printed": "ANTHONY OLASCUAGA"
+    },
+    {
+      "body": "wbo",
+      "titles": "world",
+      "country": "USA",
+      "best_rank": null,
+      "name_as_printed": "JARON ENNIS"
+    },
+    {
+      "body": "wbo",
+      "titles": "world",
+      "country": "MEX",
+      "best_rank": null,
+      "name_as_printed": "RAFAEL ESPINOZA"
+    },
+    {
+      "body": "wbo",
+      "titles": "world",
+      "country": "USA",
+      "best_rank": null,
+      "name_as_printed": "ABDULLAH MASON"
+    },
+    {
+      "body": "wbo",
+      "titles": "world",
+      "country": "MEX",
+      "best_rank": null,
+      "name_as_printed": "CHRISTIAN MEDINA"
+    },
+    {
+      "body": "wbo",
+      "titles": "world",
+      "country": "PRI",
+      "best_rank": null,
+      "name_as_printed": "RENE SANTIAGO"
+    },
+    {
+      "body": "wbo",
+      "titles": "world",
+      "country": null,
+      "best_rank": null,
+      "name_as_printed": "Hamzah Sheeraz"
+    },
+    {
+      "body": "wbo",
+      "titles": "world",
+      "country": "USA",
+      "best_rank": null,
+      "name_as_printed": "DEVIN HANEY"
+    },
+    {
+      "body": "wbo",
+      "titles": "interim/world",
+      "country": "GBR",
+      "best_rank": null,
+      "name_as_printed": "DENZEL BENTLEY"
+    },
+    {
+      "body": "wbo",
+      "titles": "world",
+      "country": "GBR",
+      "best_rank": null,
+      "name_as_printed": "DANIEL BUBOIS"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "NZL",
+      "best_rank": 1,
+      "name_as_printed": "David Nyika"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "ZAF",
+      "best_rank": 1,
+      "name_as_printed": "Sikho Nqothole"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 1,
+      "name_as_printed": "Ryosuke Nishida"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 1,
+      "name_as_printed": "Miel Fajardo"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 1,
+      "name_as_printed": "Michael Angeletti"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 1,
+      "name_as_printed": "Lindolfo Delgado"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "CUB",
+      "best_rank": 1,
+      "name_as_printed": "Frank Sanchez"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "CHN",
+      "best_rank": 1,
+      "name_as_printed": "DianXing Zhu"
+    },
+    {
+      "body": "wba",
+      "titles": "gold",
+      "country": "RUS",
+      "best_rank": 1,
+      "name_as_printed": "VADIM TUKOV"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 1,
+      "name_as_printed": "JARRELL MILLER"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "UZB",
+      "best_rank": 1,
+      "name_as_printed": "BEKTEMIR MELIKUZIEV"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 1,
+      "name_as_printed": "SEIYA TSUTSUMI"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "RUS",
+      "best_rank": 1,
+      "name_as_printed": "SHARABUTDIN ATAEV"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "UZB",
+      "best_rank": 1,
+      "name_as_printed": "MUKHAMMAD SHEKHOV"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "MAR",
+      "best_rank": 1,
+      "name_as_printed": "MOUSSA GHOLAM"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 1,
+      "name_as_printed": "FLOYD SCHOFIELD"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 1,
+      "name_as_printed": "JOHN RAMIREZ"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "FRA",
+      "best_rank": 1,
+      "name_as_printed": "LEONARDO MOSQUEA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "RUS",
+      "best_rank": 1,
+      "name_as_printed": "PAVEL SOSULIN"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "ARG",
+      "best_rank": 1,
+      "name_as_printed": "MIRCO CUELLO"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 1,
+      "name_as_printed": "KYOSUKE TAKAMI"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 1,
+      "name_as_printed": "RAUL CURIEL"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "RUS",
+      "best_rank": 1,
+      "name_as_printed": "KHARITON AGRBA"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Dom. R.",
+      "best_rank": 1,
+      "name_as_printed": "Alberto Puello"
+    },
+    {
+      "body": "wbc",
+      "titles": "silver",
+      "country": "GB",
+      "best_rank": 1,
+      "name_as_printed": "Andrew Cain"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "GB",
+      "best_rank": 1,
+      "name_as_printed": "Tyson Fury"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 1,
+      "name_as_printed": "Francisco Rodriguez Jr."
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Spain",
+      "best_rank": 1,
+      "name_as_printed": "Cristobal Lorente"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Thailand",
+      "best_rank": 1,
+      "name_as_printed": "Thammanoon Niyomtrong"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "GB",
+      "best_rank": 1,
+      "name_as_printed": "Chris Billam-Smith"
+    },
+    {
+      "body": "wbc",
+      "titles": "silver",
+      "country": "France",
+      "best_rank": 1,
+      "name_as_printed": "Souleymane Cissokho"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 1,
+      "name_as_printed": "Saul Alvarez"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Canada",
+      "best_rank": 1,
+      "name_as_printed": "Artur Beterbiev"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Japan",
+      "best_rank": 1,
+      "name_as_printed": "Junto Nakatani"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 1,
+      "name_as_printed": "Angel Ayala Lardizabal"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Cuba",
+      "best_rank": 1,
+      "name_as_printed": "Andy Cruz"
+    },
+    {
+      "body": "wbc",
+      "titles": "silver",
+      "country": "France",
+      "best_rank": 1,
+      "name_as_printed": "Khalil El Hadri"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Australia",
+      "best_rank": 1,
+      "name_as_printed": "Kris Terzievski"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Philippines",
+      "best_rank": 1,
+      "name_as_printed": "Melvin Jerusalem"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Kazakhstan/US",
+      "best_rank": 1,
+      "name_as_printed": "Meiirim Nursultanov"
+    },
+    {
+      "body": "wbc",
+      "titles": "silver",
+      "country": "Albania/US",
+      "best_rank": 1,
+      "name_as_printed": "Ermal Hadribeaj"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 1,
+      "name_as_printed": "Carl Jammes Martin"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 1,
+      "name_as_printed": "Charly Suarez"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 1,
+      "name_as_printed": "Regie Suganob"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "UKR",
+      "best_rank": 1,
+      "name_as_printed": "Oleksandr Usyk"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 1,
+      "name_as_printed": "Yoshiki Takei"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 1,
+      "name_as_printed": "Radivoje Kalajdzic"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 1,
+      "name_as_printed": "Joe Cordina"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 1,
+      "name_as_printed": "Raymond Muratalla"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 1,
+      "name_as_printed": "Victorio Saludar"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 1,
+      "name_as_printed": "Brian Norman, Jr."
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 1,
+      "name_as_printed": "Seigo Yuri Akui"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "PRI",
+      "best_rank": 1,
+      "name_as_printed": "Xander Zayas"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "KAZ",
+      "best_rank": 1,
+      "name_as_printed": "Roman Fress"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "VEN",
+      "best_rank": 1,
+      "name_as_printed": "Lorenzo Parra"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 1,
+      "name_as_printed": "Yoali Mejia Mosqueda"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "CUB",
+      "best_rank": 1,
+      "name_as_printed": "Yoenli Hernandez"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 2,
+      "name_as_printed": "Viddal Riley"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 2,
+      "name_as_printed": "Omar Cande Trinidad"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "AUS",
+      "best_rank": 2,
+      "name_as_printed": "Sam Goodman"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "RUS",
+      "best_rank": 2,
+      "name_as_printed": "Artur Subkhankulov"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "AUS",
+      "best_rank": 2,
+      "name_as_printed": "Conor Wallace"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "PUR",
+      "best_rank": 2,
+      "name_as_printed": "JONATHAN GONZALEZ"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 2,
+      "name_as_printed": "SEIGO YURI AKUI"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 2,
+      "name_as_printed": "ROLANDO ROMERO"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "CUB",
+      "best_rank": 2,
+      "name_as_printed": "KEVIN HAYLER BROWN"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "CUB",
+      "best_rank": 2,
+      "name_as_printed": "ARLEN LOPEZ"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 2,
+      "name_as_printed": "RAMON CARDENAS"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "PHI",
+      "best_rank": 2,
+      "name_as_printed": "VIC SALUDAR"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 2,
+      "name_as_printed": "HAMZAH SHEERAZ"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 2,
+      "name_as_printed": "JAMES DICKENS"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "DOM",
+      "best_rank": 2,
+      "name_as_printed": "ERICK ROSA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 2,
+      "name_as_printed": "TYSON FURY"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 2,
+      "name_as_printed": "ANDRES TERAN"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "CAN",
+      "best_rank": 2,
+      "name_as_printed": "LUCAS BAHDI"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 2,
+      "name_as_printed": "CHRIS BILLAM-SMITH"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 2,
+      "name_as_printed": "MIKITO NAKANO"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 2,
+      "name_as_printed": "SHANE MOSLEY JR"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "CUB",
+      "best_rank": 2,
+      "name_as_printed": "YOENIS TELLEZ"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Spain",
+      "best_rank": 2,
+      "name_as_printed": "Sandor Martin"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Thai",
+      "best_rank": 2,
+      "name_as_printed": "Thananchai Charunphak"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Philippines",
+      "best_rank": 2,
+      "name_as_printed": "Regie Suganob"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Japan",
+      "best_rank": 2,
+      "name_as_printed": "Tomoya Tsuboi"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 2,
+      "name_as_printed": "Raul Curiel"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Spain/Morocco",
+      "best_rank": 2,
+      "name_as_printed": "Moussa Gholam"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Cuba",
+      "best_rank": 2,
+      "name_as_printed": "Yoenli Hernandez"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Australia",
+      "best_rank": 2,
+      "name_as_printed": "Jason Moloney"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Philippines",
+      "best_rank": 2,
+      "name_as_printed": "Joey Canoy"
+    },
+    {
+      "body": "wbc",
+      "titles": "silver",
+      "country": "GB",
+      "best_rank": 2,
+      "name_as_printed": "Ben Whittaker"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 2,
+      "name_as_printed": "Lamont Roach"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Denmark",
+      "best_rank": 2,
+      "name_as_printed": "Jacob Bank"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 2,
+      "name_as_printed": "Brandon Adams"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Ukraine",
+      "best_rank": 2,
+      "name_as_printed": "Oleksandr Hrytsiv"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "GB",
+      "best_rank": 2,
+      "name_as_printed": "Anthony Joshua"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 2,
+      "name_as_printed": "Ramon Cardenas"
+    },
+    {
+      "body": "wbc",
+      "titles": "silver",
+      "country": "Sweden",
+      "best_rank": 2,
+      "name_as_printed": "Robin Sirwan Safar"
+    },
+    {
+      "body": "wbc",
+      "titles": "silver",
+      "country": "Mexico",
+      "best_rank": 2,
+      "name_as_printed": "Alan Picasso"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "AUS",
+      "best_rank": 2,
+      "name_as_printed": "Connor Wallace"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 2,
+      "name_as_printed": "Diego Pacheco"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 2,
+      "name_as_printed": "Emiliano Vargas"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 2,
+      "name_as_printed": "Vito Mielnicki, Jr."
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 2,
+      "name_as_printed": "Tyson Fury"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 2,
+      "name_as_printed": "Sam Noakes"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 2,
+      "name_as_printed": "Ryusei Kawaura"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 2,
+      "name_as_printed": "Ryota Muto"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "SWE",
+      "best_rank": 2,
+      "name_as_printed": "Robin Sirwan Safar"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 2,
+      "name_as_printed": "Richardson Hitchins"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "COL",
+      "best_rank": 2,
+      "name_as_printed": "Yuberjen Martinez"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 2,
+      "name_as_printed": "Yuga Ozaki"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 2,
+      "name_as_printed": "Melvin Jerusalem"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "AUS",
+      "best_rank": 2,
+      "name_as_printed": "Liam Wilson"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 2,
+      "name_as_printed": "Junto Nakatani"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "AUS",
+      "best_rank": 2,
+      "name_as_printed": "Jason Moloney"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "RUS",
+      "best_rank": 2,
+      "name_as_printed": "Bakhram Murtazaliev"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "AUS",
+      "best_rank": 3,
+      "name_as_printed": "Jason Moloney"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "AUS",
+      "best_rank": 3,
+      "name_as_printed": "Jai Opetaia"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "ENG",
+      "best_rank": 3,
+      "name_as_printed": "Anthony Joshua"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 3,
+      "name_as_printed": "Bryan Mercado Vazquez"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 3,
+      "name_as_printed": "Ben Whittaker"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "KAZ",
+      "best_rank": 3,
+      "name_as_printed": "Sultan Zaurbek"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 3,
+      "name_as_printed": "Ryusei Kawaura"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 3,
+      "name_as_printed": "Regie Suganob"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "DOM",
+      "best_rank": 3,
+      "name_as_printed": "Luis Reynaldo Nunez"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 3,
+      "name_as_printed": "Kevin Lele Sadjo"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 3,
+      "name_as_printed": "Aaron de la Cruz Escobedo"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "CUB",
+      "best_rank": 3,
+      "name_as_printed": "Andy Cruz"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 3,
+      "name_as_printed": "Joselito Velazquez"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "CAN",
+      "best_rank": 3,
+      "name_as_printed": "Arthur Biyarslanov"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 3,
+      "name_as_printed": "SAUL ALVAREZ"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "CHN",
+      "best_rank": 3,
+      "name_as_printed": "DIANXING ZHU"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 3,
+      "name_as_printed": "TENSHIN NASUKAWA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 3,
+      "name_as_printed": "CONAH WALKER"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "AUS",
+      "best_rank": 3,
+      "name_as_printed": "TIM TSZYU"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 3,
+      "name_as_printed": "TOMOKI KAMEDA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "ARG",
+      "best_rank": 3,
+      "name_as_printed": "ISMAEL FLORES"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 3,
+      "name_as_printed": "JOSE VALENZUELA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 3,
+      "name_as_printed": "AARON DE LA CRUZ ESCOBEDO"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 3,
+      "name_as_printed": "TOMOYA TSUBOI"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "UZB",
+      "best_rank": 3,
+      "name_as_printed": "MURODJON AKHMADALIEV"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "PUR",
+      "best_rank": 3,
+      "name_as_printed": "NAJEE LOPEZ"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 3,
+      "name_as_printed": "ANTHONY JOSHUA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 3,
+      "name_as_printed": "OSCAR DUARTE JURADO"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "CUB",
+      "best_rank": 3,
+      "name_as_printed": "LENAR PEREZ"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 3,
+      "name_as_printed": "HAYATO TSUTSUMI"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "ESP",
+      "best_rank": 3,
+      "name_as_printed": "SAMUEL CARMONA"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 3,
+      "name_as_printed": "Brian Norman Jr."
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Uzbekistan",
+      "best_rank": 3,
+      "name_as_printed": "Murodjon Akhmadaliev"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Ghana/GB",
+      "best_rank": 3,
+      "name_as_printed": "Joshua Buatsi"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "GB",
+      "best_rank": 3,
+      "name_as_printed": "Sam Noakes"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 3,
+      "name_as_printed": "Sebastian Hernandez"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Japan",
+      "best_rank": 3,
+      "name_as_printed": "Tenshin Nasukawa"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Australia",
+      "best_rank": 3,
+      "name_as_printed": "Tim Tszyu"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 3,
+      "name_as_printed": "Gary Russell"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Cuba",
+      "best_rank": 3,
+      "name_as_printed": "Frank Sanchez"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Argentina",
+      "best_rank": 3,
+      "name_as_printed": "Fernando Martinez"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "GB",
+      "best_rank": 3,
+      "name_as_printed": "Viddal Riley"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Dom. R.",
+      "best_rank": 3,
+      "name_as_printed": "Erick Rosa"
+    },
+    {
+      "body": "wbc",
+      "titles": "silver",
+      "country": "US",
+      "best_rank": 3,
+      "name_as_printed": "Diego Pacheco"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 3,
+      "name_as_printed": "Yoali Mosqueda"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Poland",
+      "best_rank": 3,
+      "name_as_printed": "Adam Balski"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Zimbabwe",
+      "best_rank": 3,
+      "name_as_printed": "Beaven Sibanda"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 3,
+      "name_as_printed": "Bakhram Murtazaliev"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "GB",
+      "best_rank": 3,
+      "name_as_printed": "Adam Azim"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "DNK",
+      "best_rank": 3,
+      "name_as_printed": "Jacob Bank"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 3,
+      "name_as_printed": "Daniel Valladares"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 3,
+      "name_as_printed": "Ramon Cardenas"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 3,
+      "name_as_printed": "Arnold Barboza, Jr."
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 3,
+      "name_as_printed": "Gilberto Ramirez"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 3,
+      "name_as_printed": "Tomoya Tsuboi"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "AUS",
+      "best_rank": 3,
+      "name_as_printed": "Tim Tszyu"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 3,
+      "name_as_printed": "Anthony Joshua"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 3,
+      "name_as_printed": "Joshua Pagan"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 3,
+      "name_as_printed": "Ernesto Mercado"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 3,
+      "name_as_printed": "Joselito Velazquez"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 3,
+      "name_as_printed": "Liam Davies"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 3,
+      "name_as_printed": "Andrew Cain"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "VEN",
+      "best_rank": 3,
+      "name_as_printed": "Ronald Chacon"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 3,
+      "name_as_printed": "Ben Whittaker"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "DEU",
+      "best_rank": 3,
+      "name_as_printed": "Abass Baraou"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 3,
+      "name_as_printed": "Kenichi Ogawa"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 4,
+      "name_as_printed": "Adam Azim"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "BEL",
+      "best_rank": 4,
+      "name_as_printed": "Dzmitri Asanau"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "PRI",
+      "best_rank": 4,
+      "name_as_printed": "Emmanuel Rodriguez"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "UZB",
+      "best_rank": 4,
+      "name_as_printed": "Murodjon Akhmadaliev"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 4,
+      "name_as_printed": "Kenta Nakagawa"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "UZB",
+      "best_rank": 4,
+      "name_as_printed": "Bakhodir Jalolov"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "ZAF",
+      "best_rank": 4,
+      "name_as_printed": "Sivenathi Nontshinga"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "LBY",
+      "best_rank": 4,
+      "name_as_printed": "Malik Zinad"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "AUS",
+      "best_rank": 4,
+      "name_as_printed": "Jackson England"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "ESP",
+      "best_rank": 4,
+      "name_as_printed": "Brandon Moreno"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "ENG",
+      "best_rank": 4,
+      "name_as_printed": "Chris Billam-Smith"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 4,
+      "name_as_printed": "Kyosuke Takami"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 4,
+      "name_as_printed": "Toshiki Shimomachi"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "AUS",
+      "best_rank": 4,
+      "name_as_printed": "Imam Khataev"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "PUR",
+      "best_rank": 4,
+      "name_as_printed": "YANKIEL RIVERA FIGUEROA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "GRE",
+      "best_rank": 4,
+      "name_as_printed": "ANDREAS KATZOURAKIS"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "RUS",
+      "best_rank": 4,
+      "name_as_printed": "MUSLIM GADZHIMAGOMEDOV"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "DOM",
+      "best_rank": 4,
+      "name_as_printed": "VICTOR SANTILLAN"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "RUS",
+      "best_rank": 4,
+      "name_as_printed": "VARTAN ARUTYUNYAN"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 4,
+      "name_as_printed": "MASANORI RIKIISHI"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 4,
+      "name_as_printed": "JOSE ARMANDO RESENDIZ"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 4,
+      "name_as_printed": "ANDY HIRAOKA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 4,
+      "name_as_printed": "KATSUKI MORI"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "VEN",
+      "best_rank": 4,
+      "name_as_printed": "RONALD CHACON"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "NCA",
+      "best_rank": 4,
+      "name_as_printed": "ROMAN GONZALEZ"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "RUS",
+      "best_rank": 4,
+      "name_as_printed": "IVAN CHIRKOV"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 4,
+      "name_as_printed": "RICHARDSON HITCHINS"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "CUB",
+      "best_rank": 4,
+      "name_as_printed": "ARMANDO MARTINEZ RABI"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 4,
+      "name_as_printed": "RADIVOJE KALAJDZIC"
+    },
+    {
+      "body": "wba",
+      "titles": "gold",
+      "country": "ITA",
+      "best_rank": 4,
+      "name_as_printed": "PIERGIULIO RUHE"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "PHI",
+      "best_rank": 4,
+      "name_as_printed": "NONITO DONAIRE"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 4,
+      "name_as_printed": "Deontay Wilder"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 4,
+      "name_as_printed": "Omar Trinidad"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "GB",
+      "best_rank": 4,
+      "name_as_printed": "Hamzah Sheeraz"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "P. Rico",
+      "best_rank": 4,
+      "name_as_printed": "Xander Zayas"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Switzerland",
+      "best_rank": 4,
+      "name_as_printed": "Alexander Nedbei"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Poland/Ukraine",
+      "best_rank": 4,
+      "name_as_printed": "Fiodor Czerkaszyn"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 4,
+      "name_as_printed": "Juan Francisco Estrada"
+    },
+    {
+      "body": "wbc",
+      "titles": "international",
+      "country": "Philippines",
+      "best_rank": 4,
+      "name_as_printed": "Arvin Magramo"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 4,
+      "name_as_printed": "Noel Mikaeljan"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Serbia/US",
+      "best_rank": 4,
+      "name_as_printed": "Radivoje Kalajdzic"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Philippines",
+      "best_rank": 4,
+      "name_as_printed": "Joseph Sumabong"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Canada/UAE",
+      "best_rank": 4,
+      "name_as_printed": "Dzmitry Asanau"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 4,
+      "name_as_printed": "Joselito Velazquez"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 4,
+      "name_as_printed": "Rolando Romero"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Japan",
+      "best_rank": 4,
+      "name_as_printed": "Seigo Yuri Akui"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Canada",
+      "best_rank": 4,
+      "name_as_printed": "Arthur Biyarslanov"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 4,
+      "name_as_printed": "Raymond Ford"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Japan",
+      "best_rank": 4,
+      "name_as_printed": "Ryosuke Nishida"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "AUS",
+      "best_rank": 4,
+      "name_as_printed": "David Nyika"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 4,
+      "name_as_printed": "John Riel Casimero"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "CHN",
+      "best_rank": 4,
+      "name_as_printed": "Dian Xing Zhu"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 4,
+      "name_as_printed": "Mikito Nakano"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 4,
+      "name_as_printed": "Adam Azin"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 4,
+      "name_as_printed": "Zak Chelli"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 4,
+      "name_as_printed": "Oscar Duarte Jurado"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 4,
+      "name_as_printed": "Tenshin Nakusawa"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "AUS",
+      "best_rank": 4,
+      "name_as_printed": "Michael Zerafa"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "FRA",
+      "best_rank": 4,
+      "name_as_printed": "Kevin Lele Sadjo"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 4,
+      "name_as_printed": "Kosuke Tomioka"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 4,
+      "name_as_printed": "Raymond Ford"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 4,
+      "name_as_printed": "Corey Marksman"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "AUS",
+      "best_rank": 4,
+      "name_as_printed": "Nikita Tszyu"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "PRI",
+      "best_rank": 4,
+      "name_as_printed": "Olajuwon Acosta"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 4,
+      "name_as_printed": "Fabio Wardley"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 4,
+      "name_as_printed": "Jesse Espinas"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 5,
+      "name_as_printed": "Angel Ayala"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 5,
+      "name_as_printed": "Christian Balunan"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 5,
+      "name_as_printed": "Henry Lebron"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "RUS",
+      "best_rank": 5,
+      "name_as_printed": "Sharabutdin Ataev"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "ARG",
+      "best_rank": 5,
+      "name_as_printed": "Alan Abel Chavez"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 5,
+      "name_as_printed": "David Cuellar"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "DNK",
+      "best_rank": 5,
+      "name_as_printed": "Oliver Zaren"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "ENG",
+      "best_rank": 5,
+      "name_as_printed": "Tyson Fury"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 5,
+      "name_as_printed": "Junto Nakatani"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 5,
+      "name_as_printed": "Mikito Nakano"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 5,
+      "name_as_printed": "Ernesto Mercado"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "DOM",
+      "best_rank": 5,
+      "name_as_printed": "Eric Rosa"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 5,
+      "name_as_printed": "Pat Brown"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 5,
+      "name_as_printed": "Kosuke Tomioka"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 5,
+      "name_as_printed": "JERMALL CHARLO"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "DOM",
+      "best_rank": 5,
+      "name_as_printed": "ERIDSON GARCIA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "ARG",
+      "best_rank": 5,
+      "name_as_printed": "ADRIAN MAXIMILIANO ROBLEDO"
+    },
+    {
+      "body": "wba",
+      "titles": "gold",
+      "country": "ALB",
+      "best_rank": 5,
+      "name_as_printed": "NELSON HYSA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 5,
+      "name_as_printed": "KOSUKE TOMIOKA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 5,
+      "name_as_printed": "ATIF OBERLTON"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 5,
+      "name_as_printed": "JACK TURNER"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 5,
+      "name_as_printed": "JUNTO NAKATANI"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "AUS",
+      "best_rank": 5,
+      "name_as_printed": "LIAM WILSON"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 5,
+      "name_as_printed": "GILBERTO RAMIREZ"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "VEN",
+      "best_rank": 5,
+      "name_as_printed": "CARLOS CANIZALES"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "GER",
+      "best_rank": 5,
+      "name_as_printed": "ABASS BARAOU"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "AUS",
+      "best_rank": 5,
+      "name_as_printed": "MICHAEL ZERAFA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 5,
+      "name_as_printed": "JULIAN RODRIGUEZ"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 5,
+      "name_as_printed": "DAIGO HIGA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "ARM",
+      "best_rank": 5,
+      "name_as_printed": "HOVHANNES BACHKOV"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "PHI",
+      "best_rank": 5,
+      "name_as_printed": "JOSEPH SUMABONG"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 5,
+      "name_as_printed": "Vito Mielnicki Jr"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Venezuela",
+      "best_rank": 5,
+      "name_as_printed": "Angelino Cordova"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Cuba/Italy",
+      "best_rank": 5,
+      "name_as_printed": "Angelo Morejon"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "France",
+      "best_rank": 5,
+      "name_as_printed": "Bakary Samake"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "China",
+      "best_rank": 5,
+      "name_as_printed": "Dianxing Zhu"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Australia/Canada",
+      "best_rank": 5,
+      "name_as_printed": "Imam Khataev"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 5,
+      "name_as_printed": "Aaron de la Cruz Escobedo"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 5,
+      "name_as_printed": "Justin Pauldo"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Japan",
+      "best_rank": 5,
+      "name_as_printed": "Kazuki Nakajima"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 5,
+      "name_as_printed": "Alejandro Jair Gonzalez"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "France",
+      "best_rank": 5,
+      "name_as_printed": "Kevin Lele Sadjo"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "GB",
+      "best_rank": 5,
+      "name_as_printed": "Liam Davies"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "GB",
+      "best_rank": 5,
+      "name_as_printed": "Moses Itauma"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 5,
+      "name_as_printed": "Pedro Guevara"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 5,
+      "name_as_printed": "Raymond Muratalla"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 5,
+      "name_as_printed": "Richardson Hitchins"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Japan",
+      "best_rank": 5,
+      "name_as_printed": "Yamato Hata"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Cuba",
+      "best_rank": 5,
+      "name_as_printed": "Yuniel Dorticos"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 5,
+      "name_as_printed": "Arvin Jhon Paciones"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 5,
+      "name_as_printed": "Omar Cande Trinidad"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "DEU",
+      "best_rank": 5,
+      "name_as_printed": "Ardian Krasniqi"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 5,
+      "name_as_printed": "Yaser Al Ghena"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "UZB",
+      "best_rank": 5,
+      "name_as_printed": "Mukhammad Shekhov"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 5,
+      "name_as_printed": "Jose Armando Resendiz"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "DOM",
+      "best_rank": 5,
+      "name_as_printed": "Eridson Garcia"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 5,
+      "name_as_printed": "Alexis Rocha"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 5,
+      "name_as_printed": "Erick Badillo"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 5,
+      "name_as_printed": "Joseph Sumabong"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "PRI",
+      "best_rank": 5,
+      "name_as_printed": "Emmanuel Rodriguez"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "UZB",
+      "best_rank": 5,
+      "name_as_printed": "Israil Madrimov"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "POL",
+      "best_rank": 5,
+      "name_as_printed": "Fiodor Czerkaszyn"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 5,
+      "name_as_printed": "John Ramirez"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 5,
+      "name_as_printed": "Royston Barney-Smith"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 5,
+      "name_as_printed": "Moses Itauma"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "RUS",
+      "best_rank": 5,
+      "name_as_printed": "Umar Salamov"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 6,
+      "name_as_printed": "Arvin Jhon Paciones"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 6,
+      "name_as_printed": "Deontay Wilder"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "PRI",
+      "best_rank": 6,
+      "name_as_printed": "Najee Lopez"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "ZAF",
+      "best_rank": 6,
+      "name_as_printed": "Siseko Teyise"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "ENG",
+      "best_rank": 6,
+      "name_as_printed": "Shabaz Masoud"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 6,
+      "name_as_printed": "Bektemir Melikuziev"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 6,
+      "name_as_printed": "Sam Noakes"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 6,
+      "name_as_printed": "Melvin Jerusalem"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 6,
+      "name_as_printed": "Gabriel Valenzuela"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 6,
+      "name_as_printed": "Yoshiki Takei"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 6,
+      "name_as_printed": "Willibaldo Garcia Perez"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 6,
+      "name_as_printed": "Hayato Tsutsumi"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 6,
+      "name_as_printed": "Andrew Cain"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "FRA",
+      "best_rank": 6,
+      "name_as_printed": "Leonardo Mosquea"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 6,
+      "name_as_printed": "PAT BROWN"
+    },
+    {
+      "body": "wba",
+      "titles": "gold",
+      "country": "ARG",
+      "best_rank": 6,
+      "name_as_printed": "JOSUE FRANCISCO AGUERO"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "ESP",
+      "best_rank": 6,
+      "name_as_printed": "JAIRO NORIEGA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 6,
+      "name_as_printed": "LERRONE RICHARDS"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "PUR",
+      "best_rank": 6,
+      "name_as_printed": "XANDER ZAYAS"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "CUB",
+      "best_rank": 6,
+      "name_as_printed": "DAINIER PERO"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 6,
+      "name_as_printed": "BRIAN NORMAN JR"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 6,
+      "name_as_printed": "DARIUS FULGHUM"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 6,
+      "name_as_printed": "VITO MIELNICKI JR"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "VEN",
+      "best_rank": 6,
+      "name_as_printed": "JEAN CARLOS VARGAS"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "PAN",
+      "best_rank": 6,
+      "name_as_printed": "JOSE NUNEZ"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 6,
+      "name_as_printed": "ANDREY BONILLA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "CUB",
+      "best_rank": 6,
+      "name_as_printed": "LAZARO ALVAREZ"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 6,
+      "name_as_printed": "TOSHIKI SHIMOMACHI"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "PHI",
+      "best_rank": 6,
+      "name_as_printed": "JOEY CANOY"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "BRA",
+      "best_rank": 6,
+      "name_as_printed": "ANDRES GREGORIO"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "DOM",
+      "best_rank": 6,
+      "name_as_printed": "LUIS REYNALDO NUNEZ"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 6,
+      "name_as_printed": "Erik Badillo"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Japan",
+      "best_rank": 6,
+      "name_as_printed": "Kyosuke Takami"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "South Africa",
+      "best_rank": 6,
+      "name_as_printed": "Kevin Lerena"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 6,
+      "name_as_printed": "Arnold Barboza Jr"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Uzbekistan",
+      "best_rank": 6,
+      "name_as_printed": "Bektemir Melikuziev"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "France",
+      "best_rank": 6,
+      "name_as_printed": "Bilal Jkitou"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 6,
+      "name_as_printed": "Yahir Frank"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "GB",
+      "best_rank": 6,
+      "name_as_printed": "Willy Hutchinson"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 6,
+      "name_as_printed": "Andres Cortes"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Germany",
+      "best_rank": 6,
+      "name_as_printed": "Abass Baraou"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 6,
+      "name_as_printed": "Eduardo Nunez"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Nigeria/US",
+      "best_rank": 6,
+      "name_as_printed": "Efe Ajagba"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Colombia",
+      "best_rank": 6,
+      "name_as_printed": "Jhon Orobio"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Namibia",
+      "best_rank": 6,
+      "name_as_printed": "Fillipus Nghitumbwa"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Thai",
+      "best_rank": 6,
+      "name_as_printed": "Petch Sor Chitpattana"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Japan",
+      "best_rank": 6,
+      "name_as_printed": "Mikito Nakano"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 6,
+      "name_as_printed": "Luis Castillo"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 6,
+      "name_as_printed": "Jerry Forrest"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 6,
+      "name_as_printed": "Toshiki Shimomachi"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 6,
+      "name_as_printed": "Kyosuke Takami"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "DOM",
+      "best_rank": 6,
+      "name_as_printed": "Rohan Polanco"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 6,
+      "name_as_printed": "Masataka Taniguchi"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 6,
+      "name_as_printed": "Giovani Santillan"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 6,
+      "name_as_printed": "Kenta Nakagawa"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "NZL",
+      "best_rank": 6,
+      "name_as_printed": "Joseph Parker"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 6,
+      "name_as_printed": "Shabaz Masoud"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "BRA",
+      "best_rank": 6,
+      "name_as_printed": "Rubens Diego Dos Santos"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 6,
+      "name_as_printed": "Shane Mosley, Jr."
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 6,
+      "name_as_printed": "Joey Canoy"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "UZB",
+      "best_rank": 6,
+      "name_as_printed": "Bektemir Melikuziev"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 6,
+      "name_as_printed": "Chris Billiam-Smith"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "ARG",
+      "best_rank": 6,
+      "name_as_printed": "Alan Abel Chaves"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 6,
+      "name_as_printed": "Jack Rafferty"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "RUS",
+      "best_rank": 6,
+      "name_as_printed": "Imam Khataev"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "PRI",
+      "best_rank": 6,
+      "name_as_printed": "Henry Lebron"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 7,
+      "name_as_printed": "Yuga Ozaki"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 7,
+      "name_as_printed": "Raymund Muratalla"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 7,
+      "name_as_printed": "Moses Itauma"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 7,
+      "name_as_printed": "Royston Barney Smith"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "CUB",
+      "best_rank": 7,
+      "name_as_printed": "Mike Perez"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 7,
+      "name_as_printed": "Liam Davies"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 7,
+      "name_as_printed": "Ian Abne"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 7,
+      "name_as_printed": "Ryoma Morimoto"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 7,
+      "name_as_printed": "Atif Oberlton"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 7,
+      "name_as_printed": "Seigo Yuri Akui"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 7,
+      "name_as_printed": "Kazuto Ioka"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 7,
+      "name_as_printed": "Mark Magsayo"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "RUS",
+      "best_rank": 7,
+      "name_as_printed": "Nikita Zon"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "RUS",
+      "best_rank": 7,
+      "name_as_printed": "Mukhammad Shekhov"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "NCA",
+      "best_rank": 7,
+      "name_as_printed": "JORDAN OROZCO HERNANDEZ"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 7,
+      "name_as_printed": "MOSES ITAUMA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "CUB",
+      "best_rank": 7,
+      "name_as_printed": "JULIO CESAR LA CRUZ"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 7,
+      "name_as_printed": "JOSH PADLEY"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "GHA",
+      "best_rank": 7,
+      "name_as_printed": "THEOPHILOUS KPAKPO ALLOTEY"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 7,
+      "name_as_printed": "VIC PASILLAS"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "COL",
+      "best_rank": 7,
+      "name_as_printed": "JHON OROBIO"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "PHI",
+      "best_rank": 7,
+      "name_as_printed": "JAYSON VAYSON"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "UZB",
+      "best_rank": 7,
+      "name_as_printed": "ISRAIL MADRIMOV"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 7,
+      "name_as_printed": "GEROME WARBURTON"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "MGL",
+      "best_rank": 7,
+      "name_as_printed": "ENKHMANDAKH KHARKHUU"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 7,
+      "name_as_printed": "DIEGO PACHECO"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "RUS",
+      "best_rank": 7,
+      "name_as_printed": "DAUD ALAEV"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "FRA",
+      "best_rank": 7,
+      "name_as_printed": "BENJAMIN MENDES TANI"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "PAN",
+      "best_rank": 7,
+      "name_as_printed": "AZAEL VILLAR"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 7,
+      "name_as_printed": "ARNOLD BARBOZA JR"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 7,
+      "name_as_printed": "ANGEL BARRIENTES"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Poland",
+      "best_rank": 7,
+      "name_as_printed": "Piotr Lacz"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Tajikistan",
+      "best_rank": 7,
+      "name_as_printed": "Muhammadkhuja Yaqubov"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 7,
+      "name_as_printed": "Najee Lopez"
+    },
+    {
+      "body": "wbc",
+      "titles": "international",
+      "country": "US",
+      "best_rank": 7,
+      "name_as_printed": "Jordan White"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "France",
+      "best_rank": 7,
+      "name_as_printed": "Leonardo Mosquea"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "New Zealand",
+      "best_rank": 7,
+      "name_as_printed": "Joseph Parker"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 7,
+      "name_as_printed": "Jermall Charlo"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Japan",
+      "best_rank": 7,
+      "name_as_printed": "Yuga Ozaki"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Argentina",
+      "best_rank": 7,
+      "name_as_printed": "Junior Zarate"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Japan",
+      "best_rank": 7,
+      "name_as_printed": "Toshiki Shimomachi"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Japan",
+      "best_rank": 7,
+      "name_as_printed": "Jun Ikegawa"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Puerto Rico",
+      "best_rank": 7,
+      "name_as_printed": "Subriel Matias"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Spain",
+      "best_rank": 7,
+      "name_as_printed": "Samuel Molina"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Spain/Argentina",
+      "best_rank": 7,
+      "name_as_printed": "Ismael Flores"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 7,
+      "name_as_printed": "Michael Angeletti"
+    },
+    {
+      "body": "wbc",
+      "titles": "silver",
+      "country": "Mexico",
+      "best_rank": 7,
+      "name_as_printed": "Gohan Rodriguez"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Philippines",
+      "best_rank": 7,
+      "name_as_printed": "Miel Fajardo"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 7,
+      "name_as_printed": "Amari Jones"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "ARG",
+      "best_rank": 7,
+      "name_as_printed": "Tobias Jeremias Reyes"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "CUB",
+      "best_rank": 7,
+      "name_as_printed": "Mike Perez"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 7,
+      "name_as_printed": "Reito Takahashi"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "DOM",
+      "best_rank": 7,
+      "name_as_printed": "Yan Carlos Santana-Guerrero"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 7,
+      "name_as_printed": "Katsuma Akitsugi"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "DEU",
+      "best_rank": 7,
+      "name_as_printed": "Julian Vogel"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "DEU",
+      "best_rank": 7,
+      "name_as_printed": "Adam Deines"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 7,
+      "name_as_printed": "Takeshi Ishii"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 7,
+      "name_as_printed": "Jahi Tucker"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 7,
+      "name_as_printed": "Edgar Berlanga"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 7,
+      "name_as_printed": "Alberto Mora Garcia"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 7,
+      "name_as_printed": "Pedro Guevara"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "CAN",
+      "best_rank": 7,
+      "name_as_printed": "Arthur Biyarslanov"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 7,
+      "name_as_printed": "Gabriel Santisima"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 7,
+      "name_as_printed": "Arvin Magramo"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "UZB",
+      "best_rank": 7,
+      "name_as_printed": "Bakhodir Jalolov"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 7,
+      "name_as_printed": "Delante Johnson"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 8,
+      "name_as_printed": "Masanori Rikishi"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 8,
+      "name_as_printed": "Arvin Magramo"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "KAZ",
+      "best_rank": 8,
+      "name_as_printed": "Bek Nurmaganbet"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "KOR",
+      "best_rank": 8,
+      "name_as_printed": "Ryang Ho Han"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "RUS",
+      "best_rank": 8,
+      "name_as_printed": "Umar Salamov"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 8,
+      "name_as_printed": "Albert Gonzalez"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "WLS",
+      "best_rank": 8,
+      "name_as_printed": "Joseph Cordina"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 8,
+      "name_as_printed": "Richard Riakporhe"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "ZAF",
+      "best_rank": 8,
+      "name_as_printed": "Landile Ngxeke"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 8,
+      "name_as_printed": "Kenneth Llover"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 8,
+      "name_as_printed": "Emiliano Vargas"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 8,
+      "name_as_printed": "Katsuki Mori"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "COL",
+      "best_rank": 8,
+      "name_as_printed": "Yuberjan Martinez"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "AUS",
+      "best_rank": 8,
+      "name_as_printed": "Paulo Aokuso"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "ARM",
+      "best_rank": 8,
+      "name_as_printed": "GURGEN HOVHANNISYAN"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "PUR",
+      "best_rank": 8,
+      "name_as_printed": "WILFREDO MENDEZ"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 8,
+      "name_as_printed": "COREY MARKSMAN"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "ARG",
+      "best_rank": 8,
+      "name_as_printed": "JOEL AGUSTIN CONTRERAS"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 8,
+      "name_as_printed": "ALOYS YOUMBI"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 8,
+      "name_as_printed": "ARI BONILLA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 8,
+      "name_as_printed": "ERIC PRIEST"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "PUR",
+      "best_rank": 8,
+      "name_as_printed": "EDGAR BERLANGA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "RUS",
+      "best_rank": 8,
+      "name_as_printed": "MAGOMED KURBANOV"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "UZB",
+      "best_rank": 8,
+      "name_as_printed": "SHAKHRAM GIYASOV"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 8,
+      "name_as_printed": "KAIPO GALLEGOS"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 8,
+      "name_as_printed": "SAMUEL ARNOLD"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 8,
+      "name_as_printed": "KEVIN GONZALEZ"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 8,
+      "name_as_printed": "ALAN PICASSO ROMERO"
+    },
+    {
+      "body": "wba",
+      "titles": "gold",
+      "country": "RUS",
+      "best_rank": 8,
+      "name_as_printed": "ZAUR ABDULLAEV"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "VEN",
+      "best_rank": 8,
+      "name_as_printed": "RODRIGO RAMIREZ"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 8,
+      "name_as_printed": "YOSHIKI TAKEI"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 8,
+      "name_as_printed": "Joet Gonzalez"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "GB",
+      "best_rank": 8,
+      "name_as_printed": "Anthony Yarde"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 8,
+      "name_as_printed": "Arturo Cardenas Popoca"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 8,
+      "name_as_printed": "Daniel Valladares"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Australia",
+      "best_rank": 8,
+      "name_as_printed": "Dylan Biggs"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 8,
+      "name_as_printed": "Gilberto Ramirez"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Japan",
+      "best_rank": 8,
+      "name_as_printed": "Hayato Tsutsumi"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Uzbekistan",
+      "best_rank": 8,
+      "name_as_printed": "Israil Madrimov"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Japan",
+      "best_rank": 8,
+      "name_as_printed": "Kazuto Ioka"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "South Africa",
+      "best_rank": 8,
+      "name_as_printed": "Keaton Gomes"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Zimbabwe",
+      "best_rank": 8,
+      "name_as_printed": "Ndabezinhle Phiri"
+    },
+    {
+      "body": "wbc",
+      "titles": "silver",
+      "country": "Mexico/US",
+      "best_rank": 8,
+      "name_as_printed": "Oscar Duarte Jurado"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Panama",
+      "best_rank": 8,
+      "name_as_printed": "Ricardo Nunez"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Netherlands",
+      "best_rank": 8,
+      "name_as_printed": "Rico Verhoeven"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Dom. R.",
+      "best_rank": 8,
+      "name_as_printed": "Rohan Polanco"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Canada",
+      "best_rank": 8,
+      "name_as_printed": "Wilkens Mathieu"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 8,
+      "name_as_printed": "Willibaldo Garcia"
+    },
+    {
+      "body": "wbc",
+      "titles": "international",
+      "country": "Philippines",
+      "best_rank": 8,
+      "name_as_printed": "Zyvyr John Medecilo"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 8,
+      "name_as_printed": "Raul Curiel"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "ZAF",
+      "best_rank": 8,
+      "name_as_printed": "Sikho Nqothole"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "CUB",
+      "best_rank": 8,
+      "name_as_printed": "Frank Sanchez"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "BRA",
+      "best_rank": 8,
+      "name_as_printed": "Hebert Conceicao Sousa"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 8,
+      "name_as_printed": "Frank Martin"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 8,
+      "name_as_printed": "Sento Ito"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "UZB",
+      "best_rank": 8,
+      "name_as_printed": "Murodjon Akhmadaliev"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "NAM",
+      "best_rank": 8,
+      "name_as_printed": "Fillemon Nghutenanye"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 8,
+      "name_as_printed": "Albert Bell"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "FRA",
+      "best_rank": 8,
+      "name_as_printed": "Leonardo Mosquea"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 8,
+      "name_as_printed": "Terry Washington"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 8,
+      "name_as_printed": "Zyvyr John Medecilo"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 8,
+      "name_as_printed": "Najee Lopez"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 8,
+      "name_as_printed": "Rashidi Ellis"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 8,
+      "name_as_printed": "Eduardo Nunez"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "ITA",
+      "best_rank": 8,
+      "name_as_printed": "Giovanni Sarchioto"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 8,
+      "name_as_printed": "Nick Ball"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 9,
+      "name_as_printed": "Arar Andales"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "AUT",
+      "best_rank": 9,
+      "name_as_printed": "Edin Avdic"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 9,
+      "name_as_printed": "Ramon Cardenas"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 9,
+      "name_as_printed": "Jack Turner"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 9,
+      "name_as_printed": "Victorio Saludar"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "RUS",
+      "best_rank": 9,
+      "name_as_printed": "Ali Ismailov"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "CUB",
+      "best_rank": 9,
+      "name_as_printed": "Lenar Perez"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 9,
+      "name_as_printed": "Rene Calixto Bibiano"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "ESP",
+      "best_rank": 9,
+      "name_as_printed": "Cristobal Lorente"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 9,
+      "name_as_printed": "Jordan White"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 9,
+      "name_as_printed": "Richard Torrez Jr."
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "PRI",
+      "best_rank": 9,
+      "name_as_printed": "Subriel Matias"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 9,
+      "name_as_printed": "Eduardo Nunez"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 9,
+      "name_as_printed": "Aoi Yokoyama"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 9,
+      "name_as_printed": "ISSA SAKATA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 9,
+      "name_as_printed": "FRANK MARTIN"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 9,
+      "name_as_printed": "GARY ALLEN RUSSELL JR"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "ARG",
+      "best_rank": 9,
+      "name_as_printed": "LUCAS BRIAN ARIEL BASTIDA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 9,
+      "name_as_printed": "ANTONIO VARGAS"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 9,
+      "name_as_printed": "ALEX BRAY"
+    },
+    {
+      "body": "wba",
+      "titles": "gold",
+      "country": "RUS",
+      "best_rank": 9,
+      "name_as_printed": "NIKITA ZON"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "RUS",
+      "best_rank": 9,
+      "name_as_printed": "ARTEM SUSLENKOV"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "PUR",
+      "best_rank": 9,
+      "name_as_printed": "OLAJUWON ACOSTA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "UZB",
+      "best_rank": 9,
+      "name_as_printed": "OTABEK KHOLMATOV"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "GEO",
+      "best_rank": 9,
+      "name_as_printed": "OTAR ERANOSYAN"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 9,
+      "name_as_printed": "WILLY HUTCHINSON"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 9,
+      "name_as_printed": "JOE MCGRAIL"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "DOM",
+      "best_rank": 9,
+      "name_as_printed": "JEIFRY JUAN"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "KAZ",
+      "best_rank": 9,
+      "name_as_printed": "RUSLAN MADIYEV"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 9,
+      "name_as_printed": "DAVID ALONSO SANCHEZ ESTRALLA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "CUB",
+      "best_rank": 9,
+      "name_as_printed": "MIKE PEREZ"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Lithuania",
+      "best_rank": 9,
+      "name_as_printed": "Egidijus Kavaliauskas"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Argentina",
+      "best_rank": 9,
+      "name_as_printed": "Francisco Veron"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Netherlands",
+      "best_rank": 9,
+      "name_as_printed": "Willy Kyakonye"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "GB",
+      "best_rank": 9,
+      "name_as_printed": "Joe Cordina"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Japan",
+      "best_rank": 9,
+      "name_as_printed": "Masataka Taniguchi"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Japan",
+      "best_rank": 9,
+      "name_as_printed": "Takero Kitano"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 9,
+      "name_as_printed": "Brandon Mejia Mosqueda"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Uzbekistan",
+      "best_rank": 9,
+      "name_as_printed": "Mukhammad Shekhov"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Philippines",
+      "best_rank": 9,
+      "name_as_printed": "Charly Suarez"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "GB",
+      "best_rank": 9,
+      "name_as_printed": "Callum Simpson"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 9,
+      "name_as_printed": "Shane Mosley Jr."
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Argentina",
+      "best_rank": 9,
+      "name_as_printed": "Yamil Alberto Peralta"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "GB",
+      "best_rank": 9,
+      "name_as_printed": "Zach Parker"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "GB",
+      "best_rank": 9,
+      "name_as_printed": "Mark Chamberlain"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 9,
+      "name_as_printed": "Andrey Bonilla"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "GB",
+      "best_rank": 9,
+      "name_as_printed": "Richard Riakporhe"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "South Africa",
+      "best_rank": 9,
+      "name_as_printed": "Sikho Nqothole"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Spain",
+      "best_rank": 9,
+      "name_as_printed": "Samuel Carmona"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "PAN",
+      "best_rank": 9,
+      "name_as_printed": "Azael Villar"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "DEU",
+      "best_rank": 9,
+      "name_as_printed": "Freddy Kiwitt"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 9,
+      "name_as_printed": "Viddal Riley"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "PRI",
+      "best_rank": 9,
+      "name_as_printed": "Subriel Matias"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 9,
+      "name_as_printed": "Russell Acosta Silveira"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 9,
+      "name_as_printed": "Pete Apolinar"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "IRL",
+      "best_rank": 9,
+      "name_as_printed": "Paddy Donovan"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "MNE",
+      "best_rank": 9,
+      "name_as_printed": "Milorad Zizic"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 9,
+      "name_as_printed": "Alex Santisima Jr."
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 9,
+      "name_as_printed": "Andres Cortes"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "DEU",
+      "best_rank": 9,
+      "name_as_printed": "Artur Reis"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 9,
+      "name_as_printed": "Atsuki Sano"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "PRI",
+      "best_rank": 9,
+      "name_as_printed": "Jordy Cardona Adames"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 9,
+      "name_as_printed": "Israel Gonzalez"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "ARG",
+      "best_rank": 9,
+      "name_as_printed": "Ismael Flores"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "ESP",
+      "best_rank": 9,
+      "name_as_printed": "Cristobal Lorente"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 9,
+      "name_as_printed": "Deontay Wilder"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "AUS",
+      "best_rank": 10,
+      "name_as_printed": "Liam Wilson"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 10,
+      "name_as_printed": "Lienard Sarcon"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "ENG",
+      "best_rank": 10,
+      "name_as_printed": "Chris Eubank Jr"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 10,
+      "name_as_printed": "Joseph Sumabong"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 10,
+      "name_as_printed": "Shane Gentallan"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 10,
+      "name_as_printed": "Reito Takahashi"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 10,
+      "name_as_printed": "Reymart Gaballo"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "AUS",
+      "best_rank": 10,
+      "name_as_printed": "Justis Huni"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 10,
+      "name_as_printed": "Andy Hiraoka"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 10,
+      "name_as_printed": "Gilberto Ramirez"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "ZAF",
+      "best_rank": 10,
+      "name_as_printed": "Nkosingiphile Sibisi"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "NLD",
+      "best_rank": 10,
+      "name_as_printed": "Gradus Kraus"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "ZAF",
+      "best_rank": 10,
+      "name_as_printed": "Phumelele Cafu"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 10,
+      "name_as_printed": "John Riel Casimero"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "AUT",
+      "best_rank": 10,
+      "name_as_printed": "EDIN AVDIC"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 10,
+      "name_as_printed": "SERGIO MENDOZA CORDOVA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 10,
+      "name_as_printed": "KAZUTO IOKA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 10,
+      "name_as_printed": "ISRAEL MERCADO ( * )"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 10,
+      "name_as_printed": "DEONTE BROWN"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 10,
+      "name_as_printed": "REITO TSUTSUMI"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 10,
+      "name_as_printed": "REITO TAKAHASHI"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "VEN",
+      "best_rank": 10,
+      "name_as_printed": "JEREMY ALVAREZ"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 10,
+      "name_as_printed": "MASATAKA TANIGUCHI"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "AUS",
+      "best_rank": 10,
+      "name_as_printed": "JOEL CAMILLERI"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 10,
+      "name_as_printed": "ALEXIS ROCHA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 10,
+      "name_as_printed": "BRADLEY REA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "VEN",
+      "best_rank": 10,
+      "name_as_printed": "YERNY BETANCOURT"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "GER",
+      "best_rank": 10,
+      "name_as_printed": "LEON HARTH"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 10,
+      "name_as_printed": "YOSHI SUGIURA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "ARG",
+      "best_rank": 10,
+      "name_as_printed": "FERNANDO DANIEL MARTINEZ"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "NIG",
+      "best_rank": 10,
+      "name_as_printed": "EFE AJAGBA"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Philippines",
+      "best_rank": 10,
+      "name_as_printed": "Arvin Paciones"
+    },
+    {
+      "body": "wbc",
+      "titles": "international",
+      "country": "Croatia",
+      "best_rank": 10,
+      "name_as_printed": "Luka Plantic"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "GB",
+      "best_rank": 10,
+      "name_as_printed": "Conor Benn"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 10,
+      "name_as_printed": "Jorge Garcia"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 10,
+      "name_as_printed": "Terry Washington"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 10,
+      "name_as_printed": "Antonio Vargas"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Gambia/Sweden",
+      "best_rank": 10,
+      "name_as_printed": "Badou Jack"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Poland",
+      "best_rank": 10,
+      "name_as_printed": "Nikodem Jezewski"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Spain",
+      "best_rank": 10,
+      "name_as_printed": "Jon Fernandez"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 10,
+      "name_as_printed": "John Ramirez"
+    },
+    {
+      "body": "wbc",
+      "titles": "international",
+      "country": "Ukraine",
+      "best_rank": 10,
+      "name_as_printed": "Andrii Novitskyi"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Philippines",
+      "best_rank": 10,
+      "name_as_printed": "Vic Saludar"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Nicaragua",
+      "best_rank": 10,
+      "name_as_printed": "Francisco Fonseca"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Phil",
+      "best_rank": 10,
+      "name_as_printed": "Jhon-Riel Casimero"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 10,
+      "name_as_printed": "Jose Tito Sanchez"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "N.Ireland/Australia",
+      "best_rank": 10,
+      "name_as_printed": "Conor Wallace"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "GB",
+      "best_rank": 10,
+      "name_as_printed": "George Liddard"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mongolia/US",
+      "best_rank": 10,
+      "name_as_printed": "Tsendbaatar Erdenebat"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "ARG",
+      "best_rank": 10,
+      "name_as_printed": "Matias Carlos Adrian Rueda"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "CUB",
+      "best_rank": 10,
+      "name_as_printed": "Andy Cruz"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "NIC",
+      "best_rank": 10,
+      "name_as_printed": "Jordan Orozco"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "KOR",
+      "best_rank": 10,
+      "name_as_printed": "Jong Seon Kang"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "IRL",
+      "best_rank": 10,
+      "name_as_printed": "Callum Walsh"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "NIC",
+      "best_rank": 10,
+      "name_as_printed": "Kevin Vivas"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 10,
+      "name_as_printed": "Callum Simpson"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 10,
+      "name_as_printed": "Samuel Salva"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "UKR",
+      "best_rank": 10,
+      "name_as_printed": "Taras Shelestyuk"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 10,
+      "name_as_printed": "Ryota Toyoshima"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "CUB",
+      "best_rank": 10,
+      "name_as_printed": "Lenar Perez"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 10,
+      "name_as_printed": "Jassiel Ramon Amador Gamez"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "NAM",
+      "best_rank": 10,
+      "name_as_printed": "Fillipus Nghitumbwa"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "ALB",
+      "best_rank": 10,
+      "name_as_printed": "Nelson Hysa"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 10,
+      "name_as_printed": "Albert Gonzalez"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 10,
+      "name_as_printed": "Zach Parker"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 10,
+      "name_as_printed": "Sho Nogami"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "ENG",
+      "best_rank": 11,
+      "name_as_printed": "Craig Richards"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "CUB",
+      "best_rank": 11,
+      "name_as_printed": "Yuniel Dorticos"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "GHA",
+      "best_rank": 11,
+      "name_as_printed": "Theophilous Kpakpo Allotey"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 11,
+      "name_as_printed": "Terry Washington"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 11,
+      "name_as_printed": "Masatora Okada"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 11,
+      "name_as_printed": "Mark Chamberlain"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "CAN",
+      "best_rank": 11,
+      "name_as_printed": "Lucas Bahdi"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "VEN",
+      "best_rank": 11,
+      "name_as_printed": "Lorenzo Parra"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 11,
+      "name_as_printed": "Keita Nakayama"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 11,
+      "name_as_printed": "Junior Younan"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 11,
+      "name_as_printed": "Josh Padley"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "NIC",
+      "best_rank": 11,
+      "name_as_printed": "Felix Alvarado"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "NGA",
+      "best_rank": 11,
+      "name_as_printed": "Efe Ajagba"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 11,
+      "name_as_printed": "Carl Jammes Martin"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 11,
+      "name_as_printed": "SAM GILLEY"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "CRC",
+      "best_rank": 11,
+      "name_as_printed": "FRANCISCO FONSECA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 11,
+      "name_as_printed": "GAVIN GWYNNE"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 11,
+      "name_as_printed": "HAMZA UDDIN"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 11,
+      "name_as_printed": "ANDREW CAIN"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "DEN",
+      "best_rank": 11,
+      "name_as_printed": "KEM LJUNGQUIST"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "PHI",
+      "best_rank": 11,
+      "name_as_printed": "ZYVYR JOHN MEDECILO"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 11,
+      "name_as_printed": "YUKINORI OGUNI"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 11,
+      "name_as_printed": "MYKAL FOX"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "VEN",
+      "best_rank": 11,
+      "name_as_printed": "YOEL FINOL"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "KAZ",
+      "best_rank": 11,
+      "name_as_printed": "YEVGENIY PAVLOV"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "VEN",
+      "best_rank": 11,
+      "name_as_printed": "LEONARDO SANCHEZ"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 11,
+      "name_as_printed": "LEWIS EDMONDSON"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "FRA",
+      "best_rank": 11,
+      "name_as_printed": "KEVIN LELE SADJO"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "SWE",
+      "best_rank": 11,
+      "name_as_printed": "ROBIN SIRWAN SAFAR"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 11,
+      "name_as_printed": "TERRY WASHINGTON"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "PUR",
+      "best_rank": 11,
+      "name_as_printed": "JAN PAUL RIVERA-PIZARRO"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Philippines",
+      "best_rank": 11,
+      "name_as_printed": "Jayson Vayson"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 11,
+      "name_as_printed": "Andy Dominguez"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 11,
+      "name_as_printed": "David Cuellar"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Belgium",
+      "best_rank": 11,
+      "name_as_printed": "Jack Mulowayi"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 11,
+      "name_as_printed": "Ari Bonilla"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Canada/Turkey",
+      "best_rank": 11,
+      "name_as_printed": "Mehmet Unal"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Congo",
+      "best_rank": 11,
+      "name_as_printed": "Ilunga Makabu"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 11,
+      "name_as_printed": "Troy Isley"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "GB",
+      "best_rank": 11,
+      "name_as_printed": "Josh Padley"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Argentina",
+      "best_rank": 11,
+      "name_as_printed": "Jose Angel Rosa"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Philippines",
+      "best_rank": 11,
+      "name_as_printed": "Shane Gentallan"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 11,
+      "name_as_printed": "Daniel Blancas"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Uzbekistan",
+      "best_rank": 11,
+      "name_as_printed": "Bakhodir Jalolov"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 11,
+      "name_as_printed": "Albert Gonzalez"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Japan",
+      "best_rank": 11,
+      "name_as_printed": "Reito Takahashi"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 11,
+      "name_as_printed": "Bryan Flores"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 11,
+      "name_as_printed": "Rashidi Ellis"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Venezuela",
+      "best_rank": 11,
+      "name_as_printed": "Yerny Betancourt"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "ARG",
+      "best_rank": 11,
+      "name_as_printed": "Junior Leandro Zarate"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "DOM",
+      "best_rank": 11,
+      "name_as_printed": "Euri Cedeno"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "GHA",
+      "best_rank": 11,
+      "name_as_printed": "Theophilous Kpakpo Allotey"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "XKX",
+      "best_rank": 11,
+      "name_as_printed": "Armend Xhoxhaj"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 11,
+      "name_as_printed": "Rene Tellez Giron"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "AUS",
+      "best_rank": 11,
+      "name_as_printed": "Bernardin Jakaj"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 11,
+      "name_as_printed": "Michael Angeletti"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "HND",
+      "best_rank": 11,
+      "name_as_printed": "Gerardo Sanchez"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 11,
+      "name_as_printed": "Angel Talavera Carillo"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 11,
+      "name_as_printed": "Ben Crocker"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 11,
+      "name_as_printed": "Kuntae Lee"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 11,
+      "name_as_printed": "Alex Bray"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 11,
+      "name_as_printed": "Luis Alberto Lopez"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 11,
+      "name_as_printed": "Sebastian Hernandez Reyes"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "UKR",
+      "best_rank": 11,
+      "name_as_printed": "Viktor Vykhryst"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 11,
+      "name_as_printed": "Jose Luis Russell Regalado"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "RUS",
+      "best_rank": 11,
+      "name_as_printed": "Artur Beterbiev"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "ALB",
+      "best_rank": 12,
+      "name_as_printed": "Juergen Uldedaj"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 12,
+      "name_as_printed": "Joey Canoy"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "COL",
+      "best_rank": 12,
+      "name_as_printed": "Jhon Orobio"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 12,
+      "name_as_printed": "Luis Alberto Lopez Vargas"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 12,
+      "name_as_printed": "Jarrell Miller"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "DNK",
+      "best_rank": 12,
+      "name_as_printed": "Jacob Bank"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 12,
+      "name_as_printed": "Mark Vicelles"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 12,
+      "name_as_printed": "Dominique Crowder"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "ARG",
+      "best_rank": 12,
+      "name_as_printed": "Rodrigo Fabian Ruiz"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 12,
+      "name_as_printed": "Sho Nogami"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 12,
+      "name_as_printed": "Shuma Nakazato"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "ENG",
+      "best_rank": 12,
+      "name_as_printed": "Charlie Edwards"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "FRA",
+      "best_rank": 12,
+      "name_as_printed": "Benjamin Mendes Tani"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "DOM",
+      "best_rank": 12,
+      "name_as_printed": "Yan Carlos Santana-Guerrero"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 12,
+      "name_as_printed": "KATSUMA AKITSUGI"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 12,
+      "name_as_printed": "ALAN GRAVES"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "TUR",
+      "best_rank": 12,
+      "name_as_printed": "MEHMET UNAL"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 12,
+      "name_as_printed": "NICKY TEJADA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 12,
+      "name_as_printed": "KENTA NAKAGAWA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "IRL",
+      "best_rank": 12,
+      "name_as_printed": "THOMAS O&#39;TOOLE"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 12,
+      "name_as_printed": "ANDRES CORTES"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "NIG",
+      "best_rank": 12,
+      "name_as_printed": "EMEKA NWOKOLO"
+    },
+    {
+      "body": "wba",
+      "titles": "gold",
+      "country": "RUS",
+      "best_rank": 12,
+      "name_as_printed": "VSEVOLOD SHUMKOV"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 12,
+      "name_as_printed": "TAKERO KITANO"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 12,
+      "name_as_printed": "JOSELITO VELAZQUEZ"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "GER",
+      "best_rank": 12,
+      "name_as_printed": "TEMUR MAMOYAN"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "RSA",
+      "best_rank": 12,
+      "name_as_printed": "SISEKO TEYISI"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 12,
+      "name_as_printed": "YAMATO HATA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "NCA",
+      "best_rank": 12,
+      "name_as_printed": "ALEX VALLECILLO"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 12,
+      "name_as_printed": "GREG OUTLAW"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 12,
+      "name_as_printed": "MITSURO BRANDON TAJIMA"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Cuba",
+      "best_rank": 12,
+      "name_as_printed": "Lazaro Alvarez"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Australia",
+      "best_rank": 12,
+      "name_as_printed": "Justis Huni"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 12,
+      "name_as_printed": "Jose Ramirez Maciel"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Japan",
+      "best_rank": 12,
+      "name_as_printed": "Yuni Takada"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 12,
+      "name_as_printed": "Jose Calderon Cervantes"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Ireland",
+      "best_rank": 12,
+      "name_as_printed": "Callum Walsh"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 12,
+      "name_as_printed": "Emiliano Vargas"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 12,
+      "name_as_printed": "Jose Armando Resendiz"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Philippines",
+      "best_rank": 12,
+      "name_as_printed": "Marlon Tapales"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Japan",
+      "best_rank": 12,
+      "name_as_printed": "Jin Sasaki"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Germany",
+      "best_rank": 12,
+      "name_as_printed": "Senad Gashi"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 12,
+      "name_as_printed": "Mauricio Lara"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Cuba",
+      "best_rank": 12,
+      "name_as_printed": "Arlen Lopez"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 12,
+      "name_as_printed": "Israel Gonzalez"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Philippines",
+      "best_rank": 12,
+      "name_as_printed": "ArAr Andales"
+    },
+    {
+      "body": "wbc",
+      "titles": "international",
+      "country": "Italy",
+      "best_rank": 12,
+      "name_as_printed": "Jonathan Kogasso"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Philippines",
+      "best_rank": 12,
+      "name_as_printed": "Jesse Espinas"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Argentina",
+      "best_rank": 12,
+      "name_as_printed": "Alejandro Silva"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 12,
+      "name_as_printed": "Brad Pauls"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "CUB",
+      "best_rank": 12,
+      "name_as_printed": "Yuniel Dorticos"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 12,
+      "name_as_printed": "Brandon Moore"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "DEU",
+      "best_rank": 12,
+      "name_as_printed": "Simon Zhachenhuber"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 12,
+      "name_as_printed": "Andy Dominguez Velasquez"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "NIC",
+      "best_rank": 12,
+      "name_as_printed": "Bryan Largaespada Blandon"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 12,
+      "name_as_printed": "Hayato Tsutsumi"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 12,
+      "name_as_printed": "Yair Gallardo"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 12,
+      "name_as_printed": "Jorge Ascanio Martinez"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 12,
+      "name_as_printed": "Katsuki Mori"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 12,
+      "name_as_printed": "Mark Magsayo"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "NAM",
+      "best_rank": 12,
+      "name_as_printed": "Mateus Heita"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 12,
+      "name_as_printed": "Charles Conwell"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "CHL",
+      "best_rank": 12,
+      "name_as_printed": "Eduardo Zuleta"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 12,
+      "name_as_printed": "Aaron de la Cruz Escobedo"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "COL",
+      "best_rank": 12,
+      "name_as_printed": "Jhon Orobio"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 12,
+      "name_as_printed": "Jack Turner"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 13,
+      "name_as_printed": "Oscar Duarte"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 13,
+      "name_as_printed": "Anthony Johns"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 13,
+      "name_as_printed": "Ayumu Sano"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 13,
+      "name_as_printed": "Callum Simpson"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 13,
+      "name_as_printed": "David Picasso"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 13,
+      "name_as_printed": "Gabriel Santisima"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "ITA",
+      "best_rank": 13,
+      "name_as_printed": "Guido Vianello"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "ITA",
+      "best_rank": 13,
+      "name_as_printed": "Luca D'Ortenzi"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 13,
+      "name_as_printed": "Masataka Taniguchi"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "POL",
+      "best_rank": 13,
+      "name_as_printed": "Mateusz Masternak"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "RUS",
+      "best_rank": 13,
+      "name_as_printed": "Mikhail Grigoryan"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "MAR",
+      "best_rank": 13,
+      "name_as_printed": "Moussa Gholam"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 13,
+      "name_as_printed": "Sento Ito"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 13,
+      "name_as_printed": "Takero Kitano"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "UZB",
+      "best_rank": 13,
+      "name_as_printed": "RUSLAN ABDULLAEV"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "CUB",
+      "best_rank": 13,
+      "name_as_printed": "YAN MARCOS"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "RUS",
+      "best_rank": 13,
+      "name_as_printed": "EDMOND KHUDOYAN"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "NIG",
+      "best_rank": 13,
+      "name_as_printed": "EFETOBOR APOCHI"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 13,
+      "name_as_printed": "EMANUEL MORENO"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "VEN",
+      "best_rank": 13,
+      "name_as_printed": "GEREMY VERA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "AUT",
+      "best_rank": 13,
+      "name_as_printed": "UMAR DZAMBEKOV"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 13,
+      "name_as_printed": "TYRELL BOYD"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 13,
+      "name_as_printed": "JASSIEL RAMON AMADOR GAMEZ"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 13,
+      "name_as_printed": "JOEL IRIARTE"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 13,
+      "name_as_printed": "TAYVIEN ALPOUGH"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "DOM",
+      "best_rank": 13,
+      "name_as_printed": "JONATHAN CABRERA SANCHEZ"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "ESP",
+      "best_rank": 13,
+      "name_as_printed": "JOSE LUIS NAVARRO JR"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 13,
+      "name_as_printed": "KINGSLEY IBEH"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "UZB",
+      "best_rank": 13,
+      "name_as_printed": "SIRO CHOI"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 13,
+      "name_as_printed": "NICK BALL"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "DOM",
+      "best_rank": 13,
+      "name_as_printed": "NOEL REYES CEPEDA"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "N. Ireland",
+      "best_rank": 13,
+      "name_as_printed": "Lewis Crocker"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 13,
+      "name_as_printed": "Francis Hogan"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Japan",
+      "best_rank": 13,
+      "name_as_printed": "Kenichi Ogawa"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Japan",
+      "best_rank": 13,
+      "name_as_printed": "Reiya Abe"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 13,
+      "name_as_printed": "Russell Acosta Silveria"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "South Africa",
+      "best_rank": 13,
+      "name_as_printed": "Siseko Teyisi"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Japan",
+      "best_rank": 13,
+      "name_as_printed": "Ryusei Kawaura"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Japan",
+      "best_rank": 13,
+      "name_as_printed": "Andy Hiroaka"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 13,
+      "name_as_printed": "Mario Barrios"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Cuba",
+      "best_rank": 13,
+      "name_as_printed": "Lenar Perez"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Argentina",
+      "best_rank": 13,
+      "name_as_printed": "Tobias Reyes"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Ukraine",
+      "best_rank": 13,
+      "name_as_printed": "Lyubomyr Pinchuk"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Phillipines",
+      "best_rank": 13,
+      "name_as_printed": "Alex Santisma"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Japan",
+      "best_rank": 13,
+      "name_as_printed": "Daigo Higa"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 13,
+      "name_as_printed": "Edgar Berlanga"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 13,
+      "name_as_printed": "Albert Bell"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Austria",
+      "best_rank": 13,
+      "name_as_printed": "Umar Dzambekov"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Kosovo",
+      "best_rank": 13,
+      "name_as_printed": "Labinot Xhoxhaj"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 13,
+      "name_as_printed": "Jin Sasaki"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 13,
+      "name_as_printed": "Alejandro Jair Gonzalez"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 13,
+      "name_as_printed": "Angel Ayala Lardizabal"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "DOM",
+      "best_rank": 13,
+      "name_as_printed": "Angelo Pena"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "FRA",
+      "best_rank": 13,
+      "name_as_printed": "Benjamin Mendes"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 13,
+      "name_as_printed": "Brandon Gael Rodriguez"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "PRI",
+      "best_rank": 13,
+      "name_as_printed": "Felix Parrilla"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "CUB",
+      "best_rank": 13,
+      "name_as_printed": "Gustavo Trujillo"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "AUS",
+      "best_rank": 13,
+      "name_as_printed": "Jack Bowen"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 13,
+      "name_as_printed": "Yoshi Sugiura"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 13,
+      "name_as_printed": "Lindolfo Delgado"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "BRA",
+      "best_rank": 13,
+      "name_as_printed": "Lucas Pontes Da Silva"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 13,
+      "name_as_printed": "Mitchell Smith"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "ARM",
+      "best_rank": 13,
+      "name_as_printed": "Yuri Sakunts"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 13,
+      "name_as_printed": "Sergio Alfonso Mendoza Cordova"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 13,
+      "name_as_printed": "Troy Isley"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 13,
+      "name_as_printed": "Tyrone Buttigieg"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 14,
+      "name_as_printed": "Zyvry John Medecillo"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "ARG",
+      "best_rank": 14,
+      "name_as_printed": "Pablo Ezequiel Corzo"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 14,
+      "name_as_printed": "Diego Pacheco"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 14,
+      "name_as_printed": "Ryo Mandokoro"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 14,
+      "name_as_printed": "Hayate Hanada"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 14,
+      "name_as_printed": "Jose Tito Sanchez"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "IRL",
+      "best_rank": 14,
+      "name_as_printed": "Sean McComb"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "MNG",
+      "best_rank": 14,
+      "name_as_printed": "Tsendbaatar Erdenebat"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 14,
+      "name_as_printed": "Jayson Vayson"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "KOR",
+      "best_rank": 14,
+      "name_as_printed": "Siro Choi"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "AUS",
+      "best_rank": 14,
+      "name_as_printed": "Floyd Masson"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 14,
+      "name_as_printed": "Kevin Walsh"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "PRI",
+      "best_rank": 14,
+      "name_as_printed": "Jeyvier Cintron"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "HRV",
+      "best_rank": 14,
+      "name_as_printed": "Peter Milas"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 14,
+      "name_as_printed": "FRANCISCO MENDIVIL PEREZ"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "PUR",
+      "best_rank": 14,
+      "name_as_printed": "HENRY LEBRON"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "NED",
+      "best_rank": 14,
+      "name_as_printed": "GRADUS KRAUS"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "CUB",
+      "best_rank": 14,
+      "name_as_printed": "YUNIEL DORTICOS"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "KAZ",
+      "best_rank": 14,
+      "name_as_printed": "SANZHAR TASHKENBAY"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 14,
+      "name_as_printed": "JESUS HARO"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 14,
+      "name_as_printed": "JUNIOR YOUNAN"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 14,
+      "name_as_printed": "YOALI MEJIA MOSQUEDA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 14,
+      "name_as_printed": "JOSEPH SPENCER"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 14,
+      "name_as_printed": "JOSE TITO SANCHEZ"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "IRL",
+      "best_rank": 14,
+      "name_as_printed": "STEVEN CAIRNS"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "COL",
+      "best_rank": 14,
+      "name_as_printed": "CARLOS UTRIA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 14,
+      "name_as_printed": "SHABAZ MASOUD"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "POL",
+      "best_rank": 14,
+      "name_as_printed": "KAROL WELTER"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "ARG",
+      "best_rank": 14,
+      "name_as_printed": "JUNIOR ANDRES NARVAES"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "UKR",
+      "best_rank": 14,
+      "name_as_printed": "VIKTOR VYKHRYST"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "GER",
+      "best_rank": 14,
+      "name_as_printed": "ILYAS CAN KALI"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Japan",
+      "best_rank": 14,
+      "name_as_printed": "Sho Nogami"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 14,
+      "name_as_printed": "Charles Conwell"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Japan",
+      "best_rank": 14,
+      "name_as_printed": "Kuntae Lee"
+    },
+    {
+      "body": "wbc",
+      "titles": "international",
+      "country": "US",
+      "best_rank": 14,
+      "name_as_printed": "Kevin Walsh"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Japan",
+      "best_rank": 14,
+      "name_as_printed": "Katsuki Mori"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Philippines",
+      "best_rank": 14,
+      "name_as_printed": "Jayr Raquinel"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 14,
+      "name_as_printed": "Jahi Tucker"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "GB",
+      "best_rank": 14,
+      "name_as_printed": "Jack Rafferty"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Kazahkstan",
+      "best_rank": 14,
+      "name_as_printed": "Sultan Zaurbek"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 14,
+      "name_as_printed": "Ali Ellis"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "GB",
+      "best_rank": 14,
+      "name_as_printed": "Zak Chelli"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Dom. Republic",
+      "best_rank": 14,
+      "name_as_printed": "Eridson Garcia"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 14,
+      "name_as_printed": "Bryan Mercado"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Puerto Rico",
+      "best_rank": 14,
+      "name_as_printed": "Emannuel Rodriguez"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Nigeria/US",
+      "best_rank": 14,
+      "name_as_printed": "Efetobor Apochi"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 14,
+      "name_as_printed": "Kingsley Ibeh"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 14,
+      "name_as_printed": "David Alonso Sanchez"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Kazahkstan",
+      "best_rank": 14,
+      "name_as_printed": "Bek Nurmaganbet"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "ARG",
+      "best_rank": 14,
+      "name_as_printed": "Kevin Ramirez"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 14,
+      "name_as_printed": "Willy Gilheaney"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "AUS",
+      "best_rank": 14,
+      "name_as_printed": "Paulo Aokuso"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 14,
+      "name_as_printed": "Richard Riakporhe"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 14,
+      "name_as_printed": "Jayson Vayson"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "PRI",
+      "best_rank": 14,
+      "name_as_printed": "Jan Paul Rivera-Pizarro"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 14,
+      "name_as_printed": "Yahir Frank"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "NAM",
+      "best_rank": 14,
+      "name_as_printed": "Jonathan Kasheeta"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "UKR",
+      "best_rank": 14,
+      "name_as_printed": "Aram Faniian"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 14,
+      "name_as_printed": "Mykal Fox"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 14,
+      "name_as_printed": "Brandon Mosqueda"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "IRL",
+      "best_rank": 14,
+      "name_as_printed": "Stephen McKenna"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 14,
+      "name_as_printed": "Cameron Voung"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 14,
+      "name_as_printed": "Alex Vallecillo"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "THA",
+      "best_rank": 14,
+      "name_as_printed": "Thammanoon Niyomtrong"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 14,
+      "name_as_printed": "Anthony Johns"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "AUS",
+      "best_rank": 14,
+      "name_as_printed": "Max Reeves"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 15,
+      "name_as_printed": "Ari Bonilla"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 15,
+      "name_as_printed": "Kyonosuke Kameda"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 15,
+      "name_as_printed": "Yoshi Sugiura"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "AUS",
+      "best_rank": 15,
+      "name_as_printed": "Kirra Ruston"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 15,
+      "name_as_printed": "Daniel Valladares"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 15,
+      "name_as_printed": "Keisuke Matsumoto"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "UZB",
+      "best_rank": 15,
+      "name_as_printed": "Mirazizbek Mirzkhalilov"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 15,
+      "name_as_printed": "Chriztian Pitt Laurente"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "AUS",
+      "best_rank": 15,
+      "name_as_printed": "Teremoana Teremoana"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "CAN",
+      "best_rank": 15,
+      "name_as_printed": "Wilkens Mathieu"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "PHL",
+      "best_rank": 15,
+      "name_as_printed": "Leonard Pores III"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "CHN",
+      "best_rank": 15,
+      "name_as_printed": "Rex Tso"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "AUS",
+      "best_rank": 15,
+      "name_as_printed": "Luke Modini"
+    },
+    {
+      "body": "ibf",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 15,
+      "name_as_printed": "Bryan Flores"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "PHI",
+      "best_rank": 15,
+      "name_as_printed": "REGIE SUGANOB"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "UKR",
+      "best_rank": 15,
+      "name_as_printed": "OLEKSANDR KHYZHNIAK"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "CAN",
+      "best_rank": 15,
+      "name_as_printed": "WILKENS MATHIEU"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "GHA",
+      "best_rank": 15,
+      "name_as_printed": "MICHAEL ABBAN"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "FRA",
+      "best_rank": 15,
+      "name_as_printed": "SOFIANE OUMIHA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "AUS",
+      "best_rank": 15,
+      "name_as_printed": "JASON MOLONEY"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 15,
+      "name_as_printed": "JACK RAFFERTY"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "DOM",
+      "best_rank": 15,
+      "name_as_printed": "FEUDRI FRANCO"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "RUS",
+      "best_rank": 15,
+      "name_as_printed": "VILDAN MINASOV"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 15,
+      "name_as_printed": "ANGEL ALVARADO SOTO"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "BIH",
+      "best_rank": 15,
+      "name_as_printed": "EDIN PUHALO"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "COL",
+      "best_rank": 15,
+      "name_as_printed": "CARLOS SINISTERRA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "ZIM",
+      "best_rank": 15,
+      "name_as_printed": "BEAVEN SIBANDA"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "MEX",
+      "best_rank": 15,
+      "name_as_printed": "ARTURO CARDENAS"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "KAZ",
+      "best_rank": 15,
+      "name_as_printed": "ARMAT ARMANULY"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 15,
+      "name_as_printed": "RYOTA MUTO"
+    },
+    {
+      "body": "wba",
+      "titles": null,
+      "country": "NED",
+      "best_rank": 15,
+      "name_as_printed": "RICO VERHOEVEN"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 15,
+      "name_as_printed": "Henry Lebron"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Philippines",
+      "best_rank": 15,
+      "name_as_printed": "Ian Abne"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "GB",
+      "best_rank": 15,
+      "name_as_printed": "Shabaz Masoud"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "P. Rico",
+      "best_rank": 15,
+      "name_as_printed": "Jeyvier Cintron"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Philippines",
+      "best_rank": 15,
+      "name_as_printed": "Eumir Marcial"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "France",
+      "best_rank": 15,
+      "name_as_printed": "Milan Prat"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 15,
+      "name_as_printed": "Delante Tiger Johnson"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Cuba",
+      "best_rank": 15,
+      "name_as_printed": "Carlos Fromenta"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "US",
+      "best_rank": 15,
+      "name_as_printed": "Atif Oberlton"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Canada/France",
+      "best_rank": 15,
+      "name_as_printed": "Moreno Fendero"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "France",
+      "best_rank": 15,
+      "name_as_printed": "Mourad Aliev"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Japan",
+      "best_rank": 15,
+      "name_as_printed": "Toshiya Ishii"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Colombia",
+      "best_rank": 15,
+      "name_as_printed": "Carlos Utria"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Poland",
+      "best_rank": 15,
+      "name_as_printed": "Mateusz Masternak"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Ghana",
+      "best_rank": 15,
+      "name_as_printed": "Theophilous Kpakpo Allotey"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 15,
+      "name_as_printed": "Sergio Mendoza"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Uzbekistan",
+      "best_rank": 15,
+      "name_as_printed": "Siro Choi"
+    },
+    {
+      "body": "wbc",
+      "titles": null,
+      "country": "Mexico",
+      "best_rank": 15,
+      "name_as_printed": "Elwin Soto"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "GHA",
+      "best_rank": 15,
+      "name_as_printed": "Michael Abban"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "AUS",
+      "best_rank": 15,
+      "name_as_printed": "Luke Modini"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "ZAF",
+      "best_rank": 15,
+      "name_as_printed": "Siseko Teyisi"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 15,
+      "name_as_printed": "Takero Kitano"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 15,
+      "name_as_printed": "Angel Barrientes"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "CUB",
+      "best_rank": 15,
+      "name_as_printed": "Yoenis Tellez"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "CHN",
+      "best_rank": 15,
+      "name_as_printed": "Balihenbiake Balihenbieke"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 15,
+      "name_as_printed": "Justin Pauldo"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "AUS",
+      "best_rank": 15,
+      "name_as_printed": "Justin Huni"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "ARG",
+      "best_rank": 15,
+      "name_as_printed": "Ayrton Osmar Gimenez"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "ARG",
+      "best_rank": 15,
+      "name_as_printed": "Ignacio David Iribarren"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 15,
+      "name_as_printed": "Georgie Liddard"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "CAN",
+      "best_rank": 15,
+      "name_as_printed": "Wilkens Mathieu"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "USA",
+      "best_rank": 15,
+      "name_as_printed": "Atif Oberlton"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "JPN",
+      "best_rank": 15,
+      "name_as_printed": "Diago Higa"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "GBR",
+      "best_rank": 15,
+      "name_as_printed": "Brandon Daord"
+    },
+    {
+      "body": "wbo",
+      "titles": null,
+      "country": "NIC",
+      "best_rank": 15,
+      "name_as_printed": "Ricardo Blandon"
+    }
+  ],
+  "sanctioning_names": {
+    "P0": 1054,
+    "P1": 446,
+    "P2": 7
+  },
+  "commission_appearances": {
+    "P0": 5,
+    "P1": 238,
+    "P2": 3
+  }
+}
