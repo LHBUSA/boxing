@@ -20,8 +20,10 @@ import { isPlaceholderName, placeholderRefusal } from './names.mjs';
 export const PBC = Object.freeze({
   sourceKey: 'promoter_pbc',
   namespace: 'pbc',
-  version: 'pbc-schedule@1.0.0',
-  scheduleUrl: 'https://www.premierboxingchampions.com/schedule/',
+  version: 'pbc-schedule@1.1.0',
+  // site rebuilt (observed 2026-10-02): the schedule moved to /events/schedule and event pages to /events/<id>
+  scheduleUrl: 'https://www.premierboxingchampions.com/events/schedule',
+  origin: 'https://www.premierboxingchampions.com',
   promoter: 'Premier Boxing Champions',
   lane: 'schedule',
 });
@@ -78,6 +80,7 @@ function jsonLdEvents(html) {
 // /schedule/ -> discovery candidates. The JSON-LD name lists the announced pairings; the card itself comes from the
 // event page, so a candidate never becomes bouts on its own.
 export function parsePbcSchedule(html) {
+  if (/class="pbc-schedule__card"/.test(html)) return parsePbcScheduleV11(html);
   return jsonLdEvents(html).map((node) => {
     const start = parsePbcStart(node.startDate);
     const loc = parsePbcLocation(node.location?.name);
@@ -96,6 +99,7 @@ export function parsePbcSchedule(html) {
 
 // /<event-slug> -> one announced card in the promoter contract's shape
 export function parsePbcEvent(html, { url, capturedAt, visibleStartHint = null }) {
+  if (/class="pbc-event__matchup"/.test(html)) return parsePbcEventV11(html, { url, capturedAt });
   const doc = strip(html);
   const problems = [];
   const node = jsonLdEvents(doc)[0] ?? null;
@@ -174,6 +178,121 @@ export function parsePbcEvent(html, { url, capturedAt, visibleStartHint = null }
       status: "scheduled",
       bouts,
       // card size as advertised: named pairings plus slots printed without a named opponent (TBC)
+      placeholder_slots: problems.filter((p) => /opponent not announced/.test(p)).length,
+      announced_slots: bouts.length + problems.filter((p) => /opponent not announced|pairing not stated/.test(p)).length,
+    },
+    problems,
+    parser_version: PBC.version,
+  };
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// v1.1.0 layout (observed 2026-10-02)
+//   /events/schedule  .pbc-schedule__card: h2 > a[href=/bouts/<id>] "<span>A</span> vs <span>B</span>" per fight,
+//                     li.pbc-schedule__arena "Venue, City, ST", a[href=/events/<id>] "View Fight Night"
+//   /events/<id>      JSON-LD SportsEvent (location.name, location.address "City, ST", startDate = UTC instant);
+//                     p.pbc-event__meta "SAT, OCT 17, 2026 · 8pm ET / 5pm PT · Venue, City, ST" = the LOCAL date and the
+//                     printed start; h2.pbc-event__matchup > a[href=/bouts/<id>] in card order, p.pbc-event__summary each
+
+const MONTHS = { jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06', jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12' };
+
+// "SAT, OCT 17, 2026" -> "2026-10-17": the printed LOCAL date, never derived from the UTC instant
+export function parsePbcVisibleDate(line) {
+  const m = /\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+(\d{1,2}),\s*(\d{4})\b/i.exec(line ?? '');
+  return m ? `${m[3]}-${MONTHS[m[1].toLowerCase()]}-${m[2].padStart(2, '0')}` : null;
+}
+
+const pairingFromAnchor = (inner) => [...inner.matchAll(/<span>([\s\S]*?)<\/span>/g)].map((x) => text(x[1])).filter(Boolean);
+const slugPart = (n) => n.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+function parsePbcScheduleV11(html) {
+  const doc = strip(html);
+  const out = [];
+  for (const m of doc.matchAll(/<div class="pbc-schedule__card">([\s\S]*?)<\/ul>/g)) {
+    const card = m[1];
+    const id = /href="\/events\/(\d+)"/.exec(card)?.[1];
+    if (!id) continue;
+    const pairs = [...card.matchAll(/<h2><a href="\/bouts\/\d+">([\s\S]*?)<\/a><\/h2>/g)]
+      .map((x) => pairingFromAnchor(x[1])).filter((p) => p.length === 2).map((p) => `${p[0]} vs ${p[1]}`);
+    const parts = text(/<li class="pbc-schedule__arena">([\s\S]*?)<\/li>/.exec(card)?.[1] ?? '').split(',').map((x) => x.trim()).filter(Boolean);
+    // the date printed in this schedule row, just before the card block
+    const row = text(doc.slice(Math.max(0, m.index - 4000), m.index));
+    const dates = [...row.matchAll(/\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+(\d{1,2}),\s*(\d{4})\b/gi)];
+    const d = dates.at(-1);
+    out.push({
+      url: `${PBC.origin}/events/${id}`,
+      headline: pairs[0] ?? null,
+      announced_pairings: pairs,
+      probable_date: d ? `${d[3]}-${MONTHS[d[1].toLowerCase()]}-${d[2].padStart(2, '0')}` : null,
+      local_time: null,
+      venue: parts[0] ?? null,
+      city: parts[1] ?? null,
+      region: parts[2] ?? null,
+    });
+  }
+  return out;
+}
+
+function parsePbcEventV11(html, { url, capturedAt }) {
+  const doc = strip(html);
+  const problems = [];
+  const node = jsonLdEvents(doc)[0] ?? null;
+  const metaLine = text(/<p class="pbc-event__meta">([\s\S]*?)<\/p>/.exec(doc)?.[1] ?? '').replace(/\s+,/g, ',');
+  const date = parsePbcVisibleDate(metaLine);
+  if (!date) problems.push('no event date printed on the page');
+  const instant = /Z$/.test(node?.startDate ?? '') && !Number.isNaN(Date.parse(node.startDate)) ? new Date(node.startDate).toISOString() : null;
+  const announced = resolveAnnouncedStart({ date, jsonLdValue: node?.startDate ?? null, jsonLdInstant: instant, visibleLine: metaLine || null });
+  if (announced.conflict) problems.push(`start time: ${announced.conflict.reason}`);
+  const addr = String(node?.location?.address ?? '').split(',').map((x) => x.trim()).filter(Boolean);
+  const venueName = typeof node?.location?.name === 'string' ? node.location.name.trim() : null;
+  const bouts = [];
+  const blocks = [...doc.matchAll(/<h2 class="pbc-event__matchup"><a href="\/bouts\/(\d+)">([\s\S]*?)<\/a><\/h2>(?:\s*<p class="pbc-event__summary">([\s\S]*?)<\/p>)?/g)];
+  blocks.forEach((m, i) => {
+    const order = i + 1;
+    const names = pairingFromAnchor(m[2]);
+    if (names.length !== 2) { problems.push(`bout ${order}: pairing not stated as "A vs B"`); return; }
+    const [nameA, nameB] = names;
+    if (isPlaceholderName(nameA) || isPlaceholderName(nameB)) { problems.push(placeholderRefusal(order, nameA, nameB)); return; }
+    // the one-line summary is read only for distance, division and title; its prose is never stored
+    const line = text(m[3] ?? '');
+    const parsedTitle = parseTitleLine(/\b(interim\s+)?\b(wbc|wba|ibf|wbo)\b[^.]*?\b(champion|title)\b/i.test(line)
+      ? (/\b((?:interim\s+)?(?:wbc|wba|ibf|wbo)\s+[a-z ]*?(?:champion|title))\b/i.exec(line)?.[1] ?? '')
+      : '');
+    bouts.push({
+      source_bout_id: `${url.split('/').filter(Boolean).pop()}|${order}|${slugPart(nameA)}|${slugPart(nameB)}`,
+      fighter_a: { name: nameA },
+      fighter_b: { name: nameB },
+      division: parsedTitle.titles[0]?.weight_class_key ?? divisionFromText(line),
+      scheduled_rounds: roundsFromText(line),
+      titles: parsedTitle.titles,
+      titles_unresolved: parsedTitle.unresolved,
+      status: 'scheduled',
+      bout_order: order,
+      card_segment: order === 1 ? 'main_event' : order === 2 ? 'co_main' : 'undercard',
+    });
+  });
+  if (!blocks.length) problems.push('no announced bouts on the event page');
+  const network = /<span class="pbc-event__network-label">Live on<\/span>[\s\S]*?alt="([^"]+)"/.exec(doc)?.[1] ?? null;
+  return {
+    observation: {
+      source_key: PBC.sourceKey,
+      source_event_id: url.split('/').filter(Boolean).pop(),
+      event_name: bouts[0] ? `${bouts[0].fighter_a.name.split(' ').pop()} vs ${bouts[0].fighter_b.name.split(' ').pop()}` : `Premier Boxing Champions at ${venueName ?? 'venue to be confirmed'}`,
+      scheduled_date: date,
+      scheduled_start_at: announced.scheduled_start_at,
+      published_start_local: null,
+      published_utc_offset: null,
+      published_start_line: metaLine || null,
+      start_basis: announced.scheduled_start_at ? `broadcast start published by the promoter (${announced.basis})` : null,
+      start_assertions: announced.assertions,
+      source_time_conflict: announced.conflict,
+      venue: venueName ? { name: venueName, city: addr[0] ?? null, region: addr[1] ?? null, country_code: /^[A-Z]{2}$/.test(addr[1] ?? '') ? 'US' : null } : null,
+      broadcaster: network ? text(network) : null,
+      promoter: PBC.promoter,
+      source_url: url,
+      captured_at: capturedAt,
+      status: 'scheduled',
+      bouts,
       placeholder_slots: problems.filter((p) => /opponent not announced/.test(p)).length,
       announced_slots: bouts.length + problems.filter((p) => /opponent not announced|pairing not stated/.test(p)).length,
     },

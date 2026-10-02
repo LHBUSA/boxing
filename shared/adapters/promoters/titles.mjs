@@ -50,7 +50,11 @@ export function parseTitleLine(line) {
     if (eliminator) { unresolved.push({ source_native_label: part, reason: "eliminator: no title is at stake" }); continue; }
     if (!orgKey) { unresolved.push({ source_native_label: part, reason: "no organization we model" }); continue; }
     if (SECONDARY.test(part)) { unresolved.push({ source_native_label: part, reason: "secondary regional belt, not a world title lane we model" }); continue; }
-    const tier = Object.keys(WORLD_TIERS).find((t) => new RegExp(`\\b${t}\\b`, "i").test(part)) ?? (/\b(world|champion|title)\b/i.test(part) ? "world" : null);
+    // the tier is read with the division label removed: "WBC Super Welterweight World Champion" is a WORLD title in the
+    // super welterweight division, not a "super" tier (found on the PBC 2026-10-17 card). Longest labels first.
+    const noDivision = [...DIVISIONS].sort((x, y) => y[0].length - x[0].length)
+      .reduce((s, [label]) => s.replace(new RegExp(`\\b${label}\\b`, "ig"), " "), part);
+    const tier = Object.keys(WORLD_TIERS).find((t) => new RegExp(`\\b${t}\\b`, "i").test(noDivision)) ?? (/\b(world|champion|title)\b/i.test(noDivision) ? "world" : null);
     const div = divisionFromText(part) ?? division;
     if (!tier || !div) { unresolved.push({ source_native_label: part, reason: !tier ? "tier not stated" : "division not stated" }); continue; }
     titles.push({ organization_slug: ORGS[orgKey], tier: WORLD_TIERS[tier] ?? "world", source_native_label: part, weight_class_key: div });

@@ -213,14 +213,15 @@ export async function applyCardDocument(store, doc, { now = new Date().toISOStri
   // a first-party card for an event another source already holds: attach only on the
   // same date in the same venue city with exactly one candidate; otherwise a separate event
   let crossSource = null;
-  if (doc.cross_source_events === true && doc.event_date && doc.venue?.city && store.eventCrossSourceCandidates) {
+  const matchCity = doc.venue?.city ?? doc.location?.city ?? null;
+  if (doc.cross_source_events === true && doc.event_date && matchCity && store.eventCrossSourceCandidates) {
     const known = await store.sourceEventIds(`${doc.namespace}.event`, [doc.external_id]);
     if (!known[doc.external_id]) {
-      const cands = await store.eventCrossSourceCandidates({ event_date: doc.event_date, city: doc.venue.city, namespace: `${doc.namespace}.event` });
+      const cands = await store.eventCrossSourceCandidates({ event_date: doc.event_date, city: matchCity, namespace: `${doc.namespace}.event` });
       const sameDay = cands.filter((c) => Number(c.date_gap_days) === 0);
       if (cands.length === 1 && sameDay.length === 1) {
         const r = await store.attachEventIdentity({ event_id: sameDay[0].event_id, namespace: `${doc.namespace}.event`, external_id: doc.external_id,
-          source_key: doc.source_key, confidence: 80, evidence: { method: 'same_date_same_venue_city_single_candidate', candidate: sameDay[0], venue: doc.venue } });
+          source_key: doc.source_key, confidence: 80, evidence: { method: 'same_date_same_venue_city_single_candidate', candidate: sameDay[0], venue: doc.venue ?? null, location: doc.location ?? null } });
         crossSource = { status: r.status, event_id: r.event_id, owner_source_key: sameDay[0].owner_source_key };
       } else if (cands.length) {
         crossSource = { status: 'not_attached', reason: sameDay.length > 1 ? 'more_than_one_same_day_event' : cands.length > 1 ? 'more_than_one_candidate' : 'date_disagreement',

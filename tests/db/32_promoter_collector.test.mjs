@@ -113,6 +113,9 @@ test('rerunning the same cards changes nothing: no duplicate event, bout, fighte
 });
 
 test('operational priority: a televised professional card is P0 even when it carries a world title', async () => {
+  // boxing_event_priority reads current_date; rebase the fixture cards (captured at NOW) onto today, keeping their
+  // relative distance, so the test does not turn into a 'past' card on the calendar
+  await q(`update public.boxing_events set event_date = event_date + (current_date - $1::date) where event_date is not null`, [NOW.slice(0, 10)]);
   const sd = await one(`select e.id from public.boxing_events e join public.boxing_venues v on v.id = e.venue_id where v.city = 'San Diego'`);
   // the broadcaster is a fact of the card; record it the way the event read expects
   await q(`update public.boxing_events set broadcast_notes = 'DAZN' where id = $1`, [sd.id]);
@@ -123,14 +126,20 @@ test('operational priority: a televised professional card is P0 even when it car
 
   // strip the broadcaster and the same card falls back to its title tier, keeping the title weight in the score
   await q(`update public.boxing_events set broadcast_notes = null where id = $1`, [sd.id]);
+  // the card's stated broadcaster is also an event relationship now (organizations from the card document)
+  const tv = await q(`delete from public.boxing_event_organizations where event_id = $1 and role = 'broadcaster' returning *`, [sd.id]);
   const noTv = (await one(`select public.boxing_event_priority($1) r`, [sd.id])).r;
   assert.equal(noTv.tier, 'P2_other_title', 'an interim title is a title, not a world title');
   assert.ok(noTv.score < p.score, 'losing the broadcast costs score but keeps the title weight');
   assert.ok(noTv.score >= 60, JSON.stringify(noTv.score));
   await q(`update public.boxing_events set broadcast_notes = 'DAZN' where id = $1`, [sd.id]);
+  for (const r of tv) await q(`insert into public.boxing_event_organizations select (jsonb_populate_record(null::public.boxing_event_organizations, $1::jsonb)).*`, [JSON.stringify(r)]);
 
   // a card with no title and no broadcaster ranks below both
   const mr = await one(`select e.id from public.boxing_events e join public.boxing_venues v on v.id = e.venue_id where v.city = 'Manchester'`);
+  // the Matchroom page states DAZN, which is a P0 card; without that stated broadcaster it is plain professional
+  assert.equal((await one(`select public.boxing_event_priority($1) r`, [mr.id])).r.tier, 'P0_major_broadcast', 'a stated broadcaster is a broadcast');
+  await q(`delete from public.boxing_event_organizations where event_id = $1 and role = 'broadcaster'`, [mr.id]);
   const q2 = (await one(`select public.boxing_event_priority($1) r`, [mr.id])).r;
   assert.equal(q2.tier, 'P3_professional');
   assert.ok(q2.score < p.score);

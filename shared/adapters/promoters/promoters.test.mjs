@@ -381,3 +381,49 @@ test('a malformed source is refused rather than half-read', () => {
   assert.equal(broken.observation.scheduled_date, null);
   assert.ok(broken.problems.some((p) => /no event date/.test(p)));
 });
+
+// ---- pbc-schedule@1.1.0: the rebuilt PBC site (captured 2026-10-02) ----------------------------------------------------
+import { parsePbcSchedule as v11Schedule, parsePbcEvent as v11Event } from './pbc.mjs';
+import { parseTitleLine as tierLine } from './titles.mjs';
+import { cardOrganizations } from './organizations.mjs';
+import { upcomingCardDocument as v11Doc } from './contract.mjs';
+
+const fx11 = (f) => readFileSync(join(dirname(fileURLToPath(import.meta.url)), '../../../tests/fixtures/promoters', f), 'utf8');
+
+test('PBC v1.1 schedule: one card per fight night with every announced pairing, venue and the printed local date', () => {
+  const list = v11Schedule(fx11('pbc-schedule-v11.html'));
+  const oct = list.find((c) => c.url.endsWith('/events/854219'));
+  assert.ok(oct);
+  assert.equal(oct.probable_date, '2026-10-17');
+  assert.deepEqual(oct.announced_pairings, ['Sebastian Fundora vs Ermal Hadribeaj', 'Brandon Figueroa vs Tomoki Kameda', 'Jermall Charlo vs Koen Mazoudier']);
+  assert.equal(oct.city, 'Las Vegas');
+});
+
+test('PBC v1.1 event: card order, titles read without mistaking the division for a tier, broadcaster, local date', () => {
+  const { observation: o, problems } = v11Event(fx11('pbc-event-v11.html'), { url: 'https://www.premierboxingchampions.com/events/854219', capturedAt: '2026-10-02T02:00:00Z' });
+  assert.deepEqual(problems, []);
+  assert.equal(o.scheduled_date, '2026-10-17');
+  assert.equal(o.venue.name, 'The Chelsea at The Cosmopolitan of Las Vegas');
+  assert.equal(o.broadcaster, 'DAZN & TNT');
+  assert.equal(o.bouts.length, 3);
+  assert.deepEqual(o.bouts.map((b) => b.card_segment), ['main_event', 'co_main', 'undercard']);
+  assert.deepEqual(o.bouts[0].titles.map((t) => `${t.organization_slug}:${t.tier}:${t.weight_class_key}`), ['wbc:world:super_welterweight']);
+  assert.equal(o.bouts[2].scheduled_rounds, 10);
+  assert.deepEqual(v11Doc(o, { namespace: 'pbc' }).organizations.map((x) => `${x.role}:${x.slug}`), ['promoter:pbc', 'broadcaster:dazn', 'broadcaster:tnt-sports']);
+});
+
+test('title tier: "Super <division>" is a division, never the WBA/WBC "super" tier', () => {
+  const t = (l) => tierLine(l).titles.map((x) => `${x.tier}:${x.weight_class_key}`);
+  assert.deepEqual(t('WBC World Super Lightweight Title'), ['world:super_lightweight']);
+  assert.deepEqual(t('WBA Super Featherweight Title'), ['world:super_featherweight']);
+  assert.deepEqual(t('WBA Super World Featherweight Championship'), ['super:featherweight']);
+  assert.deepEqual(t('WBA Super Bantamweight Super Champion'), ['super:super_bantamweight']);
+  assert.deepEqual(t('Interim WBC Super Middleweight Title'), ['interim:super_middleweight']);
+});
+
+test('organizations: one canonical slug per promotion, broadcasters split, unknown names kept as themselves', () => {
+  assert.deepEqual(cardOrganizations({ promoter: 'Matchroom Boxing', broadcaster: 'DAZN' }).map((o) => o.slug), ['matchroom', 'dazn']);
+  assert.deepEqual(cardOrganizations({ promoter_as_published: ['Matchroom', 'Top Rank Inc.'] }).map((o) => o.slug), ['matchroom', 'top-rank']);
+  assert.deepEqual(cardOrganizations({ promoter: 'Sampson Promotions' }).map((o) => o.slug), ['sampson-promotions']);
+  assert.deepEqual(cardOrganizations({ broadcaster: '' }), []);
+});

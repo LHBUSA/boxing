@@ -1,0 +1,154 @@
+{
+  "kind": "sanctioning_schedule_discovery",
+  "dry_run": false,
+  "captured_at": "2026-10-02T01:41:46.214Z",
+  "sources": [
+    {
+      "source_key": "wbc_official",
+      "parser_version": "wbc-calendar@1.0.0",
+      "listed": 7,
+      "candidates": [
+        {
+          "source_key": "wbc_official",
+          "external_key": "https://wbcboxing.com/en/events/fernanda-denisse-monge-amaro-vs-naylea-gil-sanabia/",
+          "discovered_name": "Amaro vs Sanabia",
+          "probable_date": "2026-10-03",
+          "probable_city": "Hermosillo",
+          "probable_country": "Mexico",
+          "probable_promoter": "Rafael Soto",
+          "probable_broadcaster": null,
+          "headline": "Fernanda Denisse Monge Amaro vs Naylea Gil Sanabia (WBC SUPERFLYWEIGHT Title)",
+          "source_url": "https://wbcboxing.com/en/events/fernanda-denisse-monge-amaro-vs-naylea-gil-sanabia/",
+          "confidence": "high",
+          "page_fetched": true,
+          "recorded": {
+            "id": "edb4146a-3240-4c7e-9e22-f8757986d8f2",
+            "state": "open",
+            "matched_event": null
+          }
+        },
+        {
+          "source_key": "wbc_official",
+          "external_key": "https://wbcboxing.com/en/events/ben-whittaker-vs-connor-wallace/",
+          "discovered_name": "Whittaker vs Wallace",
+          "probable_date": "2026-10-03",
+          "probable_city": "Birmingham",
+          "probable_country": "GB",
+          "probable_promoter": "Matchroom",
+          "probable_broadcaster": null,
+          "headline": "Ben Whittaker vs Connor Wallace (WBC Light Heavyweight Title)",
+          "source_url": "https://wbcboxing.com/en/events/ben-whittaker-vs-connor-wallace/",
+          "confidence": "high",
+          "page_fetched": true,
+          "recorded": {
+            "id": "89d128f2-fa10-4949-9d08-9c3b256cf273",
+            "state": "matched",
+            "matched_event": "e5301363-9c5e-4646-a403-0ed15956bf94"
+          }
+        },
+        {
+          "source_key": "wbc_official",
+          "external_key": "https://wbcboxing.com/en/events/willy-kyakonye-vs-angelo-morejon/",
+          "discovered_name": "Kyakonye vs Morejon",
+          "probable_date": "2026-10-12",
+          "probable_city": "Amsterdam",
+          "probable_country": "Netherlands",
+          "probable_promoter": "Aart Boendermaker",
+          "probable_broadcaster": null,
+          "headline": "Willy Kyakonye vs Angelo Morejon (WBC Bridgerweight Title)",
+          "source_url": "https://wbcboxing.com/en/events/willy-kyakonye-vs-angelo-morejon/",
+          "confidence": "high",
+          "page_fetched": true,
+          "recorded": {
+            "id": "4ff7de4b-6e78-46e1-8429-a9d9ff468f71",
+            "state": "open",
+            "matched_event": null
+          }
+        },
+        {
+          "source_key": "wbc_official",
+          "external_key": "https://wbcboxing.com/en/events/sebastian-fundora-vs-ermal-hadribeaj/",
+          "discovered_name": "Fundora vs Hadribeaj",
+          "probable_date": "2026-10-17",
+          "probable_city": "Carson",
+          "probable_country": "US",
+          "probable_promoter": "Sampson Promotions",
+          "probable_broadcaster": null,
+          "headline": "Sebastian Fundora vs Ermal Hadribeaj (WBC Super Welterweight Title)",
+          "source_url": "https://wbcboxing.com/en/events/sebastian-fundora-vs-ermal-hadribeaj/",
+          "confidence": "high",
+          "page_fetched": true,
+          "recorded": {
+            "id": "a4d8efb0-95f2-4051-ad7a-d5b64dbca85e",
+            "state": "open",
+            "matched_event": null
+          }
+        },
+        {
+          "source_key": "wbc_official",
+          "external_key": "https://wbcboxing.com/en/events/dalton-smith-vs-alberto-puello/",
+          "discovered_name": "Smith vs Puello",
+          "probable_date": "2026-10-24",
+          "probable_city": "Sheffield",
+          "probable_country": "GB",
+          "probable_promoter": "Matchroom",
+          "probable_broadcaster": null,
+          "headline": "Dalton Smith vs Alberto Puello (WBC Super Lightweight Title)",
+          "source_url": "https://wbcboxing.com/en/events/dalton-smith-vs-alberto-puello/",
+          "confidence": "high",
+          "page_fetched": true,
+          "recorded": {
+            "id": "e392e353-d0e1-408b-8720-12a7852f66f0",
+            "state": "matched",
+            "matched_event": "03096985-0a6b-4657-8955-da978bf4f1d0"
+          }
+        },
+        {
+          "source_key": "wbc_official",
+          "external_key": "https://wbcboxing.com/en/events/oshaquie-foster-vs-emanuel-navarrete/",
+          "discovered_name": "Foster vs Navarrete",
+          "probable_date": "2026-10-24",
+          "probable_city": "San Antonio",
+          "probable_country": "US",
+          "probable_promoter": "Top Rank",
+          "probable_broadcaster": null,
+          "headline": "O’Shaquie Foster vs Emanuel Navarrete (WBC Super Featherweight Title)",
+          "source_url": "https://wbcboxing.com/en/events/oshaquie-foster-vs-emanuel-navarrete/",
+          "confidence": "high",
+          "page_fetched": true,
+          "recorded": {
+            "id": "8e146121-fe2e-4e75-8a35-28db469deb67",
+            "state": "open",
+            "matched_event": null
+          }
+        },
+        {
+          "source_key": "wbc_official",
+          "external_key": "https://wbcboxing.com/en/events/christian-mbilli-vs-saul-alvarez/",
+          "discovered_name": "Mbilli vs Alvarez",
+          "probable_date": "2026-10-31",
+          "probable_city": "Riyadh",
+          "probable_country": "Saudi Arabia",
+          "probable_promoter": "Sela Promotions",
+          "probable_broadcaster": null,
+          "headline": "Christian Mbilli vs Saul Alvarez (WBC Super Middleweight Title)",
+          "source_url": "https://wbcboxing.com/en/events/christian-mbilli-vs-saul-alvarez/",
+          "confidence": "high",
+          "page_fetched": true,
+          "recorded": {
+            "id": "2cb4ac68-feb6-4806-8b07-d733993a073c",
+            "state": "open",
+            "matched_event": null
+          }
+        }
+      ],
+      "error": null
+    }
+  ],
+  "summary": {
+    "listed": 7,
+    "matched": 2,
+    "open": 5,
+    "failed": []
+  }
+}

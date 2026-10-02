@@ -23,6 +23,7 @@
 
 import { assertMinimized } from '../commissions/minimize.mjs';
 import { isPlaceholderName } from './names.mjs';
+import { cardOrganizations } from './organizations.mjs';
 
 export const UPCOMING_EVENT_STATUSES = Object.freeze(['announced', 'scheduled', 'postponed', 'cancelled', 'complete']);
 export const UPCOMING_BOUT_STATUSES = Object.freeze(['announced', 'scheduled', 'replaced', 'cancelled', 'postponed', 'complete']);
@@ -53,6 +54,12 @@ export function upcomingCardDocument(obs, { namespace }) {
     event_date: obs.scheduled_date, start_at: obs.scheduled_start_at ?? null, status: obs.status === 'announced' ? 'announced' : obs.status,
     source_url: obs.source_url, cross_source_events: true,
     ...(obs.venue?.name ? { venue: { name: obs.venue.name, city: obs.venue.city ?? null, region: obs.venue.region ?? null, country_code: obs.venue.country_code ?? null } } : {}),
+    // a source that states only the city (no venue name) still lets the card attach to the event another source holds;
+    // it never creates a nameless venue
+    ...(!obs.venue?.name && obs.location?.city ? { location: { city: obs.location.city, region: obs.location.region ?? null, country_code: obs.location.country_code ?? null } } : {}),
+    ...(obs.promoter_as_published ? { promoter_as_published: obs.promoter_as_published } : {}),
+    // promoter and broadcaster relationships exactly as the source states them for this card (canonical slugs)
+    organizations: cardOrganizations(obs),
     observed: { announced_at: obs.announced_at ?? null, updated_at: obs.updated_at ?? null, captured_at: obs.captured_at, broadcaster: obs.broadcaster ?? null, jurisdiction: obs.jurisdiction ?? null,
       // advertised card size (named pairings + TBC slots); feeds card completeness, never creates a bout
       announced_slots: Number.isInteger(obs.announced_slots) ? obs.announced_slots : null, placeholder_slots: Number.isInteger(obs.placeholder_slots) ? obs.placeholder_slots : null },

@@ -1,0 +1,90 @@
+{
+ "rule": "pbe_promoter_collect@1",
+ "generated_at": "2026-10-02T01:34:30.816Z",
+ "dry_run": true,
+ "sources": [
+  {
+   "source_key": "promoter_pbc",
+   "may_store_profile_content": false,
+   "lane": "schedule",
+   "parser_version": "pbc-schedule@1.1.0",
+   "list_url": "https://www.premierboxingchampions.com/events/schedule",
+   "candidates": [],
+   "events": [],
+   "error": "list fetch 403"
+  }
+ ],
+ "lane_ready": {
+  "ready": true,
+  "data_half": {
+   "promoter_pbc": {
+    "enabled": true,
+    "access_mode": "approved_ingest",
+    "rights_state": "approved",
+    "fighter_attributes": "not_permitted",
+    "schedule_lanes_covered": 7,
+    "non_schedule_lanes_open": 0,
+    "may_store_profile_content": false
+   }
+  },
+  "schema_half": {
+   "name_quality": true,
+   "event_priority": true,
+   "coverage_health": true,
+   "capabilities_view": true,
+   "lane_rights_state": true,
+   "bouts_lane_trigger": true,
+   "identity_evidence_gate": true,
+   "record_event_candidate": true,
+   "discovery_candidates_table": true
+  },
+  "sources_found": 1,
+  "sources_expected": 1,
+  "data_half_complete": true,
+  "schema_half_complete": true
+ },
+ "summary": {
+  "cards_discovered": 0,
+  "cards_accepted": 0,
+  "cards_rejected": 0,
+  "cards_unreachable": 0,
+  "cards_skipped": 0,
+  "bouts_accepted": 0,
+  "bouts_refused": 0,
+  "placeholder_slots_refused": 0,
+  "fighters": 0,
+  "duplicates_suppressed": {
+   "events": 0,
+   "bouts": 0,
+   "fighters": 0
+  },
+  "start_times": {
+   "corroborated": 0,
+   "structured": 0,
+   "visible_preferred": 0,
+   "unresolved": 0,
+   "none": 0,
+   "conflicts_recorded": 0
+  },
+  "content": {
+   "sources_that_may_not_store_profiles": [
+    "promoter_pbc"
+   ]
+  },
+  "identity_reviews_predicted": 0,
+  "rights": {
+   "lane_refusals": 0,
+   "sources_failed": [
+    "promoter_pbc: list fetch 403"
+   ]
+  },
+  "planned_writes": 0,
+  "actual_writes": 0
+ },
+ "code_version": "git:a57c135909807088d19f0bb883ed4bb7344ef432",
+ "target": {
+  "project": "propbetedge-boxing-staging",
+  "ref": "wpaxofilvbsjyrxrwjhg",
+  "environment": "staging"
+ }
+}
