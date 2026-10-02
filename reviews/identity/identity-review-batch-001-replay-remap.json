@@ -1,0 +1,177 @@
+{
+ "from": "staging wpaxofilvbsjyrxrwjhg (deleted 2026-10-02)",
+ "target": "lobcdprmoiosbjanheeo",
+ "batch_id": "001",
+ "fighterMap": {
+  "6eb66caa-9b42-4b05-ba67-c27516d415f6": "e08c8f38-dfbd-46e2-80ce-cf87daa8ba4a",
+  "781262fb-5f1c-4b73-8717-672a192a0c18": "a98976ba-4d6d-406d-9029-37107a833649",
+  "7e9af7b5-79b5-44b6-8096-fbed53569808": "0a912728-f15d-43ec-a3fe-95e9abd91ae8",
+  "c2bb89ad-4d6d-4c0e-a308-5a0f571d86b0": "e3f96a8b-da5e-4e6e-91e3-23d94e870606",
+  "8b37e533-a252-43c2-bc73-ce739cc72b95": "5b256e34-080a-43ea-90cc-35f77a7b978c",
+  "cb481094-6ba0-4c90-884d-b979c5f29b56": "b9412cfa-317f-4acf-9e3d-d443f47ae512",
+  "d32c813f-f999-412d-af97-bda96e535dd3": "7c1e1593-1bc6-4354-9cde-6c4838dfdb98",
+  "58ffde58-2411-4b1b-be7a-5419849fb9a5": "d2c17ff5-ce62-43da-bd9a-63a8222dbe7c",
+  "dc05fc46-e9fd-4e19-a8ae-f198f97a615b": "a50d8475-bebd-4d03-8bc6-853b57c4b4ee",
+  "2b2d8197-95f6-4f98-abe4-70417ed844f0": "395a3646-8e1c-47d6-8bc7-88aca1b85b5b"
+ },
+ "remapBasis": {
+  "6eb66caa-9b42-4b05-ba67-c27516d415f6": {
+   "rule": "same official source bout(s) the reviewer saw; candidate corner from the source key",
+   "located": [
+    {
+     "key": "2026-05-16|tampa|market-internatoinal|jose-valenzuela-alvarado|eric-valencia",
+     "side": "a",
+     "fighter_id": "e08c8f38-dfbd-46e2-80ce-cf87daa8ba4a"
+    }
+   ]
+  },
+  "781262fb-5f1c-4b73-8717-672a192a0c18": {
+   "rule": "same official source bout(s) the reviewer saw; candidate corner from the source key",
+   "located": [
+    {
+     "key": "2026-06-28|davie|the-heavyweight-factory|jose-rodriguez-montemayor|ernesto-leon",
+     "side": "a",
+     "fighter_id": "a98976ba-4d6d-406d-9029-37107a833649"
+    }
+   ]
+  },
+  "7e9af7b5-79b5-44b6-8096-fbed53569808": {
+   "rule": "same official source bout(s) the reviewer saw; candidate corner from the source key",
+   "located": [
+    {
+     "key": "2026-05-16|miami|m-r-boxing|romeo-orosco|manuel-enrique-arrieta-sangroni",
+     "side": "b",
+     "fighter_id": "0a912728-f15d-43ec-a3fe-95e9abd91ae8"
+    }
+   ]
+  },
+  "c2bb89ad-4d6d-4c0e-a308-5a0f571d86b0": {
+   "rule": "same official source bout(s) the reviewer saw; candidate corner from the source key",
+   "located": [
+    {
+     "key": "2026-04-10|miami|dirty-boxing|tristan-gallichan|bryan-ivan-duran",
+     "side": "a",
+     "fighter_id": "e3f96a8b-da5e-4e6e-91e3-23d94e870606"
+    }
+   ]
+  },
+  "8b37e533-a252-43c2-bc73-ce739cc72b95": {
+   "rule": "same official source bout(s) the reviewer saw; candidate corner from the source key",
+   "located": [
+    {
+     "key": "2026-06-28|davie|the-heavyweight-factory|calvin-barnett|gustavo-trujillo",
+     "side": "b",
+     "fighter_id": "5b256e34-080a-43ea-90cc-35f77a7b978c"
+    }
+   ]
+  },
+  "cb481094-6ba0-4c90-884d-b979c5f29b56": {
+   "rule": "same official source bout(s) the reviewer saw; candidate corner from the source key",
+   "located": [
+    {
+     "key": "2026-08-15|miami|m-r-boxing|roberto-pucheta|alex-vallecillo",
+     "side": "b",
+     "fighter_id": "b9412cfa-317f-4acf-9e3d-d443f47ae512"
+    }
+   ]
+  },
+  "d32c813f-f999-412d-af97-bda96e535dd3": {
+   "rule": "same official source bout(s) the reviewer saw; candidate corner from the source key",
+   "located": [
+    {
+     "key": "2026-06-28|davie|the-heavyweight-factory|patrick-pierre|jose-cortes",
+     "side": "b",
+     "fighter_id": "7c1e1593-1bc6-4354-9cde-6c4838dfdb98"
+    }
+   ]
+  },
+  "58ffde58-2411-4b1b-be7a-5419849fb9a5": {
+   "rule": "same official source bout(s) the reviewer saw; candidate corner from the source key",
+   "located": [
+    {
+     "key": "2026-05-16|miami|m-r-boxing|ramon-de-la-cruz-sena|joshua-amill",
+     "side": "a",
+     "fighter_id": "d2c17ff5-ce62-43da-bd9a-63a8222dbe7c"
+    }
+   ]
+  },
+  "dc05fc46-e9fd-4e19-a8ae-f198f97a615b": {
+   "rule": "same official source bout(s) the reviewer saw; candidate corner from the source key",
+   "located": [
+    {
+     "key": "2026-06-26|fort-lauderdale|team-boxing-league|suzana-rodriguez-griffin|sofia-viretti",
+     "side": "b",
+     "fighter_id": "a50d8475-bebd-4d03-8bc6-853b57c4b4ee"
+    },
+    {
+     "key": "2026-06-26|fort-lauderdale|team-boxing-league|suzana-rodriguez-griffin|sofia-viretti|2",
+     "side": "b",
+     "fighter_id": "a50d8475-bebd-4d03-8bc6-853b57c4b4ee"
+    },
+    {
+     "key": "2026-06-26|fort-lauderdale|team-boxing-league|suzana-rodriguez-griffin|sofia-viretti",
+     "side": "b",
+     "fighter_id": "a50d8475-bebd-4d03-8bc6-853b57c4b4ee"
+    },
+    {
+     "key": "2026-06-26|fort-lauderdale|team-boxing-league|suzana-rodriguez-griffin|sofia-viretti|2",
+     "side": "b",
+     "fighter_id": "a50d8475-bebd-4d03-8bc6-853b57c4b4ee"
+    }
+   ]
+  },
+  "2b2d8197-95f6-4f98-abe4-70417ed844f0": {
+   "rule": "same official source bout(s) the reviewer saw; candidate corner from the source key",
+   "located": [
+    {
+     "key": "2026-06-26|fort-lauderdale|team-boxing-league|shelby-cannon|samantha-ginithan",
+     "side": "b",
+     "fighter_id": "395a3646-8e1c-47d6-8bc7-88aca1b85b5b"
+    },
+    {
+     "key": "2026-06-26|fort-lauderdale|team-boxing-league|shelby-cannon|samantha-ginithan|2",
+     "side": "b",
+     "fighter_id": "395a3646-8e1c-47d6-8bc7-88aca1b85b5b"
+    },
+    {
+     "key": "2026-06-26|fort-lauderdale|team-boxing-league|shelby-cannon|samantha-ginithan",
+     "side": "b",
+     "fighter_id": "395a3646-8e1c-47d6-8bc7-88aca1b85b5b"
+    },
+    {
+     "key": "2026-06-26|fort-lauderdale|team-boxing-league|shelby-cannon|samantha-ginithan|2",
+     "side": "b",
+     "fighter_id": "395a3646-8e1c-47d6-8bc7-88aca1b85b5b"
+    }
+   ]
+  }
+ },
+ "seqs": {
+  "001:florida_athletic_commission:2026-02-20|orlando|boxlab|jose-valenzuela-alvarado|jusiyah-shirley|a": 258,
+  "001:florida_athletic_commission:2026-02-21|miami|m-r-boxing|jose-rodriguez-montemayor|aniel-viamontes|a": 244,
+  "001:florida_athletic_commission:2026-02-21|miami|m-r-boxing|shaquille-rushing|manuel-enrique-arrieta-sangroni|b": 241,
+  "001:florida_athletic_commission:2026-03-07|alamonte-springs|mike-sawyer-promotions|cody-jenkins|tristan-gallichan|b": 219,
+  "001:florida_athletic_commission:2026-03-07|alamonte-springs|mike-sawyer-promotions|ethan-trout|yusmel-alejandro-ruiz|b": 220,
+  "001:florida_athletic_commission:2026-03-07|alamonte-springs|mike-sawyer-promotions|phillip-penson|gustavo-trujillo|b": 222,
+  "001:florida_athletic_commission:2026-03-28|palm-bay|boxlite-promotions|wilner-soto|alex-vallecillo|b": 195,
+  "001:florida_athletic_commission:2026-04-12|hollywood|heavyweight-factory|harrison-melendez|jose-cortes|b": 186,
+  "001:florida_athletic_commission:2026-04-12|hollywood|heavyweight-factory|ramon-de-la-cruz-sena|aaron-aponte|a": 190,
+  "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|ariele-davis|sofia-viretti|b": 160,
+  "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|doctress-robinson|esteuri-suero|b": 151,
+  "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|kaylee-ann-justus-knight|samantha-ginithan|b": 147
+ },
+ "held": [
+  {
+   "entry_id": "001:florida_athletic_commission:2026-03-07|alamonte-springs|mike-sawyer-promotions|ethan-trout|yusmel-alejandro-ruiz|b",
+   "original_fighter_id": "5ea394ab-9eeb-44ba-8e2a-384f0650869e",
+   "reason": "no reviewed source bout located",
+   "located": []
+  },
+  {
+   "entry_id": "001:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|doctress-robinson|esteuri-suero|b",
+   "original_fighter_id": "3b7a4532-c39d-4879-b0dd-fce7c3a06ec1",
+   "reason": "no reviewed source bout located",
+   "located": []
+  }
+ ]
+}

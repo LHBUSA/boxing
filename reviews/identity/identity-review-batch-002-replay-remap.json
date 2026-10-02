@@ -1,0 +1,42 @@
+{
+ "from": "staging wpaxofilvbsjyrxrwjhg (deleted 2026-10-02)",
+ "target": "lobcdprmoiosbjanheeo",
+ "batch_id": "002",
+ "fighterMap": {
+  "dc05fc46-e9fd-4e19-a8ae-f198f97a615b": "a50d8475-bebd-4d03-8bc6-853b57c4b4ee"
+ },
+ "remapBasis": {
+  "dc05fc46-e9fd-4e19-a8ae-f198f97a615b": {
+   "rule": "same official source bout(s) the reviewer saw; candidate corner from the source key",
+   "located": [
+    {
+     "key": "2026-05-01|fort-lauderdale|team-boxing-league|ariele-davis|sofia-viretti",
+     "side": "b",
+     "fighter_id": "a50d8475-bebd-4d03-8bc6-853b57c4b4ee"
+    },
+    {
+     "key": "2026-06-26|fort-lauderdale|team-boxing-league|suzana-rodriguez-griffin|sofia-viretti",
+     "side": "b",
+     "fighter_id": "a50d8475-bebd-4d03-8bc6-853b57c4b4ee"
+    },
+    {
+     "key": "2026-06-26|fort-lauderdale|team-boxing-league|suzana-rodriguez-griffin|sofia-viretti|2",
+     "side": "b",
+     "fighter_id": "a50d8475-bebd-4d03-8bc6-853b57c4b4ee"
+    }
+   ]
+  }
+ },
+ "seqs": {
+  "002:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|ariele-davis|sofia-viretti|2|b": 169,
+  "002:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|doctress-robinson|esteuri-suero|2|b": 182
+ },
+ "held": [
+  {
+   "entry_id": "002:florida_athletic_commission:2026-05-01|fort-lauderdale|team-boxing-league|doctress-robinson|esteuri-suero|2|b",
+   "original_fighter_id": "3b7a4532-c39d-4879-b0dd-fce7c3a06ec1",
+   "reason": "no reviewed source bout located",
+   "located": []
+  }
+ ]
+}
