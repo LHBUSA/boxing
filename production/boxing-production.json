@@ -4,7 +4,7 @@
   "project_ref": "lobcdprmoiosbjanheeo",
   "organization_id": "hckxwtehexilsrxpglqw",
   "region": "us-east-2",
-  "secrets": "DB password in D:\Workers\secrets\boxing-production-db.env (outside git). API keys are fetched at use time, never stored in the repo. Worker internal tokens: D:\Workers\secrets\boxing-<worker>-production-internal-token.",
+  "secrets": "DB password in D:\\Workers\\secrets\\boxing-production-db.env (outside git). API keys are fetched at use time, never stored in the repo. Worker internal tokens: D:\\Workers\\secrets\\boxing-<worker>-production-internal-token.",
   "never_target": [
     "tkmlnhmylqnttmnsnief (PROPBETEDGE: NFL + UFC)",
     "rlfyavnhbngwbldebrid (LHBUSA's Project: MLB + PropTech + identity/billing)",

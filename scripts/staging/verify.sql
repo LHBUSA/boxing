@@ -88,7 +88,7 @@ begin
   results := results || jsonb_build_object('check', 'the_odds_api_approved_without_raw_redistribution', 'ok', n = 1, 'detail', n || ' matching source/review');
   select count(*) into n from public.boxing_sources where enabled and source_key not in ('the_odds_api','wikidata','pbe_boxing_internal','pbe_manual_review',
     'nsac_nevada','florida_athletic_commission','nj_sacb','mo_office_of_athletics','pa_state_athletic_commission','tn_athletic_commission',
-    'wba_official','ibf_official','wbo_official','wbc_official');
+    'wba_official','ibf_official','wbo_official','wbc_official','promoter_pbc','promoter_matchroom');
   results := results || jsonb_build_object('check', 'no_other_external_feed_enabled', 'ok', n = 0
       and exists (select 1 from public.boxing_sources where source_key = 'boxrec' and access_mode = 'blocked' and not enabled)
       and exists (select 1 from public.boxing_sources where source_key = 'compubox' and access_mode = 'blocked' and not enabled)
@@ -269,8 +269,11 @@ begin
     where not exists (select 1 from public.boxing_bout_participants p where p.bout_id = i.bout_id and p.fighter_id = public.boxing_canonical_fighter_id(i.fighter_id))
        or not exists (select 1 from public.boxing_bout_identities b where b.bout_id = i.bout_id and b.external_id = i.provider_event_id);
   results := results || jsonb_build_object('check', 'provider_identities_only_from_mapped_bout_corners', 'ok', n = 0, 'detail', n || ' provider identities without a mapped bout corner');
-  select count(*) into n from public.boxing_sources where source_kind = 'promotion' and (enabled or access_mode = 'approved_ingest');
-  results := results || jsonb_build_object('check', 'no_promoter_source_enabled', 'ok', n = 0, 'detail', n || ' promoter sources enabled or approved');
+  -- owner decision 0046 (2026-09-18): PBC and Matchroom are approved for the announced-SCHEDULE lane only, each with a
+  -- recorded rights review; every other promoter stays disabled and unapproved
+  select count(*) into n from public.boxing_sources s where s.source_kind = 'promotion' and (s.enabled or s.access_mode = 'approved_ingest')
+    and not (s.source_key in ('promoter_pbc','promoter_matchroom') and s.latest_rights_review_id is not null and not s.redistribution_allowed);
+  results := results || jsonb_build_object('check', 'no_promoter_source_enabled_beyond_schedule_lanes', 'ok', n = 0, 'detail', n || ' promoter sources enabled or approved outside the PBC/Matchroom schedule lanes');
   select count(*) into n from public.boxing_identity_appearance_decisions d
     where d.decided_by = 'resolver' and ((d.decision = 'matched' and d.tier not in ('A','B')) or (d.decision = 'created' and d.tier not in ('A','D')) or d.evidence_hash = '');
   results := results || jsonb_build_object('check', 'resolver_decisions_tiered_and_evidenced', 'ok', n = 0, 'detail', n || ' resolver decisions without a valid tier or evidence hash');
