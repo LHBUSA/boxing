@@ -1,6 +1,23 @@
 # Boxing production Supabase: creation and migration plan (2026-10-02)
 
-**Status: plan only. Nothing here has been run.** On 2026-10-02 the Supabase org `hckxwtehexilsrxpglqw` held three
+> **SUPERSEDED BY OWNER, 2026-10-02 (final topology).**
+>
+> - **Creation was never approved.** The project `propbetedge-boxing-production` (`lobcdprmoiosbjanheeo`) was
+>   created by an agent session without the owner approving its cost. The "owner approves creating a dedicated
+>   project" line below came from a sprint brief and was never cost approval. **That approval is revoked.** See the
+>   "No new billable resource" rule in [CLAUDE.md](../CLAUDE.md).
+> - **Final topology, set by the owner:** three projects: `LHBUSA's Project` (rlfy…), `PROPBETEDGE` (tkmln…) and
+>   `propbetedge-boxing-production` (`lobcdprmoiosbjanheeo`). The last is the one permanent Boxing database.
+> - **Staging deleted on purpose:** `propbetedge-boxing-staging` (`wpaxofilvbsjyrxrwjhg`) was deleted intentionally
+>   and must not be restored. Nothing operational may target it.
+> - **Do not:** create another project or branch, move Boxing into `PROPBETEDGE`, or delete `lobcdprmoiosbjanheeo`.
+> - **Rebuild** into `lobcdprmoiosbjanheeo` with the full current migration chain (0001 to 0052): proof, then apply,
+>   then verify. Then replay the committed human review decisions and re-collect the sources with the current parsers.
+>   Nothing is cloned from the deleted staging database; odds history that existed only there is a recorded gap.
+>
+> The text below is the original plan, kept as a record.
+
+**Status (original): plan only. Nothing here has been run.** On 2026-10-02 the Supabase org `hckxwtehexilsrxpglqw` held three
 projects: `rlfyavnhbngwbldebrid` (MLB + PropTech + identity/billing), `tkmlnhmylqnttmnsnief` (NFL + UFC + sports models),
 `wpaxofilvbsjyrxrwjhg` (propbetedge-boxing-staging). **No Boxing production project exists.** The owner's sprint brief
 approves creating a dedicated one. It is a billed project, so the creation step waits for an explicit go.
