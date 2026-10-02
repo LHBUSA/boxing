@@ -1,0 +1,13 @@
+{
+  "decision": "WBC men's champions-grid native label \"Bridger\" -> canonical bridgerweight (exact label only, no fuzzy alias)",
+  "decided_by": "owner",
+  "decided_on": "2026-10-02",
+  "basis": "WBC's own ratings name the division Bridgerweight, 224 lb / 101.605 kg (https://wbcboxing.com/en/ratings/male/bridgerweight/)",
+  "migration": "supabase/migrations/20261002000052_boxing_wbc_bridger_label.sql",
+  "staging": {
+    "proof": "apply-migrations -Mode proof: PROOF OK (rolled back)",
+    "apply": "apply-migrations -Mode apply -Only 20261002000052",
+    "held_by_run": "149310b8-675b-4104-a582-168e315f52fe (unknown_division_pending_review: Bridger)",
+    "rerun": { "run": "bf44a8ec-1853-49f4-92bb-81a0340e4e21", "status": "ok", "status_snapshots": { "created": 1, "duplicate": 35 }, "ranking_snapshots": { "duplicate": 18 }, "proposals": 0, "conflicts": 0, "refused": [] }
+  }
+}
