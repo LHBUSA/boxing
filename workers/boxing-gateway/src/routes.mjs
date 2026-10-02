@@ -12,7 +12,7 @@ export const READ_METHODS = Object.freeze([
   'siteHome', 'siteEvents', 'siteEvent', 'siteBout', 'siteFighters', 'siteFighter', 'siteTitleBoard', 'siteRankingBoard', 'siteTitleLanes', 'siteBodyRankings', 'truthIndex', 'truthEvent', 'truthBout', 'siteCoverage',
   'siteScorecards', 'siteScorecard', 'siteOfficials', 'siteOfficial', 'siteMarketIndex', 'siteVideos', 'sitePromoters', 'sitePromoter',
   'siteFighterContext', 'siteBoutContext', 'siteHallOfFame', 'siteHistory', 'siteWire',
-  'archiveIndex', 'archiveCard', 'archiveDivision', 'archiveMeetings', 'fighterPassport', 'sourceRegistry',
+  'archiveIndex', 'archiveCard', 'archiveDivision', 'archiveMeetings', 'fighterPassport', 'sourceRegistry', 'cardCompletenessReport',
 ]);
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
@@ -339,6 +339,11 @@ const SITE_ROUTES = [
     path: '/internal/v1/site/wire', summary: 'Verified record wire: official results, posted scorecards, missed weight, recent card changes.',
     query: { limit: '1..120' },
     handler: async (s, _p, q) => s.siteWire(intIn(q, 'limit', 40, 1, 120)),
+  },
+  {
+    path: '/internal/v1/site/card-completeness', summary: 'Internal health: card completeness (pbe_card_completeness@1) for every upcoming event, by state, with held bouts and TBC slots.',
+    query: { days: '1..365 window, default 180' },
+    handler: async (s, _p, q) => s.cardCompletenessReport(intIn(q, 'days', 180, 1, 365)),
   },
   {
     path: '/internal/v1/site/coverage', summary: 'Site coverage counts: what is on verified record and what is still pending.',

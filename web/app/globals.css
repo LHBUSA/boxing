@@ -642,3 +642,8 @@ main { flex: 1; position: relative; z-index: 1; }
 .skel--card { height: 180px; border-radius: var(--r-3); }
 @keyframes skel { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
 @media (prefers-reduced-motion: reduce) { .skel { animation: none; } }
+
+/* Card completeness (pbe_card_completeness@1): fixed-height chip, never shifts layout */
+.completeness { display: inline-flex; align-items: center; gap: 8px; min-height: 24px; flex-wrap: wrap; }
+.completeness__counts { font-size: 12px; }
+.tag--warn { color: #f0b35a; border-color: rgba(240, 179, 90, 0.5); background: rgba(240, 179, 90, 0.08); }

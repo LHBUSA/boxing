@@ -99,7 +99,8 @@
     "archiveDivision",
     "archiveMeetings",
     "fighterPassport",
-    "sourceRegistry"
+    "sourceRegistry",
+    "cardCompletenessReport"
   ],
   "routes": [
     {
@@ -506,6 +507,15 @@
       "params": {},
       "query": {
         "limit": "1..120"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/site/card-completeness",
+      "summary": "Internal health: card completeness (pbe_card_completeness@1) for every upcoming event, by state, with held bouts and TBC slots.",
+      "params": {},
+      "query": {
+        "days": "1..365 window, default 180"
       }
     },
     {

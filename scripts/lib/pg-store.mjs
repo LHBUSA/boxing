@@ -106,6 +106,7 @@ export function pgStore(client) {
     async truthBout(ref) { return (await one(client, 'select public.boxing_truth_bout($1) as r', [ref])).r; },
     async recordEventCandidate(p) { return (await one(client, 'select public.boxing_record_event_candidate($1) as r', [p])).r; },
     async proCoverageHealth(days = 14) { return (await one(client, 'select public.boxing_pro_coverage_health($1) as r', [days])).r; },
+    async cardCompletenessReport(days = 180) { return (await one(client, 'select public.boxing_card_completeness_report($1) as r', [days])).r; },
     async fighterIdentityMap(namespace, externalIds) { return (await one(client, 'select public.boxing_fighter_identity_map($1, $2) as r', [namespace, externalIds])).r; },
     async priorIdentityResolutions(p) { return (await one(client, 'select public.boxing_prior_identity_resolutions($1) as r', [p])).r; },
     async promoterLaneReady(sourceKeys) { return (await one(client, 'select public.boxing_promoter_lane_ready($1) as r', [sourceKeys])).r; },

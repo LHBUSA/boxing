@@ -5,7 +5,7 @@ import { canonical } from "@/lib/posture";
 import { gateway, todayUtc } from "@/lib/gateway";
 import { cityLine, daysBetween, fmtDate, plural } from "@/lib/format";
 import { boutPath, eventPath, parseRef, refOf } from "@/lib/slug";
-import { BoutLine, Crumbs, MatchupCard, Note, PosterCard, SecHead, Unavailable, verdictLine } from "@/components/fight";
+import { BoutLine, Crumbs, MatchupCard, Note, PosterCard, SecHead, Unavailable, verdictLine, CompletenessBadge } from "@/components/fight";
 import { Timeline } from "@/components/Timeline";
 import { JsonLd } from "@/components/JsonLd";
 import { eventJsonLd } from "@/lib/seo";
@@ -65,6 +65,7 @@ export default async function EventPage({ params }: Props) {
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
             <span className={`tag ${complete ? "tag--gold" : "tag--live"}`}>{complete ? "Final" : days <= 0 ? "Fight night" : `In ${days} days`}</span>
             {e.commission ? <span className="tag">{e.commission.name}</span> : null}
+            {!complete && e.completeness ? <CompletenessBadge c={e.completeness} detail /> : null}
           </div>
           <h1 className="serif" style={{ fontSize: "clamp(36px, 5.2vw, 64px)", fontWeight: 900, lineHeight: 0.98, letterSpacing: "-0.025em", marginTop: 14 }}>{e.name}</h1>
           <p className="mono dim mt-2" style={{ fontSize: 14 }}>{fmtDate(e.date, { weekday: true })}{place ? ` · ${place}` : ""}</p>
@@ -80,6 +81,9 @@ export default async function EventPage({ params }: Props) {
               <div className="tile"><b>{stoppages}</b><span>KO · TKO · RTD</span></div>
               <div className="tile"><b>{withCards}</b><span>Decisions with cards</span><small>{decisions} decisions</small></div>
             </div>
+          ) : null}
+          {!complete && e.completeness ? (
+            <p className="fine mt-2 completeness__basis">{e.completeness.basis}{e.completeness.last_verified_at ? ` Last verified ${fmtDate(e.completeness.last_verified_at.slice(0, 10), { year: false })}.` : ""}</p>
           ) : null}
           {e.official_source_url ? <p className="mt-2"><a className="link-gold" href={e.official_source_url} target="_blank" rel="noopener noreferrer">Official commission {complete ? "results" : "listing"} ↗</a></p> : null}
         </div>

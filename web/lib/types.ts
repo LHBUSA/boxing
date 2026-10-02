@@ -61,7 +61,24 @@ export interface EventSummary {
   results_count: number;
   awaiting_verification: number | null;
   title_bouts: number;
+  /** pbe_card_completeness@1 — present for upcoming events (null for past ones). */
+  completeness?: CardCompleteness | null;
   headline: BoutCompact | null;
+}
+
+export type CompletenessState = "COMPLETE_CARD" | "PARTIAL_CARD" | "HEADLINER_ONLY" | "CARD_DEVELOPING";
+export interface CardCompleteness {
+  rule: string;
+  state: CompletenessState;
+  label: string;
+  announced_source: string | null;
+  known_expected_bouts: number | null;
+  tbc_slots: number;
+  stored_bouts: number;
+  held_bouts: number;
+  completeness_pct: number | null;
+  last_verified_at: string | null;
+  basis: string;
 }
 
 export interface RecordSummary {

@@ -10,14 +10,15 @@
 
 const normalise = (name) => String(name ?? '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
 
-const PLACEHOLDER = /^(?:opponent\s+)?(?:tbd|tba|tbc|to be (?:announced|confirmed|determined))(?:\s+opponent)?$/;
+// Matchroom prints an unsigned slot in BOTH name fields ("TBC TBC"), so repeated placeholder tokens are a placeholder too.
+const PLACEHOLDER = /^(?:opponent\s+)?(?:tbd|tba|tbc|to be (?:announced|confirmed|determined))(?:\s+(?:tbd|tba|tbc|opponent))*$/;
 
 export function isPlaceholderName(name) {
   const n = normalise(name);
   if (!n) return true;                 // an empty corner is not a fighter either
   if (n === 'opponent') return true;   // the slot itself, with nothing else said about it
   // "T.B.C." normalises to "t b c": a string that is nothing but single letters is an abbreviation, not a name
-  if (/^[a-z]( [a-z])*$/.test(n) && PLACEHOLDER.test(n.replace(/ /g, ''))) return true;
+  if (/^[a-z]( [a-z])*$/.test(n) && /^(?:tbd|tba|tbc)+$/.test(n.replace(/ /g, ''))) return true;
   return PLACEHOLDER.test(n);
 }
 

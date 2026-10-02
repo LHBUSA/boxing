@@ -92,6 +92,7 @@ export function postgrestStore({ url, serviceKey, fetchImpl = fetch }) {
     truthBout: (ref) => rpc('boxing_truth_bout', { p_ref: ref }),
     recordEventCandidate: (p) => rpc('boxing_record_event_candidate', { p }),
     proCoverageHealth: (days = 14) => rpc('boxing_pro_coverage_health', { p_days: days }),
+    cardCompletenessReport: (days = 180) => rpc('boxing_card_completeness_report', { p_days: days }),
     fighterIdentityMap: (namespace, externalIds) => rpc('boxing_fighter_identity_map', { p_namespace: namespace, p_external_ids: externalIds }),
     priorIdentityResolutions: (p) => rpc('boxing_prior_identity_resolutions', { p }),
     promoterLaneReady: (sourceKeys) => rpc('boxing_promoter_lane_ready', { p_source_keys: sourceKeys }),

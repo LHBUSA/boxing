@@ -4,7 +4,7 @@ import { FighterArt } from "./FighterArt";
 import { divisionLabel, fmtDate, fmtDateShort, fmtLb, fmtRecord, methodLabel, plural, scoreVerdict, weekday, monthDay, cityLine } from "@/lib/format";
 import { boutPath, eventPath, fighterPath } from "@/lib/slug";
 import { metricView } from "@/lib/dna";
-import type { BoutCompact, Corner, DnaMetric, EventSummary, RecordSummary, Result, Scorecard } from "@/lib/types";
+import type { BoutCompact, CardCompleteness, Corner, DnaMetric, EventSummary, RecordSummary, Result, Scorecard } from "@/lib/types";
 
 /* ------------------------------------------------------------------ basics */
 
@@ -229,6 +229,19 @@ export function BoutLine({ bout, completeEvent, showEvent = false }: { bout: Bou
 
 /* ------------------------------------------------------------------ next card tile */
 
+/** Card completeness, stated explicitly (pbe_card_completeness@1). A 1-2 bout record is never shown as a full card. */
+export function CompletenessBadge({ c, detail = false }: { c?: CardCompleteness | null; detail?: boolean }) {
+  if (!c) return null;
+  const tone = c.state === "COMPLETE_CARD" ? "tag--gold" : c.state === "PARTIAL_CARD" ? "tag--warn" : "tag--pending";
+  const counts = c.known_expected_bouts != null ? `${c.known_expected_bouts - c.held_bouts}/${c.known_expected_bouts} advertised bouts${c.tbc_slots ? ` · ${c.tbc_slots} TBC` : ""}` : null;
+  return (
+    <span className="completeness" data-state={c.state} title={c.basis}>
+      <span className={`tag ${tone}`}>{c.label}</span>
+      {detail && counts ? <span className="completeness__counts mono dim">{counts}</span> : null}
+    </span>
+  );
+}
+
 export function CardTile({ e, today }: { e: EventSummary; today: string }) {
   const md = monthDay(e.date);
   const days = Math.round((Date.parse(`${e.date}T12:00:00Z`) - Date.parse(`${today}T12:00:00Z`)) / 86400000);
@@ -242,7 +255,8 @@ export function CardTile({ e, today }: { e: EventSummary; today: string }) {
       <div className="ncard__name">{e.name}</div>
       <div className="ncard__meta">{[e.venue?.name, cityLine(e.venue) ?? e.commission?.jurisdiction].filter(Boolean).join(" · ") || e.commission?.jurisdiction}</div>
       <div className="ncard__state">
-        {e.bout_count ? <span className="tag tag--gold">{plural(e.bout_count, "bout")} on record</span> : <span className="tag tag--pending">Bout sheet pending</span>}
+        {e.completeness ? <CompletenessBadge c={e.completeness} /> : e.bout_count ? <span className="tag tag--gold">{plural(e.bout_count, "bout")} on record</span> : <span className="tag tag--pending">Bout sheet pending</span>}
+        {e.completeness && e.bout_count ? <span className="tag">{plural(e.bout_count, "bout")} on record</span> : null}
         {e.commission ? <span className="tag">{e.commission.jurisdiction ?? e.commission.name}</span> : null}
       </div>
     </Link>

@@ -165,6 +165,9 @@ export function parseMatchroomEvent(html, { url, capturedAt, venueHint = null })
       captured_at: capturedAt,
       status: "scheduled",
       bouts,
+      // card size as advertised: named pairings plus slots printed without a named opponent (TBC)
+      placeholder_slots: problems.filter((p) => /opponent not announced/.test(p)).length,
+      announced_slots: bouts.length + problems.filter((p) => /opponent not announced|corner is not named/.test(p)).length,
     },
     problems,
     parser_version: MATCHROOM.version,

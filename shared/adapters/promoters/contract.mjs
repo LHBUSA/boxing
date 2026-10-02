@@ -53,7 +53,9 @@ export function upcomingCardDocument(obs, { namespace }) {
     event_date: obs.scheduled_date, start_at: obs.scheduled_start_at ?? null, status: obs.status === 'announced' ? 'announced' : obs.status,
     source_url: obs.source_url, cross_source_events: true,
     ...(obs.venue?.name ? { venue: { name: obs.venue.name, city: obs.venue.city ?? null, region: obs.venue.region ?? null, country_code: obs.venue.country_code ?? null } } : {}),
-    observed: { announced_at: obs.announced_at ?? null, updated_at: obs.updated_at ?? null, captured_at: obs.captured_at, broadcaster: obs.broadcaster ?? null, jurisdiction: obs.jurisdiction ?? null },
+    observed: { announced_at: obs.announced_at ?? null, updated_at: obs.updated_at ?? null, captured_at: obs.captured_at, broadcaster: obs.broadcaster ?? null, jurisdiction: obs.jurisdiction ?? null,
+      // advertised card size (named pairings + TBC slots); feeds card completeness, never creates a bout
+      announced_slots: Number.isInteger(obs.announced_slots) ? obs.announced_slots : null, placeholder_slots: Number.isInteger(obs.placeholder_slots) ? obs.placeholder_slots : null },
     bouts: (obs.bouts ?? []).map((b) => ({
       external_id: b.source_bout_id, bout_order: b.bout_order ?? null, card_segment: b.card_segment ?? null,
       weight_class_key: b.division ?? null, contracted_weight_lb: b.contracted_weight_lb ?? null, scheduled_rounds: b.scheduled_rounds ?? null,

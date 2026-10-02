@@ -259,7 +259,8 @@ test('an announced slot is never a fighter, however the promoter spells it', () 
 });
 
 test('every placeholder spelling is refused by both adapters, and creates no fighter', () => {
-  const variants = ['TBD', 'TBA', 'TBC', 'To Be Announced', 'To Be Confirmed', 'To Be Determined', 'Opponent TBC'];
+  // 'TBC TBC': Matchroom prints the placeholder in both name fields (created a canonical 'TBC TBC' on 2026-10-02)
+  const variants = ['TBD', 'TBA', 'TBC', 'To Be Announced', 'To Be Confirmed', 'To Be Determined', 'Opponent TBC', 'TBC TBC', 'Tba Tbc', 'TBD TBD'];
 
   for (const v of variants) {
     // PBC: the last bout's opponent is replaced with the placeholder

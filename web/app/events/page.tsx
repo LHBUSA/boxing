@@ -39,7 +39,7 @@ export default async function EventsPage({ searchParams }: { searchParams: Promi
       <header className="page-hero">
         <div className="eyebrow">Weekend → promoters → cards → bouts</div>
         <h1>{scope === "results" ? "Results" : "Schedule"}</h1>
-        <p>Boxing runs many cards at once across promoters and commissions. Every card here comes from an athletic commission record, grouped by fight weekend.</p>
+        <p>Boxing runs many cards at once across promoters and commissions. Cards come from athletic commission records and approved promoter announcements, grouped by fight weekend; every upcoming card states how complete it is.</p>
       </header>
       <div className="filters">
         <div className="seg"><Link className={scope === "upcoming" ? "is-on" : ""} href={href({ scope: "upcoming", page: 1 })}>Upcoming</Link><Link className={scope === "results" ? "is-on" : ""} href={href({ scope: "results", page: 1 })}>Results</Link></div>
