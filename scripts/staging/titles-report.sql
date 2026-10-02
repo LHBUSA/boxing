@@ -1,4 +1,4 @@
--- Read-only report of sanctioning-body title + ranking ingestion on Boxing STAGING (WBA, IBF, WBO; WBC not licensed).
+-- Read-only report of sanctioning-body title + ranking ingestion on Boxing STAGING (WBA, IBF, WBO, WBC).
 -- Every number is a count; nothing is written.
 with orgs as (select o.id, o.slug from public.boxing_organizations o where o.slug in ('wbc','wba','ibf','wbo'))
 select jsonb_build_object(
@@ -18,7 +18,7 @@ select jsonb_build_object(
                        select o.slug, count(distinct to_char(coalesce(s.as_of, s.published_on), 'YYYY-MM')) n,
                               min(to_char(coalesce(s.as_of, s.published_on), 'YYYY-MM')) f, max(to_char(coalesce(s.as_of, s.published_on), 'YYYY-MM')) l
                        from public.boxing_title_status_snapshots s join orgs o on o.id = s.organization_id
-                       where s.document_kind in ('wba_ranking','ibf_rating','wbo_ratings') group by o.slug) x),
+                       where s.document_kind in ('wba_ranking','ibf_rating','wbo_ratings','wbc_ratings') group by o.slug) x),
   'entries_identity', (select jsonb_object_agg(k, n) from (select o.slug || ':' || e.identity_state k, count(*) n
                         from public.boxing_title_status_entries e join public.boxing_title_status_snapshots s on s.id = e.snapshot_id
                         join orgs o on o.id = s.organization_id group by 1) x),

@@ -132,3 +132,16 @@ export function wbcMainRatingsHtml({ lhwChampion = 'SYNTH OTHERWBC', pdfUrl = WB
     + `<a href="${pdfUrl}">DESCARGAR RATINGS</a><article data-alias="champions-woman-es"><ul><li class="filter-completo"><a class="eg-tyler-element-3">SYNTH WOMAN</a><a rel="category tag">Completo</a></li></ul></article>`
     + '<a href="https://wbcboxing.com/mailing/2026/WBC_RATINGS_FEMALE_SEPTEMBER__2026.pdf">DESCARGAR RATINGS</a>';
 }
+// https://wbcboxing.com/ratings/ since the 2026-10 redesign: a marquee of every champion first (both genders, not a
+// grid), then "champions-feed" sections per gender of <a class="champion-card"> cards
+export function wbcRatingsFeedHtml({ lhwChampion = 'SYNTH OTHERWBC', pdfUrl = WBC_PDF_URL } = {}) {
+  const card = ([, , division], k) => {
+    const name = division === 'Semicompleto' ? lhwChampion : division === 'Supermosca' ? 'Vacant' : `SYNTH WBCFILL${k}`;
+    return `<a href="https://wbcboxing.com/ratings/varonil/${division.toLowerCase()}/"\nclass="champion-card">\n<img class="champion-card__foto" src="https://wbcboxing.com/x.jpg" alt="">\n`
+      + `<div class="champion-card__pie">\n<span class="champion-card__nombre">${name}</span>\n<span class="champion-card__division">${division}</span>\n</div>\n</a>`;
+  };
+  return '<div class="champions-marquee"><a href="https://wbcboxing.com/ratings/femenil/atomo/" class="champions-marquee__item"><span class="champions-marquee__name">SYNTH MARQUEE</span><span class="champions-marquee__division">Atomo</span></a></div>'
+    + `<h1>CAMPEONES DEL MUNDO</h1><section class="champions-feed champions-feed--varonil"><header><h2 class="champions-feed__title">Varonil</h2></header><div class="champions-feed__track">${WBC_PAGES.map(card).join('\n')}</div></section>`
+    + '<section class="champions-feed champions-feed--femenil"><a href="https://wbcboxing.com/ratings/femenil/completo/" class="champion-card"><span class="champion-card__nombre">SYNTH WOMAN</span><span class="champion-card__division">Completo</span></a></section>'
+    + `<a href="${pdfUrl}">DESCARGAR RATINGS</a><a href="https://wbcboxing.com/mailing/2026/WBC_RATINGS_FEMALE_SEPTEMBER__2026.pdf">DESCARGAR RATINGS</a>`;
+}

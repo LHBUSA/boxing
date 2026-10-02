@@ -25,7 +25,7 @@ published it.
 | WBA | `wba_official` approved_ingest | `https://www.wbaboxing.com/wba-ranking` (month selector POST `dates=YYYY:M:`), `/current-wba-champions` | facts only, attribution, low rate, fail closed |
 | IBF | `ibf_official` approved_ingest | the ratings JSON the public `/ratings/` page reads (`/wp-json/ratings/v1/filter`), 11 s between requests | same; the endpoint is undocumented, so a shape change fails closed |
 | WBO | `wbo_official` approved_ingest | `/rankings/` (PDF link read on every run; month history POST), `/male-champions/` | same; the PDF token is never guessed |
-| WBC | `wbc_official` approved_ingest (0036; fetching authorized 2026-09-15) | `https://wbcboxing.com/main-ratings-es/` (men's champions grid "CAMPEONES DEL MUNDO" and the link to the month's ratings PDF), the men's ratings PDF `https://wbcboxing.com/mailing/<year>/WBC_RATINGS_<MONTH>_<year>.pdf` | same posture; robots.txt allows general agents; the PDF URL is always taken from a public link |
+| WBC | `wbc_official` approved_ingest (0036; fetching authorized 2026-09-15) | `https://wbcboxing.com/ratings/` (was `/main-ratings-es/`, which 301s there since the 2026-10 redesign; men's champions grid "CAMPEONES DEL MUNDO" and the link to the month's ratings PDF), the men's ratings PDF `https://wbcboxing.com/mailing/<year>/WBC_RATINGS_<MONTH>_<year>.pdf` | same posture; robots.txt allows general agents; the PDF URL is always taken from a public link |
 
 For all four bodies:
 - No copied HTML or PDF body is redistributed.

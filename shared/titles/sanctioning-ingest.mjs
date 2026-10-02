@@ -1,6 +1,7 @@
-// Sanctioning-body collection (owner approvals 2026-09-14): WBA, IBF, WBO. WBC is not licensed and has no collector.
+// Sanctioning-body collection: WBA, IBF, WBO (owner approvals 2026-09-14) and WBC (owner approval 2026-09-15; public
+// ratings page + linked men's ratings PDF only, never a guessed file name; a dead historical link is an access gap).
 //
-//   runSanctioningCollection(store, env, { body: 'wba'|'ibf'|'wbo', mode: 'current'|'backfill', months?, maxRequests? })
+//   runSanctioningCollection(store, env, { body: 'wba'|'ibf'|'wbo'|'wbc', mode: 'current'|'backfill', months?, maxRequests? })
 //
 // Every run: gate (TITLES_INGEST_ENABLED, verified target, approved source), polite fetching (IBF >= 10 s apart, WBA/WBO
 // >= 5 s; a dropped connection is retried twice and recorded in metrics.fetch_errors), fail-closed structure checks,
@@ -23,14 +24,15 @@ import { parseWbcChampionsPage, parseWbcRatingsPages, wbcRatingsLinks } from '..
 
 export const TITLES_WORKER = 'boxing-rankings';
 export const USER_AGENT = 'PropBetEdge-Boxing/1.0 (+https://propbetedge.ai; official sanctioning-body records; low-rate)';
-export const PARSER_VERSIONS = Object.freeze({ wba_ranking: 'wba-ranking@1.0.0', wba_champions: 'wba-champions@1.0.0', ibf_rating: 'ibf-rating@1.0.0', wbo_ratings: 'wbo-ratings@1.0.0', wbo_champions: 'wbo-champions@1.0.0',
-  wbc_ratings: 'wbc-ratings-pdf@1.0.0', wbc_champions: 'wbc-champions@1.0.0' });
+export const PARSER_VERSIONS = Object.freeze({ wba_ranking: 'wba-ranking@1.0.1', wba_champions: 'wba-champions@1.0.0', ibf_rating: 'ibf-rating@1.0.0', wbo_ratings: 'wbo-ratings@1.0.0', wbo_champions: 'wbo-champions@1.0.0',
+  wbc_ratings: 'wbc-ratings-pdf@1.0.0', wbc_champions: 'wbc-champions@1.1.0' });
 export const MIN_INTERVAL_MS = Object.freeze({ wba: 5000, ibf: 11000, wbo: 5000, wbc: 5000 });
 export const URLS = Object.freeze({
   wbaRanking: 'https://www.wbaboxing.com/wba-ranking', wbaChampions: 'https://www.wbaboxing.com/current-wba-champions',
   ibfFilter: 'https://www.ibf-usba-boxing.com/wp-json/ratings/v1/filter', wboRankings: 'https://wboboxing.com/rankings/', wboChampions: 'https://wboboxing.com/male-champions/',
-  // WBC public pages that link the month's ratings PDF (the Spanish main ratings page also carries the champions grid)
-  wbcMainRatings: 'https://wbcboxing.com/main-ratings-es/', wbcLinkPages: ['https://wbcboxing.com/main-ratings-es/', 'https://wbcboxing.com/en/main-ratings/', 'https://wbcboxing.com/en/championsratings/'],
+  // WBC public pages that link the month's ratings PDF (the main ratings page also carries the champions grid;
+  // /main-ratings-es/ has 301'd to /ratings/ since the 2026-10 redesign)
+  wbcMainRatings: 'https://wbcboxing.com/ratings/', wbcLinkPages: ['https://wbcboxing.com/ratings/', 'https://wbcboxing.com/en/main-ratings/', 'https://wbcboxing.com/en/championsratings/'],
 });
 const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 

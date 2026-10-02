@@ -9,7 +9,7 @@
 // A backfill pass skips months (IBF: divisions) that already recorded a failure or refusal; --retry-failed re-reads them;
 // --retry-failed-before=<ISO time> re-reads only failures recorded before that time (a chunked retry pass).
 //
-// WBC has no collector (not licensed). Prints metrics only; never prints credentials.
+// Bodies: wba, ibf, wbo, wbc (WBC: current public ratings PDF + champions grid). Prints metrics only; never prints credentials.
 
 import { execSync } from 'node:child_process';
 import { manualProvenance } from '../../shared/provenance.mjs';

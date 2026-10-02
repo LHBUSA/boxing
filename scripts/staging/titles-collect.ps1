@@ -1,4 +1,4 @@
-# One guarded sanctioning-body collection against Boxing STAGING only (WBA, IBF, WBO; WBC is not licensed).
+# One guarded sanctioning-body collection against Boxing STAGING only (WBA, IBF, WBO, WBC).
 #
 #   pwsh scripts/staging/titles-collect.ps1 -Body wba        (wbc: current ratings PDF + champions list; -Backfill = every publicly linked ratings PDF)
 #   pwsh scripts/staging/titles-collect.ps1 -Body ibf -Backfill

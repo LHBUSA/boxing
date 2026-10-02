@@ -6,8 +6,9 @@
 //   POST /internal/v1/titles/lineages      { organization_slug, weight_class_key, gender, tier, source_native_label }
 //   GET  /internal/v1/title-map?weight_class=&gender=&as_of=
 //
-// scheduled(): TITLES_INGEST_ENABLED must be "true". Collects the current WBA, WBO and IBF documents (owner approvals
-// 2026-09-14) through runSanctioningCollection, one body after another; records a blocked run for any approved body without a collector.
+// scheduled(): TITLES_INGEST_ENABLED must be "true". Collects the current WBA, WBO, IBF (owner approvals 2026-09-14) and
+// WBC (2026-09-15) documents through runSanctioningCollection, one body per cron slot (BODY_BY_CRON); records a blocked
+// run for any approved body without a collector.
 
 import { guardedPostgrestStore } from '../../../shared/store/target-guard.mjs';
 import { runSanctioningCollection } from '../../../shared/titles/sanctioning-ingest.mjs';
@@ -15,7 +16,7 @@ import { scheduledProvenance } from '../../../shared/provenance.mjs';
 import { importRankingDocument } from '../../../shared/rankings/import.mjs';
 import { recordTitleEvent } from '../../../shared/titles/events.mjs';
 import { buildTitleMap } from '../../../shared/titles/title-map.mjs';
-import { COLLECTED_BODIES, rankingAdapters } from '../../../shared/adapters/rankings/registry.mjs';
+import { bodiesForCron, rankingAdapters } from '../../../shared/adapters/rankings/registry.mjs';
 
 const json = (body, status = 200) => new Response(JSON.stringify(body), {
   status, headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' },
@@ -77,7 +78,7 @@ export function createWorker({ makeStore = (env) => guardedPostgrestStore(env), 
       let store;
       try { store = makeStore(env); } catch (err) { console.log(`boxing-rankings: skipped (${err?.code ?? 'store_not_configured'})`); return; }
       const results = {};
-      for (const body of COLLECTED_BODIES) {
+      for (const body of bodiesForCron(controller.cron)) {
         const provenance = scheduledProvenance(controller, env, { workerName: 'boxing-rankings' });
         const r = await collect(store, env, { body, mode: 'current', fetchImpl, provenance });
         results[body] = r.status;

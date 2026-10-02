@@ -21,7 +21,9 @@ export function parseWbaRankingPage(html) {
   const asOf = decode(page.match(/Ranking\s+as of\s*([A-Z]+\s+\d{4})/i)?.[1] ?? '') || null;
   const published = wbaDate(decode(page.match(/Download WBA Rankings[\s\S]{0,400}?([A-Z][a-z]+ \d{1,2}(?:st|nd|rd|th)?, \d{4})/)?.[1] ?? ''));
   const divisions = [];
-  const heads = [...page.matchAll(/<div class="col-12 col-sm-6 hidden-xs text-left">\s*<a[^>]*href="#(division\d+)"[\s\S]*?<span>([\s\S]*?)<\/span>\s*<\/a>\s*<\/div>\s*<div class="col-12 col-sm-6 hidden-xs">\s*<span class="text-center">([\s\S]*?)<\/span>/g)];
+  // desktop division headers: "col-12 col-sm-6 hidden-xs" (to 2026-09) or "col-xs-6 hidden-xs" with a classed label span
+  // (current page since 2026-09-30); the mobile duplicates (hidden-sm hidden-md hidden-lg) never match
+  const heads = [...page.matchAll(/<div class="col-(?:12 col-sm-6|xs-6) hidden-xs text-left">\s*<a[^>]*href="#(division\d+)"[\s\S]*?<span[^>]*>([\s\S]*?)<\/span>\s*<\/a>\s*<\/div>\s*<div class="col-(?:12 col-sm-6|xs-6) hidden-xs(?: text-right)?">\s*<span[^>]*>([\s\S]*?)<\/span>/g)];
   for (const h of heads) {
     const [, anchor, labelHtml, limitHtml] = h;
     const start = page.indexOf(`<div class="collapse" id="${anchor}">`);

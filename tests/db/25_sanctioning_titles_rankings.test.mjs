@@ -7,7 +7,7 @@ import { freshDatabase } from '../helpers/db.mjs';
 import { pgStore } from '../../scripts/lib/pg-store.mjs';
 import { runSanctioningCollection } from '../../shared/titles/sanctioning-ingest.mjs';
 import { IBF_HEAVYWEIGHT_HISTORY, IBF_SLUGS, champRow, fifteen, ibfRecord, wbaDivision, wbaChampionsHtml, wbaRankingHtml, wboChampionsHtml, wboHistoryHtml, wboRankingsPage, wboRatingsText,
-  WBC_PDF_URL, wbcMainRatingsHtml, wbcRatingsPages } from '../fixtures/sanctioning/synthetic.mjs';
+  WBC_PDF_URL, wbcRatingsFeedHtml, wbcRatingsPages } from '../fixtures/sanctioning/synthetic.mjs';
 
 let db;
 let store;
@@ -369,7 +369,7 @@ test('chronological pass: months stored newest first are diffed oldest -> newest
 
 
 test('WBC current: public ratings PDF rebuilt from positions, champions grid, conflicts kept, claims, blank positions; history link gaps recorded', async () => {
-  site.set('https://wbcboxing.com/main-ratings-es/', wbcMainRatingsHtml());
+  site.set('https://wbcboxing.com/ratings/', wbcRatingsFeedHtml());
   site.set(WBC_PDF_URL, { body: '%PDF-1.7 synthetic', type: 'application/pdf' });
   site.set('wbc-pdf-items', wbcRatingsPages());
   const r = await run('wbc');

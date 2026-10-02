@@ -6,7 +6,7 @@ There is no `fighter.current_belt`. Belts are a historical graph.
 
 ## Organizations
 
-WBC, WBA, IBF and WBO are seeded as `sanctioning_body` / `world` organizations. Each is linked to its candidate source row (`wbc_official`, …), and all of those rows are `review_required`.
+WBC, WBA, IBF and WBO are seeded as `sanctioning_body` / `world` organizations. Each is linked to its source row (`wbc_official`, …); all four rows are `approved_ingest` (see Rights below; the original seed in migration 0001 had them `review_required`).
 
 Organization kinds are enforced in the database. Promoters, broadcasters, commissions (a separate table) and record keepers cannot issue titles or rankings. `media` and `ranking_body` can, which covers The Ring and TBRB when added. Further sanctioning bodies (IBO, WBF, regional bodies such as the EBU or NABF) are added as rows with a `sanctioning_scope`; no code changes are needed.
 
@@ -92,7 +92,7 @@ Internal route: `GET /internal/v1/title-map?weight_class=&gender=&as_of=` on `bo
 | Source | State |
 |---|---|
 | `wba_official`, `ibf_official`, `wbo_official` | `approved_ingest`, enabled (owner approval 2026-09-14, rights reviews in migration 0033). Facts only, attributed, no redistribution of copied HTML/PDF |
-| `wbc_official` | `approved_ingest`, enabled (owner decision 2026-09-14, rights review in migration 0036). Same posture as the other bodies. No WBC collector or parser is built yet, so scheduled runs record `blocked` with that reason |
+| `wbc_official` | `approved_ingest`, enabled (owner decision 2026-09-14, rights review in migration 0036). Same posture as the other bodies; fetching authorized 2026-09-15. Collector: `runSanctioningCollection({ body: 'wbc' })` (public ratings page + linked men's ratings PDF), scheduled monthly on its own cron slot. History is a source-access gap, not a rights gap (see TITLES_RANKINGS_INGESTION.md) |
 
 Test fixtures stay synthetic.
 

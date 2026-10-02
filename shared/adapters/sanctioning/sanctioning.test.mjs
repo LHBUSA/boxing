@@ -42,6 +42,23 @@ test('WBA ranking page: its own belts per division, claims about other bodies ke
   assert.deepEqual(lw.claims_about_other_bodies.map((c) => [c.about, c.source_name, c.vacant]), [['wbc', null, true], ['ibf', 'SYNTH FOXTROT', false], ['wbo', 'SYNTH GOLF', false]]);
 });
 
+// the header layout the WBA ranking page switched to on 2026-09-30 (desktop "col-xs-6" header with a classed label span,
+// then a mobile duplicate of the same header that must not add a division); the division body is unchanged
+const WBA_RANKING_2026_09_30 = WBA_RANKING
+  .replaceAll('<div class="col-12 col-sm-6 hidden-xs text-left">', '<div class="col-xs-6 hidden-xs text-left">')
+  .replaceAll('<i class="glyphicon"></i> <span>', '<i class="glyphicon"></i> <span class="h4" style="color: #000000;">')
+  .replaceAll(/<div class="col-12 col-sm-6 hidden-xs"> <span class="text-center">([^<]*)<\/span> <\/div>/g,
+    '<div class="col-xs-6 hidden-xs text-right"> <span>$1</span> </div><div class="col-xs-12 hidden-sm hidden-md hidden-lg text-left"> <a role="button" href="#divisionX"> <span class="h4">DUPLICATE</span> </a> </div>');
+
+test('WBA ranking page, 2026-09-30 header layout: same divisions, labels and limits; mobile duplicates ignored', () => {
+  const before = parseWbaRankingPage(WBA_RANKING);
+  const after = parseWbaRankingPage(WBA_RANKING_2026_09_30);
+  assert.notEqual(WBA_RANKING_2026_09_30, WBA_RANKING);
+  assert.deepEqual(after.divisions.map((d) => [d.division.weight_class_key, d.division.limit_text, d.champions.length, d.entries.length]),
+    [['light_heavyweight', '175 Lbs / 79,379 Kgs', 3, 2], ['lightweight', '135 Lbs / 61,235 Kgs', 1, 1]]);
+  assert.deepEqual(after.divisions, before.divisions);
+});
+
 const WBA_CHAMPIONS = `<li>IBEROAMERICAN &amp; MEDITERRANEAN</li><div>lightweight</div><div>VACANT</div><div>WBA World</div>
   <div>SYNTH RECESS</div><div>United States</div><div>30-0-1 (28 KO's)</div><div>Champion in recess</div>
   <div>light heavyweight</div><div>SYNTH ALPHA</div><div>Russia</div><div>23-1-0 (12 KO's)</div><div>WBA Super World</div>
@@ -213,4 +230,18 @@ test('WBC ratings PDF from positions: title lines as printed, rows paired by hei
   const ch = parseWbcChampionsPage(wbcMainRatingsHtml());
   assert.deepEqual([ch.cards.length, ch.cards.find((c) => c.division.native_label === 'Supermosca').vacant], [18, true], 'men\'s grid only');
   assert.deepEqual(wbcRatingsLinks(wbcMainRatingsHtml()), [WBC_PDF_URL], 'the female PDF is not the men\'s ratings');
+});
+
+test('WBC ratings page, 2026-10 redesign: men\'s champion cards only (not the marquee or the women\'s feed), same cards as the old grid', async () => {
+  const { parseWbcChampionsPage, wbcRatingsLinks } = await import('./wbc.mjs');
+  const { wbcMainRatingsHtml, wbcRatingsFeedHtml, WBC_PDF_URL } = await import('../../../tests/fixtures/sanctioning/synthetic.mjs');
+  const feed = parseWbcChampionsPage(wbcRatingsFeedHtml());
+  const old = parseWbcChampionsPage(wbcMainRatingsHtml());
+  assert.equal(feed.cards.length, 18);
+  assert.equal(feed.cards.find((c) => c.division.native_label === 'Supermosca').vacant, true, 'a vacant card is a vacancy');
+  assert.ok(!feed.cards.some((c) => /MARQUEE|WOMAN/.test(c.source_name ?? '')));
+  const key = (c) => [c.division.weight_class_key, c.division.native_label, c.vacant, c.vacant ? null : c.source_name, c.designation.native];
+  assert.deepEqual(feed.cards.map(key).map((k, i) => (k[2] ? k : [...k.slice(0, 3), old.cards[i].source_name, k[4]])), old.cards.map(key));
+  assert.equal(feed.cards[0].division_page, 'https://wbcboxing.com/ratings/varonil/completo/');
+  assert.deepEqual(wbcRatingsLinks(wbcRatingsFeedHtml()), [WBC_PDF_URL]);
 });

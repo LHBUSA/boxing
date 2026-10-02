@@ -6,8 +6,10 @@
 #   secrets (wrangler secret put ... --env staging): SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, BOXING_INTERNAL_TOKEN
 #
 # Sources (owner approvals 2026-09-14): WBA /wba-ranking + /current-wba-champions, IBF ratings JSON (Crawl-delay 10),
-# WBO ratings PDF (token from /rankings/ each run) + /male-champions/. WBC is NOT licensed and never fetched.
-# Cadence: monthly, as approved (20th, 14:25Z); unchanged documents are duplicates and write nothing. A body that
+# WBO ratings PDF (token from /rankings/ each run) + /male-champions/; (owner approval 2026-09-15) WBC public ratings
+# page https://wbcboxing.com/ratings/ (champions grid + the linked men's ratings PDF, never a guessed file name).
+# Cadence: monthly, as approved, one slot per body on the 20th (WBA 14:25Z, WBO 14:35Z, IBF 14:45Z, WBC 14:55Z; mapping in
+# shared/adapters/rankings/registry.mjs BODY_BY_CRON); unchanged documents are duplicates and write nothing. A body that
 # publishes after the 20th is picked up the following month. Historical backfill is an operator job
 # (scripts/staging/titles-collect.ps1 -Backfill), throttled and checkpointed, never on this cron.
 
@@ -31,7 +33,11 @@ name = "boxing-rankings-staging"
 workers_dev = false
 
 [env.staging.triggers]
-crons = ["25 14 20 * *"]
+crons = ["25 14 20 * *", "35 14 20 * *", "45 14 20 * *", "55 14 20 * *"]
+
+# PDF text extraction (WBO, WBC) plus identity-candidate matching is CPU-heavy; the default 30 s budget is not enough
+[env.staging.limits]
+cpu_ms = 300000
 
 [env.staging.version_metadata]
 binding = "CF_VERSION_METADATA"

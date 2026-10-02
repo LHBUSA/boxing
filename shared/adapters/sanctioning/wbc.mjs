@@ -1,6 +1,6 @@
 // WBC parsers (owner authorization 2026-09-15): pure functions over already-fetched public documents.
 //
-// 1. Main ratings page https://wbcboxing.com/main-ratings-es/ : "CAMPEONES DEL MUNDO" grid (men's grid first), one card
+// 1. Main ratings page https://wbcboxing.com/ratings/ (was /main-ratings-es/, which now 301s there): "CAMPEONES DEL MUNDO" grid (men's grid first), one card
 //    per division with the champion's name (or "Vacant") and the Spanish division, plus the link to the month's male
 //    ratings PDF (https://wbcboxing.com/mailing/<year>/WBC_RATINGS_<MONTH>_<year>.pdf, "DESCARGAR RATINGS").
 // 2. Ratings PDF, one page per division. Its text layer comes out of reading order, so the page is rebuilt from item
@@ -107,9 +107,25 @@ export function parseWbcRatingsPages(pages) {
   return { body: 'wbc', document: 'ratings', as_of_label: lm ? `${lm[1].toUpperCase()} ${lm[2]}` : null, month, divisions };
 }
 
-// the men's "CAMPEONES DEL MUNDO" grid on the main ratings page
+// the men's "CAMPEONES DEL MUNDO" grid on the main ratings page. Two layouts: the ratings page since its 2026-10 redesign
+// (https://wbcboxing.com/ratings/, <section class="champions-feed champions-feed--varonil"> of <a class="champion-card">)
+// and the earlier Essential Grid layout (data-alias="champions-man-es"), kept so stored pages still re-parse.
 export function parseWbcChampionsPage(html) {
   const page = String(html);
+  const feed = page.indexOf('champions-feed--varonil');
+  if (feed >= 0) {
+    const close = page.indexOf('</section>', feed);
+    const grid = page.slice(feed, close > feed ? close : undefined);
+    const cards = [];
+    for (const a of grid.matchAll(/<a\b[^>]*href="(https:\/\/wbcboxing\.com\/[^"]+)"[^>]*class="champion-card"[^>]*>([\s\S]*?)<\/a>/g)) {
+      const name = decode(a[2].match(/class="champion-card__nombre"[^>]*>([\s\S]*?)<\/span>/)?.[1]?.replace(/<[^>]+>/g, ''));
+      const division = decode(a[2].match(/class="champion-card__division"[^>]*>([\s\S]*?)<\/span>/)?.[1]?.replace(/<[^>]+>/g, ''));
+      if (!division) continue;
+      cards.push({ division: { ...divisionOf('wbc', division), native_label: division }, source_name: VACANT_WORDS.test(name) ? null : name || null, vacant: VACANT_WORDS.test(name),
+        designation: designationOf('wbc', 'CAMPEONES DEL MUNDO'), division_page: a[1] });
+    }
+    return { body: 'wbc', document: 'champions', cards };
+  }
   const start = page.indexOf('data-alias="champions-man-es"');
   const end = start >= 0 ? page.indexOf('</article>', page.indexOf('<ul', start)) : -1;
   const grid = start >= 0 ? page.slice(start, end > start ? end : undefined) : '';

@@ -14,7 +14,7 @@ Checked 2026-09-13. Read-only: public pages, robots.txt, and one site-internal J
 | TBRB | `/mens-rankings`, `/womens-rankings`, `/p4p` | Server HTML tables | 17 men, 14 women x top 10 + champion | "Latest Update" 7 Sep 2026 (men), 9 Sep 2026 (women) | Archive back to 13 Dec 2021 at least; successions pages | allow all except /wp-admin/ | medium | **approved_reference** |
 
 ## Title labels, exactly as each source shows them
-- **WBC** (from search snippets only, site blocked): Champion, Interim Champion, Champion in Recess, Franchise Champion, Champion Emeritus, Silver. "Diamond" and "Eternal" were **not** seen.
+- **WBC** (2026-09-14 research, from search snippets only because the site blocked the research tool; superseded by the ratings PDF labels in TITLES_RANKINGS_INGESTION.md): Champion, Interim Champion, Champion in Recess, Franchise Champion, Champion Emeritus, Silver. "Diamond" and "Eternal" were **not** seen.
 - **WBA** ranking page: WBA SUPER CHAMPION, WBA WORLD CHAMPION, WBA INTERIM CHAMPION, CHAMPION IN RECESS, VACANT. Champions page: WBA Super World, WBA World, Interim WBA, WBA Gold, Champion in recess. Regional suffixes: GOLD, INT, C/A, NABA, LAC, PANAF, WBAO, CON, I/C.
 - **IBF**: Champion, Interim Champion, TITLE VACANT, NOT RATED. The champion record has Title won / Mandatory / Defended dates. No super or regular tiers.
 - **WBO**: the PDF uses CHAMPIONS, "(Interim)" and VACANT. Champion pages use Champion, Interim Champion, Interim Super Champion, Undisputed Super Champion and Vacant (the Super variants need re-checking).
