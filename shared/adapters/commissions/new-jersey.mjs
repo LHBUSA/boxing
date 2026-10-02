@@ -54,6 +54,15 @@ export function isOfficialNjUrl(url) {
   } catch { return false; }
 }
 
+// the schedule page links some documents over http:// on the same official hosts; both hosts serve https, and documents
+// are stored only with https URLs (boxing_source_documents.url check), so the published link is fetched over https.
+// Only the scheme changes: same host, same path; nothing is guessed.
+export function officialHttps(url) {
+  const u = new URL(url, NEW_JERSEY.scheduleUrl);
+  if (u.protocol === 'http:' && OFFICIAL_HOSTS.has(u.hostname)) u.protocol = 'https:';
+  return u.toString();
+}
+
 const decode = (s) => String(s).replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&#8217;|&rsquo;/g, "'").replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
 
 export function parseNjSchedule(html, { capturedAt = new Date().toISOString() } = {}) {
@@ -79,7 +88,7 @@ export function parseNjSchedule(html, { capturedAt = new Date().toISOString() } 
     const detail = { date, type: typeRaw, promoter: promoter ?? null };
     if (sport !== SPORT.BOXING || !professional) { rejected.push({ reason: `not_professional_boxing:${sport}`, detail }); continue; }
     const sourceEventId = `${date}|${slug(venueName) || 'unknown'}|${slug(city) || 'unknown'}`;
-    const officialLink = link && isOfficialNjUrl(link) ? new URL(link, NEW_JERSEY.scheduleUrl).toString() : null;
+    const officialLink = link && isOfficialNjUrl(link) ? officialHttps(link) : null;
     if (link && !officialLink) rejected.push({ reason: 'third_party_link_ignored', detail: { ...detail, host: (() => { try { return new URL(link).hostname; } catch { return null; } })() } });
     events.push({
       source_key: NEW_JERSEY.sourceKey, jurisdiction: NEW_JERSEY.jurisdiction.code, source_event_id: sourceEventId, event_date: date, start_at: null,

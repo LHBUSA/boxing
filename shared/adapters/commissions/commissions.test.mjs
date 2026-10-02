@@ -213,3 +213,10 @@ test('printed division labels: the number is the contract; a contradictory label
   assert.deepEqual(divisionFacts('Heavyweight - (201+ lbs.)'), { weight_class_key: 'heavyweight' });
   assert.deepEqual(divisionFacts('Catchweight'), {});
 });
+
+test('New Jersey: an official link published over http is fetched over https on the same host and path; other hosts unchanged', async () => {
+  const { officialHttps } = await import('./new-jersey.mjs');
+  assert.equal(officialHttps('http://www.nj.gov/oag/sacb/results/2025-03-01.pdf'), 'https://www.nj.gov/oag/sacb/results/2025-03-01.pdf');
+  assert.equal(officialHttps('/about/x.pdf'), 'https://www.njoag.gov/about/x.pdf');
+  assert.equal(officialHttps('http://example.com/a.pdf'), 'http://example.com/a.pdf');
+});

@@ -13,6 +13,10 @@ export class StoreError extends Error {
   }
 }
 
+// Postgres text/jsonb cannot hold U+0000 ("unsupported Unicode escape sequence"); PDF text layers sometimes carry it
+// (Pennsylvania 2025 sheets). It is never meaningful text, so it is dropped from every string sent.
+export const withoutNul = (_k, v) => (typeof v === 'string' && v.includes('\u0000') ? v.replaceAll('\u0000', '') : v);
+
 export function postgrestStore({ url, serviceKey, fetchImpl = fetch }) {
   if (!url || !serviceKey) throw new StoreError('store_not_configured: SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY missing');
   const base = url.replace(/\/+$/, '');
@@ -26,7 +30,7 @@ export function postgrestStore({ url, serviceKey, fetchImpl = fetch }) {
     const res = await fetchImpl(`${base}/rest/v1/${path}`, {
       method,
       headers: prefer ? { ...headers, Prefer: prefer } : headers,
-      body: body === undefined ? undefined : JSON.stringify(body),
+      body: body === undefined ? undefined : JSON.stringify(body, withoutNul),
     });
     const text = await res.text();
     let json = null;
