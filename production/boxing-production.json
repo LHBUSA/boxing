@@ -25,8 +25,17 @@
     ],
     "proof": "no routes (workers_dev=false), no service binding in any of 1,662 wrangler configs under D:/Workers, no queues, crons served only the deleted database, production rollbacks are *-production versions",
     "kept": {
-      "boxing-gateway-staging": "the live build surface boxing.propbetedge.ai (build 944a03a, DEPLOY_HOLD) still has BOXING_GATEWAY_URL pointed at it (Vercel env, pulled 2026-09-13); remove only after the Vercel env is repointed to boxing-gateway-production and redeployed"
+      "boxing-gateway-staging": "2026-10-03: production Vercel cut over to boxing-gateway-production (dpl_EeF3Mqjcv9MRZm8X6V1MMSVigYTh, same build 944a03a; rollback dpl_3LWz3Ed1WLZoiVPV3jYMnJ98mZDo). The PREVIEW env pair (BOXING_GATEWAY_URL/TOKEN) still points at the staging gateway, so it is not retired yet; retire after Preview is repointed (dashboard: all Preview branches) or the Preview pair is removed."
     },
     "stray_definition": "D:/Workers/_social/boxing is an old second checkout whose wrangler files still define the *-staging Workers; never deploy from it"
+  },
+  "frontend_cutover": {
+    "date": "2026-10-03",
+    "domain": "boxing.propbetedge.ai",
+    "old_gateway": "boxing-gateway-staging (deleted DB wpaxofilvbsjyrxrwjhg)",
+    "new_gateway": "boxing-gateway-production -> lobcdprmoiosbjanheeo",
+    "deployment": "dpl_EeF3Mqjcv9MRZm8X6V1MMSVigYTh (redeploy of the live build 944a03a, env change only; DEPLOY_HOLD unchanged)",
+    "rollback": "dpl_3LWz3Ed1WLZoiVPV3jYMnJ98mZDo",
+    "proof": "live build header 944a03a; 28 browser checks (14 routes x 390/1440): 0 unavailable, 0 console errors, 0 failed, 0 browser requests to any gateway/Supabase host; no gateway host or database ref in served HTML"
   }
 }
