@@ -16,7 +16,7 @@ const section = (title, obj, skip = []) => {
   md.push('');
 };
 
-md.push(`# Boxing coverage baseline`, '', `Generated ${c.generated_at} from Boxing STAGING (\`wpaxofilvbsjyrxrwjhg\`), read only, by \`scripts/coverage-audit/coverage-baseline.sql\`.`,
+md.push(`# Boxing coverage baseline`, '', `Generated ${c.generated_at} from the Boxing database (\`lobcdprmoiosbjanheeo\`), read only, by \`scripts/coverage-audit/coverage-baseline.sql\`.`,
   'Every value is a stored-row count. "Canonical" excludes merged rows. Nothing is estimated.', '');
 section('Fighters', c.fighters);
 section('Bouts', c.bouts);

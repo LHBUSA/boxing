@@ -1,8 +1,8 @@
 // boxing-gateway — read-only internal API over Boxing Core.
-// Top-level environment: NOT DEPLOYED. [env.staging] -> boxing-gateway-staging,
+// Top-level environment: NOT DEPLOYED. [env.production] -> boxing-gateway-production,
 // read by the Boxing frontend's server (never the browser) with a bearer token.
 // No writes, no collection, no cron. The store is built only for a verified
-// boxing Supabase target (shared/store/target-guard.mjs allow-list: staging).
+// boxing Supabase target (shared/store/target-guard.mjs allow-list: the one Boxing database).
 // Routes and guarantees: workers/boxing-gateway/src/routes.mjs and
 // contracts/boxing-gateway.v1.json.
 
