@@ -1,0 +1,22 @@
+{
+  "merges_total": 4,
+  "batch_03_links": 249,
+  "batch_03_fighters": 137,
+  "body_entries_title": 142,
+  "body_entries_top15": 1021,
+  "body_entries_total": 1163,
+  "body_entries_linked": 347,
+  "subjects_no_candidate": 215,
+  "public_dob_from_wikidata": 0,
+  "subjects_review_required": 148,
+  "all_fighters_identity_only": 1445,
+  "subjects_possible_existing": 145,
+  "all_fighters_record_verified": 1518,
+  "linked_fighters_identity_only": 177,
+  "qids_on_more_than_one_fighter": 0,
+  "linked_fighters_record_verified": 7,
+  "ambiguous_body_id_entries_unlinked": 16,
+  "ambiguous_candidate_clusters_total": 183,
+  "distinct_canonical_fighters_linked": 184,
+  "seeded_first_last_duplicates_of_existing": 0
+}
