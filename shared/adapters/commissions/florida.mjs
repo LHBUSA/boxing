@@ -23,7 +23,9 @@ export const FLORIDA = Object.freeze({
   key: 'florida',
   sourceKey: 'florida_athletic_commission',
   // 1.0.1: repeat pairings get distinct bout ids; 1.0.2: re-apply attaches ids to orphan legacy bouts
-  version: 'florida-athletic-commission@1.1.0',
+  // 1.2.0 (2026-10-03): wrapped corner cells tied to their own label row (no fused names across bouts). Older parses are
+  // NOT declared superseded: one stored document was affected and is repaired by a reviewed, targeted reprocess.
+  version: 'florida-athletic-commission@1.2.0',
   jurisdiction: { code: 'US-FL', name: 'Florida' },
   commission: { slug: 'fl-athletic-commission', name: 'Florida Athletic Commission', jurisdiction: 'Florida', country_code: 'US' },
   base: 'https://www2.myfloridalicense.com',
@@ -161,6 +163,10 @@ export function parseFloridaDecision(decisionRaw, roundRaw) {
   return null;
 }
 
+// corner columns whose cells may wrap; lines of one wrapped cell are ~10pt apart, rows are ~26pt apart
+const CORNER_COLS = ['name', 'hometown', 'weight', 'result', 'note', 'suspension'];
+const WRAP_GAP = 12;
+
 export function parseFloridaResults(ref, pages, { capturedAt = new Date().toISOString(), upcomingEvents = [], sourceRevision = null } = {}) {
   const base = { doc_key: ref.doc_key, kind: 'results', events: [], bouts: [], rejected: [] };
   const header = pages[0] ? headerOf(pages[0]) : {};
@@ -188,6 +194,26 @@ export function parseFloridaResults(ref, pages, { capturedAt = new Date().toISOS
     const body = page.items.filter((i) => i.y < b.headerY - 8).map((i) => ({ ...i, col: colOf(b, i.x) })).filter((i) => i.col && i.col !== 'private');
     minimized.pages.push({ page: page.page, items: body.map(({ col, ...i }) => ({ ...i, s: scrubText(i.s) })).filter((i) => i.s) });
     const anchors = body.filter((i) => i.col === 'bout' && /^\d{1,3}$/.test(i.s)).sort((x, y) => y.y - x.y);
+    // A per-corner cell (name, hometown, weight, result, note, suspension) can wrap over several lines that sit ~10pt
+    // apart; the cell's own Blue/Red label row lies within the cell's span. Lines are grouped into cells per column and
+    // each cell is tied to the label row it spans, so a wrapped line above a bout's band top is no longer captured by the
+    // bout above (2026-10-03: Florida 2024-12-11 Probox fused 'Luis Reynaldo Nunez (...)' with the next bout's
+    // 'Eduardo Ramirez (Eduardo Antonio Solorza' because that name's first line sat 4pt above its band).
+    const labels = body.filter((i) => i.col === 'corner' && /^(blue|red)$/i.test(i.s));
+    const cellLabel = new Map();
+    for (const col of CORNER_COLS) {
+      const lines = body.filter((i) => i.col === col).sort((x, y) => y.y - x.y);
+      const cells = [];
+      for (const line of lines) {
+        const last = cells.at(-1);
+        if (last && last.at(-1).y - line.y <= WRAP_GAP) last.push(line); else cells.push([line]);
+      }
+      for (const cell of cells) {
+        const hi = cell[0].y + 2; const lo = cell.at(-1).y - 2;
+        const inSpan = labels.filter((l) => l.y <= hi && l.y >= lo);
+        if (inSpan.length === 1) for (const line of cell) cellLabel.set(line, inSpan[0]);
+      }
+    }
     anchors.forEach((anchor, k) => {
       const top = anchor.y + 10;
       const bottom = anchors[k + 1] ? anchors[k + 1].y + 10 : -Infinity;
@@ -197,8 +223,11 @@ export function parseFloridaResults(ref, pages, { capturedAt = new Date().toISOS
       order += 1;
       if (!blue || !red) { base.rejected.push({ reason: 'layout_uncertain', detail: { page: page.page, bout: anchor.s } }); return; }
       const nearest = (i) => (Math.abs(i.y - blue.y) <= Math.abs(i.y - red.y) ? 'a' : 'b');
+      const label = { a: blue, b: red };
       const corner = (side, row) => {
-        const own = (col) => block.filter((i) => i.col === col && nearest(i) === side);
+        // a line tied to a label row belongs to that corner wherever its band is; an untied line keeps the band rule
+        const own = (col) => body.filter((i) => i.col === col && (cellLabel.has(i) ? cellLabel.get(i) === label[side] : block.includes(i) && nearest(i) === side))
+          .sort((x, y) => y.y - x.y);
         const weight = Number(own('weight').map((i) => i.s).find((s) => /^\d+(\.\d+)?$/.test(s)));
         const suspension = join(own('suspension')) || null;
         const days = suspension?.match(/(\d{1,3})\s*days?/i);

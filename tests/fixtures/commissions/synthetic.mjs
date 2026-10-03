@@ -83,7 +83,10 @@ export function floridaPages({ eventType = 'Boxing', date = '09/05/2026', promot
     items.push(it(String(b.n), 40, mid), it('Blue', 54, ay), it('Red', 55, by));
     b.sport.forEach((l, i) => items.push(it(l, 75, mid - i * 7)));
     for (const [row, c] of [[ay, b.a], [by, b.b]]) {
-      items.push(it(c.name, 95, row), it(c.home, 236, row), it(c.dob ?? '01/02/1990', 286, row), it(c.fed ?? 'FL-1000000', 331, row), it(String(c.weight), 396, row));
+      // a wrapped name stacks upward: earlier lines ~10pt above, the last line on the corner's label row
+      const names = Array.isArray(c.name) ? c.name : [c.name];
+      names.forEach((l, i) => items.push(it(l, 95, row + (names.length - 1 - i) * 10)));
+      items.push(it(c.home, 236, row), it(c.dob ?? '01/02/1990', 286, row), it(c.fed ?? 'FL-1000000', 331, row), it(String(c.weight), 396, row));
       if (c.result) items.push(it(c.result, 440, row));
       if (c.susp) items.push(it(c.susp, 732, row));
       // per-corner note column (left of Weight): the sheets print "Pro" over "Debut"; any other note is one line

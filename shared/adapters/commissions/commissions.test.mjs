@@ -232,3 +232,17 @@ test('Florida "Pro Debut": exactly that per-corner marker makes a 0-0-0-0 record
   const serialized = JSON.stringify(r);
   for (const s of ['01/02/1990', 'FL-1000000']) assert.ok(!serialized.includes(s), `${s} (DOB / Federal ID) never leaves the parser`);
 });
+
+test('Florida wrapped names stay with their own corner: a first line above the bout band never fuses into the bout above', () => {
+  // 2026-10-03 regression (Florida 2024-12-11 Probox): a long name wraps upward, its last line on the corner's label row;
+  // the first line of bout 2's blue name sat above bout 2's band and was joined onto bout 1's red corner
+  const bouts = FLORIDA_BOUTS.slice(0, 2).map((b, i) => (i === 0
+    ? { ...b, b: { ...b.b, name: ['Luis Reynaldo Nunez (Luis Reynaldo Nuñez', 'Mosquea)'] } }
+    : { ...b, a: { ...b.a, name: ['Eduardo Ramirez (Eduardo Antonio Solorza', 'Ramirez)'] } }));
+  const r = parseFloridaResults(flRef('09-05-2026-Synthetic_Sunshine-Results_without_med'), floridaPages({ bouts }), { capturedAt: '2026-09-13T00:00:00Z' });
+  assert.deepEqual(r.bouts.map((b) => [b.fighter_a.source_name, b.fighter_b.source_name]), [
+    ['Golf Synthetic Seven', 'Luis Reynaldo Nunez (Luis Reynaldo Nuñez Mosquea)'],
+    ['Eduardo Ramirez (Eduardo Antonio Solorza Ramirez)', 'Juliet Synthetic Ten'],
+  ]);
+  assert.deepEqual(r.bouts.map((b) => [b.fighter_a.weight_lb, b.fighter_b.weight_lb]), [[150.5, 151], [130, 129.5]], 'other corner columns unchanged');
+});
