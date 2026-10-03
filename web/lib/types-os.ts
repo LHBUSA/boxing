@@ -5,7 +5,7 @@ import type { BoutCompact, IsoDate } from "./types.ts";
 import type { OfficialMetric } from "./types-phase2.ts";
 
 export interface SourcedBio {
-  source: "Wikidata";
+  source: "Wikidata"; // source-brand:allow (server-only gateway type; never rendered)
   wikidata_qid: string;
   wikidata_url: string;
   wikipedia_url: string | null;

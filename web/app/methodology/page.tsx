@@ -41,7 +41,7 @@ export default async function MethodologyPage() {
       "'What could break the read' lists the limits of the evidence (thin verified history, scale or officials not yet recorded, unverified physicals, no matched market). It is not a prediction.",
     ]],
     ["Biography, history and Halls of Fame", "Sourced, never written from memory", [
-      "Age, height and nationality marked Wikidata come from the boxer's Wikidata item, used only after identity is proven: that item's Wikipedia boxing record lists a bout on our verified record. Dates of birth are never shown; age is derived.",
+      "Age, height and nationality marked identity-proven come from the boxer's Wikidata item (CC0), used only after identity is proven: that item's Wikipedia boxing record lists a bout on our verified record. Dates of birth are never shown; age is derived.",
       "Hall of Fame pages show recognized institutions' own induction records (year and the institution's category label) as structured on Wikidata (CC0) and spot-checked against the institution. PropBetEdge does not keep a Hall of Fame, and no biography text or Hall photography is reproduced.",
       "History is decade-first because decades are objective. Eras, title lineage and historic media are added only with a documented rule and a cleared source.",
     ]],

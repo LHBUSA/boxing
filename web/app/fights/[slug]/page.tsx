@@ -79,9 +79,9 @@ function rows(d: BoutDetail, ctx: BoutContext | null): CmpRow[] {
   ];
   const sa = ctx?.corners?.a?.sourced_bio;
   const sb = ctx?.corners?.b?.sourced_bio;
-  if (sa?.age_years || sb?.age_years) out.push({ label: "Age · Wikidata", a: sa?.age_years ? String(sa.age_years) : null, b: sb?.age_years ? String(sb.age_years) : null, an: sa?.age_years ?? null, bn: sb?.age_years ?? null });
-  if (!A.fighter.height_cm && !B.fighter.height_cm && (sa?.height_cm || sb?.height_cm)) out.push({ label: "Height · Wikidata", a: sa?.height_cm ? Math.round(sa.height_cm) + " cm" : null, b: sb?.height_cm ? Math.round(sb.height_cm) + " cm" : null, an: sa?.height_cm ?? null, bn: sb?.height_cm ?? null });
-  if (sa?.nationality?.length || sb?.nationality?.length) out.push({ label: "Nationality · Wikidata", a: sa?.nationality?.join(" / ") ?? null, b: sb?.nationality?.join(" / ") ?? null });
+  if (sa?.age_years || sb?.age_years) out.push({ label: "Age · identity-proven", a: sa?.age_years ? String(sa.age_years) : null, b: sb?.age_years ? String(sb.age_years) : null, an: sa?.age_years ?? null, bn: sb?.age_years ?? null });
+  if (!A.fighter.height_cm && !B.fighter.height_cm && (sa?.height_cm || sb?.height_cm)) out.push({ label: "Height · identity-proven", a: sa?.height_cm ? Math.round(sa.height_cm) + " cm" : null, b: sb?.height_cm ? Math.round(sb.height_cm) + " cm" : null, an: sa?.height_cm ?? null, bn: sb?.height_cm ?? null });
+  if (sa?.nationality?.length || sb?.nationality?.length) out.push({ label: "Nationality · identity-proven", a: sa?.nationality?.join(" / ") ?? null, b: sb?.nationality?.join(" / ") ?? null });
   if (A.fighter.stance || B.fighter.stance) out.push({ label: "Stance", a: A.fighter.stance, b: B.fighter.stance });
   if (A.fighter.height_cm || B.fighter.height_cm) out.push({ label: "Height", a: A.fighter.height_cm ? `${Math.round(A.fighter.height_cm)} cm` : null, b: B.fighter.height_cm ? `${Math.round(B.fighter.height_cm)} cm` : null, an: A.fighter.height_cm, bn: B.fighter.height_cm });
   if (A.fighter.reach_cm || B.fighter.reach_cm) out.push({ label: "Reach", a: A.fighter.reach_cm ? `${Math.round(A.fighter.reach_cm)} cm` : null, b: B.fighter.reach_cm ? `${Math.round(B.fighter.reach_cm)} cm` : null, an: A.fighter.reach_cm, bn: B.fighter.reach_cm });
@@ -163,7 +163,7 @@ export default async function FightPage({ params }: Props) {
         <section>
           <SecHead kicker="Differences, not advantages" title="Tale of the Tape" />
           <CompareBars rows={rows(d, ctx)} aName={aName} bName={bName} />
-          <p className="fine mt-2">Records count bouts on verified record only. Rows marked Wikidata come from the boxer&apos;s identity-proven Wikidata item; stance and reach appear only when verified.</p>
+          <p className="fine mt-2">Records count bouts on verified record only. Rows marked identity-proven come from a reference record matched to this boxer only after identity is proven; stance and reach appear only when verified.</p>
         </section>
       </div>
 

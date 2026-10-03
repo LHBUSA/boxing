@@ -174,7 +174,7 @@ export function readLimits(d: BoutDetail, ctx?: { officials?: { role: string }[]
   if (!complete && !(ctx?.officials?.length)) out.push({ title: "Officials not assigned on record", evidence: "Referee and judges appear once the commission assigns them." });
   const sourcedHeight = Boolean(ctx?.corners?.a?.sourced_bio?.height_cm || ctx?.corners?.b?.sourced_bio?.height_cm);
   const missing = UNKNOWN_PHYSICALS(d).filter((m) => !(sourcedHeight && m === "height"));
-  if (missing.length) out.push({ title: "Physicals not verified", evidence: `No verified ${missing.join(", ")} for either boxer${sourcedHeight ? "; height shown comes from Wikidata" : ""}.` });
+  if (missing.length) out.push({ title: "Physicals not verified", evidence: `No verified ${missing.join(", ")} for either boxer${sourcedHeight ? "; height shown is identity-proven" : ""}.` });
   if (!d.market) out.push({ title: "No matched market", evidence: "Prices attach only when a sportsbook event matches this verified bout." });
   if (d.result_history.length > 1) out.push({ title: "Result revised", evidence: `The official result has ${plural(d.result_history.length - 1, "revision")} on record.` });
   return out.slice(0, 5);

@@ -87,14 +87,14 @@ export default async function FighterPage({ params }: Props) {
           <dl className="facts mt-3">
             <div><dt>Division</dt><dd>{division ?? (weights.length ? `Weighed ${fmtLb(weights[0])} last out` : "Not on sheet")}</dd></div>
             <div><dt>Stance</dt><dd className={f.stance ? "" : "faint"}>{f.stance ? STANCE[f.stance] ?? f.stance : "Not verified"}</dd></div>
-            <div><dt>Height · reach</dt><dd className={f.height_cm || f.reach_cm || bio?.height_cm ? "" : "faint"}>{f.height_cm || f.reach_cm ? `${f.height_cm ? `${Math.round(f.height_cm)} cm` : "—"} · ${f.reach_cm ? `${Math.round(f.reach_cm)} cm` : "—"}` : bio?.height_cm ? `${Math.round(bio.height_cm)} cm (Wikidata) · reach not verified` : "Not verified"}</dd></div>
-            <div><dt>Age</dt><dd className={bio?.age_years ? "" : "faint"}>{bio?.age_years ? `${bio.age_years} (Wikidata)` : "Not verified"}</dd></div>
-            <div><dt>Nationality</dt><dd className={bio?.nationality?.length || f.nationality ? "" : "faint"}>{f.nationality ?? (bio?.nationality?.length ? `${bio.nationality.join(" / ")} (Wikidata)` : "Not verified")}</dd></div>
+            <div><dt>Height · reach</dt><dd className={f.height_cm || f.reach_cm || bio?.height_cm ? "" : "faint"}>{f.height_cm || f.reach_cm ? `${f.height_cm ? `${Math.round(f.height_cm)} cm` : "—"} · ${f.reach_cm ? `${Math.round(f.reach_cm)} cm` : "—"}` : bio?.height_cm ? `${Math.round(bio.height_cm)} cm (identity-proven) · reach not verified` : "Not verified"}</dd></div>
+            <div><dt>Age</dt><dd className={bio?.age_years ? "" : "faint"}>{bio?.age_years ? `${bio.age_years} (identity-proven)` : "Not verified"}</dd></div>
+            <div><dt>Nationality</dt><dd className={bio?.nationality?.length || f.nationality ? "" : "faint"}>{f.nationality ?? (bio?.nationality?.length ? `${bio.nationality.join(" / ")} (identity-proven)` : "Not verified")}</dd></div>
             <div><dt>Last verified bout</dt><dd>{latest ? <Link className="gold" href={boutPath({ public_id: latest.public_id })}>{fmtDate(latest.date)}</Link> : "—"}</dd></div>
             <div><dt>First verified bout</dt><dd>{r.first_date ? fmtDate(r.first_date) : "—"}</dd></div>
             <div><dt>Weigh-in range</dt><dd>{weights.length ? `${fmtLb(Math.min(...weights))} – ${fmtLb(Math.max(...weights))}` : "—"}</dd></div>
           </dl>
-          {bio ? <p className="fine mt-2">Identity matched to <a className="link-gold" href={bio.wikidata_url} target="_blank" rel="noopener noreferrer">Wikidata {bio.wikidata_qid}</a>{bio.wikipedia_url ? <> · <a className="link-gold" href={bio.wikipedia_url} target="_blank" rel="noopener noreferrer">Wikipedia</a></> : null}: its boxing record lists a bout on our verified record.</p> : null}
+          {bio ? <p className="fine mt-2">Identity proven: a reference boxing record for this person lists a bout on our verified record. DATA · PropSports</p> : null}
           <p className="fine mt-2">Titles and rankings appear once sanctioning-body records are cleared. Age appears only from an identity-proven source. Bouts outside covered commissions are not on this record.</p>
         </div>
       </section>

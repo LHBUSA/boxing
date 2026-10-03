@@ -89,7 +89,7 @@ export default async function HallOfFamePage({ searchParams }: { searchParams: P
           ))}
         </div>
       </section>
-      <p className="fine mt-3">Induction facts (person, year, category) come from the institutions&apos; public records as structured on Wikidata (CC0), spot-checked against the institution&apos;s site. No biography text or Hall photography is reproduced.</p>
+      <p className="fine mt-3">Induction facts (person, year, category) come from the institutions&apos; public records, spot-checked against the institution&apos;s site. No biography text or Hall photography is reproduced.</p>
     </div>
   );
 }

@@ -19,7 +19,8 @@
     "check:secrets": "node scripts/check-secrets.mjs",
     "db:apply-local": "node scripts/db/apply-local.mjs",
     "verify": "npm run check:secrets && npm test && npm --prefix web test && npm --prefix web run typecheck && npm --prefix web run build",
-    "verify:live": "npm --prefix web run verify:live"
+    "verify:live": "npm --prefix web run verify:live",
+    "guard:source-brand": "node scripts/guard-source-brand.mjs"
   },
   "devDependencies": {
     "pg": "^8.23.0"

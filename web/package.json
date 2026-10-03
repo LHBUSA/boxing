@@ -5,7 +5,7 @@
   "description": "PropBetEdge Boxing frontend. Reads only through boxing-gateway (server-side).",
   "scripts": {
     "dev": "next dev -p 3400",
-    "build": "node scripts/posture.mjs static && next build && node scripts/posture.mjs bundle",
+    "build": "node ../scripts/guard-source-brand.mjs && node scripts/posture.mjs static && next build && node scripts/posture.mjs bundle",
     "posture": "node scripts/posture.mjs",
     "start": "next start -p 3400",
     "typecheck": "tsc --noEmit",
