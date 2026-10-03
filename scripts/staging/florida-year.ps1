@@ -25,8 +25,8 @@ for ($pass = 1; -not $ReportOnly -and $pass -le $MaxPasses; $pass++) {
   }
   $runs += $m
   Write-Host "pass $pass : $($m | ConvertTo-Json -Compress)"
-  # a re-parse of identical content records no new revision, so 'documents_changed' never reaches 0 on its own: a year is
-  # finished when a pass fetched fewer documents than the per-run cap (80) or wrote no new result
+  # a year is finished when a pass fetched fewer documents than the per-run cap (80); migration 0055 makes each pass skip
+  # documents already parsed by the current parser, so a capped pass always moves on to the next documents
   if (-not $m['documents_fetched'] -or [int]$m['documents_fetched'] -lt 80) { break }
 }
 $report = Invoke-BoxingSql -Ref $ref -Sql @"
