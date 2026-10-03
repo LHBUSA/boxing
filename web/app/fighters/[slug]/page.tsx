@@ -11,6 +11,7 @@ import { fighterJsonLd } from "@/lib/seo";
 import { Crumbs, DnaBars, FormStrip, Note, RChip, SecHead, Unavailable } from "@/components/fight";
 import type { FighterBout } from "@/lib/types";
 import type { BodyClaim } from "@/lib/types-os";
+import { bioFacts } from "@/lib/fighter-facts";
 import { DnaModules } from "@/components/dna";
 
 export const revalidate = 300;
@@ -90,26 +91,17 @@ export default async function FighterPage({ params }: Props) {
   const hasRecord = r.bouts > 0;
   const { titles, ranks } = groupClaims(ctx?.body_claims ?? []);
   const claimDivision = titles[0]?.division ?? ranks[0]?.division ?? null;
-  const nationality = f.nationality ?? (bio?.nationality?.length ? `${bio.nationality.join(" / ")} (identity-proven)` : null);
-  const heightReach = f.height_cm || f.reach_cm ? `${f.height_cm ? `${Math.round(f.height_cm)} cm` : "—"} · ${f.reach_cm ? `${Math.round(f.reach_cm)} cm` : "—"}` : bio?.height_cm ? `${Math.round(bio.height_cm)} cm (identity-proven) · reach not verified` : null;
+  // bio facts appear only with a sourced value (lib/fighter-facts); the record-derived facts only with a record
+  const bioRows = bioFacts(f, bio, STANCE);
   const facts: [string, React.ReactNode][] = hasRecord
     ? [
         ["Division", division ?? (weights.length ? `Weighed ${fmtLb(weights[0])} last out` : claimDivision ?? "Not on sheet")],
-        ["Stance", f.stance ? STANCE[f.stance] ?? f.stance : "Not verified"],
-        ["Height · reach", heightReach ?? "Not verified"],
-        ["Age", bio?.age_years ? `${bio.age_years} (identity-proven)` : "Not verified"],
-        ["Nationality", nationality ?? "Not verified"],
+        ...bioRows,
         ["Last verified bout", latest ? <Link className="gold" href={boutPath({ public_id: latest.public_id })}>{fmtDate(latest.date)}</Link> : "—"],
         ["First verified bout", r.first_date ? fmtDate(r.first_date) : "—"],
         ["Weigh-in range", weights.length ? `${fmtLb(Math.min(...weights))} – ${fmtLb(Math.max(...weights))}` : "—"],
       ]
-    : ([
-        ["Division", claimDivision],
-        ["Stance", f.stance ? STANCE[f.stance] ?? f.stance : null],
-        ["Height · reach", heightReach],
-        ["Age", bio?.age_years ? `${bio.age_years} (identity-proven)` : null],
-        ["Nationality", nationality],
-      ] as [string, React.ReactNode][]).filter(([, v]) => v != null && v !== "");
+    : ([["Division", claimDivision], ...bioRows] as [string, React.ReactNode][]).filter(([, v]) => v != null && v !== "");
 
   return (
     <div className="wrap page">
