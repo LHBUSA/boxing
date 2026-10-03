@@ -36,7 +36,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 const WEB = fileURLToPath(new URL("..", import.meta.url));
 const PROJECT_ID = "prj_E9VN82i77FdGzL5fB8lWuTX0y7Jw";
 const TEAM_ID = "team_fNvGcQj9hijhsrIMDZbv0DJQ";
-const GATEWAY = "https://boxing-gateway-staging.sales-fd3.workers.dev";
+const GATEWAY = "https://boxing-gateway-production.sales-fd3.workers.dev";
 export const CUSTOM_DOMAIN = "boxing.propbetedge.ai";
 export const LIVE_BASE = `https://${CUSTOM_DOMAIN}`;
 
@@ -59,11 +59,12 @@ const modeName = (launch) => (launch ? "launch mode" : "build mode");
 const SECRET_PATTERNS = [
   [/BOXING_GATEWAY_TOKEN/, "BOXING_GATEWAY_TOKEN name"],
   [/BOXING_GATEWAY_URL/, "BOXING_GATEWAY_URL name"],
-  [/boxing-gateway-staging/, "gateway host"],
+  [/boxing-gateway-(?:staging|production)/, "gateway host"],
   [/service_role/i, "service_role"],
   [/SUPABASE_[A-Z_]*KEY/, "Supabase key variable"],
   [/[a-z0-9]{20}\.supabase\.co/, "Supabase project URL"],
-  [/wpaxofilvbsjyrxrwjhg/, "staging Supabase ref"],
+  [/wpaxofilvbsjyrxrwjhg/, "deleted staging Supabase ref"],
+  [/lobcdprmoiosbjanheeo/, "Boxing database ref"],
   [/sb_secret_[A-Za-z0-9_-]{10,}/, "Supabase secret key"],
   [/eyJhbGciOi[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}/, "JWT"],
   [/VERCEL_OIDC_TOKEN/, "Vercel OIDC token name"],
@@ -72,8 +73,9 @@ const SECRET_PATTERNS = [
 function secretValues() {
   const values = new Set();
   if (process.env.BOXING_GATEWAY_TOKEN) values.add(process.env.BOXING_GATEWAY_TOKEN.trim());
-  const file = "D:/Workers/secrets/boxing-gateway-staging-internal-token";
-  try { if (existsSync(file)) values.add(readFileSync(file, "utf8").trim()); } catch { /* not on this machine */ }
+  for (const file of ["D:/Workers/secrets/boxing-gateway-production-internal-token", "D:/Workers/secrets/boxing-gateway-staging-internal-token"]) {
+    try { if (existsSync(file)) values.add(readFileSync(file, "utf8").trim()); } catch { /* not on this machine */ }
+  }
   try {
     const env = readFileSync(join(WEB, ".env.local"), "utf8");
     for (const m of env.matchAll(/^(BOXING_GATEWAY_TOKEN|VERCEL_OIDC_TOKEN)=["']?([^"'\r\n]+)/gm)) values.add(m[2].trim());
