@@ -260,3 +260,9 @@ test('site market index is a whitelisted index: no prices, bookmakers or provide
   assert.doesNotMatch(JSON.stringify(body), /american|bookmaker|draftkings|provider_event/);
   assert.equal(body.data.matched[0].public_id, 'pbe_boxbout_x');
 });
+
+test('site payloads keep the sanctioning body own boxer id (source_fighter_id) and nothing else ending in _id', async () => {
+  const { stripInternalIds } = await import('./routes.mjs');
+  const out = stripInternalIds({ snapshot_id: 'x', entries: [{ fighter_id: 'u', public_id: 'pbe_boxer_1', metadata: { source_fighter_id: '4439', org_boxer_id: '4439', country: 'RUS' } }] });
+  assert.deepEqual(out, { entries: [{ public_id: 'pbe_boxer_1', metadata: { source_fighter_id: '4439', country: 'RUS' } }] });
+});

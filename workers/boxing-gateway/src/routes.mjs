@@ -94,12 +94,17 @@ export const SITE_FORBIDDEN_KEYS = Object.freeze(['dob', 'hometown', 'evidence',
   'federal_id', 'license_number', 'medical', 'suspensions', 'source_record', 'payload', 'external_id', 'provider_event_id', 'internal_bout_id', 'candidates']);
 
 // Title maps and ranking snapshots are shared with the internal routes, which
-// carry canonical uuids; site payloads keep only public ids.
+// carry canonical uuids; site payloads keep only public ids. One exception:
+// source_fighter_id is the sanctioning body's OWN public boxer id, printed in its
+// ranking (e.g. WBA wba-boxer-profile/?id=4439). It is source truth, not a
+// PropBetEdge key, and it is what lets two lists of the same body be compared
+// without comparing names.
+const PUBLIC_ID_KEYS = new Set(['public_id', 'source_fighter_id']);
 export function stripInternalIds(value) {
   if (Array.isArray(value)) return value.map(stripInternalIds);
   if (!value || typeof value !== 'object') return value;
   return Object.fromEntries(Object.entries(value)
-    .filter(([k]) => k === 'public_id' || !(k === 'id' || k.endsWith('_id')))
+    .filter(([k]) => PUBLIC_ID_KEYS.has(k) || !(k === 'id' || k.endsWith('_id')))
     .map(([k, v]) => [k, stripInternalIds(v)]));
 }
 

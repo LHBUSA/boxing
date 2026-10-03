@@ -422,3 +422,32 @@ test('WBC current: public ratings PDF rebuilt from positions, champions grid, co
   const idr = await refreshIdentityCandidates(store);
   assert.ok(idr.summary.wbc.review_rows > 0 && idr.summary.wbc.candidates > 0);
 });
+
+test('WBA movement chain: the body boxer id survives DB -> gateway -> web; movement only where an identity links two lists', async () => {
+  const { stripInternalIds } = await import('../../workers/boxing-gateway/src/routes.mjs');
+  const { movement } = await import('../../web/lib/movement.ts');
+  // a WBA division/month that has a previous list stored
+  const rows = await q(`select wc.class_key, to_char(r.effective_on, 'YYYY-MM-DD') d from public.boxing_ranking_snapshots r
+    join public.boxing_organizations o on o.id = r.organization_id join public.boxing_weight_classes wc on wc.id = r.weight_class_id
+    where o.slug = 'wba' order by r.effective_on desc`);
+  let picked = null;
+  for (const r of rows) {
+    const body = await store.siteBodyRankings('wba', r.class_key, 'male', r.d);
+    if (body.previous?.entries?.length && body.snapshot?.entries?.length) { picked = { ...r, body }; break; }
+  }
+  assert.ok(picked, 'a WBA list with a previous list exists in the fixture history');
+  const raw = picked.body.snapshot.entries.filter((e) => e.metadata?.source_fighter_id);
+  assert.ok(raw.length > 0, 'DB read carries metadata.source_fighter_id');
+  const site = stripInternalIds(picked.body);
+  const ids = site.snapshot.entries.map((e) => e.metadata?.source_fighter_id).filter(Boolean);
+  assert.deepEqual(ids, raw.map((e) => e.metadata.source_fighter_id), 'the gateway keeps the body boxer id');
+  assert.ok(site.snapshot.entries.every((e) => !('fighter_id' in e) && !('org_boxer_id' in (e.metadata ?? {}))), 'internal ids still stripped');
+  const prevIds = new Set(site.previous.entries.map((e) => e.metadata?.source_fighter_id).filter(Boolean));
+  const linked = site.snapshot.entries.filter((e) => prevIds.has(e.metadata?.source_fighter_id));
+  assert.ok(linked.length > 0, 'some boxers appear in both lists');
+  for (const e of linked) assert.notEqual(movement(e, site.previous.entries), null);
+  for (const e of site.snapshot.entries.filter((x) => !x.metadata?.source_fighter_id && !x.public_id)) assert.equal(movement(e, site.previous.entries), null, 'no identity, no movement');
+  // a body that prints no boxer id (IBF), with no resolved identity: no movement at all, never by name
+  const ibf = stripInternalIds(await store.siteBodyRankings('ibf', 'heavyweight', 'male', '2026-08-31'));
+  for (const e of (ibf.snapshot?.entries ?? []).filter((x) => !x.public_id)) assert.equal(movement(e, ibf.previous?.entries), null);
+});

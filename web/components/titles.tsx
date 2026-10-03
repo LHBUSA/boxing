@@ -5,6 +5,8 @@ import Link from "next/link";
 import type { BodyRankings, RankingEntry, TitleBeltStatus, TitleDocument, TitleLane, TitleLanes } from "@/lib/types";
 import { fmtDate } from "@/lib/format";
 import { fighterPath } from "@/lib/slug";
+import { movement, numberedEntries, type Move } from "@/lib/movement";
+export { movement, numberedEntries, type Move };
 
 export const DOC_LABEL: Record<string, string> = {
   wba_ranking: "WBA ranking",
@@ -75,9 +77,6 @@ export function BeltRows({ doc }: { doc: TitleDocument }) {
 // --- rankings beside the belts (Title Map V2) -------------------------------------------------------------------------
 
 const notRated = (e: RankingEntry) => Boolean(e.metadata?.not_rated || (e.is_vacant && !e.source_name && !e.metadata?.name_not_printed));
-export const numberedEntries = (entries: RankingEntry[] | undefined) =>
-  (entries ?? []).filter((e) => !e.metadata?.outside_numbered_list && e.rank_label !== "**");
-
 export function RankedName({ e }: { e: RankingEntry }) {
   if (e.metadata?.printed_blank) return <span className="dim">Position left blank by source</span>;
   if (notRated(e)) return <span className="dim">{e.metadata?.slot_text ?? "NOT RATED"}</span>;
@@ -88,20 +87,7 @@ export function RankedName({ e }: { e: RankingEntry }) {
   return <span className="lane__asprinted" title="As printed by the body; identity under review">{e.source_name}</span>;
 }
 
-// Movement between two consecutive lists of the SAME body, matched only on an identity that is not a name: the
-// PropBetEdge fighter, or the body's own boxer id printed in both lists (WBA). Printed names are never compared, so a
-// list without either shows no movement rather than a guessed one.
-export type Move = { kind: "up" | "down"; n: number } | { kind: "same" } | { kind: "new" } | null;
-export function movement(e: RankingEntry, previous: RankingEntry[] | undefined): Move {
-  if (!previous?.length) return null;
-  const key = (x: RankingEntry) => (x.public_id ? `p:${x.public_id}` : x.metadata?.source_fighter_id ? `s:${x.metadata.source_fighter_id}` : null);
-  const k = key(e);
-  if (!k) return null;
-  const was = numberedEntries(previous).find((p) => key(p) === k);
-  if (!was) return { kind: "new" };
-  const d = was.position - e.position;
-  return d > 0 ? { kind: "up", n: d } : d < 0 ? { kind: "down", n: -d } : { kind: "same" };
-}
+// movement rule (identity only, never names): lib/movement.ts
 export function MoveTag({ move }: { move: Move }) {
   if (!move) return null;
   if (move.kind === "new") return <span className="mv mv--new" title="Not in this body's previous list">NEW</span>;
