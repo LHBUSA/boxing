@@ -14,15 +14,48 @@
   },
   "passes": [
     {
-      "documents_unchanged": "0",
       "results_created": "0",
+      "documents_unchanged": "0",
+      "status": "partial",
       "documents_changed": "65",
+      "parse_failures": "0",
       "documents_listed": "98",
       "identity_unresolved": "352",
-      "documents_fetched": "80",
-      "status": "partial",
       "results_duplicate": "71",
-      "parse_failures": "0"
+      "documents_fetched": "80"
+    },
+    {
+      "results_created": "0",
+      "documents_unchanged": "65",
+      "status": "partial",
+      "documents_changed": "0",
+      "parse_failures": "0",
+      "documents_listed": "98",
+      "identity_unresolved": "0",
+      "results_duplicate": "0",
+      "documents_fetched": "80"
+    },
+    {
+      "results_created": "0",
+      "documents_unchanged": "65",
+      "status": "partial",
+      "documents_changed": "0",
+      "parse_failures": "0",
+      "documents_listed": "98",
+      "identity_unresolved": "0",
+      "results_duplicate": "0",
+      "documents_fetched": "80"
+    },
+    {
+      "results_created": "0",
+      "documents_unchanged": "65",
+      "status": "partial",
+      "documents_changed": "0",
+      "parse_failures": "0",
+      "documents_listed": "98",
+      "identity_unresolved": "0",
+      "results_duplicate": "0",
+      "documents_fetched": "80"
     }
   ]
 }

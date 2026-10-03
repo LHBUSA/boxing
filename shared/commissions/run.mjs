@@ -108,6 +108,17 @@ export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = 
   const noteEmptyIndex = (docKey) => { (metrics.empty_indexes ??= []).push(docKey); };
   const reject = (reasons) => { for (const r of reasons) metrics.rejected_reasons[r] = (metrics.rejected_reasons[r] ?? 0) + 1; };
 
+  // Backfill order: when a year lists more documents than the per-run cap, documents this parser version has not yet
+  // processed go first and already-current ones after, so a capped pass always reaches new documents (2026-10-03:
+  // Florida 2024 listed 98 and every pass spent its 80 fetches on the same first, already current, documents). Every
+  // document is still processed the same way, current ones included (an official revision is still noticed).
+  const backfillOrder = async (refs) => {
+    if (mode !== 'backfill' || refs.length <= cap) return refs;
+    const st = await store.documentState(adapter.sourceKey, refs.map((r) => r.doc_key));
+    const current = (r) => { const x = st[r.doc_key]; return x?.current_revision > 0 && x.status !== 'error' && x.parser_version === adapter.version; };
+    return [...refs.filter((r) => !current(r)), ...refs.filter(current)];
+  };
+
   // Records a listing/feed fetch as a document revision (changed only when content hash differs).
   const recordListing = async (docKey, url, kind, text, lastModified) => {
     // volatile generation stamps (iCal DTSTAMP, WordPress nonces) are not content changes
@@ -201,7 +212,7 @@ export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = 
         const refs = parseResultsIndex(idx.body, { year: y });
         if (!refs.length) noteEmptyIndex(`nv-results-index:${y}`);
         metrics.documents_listed += refs.length;
-        for (const ref of refs) {
+        for (const ref of await backfillOrder(refs)) {
           if (ref.sport_hint !== SPORT.BOXING) { metrics.documents_skipped += 1; reject([`listing_not_boxing:${ref.sport_hint}`]); continue; }
           await processDocument(ref, (r, pages, o) => parseNevadaResults(r, pages, { capturedAt: now, calendarEvents: calendar.events, ...o }));
         }
@@ -223,7 +234,7 @@ export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = 
         ? (years ?? [new Date(now).getUTCFullYear()]).includes(Number(r.event_date.slice(0, 4)))
         : Date.parse(`${r.event_date}T00:00:00Z`) >= nowMs - 60 * DAY));
       metrics.documents_listed += refs.length;
-      for (const ref of refs) {
+      for (const ref of await backfillOrder(refs)) {
         if (![SPORT.UNKNOWN, SPORT.BOXING].includes(ref.sport_hint)) { metrics.documents_skipped += 1; reject([`listing_not_boxing:${ref.sport_hint}`]); continue; }
         await processDocument(ref, (r, pages, o) => parseFloridaResults(r, pages, { capturedAt: now, upcomingEvents: upcoming.events, ...o }));
       }
@@ -237,7 +248,7 @@ export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = 
       metrics.events_observed += events.length;
       if (rev.changed || mode === 'backfill') merge(await applyCommissionParsed(store, NEW_JERSEY, { events, bouts: [] }, { now }));
       // official SACB result documents only (third-party links were rejected by the schedule parser)
-      for (const d of parsed.documents.filter((x) => events.some((e) => e.source_event_id === x.source_event_id))) {
+      for (const d of await backfillOrder(parsed.documents.filter((x) => events.some((e) => e.source_event_id === x.source_event_id)))) {
         metrics.documents_listed += 1;
         if (!isOfficialNjUrl(d.url)) { metrics.documents_skipped += 1; reject(['third_party_document_ignored']); continue; }
         await processDocument(d, (r, pages, o) => parseNjResults(r, pages, { capturedAt: now, scheduleEvents: events, ...o }));
@@ -251,7 +262,7 @@ export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = 
         ? (years ?? [new Date(now).getUTCFullYear()]).includes(Number(r.event_date.slice(0, 4)))
         : Date.parse(`${r.event_date}T00:00:00Z`) >= nowMs - 60 * DAY));
       metrics.documents_listed += refs.length;
-      for (const ref of refs) {
+      for (const ref of await backfillOrder(refs)) {
         // file-name codes name the sports on the sheet; a boxing code (or none) lets the document decide
         if (![SPORT.UNKNOWN, SPORT.BOXING].includes(ref.sport_hint)) { metrics.documents_skipped += 1; reject([`listing_not_boxing:${ref.sport_hint}`]); continue; }
         await processDocument(ref, (r, pages, o) => parseMissouriResults(r, pages, { capturedAt: now, ...o }));
@@ -265,7 +276,7 @@ export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = 
         ? (years ?? [new Date(now).getUTCFullYear()]).includes(Number(r.event_date.slice(0, 4)))
         : Date.parse(`${r.event_date}T00:00:00Z`) >= nowMs - 60 * DAY));
       metrics.documents_listed += refs.length;
-      for (const ref of refs) {
+      for (const ref of await backfillOrder(refs)) {
         if (![SPORT.UNKNOWN, SPORT.BOXING].includes(ref.sport_hint)) { metrics.documents_skipped += 1; reject([`listing_not_boxing:${ref.sport_hint}`]); continue; }
         await processDocument(ref, (r, pages, o) => parsePennsylvaniaResults(r, pages, { capturedAt: now, ...o }));
       }
@@ -295,7 +306,7 @@ export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = 
         : r.event_date ? Date.parse(`${r.event_date}T00:00:00Z`) >= nowMs - 60 * DAY : forwardYears.has(r.url_year)));
       metrics.index_dates_unreadable = refs.filter((r) => !r.event_date).length;
       metrics.documents_listed += refs.length;
-      for (const ref of refs) {
+      for (const ref of await backfillOrder(refs)) {
         // the index row names the event type and each link's sport; only boxing links are fetched, the sheet decides the rest
         if (ref.sport_hint !== SPORT.BOXING) { metrics.documents_skipped += 1; reject([`listing_not_boxing:${ref.sport_hint}`]); continue; }
         await processDocument(ref, (r, pages, o) => parseTennesseeResults(r, pages, { capturedAt: now, ...o }));
