@@ -62,7 +62,7 @@ const summarize = (parsed) => ({ classification: parsed.classification, events: 
 
 // extract: PDF bytes -> positioned pages (injectable for tests)
 export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = fetch, now = new Date().toISOString(), provenance = null,
-  mode = 'forward', years = null, maxDocuments = null, delayMs = null, extract = extractPositionedText, changeReason = null } = {}) {
+  mode = 'forward', years = null, maxDocuments = null, delayMs = null, extract = extractPositionedText, changeReason = null, onlyDocKeys = null } = {}) {
   const adapter = COMMISSION_ADAPTERS[adapterKey];
   if (!adapter) return { status: 'blocked', assertions: { adapter: `unknown adapter ${adapterKey}` } };
   if (env.COMMISSION_INGEST_ENABLED !== 'true') return { status: 'disabled', reason: 'COMMISSION_INGEST_ENABLED is not "true"' };
@@ -80,7 +80,7 @@ export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = 
   const cap = maxDocuments ?? Number(env.COMMISSION_MAX_DOCUMENTS ?? (mode === 'backfill' ? 80 : 12));
   const pause = delayMs ?? Number(env.COMMISSION_FETCH_DELAY_MS ?? 1500);
   const nowMs = Date.parse(now);
-  const cfg = { adapter: adapter.version, mode, cap, pause, years };
+  const cfg = { adapter: adapter.version, mode, cap, pause, years, ...(onlyDocKeys ? { only_doc_keys: onlyDocKeys } : {}) };
   const prov = provenance ? { ...provenance, source_version: adapter.version, config_hash: await configHash(cfg) } : null;
   const runId = await store.startRun({ worker: 'boxing-commissions', sourceKey: adapter.sourceKey, adapterVersion: adapter.version, provenance: prov });
   const metrics = { adapter: adapterKey, mode, documents_listed: 0, documents_fetched: 0, documents_changed: 0, documents_unchanged: 0, documents_rejected: 0,
@@ -129,6 +129,8 @@ export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = 
 
   // Fetches, versions and applies one result document.
   const processDocument = async (ref, parse) => {
+    // a targeted reprocess (a reviewed repair) touches only the named documents; every other listed document is left as is
+    if (onlyDocKeys && !onlyDocKeys.includes(ref.doc_key)) { metrics.documents_skipped += 1; return; }
     const state = (await store.documentState(adapter.sourceKey, [ref.doc_key]))[ref.doc_key];
     const recent = ref.event_date && Math.abs(nowMs - Date.parse(`${ref.event_date}T00:00:00Z`)) <= 45 * DAY;
     const staleCheck = !state?.last_checked_at || nowMs - Date.parse(state.last_checked_at) >= 7 * DAY;

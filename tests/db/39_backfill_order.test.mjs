@@ -53,3 +53,13 @@ test('a capped backfill pass reaches the documents not yet processed, then re-ch
   assert.equal(await processed(), 3, 'every listed document is processed after two capped passes');
   assert.equal(second.metrics.documents_changed, 1, 'only the new document changed; the re-checked one was unchanged');
 });
+
+test('a targeted reprocess (onlyDocKeys) touches only the named document', async () => {
+  requested = [];
+  const only = `fl-results:${DATES[1]}-2026-Synthetic_Sunshine-Results_without_med`;
+  const r = await runCommissionIngest(store, ENV, { adapterKey: 'florida', fetchImpl: fakeFetch, now: '2026-10-02T12:00:00Z', extract: decodePages,
+    mode: 'backfill', years: [2026], onlyDocKeys: [only] });
+  assert.equal(r.metrics.documents_fetched, 1);
+  assert.deepEqual(pdfOrder(), [DATES[1]], 'only the named document is fetched');
+  assert.equal(r.metrics.documents_skipped, 2);
+});

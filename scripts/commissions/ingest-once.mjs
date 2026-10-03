@@ -3,7 +3,7 @@
 // SAME code path as the boxing-commissions Worker (guardedPostgrestStore +
 // runCommissionIngest). Run via scripts/staging/commissions-ingest.ps1.
 //
-//   node scripts/commissions/ingest-once.mjs <nevada|florida|new_jersey|missouri|pennsylvania|tennessee> [--backfill --year=2026] [--replay-odds] [--coverage-only]
+//   node scripts/commissions/ingest-once.mjs <nevada|florida|new_jersey|missouri|pennsylvania|tennessee> [--backfill --year=2026] [--doc=<doc_key>] [--replay-odds] [--coverage-only]
 //
 // Prints metrics only; never prints credentials.
 
@@ -17,6 +17,8 @@ const args = process.argv.slice(2);
 const adapterKey = args.find((a) => !a.startsWith('--'));
 const backfill = args.includes('--backfill');
 const year = Number((args.find((a) => a.startsWith('--year=')) ?? '').split('=')[1]) || null;
+// --doc=<doc_key>: a reviewed targeted reprocess of one listed document (repeatable)
+const docs = args.filter((a) => a.startsWith('--doc=')).map((a) => a.slice(6));
 const env = { COMMISSION_INGEST_ENABLED: 'true', COMMISSION_FETCH_DELAY_MS: '2000', COMMISSION_MAX_DOCUMENTS: '80', ...process.env };
 
 const store = guardedPostgrestStore(env);
@@ -26,7 +28,7 @@ try { sha = execSync('git rev-parse HEAD', { cwd: new URL('../..', import.meta.u
 const provenance = (trigger) => manualProvenance({ workerName: 'scripts/staging/commissions-ingest.ps1', workerVersion: sha ? `git:${sha}` : null, runtime: `node ${process.version}`, trigger });
 
 if (adapterKey && !args.includes('--coverage-only')) {
-  const r = await runCommissionIngest(store, env, { adapterKey, mode: backfill ? 'backfill' : 'forward', years: year ? [year] : null, provenance: provenance(backfill ? 'backfill' : 'manual') });
+  const r = await runCommissionIngest(store, env, { adapterKey, mode: backfill ? 'backfill' : 'forward', years: year ? [year] : null, ...(docs.length ? { onlyDocKeys: docs } : {}), provenance: provenance(backfill ? 'backfill' : 'manual') });
   const { review_items: reviewItems, ...apply } = r.metrics?.apply ?? {};
   console.log(JSON.stringify({ adapter: adapterKey, status: r.status, runId: r.runId ?? null, assertions: r.assertions ?? null,
     metrics: r.metrics ? { ...r.metrics, apply: { ...apply, review_items: reviewItems?.length ?? 0 } } : null }, null, 1));
