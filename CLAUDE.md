@@ -38,6 +38,6 @@ infrastructure. Using compute or API usage the owner already pays for is fine.
 
 - `main` only: no feature branches, PRs, forks or GitHub Actions.
 - Loop: `git pull --ff-only`, test, commit, push.
-- `web/DEPLOY_HOLD` keeps Vercel from building until the owner lifts it.
+- `web/DEPLOY_HOLD` (when present) keeps Vercel from building; the owner lifted it on 2026-10-03, so a push to main deploys production. Re-create the file to hold again.
 - Sources: no paid data sources (BoxRec and CompuBox are blocked). Never bypass CAPTCHA, auth or access controls. Never guess unlinked URLs.
 - Identity: never resolve fighters by name alone. Ambiguous identities stay held. An agent never signs as the human reviewer.
