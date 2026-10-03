@@ -29,19 +29,25 @@ fl as (
   from public.boxing_fighters f where f.merged_into_id is null
 ),
 dup_pairs as (
-  select a.display_name seeded, b.display_name existing, 'name' route
+  select a.id seeded_id, b.id existing_id, a.display_name seeded, b.display_name existing, 'name' route
   from fl a join fl b on b.t[1] = a.t[1] and b.id <> a.id and not b.seeded
   where a.seeded and cardinality(a.t) >= 2 and cardinality(b.t) >= 2
     and (a.t[cardinality(a.t)] = b.t[cardinality(b.t)]
          or public.boxing_name_contained(a.display_name, b.display_name) or public.boxing_name_contained(b.display_name, a.display_name))
   union
-  select a.display_name, b.display_name, 'wikidata_alias'
+  select a.id, b.id, a.display_name, b.display_name, 'wikidata_alias'
   from fl a
   join public.boxing_fighter_identities fi on fi.fighter_id in (select id from public.boxing_fighters where id = a.id or merged_into_id = a.id)
     and fi.namespace = 'wikidata.item' and fi.verification_state = 'verified'
   join public.boxing_fighter_wikidata_aliases al on al.qid = fi.external_id
   join fl b on b.t = public.boxing_name_tokens(al.alias) and b.id <> a.id and not b.seeded
   where a.seeded and cardinality(b.t) >= 2
+),
+dup_classified as (
+  select seeded_id, existing_id, seeded, existing, jsonb_agg(distinct route) routes,
+    (select h.missing_evidence from public.boxing_duplicate_hold_decisions h
+      where h.seeded_fighter_id = d.seeded_id and h.survivor_fighter_id = d.existing_id and h.status = 'HOLD' limit 1) held_for
+  from dup_pairs d group by seeded_id, existing_id, seeded, existing
 )
 select jsonb_build_object(
   'body_entries_total', (select count(*) from entries),
@@ -60,8 +66,9 @@ select jsonb_build_object(
   'subjects_no_candidate', (select count(*) from latest_seed where decision = 'NO_CANDIDATE'),
   'qids_on_more_than_one_fighter', (select count(*) from (select external_id from public.boxing_fighter_identities where namespace = 'wikidata.item' and verification_state <> 'rejected'
       group by 1 having count(distinct public.boxing_canonical_fighter_id(fighter_id)) > 1) x),
-  'seeded_duplicates_of_existing', (select count(distinct (seeded, existing)) from dup_pairs),
-  'seeded_duplicate_pairs', (select coalesce(jsonb_agg(jsonb_build_object('seeded', seeded, 'existing', existing, 'route', route)), '[]'::jsonb) from dup_pairs),
+  'unexpected_duplicate_pairs', (select count(*) from dup_classified where held_for is null),
+  'reviewed_held_duplicate_pairs', (select count(*) from dup_classified where held_for is not null),
+  'duplicate_pairs', (select coalesce(jsonb_agg(jsonb_build_object('seeded', seeded, 'existing', existing, 'routes', routes, 'held_for', held_for)), '[]'::jsonb) from dup_classified),
   'public_dob_from_wikidata', (select count(*) from public.boxing_fighters f join public.boxing_identity_seed_decisions s on s.fighter_id = f.id where f.dob is not null),
   'batch_03_links', (select count(*) from public.boxing_org_identity_candidate_decisions where evidence ->> 'batch' = 'p0-top15-03'),
   'batch_03_fighters', (select count(distinct fighter_id) from public.boxing_org_identity_candidate_decisions where evidence ->> 'batch' = 'p0-top15-03'),

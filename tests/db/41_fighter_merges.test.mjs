@@ -107,3 +107,20 @@ test('0058 merge: containment route passes Munguia-style pairs; alias route need
   await expectPgError(() => merge({ merged_fighter_id: x.id, survivor_fighter_id: other.id }), { match: /first_last/ });
   await expectPgError(() => q(`delete from public.boxing_fighter_wikidata_aliases`), {});
 });
+
+test('0059 duplicate HOLD ledger: human reviewer, HOLD only, evidence + missing evidence required, append-only', async () => {
+  const a = await fighter(db.client, 'Rafael Espinoza');
+  const b = await fighter(db.client, 'Rafael Espinoza Zepeda');
+  const hold = (over = {}) => q(`insert into public.boxing_duplicate_hold_decisions (seeded_fighter_id, survivor_fighter_id, seeded_display_name, survivor_display_name, reviewer, reason, equivalence_evidence, missing_evidence, status)
+    values ($1, $2, 'Rafael Espinoza', 'Rafael Espinoza Zepeda', $3, $4, $5, $6, $7) returning id`,
+    [a.id, b.id, over.reviewer ?? 'Justin Erickson', over.reason ?? 'Held by owner: equivalent by name and alias, merge guard lacks a commission bout.',
+     over.evidence ?? { routes: ['containment'] }, over.missing ?? 'commission/bout anchor', over.status ?? 'HOLD']);
+  await expectPgError(() => hold({ reviewer: 'claude' }), {});
+  await expectPgError(() => hold({ status: 'MERGED' }), {});
+  await expectPgError(() => hold({ evidence: {} }), {});
+  await expectPgError(() => hold({ missing: '' }), {});
+  await hold();
+  await expectPgError(() => hold(), { code: '23505' });
+  await expectPgError(() => q(`delete from public.boxing_duplicate_hold_decisions`), {});
+  await expectPgError(() => q(`update public.boxing_duplicate_hold_decisions set missing_evidence = 'none'`), {});
+});
