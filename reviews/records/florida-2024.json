@@ -1,0 +1,28 @@
+{
+  "report": {
+    "year": 2024,
+    "events": 41,
+    "latest_event": "2024-12-13",
+    "earliest_event": "2024-04-10",
+    "debut_conflicts": 0,
+    "fighters_linked": 149,
+    "documents_parsed": 61,
+    "professional_bouts": 78,
+    "sensitive_retained": 0,
+    "new_canonical_bouts_this_run": 0,
+    "pro_debut_markers_stored_as_claims": 4
+  },
+  "passes": [
+    {
+      "documents_unchanged": "0",
+      "results_created": "0",
+      "documents_changed": "65",
+      "documents_listed": "98",
+      "identity_unresolved": "352",
+      "documents_fetched": "80",
+      "status": "partial",
+      "results_duplicate": "71",
+      "parse_failures": "0"
+    }
+  ]
+}

@@ -111,3 +111,15 @@ test('Florida "Pro Debut" (migration 0054): 0-0-0-0 with its own basis; Florida 
   assert.equal(Number((await q(`select count(*) n from public.boxing_bouts`))[0].n), boutsBefore, 'the earlier verified bout is never removed');
   assert.ok((await q(`select 1 from public.boxing_fighter_record_claims where source_external_id = 'fl:2026-10-01:2:a'`)).length, 'and the debut claim is kept beside it');
 });
+
+test('migration 0055: a re-parse of identical bytes records its parser version, so the next pass skips the document', async () => {
+  const fetch = (over) => q(`select public.boxing_record_document_fetch($1) r`, [{ source_key: 'mo_office_of_athletics', doc_key: 'mo-results:reparse-probe', url: MO_DOC,
+    kind: 'results', sha256: 'a'.repeat(64), status: 'parsed', ...over }]).then((x) => x[0].r);
+  const state = async () => (await q(`select public.boxing_source_document_state('mo_office_of_athletics', array['mo-results:reparse-probe']) s`))[0].s['mo-results:reparse-probe'];
+  assert.equal((await fetch({ parser_version: 'mo-athletics@1.0.0' })).changed, true);
+  assert.equal((await state()).parser_version, 'mo-athletics@1.0.0');
+  assert.equal((await fetch({ parser_version: 'mo-athletics@1.1.0' })).changed, false, 'identical bytes: no new revision');
+  assert.equal((await state()).parser_version, 'mo-athletics@1.1.0', 'but the re-parse is recorded, so a later pass treats the document as current');
+  await fetch({ parser_version: null });
+  assert.equal((await state()).parser_version, 'mo-athletics@1.1.0', 'a plain unchanged check leaves it as is');
+});

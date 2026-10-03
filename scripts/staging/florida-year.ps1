@@ -27,7 +27,7 @@ for ($pass = 1; -not $ReportOnly -and $pass -le $MaxPasses; $pass++) {
   Write-Host "pass $pass : $($m | ConvertTo-Json -Compress)"
   # a re-parse of identical content records no new revision, so 'documents_changed' never reaches 0 on its own: a year is
   # finished when a pass fetched fewer documents than the per-run cap (80) or wrote no new result
-  if (-not $m['documents_fetched'] -or [int]$m['documents_fetched'] -lt 80 -or [int]$m['results_created'] -eq 0) { break }
+  if (-not $m['documents_fetched'] -or [int]$m['documents_fetched'] -lt 80) { break }
 }
 $report = Invoke-BoxingSql -Ref $ref -Sql @"
 with ev as (select e.id, e.event_date from public.boxing_events e join public.boxing_sources s on s.id = e.source_id
