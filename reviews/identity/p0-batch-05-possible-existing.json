@@ -1,0 +1,4623 @@
+{
+  "generated": "2026-10-03T18:29:08.904Z",
+  "batch": [
+    "alexbray",
+    "andreybonilla",
+    "coreymarksman",
+    "alexvallecillo",
+    "katsumaakitsugi",
+    "omarcandetrinidad",
+    "andyhiraoka",
+    "antoniovargas",
+    "beknurmaganbet",
+    "carlosutria",
+    "delantejohnson",
+    "emmanuelrodriguez",
+    "janpaulriverapizarro",
+    "lucasbahdi",
+    "markmagsayo",
+    "raymondmuratalla",
+    "rolandoromero",
+    "tsendbaatarerdenebat",
+    "umardzambekov",
+    "yoenistellez",
+    "gustavotrujillo",
+    "aliellis",
+    "andreaskatzourakis",
+    "andresteran",
+    "angelinocordova"
+  ],
+  "rows": [
+    {
+      "batch": "p0-top15-seed-03",
+      "match": "first_last",
+      "bodies": [
+        "ibf"
+      ],
+      "printed": [
+        "Jai Opetaia"
+      ],
+      "countries": [
+        "AUS"
+      ],
+      "divisions": [
+        "cruiserweight"
+      ],
+      "last_bout": "2026-03-08",
+      "fighter_id": "5bf8bf75-d746-4842-b0d2-675af229a6ba",
+      "subject_key": "jaiopetaia",
+      "body_entries": 1,
+      "wikidata_qid": "Q2029085",
+      "candidate_name": "Jai Tapu Opetaia",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 1,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "B",
+      "tier_reason": "first_last: check middle names / relatives"
+    },
+    {
+      "batch": "p0-top15-seed-05",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf",
+        "wba",
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Najee Lopez",
+        "NAJEE LOPEZ"
+      ],
+      "countries": [
+        "PRI",
+        "PUR",
+        "US",
+        "USA"
+      ],
+      "divisions": [
+        "light_heavyweight"
+      ],
+      "last_bout": "2026-03-13",
+      "fighter_id": "69315958-1a7a-41d3-81e5-a9b3ed53153a",
+      "subject_key": "najeelopez",
+      "body_entries": 4,
+      "wikidata_qid": null,
+      "candidate_name": "Najee Lopez",
+      "commission_bouts": 6,
+      "ambiguous_entries": 0,
+      "body_links_already": 4,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-01",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf",
+        "wba",
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Anthony Joshua",
+        "ANTHONY JOSHUA"
+      ],
+      "countries": [
+        "ENG",
+        "GB",
+        "GBR"
+      ],
+      "divisions": [
+        "heavyweight"
+      ],
+      "last_bout": "2025-12-19",
+      "fighter_id": "42ff27ce-8c4b-44a8-a50f-d2e9d141b147",
+      "subject_key": "anthonyjoshua",
+      "body_entries": 4,
+      "wikidata_qid": null,
+      "candidate_name": "Anthony Joshua",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 4,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-01",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf",
+        "wba",
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Atif Oberlton",
+        "ATIF OBERLTON"
+      ],
+      "countries": [
+        "US",
+        "USA"
+      ],
+      "divisions": [
+        "light_heavyweight"
+      ],
+      "last_bout": "2024-06-08",
+      "fighter_id": "a128e8c5-ec6f-4df8-9831-4c2614d37658",
+      "subject_key": "atifoberlton",
+      "body_entries": 4,
+      "wikidata_qid": null,
+      "candidate_name": "Atif Oberlton",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 4,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-01",
+      "match": "contained_in_full_name",
+      "bodies": [
+        "ibf",
+        "wba",
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Bektemir Melikuziev",
+        "BEKTEMIR MELIKUZIEV"
+      ],
+      "countries": [
+        "USA",
+        "UZB",
+        "Uzbekistan"
+      ],
+      "divisions": [
+        "super_middleweight"
+      ],
+      "last_bout": "2026-02-21",
+      "fighter_id": "b234bcb7-e535-492f-ba18-35b8dbbbe324",
+      "subject_key": "bektemirmelikuziev",
+      "body_entries": 4,
+      "wikidata_qid": null,
+      "candidate_name": "Bektemir Rozmatjon Ogli ’Melikuziev’ Meliqoziyev",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 4,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "contained_in_full_name"
+    },
+    {
+      "batch": "p0-top15-seed-03",
+      "match": "contained_in_full_name",
+      "bodies": [
+        "ibf",
+        "wba",
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Gilberto Ramirez",
+        "GILBERTO RAMIREZ"
+      ],
+      "countries": [
+        "MEX",
+        "Mexico"
+      ],
+      "divisions": [
+        "cruiserweight"
+      ],
+      "last_bout": "2026-05-02",
+      "fighter_id": "90d951e4-f25f-4972-8ec0-78bce50d21c6",
+      "subject_key": "gilbertoramirez",
+      "body_entries": 4,
+      "wikidata_qid": null,
+      "candidate_name": "Gilberto Ramirez Sanchez",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 4,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "contained_in_full_name"
+    },
+    {
+      "batch": "p0-top15-seed-03",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf",
+        "wba",
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Israil Madrimov",
+        "ISRAIL MADRIMOV"
+      ],
+      "countries": [
+        "UZB",
+        "Uzbekistan"
+      ],
+      "divisions": [
+        "super_welterweight"
+      ],
+      "last_bout": "2026-01-24",
+      "fighter_id": "8eee04f7-76f7-4740-9055-524b8186bdeb",
+      "subject_key": "israilmadrimov",
+      "body_entries": 4,
+      "wikidata_qid": null,
+      "candidate_name": "Israil Madrimov",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 4,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-05",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf",
+        "wba",
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Ramon Cardenas",
+        "RAMON CARDENAS"
+      ],
+      "countries": [
+        "US",
+        "USA"
+      ],
+      "divisions": [
+        "super_bantamweight"
+      ],
+      "last_bout": "2025-12-18",
+      "fighter_id": "0c3c7ff8-7cdd-4845-adde-7813e1773516",
+      "subject_key": "ramoncardenas",
+      "body_entries": 4,
+      "wikidata_qid": null,
+      "candidate_name": "Ramon Cardenas",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 4,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-05",
+      "match": "contained_in_full_name",
+      "bodies": [
+        "ibf",
+        "wba",
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Raul Curiel",
+        "RAUL CURIEL"
+      ],
+      "countries": [
+        "MEX",
+        "Mexico"
+      ],
+      "divisions": [
+        "welterweight"
+      ],
+      "last_bout": "2026-08-01",
+      "fighter_id": "cad21ee0-a913-497b-bd4f-c97fb5e8fb38",
+      "subject_key": "raulcuriel",
+      "body_entries": 4,
+      "wikidata_qid": null,
+      "candidate_name": "Raul Curiel Garcia",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 4,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "contained_in_full_name"
+    },
+    {
+      "batch": "p0-top15-seed-05",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf",
+        "wba",
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Richardson Hitchins",
+        "RICHARDSON HITCHINS"
+      ],
+      "countries": [
+        "US",
+        "USA"
+      ],
+      "divisions": [
+        "welterweight"
+      ],
+      "last_bout": "2023-09-23",
+      "fighter_id": "4ece3e3d-65f2-4a6c-9730-1a449e62fa06",
+      "subject_key": "richardsonhitchins",
+      "body_entries": 4,
+      "wikidata_qid": null,
+      "candidate_name": "Richardson Hitchins",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 4,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-06",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf",
+        "wba",
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Tim Tszyu",
+        "TIM TSZYU"
+      ],
+      "countries": [
+        "AUS",
+        "Australia"
+      ],
+      "divisions": [
+        "middleweight"
+      ],
+      "last_bout": "2024-10-19",
+      "fighter_id": "6176d589-d380-44b2-8636-806babca9a2e",
+      "subject_key": "timtszyu",
+      "body_entries": 4,
+      "wikidata_qid": null,
+      "candidate_name": "Tim Tszyu",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 4,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-06",
+      "match": "contained_in_full_name",
+      "bodies": [
+        "ibf",
+        "wba",
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Xander Zayas",
+        "XANDER ZAYAS"
+      ],
+      "countries": [
+        "P. Rico",
+        "PRI",
+        "PUR"
+      ],
+      "divisions": [
+        "super_welterweight"
+      ],
+      "last_bout": "2023-12-09",
+      "fighter_id": "a3094d59-fffc-4326-a754-e5fd82708738",
+      "subject_key": "xanderzayas",
+      "body_entries": 4,
+      "wikidata_qid": null,
+      "candidate_name": "Xander Yarob Zayas Castro",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 4,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "contained_in_full_name"
+    },
+    {
+      "batch": "p0-top15-seed-07",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf",
+        "wba",
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Yuniel Dorticos",
+        "YUNIEL DORTICOS"
+      ],
+      "countries": [
+        "CUB",
+        "Cuba"
+      ],
+      "divisions": [
+        "cruiserweight"
+      ],
+      "last_bout": "2026-08-16",
+      "fighter_id": "49f4af59-8921-4f1a-91b6-7ca3bf587ec2",
+      "subject_key": "yunieldorticos",
+      "body_entries": 4,
+      "wikidata_qid": null,
+      "candidate_name": "Yuniel Dorticos",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 4,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-01",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf",
+        "wba",
+        "wbc"
+      ],
+      "printed": [
+        "Ari Bonilla",
+        "ARI BONILLA"
+      ],
+      "countries": [
+        "Mexico",
+        "USA"
+      ],
+      "divisions": [
+        "super_flyweight"
+      ],
+      "last_bout": "2026-08-16",
+      "fighter_id": "8f5c842a-c3dc-40ca-8c63-457871b191a6",
+      "subject_key": "aribonilla",
+      "body_entries": 3,
+      "wikidata_qid": null,
+      "candidate_name": "Ari Bonilla",
+      "commission_bouts": 2,
+      "ambiguous_entries": 0,
+      "body_links_already": 3,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-01",
+      "match": "name_agreement",
+      "bodies": [
+        "wba",
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Andres Cortes",
+        "ANDRES CORTES"
+      ],
+      "countries": [
+        "US",
+        "USA"
+      ],
+      "divisions": [
+        "lightweight"
+      ],
+      "last_bout": "2026-04-05",
+      "fighter_id": "f4b1531b-6aad-409b-8c0f-56420baa9a48",
+      "subject_key": "andrescortes",
+      "body_entries": 3,
+      "wikidata_qid": null,
+      "candidate_name": "Andres Cortes",
+      "commission_bouts": 1,
+      "ambiguous_entries": 1,
+      "body_links_already": 2,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-01",
+      "match": "contained_in_full_name",
+      "bodies": [
+        "ibf",
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Andy Cruz"
+      ],
+      "countries": [
+        "CUB",
+        "Cuba"
+      ],
+      "divisions": [
+        "lightweight"
+      ],
+      "last_bout": "2026-01-24",
+      "fighter_id": "068ecceb-ff15-4481-8f3a-f69701572217",
+      "subject_key": "andycruz",
+      "body_entries": 3,
+      "wikidata_qid": null,
+      "candidate_name": "Andy Cruz Gomez",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 3,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "contained_in_full_name"
+    },
+    {
+      "batch": "p0-top15-seed-01",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf",
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Bakhram Murtazaliev"
+      ],
+      "countries": [
+        "RUS",
+        "US"
+      ],
+      "divisions": [
+        "super_welterweight"
+      ],
+      "last_bout": "2024-10-19",
+      "fighter_id": "c767039f-6a4e-4406-ac99-0975ae2c51d7",
+      "subject_key": "bakhrammurtazaliev",
+      "body_entries": 3,
+      "wikidata_qid": null,
+      "candidate_name": "Bakhram Murtazaliev",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 3,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-02",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf",
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Callum Walsh"
+      ],
+      "countries": [
+        "Ireland",
+        "IRL"
+      ],
+      "divisions": [
+        "middleweight"
+      ],
+      "last_bout": "2026-01-23",
+      "fighter_id": "c46573e0-77ce-48c3-b059-4f33e824b859",
+      "subject_key": "callumwalsh",
+      "body_entries": 3,
+      "wikidata_qid": null,
+      "candidate_name": "Callum Walsh",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 3,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-02",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf",
+        "wba",
+        "wbc"
+      ],
+      "printed": [
+        "Efe Ajagba",
+        "EFE AJAGBA"
+      ],
+      "countries": [
+        "NGA",
+        "NIG",
+        "Nigeria/US"
+      ],
+      "divisions": [
+        "heavyweight"
+      ],
+      "last_bout": "2026-02-15",
+      "fighter_id": "aba35f2b-f6b9-4428-badf-4d5eeeca92c5",
+      "subject_key": "efeajagba",
+      "body_entries": 3,
+      "wikidata_qid": null,
+      "candidate_name": "Efe Ajagba",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 3,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-02",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf",
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Emiliano Vargas"
+      ],
+      "countries": [
+        "MEX",
+        "US",
+        "USA"
+      ],
+      "divisions": [
+        "super_lightweight"
+      ],
+      "last_bout": "2024-06-29",
+      "fighter_id": "50902d80-bf68-40ef-b5ef-d0b499bc9676",
+      "subject_key": "emilianovargas",
+      "body_entries": 3,
+      "wikidata_qid": null,
+      "candidate_name": "Emiliano Vargas",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 3,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-02",
+      "match": "name_agreement",
+      "bodies": [
+        "wba",
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Eridson Garcia",
+        "ERIDSON GARCIA"
+      ],
+      "countries": [
+        "DOM",
+        "Dom. Republic"
+      ],
+      "divisions": [
+        "lightweight"
+      ],
+      "last_bout": "2026-04-05",
+      "fighter_id": "06824768-0fac-45fe-b249-2853adaa69f6",
+      "subject_key": "eridsongarcia",
+      "body_entries": 3,
+      "wikidata_qid": null,
+      "candidate_name": "Eridson Garcia",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 3,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-03",
+      "match": "name_agreement",
+      "bodies": [
+        "wba",
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Ismael Flores",
+        "ISMAEL FLORES"
+      ],
+      "countries": [
+        "ARG",
+        "Spain/Argentina"
+      ],
+      "divisions": [
+        "middleweight",
+        "super_welterweight"
+      ],
+      "last_bout": "2026-05-02",
+      "fighter_id": "35b838e5-5508-41bb-80f5-aa0d142e828b",
+      "subject_key": "ismaelflores",
+      "body_entries": 3,
+      "wikidata_qid": null,
+      "candidate_name": "Ismael Flores",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 3,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-03",
+      "match": "contained_in_full_name",
+      "bodies": [
+        "wba",
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Jose Armando Resendiz",
+        "JOSE ARMANDO RESENDIZ"
+      ],
+      "countries": [
+        "MEX",
+        "Mexico"
+      ],
+      "divisions": [
+        "super_middleweight"
+      ],
+      "last_bout": "2026-05-02",
+      "fighter_id": "f114ac15-d1ad-49b1-ba8c-ecbd1196c4d1",
+      "subject_key": "josearmandoresendiz",
+      "body_entries": 3,
+      "wikidata_qid": null,
+      "candidate_name": "Jose Armando Resendiz Garcia",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 3,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "contained_in_full_name"
+    },
+    {
+      "batch": "p0-top15-seed-04",
+      "match": "first_last",
+      "bodies": [
+        "ibf",
+        "wba",
+        "wbc"
+      ],
+      "printed": [
+        "Jose Tito Sanchez",
+        "JOSE TITO SANCHEZ"
+      ],
+      "countries": [
+        "US",
+        "USA"
+      ],
+      "divisions": [
+        "super_bantamweight"
+      ],
+      "last_bout": "2026-05-02",
+      "fighter_id": "f16b0107-0663-4a81-82ce-31f126c4c26c",
+      "subject_key": "josetitosanchez",
+      "body_entries": 3,
+      "wikidata_qid": null,
+      "candidate_name": "Jose Tito Juan Sanchez",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "B",
+      "tier_reason": "first_last: check middle names / relatives"
+    },
+    {
+      "batch": "p0-top15-seed-05",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf",
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Michael Angeletti"
+      ],
+      "countries": [
+        "US",
+        "USA"
+      ],
+      "divisions": [
+        "bantamweight"
+      ],
+      "last_bout": "2024-08-21",
+      "fighter_id": "1e1b39a2-181d-4373-83a8-99b2b416394b",
+      "subject_key": "michaelangeletti",
+      "body_entries": 3,
+      "wikidata_qid": null,
+      "candidate_name": "Michael Angeletti",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 3,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-05",
+      "match": "near_spelling",
+      "bodies": [
+        "wba",
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Oscar Duarte Jurado",
+        "OSCAR DUARTE JURADO"
+      ],
+      "countries": [
+        "MEX",
+        "Mexico/US"
+      ],
+      "divisions": [
+        "super_lightweight",
+        "welterweight"
+      ],
+      "last_bout": "2026-05-02",
+      "fighter_id": "36e1aee1-01e3-4340-aa14-42d8da32d47a",
+      "subject_key": "oscarduartejurado",
+      "body_entries": 3,
+      "wikidata_qid": null,
+      "candidate_name": "Oscar Duarte Juarado",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "B",
+      "tier_reason": "near_spelling: check middle names / relatives"
+    },
+    {
+      "batch": "p0-top15-seed-05",
+      "match": "name_agreement",
+      "bodies": [
+        "wba",
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Radivoje Kalajdzic",
+        "RADIVOJE KALAJDZIC"
+      ],
+      "countries": [
+        "Serbia/US",
+        "USA"
+      ],
+      "divisions": [
+        "light_heavyweight"
+      ],
+      "last_bout": "2026-02-01",
+      "fighter_id": "34fd1bb3-84eb-404d-b5bd-0d877930e0ac",
+      "subject_key": "radivojekalajdzic",
+      "body_entries": 3,
+      "wikidata_qid": null,
+      "candidate_name": "Radivoje Kalajdzic",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 3,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-07",
+      "match": "contained_in_full_name",
+      "bodies": [
+        "ibf",
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Yoenli Hernandez"
+      ],
+      "countries": [
+        "CUB",
+        "Cuba"
+      ],
+      "divisions": [
+        "middleweight"
+      ],
+      "last_bout": "2026-03-28",
+      "fighter_id": "5e2bac32-ae49-45a2-9d91-500c562d7825",
+      "subject_key": "yoenlihernandez",
+      "body_entries": 3,
+      "wikidata_qid": null,
+      "candidate_name": "Yoenli Feliciano Hernandez Martinez",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 3,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "contained_in_full_name"
+    },
+    {
+      "batch": "p0-top15-seed-01",
+      "match": "name_agreement",
+      "bodies": [
+        "wba",
+        "wbo"
+      ],
+      "printed": [
+        "Alex Bray",
+        "ALEX BRAY"
+      ],
+      "countries": [
+        "USA"
+      ],
+      "divisions": [
+        "super_welterweight"
+      ],
+      "last_bout": "2026-08-28",
+      "fighter_id": "2f9e20df-4b8b-487b-84b2-cfe9dec6a142",
+      "subject_key": "alexbray",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Alex Bray",
+      "commission_bouts": 4,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-01",
+      "match": "name_agreement",
+      "bodies": [
+        "wba",
+        "wbc"
+      ],
+      "printed": [
+        "Andrey Bonilla",
+        "ANDREY BONILLA"
+      ],
+      "countries": [
+        "Mexico",
+        "USA"
+      ],
+      "divisions": [
+        "bantamweight"
+      ],
+      "last_bout": "2026-08-16",
+      "fighter_id": "ef980e2e-0b83-4c72-a13f-44163c35db82",
+      "subject_key": "andreybonilla",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Andrey Bonilla",
+      "commission_bouts": 4,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-02",
+      "match": "name_agreement",
+      "bodies": [
+        "wba",
+        "wbo"
+      ],
+      "printed": [
+        "Corey Marksman",
+        "COREY MARKSMAN"
+      ],
+      "countries": [
+        "USA"
+      ],
+      "divisions": [
+        "lightweight"
+      ],
+      "last_bout": "2026-08-28",
+      "fighter_id": "78139159-c1ad-4388-bf60-5472f82a93aa",
+      "subject_key": "coreymarksman",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Corey Marksman",
+      "commission_bouts": 3,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-01",
+      "match": "name_agreement",
+      "bodies": [
+        "wba",
+        "wbo"
+      ],
+      "printed": [
+        "Alex Vallecillo",
+        "ALEX VALLECILLO"
+      ],
+      "countries": [
+        "MEX",
+        "NCA"
+      ],
+      "divisions": [
+        "super_bantamweight"
+      ],
+      "last_bout": "2026-08-15",
+      "fighter_id": "b9412cfa-317f-4acf-9e3d-d443f47ae512",
+      "subject_key": "alexvallecillo",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Alex Vallecillo",
+      "commission_bouts": 2,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-04",
+      "match": "name_agreement",
+      "bodies": [
+        "wba",
+        "wbo"
+      ],
+      "printed": [
+        "Katsuma Akitsugi",
+        "KATSUMA AKITSUGI"
+      ],
+      "countries": [
+        "JPN",
+        "USA"
+      ],
+      "divisions": [
+        "bantamweight"
+      ],
+      "last_bout": "2025-11-07",
+      "fighter_id": "ccca8e35-c03b-4765-911c-965c12dc806c",
+      "subject_key": "katsumaakitsugi",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Katsuma Akitsugi",
+      "commission_bouts": 2,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-05",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf",
+        "wbo"
+      ],
+      "printed": [
+        "Omar Cande Trinidad"
+      ],
+      "countries": [
+        "USA"
+      ],
+      "divisions": [
+        "featherweight"
+      ],
+      "last_bout": "2026-06-28",
+      "fighter_id": "2a0ff137-e5a3-40c0-b2fa-63f97ec77f79",
+      "subject_key": "omarcandetrinidad",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Omar Cande Trinidad",
+      "commission_bouts": 2,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-05",
+      "match": "near_spelling",
+      "bodies": [
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Rashidi Ellis"
+      ],
+      "countries": [
+        "US",
+        "USA"
+      ],
+      "divisions": [
+        "super_welterweight"
+      ],
+      "last_bout": "2026-08-30",
+      "fighter_id": "6f28f81f-7eb6-44fa-8bfa-dcc6e0d9176c",
+      "subject_key": "rashidiellis",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Rashida Shakilya Ellis",
+      "commission_bouts": 2,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "B",
+      "tier_reason": "near_spelling: check middle names / relatives"
+    },
+    {
+      "batch": "p0-top15-seed-01",
+      "match": "first_last",
+      "bodies": [
+        "ibf",
+        "wbc"
+      ],
+      "printed": [
+        "Amari Jones"
+      ],
+      "countries": [
+        "US",
+        "USA"
+      ],
+      "divisions": [
+        "middleweight"
+      ],
+      "last_bout": "2026-02-21",
+      "fighter_id": "124fe886-db73-4172-b36a-a552dc63625d",
+      "subject_key": "amarijones",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Amari Dashaun Walter Jones",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 2,
+      "tier": "C",
+      "tier_reason": "several existing candidates"
+    },
+    {
+      "batch": "p0-top15-seed-01",
+      "match": "near_spelling",
+      "bodies": [
+        "ibf",
+        "wbc"
+      ],
+      "printed": [
+        "Amari Jones"
+      ],
+      "countries": [
+        "US",
+        "USA"
+      ],
+      "divisions": [
+        "middleweight"
+      ],
+      "last_bout": "2026-01-24",
+      "fighter_id": "ec693981-f31f-41f2-9bf3-6df608a7160c",
+      "subject_key": "amarijones",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Omari Lamon Jones",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 2,
+      "tier": "C",
+      "tier_reason": "several existing candidates"
+    },
+    {
+      "batch": "p0-top15-seed-01",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf",
+        "wba"
+      ],
+      "printed": [
+        "Andy Hiraoka",
+        "ANDY HIRAOKA"
+      ],
+      "countries": [
+        "JPN"
+      ],
+      "divisions": [
+        "super_lightweight"
+      ],
+      "last_bout": "2026-02-21",
+      "fighter_id": "545652bd-c8ff-4422-a007-d2b40ec79f9c",
+      "subject_key": "andyhiraoka",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Andy Hiraoka",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-01",
+      "match": "first_last",
+      "bodies": [
+        "wba",
+        "wbo"
+      ],
+      "printed": [
+        "Angel Barrientes",
+        "ANGEL BARRIENTES"
+      ],
+      "countries": [
+        "USA"
+      ],
+      "divisions": [
+        "super_bantamweight"
+      ],
+      "last_bout": "2026-04-25",
+      "fighter_id": "0af62648-5f0a-41f7-98bb-a550f18de713",
+      "subject_key": "angelbarrientes",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Angel Lawrence Barrientes",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "B",
+      "tier_reason": "first_last: check middle names / relatives"
+    },
+    {
+      "batch": "p0-top15-seed-01",
+      "match": "name_agreement",
+      "bodies": [
+        "wba",
+        "wbc"
+      ],
+      "printed": [
+        "Antonio Vargas",
+        "ANTONIO VARGAS"
+      ],
+      "countries": [
+        "US",
+        "USA"
+      ],
+      "divisions": [
+        "bantamweight"
+      ],
+      "last_bout": "2024-12-13",
+      "fighter_id": "528e2780-322e-474d-b4cb-7405d971702c",
+      "subject_key": "antoniovargas",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Antonio Vargas",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-01",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf",
+        "wbc"
+      ],
+      "printed": [
+        "Bek Nurmaganbet"
+      ],
+      "countries": [
+        "KAZ",
+        "Kazahkstan"
+      ],
+      "divisions": [
+        "super_middleweight"
+      ],
+      "last_bout": "2025-04-05",
+      "fighter_id": "36a44317-a6dc-4334-b597-9a9621a7bd73",
+      "subject_key": "beknurmaganbet",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Bek Nurmaganbet",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-02",
+      "match": "contained_in_full_name",
+      "bodies": [
+        "wba",
+        "wbc"
+      ],
+      "printed": [
+        "Carlos Utria",
+        "CARLOS UTRIA"
+      ],
+      "countries": [
+        "COL",
+        "Colombia"
+      ],
+      "divisions": [
+        "super_lightweight"
+      ],
+      "last_bout": "2026-08-22",
+      "fighter_id": "1c8bbf09-0af1-40c5-8acc-bb494aba4ceb",
+      "subject_key": "carlosutria",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Carlos Alfonso Utria Lopez",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "contained_in_full_name"
+    },
+    {
+      "batch": "p0-top15-seed-02",
+      "match": "first_last",
+      "bodies": [
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Charles Conwell"
+      ],
+      "countries": [
+        "US",
+        "USA"
+      ],
+      "divisions": [
+        "super_welterweight"
+      ],
+      "last_bout": "2026-08-01",
+      "fighter_id": "ec76ebc5-3816-4184-8848-66addbc7b9c8",
+      "subject_key": "charlesconwell",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Charles Albert Shone Conwell",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "B",
+      "tier_reason": "first_last: check middle names / relatives"
+    },
+    {
+      "batch": "p0-top15-seed-02",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf",
+        "wbo"
+      ],
+      "printed": [
+        "Delante Johnson"
+      ],
+      "countries": [
+        "USA"
+      ],
+      "divisions": [
+        "welterweight"
+      ],
+      "last_bout": "2025-11-07",
+      "fighter_id": "b4ee69b9-be29-40cc-bd86-00c0caa83e80",
+      "subject_key": "delantejohnson",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Delante Johnson",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-02",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf",
+        "wbo"
+      ],
+      "printed": [
+        "Emmanuel Rodriguez"
+      ],
+      "countries": [
+        "PRI"
+      ],
+      "divisions": [
+        "bantamweight"
+      ],
+      "last_bout": "2026-09-26",
+      "fighter_id": "eb29b21f-14c4-4b1b-a6a6-4effb5b3d08b",
+      "subject_key": "emmanuelrodriguez",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Emmanuel Rodriguez",
+      "commission_bouts": 1,
+      "ambiguous_entries": 1,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-03",
+      "match": "first_last",
+      "bodies": [
+        "wba",
+        "wbo"
+      ],
+      "printed": [
+        "Frank Martin",
+        "FRANK MARTIN"
+      ],
+      "countries": [
+        "USA"
+      ],
+      "divisions": [
+        "super_lightweight"
+      ],
+      "last_bout": "2026-02-21",
+      "fighter_id": "473b8393-d671-4adb-a834-7708a3fc4140",
+      "subject_key": "frankmartin",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Frank Lamar Martin",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "B",
+      "tier_reason": "first_last: check middle names / relatives"
+    },
+    {
+      "batch": "p0-champions-review-02",
+      "match": "first_last",
+      "bodies": [
+        "wba"
+      ],
+      "printed": [
+        "GARY ANTONIO RUSSELL"
+      ],
+      "countries": [
+        "United States",
+        "USA"
+      ],
+      "divisions": [
+        "super_bantamweight"
+      ],
+      "last_bout": "2026-02-21",
+      "fighter_id": "94ad9cc4-7ba7-4a9b-b820-5b9ff3ea07be",
+      "subject_key": "garyantoniorussell",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Gary Antuanne Russell",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 1,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "B",
+      "tier_reason": "first_last: check middle names / relatives"
+    },
+    {
+      "batch": "p0-top15-seed-03",
+      "match": "name_agreement",
+      "bodies": [
+        "wba",
+        "wbo"
+      ],
+      "printed": [
+        "Jan Paul Rivera-Pizarro",
+        "JAN PAUL RIVERA-PIZARRO"
+      ],
+      "countries": [
+        "PRI",
+        "PUR"
+      ],
+      "divisions": [
+        "featherweight",
+        "super_featherweight"
+      ],
+      "last_bout": "2026-08-08",
+      "fighter_id": "fcd33ba4-1b0c-4d4b-ae61-a44c0f4978b3",
+      "subject_key": "janpaulriverapizarro",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Jan Paul Rivera-Pizarro",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-03",
+      "match": "first_last",
+      "bodies": [
+        "ibf",
+        "wba"
+      ],
+      "printed": [
+        "Jarrell Miller",
+        "JARRELL MILLER"
+      ],
+      "countries": [
+        "USA"
+      ],
+      "divisions": [
+        "heavyweight"
+      ],
+      "last_bout": "2026-04-25",
+      "fighter_id": "8449a02d-8f99-41de-86b9-f154d82c23e0",
+      "subject_key": "jarrellmiller",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Jarrell King Miller",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "B",
+      "tier_reason": "first_last: check middle names / relatives"
+    },
+    {
+      "batch": "p0-top15-seed-04",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf",
+        "wba"
+      ],
+      "printed": [
+        "Lucas Bahdi",
+        "LUCAS BAHDI"
+      ],
+      "countries": [
+        "CAN"
+      ],
+      "divisions": [
+        "lightweight"
+      ],
+      "last_bout": "2025-08-23",
+      "fighter_id": "69628310-5b33-466b-b714-d5d996aee772",
+      "subject_key": "lucasbahdi",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Lucas Bahdi",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-04",
+      "match": "contained_in_full_name",
+      "bodies": [
+        "ibf",
+        "wba"
+      ],
+      "printed": [
+        "Luis Reynaldo Nunez",
+        "LUIS REYNALDO NUNEZ"
+      ],
+      "countries": [
+        "DOM"
+      ],
+      "divisions": [
+        "featherweight"
+      ],
+      "last_bout": "2024-12-11",
+      "fighter_id": "34e0ac48-9e31-4114-ae68-c593eec6e938",
+      "subject_key": "luisreynaldonunez",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Luis Reynaldo Nunez (Luis Reynaldo Nuñez Mosquea) Eduardo Ramirez (Eduardo Antonio Solorza",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "existing fighter name carries an AKA / parenthetical or looks fused: review by hand"
+    },
+    {
+      "batch": "p0-top15-seed-04",
+      "match": "contained_in_full_name",
+      "bodies": [
+        "ibf",
+        "wbo"
+      ],
+      "printed": [
+        "Mark Magsayo"
+      ],
+      "countries": [
+        "PHL"
+      ],
+      "divisions": [
+        "lightweight"
+      ],
+      "last_bout": "2026-04-05",
+      "fighter_id": "69b6f115-d12e-4a3c-943e-a46afae1dc76",
+      "subject_key": "markmagsayo",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Jessel Mark Araula Magsayo",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "contained_in_full_name"
+    },
+    {
+      "batch": "p0-top15-seed-05",
+      "match": "name_agreement",
+      "bodies": [
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Raymond Muratalla"
+      ],
+      "countries": [
+        "US",
+        "USA"
+      ],
+      "divisions": [
+        "super_lightweight"
+      ],
+      "last_bout": "2026-01-24",
+      "fighter_id": "5d3c4241-85e3-406f-a75d-7270263e92e1",
+      "subject_key": "raymondmuratalla",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Raymond Muratalla",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-05",
+      "match": "contained_in_full_name",
+      "bodies": [
+        "wba",
+        "wbc"
+      ],
+      "printed": [
+        "Rolando Romero",
+        "ROLANDO ROMERO"
+      ],
+      "countries": [
+        "US",
+        "USA"
+      ],
+      "divisions": [
+        "welterweight"
+      ],
+      "last_bout": "2026-08-22",
+      "fighter_id": "02948c4b-ac3d-4a6e-bbc6-88b1226fc5ef",
+      "subject_key": "rolandoromero",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Rolando Florencio Romero Moreno",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "contained_in_full_name"
+    },
+    {
+      "batch": "p0-top15-seed-06",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf",
+        "wbc"
+      ],
+      "printed": [
+        "Tsendbaatar Erdenebat"
+      ],
+      "countries": [
+        "MNG",
+        "Mongolia/US"
+      ],
+      "divisions": [
+        "super_featherweight"
+      ],
+      "last_bout": "2024-10-09",
+      "fighter_id": "46467821-b739-4ff9-b50c-e2b9f48a09fa",
+      "subject_key": "tsendbaatarerdenebat",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Tsendbaatar Erdenebat",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-06",
+      "match": "name_agreement",
+      "bodies": [
+        "wba",
+        "wbc"
+      ],
+      "printed": [
+        "Umar Dzambekov",
+        "UMAR DZAMBEKOV"
+      ],
+      "countries": [
+        "Austria",
+        "AUT"
+      ],
+      "divisions": [
+        "light_heavyweight"
+      ],
+      "last_bout": "2026-02-15",
+      "fighter_id": "a67e77ab-d6bc-4634-8581-fff87803fd9e",
+      "subject_key": "umardzambekov",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Umar Dzambekov",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-07",
+      "match": "contained_in_full_name",
+      "bodies": [
+        "wba",
+        "wbo"
+      ],
+      "printed": [
+        "Yoenis Tellez",
+        "YOENIS TELLEZ"
+      ],
+      "countries": [
+        "CUB"
+      ],
+      "divisions": [
+        "super_welterweight"
+      ],
+      "last_bout": "2026-03-28",
+      "fighter_id": "973d57ef-84f1-4e90-ad45-ec54c6366425",
+      "subject_key": "yoenistellez",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Yoenis Tellez Silega",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "contained_in_full_name"
+    },
+    {
+      "batch": "p0-top15-seed-02",
+      "match": "near_spelling",
+      "bodies": [
+        "ibf"
+      ],
+      "printed": [
+        "Eric Rosa"
+      ],
+      "countries": [
+        "DOM"
+      ],
+      "divisions": [
+        "light_flyweight"
+      ],
+      "last_bout": "2026-08-30",
+      "fighter_id": "6a1bdc0e-8c6c-415a-bbee-41a4a0c947fe",
+      "subject_key": "ericrosa",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Eric Ross",
+      "commission_bouts": 2,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "B",
+      "tier_reason": "near_spelling: check middle names / relatives"
+    },
+    {
+      "batch": "p0-top15-seed-02",
+      "match": "name_agreement",
+      "bodies": [
+        "wbc"
+      ],
+      "printed": [
+        "Francisco Rodriguez Jr."
+      ],
+      "countries": [
+        "Mexico"
+      ],
+      "divisions": [
+        "flyweight"
+      ],
+      "last_bout": "2026-08-30",
+      "fighter_id": "98cae4ee-3b26-4d2c-b3f8-56758f463da9",
+      "subject_key": "franciscorodriguezjr",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Francisco Rodriguez",
+      "commission_bouts": 2,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "B",
+      "tier_reason": "generational suffix on one side only: father/son risk"
+    },
+    {
+      "batch": "p0-top15-seed-03",
+      "match": "name_agreement",
+      "bodies": [
+        "wbo"
+      ],
+      "printed": [
+        "Gustavo Trujillo"
+      ],
+      "countries": [
+        "CUB"
+      ],
+      "divisions": [
+        "heavyweight"
+      ],
+      "last_bout": "2026-06-28",
+      "fighter_id": "5b256e34-080a-43ea-90cc-35f77a7b978c",
+      "subject_key": "gustavotrujillo",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Gustavo Trujillo",
+      "commission_bouts": 2,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-04",
+      "match": "contained_in_full_name",
+      "bodies": [
+        "wba"
+      ],
+      "printed": [
+        "JOSE VALENZUELA"
+      ],
+      "countries": [
+        "USA"
+      ],
+      "divisions": [
+        "lightweight"
+      ],
+      "last_bout": "2026-06-28",
+      "fighter_id": "3bfc341e-5095-4fa5-bdf3-cfcedfb053cf",
+      "subject_key": "josevalenzuela",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Jose A Valenzuela Gastelum",
+      "commission_bouts": 2,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 2,
+      "tier": "C",
+      "tier_reason": "several existing candidates"
+    },
+    {
+      "batch": "p0-top15-seed-05",
+      "match": "first_last",
+      "bodies": [
+        "wbc"
+      ],
+      "printed": [
+        "Omar Trinidad"
+      ],
+      "countries": [
+        "US"
+      ],
+      "divisions": [
+        "featherweight"
+      ],
+      "last_bout": "2026-06-28",
+      "fighter_id": "2a0ff137-e5a3-40c0-b2fa-63f97ec77f79",
+      "subject_key": "omartrinidad",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Omar Cande Trinidad",
+      "commission_bouts": 2,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "B",
+      "tier_reason": "first_last: check middle names / relatives"
+    },
+    {
+      "batch": "p0-top15-seed-01",
+      "match": "name_agreement",
+      "bodies": [
+        "wbo"
+      ],
+      "printed": [
+        "Alan Abel Chaves"
+      ],
+      "countries": [
+        "ARG"
+      ],
+      "divisions": [
+        "lightweight"
+      ],
+      "last_bout": "2026-04-25",
+      "fighter_id": "4e5f53d0-93f0-4286-aad6-95716629b2e3",
+      "subject_key": "alanabelchaves",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Alan Abel Chaves",
+      "commission_bouts": 1,
+      "ambiguous_entries": 1,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "every body entry is an ambiguous cluster"
+    },
+    {
+      "batch": "p0-top15-seed-01",
+      "match": "near_spelling",
+      "bodies": [
+        "ibf"
+      ],
+      "printed": [
+        "Alan Abel Chavez"
+      ],
+      "countries": [
+        "ARG"
+      ],
+      "divisions": [
+        "lightweight"
+      ],
+      "last_bout": "2026-04-25",
+      "fighter_id": "4e5f53d0-93f0-4286-aad6-95716629b2e3",
+      "subject_key": "alanabelchavez",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Alan Abel Chaves",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "B",
+      "tier_reason": "near_spelling: check middle names / relatives"
+    },
+    {
+      "batch": "p0-top15-seed-01",
+      "match": "name_agreement",
+      "bodies": [
+        "wbc"
+      ],
+      "printed": [
+        "Ali Ellis"
+      ],
+      "countries": [
+        "US"
+      ],
+      "divisions": [
+        "bridgerweight"
+      ],
+      "last_bout": "2026-07-25",
+      "fighter_id": "3097fb11-337a-4b53-a82a-c0944c18d8e4",
+      "subject_key": "aliellis",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Ali Ellis",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-01",
+      "match": "name_agreement",
+      "bodies": [
+        "wba"
+      ],
+      "printed": [
+        "ANDREAS KATZOURAKIS"
+      ],
+      "countries": [
+        "GRE"
+      ],
+      "divisions": [
+        "middleweight"
+      ],
+      "last_bout": "2026-05-10",
+      "fighter_id": "681c5d81-009a-4310-b39b-a0d834498ef3",
+      "subject_key": "andreaskatzourakis",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Andreas Katzourakis",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-01",
+      "match": "contained_in_full_name",
+      "bodies": [
+        "wba"
+      ],
+      "printed": [
+        "ANDRES TERAN"
+      ],
+      "countries": [
+        "MEX"
+      ],
+      "divisions": [
+        "bantamweight"
+      ],
+      "last_bout": "2026-06-28",
+      "fighter_id": "e03cd4d5-735c-45ba-b490-3708522a36e0",
+      "subject_key": "andresteran",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Jose Andres Teran Santibanez",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "contained_in_full_name"
+    },
+    {
+      "batch": "p0-top15-seed-01",
+      "match": "name_agreement",
+      "bodies": [
+        "wbc"
+      ],
+      "printed": [
+        "Angelino Cordova"
+      ],
+      "countries": [
+        "Venezuela"
+      ],
+      "divisions": [
+        "flyweight"
+      ],
+      "last_bout": "2025-08-23",
+      "fighter_id": "7c4db3cd-61ec-4f7f-802b-64312005e51d",
+      "subject_key": "angelinocordova",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Angelino Cordova",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-01",
+      "match": "name_agreement",
+      "bodies": [
+        "wba"
+      ],
+      "printed": [
+        "ARMANDO MARTINEZ RABI"
+      ],
+      "countries": [
+        "CUB"
+      ],
+      "divisions": [
+        "lightweight"
+      ],
+      "last_bout": "2026-06-28",
+      "fighter_id": "665eb59b-aaee-41b0-a5f8-b82bb6c26806",
+      "subject_key": "armandomartinezrabi",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Armando Martinez Rabi",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-02",
+      "match": "name_agreement",
+      "bodies": [
+        "wba"
+      ],
+      "printed": [
+        "DAINIER PERO"
+      ],
+      "countries": [
+        "CUB"
+      ],
+      "divisions": [
+        "heavyweight"
+      ],
+      "last_bout": "2026-08-08",
+      "fighter_id": "faff3bff-2027-4091-9a1f-005c119979d4",
+      "subject_key": "dainierpero",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Dainier Pero",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-02",
+      "match": "name_agreement",
+      "bodies": [
+        "wbc"
+      ],
+      "printed": [
+        "Daniel Blancas"
+      ],
+      "countries": [
+        "US"
+      ],
+      "divisions": [
+        "super_middleweight"
+      ],
+      "last_bout": "2026-05-02",
+      "fighter_id": "c80f354d-58de-4917-9552-ce041d0a4cc2",
+      "subject_key": "danielblancas",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Daniel Blancas",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-02",
+      "match": "first_last",
+      "bodies": [
+        "wbc"
+      ],
+      "printed": [
+        "Delante Tiger Johnson"
+      ],
+      "countries": [
+        "US"
+      ],
+      "divisions": [
+        "welterweight"
+      ],
+      "last_bout": "2025-11-07",
+      "fighter_id": "b4ee69b9-be29-40cc-bd86-00c0caa83e80",
+      "subject_key": "delantetigerjohnson",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Delante Johnson",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "B",
+      "tier_reason": "first_last: check middle names / relatives"
+    },
+    {
+      "batch": "p0-top15-seed-02",
+      "match": "name_agreement",
+      "bodies": [
+        "wba"
+      ],
+      "printed": [
+        "DEONTE BROWN"
+      ],
+      "countries": [
+        "USA"
+      ],
+      "divisions": [
+        "super_featherweight"
+      ],
+      "last_bout": "2026-05-29",
+      "fighter_id": "0dc6ee42-ff70-4ccf-bde3-7575a0c91a22",
+      "subject_key": "deontebrown",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Deonte Brown",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-02",
+      "match": "near_spelling",
+      "bodies": [
+        "wbc"
+      ],
+      "printed": [
+        "Emannuel Rodriguez"
+      ],
+      "countries": [
+        "Puerto Rico"
+      ],
+      "divisions": [
+        "bantamweight"
+      ],
+      "last_bout": "2026-09-26",
+      "fighter_id": "eb29b21f-14c4-4b1b-a6a6-4effb5b3d08b",
+      "subject_key": "emannuelrodriguez",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Emmanuel Rodriguez",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "B",
+      "tier_reason": "near_spelling: check middle names / relatives"
+    },
+    {
+      "batch": "p0-top15-seed-02",
+      "match": "name_agreement",
+      "bodies": [
+        "wba"
+      ],
+      "printed": [
+        "EMANUEL MORENO"
+      ],
+      "countries": [
+        "USA"
+      ],
+      "divisions": [
+        "bantamweight"
+      ],
+      "last_bout": "2026-04-03",
+      "fighter_id": "434676f2-3b73-4dee-9e5f-1179e2846dc7",
+      "subject_key": "emanuelmoreno",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Emanuel Moreno",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-03",
+      "match": "first_last",
+      "bodies": [
+        "wba"
+      ],
+      "printed": [
+        "GARY ALLEN RUSSELL JR"
+      ],
+      "countries": [
+        "USA"
+      ],
+      "divisions": [
+        "lightweight"
+      ],
+      "last_bout": "2026-02-21",
+      "fighter_id": "94ad9cc4-7ba7-4a9b-b820-5b9ff3ea07be",
+      "subject_key": "garyallenrusselljr",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Gary Antuanne Russell",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 1,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "B",
+      "tier_reason": "generational suffix on one side only: father/son risk"
+    },
+    {
+      "batch": "p0-top15-seed-03",
+      "match": "first_last",
+      "bodies": [
+        "wbc"
+      ],
+      "printed": [
+        "Gary Russell"
+      ],
+      "countries": [
+        "US"
+      ],
+      "divisions": [
+        "super_featherweight"
+      ],
+      "last_bout": "2026-02-21",
+      "fighter_id": "94ad9cc4-7ba7-4a9b-b820-5b9ff3ea07be",
+      "subject_key": "garyrussell",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Gary Antuanne Russell",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 1,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "B",
+      "tier_reason": "first_last: check middle names / relatives"
+    },
+    {
+      "batch": "p0-top15-seed-03",
+      "match": "name_agreement",
+      "bodies": [
+        "wba"
+      ],
+      "printed": [
+        "GREG OUTLAW"
+      ],
+      "countries": [
+        "USA"
+      ],
+      "divisions": [
+        "welterweight"
+      ],
+      "last_bout": "2025-01-18",
+      "fighter_id": "40d78813-0ce6-434e-ba7f-908f8fb9791b",
+      "subject_key": "gregoutlaw",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Greg Outlaw",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-03",
+      "match": "name_agreement",
+      "bodies": [
+        "wba"
+      ],
+      "printed": [
+        "GURGEN HOVHANNISYAN"
+      ],
+      "countries": [
+        "ARM"
+      ],
+      "divisions": [
+        "heavyweight"
+      ],
+      "last_bout": "2026-03-28",
+      "fighter_id": "b9fc7103-909e-4e52-82af-14b2478ef127",
+      "subject_key": "gurgenhovhannisyan",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Gurgen Hovhannisyan",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-03",
+      "match": "first_last",
+      "bodies": [
+        "wbc"
+      ],
+      "printed": [
+        "Ilunga Makabu"
+      ],
+      "countries": [
+        "Congo"
+      ],
+      "divisions": [
+        "cruiserweight"
+      ],
+      "last_bout": "2023-11-04",
+      "fighter_id": "30215e0b-ca6b-449c-a7f1-7c95af318bc7",
+      "subject_key": "ilungamakabu",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Ilunga Junior Makabu",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "B",
+      "tier_reason": "first_last: check middle names / relatives"
+    },
+    {
+      "batch": "p0-top15-seed-03",
+      "match": "contained_in_full_name",
+      "bodies": [
+        "wba"
+      ],
+      "printed": [
+        "ISRAEL MERCADO ( * )"
+      ],
+      "countries": [
+        "USA"
+      ],
+      "divisions": [
+        "super_lightweight"
+      ],
+      "last_bout": "2026-08-22",
+      "fighter_id": "980fa56f-64e7-4e31-b567-17c10b526c61",
+      "subject_key": "israelmercado",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Israel De Jesus Mercado Hernandez",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 2,
+      "tier": "C",
+      "tier_reason": "several existing candidates"
+    },
+    {
+      "batch": "p0-top15-seed-03",
+      "match": "first_last",
+      "bodies": [
+        "wba"
+      ],
+      "printed": [
+        "JONATHAN CABRERA SANCHEZ"
+      ],
+      "countries": [
+        "DOM"
+      ],
+      "divisions": [
+        "featherweight"
+      ],
+      "last_bout": "2025-07-11",
+      "fighter_id": "2057aa64-b4ff-4a8f-90c0-a1915101a30b",
+      "subject_key": "jonathancabrerasanchez",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Jonathan Sanchez",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "B",
+      "tier_reason": "first_last: check middle names / relatives"
+    },
+    {
+      "batch": "p0-top15-seed-03",
+      "match": "contained_in_full_name",
+      "bodies": [
+        "wba"
+      ],
+      "printed": [
+        "JONATHAN GONZALEZ"
+      ],
+      "countries": [
+        "PUR"
+      ],
+      "divisions": [
+        "flyweight"
+      ],
+      "last_bout": "2024-06-08",
+      "fighter_id": "f0305469-539c-4ea3-83b1-22d4aa299f63",
+      "subject_key": "jonathangonzalez",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Jonathan Gonzalez-Ortiz",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "contained_in_full_name"
+    },
+    {
+      "batch": "p0-top15-seed-03",
+      "match": "contained_in_full_name",
+      "bodies": [
+        "wbo"
+      ],
+      "printed": [
+        "Jordan Orozco"
+      ],
+      "countries": [
+        "NIC"
+      ],
+      "divisions": [
+        "bantamweight"
+      ],
+      "last_bout": "2026-06-13",
+      "fighter_id": "2bebe4e6-6b7a-475f-a577-1c941e05bb43",
+      "subject_key": "jordanorozco",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Jordan Orozco Hernandez",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "contained_in_full_name"
+    },
+    {
+      "batch": "p0-top15-seed-03",
+      "match": "name_agreement",
+      "bodies": [
+        "wba"
+      ],
+      "printed": [
+        "JORDAN OROZCO HERNANDEZ"
+      ],
+      "countries": [
+        "NCA"
+      ],
+      "divisions": [
+        "bantamweight"
+      ],
+      "last_bout": "2026-06-13",
+      "fighter_id": "2bebe4e6-6b7a-475f-a577-1c941e05bb43",
+      "subject_key": "jordanorozcohernandez",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Jordan Orozco Hernandez",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-04",
+      "match": "contained_in_full_name",
+      "bodies": [
+        "wba"
+      ],
+      "printed": [
+        "JOSE VALENZUELA"
+      ],
+      "countries": [
+        "USA"
+      ],
+      "divisions": [
+        "lightweight"
+      ],
+      "last_bout": "2026-05-16",
+      "fighter_id": "e08c8f38-dfbd-46e2-80ce-cf87daa8ba4a",
+      "subject_key": "josevalenzuela",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Jose Valenzuela Alvarado",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 2,
+      "tier": "C",
+      "tier_reason": "several existing candidates"
+    },
+    {
+      "batch": "p0-top15-seed-04",
+      "match": "contained_in_full_name",
+      "bodies": [
+        "wba"
+      ],
+      "printed": [
+        "JULIAN RODRIGUEZ"
+      ],
+      "countries": [
+        "USA"
+      ],
+      "divisions": [
+        "welterweight"
+      ],
+      "last_bout": "2026-01-23",
+      "fighter_id": "ef27fc46-4a11-4ffd-9a0a-4b3d6129de4f",
+      "subject_key": "julianrodriguez",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Julian Nicholas Rodriguez Mullen",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 2,
+      "tier": "C",
+      "tier_reason": "several existing candidates"
+    },
+    {
+      "batch": "p0-top15-seed-04",
+      "match": "near_spelling",
+      "bodies": [
+        "wba"
+      ],
+      "printed": [
+        "JULIAN RODRIGUEZ"
+      ],
+      "countries": [
+        "USA"
+      ],
+      "divisions": [
+        "welterweight"
+      ],
+      "last_bout": "2026-02-06",
+      "fighter_id": "0d125718-246a-4d0c-87dc-f9d4d9831db2",
+      "subject_key": "julianrodriguez",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Juan Rodriguez",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 2,
+      "tier": "C",
+      "tier_reason": "several existing candidates"
+    },
+    {
+      "batch": "p0-top15-seed-04",
+      "match": "first_last",
+      "bodies": [
+        "wba"
+      ],
+      "printed": [
+        "KAIPO GALLEGOS"
+      ],
+      "countries": [
+        "USA"
+      ],
+      "divisions": [
+        "super_featherweight"
+      ],
+      "last_bout": "2026-01-24",
+      "fighter_id": "4bdab9c5-8c15-4038-9936-aa8b9ba8c72b",
+      "subject_key": "kaipogallegos",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Kaipo Ethan Gallegos",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "B",
+      "tier_reason": "first_last: check middle names / relatives"
+    },
+    {
+      "batch": "p0-top15-seed-04",
+      "match": "name_agreement",
+      "bodies": [
+        "wbc"
+      ],
+      "printed": [
+        "Lamont Roach"
+      ],
+      "countries": [
+        "US"
+      ],
+      "divisions": [
+        "lightweight"
+      ],
+      "last_bout": "2026-08-01",
+      "fighter_id": "8d0551b1-51fb-499b-a5fc-73479e74c23a",
+      "subject_key": "lamontroach",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Lamont Roach Jr.",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "B",
+      "tier_reason": "generational suffix on one side only: father/son risk"
+    },
+    {
+      "batch": "p0-top15-seed-04",
+      "match": "name_agreement",
+      "bodies": [
+        "wbc"
+      ],
+      "printed": [
+        "Lyubomyr Pinchuk"
+      ],
+      "countries": [
+        "Ukraine"
+      ],
+      "divisions": [
+        "bridgerweight"
+      ],
+      "last_bout": "2026-02-07",
+      "fighter_id": "062eddb4-c1af-4717-9946-6f36f807bf69",
+      "subject_key": "lyubomyrpinchuk",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Lyubomyr Pinchuk",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-04",
+      "match": "first_last",
+      "bodies": [
+        "wbc"
+      ],
+      "printed": [
+        "Mario Barrios"
+      ],
+      "countries": [
+        "US"
+      ],
+      "divisions": [
+        "super_welterweight"
+      ],
+      "last_bout": "2026-02-21",
+      "fighter_id": "1aa82f07-f446-4c62-ad02-01142737486b",
+      "subject_key": "mariobarrios",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Mario Thomas Barrios",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "B",
+      "tier_reason": "first_last: check middle names / relatives"
+    },
+    {
+      "batch": "p0-top15-seed-05",
+      "match": "contained_in_full_name",
+      "bodies": [
+        "ibf"
+      ],
+      "printed": [
+        "Oscar Duarte"
+      ],
+      "countries": [
+        "MEX"
+      ],
+      "divisions": [
+        "super_lightweight"
+      ],
+      "last_bout": "2026-05-02",
+      "fighter_id": "36e1aee1-01e3-4340-aa14-42d8da32d47a",
+      "subject_key": "oscarduarte",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Oscar Duarte Juarado",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "contained_in_full_name"
+    },
+    {
+      "batch": "p0-top15-seed-05",
+      "match": "near_spelling",
+      "bodies": [
+        "ibf"
+      ],
+      "printed": [
+        "Raymund Muratalla"
+      ],
+      "countries": [
+        "USA"
+      ],
+      "divisions": [
+        "super_lightweight"
+      ],
+      "last_bout": "2026-01-24",
+      "fighter_id": "5d3c4241-85e3-406f-a75d-7270263e92e1",
+      "subject_key": "raymundmuratalla",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Raymond Muratalla",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "B",
+      "tier_reason": "near_spelling: check middle names / relatives"
+    },
+    {
+      "batch": "p0-top15-seed-06",
+      "match": "name_agreement",
+      "bodies": [
+        "wba"
+      ],
+      "printed": [
+        "SAMUEL ARNOLD"
+      ],
+      "countries": [
+        "USA"
+      ],
+      "divisions": [
+        "light_heavyweight"
+      ],
+      "last_bout": "2024-06-22",
+      "fighter_id": "d353580e-1451-4ce2-ba42-b69ef409973e",
+      "subject_key": "samuelarnold",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Samuel Arnold",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-06",
+      "match": "name_agreement",
+      "bodies": [
+        "wba"
+      ],
+      "printed": [
+        "TAYVIEN ALPOUGH"
+      ],
+      "countries": [
+        "USA"
+      ],
+      "divisions": [
+        "light_flyweight"
+      ],
+      "last_bout": "2024-07-02",
+      "fighter_id": "97ee2997-fc40-4669-9105-256ab1b3d7f7",
+      "subject_key": "tayvienalpough",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Tayvien Alpough",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-top15-seed-06",
+      "match": "near_spelling",
+      "bodies": [
+        "ibf"
+      ],
+      "printed": [
+        "Teremoana Teremoana"
+      ],
+      "countries": [
+        "AUS"
+      ],
+      "divisions": [
+        "heavyweight"
+      ],
+      "last_bout": "2026-03-21",
+      "fighter_id": "fdfa806f-4c97-4ea7-a190-6cac5816c9ec",
+      "subject_key": "teremoanateremoana",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Teremooana Teremoana",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "B",
+      "tier_reason": "near_spelling: check middle names / relatives"
+    },
+    {
+      "batch": "p0-top15-seed-06",
+      "match": "name_agreement",
+      "bodies": [
+        "wba"
+      ],
+      "printed": [
+        "YANKIEL RIVERA FIGUEROA"
+      ],
+      "countries": [
+        "PUR"
+      ],
+      "divisions": [
+        "flyweight"
+      ],
+      "last_bout": "2025-08-23",
+      "fighter_id": "20839aec-38fb-4155-942c-9593cd51f4bc",
+      "subject_key": "yankielriverafigueroa",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Yankiel Rivera Figueroa",
+      "commission_bouts": 1,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "A",
+      "tier_reason": "name_agreement"
+    },
+    {
+      "batch": "p0-champions-review-02",
+      "match": "near_spelling",
+      "bodies": [
+        "ibf",
+        "wbo"
+      ],
+      "printed": [
+        "Dmitrii Bivol",
+        "DMITRII BIVOL"
+      ],
+      "countries": [
+        "KGZ",
+        "RUS"
+      ],
+      "divisions": [
+        "light_heavyweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "e3807ee7-b1f7-4f7e-a58e-68155ad7ada3",
+      "subject_key": "dmitriibivol",
+      "body_entries": 3,
+      "wikidata_qid": "Q18236558",
+      "candidate_name": "Dmitry Bivol",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 1,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-champions-review-02",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf"
+      ],
+      "printed": [
+        "Josh Kelly"
+      ],
+      "countries": [
+        "ENG"
+      ],
+      "divisions": [
+        "super_welterweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "f34a87c1-311c-45b8-aa19-e9f74da92ac7",
+      "subject_key": "joshkelly",
+      "body_entries": 1,
+      "wikidata_qid": "Q20751996",
+      "candidate_name": "Josh Kelly",
+      "commission_bouts": 0,
+      "ambiguous_entries": 1,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-06",
+      "match": "name_agreement",
+      "bodies": [
+        "wbo"
+      ],
+      "printed": [
+        "Takeshi Ishii"
+      ],
+      "countries": [
+        "JPN"
+      ],
+      "divisions": [
+        "minimumweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "0f3bd3d6-d66c-47a7-be12-18ad294e420d",
+      "subject_key": "takeshiishii",
+      "body_entries": 1,
+      "wikidata_qid": "Q116936233",
+      "candidate_name": "Takeshi Ishii",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 1,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-champions-review-02",
+      "match": "name_agreement",
+      "bodies": [
+        "wbc"
+      ],
+      "printed": [
+        "VERGIL ORTIZ Jr."
+      ],
+      "countries": [
+        "US"
+      ],
+      "divisions": [
+        "super_welterweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "7146c8b2-6435-4d93-8cdd-b19456f153ff",
+      "subject_key": "vergilortizjr",
+      "body_entries": 1,
+      "wikidata_qid": "Q66391755",
+      "candidate_name": "Vergil Ortiz Jr.",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-02",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf",
+        "wba",
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Diego Pacheco",
+        "DIEGO PACHECO"
+      ],
+      "countries": [
+        "US",
+        "USA"
+      ],
+      "divisions": [
+        "super_middleweight"
+      ],
+      "last_bout": "2026-11-14",
+      "fighter_id": "8a3df7fb-fbb8-41e2-a197-a00a29636e18",
+      "subject_key": "diegopacheco",
+      "body_entries": 4,
+      "wikidata_qid": null,
+      "candidate_name": "Diego Pacheco",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-06",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf",
+        "wba",
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Vito Mielnicki Jr",
+        "VITO MIELNICKI JR",
+        "Vito Mielnicki Jr.",
+        "Vito Mielnicki, Jr."
+      ],
+      "countries": [
+        "US",
+        "USA"
+      ],
+      "divisions": [
+        "middleweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "ff681a19-ec3b-4ccb-aed7-d1042cc46fab",
+      "subject_key": "vitomielnickijr",
+      "body_entries": 4,
+      "wikidata_qid": null,
+      "candidate_name": "Vito Mielnicki, Jr.",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-01",
+      "match": "name_agreement",
+      "bodies": [
+        "wba",
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Abass Baraou",
+        "ABASS BARAOU"
+      ],
+      "countries": [
+        "DEU",
+        "GER",
+        "Germany"
+      ],
+      "divisions": [
+        "super_welterweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "8dff316f-68c4-4e61-b75c-29ec9bcae640",
+      "subject_key": "abassbaraou",
+      "body_entries": 3,
+      "wikidata_qid": null,
+      "candidate_name": "Abass Baraou",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-01",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf",
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Ben Whittaker"
+      ],
+      "countries": [
+        "GB",
+        "GBR"
+      ],
+      "divisions": [
+        "light_heavyweight"
+      ],
+      "last_bout": "2026-10-03",
+      "fighter_id": "88b888eb-0d75-4061-a6f2-d6be1a3844ce",
+      "subject_key": "benwhittaker",
+      "body_entries": 3,
+      "wikidata_qid": null,
+      "candidate_name": "Ben Whittaker",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-03",
+      "match": "near_spelling",
+      "bodies": [
+        "ibf",
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Frank Sanchez"
+      ],
+      "countries": [
+        "CUB",
+        "Cuba"
+      ],
+      "divisions": [
+        "heavyweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "087b6500-e71e-4d9b-aeb8-32c0afa9acf9",
+      "subject_key": "franksanchez",
+      "body_entries": 3,
+      "wikidata_qid": null,
+      "candidate_name": "Frankie Sanchez",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-03",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf",
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Jahi Tucker"
+      ],
+      "countries": [
+        "US",
+        "USA"
+      ],
+      "divisions": [
+        "middleweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "d237213f-184c-4c1d-8386-904045c9d1a6",
+      "subject_key": "jahitucker",
+      "body_entries": 3,
+      "wikidata_qid": null,
+      "candidate_name": "Jahi Tucker",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-05",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf",
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Rohan Polanco"
+      ],
+      "countries": [
+        "DOM",
+        "Dom. R."
+      ],
+      "divisions": [
+        "welterweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "4f13c5f0-d141-45e5-a3e5-cb92e5b4f9b1",
+      "subject_key": "rohanpolanco",
+      "body_entries": 3,
+      "wikidata_qid": null,
+      "candidate_name": "Rohan Polanco",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-06",
+      "match": "first_last",
+      "bodies": [
+        "wba",
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "SHANE MOSLEY JR",
+        "Shane Mosley Jr.",
+        "Shane Mosley, Jr."
+      ],
+      "countries": [
+        "US",
+        "USA"
+      ],
+      "divisions": [
+        "middleweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "c29f07bb-db15-4b01-9117-410c2e1860db",
+      "subject_key": "shanemosleyjr",
+      "body_entries": 3,
+      "wikidata_qid": null,
+      "candidate_name": "Shane Donte Mosley Jr.",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-01",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf",
+        "wbo"
+      ],
+      "printed": [
+        "Anthony Johns"
+      ],
+      "countries": [
+        "USA"
+      ],
+      "divisions": [
+        "flyweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "0d92bad5-13e3-4358-9bc5-c2cad21d372c",
+      "subject_key": "anthonyjohns",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Anthony Johns",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-champions-review-02",
+      "match": "name_agreement",
+      "bodies": [
+        "wbc"
+      ],
+      "printed": [
+        "Carlos Adames",
+        "CARLOS ADAMES"
+      ],
+      "countries": [
+        "DOM. R."
+      ],
+      "divisions": [
+        "middleweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "a509f200-29f2-410a-99ab-4673fe08549e",
+      "subject_key": "carlosadames",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Carlos Adames",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-02",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf",
+        "wbc"
+      ],
+      "printed": [
+        "Conor Wallace"
+      ],
+      "countries": [
+        "AUS",
+        "N.Ireland/Australia"
+      ],
+      "divisions": [
+        "light_heavyweight"
+      ],
+      "last_bout": "2026-10-03",
+      "fighter_id": "d55fe167-651f-4413-8883-b184e4ac2354",
+      "subject_key": "conorwallace",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Conor Wallace",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-02",
+      "match": "name_agreement",
+      "bodies": [
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Fiodor Czerkaszyn"
+      ],
+      "countries": [
+        "POL",
+        "Poland/Ukraine"
+      ],
+      "divisions": [
+        "middleweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "f93777a8-4eeb-473f-afa9-73f04d71769a",
+      "subject_key": "fiodorczerkaszyn",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Fiodor Czerkaszyn",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-03",
+      "match": "near_spelling",
+      "bodies": [
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Israel Gonzalez"
+      ],
+      "countries": [
+        "MEX",
+        "Mexico"
+      ],
+      "divisions": [
+        "super_flyweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "1da1e505-4cd3-44da-953b-3a9e5b5150f6",
+      "subject_key": "israelgonzalez",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Misael Lopez Gonzalez",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-04",
+      "match": "first_last",
+      "bodies": [
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Justin Pauldo"
+      ],
+      "countries": [
+        "US",
+        "USA"
+      ],
+      "divisions": [
+        "lightweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "bf96d7a7-e043-4e37-bd06-dcf69b59947d",
+      "subject_key": "justinpauldo",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Justin Rommell Pauldo",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-05",
+      "match": "name_agreement",
+      "bodies": [
+        "wbc",
+        "wbo"
+      ],
+      "printed": [
+        "Raymond Ford"
+      ],
+      "countries": [
+        "US",
+        "USA"
+      ],
+      "divisions": [
+        "super_featherweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "28217c3b-4c17-446f-b3aa-91aa828f3f5b",
+      "subject_key": "raymondford",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Raymond Ford",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-06",
+      "match": "first_last",
+      "bodies": [
+        "ibf",
+        "wbo"
+      ],
+      "printed": [
+        "Yan Carlos Santana-Guerrero"
+      ],
+      "countries": [
+        "DOM"
+      ],
+      "divisions": [
+        "featherweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "319d14b8-9a02-48e9-9447-9da4524a379c",
+      "subject_key": "yancarlossantanaguerrero",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Yan Santana Guerrero",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-06",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf",
+        "wba"
+      ],
+      "printed": [
+        "Yan Marcos",
+        "YAN MARCOS"
+      ],
+      "countries": [
+        "CUB",
+        "USA"
+      ],
+      "divisions": [
+        "super_welterweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "3d95d08b-e7c4-4558-8e3e-def1847891e6",
+      "subject_key": "yanmarcos",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Yan Marcos",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 2,
+      "tier": "C",
+      "tier_reason": "several existing candidates"
+    },
+    {
+      "batch": "p0-top15-seed-06",
+      "match": "contained_in_full_name",
+      "bodies": [
+        "ibf",
+        "wba"
+      ],
+      "printed": [
+        "Yan Marcos",
+        "YAN MARCOS"
+      ],
+      "countries": [
+        "CUB",
+        "USA"
+      ],
+      "divisions": [
+        "super_welterweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "c84dd8b2-c8f6-4b80-978e-8cfe0f7cef1d",
+      "subject_key": "yanmarcos",
+      "body_entries": 2,
+      "wikidata_qid": null,
+      "candidate_name": "Jean Sanchez (Yan Marcos)",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 2,
+      "tier": "C",
+      "tier_reason": "existing fighter name carries an AKA / parenthetical or looks fused: review by hand"
+    },
+    {
+      "batch": "p0-top15-seed-01",
+      "match": "name_agreement",
+      "bodies": [
+        "wbc"
+      ],
+      "printed": [
+        "Alberto Puello"
+      ],
+      "countries": [
+        "Dom. R."
+      ],
+      "divisions": [
+        "super_lightweight"
+      ],
+      "last_bout": "2026-10-24",
+      "fighter_id": "db188abb-e1e7-48f4-8675-5f61610ba9f9",
+      "subject_key": "albertopuello",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Alberto Puello",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-01",
+      "match": "name_agreement",
+      "bodies": [
+        "wbc"
+      ],
+      "printed": [
+        "Andy Dominguez"
+      ],
+      "countries": [
+        "US"
+      ],
+      "divisions": [
+        "flyweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "8ef28ccb-65c6-49ff-bc45-e957dbd8b345",
+      "subject_key": "andydominguez",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Andy Dominguez",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-champions-review-02",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf"
+      ],
+      "printed": [
+        "Angelo Leo"
+      ],
+      "countries": [
+        "USA"
+      ],
+      "divisions": [
+        "featherweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "7a1d7c47-3abc-41e3-8670-9daad57df42a",
+      "subject_key": "angeloleo",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Angelo Leo",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-01",
+      "match": "first_last",
+      "bodies": [
+        "wba"
+      ],
+      "printed": [
+        "ARTURO CARDENAS"
+      ],
+      "countries": [
+        "MEX"
+      ],
+      "divisions": [
+        "super_bantamweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "ab8003f2-f43b-4f98-984d-3b3fac5878ef",
+      "subject_key": "arturocardenas",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Arturo Popoca (AKA Arturo Cardenas)",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "existing fighter name carries an AKA / parenthetical or looks fused: review by hand"
+    },
+    {
+      "batch": "p0-top15-seed-01",
+      "match": "contained_in_full_name",
+      "bodies": [
+        "wbc"
+      ],
+      "printed": [
+        "Arturo Cardenas Popoca"
+      ],
+      "countries": [
+        "Mexico"
+      ],
+      "divisions": [
+        "super_bantamweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "ab8003f2-f43b-4f98-984d-3b3fac5878ef",
+      "subject_key": "arturocardenaspopoca",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Arturo Popoca (AKA Arturo Cardenas)",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "existing fighter name carries an AKA / parenthetical or looks fused: review by hand"
+    },
+    {
+      "batch": "p0-top15-seed-01",
+      "match": "near_spelling",
+      "bodies": [
+        "ibf"
+      ],
+      "printed": [
+        "Billal Fawaz"
+      ],
+      "countries": [
+        "GBR"
+      ],
+      "divisions": [
+        "super_welterweight"
+      ],
+      "last_bout": "2026-10-03",
+      "fighter_id": "e9f69181-bb86-461c-a624-05622930f7bd",
+      "subject_key": "billalfawaz",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Bilal Fawaz",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-02",
+      "match": "contained_in_full_name",
+      "bodies": [
+        "wbc"
+      ],
+      "printed": [
+        "Carlos Fromenta"
+      ],
+      "countries": [
+        "Cuba"
+      ],
+      "divisions": [
+        "bridgerweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "be7d80f8-6a49-4c99-bc39-426a21c9715f",
+      "subject_key": "carlosfromenta",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Carlos Fromenta Romero",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-02",
+      "match": "name_agreement",
+      "bodies": [
+        "wba"
+      ],
+      "printed": [
+        "CARLOS FROMENTA ROMERO"
+      ],
+      "countries": [
+        "CUB"
+      ],
+      "divisions": [
+        "bridgerweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "be7d80f8-6a49-4c99-bc39-426a21c9715f",
+      "subject_key": "carlosfromentaromero",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Carlos Fromenta Romero",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-02",
+      "match": "near_spelling",
+      "bodies": [
+        "wbo"
+      ],
+      "printed": [
+        "Connor Wallace"
+      ],
+      "countries": [
+        "AUS"
+      ],
+      "divisions": [
+        "light_heavyweight"
+      ],
+      "last_bout": "2026-10-03",
+      "fighter_id": "d55fe167-651f-4413-8883-b184e4ac2354",
+      "subject_key": "connorwallace",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Conor Wallace",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-02",
+      "match": "name_agreement",
+      "bodies": [
+        "wbc"
+      ],
+      "printed": [
+        "Conor Benn"
+      ],
+      "countries": [
+        "GB"
+      ],
+      "divisions": [
+        "welterweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "907c32d6-be89-46b5-96b0-48415d33a55b",
+      "subject_key": "conorbenn",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Conor Benn",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-02",
+      "match": "name_agreement",
+      "bodies": [
+        "wba"
+      ],
+      "printed": [
+        "DARIUS FULGHUM"
+      ],
+      "countries": [
+        "USA"
+      ],
+      "divisions": [
+        "super_middleweight"
+      ],
+      "last_bout": "2026-11-14",
+      "fighter_id": "d8b4fda9-4941-4709-8056-c938785830bd",
+      "subject_key": "dariusfulghum",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Darius Fulghum",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-02",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf"
+      ],
+      "printed": [
+        "Dominique Crowder"
+      ],
+      "countries": [
+        "USA"
+      ],
+      "divisions": [
+        "bantamweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "9455665d-7195-4c13-b434-a8a780316615",
+      "subject_key": "dominiquecrowder",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Dominique Crowder",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-02",
+      "match": "name_agreement",
+      "bodies": [
+        "wbc"
+      ],
+      "printed": [
+        "Ermal Hadribeaj"
+      ],
+      "countries": [
+        "Albania/US"
+      ],
+      "divisions": [
+        "super_welterweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "40db3767-e009-4220-93cd-0e11c703ec11",
+      "subject_key": "ermalhadribeaj",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Ermal Hadribeaj",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-02",
+      "match": "name_agreement",
+      "bodies": [
+        "wbo"
+      ],
+      "printed": [
+        "Euri Cedeno"
+      ],
+      "countries": [
+        "DOM"
+      ],
+      "divisions": [
+        "middleweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "e79c6783-4329-411b-abb7-68e589c4fd8f",
+      "subject_key": "euricedeno",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Euri Cedeno",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-03",
+      "match": "near_spelling",
+      "bodies": [
+        "wbc"
+      ],
+      "printed": [
+        "Francisco Veron"
+      ],
+      "countries": [
+        "Argentina"
+      ],
+      "divisions": [
+        "super_welterweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "c4ec0e43-fac6-4dcc-b641-25688dd8b34e",
+      "subject_key": "franciscoveron",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Francisco Daniel Vernon",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-03",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf"
+      ],
+      "printed": [
+        "Guido Vianello"
+      ],
+      "countries": [
+        "ITA"
+      ],
+      "divisions": [
+        "heavyweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "4f158202-58a1-4399-b720-d39777106c84",
+      "subject_key": "guidovianello",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Guido Vianello",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-03",
+      "match": "name_agreement",
+      "bodies": [
+        "wba"
+      ],
+      "printed": [
+        "HAMZA UDDIN"
+      ],
+      "countries": [
+        "GBR"
+      ],
+      "divisions": [
+        "flyweight"
+      ],
+      "last_bout": "2026-10-03",
+      "fighter_id": "0ad4ab7d-4f21-400c-8333-69bfaf82100d",
+      "subject_key": "hamzauddin",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Hamza Uddin",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-03",
+      "match": "name_agreement",
+      "bodies": [
+        "wbo"
+      ],
+      "printed": [
+        "Hebert Conceicao Sousa"
+      ],
+      "countries": [
+        "BRA"
+      ],
+      "divisions": [
+        "super_middleweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "b0f68606-dceb-485e-b9a6-78c46e321afa",
+      "subject_key": "hebertconceicaosousa",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Hebert Conceicao Sousa",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-03",
+      "match": "near_spelling",
+      "bodies": [
+        "wba"
+      ],
+      "printed": [
+        "ISRAEL MERCADO ( * )"
+      ],
+      "countries": [
+        "USA"
+      ],
+      "divisions": [
+        "super_lightweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "72e0c9aa-dbec-4a9e-97dc-604bb3c8c53b",
+      "subject_key": "israelmercado",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Iseael Mercado",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 2,
+      "tier": "C",
+      "tier_reason": "several existing candidates"
+    },
+    {
+      "batch": "p0-top15-seed-03",
+      "match": "first_last",
+      "bodies": [
+        "wba"
+      ],
+      "printed": [
+        "JEAN CARLOS VARGAS"
+      ],
+      "countries": [
+        "VEN"
+      ],
+      "divisions": [
+        "flyweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "1abd7419-1f0b-4ff0-85b1-746d663b0bb3",
+      "subject_key": "jeancarlosvargas",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Jean Guerra Vargas",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-03",
+      "match": "first_last",
+      "bodies": [
+        "wba"
+      ],
+      "printed": [
+        "JOEL IRIARTE"
+      ],
+      "countries": [
+        "USA"
+      ],
+      "divisions": [
+        "welterweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "a9dea664-6b85-47a7-bea7-23636522d2ff",
+      "subject_key": "joeliriarte",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Joel Cuauhtemoc Iriarte",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-03",
+      "match": "name_agreement",
+      "bodies": [
+        "wbo"
+      ],
+      "printed": [
+        "Jordy Cardona Adames"
+      ],
+      "countries": [
+        "PRI"
+      ],
+      "divisions": [
+        "bantamweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "57badaed-d1bf-4d08-8147-e66c0ab8f005",
+      "subject_key": "jordycardonaadames",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Jordy Cardona Adames",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-03",
+      "match": "first_last",
+      "bodies": [
+        "wbo"
+      ],
+      "printed": [
+        "Jorge Ascanio Martinez"
+      ],
+      "countries": [
+        "MEX"
+      ],
+      "divisions": [
+        "super_bantamweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "4f1f2176-8063-467d-a00e-7d1ef792e753",
+      "subject_key": "jorgeascaniomartinez",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Jorge Armando Martinez",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-04",
+      "match": "name_agreement",
+      "bodies": [
+        "wbo"
+      ],
+      "printed": [
+        "Joshua Pagan"
+      ],
+      "countries": [
+        "USA"
+      ],
+      "divisions": [
+        "lightweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "290ba169-60b3-42bd-86c8-a40fff3673b7",
+      "subject_key": "joshuapagan",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Joshua Pagan",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-04",
+      "match": "name_agreement",
+      "bodies": [
+        "wba"
+      ],
+      "printed": [
+        "KEVIN HAYLER BROWN"
+      ],
+      "countries": [
+        "CUB"
+      ],
+      "divisions": [
+        "super_lightweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "c4c40da3-4d11-4042-ac9e-4ae90dabbd54",
+      "subject_key": "kevinhaylerbrown",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Kevin Hayler Brown",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-05",
+      "match": "name_agreement",
+      "bodies": [
+        "wbc"
+      ],
+      "printed": [
+        "Muhammadkhuja Yaqubov"
+      ],
+      "countries": [
+        "Tajikistan"
+      ],
+      "divisions": [
+        "super_featherweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "bb93b417-b17e-49c7-aa7a-46ef3b096595",
+      "subject_key": "muhammadkhujayaqubov",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Muhammadkhuja Yaqubov",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-05",
+      "match": "first_last",
+      "bodies": [
+        "wbc"
+      ],
+      "printed": [
+        "Ricardo Nunez"
+      ],
+      "countries": [
+        "Panama"
+      ],
+      "divisions": [
+        "lightweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "d9428dea-e6a8-4d8e-b9a1-a753a6f89380",
+      "subject_key": "ricardonunez",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Ricardo Perez Nunez",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-05",
+      "match": "name_agreement",
+      "bodies": [
+        "ibf"
+      ],
+      "printed": [
+        "Richard Torrez Jr."
+      ],
+      "countries": [
+        "USA"
+      ],
+      "divisions": [
+        "heavyweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "0d2d020e-2ade-439f-9bec-d828e8504c18",
+      "subject_key": "richardtorrezjr",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Richard Torrez Jr.",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-06",
+      "match": "name_agreement",
+      "bodies": [
+        "wba"
+      ],
+      "printed": [
+        "SHAKHRAM GIYASOV"
+      ],
+      "countries": [
+        "UZB"
+      ],
+      "divisions": [
+        "welterweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "a07a164c-8d8e-45dd-ae91-a19a77c7396f",
+      "subject_key": "shakhramgiyasov",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Shakhram Giyasov",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    },
+    {
+      "batch": "p0-top15-seed-06",
+      "match": "contained_in_full_name",
+      "bodies": [
+        "wba"
+      ],
+      "printed": [
+        "VICTOR SANTILLAN"
+      ],
+      "countries": [
+        "DOM"
+      ],
+      "divisions": [
+        "super_bantamweight"
+      ],
+      "last_bout": null,
+      "fighter_id": "91468b2d-f717-4737-8525-2f2495c75918",
+      "subject_key": "victorsantillan",
+      "body_entries": 1,
+      "wikidata_qid": null,
+      "candidate_name": "Victor Daniel Santillan Perez",
+      "commission_bouts": 0,
+      "ambiguous_entries": 0,
+      "body_links_already": 0,
+      "verified_external_ids": [],
+      "candidates_for_subject": 1,
+      "tier": "C",
+      "tier_reason": "no commission bout on the existing fighter"
+    }
+  ]
+}

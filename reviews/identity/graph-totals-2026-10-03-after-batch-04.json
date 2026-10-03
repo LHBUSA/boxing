@@ -1,0 +1,34 @@
+{
+  "merges_total": 7,
+  "batch_03_links": 249,
+  "duplicate_pairs": [
+    {
+      "routes": [
+        "name",
+        "wikidata_alias"
+      ],
+      "seeded": "Rafael Espinoza",
+      "existing": "Rafael Espinoza Zepeda",
+      "held_for": "commission/bout anchor"
+    }
+  ],
+  "batch_03_fighters": 137,
+  "body_entries_title": 142,
+  "body_entries_top15": 1021,
+  "body_entries_total": 1163,
+  "body_entries_linked": 433,
+  "subjects_no_candidate": 215,
+  "public_dob_from_wikidata": 0,
+  "subjects_review_required": 148,
+  "all_fighters_identity_only": 1442,
+  "subjects_possible_existing": 145,
+  "unexpected_duplicate_pairs": 0,
+  "all_fighters_record_verified": 1518,
+  "linked_fighters_identity_only": 174,
+  "qids_on_more_than_one_fighter": 0,
+  "reviewed_held_duplicate_pairs": 1,
+  "linked_fighters_record_verified": 35,
+  "ambiguous_body_id_entries_unlinked": 16,
+  "ambiguous_candidate_clusters_total": 183,
+  "distinct_canonical_fighters_linked": 209
+}
