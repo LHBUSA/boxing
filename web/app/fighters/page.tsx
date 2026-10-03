@@ -46,7 +46,7 @@ export default async function FightersPage({ searchParams }: { searchParams: Pro
                 <FighterArt name={f.name} id={f.public_id} portrait={f.portrait} corner={null} side="a" variant="square" credit={false} />
                 <div className="mcard__body">
                   <span className="mcard__n">{f.name}</span>
-                  <span className="roster__rec mono">{fmtRecord(f.record)}</span>
+                  <span className="roster__rec mono">{f.record.bouts ? fmtRecord(f.record) : "—"}</span>
                   <span className="mcard__meta"><span>{plural(f.record.bouts, "verified bout")}</span><span>{f.division?.class_name ?? ""}</span></span>
                 </div>
               </Link>
@@ -70,7 +70,7 @@ export default async function FightersPage({ searchParams }: { searchParams: Pro
                     {f.last_date ? <span>{fmtDate(f.last_date)}</span> : null}
                   </span>
                 </span>
-                <span className="rrow__r">{fmtRecord(f.record)}</span>
+                <span className="rrow__r">{f.record.bouts ? fmtRecord(f.record) : "—"}</span>
               </Link>
             ))}
           </div>
@@ -81,7 +81,7 @@ export default async function FightersPage({ searchParams }: { searchParams: Pro
                 {rest.map((f) => (
                   <tr key={f.public_id}>
                     <td><Link href={fighterPath(f)} className="namecell"><span className="namecell__art"><FighterArt name={f.name} id={f.public_id} portrait={f.portrait} variant="thumb" corner={null} credit={false} /></span>{f.name}</Link></td>
-                    <td className="mono">{fmtRecord(f.record)}</td>
+                    <td className="mono">{f.record.bouts ? fmtRecord(f.record) : "—"}</td>
                     <td className="r mono">{f.record.bouts}</td>
                     <td className="mono dim">{f.last_date ? fmtDate(f.last_date) : "—"}</td>
                     <td className="dim">{f.division?.class_name ?? "—"}</td>

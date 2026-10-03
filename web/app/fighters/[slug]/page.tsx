@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const res = await load(slug);
   if (!res.ok || !res.data.fighter) return { title: "Fighter", robots: { index: false } };
   const { fighter: f, record: r } = res.data;
-  return { title: `${f.name}: dossier, verified record, Fight DNA`, description: `${f.name} is ${fmtRecord(r)} in ${plural(r.bouts, "verified bout")} on the official commission record.`, alternates: canonical(fighterPath(f)) };
+  return { title: `${f.name}: dossier, verified record, Fight DNA`, description: r.bouts ? `${f.name} is ${fmtRecord(r)} in ${plural(r.bouts, "verified bout")} on the official commission record.` : `${f.name} has no verified bout on the commission records PropBetEdge reads yet.`, alternates: canonical(fighterPath(f)) };
 }
 
 function how(b: FighterBout) {
@@ -78,7 +78,7 @@ export default async function FighterPage({ params }: Props) {
             </div>
           ) : null}
           <div className="tiles mt-3">
-            <div className="tile"><b className="gold">{r.bouts ? fmtRecord(r) : "0-0"}</b><span>Verified record</span></div>
+            <div className="tile"><b className="gold">{r.bouts ? fmtRecord(r) : "None yet"}</b><span>Verified record</span></div>
             <div className="tile"><b>{r.bouts}</b><span>Verified bouts</span></div>
             <div className="tile"><b className={finishRate == null ? "is-na" : ""}>{finishRate == null ? "No wins yet" : `${finishRate}%`}</b><span>Wins by KO/TKO/RTD</span></div>
             <div className="tile"><b className={since == null ? "is-na" : ""}>{since == null ? "—" : `${since}d`}</b><span>Since last bout</span></div>

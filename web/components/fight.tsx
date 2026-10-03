@@ -92,6 +92,9 @@ export const surname = (name: string) => {
 
 /* ------------------------------------------------------------------ poster (hero) */
 
+// no verified bout is not a 0-0 record: the boxer's bouts may sit outside the commissions PropBetEdge reads
+const recText = (r: RecordSummary | null | undefined) => (!r ? "" : r.bouts ? fmtRecord(r) : "No verified bouts yet");
+
 export function PosterCard({ bout, event, recA, recB, eyebrow, badge, actions, foot, priority = false }: {
   bout: BoutCompact; event: { public_id: string; name: string; date: string } & Partial<EventSummary>;
   recA?: RecordSummary | null; recB?: RecordSummary | null; eyebrow: string; badge?: ReactNode; actions?: ReactNode; foot?: ReactNode;
@@ -112,11 +115,11 @@ export function PosterCard({ bout, event, recA, recB, eyebrow, badge, actions, f
         <span className="poster__names">
           <span>
             <span className="poster__name" style={{ display: "block" }}>{a?.name}</span>
-            <span className="poster__rec">{recA ? fmtRecord(recA) : ""}{win === "a" ? <span className="gold"> · Winner</span> : null}</span>
+            <span className="poster__rec">{recText(recA)}{win === "a" ? <span className="gold"> · Winner</span> : null}</span>
           </span>
           <span style={{ textAlign: "right" }}>
             <span className="poster__name poster__name--b" style={{ display: "block" }}>{b?.name}</span>
-            <span className="poster__rec">{win === "b" ? <span className="gold">Winner · </span> : null}{recB ? fmtRecord(recB) : ""}</span>
+            <span className="poster__rec">{win === "b" ? <span className="gold">Winner · </span> : null}{recText(recB)}</span>
           </span>
         </span>
       </Link>
