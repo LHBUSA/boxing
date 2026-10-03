@@ -1,0 +1,17 @@
+{
+  "report": {
+    "year": 2026,
+    "events": 44,
+    "latest_event": "2026-12-12",
+    "earliest_event": "2026-01-04",
+    "debut_conflicts": 1,
+    "fighters_linked": 453,
+    "documents_parsed": 42,
+    "pro_debut_markers": 0,
+    "professional_bouts": 283,
+    "sensitive_retained": 0,
+    "debut_claims_stored": 17,
+    "new_canonical_bouts_this_run": 0
+  },
+  "passes": []
+}

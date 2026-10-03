@@ -1,0 +1,276 @@
+{
+  "rule": "Advisory only. Names alone never establish identity; ambiguous stays held; a named human reviewer decides. Nothing is written until the owner approves.",
+  "entries": [
+    {
+      "body": "ibf",
+      "cluster_key": "name:angelo leo",
+      "reasons_for": "Exact name; the IBF prints Angelo Leo (USA) as featherweight champion; the candidate lists Las Vegas, NV.",
+      "candidate_id": "a85f5c1d-16ed-4a32-a5f6-2cb7df6897c8",
+      "danger_flags": "A name alone never establishes identity.",
+      "cluster_state": "review_candidate",
+      "evidence_tier": "none",
+      "reviewer_note": null,
+      "recommendation": "HOLD",
+      "reasons_against": "The candidate has no verified bout, no identity id and no card appearance: nothing independent ties the two.",
+      "names_as_printed": [
+        "Angelo Leo"
+      ],
+      "proposed_fighter": {
+        "ledger": {
+          "bouts": 0,
+          "latest": null,
+          "earliest": null
+        },
+        "hometown": "Las Vegas, NV",
+        "public_id": "pbe_boxer_2d3c1fd8f53f4fedbaa4e56e3589a4e9",
+        "nationality": null,
+        "display_name": "Angelo Leo",
+        "record_claim": null
+      },
+      "cluster_ambiguity": [],
+      "reviewer_decision": null,
+      "competing_candidates": 0,
+      "countries_as_printed": [
+        "USA"
+      ]
+    },
+    {
+      "body": "wbc",
+      "cluster_key": "name:carlos adames",
+      "reasons_for": "Exact name; the WBC prints CARLOS ADAMES (DOM. R.) as middleweight champion; the candidate lists DR.",
+      "candidate_id": "f09d7005-014d-4942-8c54-a95df00f8c2d",
+      "danger_flags": "The IBF and WBO clusters for this name are ambiguous (countries differ).",
+      "cluster_state": "review_candidate",
+      "evidence_tier": "none",
+      "reviewer_note": null,
+      "recommendation": "HOLD",
+      "reasons_against": "The candidate has no verified bout, no identity id and no card appearance.",
+      "names_as_printed": [
+        "Carlos Adames",
+        "CARLOS ADAMES"
+      ],
+      "proposed_fighter": {
+        "ledger": {
+          "bouts": 0,
+          "latest": null,
+          "earliest": null
+        },
+        "hometown": "DR",
+        "public_id": "pbe_boxer_358286db81b34827907070707355ad1a",
+        "nationality": null,
+        "display_name": "Carlos Adames",
+        "record_claim": null
+      },
+      "cluster_ambiguity": [],
+      "reviewer_decision": null,
+      "competing_candidates": 0,
+      "countries_as_printed": [
+        "DOM. R."
+      ]
+    },
+    {
+      "body": "wbc",
+      "cluster_key": "name:dalton smith",
+      "reasons_for": "The candidate is booked on 2026-10-24 (Matchroom announced card) for the WBC world super lightweight title; the WBC prints DALTON SMITH (GB) as its super lightweight champion.",
+      "candidate_id": "0bfcefd6-a336-442f-80fc-3ffdf45c6c17",
+      "danger_flags": "Name is not unique worldwide; the candidate was created from the promoter card.",
+      "cluster_state": "review_candidate",
+      "evidence_tier": "B (announced title bout)",
+      "reviewer_note": null,
+      "recommendation": "MATCH",
+      "reasons_against": "The evidence is an announced card (promoter schedule lane), not a completed official result; the candidate has no verified bout yet.",
+      "names_as_printed": [
+        "Dalton Smith",
+        "DALTON SMITH"
+      ],
+      "proposed_fighter": {
+        "ledger": {
+          "bouts": 0,
+          "latest": null,
+          "earliest": null
+        },
+        "hometown": null,
+        "public_id": "pbe_boxer_8a111eefa64843c49ea97b377ee6fcc0",
+        "nationality": null,
+        "display_name": "Dalton Smith",
+        "record_claim": null
+      },
+      "cluster_ambiguity": [],
+      "reviewer_decision": null,
+      "competing_candidates": 0,
+      "countries_as_printed": [
+        "GB"
+      ]
+    },
+    {
+      "body": "wba",
+      "cluster_key": "id:10627",
+      "reasons_for": "WBA prints GARY ANTUANNE RUSSELL (USA) with its own boxer id 10627 as WBA world super lightweight champion. The candidate (Capitol Heights, MD) won a 12-round bout on 2026-02-21 (Nevada) at 140.0 lb, the super lightweight limit.",
+      "candidate_id": "c59e4c50-3f62-4204-86d2-ff835cb65759",
+      "danger_flags": "None found: three-part name, no competing candidate.",
+      "cluster_state": "source_identity_proven",
+      "evidence_tier": "B (distinctive name + division weight)",
+      "reviewer_note": null,
+      "recommendation": "MATCH",
+      "reasons_against": "That Nevada bout has no title stake recorded on our side.",
+      "names_as_printed": [
+        "GARY ANTUANNE RUSSELL"
+      ],
+      "proposed_fighter": {
+        "ledger": {
+          "bouts": 1,
+          "latest": "2026-02-21",
+          "earliest": "2026-02-21"
+        },
+        "hometown": "Capitol Heights, MD",
+        "public_id": "pbe_boxer_4277bbde79834171826cdff5ff71ef37",
+        "nationality": null,
+        "display_name": "Gary Antuanne Russell",
+        "record_claim": null
+      },
+      "cluster_ambiguity": [],
+      "reviewer_decision": null,
+      "competing_candidates": 0,
+      "countries_as_printed": [
+        "USA"
+      ]
+    },
+    {
+      "body": "wba",
+      "cluster_key": "id:10548",
+      "reasons_for": "WBA prints JARON ENNIS (USA) with boxer id 10548 as WBA world super welterweight champion. The candidate (PA) won a 12-round bout on 2024-07-13 (Pennsylvania) at 146.4 lb.",
+      "candidate_id": "6cd1a60c-02d7-4d6e-b1a4-247ec9840043",
+      "danger_flags": "None found: distinctive name, no competing candidate.",
+      "cluster_state": "source_identity_proven",
+      "evidence_tier": "B (distinctive name + weight history)",
+      "reviewer_note": null,
+      "recommendation": "MATCH",
+      "reasons_against": "The verified bout is at welterweight (2024); the title is super welterweight (2026); a move up is consistent but is not itself proof.",
+      "names_as_printed": [
+        "JARON ENNIS"
+      ],
+      "proposed_fighter": {
+        "ledger": {
+          "bouts": 1,
+          "latest": "2024-07-13",
+          "earliest": "2024-07-13"
+        },
+        "hometown": "PA",
+        "public_id": "pbe_boxer_96a92c5306e3493f8a6f70e5611d5757",
+        "nationality": null,
+        "display_name": "Jaron Ennis",
+        "record_claim": null
+      },
+      "cluster_ambiguity": [],
+      "reviewer_decision": null,
+      "competing_candidates": 0,
+      "countries_as_printed": [
+        "USA"
+      ]
+    },
+    {
+      "body": "wbo",
+      "cluster_key": "name:jaron ennis",
+      "reasons_for": "WBO prints JARON ENNIS (USA) as its super welterweight champion; same candidate and evidence as the WBA id:10548 entry.",
+      "candidate_id": "02c89f17-0d56-43e6-bb3f-8c28b9e7dddc",
+      "danger_flags": "None found.",
+      "cluster_state": "review_candidate",
+      "evidence_tier": "B (distinctive name + weight history)",
+      "reviewer_note": null,
+      "recommendation": "MATCH",
+      "reasons_against": "Same as the WBA entry; no WBO boxer id is printed.",
+      "names_as_printed": [
+        "JARON ENNIS"
+      ],
+      "proposed_fighter": {
+        "ledger": {
+          "bouts": 1,
+          "latest": "2024-07-13",
+          "earliest": "2024-07-13"
+        },
+        "hometown": "PA",
+        "public_id": "pbe_boxer_96a92c5306e3493f8a6f70e5611d5757",
+        "nationality": null,
+        "display_name": "Jaron Ennis",
+        "record_claim": null
+      },
+      "cluster_ambiguity": [],
+      "reviewer_decision": null,
+      "competing_candidates": 0,
+      "countries_as_printed": [
+        "USA"
+      ]
+    },
+    {
+      "body": "wba",
+      "cluster_key": "id:4439",
+      "reasons_for": "WBA prints MURAT GASSIEV (RUS) with boxer id 4439 as WBA world heavyweight champion. The candidate (Russia) won a 10-round bout on 2025-08-23 (Florida) at 233.0 lb.",
+      "candidate_id": "c8f346bf-49e7-4120-9908-8ec4683e73a1",
+      "danger_flags": "The IBF and WBO name clusters for this name are ambiguous (countries differ); this decision is for the WBA boxer id only.",
+      "cluster_state": "source_identity_proven",
+      "evidence_tier": "B (distinctive name + division weight + country)",
+      "reviewer_note": null,
+      "recommendation": "MATCH",
+      "reasons_against": "That Florida bout has no title stake recorded on our side.",
+      "names_as_printed": [
+        "MURAT GASSIEV"
+      ],
+      "proposed_fighter": {
+        "ledger": {
+          "bouts": 1,
+          "latest": "2025-08-23",
+          "earliest": "2025-08-23"
+        },
+        "hometown": "Russia",
+        "public_id": "pbe_boxer_f3851235d6c64e9c8acf495908d200b0",
+        "nationality": null,
+        "display_name": "Murat Gassiev",
+        "record_claim": null
+      },
+      "cluster_ambiguity": [],
+      "reviewer_decision": null,
+      "competing_candidates": 0,
+      "countries_as_printed": [
+        "RUS"
+      ]
+    },
+    {
+      "body": "wbc",
+      "cluster_key": "name:ryan garcia",
+      "reasons_for": "The candidate won a 12-round bout on 2026-02-21 (Nevada commission) that carried the WBC world welterweight title, weighing 146.5 lb; the WBC now prints RYAN GARCIA (US) as its welterweight champion. Same body, same division, same title.",
+      "candidate_id": "6334998f-3d27-4d90-b6c1-91802a129dc7",
+      "danger_flags": "Common name: other boxers named Ryan Garcia exist (the WBO cluster for this name is ambiguous, countries differ). This decision is for the WBC cluster only.",
+      "cluster_state": "review_candidate",
+      "evidence_tier": "A (title-at-stake)",
+      "reviewer_note": null,
+      "recommendation": "MATCH",
+      "reasons_against": "No independent identity id (no Wikidata link) on the candidate.",
+      "names_as_printed": [
+        "Ryan Garcia",
+        "RYAN GARCIA"
+      ],
+      "proposed_fighter": {
+        "ledger": {
+          "bouts": 1,
+          "latest": "2026-02-21",
+          "earliest": "2026-02-21"
+        },
+        "hometown": "Victorville, CA",
+        "public_id": "pbe_boxer_f47c6f4e3f124d4f840b6752d754662a",
+        "nationality": null,
+        "display_name": "Ryan Garcia",
+        "record_claim": null
+      },
+      "cluster_ambiguity": [],
+      "reviewer_decision": null,
+      "competing_candidates": 0,
+      "countries_as_printed": [
+        "US"
+      ]
+    }
+  ],
+  "batch_id": "p0-champions-01",
+  "workbench": "p0-identity-review@1",
+  "apply_path": "insert into public.boxing_org_identity_candidate_decisions (candidate_id, decision, fighter_id, reviewer, review_note) per approved entry (decision matched); the database refuses automated reviewer names",
+  "generated_at": "2026-10-03T07:55:11.417219-05:00"
+}
