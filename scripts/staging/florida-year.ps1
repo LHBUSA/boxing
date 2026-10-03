@@ -25,9 +25,9 @@ for ($pass = 1; -not $ReportOnly -and $pass -le $MaxPasses; $pass++) {
   }
   $runs += $m
   Write-Host "pass $pass : $($m | ConvertTo-Json -Compress)"
-  # a year is finished when a pass fetched fewer documents than the per-run cap (80); migration 0055 makes each pass skip
-  # documents already parsed by the current parser, so a capped pass always moves on to the next documents
-  if (-not $m['documents_fetched'] -or [int]$m['documents_fetched'] -lt 80) { break }
+  # a year is finished when a pass fetched under the per-run cap (80), or changed no document: backfill order puts
+  # documents not yet processed by this parser first, so a pass that changed nothing left only current documents
+  if (-not $m['documents_fetched'] -or [int]$m['documents_fetched'] -lt 80 -or [int]$m['documents_changed'] -eq 0) { break }
 }
 $report = Invoke-BoxingSql -Ref $ref -Sql @"
 with ev as (select e.id, e.event_date from public.boxing_events e join public.boxing_sources s on s.id = e.source_id
