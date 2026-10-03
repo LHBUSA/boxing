@@ -16,5 +16,17 @@
     "boxing-commissions-production": "workers/boxing-commissions --env production; cron 40 11 * * *; COMMISSION_INGEST_ENABLED gates writes",
     "boxing-odds-production": "workers/boxing-odds --env production; cron */15; ODDS_CAPTURE_ENABLED gates capture"
   },
-  "rule": "No new billable resource without explicit owner cost approval (CLAUDE.md)."
+  "rule": "No new billable resource without explicit owner cost approval (CLAUDE.md).",
+  "retired_staging_workers": {
+    "deleted_2026-10-02": [
+      "boxing-odds-staging",
+      "boxing-commissions-staging",
+      "boxing-rankings-staging"
+    ],
+    "proof": "no routes (workers_dev=false), no service binding in any of 1,662 wrangler configs under D:/Workers, no queues, crons served only the deleted database, production rollbacks are *-production versions",
+    "kept": {
+      "boxing-gateway-staging": "the live build surface boxing.propbetedge.ai (build 944a03a, DEPLOY_HOLD) still has BOXING_GATEWAY_URL pointed at it (Vercel env, pulled 2026-09-13); remove only after the Vercel env is repointed to boxing-gateway-production and redeployed"
+    },
+    "stray_definition": "D:/Workers/_social/boxing is an old second checkout whose wrangler files still define the *-staging Workers; never deploy from it"
+  }
 }
