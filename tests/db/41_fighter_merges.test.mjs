@@ -60,3 +60,50 @@ test('the seed accepts EXISTING_LINK and POSSIBLE_EXISTING_FIGHTER and neither c
   }
   assert.equal((await q('select count(*)::int n from public.boxing_fighters'))[0].n, before);
 });
+
+// 0058: identity equivalence routes for the name check (owner approved 2026-10-03)
+const eq = async (a, b) => (await q('select public.boxing_identity_name_equivalent($1, $2) r', [a, b]))[0].r;
+const contained = async (a, b) => (await q('select public.boxing_name_contained($1, $2) r', [a, b]))[0].r;
+
+test('0058 containment: whole tokens in order with the same given name; never a substring, a reordering or a dropped given name', async () => {
+  assert.equal(await contained('Jaime Munguia', 'Jaime Aaron Munguia Escobedo'), true);
+  assert.equal(await contained('William Zepeda', 'William Zepeda Segura'), true);
+  assert.equal(await contained('Teófimo López', 'TEOFIMO ANDRES LOPEZ'), true, 'case and accents folded');
+  assert.equal(await contained('Ana Lopez', 'Anastasia Lopez Diaz'), false, 'a substring of a token is not a token');
+  assert.equal(await contained('Jaime Mungu', 'Jaime Aaron Munguia Escobedo'), false, 'a partial surname is not a token');
+  assert.equal(await contained('Munguia Jaime', 'Jaime Aaron Munguia Escobedo'), false, 'reordered');
+  assert.equal(await contained('Aaron Munguia', 'Jaime Aaron Munguia Escobedo'), false, 'the given name must match');
+  assert.equal(await contained('Romero Moreno', 'Rolando Florencio Romero Moreno'), false);
+  assert.equal(await contained('Jaime Munguia', 'Jaime Munguia'), false, 'the longer name must have more tokens');
+  assert.equal(await contained('Jaime', 'Jaime Aaron Munguia'), false, 'one token is never enough');
+  assert.equal(await eq('Gary Antonio Russell', 'Gary Antuanne Russell'), true, 'first+last still equal: guard sends to review, the human decides');
+  assert.equal(await eq('David Benavidez', 'Anthony David Benavidez'), false, 'a different given name is not name-equivalent');
+});
+
+test('0058 merge: containment route passes Munguia-style pairs; alias route needs a stored alias of the verified item', async () => {
+  const survivor = await fighter(db.client, 'Jaime Aaron Munguia Escobedo');
+  await card(survivor, await fighter(db.client, 'Jose Armando Resendiz Garcia'), '2026-05-02');
+  const seeded = await fighter(db.client, 'Jaime Munguia');
+  const r = await merge({ merged_fighter_id: seeded.id, survivor_fighter_id: survivor.id });
+  assert.equal(r.checks.first_last.route, 'containment');
+
+  const ben = await fighter(db.client, 'Anthony David Benavidez');
+  await card(ben, await fighter(db.client, 'Gilberto Ramirez Sanchez'), '2026-05-02');
+  const dav = await fighter(db.client, 'David Benavidez');
+  await q(`insert into public.boxing_fighter_identities (fighter_id, source_id, namespace, external_id, verification_state, confidence)
+           values ($1, $2, 'wikidata.item', 'Q35454257', 'verified', 90)`, [dav.id, commission.id]);
+  await expectPgError(() => merge({ merged_fighter_id: dav.id, survivor_fighter_id: ben.id }), { match: /first_last/ });
+  await q(`insert into public.boxing_fighter_wikidata_aliases (qid, alias, language, kind) values ('Q35454257', 'Anthony David Benavidez', 'en', 'alias')`);
+  const b = await merge({ merged_fighter_id: dav.id, survivor_fighter_id: ben.id });
+  assert.equal(b.checks.first_last.route, 'wikidata_alias');
+  assert.equal(b.checks.first_last.alias, 'Q35454257:Anthony David Benavidez');
+
+  const other = await fighter(db.client, 'Anthony Smith');
+  await card(other, await fighter(db.client, 'Somebody Else'));
+  const x = await fighter(db.client, 'David Jones');
+  await q(`insert into public.boxing_fighter_identities (fighter_id, source_id, namespace, external_id, verification_state, confidence)
+           values ($1, $2, 'wikidata.item', 'Q77', 'review', 10)`, [x.id, commission.id]);
+  await q(`insert into public.boxing_fighter_wikidata_aliases (qid, alias, language, kind) values ('Q77', 'Anthony Smith', 'en', 'alias')`);
+  await expectPgError(() => merge({ merged_fighter_id: x.id, survivor_fighter_id: other.id }), { match: /first_last/ });
+  await expectPgError(() => q(`delete from public.boxing_fighter_wikidata_aliases`), {});
+});

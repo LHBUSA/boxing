@@ -22,7 +22,27 @@ with latest_status as (
     and (c.cluster_key = 'id:' || r.org_boxer_id or c.source_names ? r.printed)
     order by (c.cluster_key = 'id:' || r.org_boxer_id) desc nulls last limit 1) c on true
 ), linked as (select distinct fighter_id from entries where fighter_id is not null),
-latest_seed as (select distinct on (subject_key) subject_key, decision from public.boxing_identity_seed_decisions order by subject_key, decided_at desc)
+latest_seed as (select distinct on (subject_key) subject_key, decision from public.boxing_identity_seed_decisions order by subject_key, decided_at desc),
+fl as (
+  select f.id, f.display_name, public.boxing_name_tokens(f.display_name) t,
+    exists (select 1 from public.boxing_identity_seed_decisions x where x.decision = 'AUTO_SEEDED' and public.boxing_canonical_fighter_id(x.fighter_id) = f.id) seeded
+  from public.boxing_fighters f where f.merged_into_id is null
+),
+dup_pairs as (
+  select a.display_name seeded, b.display_name existing, 'name' route
+  from fl a join fl b on b.t[1] = a.t[1] and b.id <> a.id and not b.seeded
+  where a.seeded and cardinality(a.t) >= 2 and cardinality(b.t) >= 2
+    and (a.t[cardinality(a.t)] = b.t[cardinality(b.t)]
+         or public.boxing_name_contained(a.display_name, b.display_name) or public.boxing_name_contained(b.display_name, a.display_name))
+  union
+  select a.display_name, b.display_name, 'wikidata_alias'
+  from fl a
+  join public.boxing_fighter_identities fi on fi.fighter_id in (select id from public.boxing_fighters where id = a.id or merged_into_id = a.id)
+    and fi.namespace = 'wikidata.item' and fi.verification_state = 'verified'
+  join public.boxing_fighter_wikidata_aliases al on al.qid = fi.external_id
+  join fl b on b.t = public.boxing_name_tokens(al.alias) and b.id <> a.id and not b.seeded
+  where a.seeded and cardinality(b.t) >= 2
+)
 select jsonb_build_object(
   'body_entries_total', (select count(*) from entries),
   'body_entries_title', (select count(*) from entries where kind = 'title'),
@@ -40,10 +60,8 @@ select jsonb_build_object(
   'subjects_no_candidate', (select count(*) from latest_seed where decision = 'NO_CANDIDATE'),
   'qids_on_more_than_one_fighter', (select count(*) from (select external_id from public.boxing_fighter_identities where namespace = 'wikidata.item' and verification_state <> 'rejected'
       group by 1 having count(distinct public.boxing_canonical_fighter_id(fighter_id)) > 1) x),
-  'seeded_first_last_duplicates_of_existing', (select count(*) from public.boxing_identity_seed_decisions s join public.boxing_fighters f on f.id = s.fighter_id
-      where s.decision = 'AUTO_SEEDED' and f.merged_into_id is null and exists (select 1 from public.boxing_fighters o where o.id <> f.id and o.merged_into_id is null
-        and public.boxing_first_last_key(o.display_name) = public.boxing_first_last_key(f.display_name)
-        and not exists (select 1 from public.boxing_identity_seed_decisions x where x.fighter_id = o.id))),
+  'seeded_duplicates_of_existing', (select count(distinct (seeded, existing)) from dup_pairs),
+  'seeded_duplicate_pairs', (select coalesce(jsonb_agg(jsonb_build_object('seeded', seeded, 'existing', existing, 'route', route)), '[]'::jsonb) from dup_pairs),
   'public_dob_from_wikidata', (select count(*) from public.boxing_fighters f join public.boxing_identity_seed_decisions s on s.fighter_id = f.id where f.dob is not null),
   'batch_03_links', (select count(*) from public.boxing_org_identity_candidate_decisions where evidence ->> 'batch' = 'p0-top15-03'),
   'batch_03_fighters', (select count(distinct fighter_id) from public.boxing_org_identity_candidate_decisions where evidence ->> 'batch' = 'p0-top15-03'),

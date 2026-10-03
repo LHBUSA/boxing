@@ -1,4 +1,6 @@
--- P0 identity graph proofs after merges + batch 02 (read-only). One row per proof; pass must be true.
+-- P0 identity graph proofs (read-only). One row per proof; pass must be true.
+-- 0058: the duplicate proof uses identity equivalence (first+last, ordered containment, stored Wikidata alias),
+-- not first+last equality alone, so a double-surname or alias duplicate is counted and listed.
 with seed_start as (select min(decided_at) t from public.boxing_identity_seed_decisions),
 inoue as (
   select count(distinct public.boxing_canonical_fighter_id(d.fighter_id)) fighters, count(*) linked_clusters,
@@ -11,13 +13,25 @@ dup_qid as (
     where fi.namespace = 'wikidata.item' and fi.verification_state <> 'rejected'
     group by 1 having count(distinct public.boxing_canonical_fighter_id(fi.fighter_id)) > 1) x
 ),
-dup_name as (
-  select count(*) n from (select public.boxing_first_last_key(f.display_name) k from public.boxing_fighters f
-    where f.merged_into_id is null and exists (select 1 from public.boxing_identity_seed_decisions d where public.boxing_canonical_fighter_id(d.fighter_id) = f.id)
-    ) s where exists (select 1 from public.boxing_fighters o where o.merged_into_id is null
-      and public.boxing_first_last_key(o.display_name) = s.k
-      and not exists (select 1 from public.boxing_identity_seed_decisions d where public.boxing_canonical_fighter_id(d.fighter_id) = o.id)
-      and o.id not in (select survivor_fighter_id from public.boxing_fighter_merge_decisions))
+fl as (
+  select f.id, f.display_name, public.boxing_name_tokens(f.display_name) t,
+    exists (select 1 from public.boxing_identity_seed_decisions x where x.decision = 'AUTO_SEEDED' and public.boxing_canonical_fighter_id(x.fighter_id) = f.id) seeded
+  from public.boxing_fighters f where f.merged_into_id is null
+),
+dup_pairs as (
+  select a.display_name seeded, b.display_name existing, 'name' route
+  from fl a join fl b on b.t[1] = a.t[1] and b.id <> a.id and not b.seeded
+  where a.seeded and cardinality(a.t) >= 2 and cardinality(b.t) >= 2
+    and (a.t[cardinality(a.t)] = b.t[cardinality(b.t)]
+         or public.boxing_name_contained(a.display_name, b.display_name) or public.boxing_name_contained(b.display_name, a.display_name))
+  union
+  select a.display_name, b.display_name, 'wikidata_alias'
+  from fl a
+  join public.boxing_fighter_identities fi on fi.fighter_id in (select id from public.boxing_fighters where id = a.id or merged_into_id = a.id)
+    and fi.namespace = 'wikidata.item' and fi.verification_state = 'verified'
+  join public.boxing_fighter_wikidata_aliases al on al.qid = fi.external_id
+  join fl b on b.t = public.boxing_name_tokens(al.alias) and b.id <> a.id and not b.seeded
+  where a.seeded and cardinality(b.t) >= 2
 ),
 multi_decision as (
   select count(*) n from (select candidate_id from public.boxing_org_identity_candidate_decisions where decision = 'matched' group by 1 having count(*) > 1) x
@@ -38,7 +52,7 @@ title_rank as (
 )
 select 'inoue_one_fighter' proof, (inoue.fighters = 1) pass, jsonb_build_object('fighters', inoue.fighters, 'linked_clusters', inoue.linked_clusters, 'inoue_clusters_total', inoue.clusters_total) detail from inoue
 union all select 'no_qid_on_two_fighters', dup_qid.n = 0, jsonb_build_object('qids_on_several_fighters', dup_qid.n) from dup_qid
-union all select 'no_seeded_duplicate_of_existing', dup_name.n = 0, jsonb_build_object('seeded_with_same_first_last_as_unmerged_fighter', dup_name.n) from dup_name
+union all select 'no_seeded_duplicate_of_existing', count(distinct (seeded, existing)) = 0, jsonb_build_object('seeded_identity_equivalent_to_unmerged_fighter', count(distinct (seeded, existing)), 'pairs', coalesce(jsonb_agg(jsonb_build_object('seeded', seeded, 'existing', existing, 'route', route)), '[]'::jsonb)) from dup_pairs
 union all select 'one_decision_per_cluster', multi_decision.n = 0, jsonb_build_object('clusters_with_several_matches', multi_decision.n) from multi_decision
 union all select 'no_body_claim_moved_between_people', moved.n = 0, jsonb_build_object('links_not_matching_their_seed_entry', moved.n) from moved
 union all select 'no_title_ranking_record_created', (title_rank.wikidata_record_claims = 0), to_jsonb(title_rank) from title_rank;
