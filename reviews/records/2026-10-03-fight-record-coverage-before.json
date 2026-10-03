@@ -1,0 +1,46 @@
+{
+  "rule": "fight-record-coverage@1 (read-only)",
+  "by_reason": {
+    "top15": {
+      "conflict": 0,
+      "p0_total": 1020,
+      "resolved": 0,
+      "zero_bouts": 0,
+      "ledger_partial": 0,
+      "sourced_record": 0,
+      "ledger_complete": 0,
+      "no_record_source": 0,
+      "identity_unresolved": 1020
+    },
+    "champion": {
+      "conflict": 0,
+      "p0_total": 87,
+      "resolved": 0,
+      "zero_bouts": 0,
+      "ledger_partial": 0,
+      "sourced_record": 0,
+      "ledger_complete": 0,
+      "no_record_source": 0,
+      "identity_unresolved": 87
+    },
+    "upcoming": {
+      "conflict": 0,
+      "p0_total": 28,
+      "resolved": 28,
+      "zero_bouts": 28,
+      "ledger_partial": 0,
+      "sourced_record": 0,
+      "ledger_complete": 0,
+      "no_record_source": 28,
+      "identity_unresolved": 0
+    }
+  },
+  "generated_at": "2026-10-03T07:07:31.551617-05:00",
+  "record_claims": {
+    "held": 0,
+    "parsed": 0
+  },
+  "p0_distinct_unresolved_names": 1104,
+  "p0_distinct_resolved_fighters": 28,
+  "all_fighters_with_record_claim": 0
+}

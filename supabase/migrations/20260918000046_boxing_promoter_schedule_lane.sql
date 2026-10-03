@@ -23,12 +23,15 @@ begin;
 
 -- 1 -------------------------------------------------------------------------------------------------------------------
 -- lanes that describe content we must be able to refuse separately from schedule facts
+-- (2026-10-03: 'record_entering' from migration 0053 is listed here too. On a chain rerun this block re-creates the
+-- constraint after later migrations have stored rows for later lanes, so the list must already include them. The
+-- applied database is unaffected: migrations are recorded by version and never re-run there.)
 alter table public.boxing_source_capabilities drop constraint if exists boxing_source_capabilities_lane_check;
 do $$ begin
   perform public.boxing_ensure_constraint('public.boxing_source_capabilities', 'boxing_source_capabilities_lane_check',
     'check (lane in (''events'',''upcoming_cards'',''bouts'',''results'',''stoppage_round_time'',''scorecard_totals'',''scorecard_rounds'',''judges'',''referees'',
       ''weigh_ins'',''point_deductions'',''knockdowns'',''suspensions'',''titles_at_stake'',''title_status'',''rankings'',''fighter_identity'',''fighter_attributes'',''venues'',
-      ''promoters'',''broadcasters'',''hall_inductions'',''odds'',''photos'',''video'',''article_text''))');
+      ''promoters'',''broadcasters'',''hall_inductions'',''odds'',''photos'',''video'',''article_text'',''record_entering''))');
 end $$;
 
 do $$
