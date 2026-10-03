@@ -124,3 +124,11 @@ test('0059 duplicate HOLD ledger: human reviewer, HOLD only, evidence + missing 
   await expectPgError(() => q(`delete from public.boxing_duplicate_hold_decisions`), {});
   await expectPgError(() => q(`update public.boxing_duplicate_hold_decisions set missing_evidence = 'none'`), {});
 });
+
+test('0060 fighter context carries body_claims (read-only; empty when no body entry is linked)', async () => {
+  const f = await fighter(db.client, 'Context Only Boxer');
+  const [{ public_id }] = await q('select public_id from public.boxing_fighters where id = $1', [f.id]);
+  const [{ c }] = await q('select public.boxing_site_fighter_context($1) c', [public_id.slice(-32).slice(0, 12)]);
+  assert.deepEqual(c.body_claims, []);
+  assert.ok('sourced_bio' in c && 'hall_of_fame' in c, 'existing context fields unchanged');
+});

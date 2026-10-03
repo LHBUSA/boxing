@@ -24,6 +24,22 @@ export interface FighterContext {
   distinct_opponents: number;
   title_bouts: number;
   approved_videos: number;
+  // current sanctioning-body entries linked to this fighter, as each body prints them; never PropBetEdge fight history
+  body_claims?: BodyClaim[];
+}
+
+export interface BodyClaim {
+  kind: "title" | "ranking";
+  body: string;
+  body_name: string | null;
+  division_key: string;
+  division: string;
+  role: string | null;
+  tier: string | null;
+  position: number | null;
+  printed_name: string;
+  as_of: string | null;
+  source_url: string | null;
 }
 
 export interface BoutContext {

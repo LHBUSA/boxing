@@ -10,6 +10,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { fighterJsonLd } from "@/lib/seo";
 import { Crumbs, DnaBars, FormStrip, Note, RChip, SecHead, Unavailable } from "@/components/fight";
 import type { FighterBout } from "@/lib/types";
+import type { BodyClaim } from "@/lib/types-os";
 import { DnaModules } from "@/components/dna";
 
 export const revalidate = 300;
@@ -26,7 +27,31 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const res = await load(slug);
   if (!res.ok || !res.data.fighter) return { title: "Fighter", robots: { index: false } };
   const { fighter: f, record: r } = res.data;
-  return { title: `${f.name}: dossier, verified record, Fight DNA`, description: r.bouts ? `${f.name} is ${fmtRecord(r)} in ${plural(r.bouts, "verified bout")} on the official commission record.` : `${f.name} has no verified bout on the commission records PropBetEdge reads yet.`, alternates: canonical(fighterPath(f)) };
+  if (r.bouts) return { title: `${f.name}: dossier, verified record, Fight DNA`, description: `${f.name} is ${fmtRecord(r)} in ${plural(r.bouts, "verified bout")} on the official commission record.`, alternates: canonical(fighterPath(f)) };
+  const claims = optional(await gateway.fighterContext(refOf(f.public_id)))?.body_claims ?? [];
+  const headline = bodyHeadline(claims);
+  return { title: `${f.name}: dossier${headline ? ", titles and rankings" : ""}`, description: headline ? `${f.name}: ${headline}, as the sanctioning bodies list them.` : `${f.name}: boxer dossier on PropBetEdge Boxing.`, alternates: canonical(fighterPath(f)) };
+}
+
+const TIER: Record<string, string> = { world: "champion", super: "super champion", regular: "regular champion", interim: "interim champion", franchise: "franchise champion" };
+const bodyShort = (c: BodyClaim) => c.body.toUpperCase();
+// one line per body and division: a title beats a ranking, the body's own label is kept for the detail
+function groupClaims(claims: BodyClaim[]) {
+  const seen = new Map<string, BodyClaim>();
+  for (const c of claims) {
+    const k = `${c.body}|${c.division_key}|${c.kind}`;
+    if (!seen.has(k)) seen.set(k, c);
+  }
+  const titles = [...seen.values()].filter((c) => c.kind === "title");
+  const titleKeys = new Set(titles.map((c) => `${c.body}|${c.division_key}`));
+  const ranks = [...seen.values()].filter((c) => c.kind === "ranking" && !titleKeys.has(`${c.body}|${c.division_key}`));
+  return { titles, ranks };
+}
+function bodyHeadline(claims: BodyClaim[]) {
+  const { titles, ranks } = groupClaims(claims);
+  if (titles.length) return `${titles.map(bodyShort).filter((v, i, a) => a.indexOf(v) === i).join(", ")} ${titles[0].division.toLowerCase()} ${TIER[titles[0].tier ?? ""] ?? "champion"}`;
+  if (ranks.length) return `ranked by ${ranks.map(bodyShort).filter((v, i, a) => a.indexOf(v) === i).join(", ")} at ${ranks[0].division.toLowerCase()}`;
+  return null;
 }
 
 function how(b: FighterBout) {
@@ -61,6 +86,30 @@ export default async function FighterPage({ params }: Props) {
   const decisions = done.filter((b) => b.scorecards.some((s) => s.mine != null));
   const commissions = [...new Set(d.bouts.map((b) => b.event.commission).filter(Boolean))];
   const finishRate = r.wins ? Math.round((r.stoppage_wins / r.wins) * 100) : null;
+  // 0 verified bouts means only that PropBetEdge has not verified the history yet: nothing bout-derived is rendered
+  const hasRecord = r.bouts > 0;
+  const { titles, ranks } = groupClaims(ctx?.body_claims ?? []);
+  const claimDivision = titles[0]?.division ?? ranks[0]?.division ?? null;
+  const nationality = f.nationality ?? (bio?.nationality?.length ? `${bio.nationality.join(" / ")} (identity-proven)` : null);
+  const heightReach = f.height_cm || f.reach_cm ? `${f.height_cm ? `${Math.round(f.height_cm)} cm` : "—"} · ${f.reach_cm ? `${Math.round(f.reach_cm)} cm` : "—"}` : bio?.height_cm ? `${Math.round(bio.height_cm)} cm (identity-proven) · reach not verified` : null;
+  const facts: [string, React.ReactNode][] = hasRecord
+    ? [
+        ["Division", division ?? (weights.length ? `Weighed ${fmtLb(weights[0])} last out` : claimDivision ?? "Not on sheet")],
+        ["Stance", f.stance ? STANCE[f.stance] ?? f.stance : "Not verified"],
+        ["Height · reach", heightReach ?? "Not verified"],
+        ["Age", bio?.age_years ? `${bio.age_years} (identity-proven)` : "Not verified"],
+        ["Nationality", nationality ?? "Not verified"],
+        ["Last verified bout", latest ? <Link className="gold" href={boutPath({ public_id: latest.public_id })}>{fmtDate(latest.date)}</Link> : "—"],
+        ["First verified bout", r.first_date ? fmtDate(r.first_date) : "—"],
+        ["Weigh-in range", weights.length ? `${fmtLb(Math.min(...weights))} – ${fmtLb(Math.max(...weights))}` : "—"],
+      ]
+    : ([
+        ["Division", claimDivision],
+        ["Stance", f.stance ? STANCE[f.stance] ?? f.stance : null],
+        ["Height · reach", heightReach],
+        ["Age", bio?.age_years ? `${bio.age_years} (identity-proven)` : null],
+        ["Nationality", nationality],
+      ] as [string, React.ReactNode][]).filter(([, v]) => v != null && v !== "");
 
   return (
     <div className="wrap page">
@@ -69,7 +118,7 @@ export default async function FighterPage({ params }: Props) {
       <section className="panel dossier">
         <div className="dossier__art"><FighterArt name={f.name} id={f.public_id} portrait={f.portrait} corner={null} /></div>
         <div>
-          <div className="eyebrow">{[division, commissions[0]].filter(Boolean).join(" · ") || "Boxer"}</div>
+          <div className="eyebrow">{[division ?? claimDivision, commissions[0]].filter(Boolean).join(" · ") || "Boxer"}</div>
           <h1>{f.name}</h1>
           {f.nickname ? <p className="serif gold" style={{ fontStyle: "italic", fontSize: 22, marginTop: 6 }}>“{f.nickname}”</p> : null}
           {ctx?.hall_of_fame?.length ? (
@@ -77,29 +126,37 @@ export default async function FighterPage({ params }: Props) {
               {ctx.hall_of_fame.map((h) => <Link key={h.institution_slug + h.year} href={"/hall-of-fame?year=" + h.year} className="tag tag--gold">Hall of Fame · {h.institution} · {h.year} · {h.category}</Link>)}
             </div>
           ) : null}
-          <div className="tiles mt-3">
-            <div className="tile"><b className="gold">{r.bouts ? fmtRecord(r) : "None yet"}</b><span>Verified record</span></div>
-            <div className="tile"><b>{r.bouts}</b><span>Verified bouts</span></div>
-            <div className="tile"><b className={finishRate == null ? "is-na" : ""}>{finishRate == null ? "No wins yet" : `${finishRate}%`}</b><span>Wins by KO/TKO/RTD</span></div>
-            <div className="tile"><b className={since == null ? "is-na" : ""}>{since == null ? "—" : `${since}d`}</b><span>Since last bout</span></div>
-          </div>
+          {hasRecord ? (
+            <div className="tiles mt-3">
+              <div className="tile"><b className="gold">{fmtRecord(r)}</b><span>Verified record</span></div>
+              <div className="tile"><b>{r.bouts}</b><span>Verified bouts</span></div>
+              <div className="tile"><b className={finishRate == null ? "is-na" : ""}>{finishRate == null ? "No wins yet" : `${finishRate}%`}</b><span>Wins by KO/TKO/RTD</span></div>
+              <div className="tile"><b className={since == null ? "is-na" : ""}>{since == null ? "—" : `${since}d`}</b><span>Since last bout</span></div>
+            </div>
+          ) : null}
+          {titles.length || ranks.length ? (
+            <div className="mt-3">
+              <div className="eyebrow eyebrow--dim">Sanctioning-body records · as each body lists them</div>
+              <div className="mt-1" style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                {titles.map((c) => <span key={"t" + c.body + c.division_key} className="tag tag--gold" title={[c.role, c.as_of ? `as of ${fmtDate(c.as_of)}` : null].filter(Boolean).join(" · ")}>{bodyShort(c)} · {c.division} · {TIER[c.tier ?? ""] ?? "champion"}</span>)}
+                {ranks.map((c) => <span key={"r" + c.body + c.division_key} className="tag" title={c.as_of ? `as of ${fmtDate(c.as_of)}` : undefined}>{bodyShort(c)} · {c.division} · #{c.position ?? c.role}</span>)}
+              </div>
+            </div>
+          ) : null}
           {done.length ? <div className="mt-3" style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}><span className="eyebrow eyebrow--dim">Last {Math.min(5, done.length)}</span><FormStrip results={done.slice(0, 5).map((b) => b.result)} /></div> : null}
-          <dl className="facts mt-3">
-            <div><dt>Division</dt><dd>{division ?? (weights.length ? `Weighed ${fmtLb(weights[0])} last out` : "Not on sheet")}</dd></div>
-            <div><dt>Stance</dt><dd className={f.stance ? "" : "faint"}>{f.stance ? STANCE[f.stance] ?? f.stance : "Not verified"}</dd></div>
-            <div><dt>Height · reach</dt><dd className={f.height_cm || f.reach_cm || bio?.height_cm ? "" : "faint"}>{f.height_cm || f.reach_cm ? `${f.height_cm ? `${Math.round(f.height_cm)} cm` : "—"} · ${f.reach_cm ? `${Math.round(f.reach_cm)} cm` : "—"}` : bio?.height_cm ? `${Math.round(bio.height_cm)} cm (identity-proven) · reach not verified` : "Not verified"}</dd></div>
-            <div><dt>Age</dt><dd className={bio?.age_years ? "" : "faint"}>{bio?.age_years ? `${bio.age_years} (identity-proven)` : "Not verified"}</dd></div>
-            <div><dt>Nationality</dt><dd className={bio?.nationality?.length || f.nationality ? "" : "faint"}>{f.nationality ?? (bio?.nationality?.length ? `${bio.nationality.join(" / ")} (identity-proven)` : "Not verified")}</dd></div>
-            <div><dt>Last verified bout</dt><dd>{latest ? <Link className="gold" href={boutPath({ public_id: latest.public_id })}>{fmtDate(latest.date)}</Link> : "—"}</dd></div>
-            <div><dt>First verified bout</dt><dd>{r.first_date ? fmtDate(r.first_date) : "—"}</dd></div>
-            <div><dt>Weigh-in range</dt><dd>{weights.length ? `${fmtLb(Math.min(...weights))} – ${fmtLb(Math.max(...weights))}` : "—"}</dd></div>
-          </dl>
+          {facts.length ? (
+            <dl className="facts mt-3">
+              {facts.map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}
+            </dl>
+          ) : null}
           {bio ? <p className="fine mt-2">Identity proven: a reference boxing record for this person lists a bout on our verified record. DATA · PropSports</p> : null}
-          <p className="fine mt-2">Titles and rankings appear once sanctioning-body records are cleared. Age appears only from an identity-proven source. Bouts outside covered commissions are not on this record.</p>
+          {hasRecord
+            ? <p className="fine mt-2">Titles and rankings are each body&apos;s own current records. Age appears only from an identity-proven source. Bouts outside covered commissions are not on this record.</p>
+            : <p className="fine mt-2">Detailed fight history is still being verified from official commission records.</p>}
         </div>
       </section>
 
-      <section className="mt-4">
+      {hasRecord || upcoming.length ? <section className="mt-4">
         <SecHead kicker="Canonical bouts only" title="Next Fight" />
         {upcoming.length ? upcoming.map((b) => (
           <Link key={b.public_id} href={boutPath({ public_id: b.public_id, a: { name: f.name }, b: { name: b.opponent.name } })} className="result-band">
@@ -107,8 +164,9 @@ export default async function FighterPage({ params }: Props) {
             <span className="mono dim">{b.event.name}</span>
           </Link>
         )) : <Note title="No verified upcoming bout">A next fight appears once a commission bout sheet lists it and both boxers are verified.</Note>}
-      </section>
+      </section> : null}
 
+      {hasRecord ? <>
       <div className="band">
         <div className="split">
           <section>
@@ -144,8 +202,9 @@ export default async function FighterPage({ params }: Props) {
         <SecHead kicker="PropBetEdge-derived · every value with its sample, cutoff and definition version" title="Fight DNA, Full Profile" />
         <DnaModules metrics={d.dna} name={f.name} />
       </section>
+      </> : null}
 
-      <section>
+      {d.bouts.length ? <section>
         <SecHead kicker="Chronological · newest first" title="Verified Fight History" />
         <div className="blist">
           {d.bouts.map((b) => (
@@ -164,7 +223,7 @@ export default async function FighterPage({ params }: Props) {
             </div>
           ))}
         </div>
-      </section>
+      </section> : null}
 
       {ctx?.promoter_appearances?.length ? (
         <section className="mt-4">
@@ -180,10 +239,10 @@ export default async function FighterPage({ params }: Props) {
         </section>
       ) : null}
 
-      <section className="mt-4">
+      {hasRecord ? <section className="mt-4">
         <SecHead kicker="Matched markets only" title="Market History" />
         <Note title="No matched market history yet">Sportsbook prices attach to a boxer only through bouts matched to the verified record.</Note>
-      </section>
+      </section> : null}
     </div>
   );
 }
