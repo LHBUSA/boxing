@@ -149,7 +149,9 @@ export default async function FighterPage({ params }: Props) {
               {facts.map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}
             </dl>
           ) : null}
-          {bio ? <p className="fine mt-2">Identity proven: a reference boxing record for this person lists a bout on our verified record. DATA · PropSports</p> : null}
+          {bio ? <p className="fine mt-2">{hasRecord
+            ? "Identity proven: a reference boxing record for this person lists a bout on our verified record. DATA · PropSports"
+            : "Identity proven: an open reference record for this person agrees with the sanctioning bodies' entries on name, country and era. DATA · PropSports"}</p> : null}
           {hasRecord
             ? <p className="fine mt-2">Titles and rankings are each body&apos;s own current records. Age appears only from an identity-proven source. Bouts outside covered commissions are not on this record.</p>
             : <p className="fine mt-2">Detailed fight history is still being verified from official commission records.</p>}
