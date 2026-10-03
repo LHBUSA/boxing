@@ -1,0 +1,221 @@
+{
+  "divisions": [
+    {
+      "last": "2026-08",
+      "first": "2005-12",
+      "division": "bantamweight",
+      "months_stored": 247,
+      "months_in_range": 249,
+      "missing_inside_range": 2
+    },
+    {
+      "last": "2026-08",
+      "first": "2005-12",
+      "division": "cruiserweight",
+      "months_stored": 246,
+      "months_in_range": 249,
+      "missing_inside_range": 3
+    },
+    {
+      "last": "2026-08",
+      "first": "2005-12",
+      "division": "featherweight",
+      "months_stored": 247,
+      "months_in_range": 249,
+      "missing_inside_range": 2
+    },
+    {
+      "last": "2026-08",
+      "first": "2005-12",
+      "division": "flyweight",
+      "months_stored": 247,
+      "months_in_range": 249,
+      "missing_inside_range": 2
+    },
+    {
+      "last": "2026-08",
+      "first": "2005-12",
+      "division": "heavyweight",
+      "months_stored": 246,
+      "months_in_range": 249,
+      "missing_inside_range": 3
+    },
+    {
+      "last": "2026-08",
+      "first": "2005-12",
+      "division": "light_flyweight",
+      "months_stored": 247,
+      "months_in_range": 249,
+      "missing_inside_range": 2
+    },
+    {
+      "last": "2026-08",
+      "first": "2005-12",
+      "division": "light_heavyweight",
+      "months_stored": 246,
+      "months_in_range": 249,
+      "missing_inside_range": 3
+    },
+    {
+      "last": "2026-08",
+      "first": "2005-12",
+      "division": "lightweight",
+      "months_stored": 247,
+      "months_in_range": 249,
+      "missing_inside_range": 2
+    },
+    {
+      "last": "2026-08",
+      "first": "2005-12",
+      "division": "middleweight",
+      "months_stored": 247,
+      "months_in_range": 249,
+      "missing_inside_range": 2
+    },
+    {
+      "last": "2026-08",
+      "first": "2005-12",
+      "division": "minimumweight",
+      "months_stored": 248,
+      "months_in_range": 249,
+      "missing_inside_range": 1
+    },
+    {
+      "last": "2026-08",
+      "first": "2005-12",
+      "division": "super_bantamweight",
+      "months_stored": 246,
+      "months_in_range": 249,
+      "missing_inside_range": 3
+    },
+    {
+      "last": "2026-08",
+      "first": "2005-12",
+      "division": "super_featherweight",
+      "months_stored": 247,
+      "months_in_range": 249,
+      "missing_inside_range": 2
+    },
+    {
+      "last": "2026-08",
+      "first": "2005-12",
+      "division": "super_flyweight",
+      "months_stored": 247,
+      "months_in_range": 249,
+      "missing_inside_range": 2
+    },
+    {
+      "last": "2026-08",
+      "first": "2005-12",
+      "division": "super_lightweight",
+      "months_stored": 247,
+      "months_in_range": 249,
+      "missing_inside_range": 2
+    },
+    {
+      "last": "2026-08",
+      "first": "2005-12",
+      "division": "super_middleweight",
+      "months_stored": 246,
+      "months_in_range": 249,
+      "missing_inside_range": 3
+    },
+    {
+      "last": "2026-08",
+      "first": "2005-12",
+      "division": "super_welterweight",
+      "months_stored": 246,
+      "months_in_range": 249,
+      "missing_inside_range": 3
+    },
+    {
+      "last": "2026-08",
+      "first": "2005-12",
+      "division": "welterweight",
+      "months_stored": 246,
+      "months_in_range": 249,
+      "missing_inside_range": 3
+    }
+  ],
+  "revisions": 0,
+  "missing_months": {
+    "flyweight": [
+      "2014-10",
+      "2014-11"
+    ],
+    "heavyweight": [
+      "2014-10",
+      "2014-11",
+      "2018-12"
+    ],
+    "lightweight": [
+      "2014-10",
+      "2014-11"
+    ],
+    "bantamweight": [
+      "2014-10",
+      "2014-11"
+    ],
+    "middleweight": [
+      "2014-10",
+      "2014-11"
+    ],
+    "welterweight": [
+      "2014-09",
+      "2014-10",
+      "2014-11"
+    ],
+    "cruiserweight": [
+      "2014-09",
+      "2014-10",
+      "2014-11"
+    ],
+    "featherweight": [
+      "2014-10",
+      "2014-11"
+    ],
+    "minimumweight": [
+      "2014-11"
+    ],
+    "light_flyweight": [
+      "2014-10",
+      "2014-11"
+    ],
+    "super_flyweight": [
+      "2014-10",
+      "2014-11"
+    ],
+    "light_heavyweight": [
+      "2014-09",
+      "2014-10",
+      "2014-11"
+    ],
+    "super_lightweight": [
+      "2014-10",
+      "2014-11"
+    ],
+    "super_bantamweight": [
+      "2014-10",
+      "2014-11",
+      "2015-01"
+    ],
+    "super_middleweight": [
+      "2014-09",
+      "2014-10",
+      "2014-11"
+    ],
+    "super_welterweight": [
+      "2014-09",
+      "2014-10",
+      "2014-11"
+    ],
+    "super_featherweight": [
+      "2014-10",
+      "2014-11"
+    ]
+  },
+  "ranking_snapshots": 4193,
+  "refusals_recorded": [],
+  "duplicate_current_snapshots": [],
+  "distinct_months_any_division": 248
+}
