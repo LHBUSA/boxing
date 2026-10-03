@@ -44,14 +44,19 @@ select jsonb_build_object(
   'documents_parsed', (select count(*) from docs),
   'events', (select count(*) from ev),
   'earliest_event', (select min(event_date)::text from ev), 'latest_event', (select max(event_date)::text from ev),
-  'professional_bouts', (select count(*) from bt),
+  -- live vs stored (migration 0061): a replaced row stays stored and in the truth ledger but is not a live bout
+  'live_professional_bouts', (cov.c ->> 'live_bouts')::int,
+  'historical_replaced_bouts', (cov.c ->> 'replaced_bouts')::int,
+  'total_stored_bout_rows', (cov.c ->> 'total_bout_rows')::int,
+  'held_bouts_identity_review', (cov.c ->> 'held_bouts')::int,
   'new_canonical_bouts_this_run', (select count(*) from bt) - $before,
-  'fighters_linked', (select count(distinct public.boxing_canonical_fighter_id(p.fighter_id)) from public.boxing_bout_participants p join bt on bt.id = p.bout_id),
+  'fighters_linked', (cov.c ->> 'fighters_linked_live')::int,
   -- each stored claim is one printed "Pro Debut" marker (a re-parse of identical content writes no new observation)
   'pro_debut_markers_stored_as_claims', (select count(*) from fl where claim_basis = 'explicit_pro_debut_marker'),
   'debut_conflicts', (select count(*) from (select distinct fighter_id from fl) f where public.boxing_fighter_record_reconciliation(f.fighter_id) ->> 'classification' = 'CONFLICT'),
   'sensitive_retained', (select count(*) from obs o where o.payload::text ~* '"(dob|date_of_birth|fed_id|federal_id)"\s*:' or o.payload::text ~ '\m\d{2}/\d{2}/\d{4}\M' or o.payload::text ~ '\mFL-\d{5,}')
 ) as r
+from (select public.boxing_commission_year_coverage('florida_athletic_commission', $Year) c) cov
 "@
 $result = [pscustomobject]@{ report = $report.r; passes = $runs }
 $json = $result | ConvertTo-Json -Depth 6
