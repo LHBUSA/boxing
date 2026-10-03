@@ -220,3 +220,15 @@ test('New Jersey: an official link published over http is fetched over https on 
   assert.equal(officialHttps('/about/x.pdf'), 'https://www.njoag.gov/about/x.pdf');
   assert.equal(officialHttps('http://example.com/a.pdf'), 'http://example.com/a.pdf');
 });
+
+test('Florida "Pro Debut": exactly that per-corner marker makes a 0-0-0-0 record-entering claim; other text or blank makes none', () => {
+  const bouts = FLORIDA_BOUTS.map((b, i) => (i === 0 ? { ...b, a: { ...b.a, note: 'Pro Debut' }, b: { ...b.b, note: 'debut postponed' } } : b));
+  const r = parseFloridaResults(flRef('09-05-2026-Synthetic_Sunshine-Results_without_med'), floridaPages({ bouts }), { capturedAt: '2026-09-13T00:00:00Z' });
+  const [first, ...rest] = r.bouts;
+  assert.deepEqual(first.fighter_a.record_entering, { raw: 'Pro Debut', parse_state: 'parsed', parse_note: null, wins: 0, losses: 0, draws: 0, no_contests: 0, ko_wins: null,
+    claim_basis: 'explicit_pro_debut_marker' });
+  assert.equal(first.fighter_b.record_entering, null, 'a note that merely mentions "debut" is not the marker');
+  for (const b of rest) assert.deepEqual([b.fighter_a.record_entering, b.fighter_b.record_entering], [null, null], 'blank note: no claim');
+  const serialized = JSON.stringify(r);
+  for (const s of ['01/02/1990', 'FL-1000000']) assert.ok(!serialized.includes(s), `${s} (DOB / Federal ID) never leaves the parser`);
+});

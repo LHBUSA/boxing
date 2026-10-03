@@ -85,3 +85,29 @@ test('reconciliation: PARTIAL (source ahead of the ledger), COMPLETE, CONFLICT, 
   assert.equal((await recon(lonely.id)).classification, 'UNKNOWN');
   assert.equal(Number((await q(`select count(*) n from public.boxing_bouts`))[0].n), boutsBefore, 'reconciliation never creates a bout');
 });
+
+test('Florida "Pro Debut" (migration 0054): 0-0-0-0 with its own basis; Florida may write nothing else; debut after a verified bout is CONFLICT', async () => {
+  const FL = 'https://www2.myfloridalicense.com/pro/sbc/documents/10-01-2026-Synthetic-results_without_med.pdf';
+  const flClaim = (over) => claim({ source_key: 'florida_athletic_commission', source_url: FL, claim_basis: 'explicit_pro_debut_marker', raw_record: 'Pro Debut',
+    wins: 0, losses: 0, draws: 0, no_contests: 0, ...over });
+  const [newcomer] = await q(`insert into public.boxing_fighters (display_name, normalized_name, identity_state) values ('Fresh Debutant', 'fresh debutant', 'verified') returning id`);
+  const debut = { fighter_id: newcomer.id, source_external_id: 'fl:2026-10-01:1:a', effective_as_of: '2026-10-01' };
+  assert.deepEqual([(await flClaim(debut)).status, (await flClaim(debut)).status], ['created', 'duplicate'], 'rerun is idempotent');
+  const [row] = await q(`select raw_record, claim_basis, wins, losses, draws, no_contests from public.boxing_fighter_record_claims where source_external_id = 'fl:2026-10-01:1:a'`);
+  assert.deepEqual(row, { raw_record: 'Pro Debut', claim_basis: 'explicit_pro_debut_marker', wins: 0, losses: 0, draws: 0, no_contests: 0 }, 'raw "Pro Debut" preserved; never printed as "0-0"');
+  assert.equal((await recon(newcomer.id)).classification, 'COMPLETE', 'nothing before a debut is missing');
+
+  await assert.rejects(flClaim({ fighter_id: newcomer.id, source_external_id: 'fl:x:n', effective_as_of: '2026-10-02', claim_basis: 'printed_record', raw_record: '1-0', wins: 1, losses: 0, draws: null, no_contests: null }),
+    /lane_not_rights_approved: record_entering is basis_not_permitted for source florida_athletic_commission/, 'Florida prints no numeric record');
+  await assert.rejects(flClaim({ fighter_id: newcomer.id, source_external_id: 'fl:x:bad', effective_as_of: '2026-10-02', wins: 1 }), /check/i, 'a Pro Debut claim is 0-0-0-0 or nothing');
+
+  // Florida says "Pro Debut" on 2026-10-01, but the ledger already holds this boxer's 2026-09-05 professional bout
+  const alphaId = await fighter('Bravo Synthetic');
+  const boutsBefore = Number((await q(`select count(*) n from public.boxing_bouts`))[0].n);
+  await flClaim({ fighter_id: alphaId, source_external_id: 'fl:2026-10-01:2:a', effective_as_of: '2026-10-01' });
+  const r = await recon(alphaId);
+  assert.equal(r.classification, 'CONFLICT');
+  assert.equal(r.sourced_record.claim_basis, 'explicit_pro_debut_marker');
+  assert.equal(Number((await q(`select count(*) n from public.boxing_bouts`))[0].n), boutsBefore, 'the earlier verified bout is never removed');
+  assert.ok((await q(`select 1 from public.boxing_fighter_record_claims where source_external_id = 'fl:2026-10-01:2:a'`)).length, 'and the debut claim is kept beside it');
+});

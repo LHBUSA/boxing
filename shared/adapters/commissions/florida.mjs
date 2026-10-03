@@ -23,7 +23,7 @@ export const FLORIDA = Object.freeze({
   key: 'florida',
   sourceKey: 'florida_athletic_commission',
   // 1.0.1: repeat pairings get distinct bout ids; 1.0.2: re-apply attaches ids to orphan legacy bouts
-  version: 'florida-athletic-commission@1.0.2',
+  version: 'florida-athletic-commission@1.1.0',
   jurisdiction: { code: 'US-FL', name: 'Florida' },
   commission: { slug: 'fl-athletic-commission', name: 'Florida Athletic Commission', jurisdiction: 'Florida', country_code: 'US' },
   base: 'https://www2.myfloridalicense.com',
@@ -115,6 +115,15 @@ function headerOf(page) {
     region: cityState?.split(',')[1]?.trim() ?? null,
     venue_name: venueParts.join(' / ').trim() || null,
   };
+}
+
+// Owner decision 2026-10-03: the per-corner note printed exactly "Pro Debut" is an explicit commission statement that
+// the boxer entered with zero prior professional bouts, stored as a record-entering claim of 0-0-0-0 with
+// claim_basis 'explicit_pro_debut_marker' and raw 'Pro Debut' (never a printed numeric record). Only that exact marker
+// qualifies: a blank note, or any other text that merely mentions "debut", makes no claim.
+export function proDebutClaim(noteRaw) {
+  if (!/^pro\s*debut$/i.test(String(noteRaw ?? '').replace(/\s+/g, ' ').trim())) return null;
+  return { raw: 'Pro Debut', parse_state: 'parsed', parse_note: null, wins: 0, losses: 0, draws: 0, no_contests: 0, ko_wins: null, claim_basis: 'explicit_pro_debut_marker' };
 }
 
 function bounds(page) {
@@ -225,8 +234,10 @@ export function parseFloridaResults(ref, pages, { capturedAt = new Date().toISOS
         .map((name, i) => ({ slot: i + 1, name, source_name: name, a_total: null, b_total: null }));
       const referee = officialsRaw.match(/Referee:\s*(.+?)(?:;|$)/i)?.[1]?.trim() ?? null;
       const rounds = Number(block.filter((i) => i.col === 'rounds').map((i) => i.s).find((s) => /^\d{1,2}$/.test(s)));
-      const fa = { source_name: A.source_name, display_name: displayName(A.source_name), hometown: A.hometown === 'TBD' ? null : A.hometown, weight_lb: A.weight_lb, corner: 'blue' };
-      const fb = { source_name: B.source_name, display_name: displayName(B.source_name), hometown: B.hometown === 'TBD' ? null : B.hometown, weight_lb: B.weight_lb, corner: 'red' };
+      const fa = { source_name: A.source_name, display_name: displayName(A.source_name), hometown: A.hometown === 'TBD' ? null : A.hometown, weight_lb: A.weight_lb, corner: 'blue',
+        record_entering: proDebutClaim(A.note_raw) };
+      const fb = { source_name: B.source_name, display_name: displayName(B.source_name), hometown: B.hometown === 'TBD' ? null : B.hometown, weight_lb: B.weight_lb, corner: 'red',
+        record_entering: proDebutClaim(B.note_raw) };
       base.bouts.push({
         source_key: FLORIDA.sourceKey, source_event_id: sourceEventId,
         source_bout_id: null, bout_order: Number(anchor.s) || order, sport: SPORT.BOXING, professional: true,

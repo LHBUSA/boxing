@@ -229,7 +229,8 @@ export async function applyCommissionParsed(store, adapter, parsed, { now = new 
           effective_as_of: ev.event_date, bout_order: b.bout_order ?? null, raw_record: rec.raw, wins: rec.wins, losses: rec.losses, draws: rec.draws,
           no_contests: rec.no_contests, ko_wins: rec.ko_wins, parse_state: rec.parse_state, parse_note: rec.parse_note, source_key: adapter.sourceKey,
           source_url: b.source_url, source_external_id: `${namespace}:${b.source_bout_id}:${side}`, observation_id: card.observation_id ?? null,
-          parser_version: `${adapter.version}+${PRINTED_RECORD_PARSER}` }));
+          claim_basis: rec.claim_basis ?? 'printed_record',
+          parser_version: rec.claim_basis === 'explicit_pro_debut_marker' ? adapter.version : `${adapter.version}+${PRINTED_RECORD_PARSER}` }));
         if (rc?.status === 'refused') { summary.record_claims.refused += 1; countLaneRefusal(summary, rc); }
         else if (rc?.status === 'created') { summary.record_claims.created += 1; if (rec.parse_state === 'held') summary.record_claims.held += 1; }
         else summary.record_claims.duplicate += 1;

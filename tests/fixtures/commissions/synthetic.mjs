@@ -69,7 +69,7 @@ export function nevadaCalendarIcs(events) {
 const FL_HEAD = [['Bout', 36], ['Corner', 52], ['Sport', 76], ['Participant Name', 139], ['Hometown', 241], ['DOB', 296], ['Weight', 393], ['Schd', 418],
   ['Result', 438], ['Decision', 468], ['Round &', 502], ['Officials', 587], ['Notes', 691], ['Suspension', 731]];
 
-// bouts: [{ n, sport: [lines], a: {name, home, weight, result, susp}, b: {...}, rds, decision: [lines], round: [lines], officials: [lines] }]
+// bouts: [{ n, sport: [lines], a: {name, home, weight, result, susp, note}, b: {...}, rds, decision: [lines], round: [lines], officials: [lines] }]
 export function floridaPages({ eventType = 'Boxing', date = '09/05/2026', promoter = 'Synthetic Sunshine Promotions', venue = 'Tampa, FL / Synthetic Hall', bouts = [] } = {}) {
   const items = [
     it('MATCH RESULTS', 34, 575), it(`Event Date: ${date}`, 236, 575), it(`Event Type: ${eventType}`, 498, 575),
@@ -86,6 +86,9 @@ export function floridaPages({ eventType = 'Boxing', date = '09/05/2026', promot
       items.push(it(c.name, 95, row), it(c.home, 236, row), it(c.dob ?? '01/02/1990', 286, row), it(c.fed ?? 'FL-1000000', 331, row), it(String(c.weight), 396, row));
       if (c.result) items.push(it(c.result, 440, row));
       if (c.susp) items.push(it(c.susp, 732, row));
+      // per-corner note column (left of Weight): the sheets print "Pro" over "Debut"; any other note is one line
+      if (c.note === 'Pro Debut') items.push(it('Pro', 375, row + 3), it('Debut', 372, row - 3));
+      else if (c.note) items.push(it(c.note, 372, row));
     }
     items.push(it(String(b.rds), 422, mid));
     b.decision.forEach((l, i) => items.push(it(l, 463, mid - i * 8)));
