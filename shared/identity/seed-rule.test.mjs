@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { decideSeed, nameAgreement, printedCountries, divisionIndex } from './seed-rule.mjs';
+import { decideSeed, nameAgreement, printedCountries, divisionIndex, nearName } from './seed-rule.mjs';
 
 const subject = (over = {}) => ({ person_key: 'aaronmckenna', names_as_printed: ['Aaron McKenna'], countries_as_printed: ['IRL'],
   divisions: ['middleweight'], status_date: '2026-09-30', entries: [{ body: 'wbo', cluster_key: 'name:aaron mckenna', printed: 'Aaron McKenna', country: 'IRL' }], ...over });
@@ -88,9 +88,30 @@ test('1.1.0: an existing fighter with the same first and last name (middle name 
   const c = cand({ label: 'Teófimo López', citizenship_iso3: ['USA'] });
   assert.equal(decideSeed(lopez, [c]).decision, 'AUTO_SEEDED');
   const d = decideSeed(lopez, [c], { existing: [{ id: 'f1', display_name: 'Teofimo Andres Lopez' }] });
-  assert.equal(d.decision, 'REVIEW_REQUIRED');
+  assert.equal(d.decision, 'POSSIBLE_EXISTING_FIGHTER');
   assert.deepEqual(d.reasons, ['existing_fighter_may_be_same_person']);
   assert.equal(decideSeed(subject({ names_as_printed: ['Bruce Carrington'], countries_as_printed: ['USA'] }), [cand({ label: 'Bruce Carrington', citizenship_iso3: ['USA'] })],
-    { existing: [{ id: 'f2', display_name: 'Bruce Carrington Jr.' }] }).decision, 'REVIEW_REQUIRED');
+    { existing: [{ id: 'f2', display_name: 'Bruce Carrington Jr.' }] }).decision, 'POSSIBLE_EXISTING_FIGHTER');
   assert.equal(decideSeed(subject(), [cand()], { existing: [{ id: 'f3', display_name: 'Aaron Smith' }] }).decision, 'AUTO_SEEDED', 'a shared first name alone is not a match');
+});
+
+test('1.2.0: near spellings are candidates for review, never automatic; common distinct names are not flagged', () => {
+  assert.equal(nearName('Dmitrii Bivol', 'Dmitry Bivol'), true);
+  assert.equal(nearName('DANIEL BUBOIS', 'Daniel Dubois'), true);
+  assert.equal(nearName('Ricardo Sandoval', 'Ricardo Rafael Sandoval'), true);
+  assert.equal(nearName('Jesse Rodriguez', 'Jose Rodriguez'), false);
+  assert.equal(nearName('Callum Smith', 'Chicago Smith'), false);
+  const d = decideSeed(subject({ names_as_printed: ['Dmitrii Bivol'], countries_as_printed: ['RUS'] }), [], { existing: [{ id: 'b', display_name: 'Dmitry Bivol' }] });
+  assert.equal(d.decision, 'POSSIBLE_EXISTING_FIGHTER');
+  assert.equal(d.evidence.existing_fighters[0].match, 'near_spelling');
+});
+
+test('1.2.0: an entry that already resolves is EXISTING_LINK; entries resolving to two fighters are REVIEW', () => {
+  const linked = subject({ entries: [{ body: 'wbo', cluster_key: 'a', printed: 'Aaron McKenna', linked_fighter_id: 'F1' }, { body: 'ibf', cluster_key: 'b', printed: 'Aaron McKenna' }] });
+  const d = decideSeed(linked, [cand()]);
+  assert.equal(d.decision, 'EXISTING_LINK');
+  assert.equal(d.evidence.fighter_id, 'F1');
+  assert.equal(d.evidence.unlinked_entries.length, 1, 'the unlinked entry is listed, not linked');
+  const split = subject({ entries: [{ body: 'wbo', printed: 'Aaron McKenna', linked_fighter_id: 'F1' }, { body: 'ibf', printed: 'Aaron McKenna', linked_fighter_id: 'F2' }] });
+  assert.deepEqual(decideSeed(split, [cand()]).reasons, ['entries_resolve_to_different_fighters']);
 });

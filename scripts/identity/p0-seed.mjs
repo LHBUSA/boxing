@@ -11,7 +11,7 @@
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
-import { decideSeed, RULE_VERSION, nameAgreement, printedCountries, dropSuffix } from '../../shared/identity/seed-rule.mjs';
+import { decideSeed, preSeedDecision, nearName, RULE_VERSION, nameAgreement, printedCountries, dropSuffix } from '../../shared/identity/seed-rule.mjs';
 import { buildIndex } from '../../shared/identity/pipeline.mjs';
 
 const arg = (k) => process.argv.slice(2).find((a) => a.startsWith(`--${k}=`))?.split('=').slice(1).join('=') ?? null;
@@ -52,7 +52,10 @@ async function getJson(params) {
   throw new Error(`wikidata unavailable after retries (${params.action}; last ${last})`);
 }
 
-const subjects = JSON.parse(readFileSync(arg('subjects'), 'utf8').replace(/^﻿/, ''));
+// --offset/--limit process one reviewable slice of the subject list
+const allSubjects = JSON.parse(readFileSync(arg('subjects'), 'utf8').replace(/^\uFEFF/, ''));
+const offset = Number(arg('offset') ?? 0);
+const subjects = allSubjects.slice(offset, offset + Number(arg('limit') ?? allSubjects.length));
 const batch = arg('batch') ?? 'p0-champions-seed-01';
 const existing = arg('fighters') ? JSON.parse(readFileSync(arg('fighters'), 'utf8').replace(/^\uFEFF/, '')).map((f) => ({ id: f.id, display_name: f.display_name })) : [];
 const outDir = arg('out');
@@ -89,6 +92,7 @@ async function entities(ids, props) {
 const subjectQids = new Map();
 const allQids = new Set();
 for (const s of subjects) {
+  if (preSeedDecision(s, { existing })) { subjectQids.set(s.person_key, new Set()); continue; }
   const variants = new Set();
   for (const n of s.names_as_printed) {
     variants.add(title(n));
@@ -174,9 +178,21 @@ const dist = (a, b) => {
   return m[a.length][b.length];
 };
 for (const d of decisions) {
+  if (d.decision !== 'NO_CANDIDATE') continue;
+  const mine = allSubjects.find((s) => s.person_key === d.subject_key);
+  const twin = allSubjects.find((o) => o.person_key !== mine.person_key && o.divisions.some((x) => mine.divisions.includes(x))
+    && mine.names_as_printed.some((p) => o.names_as_printed.some((q) => nearName(p, q))));
+  if (twin) {
+    d.decision = 'REVIEW_REQUIRED';
+    d.reasons = [`possible_source_spelling_of:${twin.person_key}`];
+    d.evidence = { ...d.evidence, possible_source_spelling_of: { subject_key: twin.person_key, printed: twin.names_as_printed } };
+    sql.splice(sql.findIndex((x) => x.includes(`"subject_key":"${d.subject_key}"`)), 1, `select public.boxing_apply_identity_seed(${lit(JSON.stringify(d))}::jsonb);`);
+  }
+}
+for (const d of decisions) {
   const mine = subjects.find((s) => s.person_key === d.subject_key);
   d.possible_same_person_as = decisions.filter((o) => o !== d).filter((o) => {
-    const theirs = subjects.find((s) => s.person_key === o.subject_key);
+    const theirs = allSubjects.find((s) => s.person_key === o.subject_key);
     const shareDivision = theirs.divisions.some((x) => mine.divisions.includes(x));
     const close = dist(d.subject_key, o.subject_key) <= 2 || d.subject_key.includes(o.subject_key) || o.subject_key.includes(d.subject_key)
       || (d.wikidata_qid && d.wikidata_qid === o.wikidata_qid);
@@ -197,9 +213,9 @@ const line = (d) => {
   return `| ${d.source_claims.map((e) => e.printed).filter((v, i, a) => a.indexOf(v) === i).join(' / ')} | ${bodies} | ${d.wikidata_qid ? `[${d.wikidata_qid}](https://www.wikidata.org/wiki/${d.wikidata_qid}) ${d.canonical_name}` : '-'} | ${d.reasons.join(', ') || '-'}${same} | ${ev} |`;
 };
 const md = [`# P0 champion identity seed: ${batch}`, '', `Rule \`${RULE_VERSION}\`. Wikidata establishes a person only, never a record, title, ranking or bout.`, '',
-  `AUTO_SEEDED ${group('AUTO_SEEDED').length} | REVIEW_REQUIRED ${group('REVIEW_REQUIRED').length} | NO_CANDIDATE ${group('NO_CANDIDATE').length} | Wikidata requests ${requests}`, ''];
-for (const k of ['AUTO_SEEDED', 'REVIEW_REQUIRED', 'NO_CANDIDATE']) {
+  `EXISTING_LINK ${group('EXISTING_LINK').length} | AUTO_SEEDED ${group('AUTO_SEEDED').length} | POSSIBLE_EXISTING_FIGHTER ${group('POSSIBLE_EXISTING_FIGHTER').length} | REVIEW_REQUIRED ${group('REVIEW_REQUIRED').length} | NO_CANDIDATE ${group('NO_CANDIDATE').length} | Wikidata requests ${requests}`, ''];
+for (const k of ['EXISTING_LINK', 'AUTO_SEEDED', 'POSSIBLE_EXISTING_FIGHTER', 'REVIEW_REQUIRED', 'NO_CANDIDATE']) {
   md.push(`## ${k} (${group(k).length})`, '', '| Printed | Bodies | Wikidata | Reasons | Evidence |', '|---|---|---|---|---|', ...group(k).map(line), '');
 }
 writeFileSync(join(outDir, 'report.md'), md.join('\n'));
-console.log(JSON.stringify({ subjects: subjects.length, auto_seeded: group('AUTO_SEEDED').length, review_required: group('REVIEW_REQUIRED').length, no_candidate: group('NO_CANDIDATE').length, wikidata_requests: requests }));
+console.log(JSON.stringify({ subjects: subjects.length, existing_link: group('EXISTING_LINK').length, possible_existing_fighter: group('POSSIBLE_EXISTING_FIGHTER').length, auto_seeded: group('AUTO_SEEDED').length, review_required: group('REVIEW_REQUIRED').length, no_candidate: group('NO_CANDIDATE').length, wikidata_requests: requests }));

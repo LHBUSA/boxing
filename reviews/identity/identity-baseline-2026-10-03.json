@@ -1,0 +1,19 @@
+{
+  "entries_resolved": 95,
+  "distinct_subjects": 76,
+  "distinct_printed_names": 103,
+  "seeded_fighters_created": 44,
+  "canonical_fighters_total": 2825,
+  "distinct_resolved_humans": 47,
+  "sanctioning_body_entries": 142,
+  "canonical_record_verified": 1518,
+  "duplicate_merges_performed": 4,
+  "canonical_identity_seeded_only": 1307,
+  "champion_subjects_no_candidate": 3,
+  "all_ambiguous_candidate_clusters": 183,
+  "champion_subjects_review_required": 20,
+  "resolved_champions_record_verified": 7,
+  "unresolved_ambiguous_body_id_clusters": 5,
+  "resolved_champions_identity_seeded_only": 40,
+  "champion_subjects_possible_existing_fighter": 6
+}

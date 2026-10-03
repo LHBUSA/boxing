@@ -17,8 +17,15 @@
 // generational suffixes ignored: commissions print "Teofimo Andres Lopez", bodies "Teofimo Lopez") makes the subject
 // REVIEW: the seed never creates a second canonical row for a person who may already exist (2026-10-03: four such
 // duplicates were created by 1.0.0 and are held for an owner-reviewed merge).
+// 1.2.0 (owner decision 2026-10-03), checked BEFORE any Wikidata seed:
+//   EXISTING_LINK              a body entry of the subject already resolves to a fighter (entries resolving to two
+//                              different fighters are REVIEW: a body claim never silently moves between people)
+//   POSSIBLE_EXISTING_FIGHTER  first+last agrees with an existing fighter, or a near spelling does (same surname and a
+//                              first name 1 edit away, 2 when it is 6+ letters; or same first name and a surname 1 edit
+//                              away). Candidate discovery only: review, never create, never merge. Source spellings are
+//                              kept exactly as printed.
 
-export const RULE_VERSION = 'p0-identity-seed@1.1.0';
+export const RULE_VERSION = 'p0-identity-seed@1.2.0';
 const MIN_AGE = 18;
 const MAX_AGE = 45;
 
@@ -32,6 +39,22 @@ const tokenSetKey = (s) => tokens(s).sort().join(' ');
 const dropInitials = (s) => tokens(s).filter((t) => t.length > 1).join('');
 const SUFFIX = new Set(['jr', 'sr', 'ii', 'iii', 'iv']);
 export const dropSuffix = (s) => tokens(s).filter((t) => !SUFFIX.has(t)).join(' ');
+const edits = (a, b) => {
+  const m = Array.from({ length: a.length + 1 }, (_, i) => [i, ...Array(b.length).fill(0)]);
+  for (let j = 1; j <= b.length; j += 1) m[0][j] = j;
+  for (let i = 1; i <= a.length; i += 1) for (let j = 1; j <= b.length; j += 1) m[i][j] = Math.min(m[i - 1][j] + 1, m[i][j - 1] + 1, m[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+  return m[a.length][b.length];
+};
+// near spelling of first+last (transliteration or a body's typo): Dmitrii/Dmitry Bivol, BUBOIS/Dubois
+export function nearName(a, b) {
+  const x = firstLastKey(a)?.split(' '); const y = firstLastKey(b)?.split(' ');
+  if (!x || !y) return false;
+  if (x[0] === y[0] && x[1] === y[1]) return true;
+  const firstTol = Math.max(x[0].length, y[0].length) >= 6 ? 2 : 1;
+  if (x[1] === y[1] && x[1].length >= 4 && Math.min(x[0].length, y[0].length) >= 4 && edits(x[0], y[0]) <= firstTol) return true;
+  if (x[0] === y[0] && Math.min(x[1].length, y[1].length) >= 4 && edits(x[1], y[1]) <= 1) return true;
+  return false;
+}
 // first + last name with middle names and suffixes dropped
 export const firstLastKey = (s) => { const t = dropSuffix(s).split(' ').filter(Boolean); return t.length >= 2 ? `${t[0]} ${t[t.length - 1]}` : null; };
 
@@ -113,15 +136,31 @@ const ageOn = (dob, on) => {
 // subject: { person_key, names_as_printed[], countries_as_printed[], divisions[], status_date, entries[] }
 // candidates: Wikidata human boxers [{ qid, label, names[], citizenship_iso3[], sport_country_iso3[], dobs[{date,precision}],
 //   deceased, competition_classes[], sex, revision }]
+// the checks that run before any Wikidata lookup; null means the subject may go on to the seed
+export function preSeedDecision(subject, { existing = [] } = {}) {
+  const printed = subject.names_as_printed ?? [];
+  const linked = [...new Set((subject.entries ?? []).map((e) => e.linked_fighter_id).filter(Boolean))];
+  if (linked.length > 1) {
+    return { decision: 'REVIEW_REQUIRED', reasons: ['entries_resolve_to_different_fighters'], evidence: { linked_fighters: linked }, candidates: [] };
+  }
+  if (linked.length === 1) {
+    const unlinked = (subject.entries ?? []).filter((e) => !e.linked_fighter_id).map((e) => ({ body: e.body, cluster_key: e.cluster_key, printed: e.printed, cluster_state: e.cluster_state }));
+    return { decision: 'EXISTING_LINK', reasons: ['entry_already_resolves_to_fighter'], evidence: { fighter_id: linked[0], unlinked_entries: unlinked }, candidates: [] };
+  }
+  const already = existing.filter((f) => printed.some((p) => nameAgreement(p, f.display_name) || nearName(p, f.display_name)));
+  if (already.length > 0) {
+    return { decision: 'POSSIBLE_EXISTING_FIGHTER', reasons: ['existing_fighter_may_be_same_person'],
+      evidence: { existing_fighters: already.slice(0, 10).map((f) => ({ fighter_id: f.id, display_name: f.display_name,
+        match: printed.some((p) => nameAgreement(p, f.display_name)) ? 'name_agreement' : printed.some((p) => firstLastKey(p) === firstLastKey(f.display_name)) ? 'first_last' : 'near_spelling' })) },
+      candidates: [] };
+  }
+  return null;
+}
+
 export function decideSeed(subject, candidates, { existing = [] } = {}) {
   const printed = subject.names_as_printed ?? [];
-  const keys = new Set(printed.map(firstLastKey).filter(Boolean));
-  const already = existing.filter((f) => printed.some((p) => nameAgreement(p, f.display_name)) || keys.has(firstLastKey(f.display_name)));
-  if (already.length > 0) {
-    return { decision: 'REVIEW_REQUIRED', reasons: ['existing_fighter_may_be_same_person'],
-      evidence: { existing_fighters: already.map((f) => ({ fighter_id: f.id, display_name: f.display_name })) },
-      candidates: (candidates ?? []).map((c) => ({ qid: c.qid, label: c.label })) };
-  }
+  const pre = preSeedDecision(subject, { existing });
+  if (pre) return pre;
   const scored = [];
   for (const c of candidates ?? []) {
     let best = null;
