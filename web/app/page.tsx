@@ -95,7 +95,10 @@ export default async function Home() {
               <div className="hero__stat"><b>{c.bouts}</b><span>Verified bouts</span></div>
               <div className="hero__stat"><b>{c.scorecard_decisions ?? c.bouts_with_scorecards}</b><span>Decisions with cards</span></div>
               <div className="hero__stat"><b>{c.judges + c.referees}</b><span>Officials on record</span></div>
-              <div className="hero__stat"><b>{hall?.total ?? c.fighters_with_bouts}</b><span>{hall ? "Hall of Fame inductions" : "Boxers on record"}</span></div>
+              {/* a Hall count only from induction records actually on file: an empty or missing reference layer is
+                  absence of data, never an observed zero, so the tile falls back to an observed count */}
+              {hall?.total ? <div className="hero__stat"><b>{hall.total}</b><span>Hall of Fame inductions</span></div>
+                : <div className="hero__stat"><b>{c.fighters_with_bouts}</b><span>Boxers on record</span></div>}
             </div>
           </div>
           {hero?.e.headline ? (
