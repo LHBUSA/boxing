@@ -7,7 +7,7 @@
 # scripts/commissions/ingest-once.mjs (same code path as the Worker), then
 # clears it. No provider key is involved; official commission sites only.
 
-param([string]$Adapter = '', [switch]$Backfill, [int]$Year = 0, [string]$Doc = '', [switch]$ReplayOdds, [switch]$CoverageOnly)
+param([string]$Adapter = '', [switch]$Backfill, [int]$Year = 0, [string]$Doc = '', [switch]$Reapply, [switch]$ReplayOdds, [switch]$CoverageOnly)
 $ErrorActionPreference = 'Stop'
 $root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 Import-Module (Join-Path $PSScriptRoot 'BoxingSupabase.psm1') -Force
@@ -28,6 +28,7 @@ try {
   if ($Backfill) { $nodeArgs += '--backfill' }
   if ($Year -gt 0) { $nodeArgs += "--year=$Year" }
   if ($Doc) { $nodeArgs += "--doc=$Doc" }
+  if ($Doc -and $Reapply) { $nodeArgs += '--reapply' }
   if ($ReplayOdds) { $nodeArgs += '--replay-odds' }
   if ($CoverageOnly) { $nodeArgs += '--coverage-only' }
   node @nodeArgs

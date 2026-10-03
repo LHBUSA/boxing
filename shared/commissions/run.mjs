@@ -62,7 +62,7 @@ const summarize = (parsed) => ({ classification: parsed.classification, events: 
 
 // extract: PDF bytes -> positioned pages (injectable for tests)
 export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = fetch, now = new Date().toISOString(), provenance = null,
-  mode = 'forward', years = null, maxDocuments = null, delayMs = null, extract = extractPositionedText, changeReason = null, onlyDocKeys = null } = {}) {
+  mode = 'forward', years = null, maxDocuments = null, delayMs = null, extract = extractPositionedText, changeReason = null, onlyDocKeys = null, reapply = false } = {}) {
   const adapter = COMMISSION_ADAPTERS[adapterKey];
   if (!adapter) return { status: 'blocked', assertions: { adapter: `unknown adapter ${adapterKey}` } };
   if (env.COMMISSION_INGEST_ENABLED !== 'true') return { status: 'disabled', reason: 'COMMISSION_INGEST_ENABLED is not "true"' };
@@ -159,7 +159,10 @@ export async function runCommissionIngest(store, env, { adapterKey, fetchImpl = 
     }
     const sha = await sha256Bytes(fetched.body);
     // unchanged content is not re-parsed, unless the previous attempt failed (fixed parser)
-    if (state?.current_sha256 === sha && state.status !== 'error' && !parserOutdated && (!state.parser_version || state.parser_version === adapter.version)) {
+    // reapply: a reviewed repair re-applies an unchanged, current document after its identity reviews were resolved;
+    // honoured only together with onlyDocKeys, so it can never re-parse a whole listing
+    const forced = reapply && Array.isArray(onlyDocKeys) && onlyDocKeys.includes(ref.doc_key);
+    if (!forced && state?.current_sha256 === sha && state.status !== 'error' && !parserOutdated && (!state.parser_version || state.parser_version === adapter.version)) {
       metrics.documents_unchanged += 1;
       await store.recordDocumentFetch({ source_key: adapter.sourceKey, doc_key: ref.doc_key, url: ref.url, kind: 'results', sport_hint: ref.sport_hint, sha256: sha, http_last_modified: fetched.lastModified, fetched_at: now, ingest_run_id: runId });
       return;

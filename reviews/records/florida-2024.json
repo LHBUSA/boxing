@@ -5,57 +5,12 @@
     "latest_event": "2024-12-13",
     "earliest_event": "2024-04-10",
     "debut_conflicts": 0,
-    "fighters_linked": 149,
-    "documents_parsed": 62,
-    "professional_bouts": 78,
+    "fighters_linked": 152,
+    "documents_parsed": 63,
+    "professional_bouts": 80,
     "sensitive_retained": 0,
     "new_canonical_bouts_this_run": 0,
     "pro_debut_markers_stored_as_claims": 4
   },
-  "passes": [
-    {
-      "status": "partial",
-      "documents_changed": "0",
-      "results_duplicate": "0",
-      "documents_unchanged": "59",
-      "documents_fetched": "80",
-      "documents_listed": "98",
-      "identity_unresolved": "0",
-      "results_created": "0",
-      "parse_failures": "0"
-    },
-    {
-      "status": "partial",
-      "documents_changed": "0",
-      "results_duplicate": "0",
-      "documents_unchanged": "59",
-      "documents_fetched": "80",
-      "documents_listed": "98",
-      "identity_unresolved": "0",
-      "results_created": "0",
-      "parse_failures": "0"
-    },
-    {
-      "status": "partial",
-      "documents_changed": "0",
-      "results_duplicate": "0",
-      "documents_unchanged": "59",
-      "documents_fetched": "80",
-      "documents_listed": "98",
-      "identity_unresolved": "0",
-      "results_created": "0",
-      "parse_failures": "0"
-    },
-    {
-      "status": "partial",
-      "documents_changed": "0",
-      "results_duplicate": "0",
-      "documents_unchanged": "59",
-      "documents_fetched": "80",
-      "documents_listed": "98",
-      "identity_unresolved": "0",
-      "results_created": "0",
-      "parse_failures": "0"
-    }
-  ]
+  "passes": []
 }

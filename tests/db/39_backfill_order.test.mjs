@@ -63,3 +63,15 @@ test('a targeted reprocess (onlyDocKeys) touches only the named document', async
   assert.deepEqual(pdfOrder(), [DATES[1]], 'only the named document is fetched');
   assert.equal(r.metrics.documents_skipped, 2);
 });
+
+test('reapply re-applies an unchanged named document, and is ignored without onlyDocKeys', async () => {
+  const only = `fl-results:${DATES[1]}-2026-Synthetic_Sunshine-Results_without_med`;
+  const run = (o) => runCommissionIngest(store, ENV, { adapterKey: 'florida', fetchImpl: fakeFetch, now: '2026-10-02T13:00:00Z', extract: decodePages, mode: 'backfill', years: [2026], ...o });
+  const plain = await run({ onlyDocKeys: [only] });
+  assert.equal(plain.metrics.documents_unchanged, 1, 'an unchanged current document is not re-applied');
+  const forced = await run({ onlyDocKeys: [only], reapply: true });
+  assert.equal(forced.metrics.documents_unchanged, 0);
+  assert.equal(forced.metrics.bouts_observed, 2, 'the named document is parsed and applied again (its bare-knuckle bout is rejected by design)');
+  const broad = await run({ reapply: true, maxDocuments: 2 });
+  assert.equal(broad.metrics.documents_changed, 0, 'reapply without a named document re-parses nothing');
+});
