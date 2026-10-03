@@ -4,7 +4,8 @@
 //   --out=<dir>/decisions.json   every subject with its decision, reasons and exact evidence
 //   --out=<dir>/report.md        AUTO_SEEDED / REVIEW_REQUIRED / NO_CANDIDATE for owner review
 //   --out=<dir>/apply.sql        one public.boxing_apply_identity_seed(...) call per subject (idempotent)
-// Runs nothing against the database.
+// Runs nothing against the database. --fighters=<json [{id, display_name}]> lists the fighters PropBetEdge already holds
+// (rule 1.1.0 sends a subject that may be one of them to REVIEW instead of seeding a second row).
 //
 //   node scripts/identity/p0-seed.mjs --subjects=<subjects.json> --batch=p0-champions-seed-01 --out=<dir>
 
@@ -53,6 +54,7 @@ async function getJson(params) {
 
 const subjects = JSON.parse(readFileSync(arg('subjects'), 'utf8').replace(/^﻿/, ''));
 const batch = arg('batch') ?? 'p0-champions-seed-01';
+const existing = arg('fighters') ? JSON.parse(readFileSync(arg('fighters'), 'utf8').replace(/^\uFEFF/, '')).map((f) => ({ id: f.id, display_name: f.display_name })) : [];
 const outDir = arg('out');
 mkdirSync(outDir, { recursive: true });
 
@@ -136,7 +138,7 @@ const decisions = [];
 const sql = [`-- ${RULE_VERSION} batch ${batch}: generated ${new Date().toISOString()}. Each call is idempotent on (rule_version, subject_key).`];
 for (const s of subjects) {
   const candidates = [...(subjectQids.get(s.person_key) ?? [])].filter((q) => boxers[q]).map(candidateOf);
-  const d = decideSeed(s, candidates);
+  const d = decideSeed(s, candidates, { existing });
   const chosen = d.wikidata_qid ? candidates.find((c) => c.qid === d.wikidata_qid) : null;
   // aliases: the Wikidata label/aliases that agree with a printed name, plus every printed spelling as printed
   const aliases = [];

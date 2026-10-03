@@ -82,3 +82,15 @@ test('a Wikidata competition class two or more divisions away from every printed
   assert.equal(decideSeed(subject(), [cand({ competition_classes: ['super middleweight'] })]).decision, 'AUTO_SEEDED');
   assert.ok(decideSeed(subject(), [cand({ competition_classes: ['heavyweight'] })]).reasons.includes('division_contradicts_wikidata_class'));
 });
+
+test('1.1.0: an existing fighter with the same first and last name (middle name or suffix aside) makes the subject REVIEW', () => {
+  const lopez = subject({ names_as_printed: ['TEOFIMO LOPEZ'], countries_as_printed: ['USA'] });
+  const c = cand({ label: 'Teófimo López', citizenship_iso3: ['USA'] });
+  assert.equal(decideSeed(lopez, [c]).decision, 'AUTO_SEEDED');
+  const d = decideSeed(lopez, [c], { existing: [{ id: 'f1', display_name: 'Teofimo Andres Lopez' }] });
+  assert.equal(d.decision, 'REVIEW_REQUIRED');
+  assert.deepEqual(d.reasons, ['existing_fighter_may_be_same_person']);
+  assert.equal(decideSeed(subject({ names_as_printed: ['Bruce Carrington'], countries_as_printed: ['USA'] }), [cand({ label: 'Bruce Carrington', citizenship_iso3: ['USA'] })],
+    { existing: [{ id: 'f2', display_name: 'Bruce Carrington Jr.' }] }).decision, 'REVIEW_REQUIRED');
+  assert.equal(decideSeed(subject(), [cand()], { existing: [{ id: 'f3', display_name: 'Aaron Smith' }] }).decision, 'AUTO_SEEDED', 'a shared first name alone is not a match');
+});

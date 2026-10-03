@@ -13,8 +13,12 @@
 //   * not recorded as deceased
 //   * Wikidata's competition class, when present, does not contradict every division the bodies printed
 // Two plausible candidates is REVIEW. No name-agreeing human boxer is NO_CANDIDATE.
+// 1.1.0: a fighter PropBetEdge already holds whose first and last name agree with a printed name (middle names and
+// generational suffixes ignored: commissions print "Teofimo Andres Lopez", bodies "Teofimo Lopez") makes the subject
+// REVIEW: the seed never creates a second canonical row for a person who may already exist (2026-10-03: four such
+// duplicates were created by 1.0.0 and are held for an owner-reviewed merge).
 
-export const RULE_VERSION = 'p0-identity-seed@1.0.0';
+export const RULE_VERSION = 'p0-identity-seed@1.1.0';
 const MIN_AGE = 18;
 const MAX_AGE = 45;
 
@@ -28,6 +32,8 @@ const tokenSetKey = (s) => tokens(s).sort().join(' ');
 const dropInitials = (s) => tokens(s).filter((t) => t.length > 1).join('');
 const SUFFIX = new Set(['jr', 'sr', 'ii', 'iii', 'iv']);
 export const dropSuffix = (s) => tokens(s).filter((t) => !SUFFIX.has(t)).join(' ');
+// first + last name with middle names and suffixes dropped
+export const firstLastKey = (s) => { const t = dropSuffix(s).split(' ').filter(Boolean); return t.length >= 2 ? `${t[0]} ${t[t.length - 1]}` : null; };
 
 // how a printed name agrees with a Wikidata name: exact > initial_dropped > suffix_dropped > token_order; null = none
 export function nameAgreement(printed, wikidataName) {
@@ -107,8 +113,15 @@ const ageOn = (dob, on) => {
 // subject: { person_key, names_as_printed[], countries_as_printed[], divisions[], status_date, entries[] }
 // candidates: Wikidata human boxers [{ qid, label, names[], citizenship_iso3[], sport_country_iso3[], dobs[{date,precision}],
 //   deceased, competition_classes[], sex, revision }]
-export function decideSeed(subject, candidates) {
+export function decideSeed(subject, candidates, { existing = [] } = {}) {
   const printed = subject.names_as_printed ?? [];
+  const keys = new Set(printed.map(firstLastKey).filter(Boolean));
+  const already = existing.filter((f) => printed.some((p) => nameAgreement(p, f.display_name)) || keys.has(firstLastKey(f.display_name)));
+  if (already.length > 0) {
+    return { decision: 'REVIEW_REQUIRED', reasons: ['existing_fighter_may_be_same_person'],
+      evidence: { existing_fighters: already.map((f) => ({ fighter_id: f.id, display_name: f.display_name })) },
+      candidates: (candidates ?? []).map((c) => ({ qid: c.qid, label: c.label })) };
+  }
   const scored = [];
   for (const c of candidates ?? []) {
     let best = null;
