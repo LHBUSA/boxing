@@ -9,7 +9,7 @@ Queue: 150 candidate rows for 145 subjects. Tier A 63, tier B 25, tier C 61.
 - **Tier B**: first+last or near-spelling only (middle names, relatives such as the Russell brothers, transliterations): a human must look.
 - **Tier C**: no commission bout, several candidates, or only ambiguous entries: hold.
 
-## Batch 06 proposal: remaining 15 tier A rows (after batch 04 and batch 05)
+## Batch 06 proposal: remaining 15 tier A rows (after batch 04 and batch 05) + 1 owner-approved exception
 
 `p0-batch-06-prepared.sql` links exactly these rows (non-ambiguous body entries only) with a REVIEWER placeholder; a rolled-back dry run proves its count.
 
@@ -31,9 +31,13 @@ Queue: 150 candidate rows for 145 subjects. Tier A 63, tier B 25, tier C 61.
 | TAYVIEN ALPOUGH | WBA light_flyweight | Tayvien Alpough | name_agreement | 1 (last 2024-07-02) | - | USA | name_agreement |
 | YANKIEL RIVERA FIGUEROA | WBA flyweight | Yankiel Rivera Figueroa | name_agreement | 1 (last 2025-08-23) | - | PUR | name_agreement |
 
-## Owner HOLD (manual review)
+## OWNER-APPROVED EXCEPTION: ANDRES TERAN -> Jose Andres Teran Santibanez
 
-- ANDRES TERAN -> Jose Andres Teran Santibanez: printed name is contained in Jose Andres Teran Santibanez, but given-name alignment is not sufficient for Tier A without independent corroboration
+Removed from OWNER_HOLD by the owner on 2026-10-03 and added to batch 06 (batch 05 stays as applied, without it).
+Basis: printed `ANDRES TERAN` (WBA bantamweight rank 2) appears as whole ordered tokens in the stored full name
+`Jose Andres Teran Santibanez`; Mexico agrees; commission-backed fighter with 1 bout. A specific exception: the global
+triage rule (containment with a different first given name goes to tier B) is unchanged.
+candidate_id 541a2b4a-ef69-4424-b30d-f993963e50e8, fighter_id e03cd4d5-735c-45ba-b490-3708522a36e0.
 
 ## Linked in batch 04 + 05 (49)
 
@@ -187,3 +191,11 @@ Queue: 150 candidate rows for 145 subjects. Tier A 63, tier B 25, tier C 61.
 | Richard Torrez Jr. | IBF heavyweight | Richard Torrez Jr. | name_agreement | 0 (last -) | - | USA | no commission bout on the existing fighter |
 | SHAKHRAM GIYASOV | WBA welterweight | Shakhram Giyasov | name_agreement | 0 (last -) | - | UZB | no commission bout on the existing fighter |
 | VICTOR SANTILLAN | WBA super_bantamweight | Victor Daniel Santillan Perez | contained_in_full_name | 0 (last -) | - | DOM | no commission bout on the existing fighter |
+
+## Batch 06 applied (2026-10-03)
+
+16 links / 15 fighters (Jordan Orozco + Jordan Orozco Hernandez = one fighter; Andres Teran owner-approved exception),
+reviewer Justin Erickson, one transaction with pre-checks (16 rows, 15 fighters, 0 ambiguous, 0 already decided,
+0 missing) and post-checks (+16 decisions, 0 fighters, 0 merges, no canonical change). Six proofs PASS; unexpected
+duplicates 0, reviewed HOLD 1 (Espinoza). Linked 476 -> 492 entries, 233 -> 248 fighters (73 record-verified).
+Tier A is exhausted; tier B (25) and tier C (61) remain.

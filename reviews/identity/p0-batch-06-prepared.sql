@@ -1,5 +1,6 @@
 -- PREPARED, NOT APPLIED. Batch 06: link body entries of 15 POSSIBLE_EXISTING_FIGHTER subjects to the existing
 -- commission-backed fighter named in reviews/identity/p0-batch-06-possible-existing.md. No merge, no new fighter.
+-- Includes one OWNER-APPROVED EXCEPTION (ANDRES TERAN -> Jose Andres Teran Santibanez), excluded from batch 05.
 -- Replace REVIEWER with the named human reviewer. Ambiguous clusters and already-linked entries are excluded.
 begin;
 insert into public.boxing_org_identity_candidate_decisions (candidate_id, decision, fighter_id, member_review_ids, reviewer, review_note, evidence)
@@ -21,7 +22,8 @@ from (values
   ('b667964e-f38d-44c9-8307-669caac264bb', '36e1aee1-01e3-4340-aa14-42d8da32d47a', 'Oscar Duarte (IBF super_lightweight rank 13) -> Oscar Duarte Juarado [contained_in_full_name; 1 commission bouts]'),
   ('8da7729e-9cd7-4c67-b557-1041c10b64a5', 'd353580e-1451-4ce2-ba42-b69ef409973e', 'SAMUEL ARNOLD (WBA light_heavyweight rank 8) -> Samuel Arnold [name_agreement; 1 commission bouts]'),
   ('70ffc0ff-f1a5-4ca6-b6ef-3cf03149ab06', '97ee2997-fc40-4669-9105-256ab1b3d7f7', 'TAYVIEN ALPOUGH (WBA light_flyweight rank 13) -> Tayvien Alpough [name_agreement; 1 commission bouts]'),
-  ('7cc0f62c-65e6-4a87-be18-7f9ce137a321', '20839aec-38fb-4155-942c-9593cd51f4bc', 'YANKIEL RIVERA FIGUEROA (WBA flyweight rank 4) -> Yankiel Rivera Figueroa [name_agreement; 1 commission bouts]')
+  ('7cc0f62c-65e6-4a87-be18-7f9ce137a321', '20839aec-38fb-4155-942c-9593cd51f4bc', 'YANKIEL RIVERA FIGUEROA (WBA flyweight rank 4) -> Yankiel Rivera Figueroa [name_agreement; 1 commission bouts]'),
+  ('541a2b4a-ef69-4424-b30d-f993963e50e8', 'e03cd4d5-735c-45ba-b490-3708522a36e0', 'ANDRES TERAN (WBA bantamweight rank 2) -> Jose Andres Teran Santibanez [OWNER-APPROVED EXCEPTION 2026-10-03: whole ordered tokens in the stored full name, Mexico agrees, 1 commission bout; global given-name triage rule unchanged]')
 ) as v(candidate_id, fighter_id, label)
 join public.boxing_org_identity_candidates c on c.id = v.candidate_id::uuid and c.state <> 'ambiguous'
 where not exists (select 1 from public.boxing_org_identity_candidate_decisions x where x.candidate_id = v.candidate_id::uuid);
