@@ -1,0 +1,27 @@
+{
+  "frozen": "2026-10-03",
+  "commit_measured_at": "12cf0a7",
+  "source": "scripts/identity/graph-totals.sql + scripts/identity/p0-graph-proofs.sql",
+  "body_entries": 1163,
+  "body_entries_title": 142,
+  "body_entries_top15": 1021,
+  "linked_entries": 347,
+  "canonical_fighters_linked": 184,
+  "identity_only_linked": 174,
+  "record_verified_linked": 10,
+  "ambiguous_body_id_entries_unlinked": 16,
+  "possible_existing_subjects": 145,
+  "review_required_subjects": 148,
+  "no_candidate_subjects": 215,
+  "qids_on_more_than_one_fighter": 0,
+  "public_wikidata_dob": 0,
+  "batch_03": { "links": 249, "fighters": 137 },
+  "merges": 7,
+  "reviewed_duplicate_hold": ["Rafael Espinoza <-> Rafael Espinoza Zepeda (missing: commission/bout anchor)"],
+  "merge_equivalence_frozen": [
+    "first+last equality",
+    "ordered whole-token containment with the same given name",
+    "exact stored alias of a VERIFIED Wikidata item (complete normalized token sequence)"
+  ],
+  "never_merge_authority": ["edit distance", "phonetic", "token reordering", "partial tokens", "guessed surname rules", "family-name assumptions"]
+}
