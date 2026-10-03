@@ -139,6 +139,7 @@ const candidateOf = (qid) => {
 // 3. decide each subject and build its idempotent apply call
 const lit = (v) => (v == null ? 'null' : `'${String(v).replace(/'/g, "''")}'`);
 const decisions = [];
+const sqlIndex = new Map(); // subject_key -> its statement (a key can also appear inside another subject's evidence)
 const sql = [`-- ${RULE_VERSION} batch ${batch}: generated ${new Date().toISOString()}. Each call is idempotent on (rule_version, subject_key).`];
 for (const s of subjects) {
   const candidates = [...(subjectQids.get(s.person_key) ?? [])].filter((q) => boxers[q]).map(candidateOf);
@@ -166,6 +167,7 @@ for (const s of subjects) {
     row.index = idx;
   }
   decisions.push(row);
+  sqlIndex.set(s.person_key, sql.length);
   sql.push(`select public.boxing_apply_identity_seed(${lit(JSON.stringify(row))}::jsonb);`);
 }
 
@@ -186,7 +188,7 @@ for (const d of decisions) {
     d.decision = 'REVIEW_REQUIRED';
     d.reasons = [`possible_source_spelling_of:${twin.person_key}`];
     d.evidence = { ...d.evidence, possible_source_spelling_of: { subject_key: twin.person_key, printed: twin.names_as_printed } };
-    sql.splice(sql.findIndex((x) => x.includes(`"subject_key":"${d.subject_key}"`)), 1, `select public.boxing_apply_identity_seed(${lit(JSON.stringify(d))}::jsonb);`);
+    sql[sqlIndex.get(d.subject_key)] = `select public.boxing_apply_identity_seed(${lit(JSON.stringify(d))}::jsonb);`;
   }
 }
 for (const d of decisions) {

@@ -24,8 +24,11 @@
 //                              first name 1 edit away, 2 when it is 6+ letters; or same first name and a surname 1 edit
 //                              away). Candidate discovery only: review, never create, never merge. Source spellings are
 //                              kept exactly as printed.
+// 1.2.1: also a possible existing fighter when the printed first and last names appear, in order, inside an existing
+//        fighter's full name: commissions print both Spanish surnames and other given names ("Rolando Florencio
+//        Romero Moreno" for Rolando Romero, "Santos Saul Alvarez Barragan" for Saul Alvarez).
 
-export const RULE_VERSION = 'p0-identity-seed@1.2.0';
+export const RULE_VERSION = 'p0-identity-seed@1.2.1';
 const MIN_AGE = 18;
 const MAX_AGE = 45;
 
@@ -54,6 +57,14 @@ export function nearName(a, b) {
   if (x[1] === y[1] && x[1].length >= 4 && Math.min(x[0].length, y[0].length) >= 4 && edits(x[0], y[0]) <= firstTol) return true;
   if (x[0] === y[0] && Math.min(x[1].length, y[1].length) >= 4 && edits(x[1], y[1]) <= 1) return true;
   return false;
+}
+// the printed first and last names appear in order inside the other full name (both ends at least 3 letters)
+export function containedName(printed, full) {
+  const p = dropSuffix(printed).split(' ').filter(Boolean);
+  const f = dropSuffix(full).split(' ').filter(Boolean);
+  if (p.length < 2 || f.length <= p.length || p[0].length < 3 || p[p.length - 1].length < 3) return false;
+  const i = f.indexOf(p[0]);
+  return i >= 0 && f.indexOf(p[p.length - 1], i + 1) > i;
 }
 // first + last name with middle names and suffixes dropped
 export const firstLastKey = (s) => { const t = dropSuffix(s).split(' ').filter(Boolean); return t.length >= 2 ? `${t[0]} ${t[t.length - 1]}` : null; };
@@ -147,11 +158,12 @@ export function preSeedDecision(subject, { existing = [] } = {}) {
     const unlinked = (subject.entries ?? []).filter((e) => !e.linked_fighter_id).map((e) => ({ body: e.body, cluster_key: e.cluster_key, printed: e.printed, cluster_state: e.cluster_state }));
     return { decision: 'EXISTING_LINK', reasons: ['entry_already_resolves_to_fighter'], evidence: { fighter_id: linked[0], unlinked_entries: unlinked }, candidates: [] };
   }
-  const already = existing.filter((f) => printed.some((p) => nameAgreement(p, f.display_name) || nearName(p, f.display_name)));
+  const already = existing.filter((f) => printed.some((p) => nameAgreement(p, f.display_name) || nearName(p, f.display_name) || containedName(p, f.display_name)));
   if (already.length > 0) {
     return { decision: 'POSSIBLE_EXISTING_FIGHTER', reasons: ['existing_fighter_may_be_same_person'],
       evidence: { existing_fighters: already.slice(0, 10).map((f) => ({ fighter_id: f.id, display_name: f.display_name,
-        match: printed.some((p) => nameAgreement(p, f.display_name)) ? 'name_agreement' : printed.some((p) => firstLastKey(p) === firstLastKey(f.display_name)) ? 'first_last' : 'near_spelling' })) },
+        match: printed.some((p) => nameAgreement(p, f.display_name)) ? 'name_agreement' : printed.some((p) => firstLastKey(p) === firstLastKey(f.display_name)) ? 'first_last'
+          : printed.some((p) => nearName(p, f.display_name)) ? 'near_spelling' : 'contained_in_full_name' })) },
       candidates: [] };
   }
   return null;

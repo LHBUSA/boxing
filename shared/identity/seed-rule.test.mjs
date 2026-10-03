@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { decideSeed, nameAgreement, printedCountries, divisionIndex, nearName } from './seed-rule.mjs';
+import { decideSeed, nameAgreement, printedCountries, divisionIndex, nearName, containedName } from './seed-rule.mjs';
 
 const subject = (over = {}) => ({ person_key: 'aaronmckenna', names_as_printed: ['Aaron McKenna'], countries_as_printed: ['IRL'],
   divisions: ['middleweight'], status_date: '2026-09-30', entries: [{ body: 'wbo', cluster_key: 'name:aaron mckenna', printed: 'Aaron McKenna', country: 'IRL' }], ...over });
@@ -114,4 +114,15 @@ test('1.2.0: an entry that already resolves is EXISTING_LINK; entries resolving 
   assert.equal(d.evidence.unlinked_entries.length, 1, 'the unlinked entry is listed, not linked');
   const split = subject({ entries: [{ body: 'wbo', printed: 'Aaron McKenna', linked_fighter_id: 'F1' }, { body: 'ibf', printed: 'Aaron McKenna', linked_fighter_id: 'F2' }] });
   assert.deepEqual(decideSeed(split, [cand()]).reasons, ['entries_resolve_to_different_fighters']);
+});
+
+test('1.2.1: a printed first+last contained in an existing full name (double surnames, extra given names) is a possible existing fighter', () => {
+  assert.equal(containedName('Rolando Romero', 'Rolando Florencio Romero Moreno'), true);
+  assert.equal(containedName('Saul Alvarez', 'Santos Saul Alvarez Barragan'), true);
+  assert.equal(containedName('Jose Moreno', 'Rolando Florencio Romero Moreno'), false);
+  assert.equal(containedName('Romero Rolando', 'Rolando Florencio Romero Moreno'), false, 'order matters');
+  const d = decideSeed(subject({ names_as_printed: ['Rolando Romero'], countries_as_printed: ['USA'] }), [cand({ label: 'Rolando Romero', citizenship_iso3: ['USA'] })],
+    { existing: [{ id: 'r', display_name: 'Rolando Florencio Romero Moreno' }] });
+  assert.equal(d.decision, 'POSSIBLE_EXISTING_FIGHTER');
+  assert.equal(d.evidence.existing_fighters[0].match, 'contained_in_full_name');
 });
