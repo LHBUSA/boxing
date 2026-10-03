@@ -130,6 +130,7 @@ export function postgrestStore({ url, serviceKey, fetchImpl = fetch }) {
     recordResult: (p) => rpc("boxing_record_result", { p: p }),
     recordScorecard: (p) => rpc("boxing_record_scorecard", { p: p }),
     recordWeighIn: (p) => rpc("boxing_record_weigh_in", { p: p }),
+    recordFighterRecordClaim: (p) => rpc("boxing_record_fighter_record_claim", { p: p }),
     recordRegulatoryAction: (p) => rpc("boxing_record_regulatory_action", { p: p }),
     recordPointDeduction: (p) => rpc("boxing_record_point_deduction", { p: p }),
     boutOutcomeState: (p) => rpc("boxing_bout_outcome_state", { p_bout: p }),

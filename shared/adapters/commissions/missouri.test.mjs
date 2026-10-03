@@ -34,8 +34,14 @@ test('Missouri sheet: professional boxing bouts kept; kickboxing and exhibition 
   assert.deepEqual([tko.result.method, tko.result.round, tko.result.time_sec, tko.scheduled_rounds], ['TKO', 4, 116, 6]);
   assert.deepEqual(tko.suspensions, [{ side: 'b', duration_days: null, indefinite: true, raw: 'indefinite' }]);
   assert.deepEqual(split.suspensions, [{ side: 'a', duration_days: 30, indefinite: false, raw: '30 days' }]);
+  // RECORD is an approved lane (owner decision 2026-10-03): kept as printed, parsed strictly, as the record ENTERING the bout
+  for (const b of r.bouts) for (const f of [b.fighter_a, b.fighter_b]) {
+    assert.deepEqual([f.record_entering.raw, f.record_entering.parse_state, f.record_entering.wins, f.record_entering.losses, f.record_entering.draws, f.record_entering.no_contests],
+      ['3-1', 'parsed', 3, 1, null, null], 'a missing draw component is null, never 0');
+  }
   const serialized = JSON.stringify(r);
-  for (const s of ['123456', '1/1/95', '3-1', 'Concussion', 'Cut Over Eye', 'No Skills', 'Dr. Syn Thetic', 'Ann Ouncer', 'In Spector', '555-0100', 'Ex Director']) {
+  // AGE, FED ID and DOB stay dropped by column position; comment text and private header people never leave
+  for (const s of ['123456', '1/1/95', 'Concussion', 'Cut Over Eye', 'No Skills', 'Dr. Syn Thetic', 'Ann Ouncer', 'In Spector', '555-0100', 'Ex Director']) {
     assert.ok(!serialized.includes(s), `${s} must not leave the parser`);
   }
   assert.deepEqual(findSensitive({ events: r.events, bouts: r.bouts, minimized: r.minimized }), []);

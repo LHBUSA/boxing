@@ -174,6 +174,9 @@ export function pgStore(client) {
     async recordWeighIn(p) {
       return (await one(client, "select public.boxing_record_weigh_in($1) as r", [p])).r;
     },
+    async recordFighterRecordClaim(p) {
+      return (await one(client, "select public.boxing_record_fighter_record_claim($1) as r", [p])).r;
+    },
     async recordRegulatoryAction(p) {
       return (await one(client, "select public.boxing_record_regulatory_action($1) as r", [p])).r;
     },

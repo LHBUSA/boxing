@@ -17,19 +17,22 @@
 // Kept: event date, venue, city, event number, promoter as listed; per professional boxing bout: contestants as
 // listed, hometown, weight, scheduled rounds, result, method, round, time, decision type, suspension DURATION only;
 // referee and judges only when the BOUTS column (or a single named official) assigns them without ambiguity.
-// Dropped by column position before anything leaves the parser: AGE, FED ID, DOB, RECORD. Never read: doctor,
+// RECORD (owner decision 2026-10-03): the professional record printed for the contestant is kept as printed, with its
+// strictly parsed components, as the record ENTERING that bout (shared/records/printed-record.mjs).
+// Dropped by column position before anything leaves the parser: AGE, FED ID, DOB. Never read: doctor,
 // announcer, timekeeper, inspectors, executive director, attendance, office address and phone, comment text
 // (suspension reasons can be medical). Judges' totals are printed per bout in an order that the sheet does not tie
 // to judge names, so no total is attributed to a judge; the unattributed totals stay in the bout observation only.
 // Kickboxing, muay thai, amateur and exhibition bouts are rejected.
 
+import { parsePrintedRecord } from '../../records/printed-record.mjs';
 import { SPORT, assignBoutIds, displayName, finalizeParsed, slug } from './contract.mjs';
 import { lines } from './pdf.mjs';
 
 export const MISSOURI = Object.freeze({
   key: 'missouri',
   sourceKey: 'mo_office_of_athletics',
-  version: 'mo-athletics@1.0.0',
+  version: 'mo-athletics@1.1.0',
   jurisdiction: { code: 'US-MO', name: 'Missouri' },
   commission: { slug: 'mo-office-of-athletics', name: 'Missouri Office of Athletics', jurisdiction: 'Missouri', country_code: 'US' },
   base: 'https://pr.mo.gov/',
@@ -202,7 +205,7 @@ function columns(page) {
     cols: [
       ['label_or_bout', -Infinity, need.age - 6], ['private', need.age - 6, need.name - 43], ['name', need.name - 43, need.from - 41],
       ['from', need.from - 41, need.wgt - 13], ['weight', need.wgt - 13, need.fed - 22], ['private', need.fed - 22, need.rds - 15],
-      ['rounds', need.rds - 15, need.dob - 23], ['private', need.dob - 23, need.rslt - 15], ['result', need.rslt - 15, need.com - 81], ['comments', need.com - 81, Infinity],
+      ['rounds', need.rds - 15, need.dob - 23], ['private', need.dob - 23, need.rec - 8], ['record', need.rec - 8, need.rslt - 15], ['result', need.rslt - 15, need.com - 81], ['comments', need.com - 81, Infinity],
     ],
   };
 }
@@ -313,7 +316,8 @@ export function parseMissouriResults(ref, pages, { capturedAt = new Date().toISO
     const side = (row) => {
       const weight = Number(row.text('weight'));
       const comment = row.text('comments');
-      return { source_name: row.text('name'), hometown: row.text('from') || null, weight_lb: Number.isFinite(weight) && weight > 0 ? weight : null, result_raw: row.text('result') || null, comment };
+      return { source_name: row.text('name'), hometown: row.text('from') || null, weight_lb: Number.isFinite(weight) && weight > 0 ? weight : null, result_raw: row.text('result') || null, comment,
+        record_entering: parsePrintedRecord(row.text('record')) };
     };
     const A = side(br.a);
     const B = side(br.b);
@@ -340,8 +344,8 @@ export function parseMissouriResults(ref, pages, { capturedAt = new Date().toISO
     const boutJudges = (judges.map.get(br.number) ?? []).map((name, i) => ({ slot: i + 1, name, source_name: name, a_total: null, b_total: null }));
     base.bouts.push({
       source_key: MISSOURI.sourceKey, source_event_id: sourceEventId, source_bout_id: null, bout_order: br.number, sport: SPORT.BOXING, professional: true,
-      fighter_a: { source_name: A.source_name, display_name: displayName(A.source_name), hometown: A.hometown, weight_lb: A.weight_lb, corner: null },
-      fighter_b: { source_name: B.source_name, display_name: displayName(B.source_name), hometown: B.hometown, weight_lb: B.weight_lb, corner: null },
+      fighter_a: { source_name: A.source_name, display_name: displayName(A.source_name), hometown: A.hometown, weight_lb: A.weight_lb, corner: null, record_entering: A.record_entering },
+      fighter_b: { source_name: B.source_name, display_name: displayName(B.source_name), hometown: B.hometown, weight_lb: B.weight_lb, corner: null, record_entering: B.record_entering },
       scheduled_rounds: Number.isInteger(rounds) && rounds > 0 ? rounds : null, result,
       referee: refs.map.get(br.number) ?? null, judges: boutJudges, score_order_raw: null,
       // printed per bout in an order the sheet does not tie to judge names: never attributed to a judge

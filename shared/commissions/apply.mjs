@@ -11,6 +11,7 @@ import { withLaneGate } from '../events/rights.mjs';
 import { titlesFromRemarks } from './title-remarks.mjs';
 import { parseDivisionLabel } from '../rankings/import.mjs';
 import { assertMinimized } from '../adapters/commissions/minimize.mjs';
+import { PRINTED_RECORD_PARSER } from '../records/printed-record.mjs';
 
 export const COMMISSION_NAMESPACES = Object.freeze({ nsac_nevada: 'nsac', florida_athletic_commission: 'fl-athletic-commission', nj_sacb: 'nj-sacb', mo_office_of_athletics: 'mo-office-of-athletics', pa_state_athletic_commission: 'pa-state-athletic-commission', tn_athletic_commission: 'tn-athletic-commission', tdlr_texas: 'tdlr' });
 
@@ -124,7 +125,8 @@ function countLaneRefusal(summary, r) {
 
 export async function applyCommissionParsed(store, adapter, parsed, { now = new Date().toISOString(), changeReason = null, graphResolve = true } = {}) {
   const summary = { events: 0, events_created: 0, bouts_in_documents: parsed.bouts.length, bouts_linked: 0, results_created: 0, results_revised: 0, results_duplicate: 0,
-    scorecards_written: 0, weigh_ins: 0, suspensions: 0, identity_unresolved: 0, review_items: [], news: {}, skipped: [] };
+    scorecards_written: 0, weigh_ins: 0, suspensions: 0, identity_unresolved: 0, review_items: [], news: {}, skipped: [],
+    record_claims: { created: 0, duplicate: 0, held: 0, refused: 0 } };
   const countNews = (n) => { if (n?.inserted) summary.news[n.event_type] = (summary.news[n.event_type] ?? 0) + 1; };
   const namespace = COMMISSION_NAMESPACES[adapter.sourceKey];
 
@@ -216,6 +218,21 @@ export async function applyCommissionParsed(store, adapter, parsed, { now = new 
         if (r.status === 'refused') countLaneRefusal(summary, r);
         else if (r.status !== 'duplicate') summary.weigh_ins += 1;
         countNews(r.news);
+      }
+
+      // Fight Record V1: the record printed beside a contestant is the record ENTERING this bout, a sourced claim kept
+      // apart from the reconstructed ledger. Written only through the strict record_entering lane gate.
+      for (const side of ['a', 'b']) {
+        const rec = b[`fighter_${side}`]?.record_entering;
+        if (!rec || !fighter[side] || !/^https:/.test(b.source_url)) continue;
+        const rc = await withLaneGate(() => store.recordFighterRecordClaim({ fighter_id: fighter[side], record_type: 'RECORD_ENTERING', bout_id: boutId,
+          effective_as_of: ev.event_date, bout_order: b.bout_order ?? null, raw_record: rec.raw, wins: rec.wins, losses: rec.losses, draws: rec.draws,
+          no_contests: rec.no_contests, ko_wins: rec.ko_wins, parse_state: rec.parse_state, parse_note: rec.parse_note, source_key: adapter.sourceKey,
+          source_url: b.source_url, source_external_id: `${namespace}:${b.source_bout_id}:${side}`, observation_id: card.observation_id ?? null,
+          parser_version: `${adapter.version}+${PRINTED_RECORD_PARSER}` }));
+        if (rc?.status === 'refused') { summary.record_claims.refused += 1; countLaneRefusal(summary, rc); }
+        else if (rc?.status === 'created') { summary.record_claims.created += 1; if (rec.parse_state === 'held') summary.record_claims.held += 1; }
+        else summary.record_claims.duplicate += 1;
       }
 
       for (const s of b.suspensions ?? []) {
