@@ -1,0 +1,251 @@
+{
+ "batch": "p0-batch-07",
+ "applied_at": "2026-10-04T00:14:13.6020687Z",
+ "reviewer": "Justin Erickson",
+ "decisions": [
+  {
+   "decision": "distinct",
+   "n": 8,
+   "candidates": 8,
+   "fighters": 0,
+   "ambiguous_applied": 0,
+   "reviewer": "Justin Erickson"
+  },
+  {
+   "decision": "matched",
+   "n": 25,
+   "candidates": 25,
+   "fighters": 17,
+   "ambiguous_applied": 0,
+   "reviewer": "Justin Erickson"
+  }
+ ],
+ "duplicate_decision_rows": 0,
+ "proofs": [
+  {
+   "proof": "inoue_one_fighter",
+   "pass": true
+  },
+  {
+   "proof": "no_qid_on_two_fighters",
+   "pass": true
+  },
+  {
+   "proof": "no_unexpected_duplicate",
+   "pass": true
+  },
+  {
+   "proof": "one_decision_per_cluster",
+   "pass": true
+  },
+  {
+   "proof": "no_body_claim_moved_between_people",
+   "pass": true
+  },
+  {
+   "proof": "no_title_ranking_record_created",
+   "pass": true
+  }
+ ],
+ "fingerprint_outside_batch": [
+  {
+   "table": "boxing_bout_identities",
+   "before": 942,
+   "after": 942,
+   "unchanged": true
+  },
+  {
+   "table": "boxing_bout_participants",
+   "before": 1864,
+   "after": 1864,
+   "unchanged": true
+  },
+  {
+   "table": "boxing_bout_results",
+   "before": 848,
+   "after": 848,
+   "unchanged": true
+  },
+  {
+   "table": "boxing_bouts",
+   "before": 932,
+   "after": 932,
+   "unchanged": true
+  },
+  {
+   "table": "boxing_fighters",
+   "before": 2969,
+   "after": 2969,
+   "unchanged": true
+  },
+  {
+   "table": "boxing_fighter_aliases",
+   "before": 2984,
+   "after": 2984,
+   "unchanged": true
+  },
+  {
+   "table": "boxing_fighter_identities",
+   "before": 182,
+   "after": 182,
+   "unchanged": true
+  },
+  {
+   "table": "boxing_fighter_merge_decisions",
+   "before": 7,
+   "after": 7,
+   "unchanged": true
+  },
+  {
+   "table": "boxing_identity_appearance_decisions",
+   "before": 2532,
+   "after": 2532,
+   "unchanged": true
+  },
+  {
+   "table": "boxing_identity_resolutions",
+   "before": 5405,
+   "after": 5405,
+   "unchanged": true
+  },
+  {
+   "table": "boxing_identity_review_queue",
+   "before": 1537,
+   "after": 1537,
+   "unchanged": true
+  },
+  {
+   "table": "boxing_identity_seed_decisions",
+   "before": 766,
+   "after": 766,
+   "unchanged": true
+  },
+  {
+   "table": "boxing_org_identity_candidate_members",
+   "before": 8232,
+   "after": 8232,
+   "unchanged": true
+  },
+  {
+   "table": "boxing_org_identity_reviews",
+   "before": 8232,
+   "after": 8232,
+   "unchanged": true
+  },
+  {
+   "table": "boxing_org_identity_decisions",
+   "before": 0,
+   "after": 0,
+   "unchanged": true
+  },
+  {
+   "table": "boxing_duplicate_hold_decisions",
+   "before": 2,
+   "after": 2,
+   "unchanged": true
+  },
+  {
+   "table": "boxing_org_identity_candidates (excl. batch)",
+   "before": 8041,
+   "after": 8041,
+   "unchanged": true
+  },
+  {
+   "table": "candidate_decisions (excl. batch 07)",
+   "before": 448,
+   "after": 448,
+   "unchanged": true
+  }
+ ],
+ "totals_before": {
+  "merges_total": 7,
+  "batch_03_links": 249,
+  "duplicate_pairs": [
+   {
+    "routes": [
+     "name",
+     "wikidata_alias"
+    ],
+    "seeded": "Rafael Espinoza",
+    "existing": "Rafael Espinoza Zepeda",
+    "held_for": "commission/bout anchor"
+   }
+  ],
+  "batch_03_fighters": 137,
+  "body_entries_title": 142,
+  "body_entries_top15": 1021,
+  "body_entries_total": 1163,
+  "body_entries_linked": 492,
+  "subjects_no_candidate": 215,
+  "public_dob_from_wikidata": 0,
+  "subjects_review_required": 148,
+  "all_fighters_identity_only": 1441,
+  "subjects_possible_existing": 145,
+  "unexpected_duplicate_pairs": 0,
+  "all_fighters_record_verified": 1521,
+  "linked_fighters_identity_only": 175,
+  "qids_on_more_than_one_fighter": 0,
+  "reviewed_held_duplicate_pairs": 1,
+  "linked_fighters_record_verified": 73,
+  "ambiguous_body_id_entries_unlinked": 16,
+  "ambiguous_candidate_clusters_total": 183,
+  "distinct_canonical_fighters_linked": 248
+ },
+ "totals_after": {
+  "merges_total": 7,
+  "batch_03_links": 249,
+  "duplicate_pairs": [
+   {
+    "routes": [
+     "name",
+     "wikidata_alias"
+    ],
+    "seeded": "Rafael Espinoza",
+    "existing": "Rafael Espinoza Zepeda",
+    "held_for": "commission/bout anchor"
+   }
+  ],
+  "batch_03_fighters": 137,
+  "body_entries_title": 142,
+  "body_entries_top15": 1021,
+  "body_entries_total": 1163,
+  "body_entries_linked": 517,
+  "subjects_no_candidate": 215,
+  "public_dob_from_wikidata": 0,
+  "subjects_review_required": 148,
+  "all_fighters_identity_only": 1441,
+  "subjects_possible_existing": 145,
+  "unexpected_duplicate_pairs": 0,
+  "all_fighters_record_verified": 1521,
+  "linked_fighters_identity_only": 175,
+  "qids_on_more_than_one_fighter": 0,
+  "reviewed_held_duplicate_pairs": 1,
+  "linked_fighters_record_verified": 84,
+  "ambiguous_body_id_entries_unlinked": 16,
+  "ambiguous_candidate_clusters_total": 183,
+  "distinct_canonical_fighters_linked": 259
+ },
+ "florida_2024": {
+  "before": {
+   "held": 233,
+   "live": 79,
+   "replaced": 1,
+   "stored": 80
+  },
+  "after": {
+   "held": 233,
+   "live": 79,
+   "replaced": 1,
+   "stored": 80
+  }
+ },
+ "florida_2023": {
+  "before": {
+   "held": 117
+  },
+  "after": {
+   "held": 117
+  }
+ },
+ "newly_resolvable_appearances_not_backfilled": 5
+}

@@ -1,4 +1,4 @@
-# Tier B review packet (review only; nothing applied)
+# Tier B review packet (batch 07 APPLIED 2026-10-03)
 
 The 25 tier B rows of the POSSIBLE_EXISTING_FIGHTER queue (first+last, near spelling, suffix on one side, or a different first given name).
 Advisory from STORED evidence only: the existing fighter's commission weights and hometown against the body entry's division and country.
@@ -33,3 +33,17 @@ MATCH links the body entry to the existing fighter. DISTINCT records that the bo
 | Teremoana Teremoana | IBF heavyweight · AUS | Teremooana Teremoana | near_spelling | Australia · 2026-03-21 265.80lb vs Curtis Harper | **MATCH** | weight and home consistent with the body entry (heavyweight; AUS) |
 
 Prepared batch 07 (`p0-batch-07-tier-b-prepared.sql`): 25 MATCH links, 8 DISTINCT decisions. Reviewer placeholder; rolled-back dry run proves the counts.
+
+## Batch 07 applied (2026-10-03, owner-approved as written, no strikes)
+
+Reviewer Justin Erickson. One guarded transaction: pre-checks (33/33 candidates found, 0 missing, 0 ambiguous,
+0 already decided) and an in-transaction guard (exactly 25 `matched` + 8 `distinct`, no candidate with two decision
+rows, else rollback). Result: 25 matched decisions / 17 fighters, 8 distinct decisions, 0 ambiguous applied,
+0 duplicate decision rows, 0 fighters created, 0 merges. Mark Magsayo unchanged (already linked in batch 05).
+Every fingerprinted identity/graph table outside the 33 candidates is byte-identical before/after (bouts, results,
+participants, fighters, aliases, merges, appearance decisions, resolutions, review queue, seed decisions, other
+candidates, earlier candidate decisions). Six graph proofs PASS. Body entries linked 492 -> 517; distinct fighters
+linked 248 -> 259 (record-verified 73 -> 84). Florida 2024 held 233 -> 233 (body links do not resolve commission
+corners); 5 held appearances now name a batch 07 fighter as their single candidate (Kaipo Gallegos x2, Angel
+Barrientes x2, Delante Johnson x1) - not backfilled. Tier B remaining: 0. Tier C: see `p0-tier-c-review.md`.
+Evidence: `graph-totals-2026-10-03-after-batch-07.json`.

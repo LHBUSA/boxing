@@ -1,4 +1,5 @@
--- PREPARED, NOT APPLIED. Batch 07 (tier B): 25 MATCH links + 8 DISTINCT decisions.
+-- APPLIED 2026-10-03 (reviewer Justin Erickson; REVIEWER placeholder substituted at apply time, guarded 25/8 transaction).
+-- Batch 07 (tier B): 25 MATCH links + 8 DISTINCT decisions.
 -- See reviews/identity/p0-tier-b-review.md. Replace REVIEWER with the named human reviewer. No fighter created, no merge.
 begin;
 insert into public.boxing_org_identity_candidate_decisions (candidate_id, decision, fighter_id, member_review_ids, reviewer, review_note, evidence)

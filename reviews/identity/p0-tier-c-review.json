@@ -1,0 +1,2033 @@
+{
+ "generated_after": "p0-batch-07",
+ "rows": 63,
+ "subjects": 58,
+ "tally": {
+  "existing name carries an AKA / long name": 1,
+  "no commission bout for the existing fighter": 48,
+  "only ambiguous body entries remain": 4,
+  "several existing candidates": 10
+ },
+ "rows_detail": [
+  {
+   "batch": "p0-top15-seed-04",
+   "match": "contained_in_full_name",
+   "bodies": [
+    "ibf",
+    "wba"
+   ],
+   "printed": [
+    "Luis Reynaldo Nunez",
+    "LUIS REYNALDO NUNEZ"
+   ],
+   "countries": [
+    "DOM"
+   ],
+   "divisions": [
+    "featherweight"
+   ],
+   "last_bout": "2024-12-11",
+   "fighter_id": "34e0ac48-9e31-4114-ae68-c593eec6e938",
+   "subject_key": "luisreynaldonunez",
+   "body_entries": 2,
+   "wikidata_qid": null,
+   "candidate_name": "Luis Reynaldo Nunez (Luis Reynaldo Nuñez Mosquea) Eduardo Ramirez (Eduardo Antonio Solorza",
+   "commission_bouts": 1,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "existing name carries an AKA / long name",
+   "advice": "REVIEW (verify AKA)",
+   "open_entries": 2,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-01",
+   "match": "name_agreement",
+   "bodies": [
+    "wba",
+    "wbc",
+    "wbo"
+   ],
+   "printed": [
+    "Abass Baraou",
+    "ABASS BARAOU"
+   ],
+   "countries": [
+    "DEU",
+    "GER",
+    "Germany"
+   ],
+   "divisions": [
+    "super_welterweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "8dff316f-68c4-4e61-b75c-29ec9bcae640",
+   "subject_key": "abassbaraou",
+   "body_entries": 3,
+   "wikidata_qid": null,
+   "candidate_name": "Abass Baraou",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 3,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-01",
+   "match": "name_agreement",
+   "bodies": [
+    "wbc"
+   ],
+   "printed": [
+    "Alberto Puello"
+   ],
+   "countries": [
+    "Dom. R."
+   ],
+   "divisions": [
+    "super_lightweight"
+   ],
+   "last_bout": "2026-10-24",
+   "fighter_id": "db188abb-e1e7-48f4-8675-5f61610ba9f9",
+   "subject_key": "albertopuello",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Alberto Puello",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-01",
+   "match": "name_agreement",
+   "bodies": [
+    "wbc"
+   ],
+   "printed": [
+    "Andy Dominguez"
+   ],
+   "countries": [
+    "US"
+   ],
+   "divisions": [
+    "flyweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "8ef28ccb-65c6-49ff-bc45-e957dbd8b345",
+   "subject_key": "andydominguez",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Andy Dominguez",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-champions-review-02",
+   "match": "name_agreement",
+   "bodies": [
+    "ibf"
+   ],
+   "printed": [
+    "Angelo Leo"
+   ],
+   "countries": [
+    "USA"
+   ],
+   "divisions": [
+    "featherweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "7a1d7c47-3abc-41e3-8670-9daad57df42a",
+   "subject_key": "angeloleo",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Angelo Leo",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-01",
+   "match": "name_agreement",
+   "bodies": [
+    "ibf",
+    "wbo"
+   ],
+   "printed": [
+    "Anthony Johns"
+   ],
+   "countries": [
+    "USA"
+   ],
+   "divisions": [
+    "flyweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "0d92bad5-13e3-4358-9bc5-c2cad21d372c",
+   "subject_key": "anthonyjohns",
+   "body_entries": 2,
+   "wikidata_qid": null,
+   "candidate_name": "Anthony Johns",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 2,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-01",
+   "match": "first_last",
+   "bodies": [
+    "wba"
+   ],
+   "printed": [
+    "ARTURO CARDENAS"
+   ],
+   "countries": [
+    "MEX"
+   ],
+   "divisions": [
+    "super_bantamweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "ab8003f2-f43b-4f98-984d-3b3fac5878ef",
+   "subject_key": "arturocardenas",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Arturo Popoca (AKA Arturo Cardenas)",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-01",
+   "match": "contained_in_full_name",
+   "bodies": [
+    "wbc"
+   ],
+   "printed": [
+    "Arturo Cardenas Popoca"
+   ],
+   "countries": [
+    "Mexico"
+   ],
+   "divisions": [
+    "super_bantamweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "ab8003f2-f43b-4f98-984d-3b3fac5878ef",
+   "subject_key": "arturocardenaspopoca",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Arturo Popoca (AKA Arturo Cardenas)",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-01",
+   "match": "name_agreement",
+   "bodies": [
+    "ibf",
+    "wbc",
+    "wbo"
+   ],
+   "printed": [
+    "Ben Whittaker"
+   ],
+   "countries": [
+    "GB",
+    "GBR"
+   ],
+   "divisions": [
+    "light_heavyweight"
+   ],
+   "last_bout": "2026-10-03",
+   "fighter_id": "88b888eb-0d75-4061-a6f2-d6be1a3844ce",
+   "subject_key": "benwhittaker",
+   "body_entries": 3,
+   "wikidata_qid": null,
+   "candidate_name": "Ben Whittaker",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 3,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-01",
+   "match": "near_spelling",
+   "bodies": [
+    "ibf"
+   ],
+   "printed": [
+    "Billal Fawaz"
+   ],
+   "countries": [
+    "GBR"
+   ],
+   "divisions": [
+    "super_welterweight"
+   ],
+   "last_bout": "2026-10-03",
+   "fighter_id": "e9f69181-bb86-461c-a624-05622930f7bd",
+   "subject_key": "billalfawaz",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Bilal Fawaz",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-champions-review-02",
+   "match": "name_agreement",
+   "bodies": [
+    "wbc"
+   ],
+   "printed": [
+    "Carlos Adames",
+    "CARLOS ADAMES"
+   ],
+   "countries": [
+    "DOM. R."
+   ],
+   "divisions": [
+    "middleweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "a509f200-29f2-410a-99ab-4673fe08549e",
+   "subject_key": "carlosadames",
+   "body_entries": 2,
+   "wikidata_qid": null,
+   "candidate_name": "Carlos Adames",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 2,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-02",
+   "match": "contained_in_full_name",
+   "bodies": [
+    "wbc"
+   ],
+   "printed": [
+    "Carlos Fromenta"
+   ],
+   "countries": [
+    "Cuba"
+   ],
+   "divisions": [
+    "bridgerweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "be7d80f8-6a49-4c99-bc39-426a21c9715f",
+   "subject_key": "carlosfromenta",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Carlos Fromenta Romero",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-02",
+   "match": "name_agreement",
+   "bodies": [
+    "wba"
+   ],
+   "printed": [
+    "CARLOS FROMENTA ROMERO"
+   ],
+   "countries": [
+    "CUB"
+   ],
+   "divisions": [
+    "bridgerweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "be7d80f8-6a49-4c99-bc39-426a21c9715f",
+   "subject_key": "carlosfromentaromero",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Carlos Fromenta Romero",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-02",
+   "match": "near_spelling",
+   "bodies": [
+    "wbo"
+   ],
+   "printed": [
+    "Connor Wallace"
+   ],
+   "countries": [
+    "AUS"
+   ],
+   "divisions": [
+    "light_heavyweight"
+   ],
+   "last_bout": "2026-10-03",
+   "fighter_id": "d55fe167-651f-4413-8883-b184e4ac2354",
+   "subject_key": "connorwallace",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Conor Wallace",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-02",
+   "match": "name_agreement",
+   "bodies": [
+    "wbc"
+   ],
+   "printed": [
+    "Conor Benn"
+   ],
+   "countries": [
+    "GB"
+   ],
+   "divisions": [
+    "welterweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "907c32d6-be89-46b5-96b0-48415d33a55b",
+   "subject_key": "conorbenn",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Conor Benn",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-02",
+   "match": "name_agreement",
+   "bodies": [
+    "ibf",
+    "wbc"
+   ],
+   "printed": [
+    "Conor Wallace"
+   ],
+   "countries": [
+    "AUS",
+    "N.Ireland/Australia"
+   ],
+   "divisions": [
+    "light_heavyweight"
+   ],
+   "last_bout": "2026-10-03",
+   "fighter_id": "d55fe167-651f-4413-8883-b184e4ac2354",
+   "subject_key": "conorwallace",
+   "body_entries": 2,
+   "wikidata_qid": null,
+   "candidate_name": "Conor Wallace",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 2,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-02",
+   "match": "name_agreement",
+   "bodies": [
+    "wba"
+   ],
+   "printed": [
+    "DARIUS FULGHUM"
+   ],
+   "countries": [
+    "USA"
+   ],
+   "divisions": [
+    "super_middleweight"
+   ],
+   "last_bout": "2026-11-14",
+   "fighter_id": "d8b4fda9-4941-4709-8056-c938785830bd",
+   "subject_key": "dariusfulghum",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Darius Fulghum",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-02",
+   "match": "name_agreement",
+   "bodies": [
+    "ibf",
+    "wba",
+    "wbc",
+    "wbo"
+   ],
+   "printed": [
+    "Diego Pacheco",
+    "DIEGO PACHECO"
+   ],
+   "countries": [
+    "US",
+    "USA"
+   ],
+   "divisions": [
+    "super_middleweight"
+   ],
+   "last_bout": "2026-11-14",
+   "fighter_id": "8a3df7fb-fbb8-41e2-a197-a00a29636e18",
+   "subject_key": "diegopacheco",
+   "body_entries": 4,
+   "wikidata_qid": null,
+   "candidate_name": "Diego Pacheco",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 4,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-champions-review-02",
+   "match": "near_spelling",
+   "bodies": [
+    "ibf",
+    "wbo"
+   ],
+   "printed": [
+    "Dmitrii Bivol",
+    "DMITRII BIVOL"
+   ],
+   "countries": [
+    "KGZ",
+    "RUS"
+   ],
+   "divisions": [
+    "light_heavyweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "e3807ee7-b1f7-4f7e-a58e-68155ad7ada3",
+   "subject_key": "dmitriibivol",
+   "body_entries": 3,
+   "wikidata_qid": "Q18236558",
+   "candidate_name": "Dmitry Bivol",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 1,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 3,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-02",
+   "match": "name_agreement",
+   "bodies": [
+    "ibf"
+   ],
+   "printed": [
+    "Dominique Crowder"
+   ],
+   "countries": [
+    "USA"
+   ],
+   "divisions": [
+    "bantamweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "9455665d-7195-4c13-b434-a8a780316615",
+   "subject_key": "dominiquecrowder",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Dominique Crowder",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-02",
+   "match": "name_agreement",
+   "bodies": [
+    "wbc"
+   ],
+   "printed": [
+    "Ermal Hadribeaj"
+   ],
+   "countries": [
+    "Albania/US"
+   ],
+   "divisions": [
+    "super_welterweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "40db3767-e009-4220-93cd-0e11c703ec11",
+   "subject_key": "ermalhadribeaj",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Ermal Hadribeaj",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-02",
+   "match": "name_agreement",
+   "bodies": [
+    "wbo"
+   ],
+   "printed": [
+    "Euri Cedeno"
+   ],
+   "countries": [
+    "DOM"
+   ],
+   "divisions": [
+    "middleweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "e79c6783-4329-411b-abb7-68e589c4fd8f",
+   "subject_key": "euricedeno",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Euri Cedeno",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-02",
+   "match": "name_agreement",
+   "bodies": [
+    "wbc",
+    "wbo"
+   ],
+   "printed": [
+    "Fiodor Czerkaszyn"
+   ],
+   "countries": [
+    "POL",
+    "Poland/Ukraine"
+   ],
+   "divisions": [
+    "middleweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "f93777a8-4eeb-473f-afa9-73f04d71769a",
+   "subject_key": "fiodorczerkaszyn",
+   "body_entries": 2,
+   "wikidata_qid": null,
+   "candidate_name": "Fiodor Czerkaszyn",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 2,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-03",
+   "match": "near_spelling",
+   "bodies": [
+    "wbc"
+   ],
+   "printed": [
+    "Francisco Veron"
+   ],
+   "countries": [
+    "Argentina"
+   ],
+   "divisions": [
+    "super_welterweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "c4ec0e43-fac6-4dcc-b641-25688dd8b34e",
+   "subject_key": "franciscoveron",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Francisco Daniel Vernon",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-03",
+   "match": "near_spelling",
+   "bodies": [
+    "ibf",
+    "wbc",
+    "wbo"
+   ],
+   "printed": [
+    "Frank Sanchez"
+   ],
+   "countries": [
+    "CUB",
+    "Cuba"
+   ],
+   "divisions": [
+    "heavyweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "087b6500-e71e-4d9b-aeb8-32c0afa9acf9",
+   "subject_key": "franksanchez",
+   "body_entries": 3,
+   "wikidata_qid": null,
+   "candidate_name": "Frankie Sanchez",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 3,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-03",
+   "match": "name_agreement",
+   "bodies": [
+    "ibf"
+   ],
+   "printed": [
+    "Guido Vianello"
+   ],
+   "countries": [
+    "ITA"
+   ],
+   "divisions": [
+    "heavyweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "4f158202-58a1-4399-b720-d39777106c84",
+   "subject_key": "guidovianello",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Guido Vianello",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-03",
+   "match": "name_agreement",
+   "bodies": [
+    "wba"
+   ],
+   "printed": [
+    "HAMZA UDDIN"
+   ],
+   "countries": [
+    "GBR"
+   ],
+   "divisions": [
+    "flyweight"
+   ],
+   "last_bout": "2026-10-03",
+   "fighter_id": "0ad4ab7d-4f21-400c-8333-69bfaf82100d",
+   "subject_key": "hamzauddin",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Hamza Uddin",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-03",
+   "match": "name_agreement",
+   "bodies": [
+    "wbo"
+   ],
+   "printed": [
+    "Hebert Conceicao Sousa"
+   ],
+   "countries": [
+    "BRA"
+   ],
+   "divisions": [
+    "super_middleweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "b0f68606-dceb-485e-b9a6-78c46e321afa",
+   "subject_key": "hebertconceicaosousa",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Hebert Conceicao Sousa",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-03",
+   "match": "near_spelling",
+   "bodies": [
+    "wbc",
+    "wbo"
+   ],
+   "printed": [
+    "Israel Gonzalez"
+   ],
+   "countries": [
+    "MEX",
+    "Mexico"
+   ],
+   "divisions": [
+    "super_flyweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "1da1e505-4cd3-44da-953b-3a9e5b5150f6",
+   "subject_key": "israelgonzalez",
+   "body_entries": 2,
+   "wikidata_qid": null,
+   "candidate_name": "Misael Lopez Gonzalez",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 2,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-03",
+   "match": "name_agreement",
+   "bodies": [
+    "ibf",
+    "wbc",
+    "wbo"
+   ],
+   "printed": [
+    "Jahi Tucker"
+   ],
+   "countries": [
+    "US",
+    "USA"
+   ],
+   "divisions": [
+    "middleweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "d237213f-184c-4c1d-8386-904045c9d1a6",
+   "subject_key": "jahitucker",
+   "body_entries": 3,
+   "wikidata_qid": null,
+   "candidate_name": "Jahi Tucker",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 3,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-03",
+   "match": "first_last",
+   "bodies": [
+    "wba"
+   ],
+   "printed": [
+    "JEAN CARLOS VARGAS"
+   ],
+   "countries": [
+    "VEN"
+   ],
+   "divisions": [
+    "flyweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "1abd7419-1f0b-4ff0-85b1-746d663b0bb3",
+   "subject_key": "jeancarlosvargas",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Jean Guerra Vargas",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-03",
+   "match": "first_last",
+   "bodies": [
+    "wba"
+   ],
+   "printed": [
+    "JOEL IRIARTE"
+   ],
+   "countries": [
+    "USA"
+   ],
+   "divisions": [
+    "welterweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "a9dea664-6b85-47a7-bea7-23636522d2ff",
+   "subject_key": "joeliriarte",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Joel Cuauhtemoc Iriarte",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-03",
+   "match": "name_agreement",
+   "bodies": [
+    "wbo"
+   ],
+   "printed": [
+    "Jordy Cardona Adames"
+   ],
+   "countries": [
+    "PRI"
+   ],
+   "divisions": [
+    "bantamweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "57badaed-d1bf-4d08-8147-e66c0ab8f005",
+   "subject_key": "jordycardonaadames",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Jordy Cardona Adames",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-03",
+   "match": "first_last",
+   "bodies": [
+    "wbo"
+   ],
+   "printed": [
+    "Jorge Ascanio Martinez"
+   ],
+   "countries": [
+    "MEX"
+   ],
+   "divisions": [
+    "super_bantamweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "4f1f2176-8063-467d-a00e-7d1ef792e753",
+   "subject_key": "jorgeascaniomartinez",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Jorge Armando Martinez",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-04",
+   "match": "name_agreement",
+   "bodies": [
+    "wbo"
+   ],
+   "printed": [
+    "Joshua Pagan"
+   ],
+   "countries": [
+    "USA"
+   ],
+   "divisions": [
+    "lightweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "290ba169-60b3-42bd-86c8-a40fff3673b7",
+   "subject_key": "joshuapagan",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Joshua Pagan",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-04",
+   "match": "first_last",
+   "bodies": [
+    "wbc",
+    "wbo"
+   ],
+   "printed": [
+    "Justin Pauldo"
+   ],
+   "countries": [
+    "US",
+    "USA"
+   ],
+   "divisions": [
+    "lightweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "bf96d7a7-e043-4e37-bd06-dcf69b59947d",
+   "subject_key": "justinpauldo",
+   "body_entries": 2,
+   "wikidata_qid": null,
+   "candidate_name": "Justin Rommell Pauldo",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 2,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-04",
+   "match": "name_agreement",
+   "bodies": [
+    "wba"
+   ],
+   "printed": [
+    "KEVIN HAYLER BROWN"
+   ],
+   "countries": [
+    "CUB"
+   ],
+   "divisions": [
+    "super_lightweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "c4c40da3-4d11-4042-ac9e-4ae90dabbd54",
+   "subject_key": "kevinhaylerbrown",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Kevin Hayler Brown",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-05",
+   "match": "name_agreement",
+   "bodies": [
+    "wbc"
+   ],
+   "printed": [
+    "Muhammadkhuja Yaqubov"
+   ],
+   "countries": [
+    "Tajikistan"
+   ],
+   "divisions": [
+    "super_featherweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "bb93b417-b17e-49c7-aa7a-46ef3b096595",
+   "subject_key": "muhammadkhujayaqubov",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Muhammadkhuja Yaqubov",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-05",
+   "match": "name_agreement",
+   "bodies": [
+    "wbc",
+    "wbo"
+   ],
+   "printed": [
+    "Raymond Ford"
+   ],
+   "countries": [
+    "US",
+    "USA"
+   ],
+   "divisions": [
+    "super_featherweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "28217c3b-4c17-446f-b3aa-91aa828f3f5b",
+   "subject_key": "raymondford",
+   "body_entries": 2,
+   "wikidata_qid": null,
+   "candidate_name": "Raymond Ford",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 2,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-05",
+   "match": "first_last",
+   "bodies": [
+    "wbc"
+   ],
+   "printed": [
+    "Ricardo Nunez"
+   ],
+   "countries": [
+    "Panama"
+   ],
+   "divisions": [
+    "lightweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "d9428dea-e6a8-4d8e-b9a1-a753a6f89380",
+   "subject_key": "ricardonunez",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Ricardo Perez Nunez",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-05",
+   "match": "name_agreement",
+   "bodies": [
+    "ibf"
+   ],
+   "printed": [
+    "Richard Torrez Jr."
+   ],
+   "countries": [
+    "USA"
+   ],
+   "divisions": [
+    "heavyweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "0d2d020e-2ade-439f-9bec-d828e8504c18",
+   "subject_key": "richardtorrezjr",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Richard Torrez Jr.",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-05",
+   "match": "name_agreement",
+   "bodies": [
+    "ibf",
+    "wbc",
+    "wbo"
+   ],
+   "printed": [
+    "Rohan Polanco"
+   ],
+   "countries": [
+    "DOM",
+    "Dom. R."
+   ],
+   "divisions": [
+    "welterweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "4f13c5f0-d141-45e5-a3e5-cb92e5b4f9b1",
+   "subject_key": "rohanpolanco",
+   "body_entries": 3,
+   "wikidata_qid": null,
+   "candidate_name": "Rohan Polanco",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 3,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-06",
+   "match": "name_agreement",
+   "bodies": [
+    "wba"
+   ],
+   "printed": [
+    "SHAKHRAM GIYASOV"
+   ],
+   "countries": [
+    "UZB"
+   ],
+   "divisions": [
+    "welterweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "a07a164c-8d8e-45dd-ae91-a19a77c7396f",
+   "subject_key": "shakhramgiyasov",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Shakhram Giyasov",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-06",
+   "match": "first_last",
+   "bodies": [
+    "wba",
+    "wbc",
+    "wbo"
+   ],
+   "printed": [
+    "SHANE MOSLEY JR",
+    "Shane Mosley Jr.",
+    "Shane Mosley, Jr."
+   ],
+   "countries": [
+    "US",
+    "USA"
+   ],
+   "divisions": [
+    "middleweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "c29f07bb-db15-4b01-9117-410c2e1860db",
+   "subject_key": "shanemosleyjr",
+   "body_entries": 3,
+   "wikidata_qid": null,
+   "candidate_name": "Shane Donte Mosley Jr.",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 3,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-06",
+   "match": "name_agreement",
+   "bodies": [
+    "wbo"
+   ],
+   "printed": [
+    "Takeshi Ishii"
+   ],
+   "countries": [
+    "JPN"
+   ],
+   "divisions": [
+    "minimumweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "0f3bd3d6-d66c-47a7-be12-18ad294e420d",
+   "subject_key": "takeshiishii",
+   "body_entries": 1,
+   "wikidata_qid": "Q116936233",
+   "candidate_name": "Takeshi Ishii",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 1,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-champions-review-02",
+   "match": "name_agreement",
+   "bodies": [
+    "wbc"
+   ],
+   "printed": [
+    "VERGIL ORTIZ Jr."
+   ],
+   "countries": [
+    "US"
+   ],
+   "divisions": [
+    "super_welterweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "7146c8b2-6435-4d93-8cdd-b19456f153ff",
+   "subject_key": "vergilortizjr",
+   "body_entries": 1,
+   "wikidata_qid": "Q66391755",
+   "candidate_name": "Vergil Ortiz Jr.",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-06",
+   "match": "contained_in_full_name",
+   "bodies": [
+    "wba"
+   ],
+   "printed": [
+    "VICTOR SANTILLAN"
+   ],
+   "countries": [
+    "DOM"
+   ],
+   "divisions": [
+    "super_bantamweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "91468b2d-f717-4737-8525-2f2495c75918",
+   "subject_key": "victorsantillan",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Victor Daniel Santillan Perez",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-06",
+   "match": "name_agreement",
+   "bodies": [
+    "ibf",
+    "wba",
+    "wbc",
+    "wbo"
+   ],
+   "printed": [
+    "Vito Mielnicki Jr",
+    "VITO MIELNICKI JR",
+    "Vito Mielnicki Jr.",
+    "Vito Mielnicki, Jr."
+   ],
+   "countries": [
+    "US",
+    "USA"
+   ],
+   "divisions": [
+    "middleweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "ff681a19-ec3b-4ccb-aed7-d1042cc46fab",
+   "subject_key": "vitomielnickijr",
+   "body_entries": 4,
+   "wikidata_qid": null,
+   "candidate_name": "Vito Mielnicki, Jr.",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 4,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-06",
+   "match": "first_last",
+   "bodies": [
+    "ibf",
+    "wbo"
+   ],
+   "printed": [
+    "Yan Carlos Santana-Guerrero"
+   ],
+   "countries": [
+    "DOM"
+   ],
+   "divisions": [
+    "featherweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "319d14b8-9a02-48e9-9447-9da4524a379c",
+   "subject_key": "yancarlossantanaguerrero",
+   "body_entries": 2,
+   "wikidata_qid": null,
+   "candidate_name": "Yan Santana Guerrero",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "no commission bout for the existing fighter",
+   "advice": "HOLD (no commission/bout anchor)",
+   "open_entries": 2,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-01",
+   "match": "name_agreement",
+   "bodies": [
+    "wbo"
+   ],
+   "printed": [
+    "Alan Abel Chaves"
+   ],
+   "countries": [
+    "ARG"
+   ],
+   "divisions": [
+    "lightweight"
+   ],
+   "last_bout": "2026-04-25",
+   "fighter_id": "4e5f53d0-93f0-4286-aad6-95716629b2e3",
+   "subject_key": "alanabelchaves",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Alan Abel Chaves",
+   "commission_bouts": 1,
+   "ambiguous_entries": 1,
+   "body_links_already": 1,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "only ambiguous body entries remain",
+   "advice": "HOLD (ambiguous cluster: name the member review ids)",
+   "open_entries": 0,
+   "open_ambiguous": 1
+  },
+  {
+   "batch": "p0-top15-seed-01",
+   "match": "name_agreement",
+   "bodies": [
+    "wba",
+    "wbc",
+    "wbo"
+   ],
+   "printed": [
+    "Andres Cortes",
+    "ANDRES CORTES"
+   ],
+   "countries": [
+    "US",
+    "USA"
+   ],
+   "divisions": [
+    "lightweight"
+   ],
+   "last_bout": "2026-04-05",
+   "fighter_id": "f4b1531b-6aad-409b-8c0f-56420baa9a48",
+   "subject_key": "andrescortes",
+   "body_entries": 3,
+   "wikidata_qid": null,
+   "candidate_name": "Andres Cortes",
+   "commission_bouts": 1,
+   "ambiguous_entries": 1,
+   "body_links_already": 2,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "only ambiguous body entries remain",
+   "advice": "HOLD (ambiguous cluster: name the member review ids)",
+   "open_entries": 0,
+   "open_ambiguous": 1
+  },
+  {
+   "batch": "p0-top15-seed-02",
+   "match": "name_agreement",
+   "bodies": [
+    "ibf",
+    "wbo"
+   ],
+   "printed": [
+    "Emmanuel Rodriguez"
+   ],
+   "countries": [
+    "PRI"
+   ],
+   "divisions": [
+    "bantamweight"
+   ],
+   "last_bout": "2026-09-26",
+   "fighter_id": "eb29b21f-14c4-4b1b-a6a6-4effb5b3d08b",
+   "subject_key": "emmanuelrodriguez",
+   "body_entries": 2,
+   "wikidata_qid": null,
+   "candidate_name": "Emmanuel Rodriguez",
+   "commission_bouts": 1,
+   "ambiguous_entries": 1,
+   "body_links_already": 2,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "only ambiguous body entries remain",
+   "advice": "HOLD (ambiguous cluster: name the member review ids)",
+   "open_entries": 0,
+   "open_ambiguous": 1
+  },
+  {
+   "batch": "p0-champions-review-02",
+   "match": "name_agreement",
+   "bodies": [
+    "ibf"
+   ],
+   "printed": [
+    "Josh Kelly"
+   ],
+   "countries": [
+    "ENG"
+   ],
+   "divisions": [
+    "super_welterweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "f34a87c1-311c-45b8-aa19-e9f74da92ac7",
+   "subject_key": "joshkelly",
+   "body_entries": 1,
+   "wikidata_qid": "Q20751996",
+   "candidate_name": "Josh Kelly",
+   "commission_bouts": 0,
+   "ambiguous_entries": 1,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 1,
+   "why": "only ambiguous body entries remain",
+   "advice": "HOLD (ambiguous cluster: name the member review ids)",
+   "open_entries": 0,
+   "open_ambiguous": 1
+  },
+  {
+   "batch": "p0-top15-seed-01",
+   "match": "first_last",
+   "bodies": [
+    "ibf",
+    "wbc"
+   ],
+   "printed": [
+    "Amari Jones"
+   ],
+   "countries": [
+    "US",
+    "USA"
+   ],
+   "divisions": [
+    "middleweight"
+   ],
+   "last_bout": "2026-02-21",
+   "fighter_id": "124fe886-db73-4172-b36a-a552dc63625d",
+   "subject_key": "amarijones",
+   "body_entries": 2,
+   "wikidata_qid": null,
+   "candidate_name": "Amari Dashaun Walter Jones",
+   "commission_bouts": 1,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 2,
+   "why": "several existing candidates",
+   "advice": "REVIEW (choose one or DISTINCT for each)",
+   "open_entries": 2,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-01",
+   "match": "near_spelling",
+   "bodies": [
+    "ibf",
+    "wbc"
+   ],
+   "printed": [
+    "Amari Jones"
+   ],
+   "countries": [
+    "US",
+    "USA"
+   ],
+   "divisions": [
+    "middleweight"
+   ],
+   "last_bout": "2026-01-24",
+   "fighter_id": "ec693981-f31f-41f2-9bf3-6df608a7160c",
+   "subject_key": "amarijones",
+   "body_entries": 2,
+   "wikidata_qid": null,
+   "candidate_name": "Omari Lamon Jones",
+   "commission_bouts": 1,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 2,
+   "why": "several existing candidates",
+   "advice": "REVIEW (choose one or DISTINCT for each)",
+   "open_entries": 2,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-03",
+   "match": "contained_in_full_name",
+   "bodies": [
+    "wba"
+   ],
+   "printed": [
+    "ISRAEL MERCADO ( * )"
+   ],
+   "countries": [
+    "USA"
+   ],
+   "divisions": [
+    "super_lightweight"
+   ],
+   "last_bout": "2026-08-22",
+   "fighter_id": "980fa56f-64e7-4e31-b567-17c10b526c61",
+   "subject_key": "israelmercado",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Israel De Jesus Mercado Hernandez",
+   "commission_bouts": 1,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 2,
+   "why": "several existing candidates",
+   "advice": "REVIEW (choose one or DISTINCT for each)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-03",
+   "match": "near_spelling",
+   "bodies": [
+    "wba"
+   ],
+   "printed": [
+    "ISRAEL MERCADO ( * )"
+   ],
+   "countries": [
+    "USA"
+   ],
+   "divisions": [
+    "super_lightweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "72e0c9aa-dbec-4a9e-97dc-604bb3c8c53b",
+   "subject_key": "israelmercado",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Iseael Mercado",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 2,
+   "why": "several existing candidates",
+   "advice": "REVIEW (choose one or DISTINCT for each)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-04",
+   "match": "contained_in_full_name",
+   "bodies": [
+    "wba"
+   ],
+   "printed": [
+    "JOSE VALENZUELA"
+   ],
+   "countries": [
+    "USA"
+   ],
+   "divisions": [
+    "lightweight"
+   ],
+   "last_bout": "2026-06-28",
+   "fighter_id": "3bfc341e-5095-4fa5-bdf3-cfcedfb053cf",
+   "subject_key": "josevalenzuela",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Jose A Valenzuela Gastelum",
+   "commission_bouts": 2,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 2,
+   "why": "several existing candidates",
+   "advice": "REVIEW (choose one or DISTINCT for each)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-04",
+   "match": "contained_in_full_name",
+   "bodies": [
+    "wba"
+   ],
+   "printed": [
+    "JOSE VALENZUELA"
+   ],
+   "countries": [
+    "USA"
+   ],
+   "divisions": [
+    "lightweight"
+   ],
+   "last_bout": "2026-05-16",
+   "fighter_id": "e08c8f38-dfbd-46e2-80ce-cf87daa8ba4a",
+   "subject_key": "josevalenzuela",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Jose Valenzuela Alvarado",
+   "commission_bouts": 1,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 2,
+   "why": "several existing candidates",
+   "advice": "REVIEW (choose one or DISTINCT for each)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-04",
+   "match": "contained_in_full_name",
+   "bodies": [
+    "wba"
+   ],
+   "printed": [
+    "JULIAN RODRIGUEZ"
+   ],
+   "countries": [
+    "USA"
+   ],
+   "divisions": [
+    "welterweight"
+   ],
+   "last_bout": "2026-01-23",
+   "fighter_id": "ef27fc46-4a11-4ffd-9a0a-4b3d6129de4f",
+   "subject_key": "julianrodriguez",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Julian Nicholas Rodriguez Mullen",
+   "commission_bouts": 1,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 2,
+   "why": "several existing candidates",
+   "advice": "REVIEW (choose one or DISTINCT for each)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-04",
+   "match": "near_spelling",
+   "bodies": [
+    "wba"
+   ],
+   "printed": [
+    "JULIAN RODRIGUEZ"
+   ],
+   "countries": [
+    "USA"
+   ],
+   "divisions": [
+    "welterweight"
+   ],
+   "last_bout": "2026-02-06",
+   "fighter_id": "0d125718-246a-4d0c-87dc-f9d4d9831db2",
+   "subject_key": "julianrodriguez",
+   "body_entries": 1,
+   "wikidata_qid": null,
+   "candidate_name": "Juan Rodriguez",
+   "commission_bouts": 1,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 2,
+   "why": "several existing candidates",
+   "advice": "REVIEW (choose one or DISTINCT for each)",
+   "open_entries": 1,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-06",
+   "match": "name_agreement",
+   "bodies": [
+    "ibf",
+    "wba"
+   ],
+   "printed": [
+    "Yan Marcos",
+    "YAN MARCOS"
+   ],
+   "countries": [
+    "CUB",
+    "USA"
+   ],
+   "divisions": [
+    "super_welterweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "3d95d08b-e7c4-4558-8e3e-def1847891e6",
+   "subject_key": "yanmarcos",
+   "body_entries": 2,
+   "wikidata_qid": null,
+   "candidate_name": "Yan Marcos",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 2,
+   "why": "several existing candidates",
+   "advice": "REVIEW (choose one or DISTINCT for each)",
+   "open_entries": 2,
+   "open_ambiguous": 0
+  },
+  {
+   "batch": "p0-top15-seed-06",
+   "match": "contained_in_full_name",
+   "bodies": [
+    "ibf",
+    "wba"
+   ],
+   "printed": [
+    "Yan Marcos",
+    "YAN MARCOS"
+   ],
+   "countries": [
+    "CUB",
+    "USA"
+   ],
+   "divisions": [
+    "super_welterweight"
+   ],
+   "last_bout": null,
+   "fighter_id": "c84dd8b2-c8f6-4b80-978e-8cfe0f7cef1d",
+   "subject_key": "yanmarcos",
+   "body_entries": 2,
+   "wikidata_qid": null,
+   "candidate_name": "Jean Sanchez (Yan Marcos)",
+   "commission_bouts": 0,
+   "ambiguous_entries": 0,
+   "body_links_already": 0,
+   "verified_external_ids": [],
+   "candidates_for_subject": 2,
+   "why": "several existing candidates",
+   "advice": "REVIEW (choose one or DISTINCT for each)",
+   "open_entries": 2,
+   "open_ambiguous": 0
+  }
+ ]
+}
