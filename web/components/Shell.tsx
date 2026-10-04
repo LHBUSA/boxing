@@ -132,9 +132,17 @@ export async function Footer() {
           <div>
             <h4>PropBetEdge</h4>
             {NETWORK_LINKS.map((l) => <a key={l.key} href={l.href}>{l.label}</a>)}
+            <a href="https://propbetedge.ai/about">About PropBetEdge</a>
             <a href="https://propbetedge.ai/terms">Terms</a>
+            <a href="https://propbetedge.ai/legal">Legal</a>
             <a href="https://propbetedge.ai/support">Support</a>
             <a href="https://propbetedge.ai/media">Media</a>
+            <a href="https://propbetedge.ai/authors">Editorial Team</a>
+            <a href="https://propbetedge.ai/authors/justin-erickson">Justin Erickson</a>
+            <a href="https://propbetedge.ai/authors/propbetedge-editorial-team">PropBetEdge Editorial Team</a>
+            <a href="https://propbetedge.ai/authors/ty-whitney">Ty Whitney</a>
+            <a href="https://propbetedge.ai/authors/erik-schwartz">Erik Schwartz</a>
+            <a href="https://propbetedge.ai/editorial-standards">Editorial Standards</a>
             <h4 className="ftr__sub">Sports</h4>
             {NETWORK.map((s) => <a key={s.key} href={s.href}>{s.label}</a>)}
             <h4 className="ftr__sub">PropBetEdge Intelligence</h4>
