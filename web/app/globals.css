@@ -150,6 +150,7 @@ main { flex: 1; position: relative; z-index: 1; }
 .ftr__cols h4 { font: 700 11px/1 var(--f-data); letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
 .ftr__cols a { display: block; color: var(--dim); font-size: 14px; padding: 4px 0; }
 .ftr__cols a:hover { color: var(--paper); }
+.ftr__cols h4.ftr__sub { margin-top: 18px; }
 .ftr__legal { border-top: 1px solid var(--line); padding-block: 16px 28px; font-size: 12px; color: var(--faint); }
 
 /* ---------------------------------------------------------------- Fighter art */

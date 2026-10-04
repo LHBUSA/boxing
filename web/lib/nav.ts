@@ -29,19 +29,35 @@ export const MORE_NAV: NavItem[] = [
   { key: "methodology", label: "Methodology", href: "/methodology", blurb: "Sources, verified records and how we measure" },
 ];
 
-// Network destinations that are not sports. First-party PropBetEdge links: canonical, same-tab.
+// The PropBetEdge family footer. Mirrors the canonical family registry vendored at lib/family.json
+// (generated in LHBUSA/propbetedge-workers shared/network; never hand-edit it); lib/network.test.ts
+// fails on drift. Boxing is not one of the family sports and is never added to NETWORK or counted.
+// First-party PropBetEdge links: canonical, same-tab.
+
+// Network destinations that are not sports.
 export const NETWORK_LINKS = [
+  { key: "hub", label: "PropBetEdge", href: "https://propbetedge.ai/" },
+  { key: "all_access", label: "All Access", href: "https://propbetedge.ai/pro" },
   { key: "learn", label: "Learn", href: "https://learn.propbetedge.ai/" },
 ];
 
+// The ten family sports, in family order.
 export const NETWORK = [
   { key: "mlb", label: "MLB", href: "https://mlb.propbetedge.ai/" },
   { key: "nfl", label: "NFL", href: "https://nfl.propbetedge.ai/" },
-  { key: "ufc", label: "UFC", href: "https://ufc.propbetedge.ai/" },
   { key: "nba", label: "NBA", href: "https://nba.propbetedge.ai/" },
   { key: "wnba", label: "WNBA", href: "https://wnba.propbetedge.ai/" },
   { key: "nhl", label: "NHL", href: "https://nhl.propbetedge.ai/" },
+  { key: "ufc", label: "UFC", href: "https://ufc.propbetedge.ai/" },
   { key: "tennis", label: "Tennis", href: "https://tennis.propbetedge.ai/" },
+  { key: "soccer", label: "Soccer", href: "https://soccer.propbetedge.ai/" },
+  { key: "golf", label: "Golf", href: "https://golf.propbetedge.ai/" },
+  { key: "f1", label: "F1 Intelligence", href: "https://f1.propbetedge.ai/" },
+];
+
+// Non-sport PropBetEdge products: their own footer group, never in NETWORK, never counted as a sport.
+export const NETWORK_PRODUCTS = [
+  { key: "predictions", label: "PropBetEdge Predictions", href: "https://predictions.propbetedge.ai/" },
 ];
 
 export const filterNav = (items: NavItem[], available: Set<NavKey>) => items.filter((n) => available.has(n.key));
