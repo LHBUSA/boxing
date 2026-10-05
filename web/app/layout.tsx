@@ -28,6 +28,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${playfair.variable} ${inter.variable} ${mono.variable}`}>
       <body>
+        <link rel="stylesheet" href="/pbe-consent-v1.css" />
+        <script src="/pbe-consent-v1.js"></script>
         <NetworkAnalytics surface="boxing" />
         <a href="#main" className="skip">Skip to content</a>
         <Arena />
